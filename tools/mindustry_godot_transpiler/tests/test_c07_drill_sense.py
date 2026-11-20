@@ -145,7 +145,7 @@ class C07DrillSenseTests(unittest.TestCase):
         # dominantItem;` (Drill.java:244), set by the N2262
         # ore/dominant binding; the caller passes it as
         # explicit params (has_dominant_item, dominant_item)
-        # -- the N2311/N2321/N2281 explicit-param precedent.
+        # -- the N2311/N2321/N2333 explicit-param precedent.
         # `progress` is the DrillBuild field (`public float
         # progress;`, Drill.java:238), advanced in updateTile
         # (N2294) -- NOT the clamped progress()

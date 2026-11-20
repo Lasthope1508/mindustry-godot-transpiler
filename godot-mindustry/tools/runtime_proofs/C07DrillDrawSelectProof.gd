@@ -39,7 +39,7 @@ func _ready() -> void:
 	# so the pure function delegates to it and does NOT
 	# re-port the helper. There is NO driver tick line:
 	# drawSelect is selection UI, not per-tick state (the
-	# N2220 / N2281 lifecycle precedent).
+	# N2220 / N2333 lifecycle precedent).
 
 	# Per-def inputs (Blocks.java): impact-drill
 	# `size = 4;` (:3073), eruption-drill `size = 5;`

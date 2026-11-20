@@ -20,7 +20,7 @@ in the ledger) -- this slice does NOT re-port it: the
 pure function source_drill_draw_select_state calls the
 live helper with dominantItem passed as explicit params
 (has_dominant_item, dominant_item_icon_ratio), following
-the N2220 RepairTurret drawSelect / N2281 Radar drawSelect
+the N2220 RepairTurret drawSelect / N2333 Radar drawSelect
 precedent (one pure function on the family file, no driver
 tick line -- drawSelect is selection UI, not per-tick
 state). The helper returns the nine result keys visible,
@@ -50,7 +50,7 @@ drawItemSelection is NOT re-ported: the caller passes the
 already-bound dominantItem (the N2262 binding) and the
 already-live N570 helper renders it. (3) There is NO
 driver tick line: drawSelect is selection UI (the N2220 /
-N2281 lifecycle precedent); the proof calls the pure
+N2333 lifecycle precedent); the proof calls the pure
 function directly with per-def params. Nine new result
 symbols: visible, dx, dy, shadow_color, shadow_alpha,
 shadow_y, foreground_y, selection_width,

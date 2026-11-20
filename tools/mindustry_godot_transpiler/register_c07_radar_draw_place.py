@@ -10,10 +10,10 @@ tilesize (8, Vars.java:135) plus the block offset (Block.java:761
 -- radar size 1, so 0.0), and the radius is the DEF fogRadius --
 34 (Blocks.java:1991, `fogRadius = 34;`), class default 10
 (Radar.java:33, `fogRadius = 10;`) -- times tilesize. That is a
-DIFFERENT radius from N2281 drawSelect, which reads the LIVE
+DIFFERENT radius from N2333 drawSelect, which reads the LIVE
 fogRadius() (Radar.java:55-57, `return fogRadius * progress *
 smoothEfficiency;`) of the Build. One pure function on the family
-file (the N2281 drawSelect precedent in the same file, same
+file (the N2333 drawSelect precedent in the same file, same
 dashCircle math): the caller passes tile_x/tile_y, rotation,
 valid, the def fog_radius and the tilesize plus block_offset as
 explicit params, and the pure function does the multiply. The
@@ -31,7 +31,7 @@ method.
 RED decisions (resolved at RED): (1) One pure function,
 source_radar_draw_place_state(tile_x, tile_y, rotation, valid,
 fog_radius, tilesize, block_offset), returning center / radius /
-color / rotation / valid / super_draw_place_called -- the N2281
+color / rotation / valid / super_draw_place_called -- the N2333
 drawSelect shape extended with the super-leg echo, because
 drawPlace reads no frame key: tile_x/tile_y are tile coords and
 fog_radius is the def fogRadius the caller already knows (the
@@ -49,7 +49,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_radar_draw_select import DEFERRED as N2281_DEFERRED
+from register_c07_radar_draw_select import DEFERRED as N2333_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -68,7 +68,7 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['public void drawPlace(int x, int y, int rotation, boolean valid){', 'super.drawPlace(x, y, rotation, valid);', 'Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);', 'fogRadius * tilesize', 'fogRadius = 10;', 'fogRadius = 34;', 'public class Radar extends Block{']
 
-# DEFERRED is carried from the N2281 register script via import --
+# DEFERRED is carried from the N2333 register script via import --
 # never retyped. One entry is DROPPED here, not carried: the
 # 'Radar drawPlace rows (drawPlace dash circle,
 # Radar.java:42-47)' entry -- N2284 IS the drawPlace slice, so
@@ -76,8 +76,8 @@ EXACT_EXPRS = ['public void drawPlace(int x, int y, int rotation, boolean valid)
 # for done work. It is REPLACED by a Windows-proof-debt entry
 # below (drawPlace is the last unported Radar method, so no
 # further Radar row waits for its own slice).
-DEFERRED = [e for e in N2281_DEFERRED if 'Radar drawPlace rows (drawPlace dash circle, Radar.java:42-47)' not in e] + [
-    'Radar drawPlace Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2327/N2281: the N2284 proof runs headless on Linux here and waits for a Windows Godot run.',
+DEFERRED = [e for e in N2333_DEFERRED if 'Radar drawPlace rows (drawPlace dash circle, Radar.java:42-47)' not in e] + [
+    'Radar drawPlace Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2327/N2333: the N2284 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 

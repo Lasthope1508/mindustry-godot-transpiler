@@ -234703,94 +234703,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "source_radar_draw_select_state_input": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_draw_select_state",
-      "source_slice": "N2281",
-      "keys": {
-        "x": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
-          "rule": "The building world x (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the dash circle is centered on the building position.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_select_state"
-          ]
-        },
-        "y": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
-          "rule": "The building world y (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the dash circle is centered on the building position.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_select_state"
-          ]
-        },
-        "fog_radius": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "fogRadius() * tilesize",
-          "rule": "The live fog radius (Radar.java:81, `fogRadius() * tilesize`): the fogRadius() result (Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56) -- the def fogRadius is 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`) -- computed by the caller through N2321 source_radar_fog_radius_state and passed in as an explicit param (the N2212 per-def-param precedent).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_select_state"
-          ]
-        },
-        "tilesize": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "fogRadius() * tilesize",
-          "rule": "The world-units-per-tile factor (Radar.java:81, `fogRadius() * tilesize`): Vars.tilesize is 8 (Vars.java:135); the port passes it explicitly (the drawPlace precedent), so the radius is the live fog radius in world units.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_select_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarDrawSelectProof",
-      "rule": "Source-backed Radar drawSelect() row from Radar.java."
-    },
-    "source_radar_draw_select_state_result": {
-      "status": "active",
-      "owner": "SourceRadarBuildState.source_radar_draw_select_state",
-      "source_slice": "N2281",
-      "keys": {
-        "center": {
-          "type": "Vector2",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
-          "rule": "The dash-circle center (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the building position itself.",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_select_state"
-          ]
-        },
-        "radius": {
-          "type": "float",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "fogRadius() * tilesize",
-          "rule": "The dash-circle radius (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the live fog radius times tilesize -- 272.0 at full discovery (34 * 8) and 0.0 before discovery (progress 0.0).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_select_state"
-          ]
-        },
-        "color": {
-          "type": "String",
-          "status": "source-backed",
-          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-          "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
-          "rule": "The dash-circle color (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): Pal.accent, represented as the string \"Pal.accent\" (the SourceBlockDrawState.gd:182 precedent).",
-          "used_by": [
-            "SourceRadarBuildState.source_radar_draw_select_state"
-          ]
-        }
-      },
-      "runtime_proof": "/root/C07RadarDrawSelectProof",
-      "rule": "Source-backed Radar drawSelect() row from Radar.java."
-    },
     "source_turret_min_range_state_input": {
       "status": "active",
       "owner": "SourceTurretBuildState.source_turret_min_range_state",
@@ -237185,7 +237097,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
           "java_expr": "public Item dominantItem;",
-          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; passed explicitly because the caller owns the binding (the N2311/N2321/N2281 explicit-param precedent).",
+          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; passed explicitly because the caller owns the binding (the N2311/N2321/N2333 explicit-param precedent).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_sense_object_state"
           ]
@@ -237273,7 +237185,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
           "java_expr": "public Item dominantItem;",
-          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; the progress leg requires it (Drill.java:334, `if(sensor == LAccess.progress && dominantItem != null) return progress;`); passed explicitly because the caller owns the binding (the N2311/N2321/N2281 explicit-param precedent).",
+          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; the progress leg requires it (Drill.java:334, `if(sensor == LAccess.progress && dominantItem != null) return progress;`); passed explicitly because the caller owns the binding (the N2311/N2321/N2333 explicit-param precedent).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_sense_state"
           ]
@@ -241310,6 +241222,94 @@
       },
       "runtime_proof": "/root/C07SoundControlFindMusicProof",
       "rule": "Source-backed SoundControl findMusic state from SoundControl.java."
+    },
+    "source_radar_draw_select_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_draw_select_state",
+      "source_slice": "N2333",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
+          "rule": "The building world x (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the dash circle is centered on the building position.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_select_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
+          "rule": "The building world y (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the dash circle is centered on the building position.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_select_state"
+          ]
+        },
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "fogRadius() * tilesize",
+          "rule": "The live fog radius (Radar.java:81, `fogRadius() * tilesize`): the fogRadius() result (Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56) -- the def fogRadius is 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`) -- computed by the caller through N2321 source_radar_fog_radius_state and passed in as an explicit param (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_select_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "fogRadius() * tilesize",
+          "rule": "The world-units-per-tile factor (Radar.java:81, `fogRadius() * tilesize`): Vars.tilesize is 8 (Vars.java:135); the port passes it explicitly (the drawPlace precedent), so the radius is the live fog radius in world units.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDrawSelectProof",
+      "rule": "Source-backed Radar drawSelect() row from Radar.java."
+    },
+    "source_radar_draw_select_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_draw_select_state",
+      "source_slice": "N2333",
+      "keys": {
+        "center": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
+          "rule": "The dash-circle center (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the building position itself.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_select_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "fogRadius() * tilesize",
+          "rule": "The dash-circle radius (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): the live fog radius times tilesize -- 272.0 at full discovery (34 * 8) and 0.0 before discovery (progress 0.0).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_select_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);",
+          "rule": "The dash-circle color (Radar.java:81, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`): Pal.accent, represented as the string \"Pal.accent\" (the SourceBlockDrawState.gd:182 precedent).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDrawSelectProof",
+      "rule": "Source-backed Radar drawSelect() row from Radar.java."
     }
   },
   "version": 1

@@ -1,4 +1,4 @@
-"""Register the Radar drawSelect() row (N2281).
+"""Register the Radar drawSelect() row (N2333).
 
 RadarBuild.drawSelect() (Radar.java:80-82) draws one dash
 circle around the building (`Drawf.dashCircle(x, y,
@@ -47,7 +47,7 @@ RADAR = 'core/src/mindustry/world/blocks/defense/Radar.java'
 PROOF = '/root/C07RadarDrawSelectProof'
 DRAW_SELECT_OWNER = 'SourceRadarBuildState.source_radar_draw_select_state'
 TESTS = ['test_c07_radar_draw_select_registration', 'test_all_c07_radar_draw_select_input_evidence_is_exact', 'test_radar_draw_select_state', 'test_reference_graph_and_actual_c07_radar_draw_select']
-# The 1 slice source the N2281 test checks exact_exprs
+# The 1 slice source the N2333 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in this file.
 SLICE_SOURCES = [
@@ -58,13 +58,13 @@ EXACT_EXPRS = ['public void drawSelect(){', 'Drawf.dashCircle(x, y, fogRadius() 
 # DEFERRED is carried from the N2327 register script via import --
 # never retyped. One entry is DROPPED here, not carried: the
 # 'Radar drawSelect rows (drawSelect dash circle,
-# Radar.java:80-82)' entry -- N2281 IS the drawSelect slice, so
+# Radar.java:80-82)' entry -- N2333 IS the drawSelect slice, so
 # carrying it would leave a stale "waits for its own slice" row
 # for done work. It is REPLACED by a drawPlace-only entry below
 # (drawPlace still waits for its own slice).
 DEFERRED = [e for e in N2327_DEFERRED if 'Radar drawSelect rows (drawSelect dash circle, Radar.java:80-82)' not in e] + [
     'Radar drawPlace rows (drawPlace dash circle, Radar.java:42-47) -- presentation, not tick state; waits for its own slice.',
-    'Radar drawSelect Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2327: the N2281 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Radar drawSelect Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2320/N2321/N2303/N2310/N2318/N2327: the N2333 proof runs headless on Linux here and waits for a Windows Godot run.',
 ]
 
 
@@ -120,7 +120,7 @@ def main():
     select_inputs, select_outputs = definitions()
 
     entries = [
-        ('N2281', DRAW_SELECT_OWNER, 'source_radar_draw_select_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.drawSelect()', select_inputs, select_outputs, True, 'Dictionary'),
+        ('N2333', DRAW_SELECT_OWNER, 'source_radar_draw_select_state', RADAR, 'mindustry.world.blocks.defense.Radar.RadarBuild', 'RadarBuild.drawSelect()', select_inputs, select_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -140,12 +140,12 @@ def main():
 
     by_slice = {}
     # The test pins this order: center, radius, color.
-    by_slice['N2281'] = [
+    by_slice['N2333'] = [
         'source_radar_draw_select_state_result.center',
         'source_radar_draw_select_state_result.radius',
         'source_radar_draw_select_state_result.color',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2281', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.drawSelect()', godot_owner=DRAW_SELECT_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2281'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2333', dict(status='done', java_source=RADAR, java_class='mindustry.world.blocks.defense.Radar.RadarBuild', java_method='RadarBuild.drawSelect()', godot_owner=DRAW_SELECT_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2333'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)

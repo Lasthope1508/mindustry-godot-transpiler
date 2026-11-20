@@ -68290,48 +68290,6 @@
       "runtime_proof": "/root/C07RadarProgressProof",
       "rule": "Source-backed Radar progress() accessor from Radar.java."
     },
-    "SourceRadarBuildState.source_radar_draw_select_state": {
-      "status": "active",
-      "source_slice": "N2281",
-      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
-      "source_method": "RadarBuild.drawSelect()",
-      "params": [
-        {
-          "name": "x",
-          "type": "float",
-          "schema": "source_radar_draw_select_state_input.x"
-        },
-        {
-          "name": "y",
-          "type": "float",
-          "schema": "source_radar_draw_select_state_input.y"
-        },
-        {
-          "name": "fog_radius",
-          "type": "float",
-          "schema": "source_radar_draw_select_state_input.fog_radius"
-        },
-        {
-          "name": "tilesize",
-          "type": "float",
-          "schema": "source_radar_draw_select_state_input.tilesize"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "center",
-        "radius",
-        "color"
-      ],
-      "tests": [
-        "test_c07_radar_draw_select_registration",
-        "test_all_c07_radar_draw_select_input_evidence_is_exact",
-        "test_radar_draw_select_state",
-        "test_reference_graph_and_actual_c07_radar_draw_select"
-      ],
-      "runtime_proof": "/root/C07RadarDrawSelectProof",
-      "rule": "Source-backed Radar drawSelect() row from Radar.java."
-    },
     "SourceTurretBuildState.source_turret_min_range_state": {
       "status": "active",
       "source_slice": "N2282",
@@ -71571,6 +71529,48 @@
       ],
       "runtime_proof": "/root/C07SoundControlFindMusicProof",
       "rule": "Source-backed SoundControl findMusic state from SoundControl.java."
+    },
+    "SourceRadarBuildState.source_radar_draw_select_state": {
+      "status": "active",
+      "source_slice": "N2333",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.y"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.fog_radius"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "center",
+        "radius",
+        "color"
+      ],
+      "tests": [
+        "test_c07_radar_draw_select_registration",
+        "test_all_c07_radar_draw_select_input_evidence_is_exact",
+        "test_radar_draw_select_state",
+        "test_reference_graph_and_actual_c07_radar_draw_select"
+      ],
+      "runtime_proof": "/root/C07RadarDrawSelectProof",
+      "rule": "Source-backed Radar drawSelect() row from Radar.java."
     }
   },
   "policy": {

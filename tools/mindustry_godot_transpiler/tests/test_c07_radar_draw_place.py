@@ -31,7 +31,7 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
         # (Blocks.java:1991) -- times tilesize, NOT the
         # live fogRadius() (N2321): drawPlace is
         # Block-level and reads the def field, unlike
-        # drawSelect (N2281) which reads the live
+        # drawSelect (N2333) which reads the live
         # fogRadius(). The color is Pal.accent. The super
         # leg (Block.drawPlace, Block.java:491-494:
         # drawPotentialLinks + drawOverlay) is folded as
@@ -95,7 +95,7 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
     def test_radar_draw_place_state(self):
         radar = RADAR_STATE.read_text(encoding='utf-8')
         # The pure drawPlace() row lives on the radar build
-        # state next to the N2281 drawSelect row:
+        # state next to the N2333 drawSelect row:
         # Radar.drawPlace() (Radar.java:42-47) draws one
         # dash circle at the ghost position
         # (`Drawf.dashCircle(x * tilesize + offset, y *
@@ -111,7 +111,7 @@ class C07RadarDrawPlaceTests(unittest.TestCase):
         # the radar def and 80.0 for the class default.
         # The color is Pal.accent (the
         # SourceBlockDrawState.gd:182 precedent). This is a
-        # different method from N2281 drawSelect (Build
+        # different method from N2333 drawSelect (Build
         # method, live fogRadius()) -- no overlap. One def
         # (radar, Radar.java:17, `public class Radar
         # extends Block{`).

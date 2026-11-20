@@ -30,7 +30,7 @@ func _ready() -> void:
 	# fogRadius -- 34 (Blocks.java:1991), class default 10
 	# (Radar.java:33) -- times tilesize, NOT the live
 	# fogRadius() (N2321): drawPlace is Block-level and reads
-	# the def field, unlike drawSelect (N2281) which reads the
+	# the def field, unlike drawSelect (N2333) which reads the
 	# live fogRadius(). The color is Pal.accent. The proof calls
 	# the pure function
 	# source_radar_draw_place_state(tile_x, tile_y, rotation,

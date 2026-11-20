@@ -7138,7 +7138,7 @@
     "SourceRadarBuildState.source_radar_draw_select_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_draw_select_state",
       "status": "active",
-      "source_slice": "N2281",
+      "source_slice": "N2333",
       "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
       "source_method": "RadarBuild.drawSelect()",
       "params": [

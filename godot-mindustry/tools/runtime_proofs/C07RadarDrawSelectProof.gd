@@ -19,7 +19,7 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Pure drawSelect() row (N2281): RadarBuild.drawSelect()
+	# --- Pure drawSelect() row (N2333): RadarBuild.drawSelect()
 	# (Radar.java:80-82) draws one dash circle around the
 	# building: `Drawf.dashCircle(x, y, fogRadius() *
 	# tilesize, Pal.accent);` (Radar.java:81). The center is

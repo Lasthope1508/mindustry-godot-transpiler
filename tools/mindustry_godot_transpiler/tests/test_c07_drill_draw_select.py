@@ -29,7 +29,7 @@ class C07DrillDrawSelectTests(unittest.TestCase):
         # with a darkGray shadow rect at dy - 1 and the
         # foreground rect at dy. One pure function on the
         # family file (the N2220 RepairPointBuild.drawSelect()
-        # / N2281 Radar drawSelect() precedent): the caller
+        # / N2333 Radar drawSelect() precedent): the caller
         # passes dominantItem as explicit params
         # (has_dominant_item, dominant_item_icon_ratio) and
         # the function calls the live helper
@@ -40,7 +40,7 @@ class C07DrillDrawSelectTests(unittest.TestCase):
         # selection_width, selection_height. There is NO
         # driver tick line: drawSelect is selection UI, not
         # per-tick state (the accessor precedent
-        # N2311/N2321/N2281).
+        # N2311/N2321/N2333).
         self.assertEqual(
             ledger['N2283']['source_symbols'],
             [

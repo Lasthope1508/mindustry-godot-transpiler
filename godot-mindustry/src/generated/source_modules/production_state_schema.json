@@ -1848,7 +1848,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
           "java_expr": "public Item dominantItem;",
-          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; passed explicitly because the caller owns the binding (the N2311/N2321/N2281 explicit-param precedent).",
+          "rule": "Whether a dominant item is bound: the DrillBuild.dominantItem field (Drill.java:244) is non-null, set by the N2262 ore/dominant binding; passed explicitly because the caller owns the binding (the N2311/N2321/N2333 explicit-param precedent).",
           "used_by": [
             "SourceBurstDrillBuildState.source_drill_sense_object_state"
           ]
