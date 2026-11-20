@@ -179736,6 +179736,38 @@
         "test_reference_graph_and_actual_c07_turret_read_sync"
       ],
       "runtime_proof": "/root/C07TurretReadSyncProof"
+    },
+    "source_teams_closest_enemy_core_state_result.closest_core": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state",
+      "godot_symbol": "source_teams_closest_enemy_core_state_result.closest_core",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "closestEnemyCore",
+      "java_expr": "closest = core;",
+      "rule": "The nearest enemy core ref (Teams.java:47, `closest = core;`): null when no enemy core exists (the @Nullable return, Teams.java:38) -- the caller must null-check before using it.",
+      "tests": [
+        "test_c07_teams_closest_enemy_core_registration",
+        "test_all_c07_teams_closest_enemy_core_input_evidence_is_exact",
+        "test_teams_closest_enemy_core_state",
+        "test_reference_graph_and_actual_c07_teams_closest_enemy_core"
+      ],
+      "runtime_proof": "/root/C07TeamsClosestEnemyCoreProof"
+    },
+    "source_teams_closest_enemy_core_state_result.closest_dst2": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state",
+      "godot_symbol": "source_teams_closest_enemy_core_state_result.closest_dst2",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "closestEnemyCore",
+      "java_expr": "closestDst = dst;",
+      "rule": "The squared distance to the nearest enemy core (Teams.java:48, `closestDst = dst;`): Mathf.dst2 is the SQUARED distance (arc Mathf.java:656-659); left at Float.MAX_VALUE (`float closestDst = Float.MAX_VALUE;`, Teams.java:41) when no enemy core exists.",
+      "tests": [
+        "test_c07_teams_closest_enemy_core_registration",
+        "test_all_c07_teams_closest_enemy_core_input_evidence_is_exact",
+        "test_teams_closest_enemy_core_state",
+        "test_reference_graph_and_actual_c07_teams_closest_enemy_core"
+      ],
+      "runtime_proof": "/root/C07TeamsClosestEnemyCoreProof"
     }
   },
   "version": 1

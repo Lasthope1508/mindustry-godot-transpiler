@@ -72615,6 +72615,52 @@
       ],
       "runtime_proof": "/root/C07TurretReadSyncProof",
       "rule": "Source-backed TurretBuild.readSync() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state": {
+      "status": "active",
+      "source_slice": "N2354",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "closestEnemyCore",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_closest_enemy_core_state_input.teams_state"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_teams_closest_enemy_core_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_teams_closest_enemy_core_state_input.y"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_closest_enemy_core_state_input.team_id"
+        },
+        {
+          "name": "enemy_cores",
+          "type": "Array",
+          "schema": "source_teams_closest_enemy_core_state_input.enemy_cores"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "closest_core",
+        "closest_dst2"
+      ],
+      "tests": [
+        "test_c07_teams_closest_enemy_core_registration",
+        "test_all_c07_teams_closest_enemy_core_input_evidence_is_exact",
+        "test_teams_closest_enemy_core_state",
+        "test_reference_graph_and_actual_c07_teams_closest_enemy_core"
+      ],
+      "runtime_proof": "/root/C07TeamsClosestEnemyCoreProof",
+      "rule": "Source-backed Teams.closestEnemyCore() state from Teams.java."
     }
   },
   "policy": {

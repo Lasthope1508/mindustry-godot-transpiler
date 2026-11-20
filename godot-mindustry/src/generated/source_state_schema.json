@@ -243434,6 +243434,94 @@
       },
       "runtime_proof": "/root/C07TurretReadSyncProof",
       "rule": "Source-backed TurretBuild.readSync() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java."
+    },
+    "source_teams_closest_enemy_core_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state",
+      "source_slice": "N2354",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public CoreBuild closestEnemyCore(float x, float y, Team team){",
+          "rule": "The teams state (Teams.closestEnemyCore, Teams.java:39): the family-convention first arg; it carries the calling team's core_enemies list (kept there by updateEnemies, Teams.java:252-268 -- NOT ported here, only read) and the teams dict (the N2074 precedent).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public CoreBuild closestEnemyCore(float x, float y, Team team){",
+          "rule": "The query point x (Teams.java:39, `public CoreBuild closestEnemyCore(float x, float y, Team team){`): the point the nearest enemy core is measured from.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public CoreBuild closestEnemyCore(float x, float y, Team team){",
+          "rule": "The query point y (Teams.java:39, `public CoreBuild closestEnemyCore(float x, float y, Team team){`): the point the nearest enemy core is measured from.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "for(Team enemy : team.data().coreEnemies){",
+          "rule": "The calling team id (Teams.java:43, `for(Team enemy : team.data().coreEnemies){`): the team whose coreEnemies list is scanned -- its cores are never candidates, only its enemies' are.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state"
+          ]
+        },
+        "enemy_cores": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "for(CoreBuild core : enemy.cores()){",
+          "rule": "The enemy cores as explicit records {\"team_id\": int, \"ref\": Variant, \"x\": float, \"y\": float} (Teams.java:44, `for(CoreBuild core : enemy.cores()){`): the cores stored in teams_state are opaque refs with no position, so the caller flattens core_enemies -> cores and attaches positions (the N2330 param precedent); only records whose team_id is in the calling team's core_enemies are considered.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsClosestEnemyCoreProof",
+      "rule": "Source-backed Teams.closestEnemyCore() state from Teams.java."
+    },
+    "source_teams_closest_enemy_core_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state",
+      "source_slice": "N2354",
+      "keys": {
+        "closest_core": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "closest = core;",
+          "rule": "The nearest enemy core ref (Teams.java:47, `closest = core;`): null when no enemy core exists (the @Nullable return, Teams.java:38) -- the caller must null-check before using it.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state"
+          ]
+        },
+        "closest_dst2": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "closestDst = dst;",
+          "rule": "The squared distance to the nearest enemy core (Teams.java:48, `closestDst = dst;`): Mathf.dst2 is the SQUARED distance (arc Mathf.java:656-659); left at Float.MAX_VALUE (`float closestDst = Float.MAX_VALUE;`, Teams.java:41) when no enemy core exists.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_enemy_core_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsClosestEnemyCoreProof",
+      "rule": "Source-backed Teams.closestEnemyCore() state from Teams.java."
     }
   },
   "version": 1

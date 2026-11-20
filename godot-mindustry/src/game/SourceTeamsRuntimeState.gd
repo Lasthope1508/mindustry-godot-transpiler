@@ -198,3 +198,58 @@ static func source_team_data_update_team_stats_state(units: Array, team_id: int,
 		unit_count = int(counted.get("unit_count", unit_count))
 		team_unit_counts = counted.get("team_unit_counts", team_unit_counts)
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TEAM_DATA_UPDATE_TEAM_STATS_STATE, "unit_count": unit_count, "team_unit_counts": team_unit_counts}
+
+
+static func source_teams_closest_enemy_core_state(teams_state: Dictionary, x: float, y: float, team_id: int, enemy_cores: Array) -> Dictionary:
+	# Teams.closestEnemyCore (Teams.java:39-55):
+	# `@Nullable`
+	# `public CoreBuild closestEnemyCore(float x, float y, Team team){`
+	# `CoreBuild closest = null;`
+	# `float closestDst = Float.MAX_VALUE;`
+	# `for(Team enemy : team.data().coreEnemies){`
+	# `for(CoreBuild core : enemy.cores()){`
+	# `float dst = Mathf.dst2(x, y, core.getX(), core.getY());`
+	# `if(closestDst > dst){`
+	# `closest = core;`
+	# `closestDst = dst;`
+	# `}`
+	# `}`
+	# `}`
+	# `return closest;`
+	# `}`
+	# on `public class Teams{` (Teams.java:27). The scan
+	# walks the calling team's coreEnemies -- read from
+	# teams_state (kept there by updateEnemies,
+	# Teams.java:252-268, NOT ported here) -- and each
+	# enemy team's cores, keeping the core with the
+	# smallest squared distance. Mathf.dst2 is the SQUARED
+	# distance (arc Mathf.java:656-659), so closest_dst2
+	# is squared too. A strict `>` keeps the FIRST core
+	# on a tie, exactly as Java. No enemy core means null
+	# (the @Nullable return) with closest_dst2 left at
+	# Float.MAX_VALUE (3.4028235e38). The cores stored in
+	# teams_state are opaque refs with no position, so the
+	# enemy cores arrive as explicit records {"team_id":
+	# int, "ref": Variant, "x": float, "y": float} (the
+	# N2330 param precedent); only records whose team_id
+	# is in the calling team's core_enemies are
+	# considered. The read does not mutate teams_state
+	# (it never calls _teams_data, which would create a
+	# missing team entry).
+	var teams: Dictionary = teams_state.get("teams", {})
+	var data: Dictionary = teams.get(team_id, {})
+	var core_enemies: Array = data.get("core_enemies", [])
+	var closest: Variant = null
+	var closest_dst2: float = 3.4028235e38
+	for entry in enemy_cores:
+		if not entry is Dictionary:
+			continue
+		if not core_enemies.has(int(entry.get("team_id", -1))):
+			continue
+		var dx: float = x - float(entry.get("x", 0.0))
+		var dy: float = y - float(entry.get("y", 0.0))
+		var dst2: float = dx * dx + dy * dy
+		if closest_dst2 > dst2:
+			closest = entry.get("ref", null)
+			closest_dst2 = dst2
+	return {"closest_core": closest, "closest_dst2": closest_dst2}
