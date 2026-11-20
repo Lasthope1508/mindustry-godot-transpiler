@@ -651,6 +651,34 @@ static func source_turret_activation_timer_state(activation_timer: float, delta:
 	var activation_timer_elapsed: bool = activation_timer <= 0.0
 	return {"activation_timer": activation_timer_after, "activation_timer_elapsed": activation_timer_elapsed}
 
+static func source_turret_is_active_state(has_target: bool, was_shooting: bool, enabled: bool, activation_timer: float) -> Dictionary:
+	# TurretBuild.isActive() (Turret.java:449-450):
+	# `public boolean isActive(){` /
+	# `return (target != null || wasShooting) && enabled && activationTimer <= 0;`
+	# -- the liveness verdict for a turret build. `target !=
+	# null` is the frame's has_target (the N2277 precedent:
+	# the driver keeps target / has_target in sync through
+	# the validateTarget verdict, N2251). `wasShooting` is
+	# `public boolean wasShooting, isShooting;`
+	# (Turret.java:292, set false at :517 and true at :600 /
+	# :608 in updateTile); the frame's was_shooting is stamped
+	# from the aim result every tick. `enabled` is
+	# `transient boolean enabled = true;`
+	# (BuildingComp.java:77), preserved on the frame every
+	# tick. `activationTimer` is `public float
+	# activationTimer = 0;` (BaseTurret.java:115), decayed
+	# live by the N2279 tick. The only Java consumer is
+	# LaserTurret.shouldConsume() (`if(bullets.any() ||
+	# isActive()) return true;`, LaserTurret.java:55) -- duo
+	# never calls isActive(), so this slice is stamp-only
+	# like N2274-N2276: the driver stamps the verdict on the
+	# frame and no consumer is rewired (the LaserTurret
+	# consumer also needs the bullets live list, which the
+	# port does not have yet). The result is a 1-key dict:
+	# `is_active`.
+	var is_active: bool = (has_target or was_shooting) and enabled and activation_timer <= 0.0
+	return {"is_active": is_active}
+
 static func source_turret_heat_req_state(heat_requirement: float, heat_total: float, side_heat: Array, heat_req: float) -> Dictionary:
 	# TurretBuild.updateTile() (Turret.java:490-560) folds the
 	# heat requirement every tick, after the logic-control timer
@@ -1600,6 +1628,27 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			frame["target_pos"] = aim.get("target_pos", null)
 			frame["barrel_counter"] = aim.get("barrel_counter_after", 0)
 			frame["was_shooting"] = aim.get("was_shooting", false)
+			# The isActive() verdict (Turret.java:449-450,
+			# N2280) is stamped right after the was_shooting
+			# stamp, once every input is its final value for
+			# this tick: has_target validated this tick
+			# (N2251), was_shooting from this tick's aim,
+			# enabled preserved by the frame tick
+			# (BuildingComp.java:77, default true), and
+			# activation_timer decayed by the N2279 tick
+			# above. The frame after a driver tick is the
+			# self-consistent snapshot a future consumer
+			# (LaserTurret.shouldConsume(),
+			# LaserTurret.java:55) reads -- in Java that
+			# consumer runs in updateConsumption() BEFORE
+			# updateTile() (BuildingComp.java:2274 vs :2277),
+			# so a live call sees the previous tick's
+			# wasShooting / target; the one-tick difference
+			# waits for the LaserTurret consumer slice, and
+			# no consumer is rewired here because duo never
+			# calls isActive().
+			var is_active_state: Dictionary = source_turret_is_active_state(bool(frame.get("has_target", false)), bool(frame.get("was_shooting", false)), bool(frame.get("enabled", true)), float(frame.get("activation_timer", 0.0)))
+			frame["is_active"] = is_active_state.get("is_active", false)
 			if bool(aim.get("shot", false)):
 				duo_stacks_map[duo_key] = aim.get("ammo_entries_after", duo_entries)
 				duo_totals_map[duo_key] = int(aim.get("total_ammo_after", duo_total))

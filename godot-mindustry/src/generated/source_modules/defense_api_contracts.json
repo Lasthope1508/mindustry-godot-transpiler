@@ -8471,6 +8471,47 @@
       "rule": "Source-backed Turret heat requirement + cap read from Turret.java / Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_is_active_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_is_active_state",
+      "status": "active",
+      "source_slice": "N2280",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.isActive()",
+      "params": [
+        {
+          "name": "has_target",
+          "type": "bool",
+          "schema": "source_turret_is_active_state_input.has_target"
+        },
+        {
+          "name": "was_shooting",
+          "type": "bool",
+          "schema": "source_turret_is_active_state_input.was_shooting"
+        },
+        {
+          "name": "enabled",
+          "type": "bool",
+          "schema": "source_turret_is_active_state_input.enabled"
+        },
+        {
+          "name": "activation_timer",
+          "type": "float",
+          "schema": "source_turret_is_active_state_input.activation_timer"
+        }
+      ],
+      "return_keys": [
+        "is_active"
+      ],
+      "tests": [
+        "test_c07_turret_is_active_registration",
+        "test_all_c07_turret_is_active_input_evidence_is_exact",
+        "test_turret_is_active_state",
+        "test_reference_graph_and_actual_c07_turret_is_active"
+      ],
+      "runtime_proof": "/root/C07TurretIsActiveProof",
+      "rule": "Source-backed Turret isActive() derivation from TurretBuild.isActive() / Turret.java:449-450.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_is_shooting_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_is_shooting_state",
       "status": "active",
