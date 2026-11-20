@@ -5,7 +5,7 @@ Ngày: 2026-11-20 ~08:3x +07 (GREEN), gate xong 09:21 +07, push lượt cron 09:
 ## Trạng thái
 
 - N2276 DONE + PUSHED (origin/main 5f0f72c0). Không có gì thay đổi về N2276.
-- N2277 DONE + PUSHED (slice 23b993d8, docs 556c58a4, GOAL 4c02dd6a, status TBD): Turret isShooting — cờ `isShooting` ở đầu `TurretBuild.updateTile()` (Turret.java:492) mà N2253 mới fold inline làm arg của warmup call, nay có pure function standalone + driver tick stamp `frame["is_shooting"]`, warmup call rewire đọc frame thay vì recompute. Gate xác minh độc lập từ log: Ran 6201, failures=227, skipped=5 — toàn Godot-absent (227 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
+- N2277 DONE + PUSHED (slice 23b993d8, docs 556c58a4, GOAL 4c02dd6a, status 7d789c03): Turret isShooting — cờ `isShooting` ở đầu `TurretBuild.updateTile()` (Turret.java:492) mà N2253 mới fold inline làm arg của warmup call, nay có pure function standalone + driver tick stamp `frame["is_shooting"]`, warmup call rewire đọc frame thay vì recompute. Gate xác minh độc lập từ log: Ran 6201, failures=227, skipped=5 — toàn Godot-absent (227 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR).
 
 ## Làm được lượt này (GREEN)
 
