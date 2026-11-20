@@ -177432,6 +177432,54 @@
         "test_reference_graph_and_actual_c07_turret_progress"
       ],
       "runtime_proof": "/root/C07TurretProgressProof"
+    },
+    "source_turret_sense_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_sense_state",
+      "godot_symbol": "source_turret_sense_state_result.handled",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.sense(LAccess)",
+      "java_expr": "default -> super.sense(sensor);",
+      "rule": "Whether this slice handled the sensor (one of the seven Turret cases); false means \"not handled -- fall through to super.sense\" (the N2208 mass-driver / N2223 repair-turret sense precedent).",
+      "tests": [
+        "test_c07_turret_sense_registration",
+        "test_all_c07_turret_sense_input_evidence_is_exact",
+        "test_turret_sense_state",
+        "test_reference_graph_and_actual_c07_turret_sense"
+      ],
+      "runtime_proof": "/root/C07TurretSenseProof"
+    },
+    "source_turret_sense_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_sense_state",
+      "godot_symbol": "source_turret_sense_state_result.sense_value",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.sense(LAccess)",
+      "java_expr": "case ammo -> totalAmmo;",
+      "rule": "The sensed value: totalAmmo for \"ammo\" (`case ammo -> totalAmmo;`, Turret.java:408), maxAmmo for \"ammoCapacity\" (:409), the live rotation in degrees for \"rotation\" (:410), World.conv(targetPos.x/y) in tiles for \"shootX\"/\"shootY\" (:411-412), 1 or 0 for \"shooting\" (:413), the live progress() fraction for \"progress\" (:414); null when the sensor is not handled.",
+      "tests": [
+        "test_c07_turret_sense_registration",
+        "test_all_c07_turret_sense_input_evidence_is_exact",
+        "test_turret_sense_state",
+        "test_reference_graph_and_actual_c07_turret_sense"
+      ],
+      "runtime_proof": "/root/C07TurretSenseProof"
+    },
+    "source_turret_sense_state_result.sense_value_is_nan": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_sense_state",
+      "godot_symbol": "source_turret_sense_state_result.sense_value_is_nan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "TurretBuild.sense(LAccess)",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "rule": "Whether the sensed value is NaN: true only when the sensor is not handled (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`, converts to null in logic); false for all seven handled cases.",
+      "tests": [
+        "test_c07_turret_sense_registration",
+        "test_all_c07_turret_sense_input_evidence_is_exact",
+        "test_turret_sense_state",
+        "test_reference_graph_and_actual_c07_turret_sense"
+      ],
+      "runtime_proof": "/root/C07TurretSenseProof"
     }
   },
   "version": 1

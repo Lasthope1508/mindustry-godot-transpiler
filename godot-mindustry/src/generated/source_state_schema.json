@@ -238494,6 +238494,104 @@
       },
       "runtime_proof": "/root/C07TurretProgressProof",
       "rule": "Source-backed Turret progress() derivation from TurretBuild.progress() / Turret.java:425-427."
+    },
+    "source_turret_sense_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_sense_state",
+      "source_slice": "N2283",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "case rotation -> rotation;",
+          "rule": "The turret frame carrying the live `rotation` (stamped every tick by the aim call, absent folds to 90.0, the Java field init `public float rotation = 90;`, BaseTurret.java:114), `target_pos` (stamped by the aim call as a {\"x\",\"y\"} dict or null, which counts as the (0,0) default of `public Vec2 targetPos = new Vec2();`, Turret.java:290), `is_shooting` (stamped by the N2277 tick) and `progress` (stamped by the N2282 tick).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_state"
+          ]
+        },
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (`ammo,` LAccess.java:18, `ammoCapacity,` :19, `progress,` :28, `rotation,` :30, `shootX,` :35, `shootY,` :36, `shooting,` :49): the seven Turret cases are handled here, anything else falls through to super.sense (`default -> super.sense(sensor);`, Turret.java:415).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_state"
+          ]
+        },
+        "total_ammo": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int totalAmmo;",
+          "rule": "The live total ammo (`public int totalAmmo;`, Turret.java:283, field default 0; live in the driver as duo_total from the game dict `turret_total_ammo`, written back on shot); passed explicitly because the frame carries no total_ammo key (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_state"
+          ]
+        },
+        "max_ammo": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int maxAmmo = 30;",
+          "rule": "The ammo capacity (`public int maxAmmo = 30;`, Turret.java:47, the class default; duo never overrides it, Blocks.java:3257-3331); passed explicitly because it is per-def static state, not a live frame key (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world tilesize in pixels (Vars.java:135, `public static final int tilesize = 8;`); passed explicitly (the N2220 draw-place precedent) so the shootX/shootY legs divide by the caller-supplied world constant (`public static float conv(float coord){` / `return coord / tilesize;`, World.java:165-166).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretSenseProof",
+      "rule": "Source-backed Turret sense() LAccess dispatch from Turret.java:405-419 + BaseTurret.java + World.java + Vars.java + LAccess.java + BuildingComp.java."
+    },
+    "source_turret_sense_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_sense_state",
+      "source_slice": "N2283",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "default -> super.sense(sensor);",
+          "rule": "Whether this slice handled the sensor (one of the seven Turret cases); false means \"not handled -- fall through to super.sense\" (the N2208 mass-driver / N2223 repair-turret sense precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_state"
+          ]
+        },
+        "sense_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "case ammo -> totalAmmo;",
+          "rule": "The sensed value: totalAmmo for \"ammo\" (`case ammo -> totalAmmo;`, Turret.java:408), maxAmmo for \"ammoCapacity\" (:409), the live rotation in degrees for \"rotation\" (:410), World.conv(targetPos.x/y) in tiles for \"shootX\"/\"shootY\" (:411-412), 1 or 0 for \"shooting\" (:413), the live progress() fraction for \"progress\" (:414); null when the sensor is not handled.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_state"
+          ]
+        },
+        "sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether the sensed value is NaN: true only when the sensor is not handled (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`, converts to null in logic); false for all seven handled cases.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretSenseProof",
+      "rule": "Source-backed Turret sense() LAccess dispatch from Turret.java:405-419 + BaseTurret.java + World.java + Vars.java + LAccess.java + BuildingComp.java."
     }
   },
   "version": 1

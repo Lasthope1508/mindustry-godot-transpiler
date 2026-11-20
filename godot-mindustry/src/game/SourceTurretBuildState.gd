@@ -221,6 +221,95 @@ static func source_turret_logic_controlled_state(logic_control_time: float) -> D
 	var logic_controlled: bool = logic_control_time > 0.0
 	return {"logic_controlled": logic_controlled}
 
+static func source_turret_sense_state(frame: Dictionary, sensor: String, total_ammo: int, max_ammo: int, tilesize: float) -> Dictionary:
+	# TurretBuild.sense() (Turret.java:405-419):
+	# `public double sense(LAccess sensor){` /
+	# return switch(sensor){
+	# case ammo -> totalAmmo;
+	# case ammoCapacity -> maxAmmo;
+	# case rotation -> rotation;
+	# case shootX -> World.conv(targetPos.x);
+	# case shootY -> World.conv(targetPos.y);
+	# case shooting -> isShooting ? 1 : 0;
+	# case progress -> progress();
+	# default -> super.sense(sensor);
+	# };
+	# The sensor spellings are the LAccess enum names
+	# (LAccess.java:18, `ammo,`; :19, `ammoCapacity,`;
+	# :28, `progress,`; :30, `rotation,`; :35, `shootX,`;
+	# :36, `shootY,`; :49, `shooting,`).
+	# `ammo` reads totalAmmo (`public int totalAmmo;`,
+	# Turret.java:283, field default 0) -- live in the
+	# driver as duo_total from the game dict
+	# `turret_total_ammo`, written back on shot, passed
+	# here as an explicit int param because the frame
+	# carries no total_ammo key (the N2212/N2220
+	# per-def-param precedent). `ammoCapacity` reads
+	# maxAmmo (`public int maxAmmo = 30;`, Turret.java:47,
+	# the class default; duo never overrides it,
+	# Blocks.java:3257-3331) -- an explicit int param
+	# because it is per-def static state, not a live frame
+	# key. `rotation` reads the live frame key stamped
+	# every tick by the aim call, absent folding to 90.0,
+	# the Java field init (`public float rotation = 90;`,
+	# BaseTurret.java:114). `shootX`/`shootY` read
+	# World.conv(targetPos) (`public Vec2 targetPos = new
+	# Vec2();`, Turret.java:290, default (0,0);
+	# `public static float conv(float coord){`
+	# `return coord / tilesize;`
+	# (World.java:165-166); `public static final
+	# int tilesize = 8;`, Vars.java:135) over the live
+	# frame target_pos dict stamped by the aim call -- a
+	# null target_pos counts as the (0,0) default, since
+	# the Java field is never null. `shooting` reads the
+	# live frame is_shooting stamped by the N2277 tick
+	# (`public boolean wasShooting, isShooting;`,
+	# Turret.java:292, default false). `progress` reads
+	# the live frame progress stamped by the N2282 tick
+	# (`public float progress(){` / `return Mathf.clamp(
+	# reloadCounter / reload);`, Turret.java:425-427).
+	# The default falls through to super.sense
+	# (BuildingComp.java:2093-2126, ~25 cases) -- its own
+	# later slice -- whose default is NaN
+	# (`default -> Float.NaN; //gets converted to null in logic`
+	# BuildingComp.java:2123); the pure function reports
+	# it as handled false + NaN so the caller knows to
+	# fall through. There is no driver tick line: sense is
+	# a logic read, not a tick write (the N2206/N2208/N2223
+	# precedent); the logic-processor dispatch hook is its
+	# own later slice. The result is the N2206/N2208/N2223
+	# sense wire shape: `handled`, `sense_value`,
+	# `sense_value_is_nan`.
+	if sensor == "ammo":
+		var ammo_value: float = float(total_ammo)
+		return {"handled": true, "sense_value": ammo_value, "sense_value_is_nan": false}
+	if sensor == "ammoCapacity":
+		var ammo_capacity_value: float = float(max_ammo)
+		return {"handled": true, "sense_value": ammo_capacity_value, "sense_value_is_nan": false}
+	if sensor == "rotation":
+		var observed: Variant = frame.get("rotation", null)
+		var rotation_value: float = 90.0 if observed == null else float(observed)
+		return {"handled": true, "sense_value": rotation_value, "sense_value_is_nan": false}
+	if sensor == "shootX" or sensor == "shootY":
+		var target_pos: Variant = frame.get("target_pos", null)
+		var target_x: float = 0.0
+		var target_y: float = 0.0
+		if target_pos is Dictionary:
+			target_x = float(target_pos.get("x", 0.0))
+			target_y = float(target_pos.get("y", 0.0))
+		if sensor == "shootX":
+			var shoot_x_value: float = target_x / tilesize
+			return {"handled": true, "sense_value": shoot_x_value, "sense_value_is_nan": false}
+		var shoot_y_value: float = target_y / tilesize
+		return {"handled": true, "sense_value": shoot_y_value, "sense_value_is_nan": false}
+	if sensor == "shooting":
+		var shooting_value: float = 1.0 if bool(frame.get("is_shooting", false)) else 0.0
+		return {"handled": true, "sense_value": shooting_value, "sense_value_is_nan": false}
+	if sensor == "progress":
+		var progress_value: float = float(frame.get("progress", 0.0))
+		return {"handled": true, "sense_value": progress_value, "sense_value_is_nan": false}
+	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
+
 static func source_turret_progress_state(reload_counter: float, reload: float) -> Dictionary:
 	# TurretBuild.progress() (Turret.java:425-427):
 	# `public float progress(){` /

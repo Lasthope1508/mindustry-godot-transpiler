@@ -70196,6 +70196,53 @@
       ],
       "runtime_proof": "/root/C07TurretProgressProof",
       "rule": "Source-backed Turret progress() derivation from TurretBuild.progress() / Turret.java:425-427."
+    },
+    "SourceTurretBuildState.source_turret_sense_state": {
+      "status": "active",
+      "source_slice": "N2283",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.sense(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_sense_state_input.frame"
+        },
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_turret_sense_state_input.sensor"
+        },
+        {
+          "name": "total_ammo",
+          "type": "int",
+          "schema": "source_turret_sense_state_input.total_ammo"
+        },
+        {
+          "name": "max_ammo",
+          "type": "int",
+          "schema": "source_turret_sense_state_input.max_ammo"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_turret_sense_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_turret_sense_registration",
+        "test_all_c07_turret_sense_input_evidence_is_exact",
+        "test_turret_sense_state",
+        "test_reference_graph_and_actual_c07_turret_sense"
+      ],
+      "runtime_proof": "/root/C07TurretSenseProof",
+      "rule": "Source-backed Turret sense() LAccess dispatch from Turret.java:405-419 + BaseTurret.java + World.java + Vars.java + LAccess.java + BuildingComp.java."
     }
   },
   "policy": {
