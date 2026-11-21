@@ -4231,6 +4231,25 @@
       ],
       "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof"
     },
+    "N2387": {
+      "canonical_ledger": "source_slice_ledger.N2387",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurretBuild.hasAmmo(); PayloadAmmoTurretBuild.acceptPayload(); PayloadAmmoTurretBuild.handlePayload()",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_has_ammo_state",
+      "source_symbols": [
+        "source_payload_ammo_turret_build_has_ammo_state_result.has_ammo",
+        "source_payload_ammo_turret_build_accept_payload_state_result.accepts_payload",
+        "source_payload_ammo_turret_build_handle_payload_state_result.payload_contents"
+      ],
+      "tests": [
+        "test_c07_payload_turret_payload_intake_registration",
+        "test_all_c07_payload_turret_payload_intake_input_evidence_is_exact",
+        "test_payload_turret_payload_intake_state",
+        "test_reference_graph_and_actual_c07_payload_turret_payload_intake"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

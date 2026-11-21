@@ -181704,6 +181704,54 @@
         "test_reference_graph_and_actual_c07_laser_turret_set_stats_init_progress"
       ],
       "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof"
+    },
+    "source_payload_ammo_turret_build_has_ammo_state_result.has_ammo": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_has_ammo_state",
+      "godot_symbol": "source_payload_ammo_turret_build_has_ammo_state_result.has_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurretBuild.hasAmmo()",
+      "java_expr": "return payloads.total() > 0;",
+      "rule": "Whether any payload unit is held (PayloadAmmoTurret.java:119, `return payloads.total() > 0;`): true iff the payloads seq is non-empty.",
+      "tests": [
+        "test_c07_payload_turret_payload_intake_registration",
+        "test_all_c07_payload_turret_payload_intake_input_evidence_is_exact",
+        "test_payload_turret_payload_intake_state",
+        "test_reference_graph_and_actual_c07_payload_turret_payload_intake"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof"
+    },
+    "source_payload_ammo_turret_build_accept_payload_state_result.accepts_payload": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_accept_payload_state",
+      "godot_symbol": "source_payload_ammo_turret_build_accept_payload_state_result.accepts_payload",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurretBuild.acceptPayload()",
+      "java_expr": "return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());",
+      "rule": "Whether the payload is accepted (PayloadAmmoTurret.java:109, `return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());`): true iff the held total is below maxAmmo AND the payload content is an ammo type.",
+      "tests": [
+        "test_c07_payload_turret_payload_intake_registration",
+        "test_all_c07_payload_turret_payload_intake_input_evidence_is_exact",
+        "test_payload_turret_payload_intake_state",
+        "test_reference_graph_and_actual_c07_payload_turret_payload_intake"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof"
+    },
+    "source_payload_ammo_turret_build_handle_payload_state_result.payload_contents": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_handle_payload_state",
+      "godot_symbol": "source_payload_ammo_turret_build_handle_payload_state_result.payload_contents",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurretBuild.handlePayload()",
+      "java_expr": "payloads.add(payload.content());",
+      "rule": "The updated payload contents (PayloadAmmoTurret.java:114, `payloads.add(payload.content());`): the input contents plus the new content appended (unchanged on null content) -- a fresh array, the input is never mutated.",
+      "tests": [
+        "test_c07_payload_turret_payload_intake_registration",
+        "test_all_c07_payload_turret_payload_intake_input_evidence_is_exact",
+        "test_payload_turret_payload_intake_state",
+        "test_reference_graph_and_actual_c07_payload_turret_payload_intake"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof"
     }
   },
   "version": 1

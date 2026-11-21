@@ -4138,6 +4138,32 @@
       "rule": "Source-backed PayloadTurretBuild.getAmmoContent() state from PayloadAmmoTurret.java.",
       "return_type": "Dictionary"
     },
+    "PortGame.source_payload_ammo_turret_build_has_ammo_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_has_ammo_state",
+      "status": "active",
+      "source_slice": "N2387",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurretBuild.hasAmmo()",
+      "params": [
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_has_ammo_state_input.payload_contents"
+        }
+      ],
+      "return_keys": [
+        "has_ammo"
+      ],
+      "tests": [
+        "test_c07_payload_turret_payload_intake_registration",
+        "test_all_c07_payload_turret_payload_intake_input_evidence_is_exact",
+        "test_payload_turret_payload_intake_state",
+        "test_reference_graph_and_actual_c07_payload_turret_payload_intake"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_payload_ammo_turret_build_use_ammo_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_use_ammo_state",
       "status": "active",

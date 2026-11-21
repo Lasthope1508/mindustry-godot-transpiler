@@ -248014,6 +248014,160 @@
       },
       "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof",
       "rule": "Source-backed LaserTurret.setStats()+init() + LaserTurretBuild.progress() state from LaserTurret.java."
+    },
+    "source_payload_ammo_turret_build_has_ammo_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_has_ammo_state",
+      "source_slice": "N2387",
+      "keys": {
+        "payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return payloads.total() > 0;",
+          "rule": "The held payload contents (PayloadAmmoTurret.java:119, `return payloads.total() > 0;`): one entry per payload unit from the `public PayloadSeq payloads` field (PayloadAmmoTurret.java:95) -- total() is exactly payload_contents.size() (the N2381 updateTile precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_has_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_has_ammo_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_has_ammo_state",
+      "source_slice": "N2387",
+      "keys": {
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return payloads.total() > 0;",
+          "rule": "Whether any payload unit is held (PayloadAmmoTurret.java:119, `return payloads.total() > 0;`): true iff the payloads seq is non-empty.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_has_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_accept_payload_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_accept_payload_state",
+      "source_slice": "N2387",
+      "keys": {
+        "payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());",
+          "rule": "The held payload contents (PayloadAmmoTurret.java:109, `return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());`): one entry per payload unit from the `public PayloadSeq payloads` field (PayloadAmmoTurret.java:95) -- total() is exactly payload_contents.size() (the N2381 updateTile precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_accept_payload_state"
+          ]
+        },
+        "max_ammo": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());",
+          "rule": "The intake capacity (PayloadAmmoTurret.java:109, `return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());`): the constructor field (`maxAmmo = 3;`, PayloadAmmoTurret.java:28) -- arrives as an explicit int param.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_accept_payload_state"
+          ]
+        },
+        "ammo_types": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());",
+          "rule": "The ammo types (PayloadAmmoTurret.java:109, `return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());`): content name -> bullet type name from the `public ObjectMap<UnlockableContent, BulletType> ammoTypes` field (PayloadAmmoTurret.java:22) -- ObjectMap is NOT ported (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_accept_payload_state"
+          ]
+        },
+        "payload_content": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());",
+          "rule": "The incoming payload content (PayloadAmmoTurret.java:109, `return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());`): the `payload.content()` field on the given Payload -- arrives as an explicit param (content name or null); `Payload`/`PayloadSeq` are NOT ported.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_accept_payload_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_accept_payload_state",
+      "source_slice": "N2387",
+      "keys": {
+        "accepts_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());",
+          "rule": "Whether the payload is accepted (PayloadAmmoTurret.java:109, `return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());`): true iff the held total is below maxAmmo AND the payload content is an ammo type.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_accept_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_handle_payload_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_handle_payload_state",
+      "source_slice": "N2387",
+      "keys": {
+        "payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "payloads.add(payload.content());",
+          "rule": "The held payload contents (PayloadAmmoTurret.java:114, `payloads.add(payload.content());`): one entry per payload unit from the `public PayloadSeq payloads` field (PayloadAmmoTurret.java:95) -- arrives as an explicit param; the function duplicates it and returns the updated list (the N2313 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_handle_payload_state"
+          ]
+        },
+        "payload_content": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "payloads.add(payload.content());",
+          "rule": "The incoming payload content (PayloadAmmoTurret.java:114, `payloads.add(payload.content());`): the `payload.content()` field on the given Payload -- arrives as an explicit param (content name or null); a null content is a no-op (`PayloadSeq.add` returns early on null, PayloadSeq.java:35-37).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_handle_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_handle_payload_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_handle_payload_state",
+      "source_slice": "N2387",
+      "keys": {
+        "payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "payloads.add(payload.content());",
+          "rule": "The updated payload contents (PayloadAmmoTurret.java:114, `payloads.add(payload.content());`): the input contents plus the new content appended (unchanged on null content) -- a fresh array, the input is never mutated.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_handle_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java."
     }
   },
   "version": 1

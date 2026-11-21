@@ -419,3 +419,98 @@ static func source_payload_ammo_turret_set_stats_state(stats: Array, ammo_types:
 		rows.append(stat_row)
 	rows.append({"stat": "ammo", "ammo_types": ammo_types.duplicate(), "show_unit": true})
 	return {"stats": rows}
+
+# PayloadTurretBuild.hasAmmo() (PayloadAmmoTurret.java:117-120):
+# `@Override`
+# `public boolean hasAmmo(){`
+# `return payloads.total() > 0;`
+# `}`
+# on `public class PayloadTurretBuild extends TurretBuild{`
+# (PayloadAmmoTurret.java:94) inside
+# `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# override: it reports whether any payload unit is held --
+# `payloads.total() > 0` -- or false when the seq is empty.
+# `payloads` is `public PayloadSeq payloads = new PayloadSeq();`
+# (PayloadAmmoTurret.java:95) and arrives as the explicit
+# payload_contents param -- one entry per payload unit, so
+# total() is exactly payload_contents.size() (the N2381
+# updateTile precedent: `totalAmmo = payloads.total();`).
+# The distinguishing line is
+# `return payloads.total() > 0;`
+# (0-hit in both ledgers at HEAD 1047fc24). NO driver line:
+# a pure predicate the shoot path reads
+# (TurretBuild.hasAmmo callers), not a per-tick write.
+static func source_payload_ammo_turret_build_has_ammo_state(payload_contents: Array) -> Dictionary:
+	var has_ammo: bool = payload_contents.size() > 0
+	return {"has_ammo": has_ammo}
+
+# PayloadTurretBuild.acceptPayload() (PayloadAmmoTurret.java:107-110):
+# `@Override`
+# `public boolean acceptPayload(Building source, Payload payload){`
+# `return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());`
+# `}`
+# on `public class PayloadTurretBuild extends TurretBuild{`
+# (PayloadAmmoTurret.java:94) inside
+# `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# override: it gates payload intake on capacity
+# (`payloads.total() < maxAmmo`) AND ammo membership
+# (`ammoTypes.containsKey(payload.content())`) -- a payload
+# whose content is not an ammo type is refused even when
+# there is room. `payloads` is
+# `public PayloadSeq payloads = new PayloadSeq();`
+# (PayloadAmmoTurret.java:95) and arrives as the explicit
+# payload_contents param -- one entry per payload unit, so
+# total() is exactly payload_contents.size() (the N2381
+# updateTile precedent). `maxAmmo` is the constructor field
+# (`maxAmmo = 3;`, PayloadAmmoTurret.java:28) and arrives as
+# an explicit int param. `ammoTypes`
+# (ObjectMap<UnlockableContent, BulletType>,
+# PayloadAmmoTurret.java:22) arrives as the explicit
+# ammo_types Dictionary param (content name -> bullet type
+# name); ObjectMap is NOT ported (the N2330 param
+# precedent). `payload.content()` is a field on the given
+# Payload -- it arrives as the explicit payload_content
+# param (content name or null); `Payload`/`PayloadSeq` are
+# NOT ported. The `source` (Building) param is unused in
+# the body and is NOT a param. The distinguishing line is
+# `return payloads.total() < maxAmmo && ammoTypes.containsKey(payload.content());`
+# (0-hit in both ledgers at HEAD 1047fc24). NO driver line:
+# a pure predicate the payload intake caller reads, not a
+# per-tick write.
+static func source_payload_ammo_turret_build_accept_payload_state(payload_contents: Array, max_ammo: int, ammo_types: Dictionary, payload_content: Variant) -> Dictionary:
+	var accepts_payload: bool = payload_contents.size() < max_ammo and ammo_types.has(payload_content)
+	return {"accepts_payload": accepts_payload}
+
+# PayloadTurretBuild.handlePayload() (PayloadAmmoTurret.java:112-115):
+# `@Override`
+# `public void handlePayload(Building source, Payload payload){`
+# `payloads.add(payload.content());`
+# `}`
+# on `public class PayloadTurretBuild extends TurretBuild{`
+# (PayloadAmmoTurret.java:94) inside
+# `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# override: it adds the payload's content to the seq
+# (`payloads.add(payload.content());`). The mutation is
+# modeled as param in/out (the N2313 param precedent): the
+# payload contents arrive as the explicit payload_contents
+# param, the function duplicates it, appends the content,
+# and returns the updated list as payload_contents in the
+# result -- the input array is never mutated. A null
+# content is a no-op: `PayloadSeq.add` returns early on
+# null (`if(block == null) return;`, PayloadSeq.java:35-37
+# via `add(UnlockableContent block, int amount)`). The
+# `source` (Building) param is unused in the body and is
+# NOT a param. The distinguishing line is
+# `payloads.add(payload.content());`
+# (0-hit in both ledgers at HEAD 1047fc24). NO driver line:
+# a pure seq update the intake caller applies, not a
+# per-tick write -- the caller wiring waits for its own
+# slice.
+static func source_payload_ammo_turret_build_handle_payload_state(payload_contents: Array, payload_content: Variant) -> Dictionary:
+	var updated_contents: Array = payload_contents.duplicate()
+	if payload_content != null:
+		updated_contents.append(payload_content)
+	return {"payload_contents": updated_contents}

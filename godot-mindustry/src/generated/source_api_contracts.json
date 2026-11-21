@@ -74863,6 +74863,101 @@
       ],
       "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof",
       "rule": "Source-backed LaserTurret.setStats()+init() + LaserTurretBuild.progress() state from LaserTurret.java."
+    },
+    "PortGame.source_payload_ammo_turret_build_has_ammo_state": {
+      "status": "active",
+      "source_slice": "N2387",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurretBuild.hasAmmo()",
+      "params": [
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_has_ammo_state_input.payload_contents"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "has_ammo"
+      ],
+      "tests": [
+        "test_c07_payload_turret_payload_intake_registration",
+        "test_all_c07_payload_turret_payload_intake_input_evidence_is_exact",
+        "test_payload_turret_payload_intake_state",
+        "test_reference_graph_and_actual_c07_payload_turret_payload_intake"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java."
+    },
+    "PortGame.source_payload_ammo_turret_build_accept_payload_state": {
+      "status": "active",
+      "source_slice": "N2387",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurretBuild.acceptPayload()",
+      "params": [
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_accept_payload_state_input.payload_contents"
+        },
+        {
+          "name": "max_ammo",
+          "type": "int",
+          "schema": "source_payload_ammo_turret_build_accept_payload_state_input.max_ammo"
+        },
+        {
+          "name": "ammo_types",
+          "type": "Dictionary",
+          "schema": "source_payload_ammo_turret_build_accept_payload_state_input.ammo_types"
+        },
+        {
+          "name": "payload_content",
+          "type": "Variant",
+          "schema": "source_payload_ammo_turret_build_accept_payload_state_input.payload_content"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "accepts_payload"
+      ],
+      "tests": [
+        "test_c07_payload_turret_payload_intake_registration",
+        "test_all_c07_payload_turret_payload_intake_input_evidence_is_exact",
+        "test_payload_turret_payload_intake_state",
+        "test_reference_graph_and_actual_c07_payload_turret_payload_intake"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java."
+    },
+    "PortGame.source_payload_ammo_turret_build_handle_payload_state": {
+      "status": "active",
+      "source_slice": "N2387",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurretBuild.handlePayload()",
+      "params": [
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_handle_payload_state_input.payload_contents"
+        },
+        {
+          "name": "payload_content",
+          "type": "Variant",
+          "schema": "source_payload_ammo_turret_build_handle_payload_state_input.payload_content"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payload_contents"
+      ],
+      "tests": [
+        "test_c07_payload_turret_payload_intake_registration",
+        "test_all_c07_payload_turret_payload_intake_input_evidence_is_exact",
+        "test_payload_turret_payload_intake_state",
+        "test_reference_graph_and_actual_c07_payload_turret_payload_intake"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java."
     }
   },
   "policy": {
