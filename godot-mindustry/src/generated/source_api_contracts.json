@@ -71004,6 +71004,36 @@
       ],
       "runtime_proof": "/root/C07TurretControlledStampProof",
       "rule": "Source-backed Turret controlled() frame stamp from Turret.java:441-443 + :490-503 + :631-633."
+    },
+    "SourceTurretBuildState.source_turret_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2524",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_should_consume_state_input.frame"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_turret_should_consume_state_input.reload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_turret_should_consume_registration",
+        "test_all_c07_turret_should_consume_input_evidence_is_exact",
+        "test_turret_should_consume_state",
+        "test_reference_graph_and_actual_c07_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07TurretShouldConsumeProof",
+      "rule": "Source-backed Turret shouldConsume() gate from Turret.java:364-366 + :490-492 + ReloadTurret.java:10/:26/:46-48 + BuildingComp.java:1947/:2274/:2277."
     }
   },
   "policy": {

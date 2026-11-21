@@ -321,17 +321,52 @@ static func source_turret_power_status_row_state(frame: Dictionary, has_power_co
 	# foreshadow's item ammo and lustre's liquid nitrogen are not
 	# first-pass rows in this driver yet, so the folded efficiency
 	# is the min over the *modeled* consumers (power only); those
-	# rows wait for their own slices. (2) No shouldConsume gate --
+	# rows wait for their own slices. (2) The shouldConsume gate --
 	# TurretBuild.shouldConsume() (Turret.java:364-366, `return
-	# isShooting || reloadCounter < reload;`) needs targeting/reload
-	# state the tick does not track yet; the machinery runs with
-	# should_consume=true when enabled. `!enabled` is handled by
-	# the machinery's disabled branch, not here.
+	# isShooting || reloadCounter < reload;`) -- is
+	# `source_turret_should_consume_state` (N2524), wired into the
+	# consumption branch below; the machinery runs with
+	# should_consume=true when enabled only while the gate holds.
+	# `!enabled` is handled by the machinery's disabled branch,
+	# not here.
 	if not has_power_consumer:
 		return {"has_power_row": false, "row": {}}
 	var stamped: Variant = frame.get("power_status", null)
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
+
+static func source_turret_should_consume_state(frame: Dictionary, reload: float) -> Dictionary:
+	# TurretBuild.shouldConsume() (Turret.java:364-366,
+	# `public boolean shouldConsume(){` /
+	# `return isShooting || reloadCounter < reload;`): the
+	# one-line predicate on the turret build's own two fields.
+	# `isShooting` (Turret.java:492) is stamped on the frame by
+	# the duo branch (N2277, `source_turret_is_shooting_state`);
+	# `reloadCounter` (ReloadTurret.java:26, `public float
+	# reloadCounter;`) is stamped by the aim call (N2240), and
+	# `reload` is the per-def reload time (ReloadTurret.java:10,
+	# `public float reload = 10f;`), read from the catalog
+	# (`block.properties`, the N2270 heatRequirement precedent).
+	# The gate feeds `update_consumption_setup_state`, so a
+	# false gate folds efficiency to 0.0
+	# (BuildingComp.java:1947, `efficiency = ...
+	# shouldConsume() ? potentialEfficiency : 0f;`); Java order
+	# is updateConsumption() BEFORE updateTile()
+	# (BuildingComp.java:2274 vs :2277), so the gate reads the
+	# PREVIOUS tick's frame values (the N2270 heat fold
+	# precedent). LIVE CONSEQUENCE (Java-faithful): the gate is
+	# DORMANT live today -- duo has no consumePower so the
+	# consumption branch never runs for duo, and the six power
+	# defs (lancer 80f, arc 35f, foreshadow 200f, meltdown 90f,
+	# afflict 50f, malign 3.5f, Blocks.java) have no aim/shoot
+	# branch stamping `is_shooting` / `reload_counter`, so the
+	# gate reads the absent defaults (false / 0.0 < reload)
+	# and stays true on every live frame. It goes live when
+	# aim/shoot drivers land for the power turrets (the N2241
+	# precedent: the gate was false-live until the N2242 bullet
+	# wiring landed).
+	var should_consume: bool = bool(frame.get("enabled", true)) and (bool(frame.get("is_shooting", false)) or float(frame.get("reload_counter", 0.0)) < reload)
+	return {"should_consume": should_consume}
 
 static func source_turret_can_heal_state(target_healing: bool, has_ammo: bool, ammo_collides_team: bool, ammo_heals: bool) -> Dictionary:
 	# TurretBuild.canHeal() (Turret.java:635-637):
@@ -2489,14 +2524,18 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 		# turret with no power consumer is untouched: the tick
 		# models no other consumers yet (foreshadow's item ammo
 		# and lustre's liquid nitrogen wait for their own slices),
-		# and there is no shouldConsume gate yet (Turret.java:364-366
-		# needs targeting/reload state the tick does not track),
-		# so the machinery runs with should_consume=true when
-		# enabled. productionValid is the canonical true default
+		# and the shouldConsume gate (Turret.java:364-366,
+		# `source_turret_should_consume_state`, N2524) reads the
+		# previous tick's `is_shooting` / `reload_counter` (Java
+		# order: updateConsumption() before updateTile(),
+		# BuildingComp.java:2274 vs :2277), so the machinery
+		# runs with should_consume=true when enabled only
+		# while the gate holds. productionValid is the canonical true default
 		# (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
 		if has_power_consumer and bool(frame.get("enabled", true)) and not bool(frame.get("cheating", false)):
-			var should_consume: bool = bool(frame.get("enabled", true))
+			var should_consume_state: Dictionary = source_turret_should_consume_state(frame, float(block.properties.get("reload", 10.0)))
+			var should_consume: bool = bool(should_consume_state.get("should_consume", true))
 			var valid: bool = source_building_access_state.production_valid_state()
 			var setup: Dictionary = source_building_efficiency_state.update_consumption_setup_state(should_consume, valid)
 			frame["efficiency"] = setup.get("efficiency", 1.0)

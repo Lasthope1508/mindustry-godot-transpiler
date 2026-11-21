@@ -178264,6 +178264,22 @@
         "test_reference_graph_and_actual_c07_turret_controlled_stamp"
       ],
       "runtime_proof": "/root/C07TurretControlledStampProof"
+    },
+    "source_turret_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_should_consume_state",
+      "godot_symbol": "source_turret_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.shouldConsume()",
+      "java_expr": "return isShooting || reloadCounter < reload;",
+      "rule": "Whether the turret should consume this tick (`public boolean shouldConsume(){` / `return isShooting || reloadCounter < reload;`, Turret.java:364-366 -- the consumption branch feeds it to `update_consumption_setup_state`, so a false gate folds efficiency to 0.0, BuildingComp.java:1947).",
+      "tests": [
+        "test_c07_turret_should_consume_registration",
+        "test_all_c07_turret_should_consume_input_evidence_is_exact",
+        "test_turret_should_consume_state",
+        "test_reference_graph_and_actual_c07_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07TurretShouldConsumeProof"
     }
   },
   "version": 1

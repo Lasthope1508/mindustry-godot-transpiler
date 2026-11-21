@@ -240146,6 +240146,54 @@
       },
       "runtime_proof": "/root/C07TurretControlledStampProof",
       "rule": "Source-backed Turret controlled() frame stamp from Turret.java:441-443 + :490-503 + :631-633."
+    },
+    "source_turret_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_should_consume_state",
+      "source_slice": "N2524",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The turret frame (the port Building state) the tick stamps every tick (`public void updateTile(){`, Turret.java:490 -- the driver tick for every Turret-family build); the gate reads `enabled` (default true), `is_shooting` (default false, N2277 stamp) and `reload_counter` (default 0.0, N2240 stamp) from it and returns exactly one key (the N2241 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_consume_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "public float reload = 10f;",
+          "rule": "The per-def reload time in ticks (`public float reload = 10f;`, ReloadTurret.java:10 -- the class default); the tick reads it per def from the catalog (`block.properties`, the N2270 precedent): lancer 80f, arc 35f, foreshadow 200f, meltdown 90f, afflict 50f, malign 3.5f (Blocks.java).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretShouldConsumeProof",
+      "rule": "Source-backed Turret shouldConsume() gate from Turret.java:364-366 + :490-492 + ReloadTurret.java:10/:26/:46-48 + BuildingComp.java:1947/:2274/:2277."
+    },
+    "source_turret_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_should_consume_state",
+      "source_slice": "N2524",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return isShooting || reloadCounter < reload;",
+          "rule": "Whether the turret should consume this tick (`public boolean shouldConsume(){` / `return isShooting || reloadCounter < reload;`, Turret.java:364-366 -- the consumption branch feeds it to `update_consumption_setup_state`, so a false gate folds efficiency to 0.0, BuildingComp.java:1947).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretShouldConsumeProof",
+      "rule": "Source-backed Turret shouldConsume() gate from Turret.java:364-366 + :490-492 + ReloadTurret.java:10/:26/:46-48 + BuildingComp.java:1947/:2274/:2277."
     }
   },
   "version": 1
