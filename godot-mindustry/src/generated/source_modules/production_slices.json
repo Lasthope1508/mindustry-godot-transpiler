@@ -1365,6 +1365,26 @@
       ],
       "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
     },
+    "N2379": {
+      "canonical_ledger": "source_slice_ledger.N2379",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.onProximityUpdate(); BeamDrillBuild.updateLasers(); BeamDrillBuild.updateFacing()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_facing_state",
+      "source_symbols": [
+        "source_beam_drill_update_facing_state_result.lasers",
+        "source_beam_drill_update_facing_state_result.facing",
+        "source_beam_drill_update_facing_state_result.last_item",
+        "source_beam_drill_update_facing_state_result.facing_amount"
+      ],
+      "tests": [
+        "test_c07_beam_drill_update_facing_registration",
+        "test_all_c07_beam_drill_update_facing_input_evidence_is_exact",
+        "test_beam_drill_update_facing_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_facing"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateFacingProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

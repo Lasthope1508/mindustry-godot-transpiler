@@ -246084,6 +246084,154 @@
       },
       "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof",
       "rule": "Source-backed BeamDrillBuild.version()/write()/read() state from BeamDrill.java."
+    },
+    "source_beam_drill_update_facing_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_update_facing_state",
+      "source_slice": "N2379",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Point2[] lasers = new Point2[size];",
+          "rule": "The build frame carrying the facing fields (BeamDrill.java:221-228, `public Tile[] facing = new Tile[size];` / `public Point2[] lasers = new Point2[size];` / `public @Nullable Item lastItem;` / `public int facingAmount;`): updateLasers writes frame[\"lasers\"], updateFacing writes frame[\"facing\"] / frame[\"last_item\"] / frame[\"facing_amount\"].",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tileX(), tileY(), rotation, i, lasers[i]);",
+          "rule": "The build tile x, tileX() (BeamDrill.java:371, `nearbySide(tileX(), tileY(), rotation, i, lasers[i]);`): the footprint corner updateLasers measures from.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tileX(), tileY(), rotation, i, lasers[i]);",
+          "rule": "The build tile y, tileY() (BeamDrill.java:371, `nearbySide(tileX(), tileY(), rotation, i, lasers[i]);`): the footprint corner updateLasers measures from.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "int dx = Geometry.d4x(rotation), dy = Geometry.d4y(rotation);",
+          "rule": "The build rotation 0-3 (BeamDrill.java:377, `int dx = Geometry.d4x(rotation), dy = Geometry.d4y(rotation);`): it picks the faced side for nearbySide and the ray direction for updateFacing.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (BeamDrill.java:369, `for(int i = 0; i < size; i++){`): the lasers / facing arrays are sized `size` (plasma-bore 2, large-plasma-bore 3, Blocks.java:3049-3065); passed explicitly (the N2212 / N2248 per-def-param precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "range_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < range; i++){",
+          "rule": "The drill range (BeamDrill.java:381, `for(int i = 0; i < range; i++){`, with `public int range = 5;`, BeamDrill.java:40): how far each laser ray scans (plasma-bore 5, large-plasma-bore 6, Blocks.java:3049-3065); passed explicitly.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){",
+          "rule": "The drill tier (BeamDrill.java:392, `if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){`): a drop counts only when its hardness is at most the tier (plasma-bore 3, large-plasma-bore 5, Blocks.java:3049-3065); passed explicitly.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){",
+          "rule": "The blocked list (BeamDrill.java:51, `public @Nullable Seq<Item> blockedItems;`, shared with N2013/N2302/N2332): null when the def blocks nothing, otherwise the blocked items; the gate treats null as \"nothing blocked\" (BeamDrill.java:392). Passed explicitly.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "world_tile": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The live world tile lookup (BeamDrill.java:383, `Tile other = world.tile(rx, ry);`): the port has no live World here, so it arrives as an explicit Callable param (the N2294 param precedent); world_tile.call(rx, ry) returns null or a tile Dictionary {\"solid\", \"wall_drop\", \"wall_drop_hardness\"}.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillUpdateFacingProof",
+      "rule": "Source-backed BeamDrillBuild.onProximityUpdate()/updateLasers()/updateFacing() state from BeamDrill.java."
+    },
+    "source_beam_drill_update_facing_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_update_facing_state",
+      "source_slice": "N2379",
+      "keys": {
+        "lasers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "lasers[i] = new Point2();",
+          "rule": "The laser side points after updateLasers (BeamDrill.java:370, `lasers[i] = new Point2();`): one Vector2i per footprint side index, recomputed by the N1762 nearbySide callee.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "facing": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "facing[p] = dest;",
+          "rule": "The facing tile per laser ray (BeamDrill.java:406, `facing[p] = dest;`): the first solid tile with a mineable drop on that ray, or null when the ray finds none.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "last_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "lastItem = drop;",
+          "rule": "The last counted drop (BeamDrill.java:400, `lastItem = drop;`): the drop of the last counted ray, or null when nothing counted -- or when two rays counted different drops, the multiple rule (BeamDrill.java:408-410, `if(multiple){ lastItem = null; }`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        },
+        "facing_amount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "facingAmount ++;",
+          "rule": "How many rays found a mineable drop (BeamDrill.java:394, `facingAmount ++;`, reset by `facingAmount = 0;`, BeamDrill.java:378): the count updateTile folds into lastDrillSpeed (BeamDrill.java:249).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_facing_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillUpdateFacingProof",
+      "rule": "Source-backed BeamDrillBuild.onProximityUpdate()/updateLasers()/updateFacing() state from BeamDrill.java."
     }
   },
   "version": 1

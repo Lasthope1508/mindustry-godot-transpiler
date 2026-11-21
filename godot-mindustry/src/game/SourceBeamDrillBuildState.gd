@@ -6,6 +6,16 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_block_plan_geometry_state := preload("res://src/game/SourceBlockPlanGeometryState.gd")
+
+# Geometry.d4x / d4y (arc-core Geometry.java:23-24,
+# `public final static int[] d4x = {1, 0, -1, 0};` /
+# `public final static int[] d4y = {0, 1, 0, -1};`,
+# read through d4x(int) / d4y(int), Geometry.java:47-51,
+# `return d4x[Mathf.mod(i, 4)];`): the four cardinal
+# directions, indexed by rotation 0-3.
+const SOURCE_BEAM_DRILL_D4X := [1, 0, -1, 0]
+const SOURCE_BEAM_DRILL_D4Y := [0, 1, 0, -1]
 
 # The BeamDrill implementation (BeamDrill.java:25, `public class
 # BeamDrill extends Block{`): plasma-bore (consumePower 0.15f,
@@ -232,3 +242,180 @@ static func source_beam_drill_version_write_read_state(time: float, warmup: floa
 		read_time = stored_time
 		read_warmup = stored_warmup
 	return {"version": version, "write_time": write_time, "write_warmup": write_warmup, "time": read_time, "warmup": read_warmup}
+
+static func source_beam_drill_on_proximity_update_state(frame: Dictionary, tile_x: int, tile_y: int, rotation: int, size: int, range_value: int, tier: int, blocked_items: Variant, world_tile: Callable) -> Dictionary:
+	# BeamDrillBuild.onProximityUpdate() (BeamDrill.java:362-366):
+	# `public void onProximityUpdate(){`
+	# `//when rotated.`
+	# `updateLasers();`
+	# `updateFacing();`
+	# `}`
+	# on `public class BeamDrillBuild extends Building{`
+	# (BeamDrill.java:220) inside `public class BeamDrill
+	# extends Block{` (BeamDrill.java:25). The method only
+	# calls the two facing helpers, in order, when the
+	# build is rotated (or placed); the updateTile call
+	# site (BeamDrill.java:239-240) is the same pair
+	# guarded by the null check:
+	# `if(lasers[0] == null) updateLasers();`
+	# -- updateTile N2155 does not own that line. NO
+	# driver tick line: proximity update runs at
+	# placement / rotation, not per tick (the N2302
+	# precedent).
+	var lasers_result: Dictionary = source_beam_drill_update_lasers_state(frame, tile_x, tile_y, rotation, size)
+	var facing_result: Dictionary = source_beam_drill_update_facing_state(frame, rotation, size, range_value, tier, blocked_items, world_tile)
+	return {"lasers": lasers_result.get("lasers", []), "facing": facing_result.get("facing", []), "last_item": facing_result.get("last_item", null), "facing_amount": facing_result.get("facing_amount", 0)}
+
+static func source_beam_drill_update_lasers_state(frame: Dictionary, tile_x: int, tile_y: int, rotation: int, size: int) -> Dictionary:
+	# BeamDrillBuild.updateLasers() (BeamDrill.java:368-373):
+	# `protected void updateLasers(){`
+	# `for(int i = 0; i < size; i++){`
+	# `if(lasers[i] == null) lasers[i] = new Point2();`
+	# `nearbySide(tileX(), tileY(), rotation, i, lasers[i]);`
+	# `}`
+	# `}`
+	# on the build fields (BeamDrill.java:221-222):
+	# `public Tile[] facing = new Tile[size];`
+	# `public Point2[] lasers = new Point2[size];`
+	# The lasers are the side points of the drill footprint:
+	# each entry is a Point2 (Vector2i here) on the side
+	# the build faces, recomputed every call -- a null
+	# entry is created first (`if(lasers[i] == null)`),
+	# then nearbySide overwrites it unconditionally, so
+	# an existing point is recomputed, not kept.
+	# nearbySide is the N1762 callee
+	# (PortGame.source_block_nearby_side_state,
+	# Block.java:936, `public void nearbySide(int x, int
+	# y, int rotation, int index, Point2 out){`), reached
+	# here through its static geometry form; it is NOT
+	# re-ported. tile_x / tile_y are tileX() / tileY(),
+	# rotation is 0-3, size is the block size (plasma-bore
+	# 2, large-plasma-bore 3, Blocks.java:3049-3065).
+	var lasers: Array = []
+	if frame.get("lasers", null) is Array:
+		lasers = frame["lasers"]
+	while lasers.size() < size:
+		lasers.append(null)
+	for i in range(size):
+		if lasers[i] == null:
+			lasers[i] = Vector2i.ZERO
+		var side: Dictionary = source_block_plan_geometry_state.nearby_side_state(tile_x, tile_y, rotation, i, size, lasers[i])
+		var point: Dictionary = side.get("nearby_side", {})
+		lasers[i] = Vector2i(int(point.get("x", 0)), int(point.get("y", 0)))
+	frame["lasers"] = lasers
+	return {"lasers": lasers}
+
+static func source_beam_drill_update_facing_state(frame: Dictionary, rotation: int, size: int, range_value: int, tier: int, blocked_items: Variant, world_tile: Callable) -> Dictionary:
+	# BeamDrillBuild.updateFacing() (BeamDrill.java:375-412):
+	# `protected void updateFacing(){`
+	# `lastItem = null;`
+	# `boolean multiple = false;`
+	# `int dx = Geometry.d4x(rotation), dy = Geometry.d4y(rotation);`
+	# `facingAmount = 0;`
+	# `//update facing tiles`
+	# `for(int p = 0; p < size; p++){`
+	# `Point2 l = lasers[p];`
+	# `Tile dest = null;`
+	# `for(int i = 0; i < range; i++){`
+	# `int rx = l.x + dx*i, ry = l.y + dy*i;`
+	# `Tile other = world.tile(rx, ry);`
+	# `if(other != null){`
+	# `if(other.solid()){`
+	# `Item drop = other.wallDrop();`
+	# `if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){`
+	# `facingAmount ++;`
+	# `if(lastItem != drop && lastItem != null){`
+	# `multiple = true;`
+	# `}`
+	# `lastItem = drop;`
+	# `dest = other;`
+	# `}`
+	# `break;`
+	# `}`
+	# `}`
+	# `}`
+	# `facing[p] = dest;`
+	# `}`
+	# `//when multiple items are present, count that as no item`
+	# `if(multiple){`
+	# `lastItem = null;`
+	# `}`
+	# `}`
+	# on the build fields (BeamDrill.java:221-223, 228):
+	# `public Tile[] facing = new Tile[size];`
+	# `public Point2[] lasers = new Point2[size];`
+	# `public @Nullable Item lastItem;`
+	# `public int facingAmount;`
+	# with the class field (BeamDrill.java:40):
+	# `public int range = 5;`
+	# and the per-def tier (plasma-bore 3, large-plasma-bore 5,
+	# Blocks.java:3049-3065; the class default `public int
+	# tier = 1;` is shared with N2133/N2168, context only)
+	# and the blocked list (BeamDrill.java:51, `public
+	# @Nullable Seq<Item> blockedItems;`, shared with
+	# N2013/N2302/N2332, context only). The scan reads
+	# one ray per laser point, step by step out to range:
+	# a null tile or a non-solid tile does NOT stop the
+	# ray (the break sits inside `if(other.solid()){`);
+	# the first solid tile stops it whether or not its
+	# drop is mineable, and the break itself (`break;`)
+	# is shared with N1152/N2313, context only. A drop
+	# counts only when it exists, its
+	# hardness is at most the tier, and it is not blocked.
+	# `other.solid()` is Tile.java:457 (`return
+	# block.solid || floor.solid || (build != null &&
+	# build.checkSolid());`); `other.wallDrop()` is
+	# Tile.java:575 (the block itemDrop when solid, else
+	# the wall-ore overlay drop, else null). The live
+	# world arrives as the explicit world_tile Callable
+	# (the N2294 param precedent): world_tile.call(rx,
+	# ry) returns null or a tile Dictionary {"solid",
+	# "wall_drop", "wall_drop_hardness"}; facing[p]
+	# stores that tile Dictionary (dest = other). Item
+	# identity is by name here (items are singletons per
+	# name in the synthetic contract), so `lastItem !=
+	# drop` is a name comparison. A missing laser point
+	# (frame built without updateLasers) leaves its
+	# facing null -- Java would throw there; the guard
+	# is documented, not a behavior change for any
+	# frame updateLasers built. NO driver tick line:
+	# updateFacing runs from onProximityUpdate only.
+	var lasers: Array = []
+	if frame.get("lasers", null) is Array:
+		lasers = frame["lasers"]
+	var last_item: Variant = null
+	var multiple := false
+	var dx: int = SOURCE_BEAM_DRILL_D4X[posmod(rotation, 4)]
+	var dy: int = SOURCE_BEAM_DRILL_D4Y[posmod(rotation, 4)]
+	var facing_amount := 0
+	var facing: Array = []
+	while facing.size() < size:
+		facing.append(null)
+	for p in range(size):
+		var laser: Variant = lasers[p] if p < lasers.size() else null
+		var dest: Variant = null
+		if laser != null:
+			var lx: int = int(laser.x)
+			var ly: int = int(laser.y)
+			for i in range(range_value):
+				var rx: int = lx + dx * i
+				var ry: int = ly + dy * i
+				var other: Variant = world_tile.call(rx, ry)
+				if other != null:
+					var other_tile: Dictionary = other
+					if bool(other_tile.get("solid", false)):
+						var drop: Variant = other_tile.get("wall_drop", null)
+						if drop != null and float(other_tile.get("wall_drop_hardness", 0.0)) <= float(tier) and (blocked_items == null or not (drop in blocked_items)):
+							facing_amount += 1
+							if last_item != drop and last_item != null:
+								multiple = true
+							last_item = drop
+							dest = other
+						break
+		facing[p] = dest
+	if multiple:
+		last_item = null
+	frame["facing"] = facing
+	frame["last_item"] = last_item
+	frame["facing_amount"] = facing_amount
+	return {"facing": facing, "last_item": last_item, "facing_amount": facing_amount}

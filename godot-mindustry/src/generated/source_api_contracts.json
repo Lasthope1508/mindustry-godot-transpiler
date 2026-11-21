@@ -73902,6 +73902,74 @@
       ],
       "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof",
       "rule": "Source-backed BeamDrillBuild.version()/write()/read() state from BeamDrill.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_update_facing_state": {
+      "status": "active",
+      "source_slice": "N2379",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.onProximityUpdate(); BeamDrillBuild.updateLasers(); BeamDrillBuild.updateFacing()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_update_facing_state_input.frame"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.size"
+        },
+        {
+          "name": "range_value",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.range_value"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_update_facing_state_input.blocked_items"
+        },
+        {
+          "name": "world_tile",
+          "type": "Callable",
+          "schema": "source_beam_drill_update_facing_state_input.world_tile"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "lasers",
+        "facing",
+        "last_item",
+        "facing_amount"
+      ],
+      "tests": [
+        "test_c07_beam_drill_update_facing_registration",
+        "test_all_c07_beam_drill_update_facing_input_evidence_is_exact",
+        "test_beam_drill_update_facing_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_facing"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateFacingProof",
+      "rule": "Source-backed BeamDrillBuild.onProximityUpdate()/updateLasers()/updateFacing() state from BeamDrill.java."
     }
   },
   "policy": {

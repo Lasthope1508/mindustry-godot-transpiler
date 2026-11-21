@@ -180888,6 +180888,70 @@
         "test_reference_graph_and_actual_c07_beam_drill_version_write_read"
       ],
       "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
+    },
+    "source_beam_drill_update_facing_state_result.lasers": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_facing_state",
+      "godot_symbol": "source_beam_drill_update_facing_state_result.lasers",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.onProximityUpdate(); BeamDrillBuild.updateLasers(); BeamDrillBuild.updateFacing()",
+      "java_expr": "lasers[i] = new Point2();",
+      "rule": "The laser side points after updateLasers (BeamDrill.java:370, `lasers[i] = new Point2();`): one Vector2i per footprint side index, recomputed by the N1762 nearbySide callee.",
+      "tests": [
+        "test_c07_beam_drill_update_facing_registration",
+        "test_all_c07_beam_drill_update_facing_input_evidence_is_exact",
+        "test_beam_drill_update_facing_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_facing"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateFacingProof"
+    },
+    "source_beam_drill_update_facing_state_result.facing": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_facing_state",
+      "godot_symbol": "source_beam_drill_update_facing_state_result.facing",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.onProximityUpdate(); BeamDrillBuild.updateLasers(); BeamDrillBuild.updateFacing()",
+      "java_expr": "facing[p] = dest;",
+      "rule": "The facing tile per laser ray (BeamDrill.java:406, `facing[p] = dest;`): the first solid tile with a mineable drop on that ray, or null when the ray finds none.",
+      "tests": [
+        "test_c07_beam_drill_update_facing_registration",
+        "test_all_c07_beam_drill_update_facing_input_evidence_is_exact",
+        "test_beam_drill_update_facing_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_facing"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateFacingProof"
+    },
+    "source_beam_drill_update_facing_state_result.last_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_facing_state",
+      "godot_symbol": "source_beam_drill_update_facing_state_result.last_item",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.onProximityUpdate(); BeamDrillBuild.updateLasers(); BeamDrillBuild.updateFacing()",
+      "java_expr": "lastItem = drop;",
+      "rule": "The last counted drop (BeamDrill.java:400, `lastItem = drop;`): the drop of the last counted ray, or null when nothing counted -- or when two rays counted different drops, the multiple rule (BeamDrill.java:408-410, `if(multiple){ lastItem = null; }`).",
+      "tests": [
+        "test_c07_beam_drill_update_facing_registration",
+        "test_all_c07_beam_drill_update_facing_input_evidence_is_exact",
+        "test_beam_drill_update_facing_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_facing"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateFacingProof"
+    },
+    "source_beam_drill_update_facing_state_result.facing_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_facing_state",
+      "godot_symbol": "source_beam_drill_update_facing_state_result.facing_amount",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.onProximityUpdate(); BeamDrillBuild.updateLasers(); BeamDrillBuild.updateFacing()",
+      "java_expr": "facingAmount ++;",
+      "rule": "How many rays found a mineable drop (BeamDrill.java:394, `facingAmount ++;`, reset by `facingAmount = 0;`, BeamDrill.java:378): the count updateTile folds into lastDrillSpeed (BeamDrill.java:249).",
+      "tests": [
+        "test_c07_beam_drill_update_facing_registration",
+        "test_all_c07_beam_drill_update_facing_input_evidence_is_exact",
+        "test_beam_drill_update_facing_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_facing"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateFacingProof"
     }
   },
   "version": 1
