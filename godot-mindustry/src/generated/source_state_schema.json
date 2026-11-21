@@ -244698,6 +244698,104 @@
       },
       "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof",
       "rule": "Source-backed ContinuousTurretBuild.updateBullet() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_update_shooting_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_update_shooting_state",
+      "source_slice": "N2367",
+      "keys": {
+        "has_bullets": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "if(bullets.any()){",
+          "rule": "Whether the bullets seq is non-empty, bullets.any() (ContinuousTurret.java:139): the seq itself is NOT ported -- its emptiness arrives as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_shooting_state"
+          ]
+        },
+        "can_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "if(canConsume() && !charging() && shootWarmup >= minWarmup){",
+          "rule": "Whether the turret can consume, canConsume() (ContinuousTurret.java:143, Turret.java:624-629): a callee, its value arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_shooting_state"
+          ]
+        },
+        "charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "if(canConsume() && !charging() && shootWarmup >= minWarmup){",
+          "rule": "Whether the turret is charging, charging() (ContinuousTurret.java:143, Turret.java:714-716): a callee, its value arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_shooting_state"
+          ]
+        },
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "if(canConsume() && !charging() && shootWarmup >= minWarmup){",
+          "rule": "The shoot warmup, shootWarmup (ContinuousTurret.java:143, Turret.java:286): shooting requires it at or above minWarmup.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_shooting_state"
+          ]
+        },
+        "min_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "if(canConsume() && !charging() && shootWarmup >= minWarmup){",
+          "rule": "The minimum warmup, minWarmup (ContinuousTurret.java:143, Turret.java:76 `public float minWarmup = 0f;`): the shoot threshold.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_shooting_state"
+          ]
+        },
+        "ammo_type": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "shoot(peekAmmo());",
+          "rule": "The peekAmmo() result (ContinuousTurret.java:144): peekAmmo() here is ContinuousTurretBuild.peekAmmo (:70-72, `return shootType;`), whose body is already owned by N1172 (PowerTurretBuild.peekAmmo) -- its value arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_shooting_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretUpdateShootingProof",
+      "rule": "Source-backed ContinuousTurretBuild.updateShooting() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_update_shooting_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_update_shooting_state",
+      "source_slice": "N2367",
+      "keys": {
+        "shot": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "shoot(peekAmmo());",
+          "rule": "Whether to shoot (ContinuousTurret.java:144, `shoot(peekAmmo());`): true only when no bullet is flying and the guard holds -- the shoot call is the observable effect of the decision.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_shooting_state"
+          ]
+        },
+        "ammo_type": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "shoot(peekAmmo());",
+          "rule": "The type to shoot (ContinuousTurret.java:144, `shoot(peekAmmo());`): the peekAmmo() result when shooting, null otherwise.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_shooting_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretUpdateShootingProof",
+      "rule": "Source-backed ContinuousTurretBuild.updateShooting() state from ContinuousTurret.java."
     }
   },
   "version": 1

@@ -3983,6 +3983,24 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
     },
+    "N2367": {
+      "canonical_ledger": "source_slice_ledger.N2367",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateShooting()",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_shooting_state",
+      "source_symbols": [
+        "source_continuous_turret_build_update_shooting_state_result.shot",
+        "source_continuous_turret_build_update_shooting_state_result.ammo_type"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_update_shooting_registration",
+        "test_all_c07_continuous_turret_update_shooting_input_evidence_is_exact",
+        "test_continuous_turret_update_shooting_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_shooting"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateShootingProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

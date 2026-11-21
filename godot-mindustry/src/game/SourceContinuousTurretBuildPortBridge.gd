@@ -162,3 +162,60 @@ static func source_continuous_turret_build_update_bullet_state(entry: Dictionary
 		bullet_time = float(bullet.get("lifetime", 0.0)) * float(bullet.get("type_optimal_life_fract", 0.0)) * minf(shoot_warmup, efficiency)
 		bullet_keep_alive = true
 	return {"bullet_x": bullet_x, "bullet_y": bullet_y, "bullet_angle": angle, "bullet_aim_x": aim_end.x, "bullet_aim_y": aim_end.y, "bullet_damage": bullet_damage, "bullet_time": bullet_time, "bullet_keep_alive": bullet_keep_alive, "last_length": result_length, "shoot_length": shoot_length, "cur_length": cur_length, "result_length": result_length}
+
+# ContinuousTurretBuild.updateShooting() (ContinuousTurret.java:138-146):
+# `@Override`
+# `protected void updateShooting(){`
+# `if(bullets.any()){`
+# `return;`
+# `}`
+# `if(canConsume() && !charging() && shootWarmup >= minWarmup){`
+# `shoot(peekAmmo());`
+# `}`
+# `}`
+# on `public class ContinuousTurretBuild extends TurretBuild{`
+# (ContinuousTurret.java:38) inside
+# `public class ContinuousTurret extends Turret{`.
+# This is the shoot-decision half of the ContinuousTurret
+# tick: N2362 (updateTile) prunes the bullets seq and calls
+# updateBullet for each survivor; this slice decides whether
+# a new shot is fired this tick -- only when no bullet is
+# flying and the consume / charging / warmup guard holds.
+# Unlike LaserTurret.updateShooting (N2364) the guard here
+# is canConsume() (no reloadCounter / efficiency leg) and
+# shoot(peekAmmo()) is a single line -- a different method
+# on a different class, no dedup. `shoot(peekAmmo());` is a
+# 0-hit in both ledgers; `if(bullets.any()){` shares text
+# with N2362 (updateTile, same class) and N2364 (LaserTurret,
+# different class) -- registered under this java_method (the
+# N632-N639 vs N1078-N1085 precedent).
+# RED decisions: (1) canConsume() is the TurretBuild callee
+# (Turret.java:624-629, heatRequirement gate then
+# super.canConsume()) -- its value arrives as the explicit
+# can_consume param, not re-ported. (2) charging() is the
+# TurretBuild callee (Turret.java:714-716, `return
+# queuedBullets > 0 && shoot.firstShotDelay > 0;`) -- its
+# value arrives as the explicit charging param. (3)
+# peekAmmo() here is ContinuousTurretBuild.peekAmmo
+# (ContinuousTurret.java:70-72, `return shootType;`), whose
+# body is already owned by N1172
+# (PowerTurretBuild.peekAmmo) -- its value arrives as the
+# explicit ammo_type param, not re-ported. shoot() is the
+# TurretBuild callee (Turret.java:742) -- the shot decision
+# is the observable effect, returned as shot. (4) minWarmup
+# is the Turret field (Turret.java:76, default 0f) -- the
+# shoot threshold, explicit param. shootWarmup is the
+# TurretBuild field (Turret.java:286). (5) The bullets Seq
+# is NOT ported: its emptiness arrives as the explicit
+# has_bullets param (the N2330 param precedent). (6) NO
+# driver line: the pure function returns the decision frame
+# the driver writes; the driver tick that calls it per tick
+# is a later slice. (7) Two result symbols: shot, ammo_type.
+static func source_continuous_turret_build_update_shooting_state(has_bullets: bool, can_consume: bool, charging: bool, shoot_warmup: float, min_warmup: float, ammo_type: Variant) -> Dictionary:
+	var shot: bool = false
+	var shot_ammo_type: Variant = null
+	if not has_bullets:
+		if can_consume and not charging and shoot_warmup >= min_warmup:
+			shot = true
+			shot_ammo_type = ammo_type
+	return {"shot": shot, "ammo_type": shot_ammo_type}

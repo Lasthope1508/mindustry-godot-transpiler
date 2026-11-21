@@ -180264,6 +180264,38 @@
         "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
       ],
       "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_shooting_state_result.shot": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_shooting_state",
+      "godot_symbol": "source_continuous_turret_build_update_shooting_state_result.shot",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateShooting()",
+      "java_expr": "shoot(peekAmmo());",
+      "rule": "Whether to shoot (ContinuousTurret.java:144, `shoot(peekAmmo());`): true only when no bullet is flying and the guard holds -- the shoot call is the observable effect of the decision.",
+      "tests": [
+        "test_c07_continuous_turret_update_shooting_registration",
+        "test_all_c07_continuous_turret_update_shooting_input_evidence_is_exact",
+        "test_continuous_turret_update_shooting_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_shooting"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateShootingProof"
+    },
+    "source_continuous_turret_build_update_shooting_state_result.ammo_type": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_shooting_state",
+      "godot_symbol": "source_continuous_turret_build_update_shooting_state_result.ammo_type",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateShooting()",
+      "java_expr": "shoot(peekAmmo());",
+      "rule": "The type to shoot (ContinuousTurret.java:144, `shoot(peekAmmo());`): the peekAmmo() result when shooting, null otherwise.",
+      "tests": [
+        "test_c07_continuous_turret_update_shooting_registration",
+        "test_all_c07_continuous_turret_update_shooting_input_evidence_is_exact",
+        "test_continuous_turret_update_shooting_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_shooting"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateShootingProof"
     }
   },
   "version": 1

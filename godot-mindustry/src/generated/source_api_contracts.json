@@ -73245,6 +73245,57 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof",
       "rule": "Source-backed ContinuousTurretBuild.updateBullet() state from ContinuousTurret.java."
+    },
+    "PortGame.source_continuous_turret_build_update_shooting_state": {
+      "status": "active",
+      "source_slice": "N2367",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.updateShooting()",
+      "params": [
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.has_bullets"
+        },
+        {
+          "name": "can_consume",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.can_consume"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.charging"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.shoot_warmup"
+        },
+        {
+          "name": "min_warmup",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.min_warmup"
+        },
+        {
+          "name": "ammo_type",
+          "type": "Variant",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.ammo_type"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "shot",
+        "ammo_type"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_update_shooting_registration",
+        "test_all_c07_continuous_turret_update_shooting_input_evidence_is_exact",
+        "test_continuous_turret_update_shooting_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_shooting"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateShootingProof",
+      "rule": "Source-backed ContinuousTurretBuild.updateShooting() state from ContinuousTurret.java."
     }
   },
   "policy": {
