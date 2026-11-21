@@ -636,6 +636,121 @@
         }
       }
     },
+    "source_beam_drill_set_stats_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_set_stats_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public void setStats(){",
+          "rule": "The beam drill frame (BeamDrill.setStats, BeamDrill.java:119): carries no live keys for this block-level stat read -- drillTime, tier, size, drillMultipliers, blockedItems, optionalBoostIntensity and the booster consumer are per-def static state, not live frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        },
+        "drill_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float drillTime = 200f;",
+          "rule": "The base time to drill one ore, in frames (`public float drillTime = 200f;`, BeamDrill.java:39, the class default); plasma-bore 160f (Blocks.java:3042), large-plasma-bore 100f (Blocks.java:3055); passed explicitly because it is per-def static state (the N2212 / N2224 per-def-param precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public int size = 1;",
+          "rule": "The block size in tiles (`public int size = 1;`, Block.java:215); BeamDrill passes the PLAIN size to drillables and to the drillSpeed row (BeamDrill.java:122, :127) -- NOT size * size like Drill (Drill.java:178, :181); plasma-bore size 2 (Blocks.java:3044), large-plasma-bore size 3 (Blocks.java:3058); passed explicitly (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int tier = 1;",
+          "rule": "The maximum tier of blocks this drill can mine (`public int tier = 1;`, BeamDrill.java:41, the class default); the drillables filter legs gate on `f.itemDrop.hardness <= tier` (BeamDrill.java:123-124); plasma-bore tier 3 (Blocks.java:3043), large-plasma-bore tier 5 (Blocks.java:3057); passed explicitly.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        },
+        "drill_multipliers": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+          "rule": "The per-item drill-time multipliers (`public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();`, BeamDrill.java:47); both BeamDrill defs leave it empty; passed explicitly as a Dictionary because it is per-def static state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "The items this drill cannot mine (`public @Nullable Seq<Item> blockedItems;`, BeamDrill.java:51); the drillables filter legs gate on `blockedItems == null || !blockedItems.contains(f.itemDrop)` / `!blockedItems.contains(w.itemDrop)` (BeamDrill.java:123-124); both BeamDrill defs leave it null; passed explicitly as null or an Array.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        },
+        "optional_boost_intensity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float optionalBoostIntensity = 2.5f;",
+          "rule": "The per-def optional boost intensity (`public float optionalBoostIntensity = 2.5f;`, BeamDrill.java:44, the class default -- NOT 1f; neither def overrides it); the setStats guard reads `optionalBoostIntensity != 1` (BeamDrill.java:129); passed explicitly because it is per-def static state, not a live frame key (the N2212 / N2224 per-def-param precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        },
+        "booster_consumer_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(optionalBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){",
+          "rule": "Whether findConsumer found a booster consumer: the first consumer matching `f instanceof ConsumeLiquidBase && f.booster` (BeamDrill.java:129, via Block.java:1104 `public <T extends Consume> T findConsumer(Boolf<Consume> filter){`); passed explicitly because findConsumer is not ported in this slice (the N1688/N1753 precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        },
+        "booster_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "public float amount;",
+          "rule": "The found booster consumer amount per frame (ConsumeLiquidBase.java:8, `public float amount;`, the amount used per frame); the speedBoosters amount param (`consBase.amount, optionalBoostIntensity, false, consBase::consumes)`, BeamDrill.java:133): 0.25f/60f hydrogen for the plasma-bore def (Blocks.java:3049) and 3f/60f nitrogen for the large-plasma-bore def (Blocks.java:3065); passed explicitly with the found consumer.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        },
+        "booster_consumes": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "public abstract boolean consumes(Liquid liquid);",
+          "rule": "The found booster consumer liquid filter result (ConsumeLiquidBase.java:21, `public abstract boolean consumes(Liquid liquid);`, the `consBase::consumes` method reference, BeamDrill.java:133); the speedBoosters filter param; passed explicitly with the found consumer.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        },
+        "drillables_filter": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "(b instanceof Floor f && f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(f.itemDrop))) ||",
+          "rule": "The StatValues.drillables filter predicate (BeamDrill.java:123-124, the two lambda legs: a wall-ore Floor, or a StaticWall, whose drop is hard enough for the tier and not blocked); the caller passes a Callable over block Dictionaries {\"kind\", \"wall_ore\", \"item_drop\", \"hardness\"} (the N2379 world_tile Callable precedent) -- Floor / StaticWall are NOT ported here.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_stats_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_update_facing_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_update_facing_state_input",
       "keys": {

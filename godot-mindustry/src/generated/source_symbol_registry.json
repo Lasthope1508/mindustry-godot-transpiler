@@ -181752,6 +181752,70 @@
         "test_reference_graph_and_actual_c07_payload_turret_payload_intake"
       ],
       "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof"
+    },
+    "source_beam_drill_set_stats_state_result.drill_tier_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_set_stats_state",
+      "godot_symbol": "source_beam_drill_set_stats_state_result.drill_tier_row",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.setStats",
+      "java_expr": "stats.add(Stat.drillTier, StatValues.drillables(drillTime, 0f, size, drillMultipliers, b ->",
+      "rule": "The Stat.drillTier row added by BeamDrill.setStats, pinning the StatValues.drillables call args (BeamDrill.java:122-125): {drill_time, drill_multiplier 0f, size PLAIN (NOT size * size, the Drill.java:178 trap), drill_multipliers, tier, blocked_items, filter}; the per-block filter evaluation and the displayed per-ore table render at display time (StatValues.java:413-437).",
+      "tests": [
+        "test_c07_beam_drill_set_stats_registration",
+        "test_all_c07_beam_drill_set_stats_input_evidence_is_exact",
+        "test_beam_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_beam_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07BeamDrillSetStatsProof"
+    },
+    "source_beam_drill_set_stats_state_result.drill_speed_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_set_stats_state",
+      "godot_symbol": "source_beam_drill_set_stats_state_result.drill_speed_row",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.setStats",
+      "java_expr": "stats.add(Stat.drillSpeed, 60f / drillTime * size, StatUnit.itemsSecond);",
+      "rule": "The Stat.drillSpeed row added by BeamDrill.setStats: {value 60f / drillTime * size, unit \"items/second\"} (BeamDrill.java:127, `stats.add(Stat.drillSpeed, 60f / drillTime * size, StatUnit.itemsSecond);`; StatUnit.itemsSecond localized \"items/second\", bundle.properties:1354); the size is PLAIN, NOT squared (the Drill.java:181 trap); plasma-bore 0.75, large-plasma-bore 1.8.",
+      "tests": [
+        "test_c07_beam_drill_set_stats_registration",
+        "test_all_c07_beam_drill_set_stats_input_evidence_is_exact",
+        "test_beam_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_beam_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07BeamDrillSetStatsProof"
+    },
+    "source_beam_drill_set_stats_state_result.booster_row_replaced": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_set_stats_state",
+      "godot_symbol": "source_beam_drill_set_stats_state_result.booster_row_replaced",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.setStats",
+      "java_expr": "stats.replace(Stat.booster,",
+      "rule": "Whether stats.replace(Stat.booster) ran: true exactly when the if-branch runs (BeamDrill.java:130, `stats.replace(Stat.booster,`, inside the `optionalBoostIntensity != 1` + booster-found guard at :129) -- the replace swaps the super row (Drill.setStats, N2332, squared intensity) for the BeamDrill row with the plain intensity.",
+      "tests": [
+        "test_c07_beam_drill_set_stats_registration",
+        "test_all_c07_beam_drill_set_stats_input_evidence_is_exact",
+        "test_beam_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_beam_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07BeamDrillSetStatsProof"
+    },
+    "source_beam_drill_set_stats_state_result.booster_row": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_set_stats_state",
+      "godot_symbol": "source_beam_drill_set_stats_state_result.booster_row",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.setStats",
+      "java_expr": "consBase.amount, optionalBoostIntensity, false, consBase::consumes)",
+      "rule": "The Stat.booster row added by BeamDrill.setStats, or null when the branch does not run: {format \"{0} x speed\", amount consBase.amount, intensity optionalBoostIntensity PLAIN (BeamDrill.java:133 -- the trap vs the N2332 Drill super row, which uses the SQUARED liquidBoostIntensity, Drill.java:188), strength false, consumes consBase::consumes} (BeamDrill.java:130-134, `stats.replace(Stat.booster,` + `StatValues.speedBoosters(\"{0}\" + StatUnit.timesSpeed.localized(),` + `consBase.amount, optionalBoostIntensity, false, consBase::consumes)`; the format is \"{0} x speed\" because StatUnit.timesSpeed.localized() reads bundle key \"unit.timesspeed\", English value \"x speed\").",
+      "tests": [
+        "test_c07_beam_drill_set_stats_registration",
+        "test_all_c07_beam_drill_set_stats_input_evidence_is_exact",
+        "test_beam_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_beam_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07BeamDrillSetStatsProof"
     }
   },
   "version": 1

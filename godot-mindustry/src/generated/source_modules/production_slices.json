@@ -1436,6 +1436,26 @@
       ],
       "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
     },
+    "N2388": {
+      "canonical_ledger": "source_slice_ledger.N2388",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.setStats",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_set_stats_state",
+      "source_symbols": [
+        "source_beam_drill_set_stats_state_result.drill_tier_row",
+        "source_beam_drill_set_stats_state_result.drill_speed_row",
+        "source_beam_drill_set_stats_state_result.booster_row_replaced",
+        "source_beam_drill_set_stats_state_result.booster_row"
+      ],
+      "tests": [
+        "test_c07_beam_drill_set_stats_registration",
+        "test_all_c07_beam_drill_set_stats_input_evidence_is_exact",
+        "test_beam_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_beam_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07BeamDrillSetStatsProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

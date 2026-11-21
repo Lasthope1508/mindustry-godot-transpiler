@@ -904,3 +904,137 @@ static func source_beam_drill_draw_place_state(x: int, y: int, rotation: int, va
 		branch = "tier_req"
 		commands.append({"action": "draw_place_text", "text_key": "bar.drilltierreq", "x": x, "y": y, "valid": false, "color": "Pal.remove"})
 	return {"item": item, "invalid_item": invalid_item, "multiple": multiple, "count": count, "dash_lines": dash_lines, "drill_speed": drill_speed, "drill_speed_text": drill_speed_text, "icon_rect": icon_rect, "icon_shadow_rect": icon_shadow_rect, "commands": commands, "branch": branch}
+
+@warning_ignore("unused_parameter")
+static func source_beam_drill_set_stats_state(frame: Dictionary, drill_time: float, size: int, tier: int, drill_multipliers: Dictionary, blocked_items: Variant, optional_boost_intensity: float, booster_consumer_found: bool, booster_amount: float, booster_consumes: bool, drillables_filter: Callable) -> Dictionary:
+	# BeamDrill.setStats() (BeamDrill.java:119-137):
+	# public void setStats(){
+	# super.setStats();
+	#
+	# stats.add(Stat.drillTier, StatValues.drillables(drillTime, 0f, size, drillMultipliers, b ->
+	# (b instanceof Floor f && f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(f.itemDrop))) ||
+	# (b instanceof StaticWall w && w.itemDrop != null && w.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(w.itemDrop)))
+	# ));
+	#
+	# stats.add(Stat.drillSpeed, 60f / drillTime * size, StatUnit.itemsSecond);
+	#
+	# if(optionalBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){
+	# stats.replace(Stat.booster,
+	# StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
+	# consBase.amount, optionalBoostIntensity, false, consBase::consumes)
+	# );
+	# }
+	# }
+	# on `public class BeamDrillBuild extends Building{`
+	# (BeamDrill.java:220) inside `public class BeamDrill
+	# extends Block{` (BeamDrill.java:25). Stat display,
+	# not per-tick state: it adds the drillTier row, the
+	# drillSpeed row, and (when the guard holds) replaces
+	# the booster row the super added. `super.setStats();`
+	# (BeamDrill.java:120) is Drill.setStats, owned by
+	# N2332 at SourceBurstDrillBuildState
+	# (`SourceBurstDrillBuildState.source_drill_set_stats_state`),
+	# NOT this slice: the super already added its own
+	# drillTier / drillSpeed rows and its own booster row
+	# with the SQUARED liquidBoostIntensity
+	# (`liquidBoostIntensity * liquidBoostIntensity, false,
+	# consBase::consumes)`, Drill.java:188). TWO traps vs
+	# Drill.setStats: (1) BeamDrill passes the PLAIN `size`
+	# to drillables (BeamDrill.java:122) and multiplies the
+	# drillSpeed row by the PLAIN `size`
+	# (BeamDrill.java:127) -- Drill passes `size * size`
+	# in both places (Drill.java:178, :181); (2) the
+	# BeamDrill booster row uses the PLAIN
+	# optionalBoostIntensity (BeamDrill.java:133) and
+	# REPLACES the super row (`stats.replace(Stat.booster,`,
+	# BeamDrill.java:130) instead of remove-then-add --
+	# the BurstDrill override (N2309) removes then re-adds
+	# with the plain intensity, the Drill super row uses
+	# the SQUARED intensity. The drillables call passes
+	# `0f` as the drillMultiplier
+	# (StatValues.java:413, `public static StatValue
+	# drillables(float drillTime, float drillMultiplier,
+	# float size, ObjectFloatMap<Item> multipliers,
+	# Boolf<Block> filter){`): with a 0f multiplier the
+	# per-ore rate `60f / (Math.max(drillTime +
+	# drillMultiplier * block.itemDrop.hardness,
+	# drillTime) / multipliers.get(block.itemDrop, 1f)) *
+	# size` (StatValues.java:428) reduces to `60f /
+	# (drillTime / multipliers.get(item, 1f)) * size`.
+	# The filter's per-block evaluation (the two lambda
+	# legs: a wall-ore Floor, or a StaticWall, whose drop
+	# is hard enough for the tier and not blocked) and
+	# the displayed per-ore table (`content.blocks()`
+	# iteration, StatValues.java:413-437) are display-time,
+	# NOT this slice: this function pins the args setStats
+	# captures (the N2332 precedent) and carries the
+	# filter as the explicit drillables_filter Callable
+	# (the N2379 world_tile precedent) -- the caller
+	# passes a predicate over block Dictionaries
+	# {"kind", "wall_ore", "item_drop", "hardness"}.
+	# findConsumer (`public <T extends Consume> T
+	# findConsumer(Boolf<Consume> filter){`,
+	# Block.java:1104) is NOT ported here: the caller
+	# passes the already-found result
+	# (booster_consumer_found / booster_amount /
+	# booster_consumes) -- the N1688/N1753 findConsumer
+	# precedent; the search order is deferred.
+	# `consBase.amount` is the per-frame liquid amount
+	# (`public float amount;`,
+	# ConsumeLiquidBase.java:8);
+	# `consBase::consumes` is the liquid filter (`public
+	# abstract boolean consumes(Liquid liquid);`,
+	# ConsumeLiquidBase.java:21). The `false` strength
+	# arg (BeamDrill.java:133) means the displayed speed
+	# is the plain intensity, not heatCapacity-scaled
+	# (StatValues.java:522). The speedBoosters unit is
+	# `"{0}" + StatUnit.timesSpeed.localized()`
+	# (BeamDrill.java:131): `timesSpeed = new
+	# StatUnit("timesSpeed", false),`
+	# (StatUnit.java:34) and localized() reads bundle key
+	# "unit.timesspeed" (StatUnit.java:61-62), English
+	# value "x speed" (bundle.properties:1364), so the
+	# format is "{0} x speed". The drillSpeed unit is
+	# StatUnit.itemsSecond (`itemsSecond = new
+	# StatUnit("itemsSecond"),`, StatUnit.java:20),
+	# localized "items/second"
+	# (bundle.properties:1354, `unit.itemssecond =
+	# items/second`). The stats are `drillTier = new
+	# Stat("drillTier", StatCat.crafting),` and
+	# `drillSpeed = new Stat("drillSpeed",
+	# StatCat.crafting),` (Stat.java:71-72) and `booster =
+	# new Stat("booster", StatCat.optional),`
+	# (Stat.java:104). The booster filter flag is `public
+	# boolean booster;` (Consume.java:14). Fields:
+	# `public float drillTime = 200f;`
+	# (BeamDrill.java:39), `public int tier = 1;` (:41),
+	# `public float optionalBoostIntensity = 2.5f;`
+	# (:44, the class default -- NOT 1f), `public
+	# ObjectFloatMap<Item> drillMultipliers = new
+	# ObjectFloatMap<>();` (:47), `public @Nullable
+	# Seq<Item> blockedItems;` (:51), `public int size =
+	# 1;` (Block.java:215). Per-def: plasma-bore
+	# drillTime 160f, tier 3, size 2, range 5, booster
+	# `consumeLiquid(Liquids.hydrogen, 0.25f /
+	# 60f).boost();` (Blocks.java:3038-3050);
+	# large-plasma-bore drillTime 100f, tier 5, size 3,
+	# range 6, booster `consumeLiquid(Liquids.nitrogen,
+	# 3f / 60f).boost();` (Blocks.java:3052-3065 -- the
+	# hydrogen 0.5f/60f line has NO .boost(), only
+	# nitrogen is the booster). frame carries no live
+	# keys for this block-level stat read -- drillTime,
+	# tier, size, drillMultipliers, blockedItems,
+	# optionalBoostIntensity and the booster consumer
+	# are per-def static state, not live frame keys (the
+	# N2212 / N2224 per-def-param precedent); frame is
+	# the canonical first param of this family file.
+	# There is NO driver tick line: setStats is a
+	# stat-display read, not a per-tick write (the N2224
+	# / N2246 setStats lifecycle precedent).
+	var drill_tier_row: Dictionary = {"drill_time": drill_time, "drill_multiplier": 0.0, "size": size, "drill_multipliers": drill_multipliers, "tier": tier, "blocked_items": blocked_items, "filter": drillables_filter}
+	var drill_speed_row: Dictionary = {"value": 60.0 / drill_time * float(size), "unit": "items/second"}
+	var booster_row_replaced: bool = optional_boost_intensity != 1.0 and booster_consumer_found
+	var booster_row: Variant = null
+	if booster_row_replaced:
+		booster_row = {"format": "{0} x speed", "amount": booster_amount, "intensity": optional_boost_intensity, "strength": false, "consumes": booster_consumes}
+	return {"drill_tier_row": drill_tier_row, "drill_speed_row": drill_speed_row, "booster_row_replaced": booster_row_replaced, "booster_row": booster_row}
