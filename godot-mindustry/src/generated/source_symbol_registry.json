@@ -180056,6 +180056,22 @@
         "test_reference_graph_and_actual_c07_laser_turret_update_shooting"
       ],
       "runtime_proof": "/root/C07LaserTurretUpdateShootingProof"
+    },
+    "source_teams_each_enemy_core_state_result.cores": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_each_enemy_core_state",
+      "godot_symbol": "source_teams_each_enemy_core_state_result.cores",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "eachEnemyCore",
+      "java_expr": "ret.get(tile);",
+      "rule": "The enemy cores as [team_id, x, y] entries (Teams.java:90, `ret.get(tile);`): Java hands each enemy core to the Cons<Building> callback; GDScript has no Java Cons, so the port collects them into the returned Array (main-thread decision 2026-11-21) in active-team order then enemy_cores order; empty when no enemy team has cores.",
+      "tests": [
+        "test_c07_teams_each_enemy_core_registration",
+        "test_all_c07_teams_each_enemy_core_input_evidence_is_exact",
+        "test_teams_each_enemy_core_state",
+        "test_reference_graph_and_actual_c07_teams_each_enemy_core"
+      ],
+      "runtime_proof": "/root/C07TeamsEachEnemyCoreProof"
     }
   },
   "version": 1

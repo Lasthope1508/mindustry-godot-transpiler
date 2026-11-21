@@ -414,3 +414,50 @@ static func source_teams_any_enemy_cores_within_state(teams_state: Dictionary, t
 			if dx * dx + dy * dy < radius2:
 				return {"within": true}
 	return {"within": false}
+
+
+static func source_teams_each_enemy_core_state(teams_state: Dictionary, team_id: int, enemy_cores: Array) -> Dictionary:
+	# Teams.eachEnemyCore (Teams.java:86-94):
+	# `public void eachEnemyCore(Team team, Cons<Building> ret){`
+	# `for(TeamData data : active){`
+	# `if(team != data.team){`
+	# `for(Building tile : data.cores){`
+	# `ret.get(tile);`
+	# `}`
+	# `}`
+	# `}`
+	# `}`
+	# on `public class Teams{` (Teams.java:24). Java hands each
+	# enemy core to the Cons<Building> callback; GDScript has no
+	# Java Cons, so the port returns the enemy cores as data
+	# (main-thread decision 2026-11-21, recorded in
+	# allocations.json N2365): each core is [team_id, x, y] and the
+	# caller iterates them instead of a callback. The payload is
+	# the "cores" Array; the Dictionary envelope is the
+	# family-convention return shape -- the SSOT validator
+	# (source_symbols.py upsert_source_api_contract) accepts only
+	# return_type Dictionary or void, so a bare Array return
+	# cannot be registered, and every other state function in
+	# this file returns a Dictionary. The cores stored in
+	# teams_state are opaque refs with no position, so the enemy
+	# cores arrive as explicit records
+	# {"team_id": int, "x": float, "y": float} (the N2330/N2354
+	# param precedent); only records whose team_id is the active
+	# team being scanned are collected, in active-team order then
+	# enemy_cores order. Unlike N2361 (anyEnemyCoresWithin), there
+	# is no protectCores condition and no radius -- every enemy
+	# team's cores are collected. The call does not mutate
+	# teams_state or the enemy-core records.
+	var active: Array = teams_state.get("active", [])
+	var found: Array = []
+	for data_team_id in active:
+		var enemy_team_id := int(data_team_id)
+		if enemy_team_id == team_id:
+			continue
+		for entry in enemy_cores:
+			if not entry is Dictionary:
+				continue
+			if int(entry.get("team_id", -1)) != enemy_team_id:
+				continue
+			found.append([enemy_team_id, float(entry.get("x", 0.0)), float(entry.get("y", 0.0))])
+	return {"cores": found}

@@ -244332,6 +244332,64 @@
       },
       "runtime_proof": "/root/C07LaserTurretUpdateShootingProof",
       "rule": "Source-backed LaserTurretBuild.updateShooting() state from LaserTurret.java."
+    },
+    "source_teams_each_enemy_core_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_each_enemy_core_state",
+      "source_slice": "N2365",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "for(TeamData data : active){",
+          "rule": "The teams state (Teams.eachEnemyCore, Teams.java:87): the family-convention first arg; it carries the active list (kept there by registerCore/unregisterCore, N2074/N2075 -- NOT ported here, only read).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_each_enemy_core_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(team != data.team){",
+          "rule": "The calling team id (Teams.java:88, `if(team != data.team){`): the team asking -- its own cores are never candidates, only other active teams' are.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_each_enemy_core_state"
+          ]
+        },
+        "enemy_cores": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "for(Building tile : data.cores){",
+          "rule": "The enemy cores as explicit records {\"team_id\": int, \"x\": float, \"y\": float} (Teams.java:89, `for(Building tile : data.cores){`): the cores stored in teams_state are opaque refs with no position, so the caller flattens active -> cores and attaches positions (the N2330/N2354 param precedent); only records whose team_id is the active team being scanned are collected.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_each_enemy_core_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsEachEnemyCoreProof",
+      "rule": "Source-backed Teams.eachEnemyCore() state from Teams.java."
+    },
+    "source_teams_each_enemy_core_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_each_enemy_core_state",
+      "source_slice": "N2365",
+      "keys": {
+        "cores": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "ret.get(tile);",
+          "rule": "The enemy cores as [team_id, x, y] entries (Teams.java:90, `ret.get(tile);`): Java hands each enemy core to the Cons<Building> callback; GDScript has no Java Cons, so the port collects them into the returned Array (main-thread decision 2026-11-21) in active-team order then enemy_cores order; empty when no enemy team has cores.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_each_enemy_core_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsEachEnemyCoreProof",
+      "rule": "Source-backed Teams.eachEnemyCore() state from Teams.java."
     }
   },
   "version": 1
