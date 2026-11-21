@@ -968,3 +968,310 @@ static func source_teams_update_team_stats_state(teams_state: Dictionary, units:
 		if bool(data.get("present_flag", false)) or _teams_active(data, member_team_id, rules):
 			present.append(member_team_id)
 	return {"teams_state": teams_state, "present": present, "bosses": bosses, "unit_counts_by_team": unit_counts_by_team}
+
+
+static func source_team_data_schedule_derelict_state(build_pos: int, has_unit_payload: bool, derelict_buffer: Array, destroy_payload: Callable, chance_roll: float, random_delay: float, time_run: Callable, kill_build: Callable, add_plan: Callable) -> Dictionary:
+	# TeamData.scheduleDerelict (Teams.java:396-409) on
+	# `public static class TeamData{` (Teams.java:270):
+	# `private void scheduleDerelict(Building build){`
+	# `derelictBuffer.add(build.pos());`
+	# `if(build.getPayload() instanceof UnitPayload){`
+	# `Call.destroyPayload(build);`
+	# `}`
+	# `if(Mathf.chance(0.2)){`
+	# `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`
+	# `}`
+	# `build.addPlan(false, true);`
+	# `}`
+	# derelictBuffer is the static IntSeq (Teams.java:271)
+	# as an in/out Array param -- the buffer is shared
+	# across calls, so the caller passes the live Array
+	# and this function appends the pos in place (the
+	# frame returns the same Array). `build.pos()` arrives
+	# as the build_pos param (Building is not ported);
+	# `build.getPayload() instanceof UnitPayload` arrives
+	# as the has_unit_payload bool. `Call.destroyPayload`
+	# is a network call, not ported: it arrives as the
+	# destroy_payload Callable (build_pos) and the call is
+	# recorded in the frame -- no packet is ever sent.
+	# `Mathf.chance(0.2)` arrives as the chance_roll float
+	# (the sampled roll, 0.0-1.0): the delayed kill is
+	# scheduled only when the roll is below 0.2, exactly
+	# as Java's chance check. `Time.run` is not ported:
+	# it arrives as the time_run Callable (delay, action)
+	# recording the delay + the kill action; the
+	# `Mathf.random(0f, 60f * 6f)` sample arrives as the
+	# random_delay float, and `build::kill` arrives as
+	# the kill_build Callable (build_pos) wrapped in the
+	# recorded action -- the kill only runs when the
+	# recorded action is executed, never here.
+	# `build.addPlan(false, true)` arrives as the add_plan
+	# Callable (build_pos, false, true) and is recorded.
+	derelict_buffer.append(build_pos)
+	var destroy_payload_calls: Array = []
+	if has_unit_payload:
+		destroy_payload.call(build_pos)
+		destroy_payload_calls.append(build_pos)
+	var scheduled_kill: Variant = null
+	if chance_roll < 0.2:
+		time_run.call(random_delay, func() -> void: kill_build.call(build_pos))
+		scheduled_kill = {"delay": random_delay, "build_pos": build_pos}
+	add_plan.call(build_pos, false, true)
+	return {"derelict_buffer": derelict_buffer, "destroy_payload_calls": destroy_payload_calls, "scheduled_kill": scheduled_kill, "add_plan_calls": [build_pos]}
+
+
+static func source_team_data_finish_schedule_derelict_state(derelict_buffer: Array, set_teams: Callable) -> Dictionary:
+	# TeamData.finishScheduleDerelict (Teams.java:411-414):
+	# `private void finishScheduleDerelict(){`
+	# `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`
+	# `derelictBuffer.clear();`
+	# `}`
+	# derelictBuffer is the same in/out Array param as in
+	# scheduleDerelict above (the static IntSeq,
+	# Teams.java:271). `chunked(1000, ...)` splits the
+	# buffer into chunks of at most 1000 positions;
+	# `Call.setTeams` is a network call, not ported: it
+	# arrives as the set_teams Callable (values, "derelict")
+	# and every chunk call is recorded in the frame -- no
+	# packet is ever sent. The buffer is cleared after the
+	# flush (the `derelictBuffer.clear();` line), so the
+	# returned derelict_buffer is always the emptied Array.
+	var set_teams_calls: Array = []
+	var index := 0
+	while index < derelict_buffer.size():
+		var chunk: Array = derelict_buffer.slice(index, mini(index + 1000, derelict_buffer.size()))
+		set_teams.call(chunk, "derelict")
+		set_teams_calls.append({"values": chunk, "team": "derelict"})
+		index += 1000
+	derelict_buffer.clear()
+	return {"derelict_buffer": derelict_buffer, "set_teams_calls": set_teams_calls}
+
+
+static func source_team_data_destroy_to_derelict_state(building_tree_objects: Variant, plans: Array, units: Array, team_id: int, derelict_buffer: Array, unit_delays: Array, chance_rolls: Array, kill_delays: Array, destroy_payload: Callable, time_run: Callable, kill_build: Callable, kill_unit: Callable, add_plan: Callable, set_teams: Callable) -> Dictionary:
+	# TeamData.destroyToDerelict (Teams.java:328-360):
+	# `public void destroyToDerelict(){`
+	# `var builds = new Seq<Building>();`
+	# `if(buildingTree != null){`
+	# `buildingTree.getObjects(builds);`
+	# `}`
+	# `plans.clear();`
+	# `for(var b : builds){`
+	# `if(b.block.privileged) continue;`
+	# `if(b instanceof CoreBuild){`
+	# `b.kill();`
+	# `}else{`
+	# `scheduleDerelict(b);`
+	# `}`
+	# `}`
+	# `finishScheduleDerelict();`
+	# `units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {`
+	# `if(u.team == team){`
+	# `u.kill();`
+	# `}`
+	# `}));`
+	# `}`
+	# buildingTree is the @Nullable QuadTree<Building>
+	# (Teams.java:294), not ported: its objects arrive as
+	# the building_tree_objects param (null when the tree
+	# is null, else the Array of build records). Each build
+	# record is a Dictionary {"pos": int, "privileged":
+	# bool, "is_core": bool, "has_unit_payload": bool} --
+	# `b.block.privileged` and `b instanceof CoreBuild`
+	# arrive as the precomputed "privileged" / "is_core"
+	# flags (Block is not ported). `plans.clear();` is
+	# already the exact_expr of N1143 -- the clear IS
+	# implemented here (the passed plans Array is cleared
+	# in place, the same in/out pattern as present/bosses
+	# in updateTeamStats) but the expr is cited as
+	# evidence only, not re-registered. `b.kill();` /
+	# `u.kill();` are generic -- not registered; the kills
+	# arrive as the kill_build (build_pos) / kill_unit
+	# (unit record) Callable params. Cores are killed at
+	# once via kill_build; every other non-privileged
+	# build goes through the scheduleDerelict callee above
+	# (an internal self-reference, not an outside expr),
+	# with the per-scheduled-build `Mathf.chance(0.2)` /
+	# `Mathf.random(0f, 60f * 6f)` samples arriving as the
+	# chance_rolls / kill_delays Arrays in schedule order
+	# (a missing entry defaults to 0.0, i.e. the kill is
+	# scheduled). `finishScheduleDerelict();` is the
+	# finish callee above. `units.each(...)` iterates the
+	# units Array (records {"team_id": int, ...}); the
+	# `Mathf.random(0f, 60f * 5f)` sample per unit arrives
+	# as the unit_delays Array in unit order (a missing
+	# entry defaults to 0.0). `Time.run` arrives as the
+	# time_run Callable (delay, action); the delayed action
+	# keeps the `if(u.team == team){` check -- the team
+	# comparison runs when the recorded action is
+	# executed, against the team_id param, and only then
+	# calls kill_unit -- so a unit that switched teams by
+	# the time the action runs is spared, exactly as the
+	# Java comment says.
+	var builds: Array = []
+	if building_tree_objects != null:
+		builds = building_tree_objects as Array
+	plans.clear()
+	var killed_cores: Array = []
+	var destroy_payload_calls: Array = []
+	var scheduled_kills: Array = []
+	var add_plan_calls: Array = []
+	var schedule_index := 0
+	for b in builds:
+		if not b is Dictionary:
+			continue
+		if bool(b.get("privileged", false)):
+			continue
+		var build_pos := int(b.get("pos", 0))
+		if bool(b.get("is_core", false)):
+			kill_build.call(build_pos)
+			killed_cores.append(build_pos)
+		else:
+			var chance_roll := 0.0
+			if schedule_index < chance_rolls.size():
+				chance_roll = float(chance_rolls[schedule_index])
+			var kill_delay := 0.0
+			if schedule_index < kill_delays.size():
+				kill_delay = float(kill_delays[schedule_index])
+			schedule_index += 1
+			var scheduled: Dictionary = source_team_data_schedule_derelict_state(build_pos, bool(b.get("has_unit_payload", false)), derelict_buffer, destroy_payload, chance_roll, kill_delay, time_run, kill_build, add_plan)
+			destroy_payload_calls.append_array(scheduled.get("destroy_payload_calls", []))
+			var scheduled_kill: Variant = scheduled.get("scheduled_kill", null)
+			if scheduled_kill != null:
+				scheduled_kills.append(scheduled_kill)
+			add_plan_calls.append_array(scheduled.get("add_plan_calls", []))
+	var finished: Dictionary = source_team_data_finish_schedule_derelict_state(derelict_buffer, set_teams)
+	var scheduled_unit_kills: Array = []
+	for i in units.size():
+		var unit: Variant = units[i]
+		if not unit is Dictionary:
+			continue
+		var unit_dict: Dictionary = unit
+		var delay := 0.0
+		if i < unit_delays.size():
+			delay = float(unit_delays[i])
+		time_run.call(delay, func() -> void:
+			if int(unit_dict.get("team_id", -1)) == team_id:
+				kill_unit.call(unit_dict)
+		)
+		scheduled_unit_kills.append({"delay": delay, "unit": unit_dict})
+	return {"builds": builds, "plans": plans, "derelict_buffer": derelict_buffer, "killed_cores": killed_cores, "destroy_payload_calls": destroy_payload_calls, "scheduled_kills": scheduled_kills, "add_plan_calls": add_plan_calls, "set_teams_calls": finished.get("set_teams_calls", []), "scheduled_unit_kills": scheduled_unit_kills}
+
+
+static func source_team_data_time_destroy_state(x: float, y: float, range: float, building_tree_objects: Variant, derelict_buffer: Array, chance_rolls: Array, kill_delays: Array, sector: Variant, circle_tiles: Array, tilesize: float, destroy_payload: Callable, time_run: Callable, kill_build: Callable, add_plan: Callable, set_teams: Callable, set_floor: Callable) -> Dictionary:
+	# TeamData.timeDestroy (Teams.java:362-394):
+	# `public void timeDestroy(float x, float y, float range){`
+	# `var builds = new Seq<Building>();`
+	# `if(buildingTree != null){`
+	# `buildingTree.intersect(x - range, y - range, range * 2f, range * 2f, builds);`
+	# `}`
+	# `for(var build : builds){`
+	# `if(!build.block.privileged && build.within(x, y, range) && !cores.contains(c -> c.within(build, range))){`
+	# `scheduleDerelict(build);`
+	# `}`
+	# `}`
+	# `finishScheduleDerelict();`
+	# `var sector = state.getSector();`
+	# `if(sector != null){`
+	# `boolean any = false;`
+	# `for(var entry : sector.planet.sectorCaptureReplacements){`
+	# `if(indexer.isBlockPresent(entry.key)){`
+	# `any = true;`
+	# `}`
+	# `}`
+	# `if(any){`
+	# `Geometry.circle(World.toTile(x), World.toTile(y), world.width(), world.height(), Mathf.round(range / tilesize), (tx, ty) -> {`
+	# `Tile t = world.rawTile(tx, ty);`
+	# `Block result = sector.planet.sectorCaptureReplacements.get(t.floor());`
+	# `if(result != null && !cores.contains(c -> c.within(t, range))){`
+	# `t.setFloor(result.asFloor());`
+	# `}`
+	# `});`
+	# `}`
+	# `}`
+	# `}`
+	# buildingTree is the same @Nullable QuadTree as in
+	# destroyToDerelict above: the intersected objects
+	# arrive as the building_tree_objects param (null when
+	# the tree is null -- the `x - range, y - range,
+	# range * 2f, range * 2f` rect is the QuadTree's job,
+	# precomputed by the caller). Each build record is a
+	# Dictionary {"pos": int, "privileged": bool,
+	# "within_range": bool, "near_core": bool,
+	# "has_unit_payload": bool} -- `build.within(x, y,
+	# range)` and `cores.contains(c -> c.within(build,
+	# range))` arrive as the precomputed "within_range" /
+	# "near_core" flags (positions are live world data, not
+	# ported). Qualifying builds go through the
+	# scheduleDerelict callee (chance_rolls / kill_delays
+	# in schedule order, missing entries default to 0.0),
+	# then the finish callee flushes the buffer.
+	# `state.getSector()` arrives as the sector param (null
+	# when there is no sector, else a Dictionary
+	# {"replacements": Dictionary floor_key -> result,
+	# "present_keys": Array}); `sector.planet.
+	# sectorCaptureReplacements` is the "replacements"
+	# Dictionary, and `indexer.isBlockPresent(entry.key)`
+	# arrives as the precomputed "present_keys" Array --
+	# `any` is true when any replacement key is present.
+	# `Geometry.circle(...)` is an engine API, not ported:
+	# the iterated tiles arrive as the circle_tiles param
+	# (records {"tx": int, "ty": int, "floor": Variant,
+	# "near_core": bool} -- `world.rawTile(tx, ty)` is the
+	# tile record itself, `cores.contains(c -> c.within(t,
+	# range))` is its precomputed "near_core" flag), and
+	# the `Mathf.round(range / tilesize)` radius arrives
+	# via the tilesize param (computed here, only when a
+	# replacement is present). `t.setFloor(result.asFloor())`
+	# arrives as the set_floor Callable (tile, result);
+	# every floor change is recorded in the frame.
+	var builds: Array = []
+	if building_tree_objects != null:
+		builds = building_tree_objects as Array
+	var destroy_payload_calls: Array = []
+	var scheduled_kills: Array = []
+	var add_plan_calls: Array = []
+	var schedule_index := 0
+	for build in builds:
+		if not build is Dictionary:
+			continue
+		if bool(build.get("privileged", false)):
+			continue
+		if not bool(build.get("within_range", false)):
+			continue
+		if bool(build.get("near_core", false)):
+			continue
+		var chance_roll := 0.0
+		if schedule_index < chance_rolls.size():
+			chance_roll = float(chance_rolls[schedule_index])
+		var kill_delay := 0.0
+		if schedule_index < kill_delays.size():
+			kill_delay = float(kill_delays[schedule_index])
+		schedule_index += 1
+		var scheduled: Dictionary = source_team_data_schedule_derelict_state(int(build.get("pos", 0)), bool(build.get("has_unit_payload", false)), derelict_buffer, destroy_payload, chance_roll, kill_delay, time_run, kill_build, add_plan)
+		destroy_payload_calls.append_array(scheduled.get("destroy_payload_calls", []))
+		var scheduled_kill: Variant = scheduled.get("scheduled_kill", null)
+		if scheduled_kill != null:
+			scheduled_kills.append(scheduled_kill)
+		add_plan_calls.append_array(scheduled.get("add_plan_calls", []))
+	var finished: Dictionary = source_team_data_finish_schedule_derelict_state(derelict_buffer, set_teams)
+	var has_sector := sector != null
+	var any_replacement := false
+	var circle_radius_tiles := 0
+	var floor_changes: Array = []
+	if has_sector:
+		var replacements: Dictionary = (sector as Dictionary).get("replacements", {})
+		var present_keys: Array = (sector as Dictionary).get("present_keys", [])
+		for key in replacements.keys():
+			if present_keys.has(key):
+				any_replacement = true
+				break
+		if any_replacement:
+			circle_radius_tiles = int(round(range / tilesize))
+			for tile in circle_tiles:
+				if not tile is Dictionary:
+					continue
+				var result: Variant = replacements.get(tile.get("floor", null), null)
+				if result != null and not bool(tile.get("near_core", false)):
+					set_floor.call(tile, result)
+					floor_changes.append({"tx": int(tile.get("tx", 0)), "ty": int(tile.get("ty", 0)), "floor": result})
+	return {"builds": builds, "derelict_buffer": derelict_buffer, "destroy_payload_calls": destroy_payload_calls, "scheduled_kills": scheduled_kills, "add_plan_calls": add_plan_calls, "set_teams_calls": finished.get("set_teams_calls", []), "has_sector": has_sector, "any_replacement_present": any_replacement, "circle_radius_tiles": circle_radius_tiles, "floor_changes": floor_changes}

@@ -182216,6 +182216,406 @@
         "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
       ],
       "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof"
+    },
+    "source_team_data_destroy_to_derelict_state_result.builds": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "godot_symbol": "source_team_data_destroy_to_derelict_state_result.builds",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.destroyToDerelict()",
+      "java_expr": "var builds = new Seq<Building>();",
+      "rule": "The builds (Teams.java:330, `var builds = new Seq<Building>();`): all objects from the building tree (empty when the tree is null) -- the full list the loop iterated, including privileged and core builds.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_destroy_to_derelict_state_result.plans": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "godot_symbol": "source_team_data_destroy_to_derelict_state_result.plans",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.destroyToDerelict()",
+      "java_expr": "plans.clear();",
+      "rule": "The plans after (Teams.java:336, `plans.clear();`): the same in/out Array, cleared -- `plans.clear();` is N1143 evidence, the clear is implemented here.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_destroy_to_derelict_state_result.derelict_buffer": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "godot_symbol": "source_team_data_destroy_to_derelict_state_result.derelict_buffer",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.destroyToDerelict()",
+      "java_expr": "finishScheduleDerelict();",
+      "rule": "The derelict buffer after (Teams.java:353, `finishScheduleDerelict();`): always the emptied Array -- the finish callee flushes it in chunks and clears it.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_destroy_to_derelict_state_result.killed_cores": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "godot_symbol": "source_team_data_destroy_to_derelict_state_result.killed_cores",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.destroyToDerelict()",
+      "java_expr": "if(b instanceof CoreBuild){",
+      "rule": "The killed cores (Teams.java:346, `if(b instanceof CoreBuild){`): the positions of the CoreBuild builds killed at once -- privileged builds are never in here.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_destroy_to_derelict_state_result.destroy_payload_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "godot_symbol": "source_team_data_destroy_to_derelict_state_result.destroy_payload_calls",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.destroyToDerelict()",
+      "java_expr": "Call.destroyPayload(build);",
+      "rule": "The destroyPayload calls (Teams.java:401, `Call.destroyPayload(build);`): the build positions Call.destroyPayload was called with, aggregated over the scheduleDerelict calls.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_destroy_to_derelict_state_result.scheduled_kills": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "godot_symbol": "source_team_data_destroy_to_derelict_state_result.scheduled_kills",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.destroyToDerelict()",
+      "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+      "rule": "The scheduled kills (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): the {\"delay\": float, \"build_pos\": int} entries from the scheduleDerelict calls whose chance roll was below 0.2.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_destroy_to_derelict_state_result.add_plan_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "godot_symbol": "source_team_data_destroy_to_derelict_state_result.add_plan_calls",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.destroyToDerelict()",
+      "java_expr": "build.addPlan(false, true);",
+      "rule": "The addPlan calls (Teams.java:406, `build.addPlan(false, true);`): the build positions addPlan(false, true) was called with, aggregated over the scheduleDerelict calls.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_destroy_to_derelict_state_result.set_teams_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "godot_symbol": "source_team_data_destroy_to_derelict_state_result.set_teams_calls",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.destroyToDerelict()",
+      "java_expr": "derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));",
+      "rule": "The setTeams calls (Teams.java:412, `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`): the {\"values\": [...], \"team\": \"derelict\"} entries from the finish callee.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_destroy_to_derelict_state_result.scheduled_unit_kills": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "godot_symbol": "source_team_data_destroy_to_derelict_state_result.scheduled_unit_kills",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.destroyToDerelict()",
+      "java_expr": "units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {",
+      "rule": "The scheduled unit kills (Teams.java:355, `units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {`): one {\"delay\": float, \"unit\": record} entry per unit, in unit order -- the action kills the unit only if its team still matches when run.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_time_destroy_state_result.builds": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "godot_symbol": "source_team_data_time_destroy_state_result.builds",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.timeDestroy()",
+      "java_expr": "var builds = new Seq<Building>();",
+      "rule": "The builds (Teams.java:363, `var builds = new Seq<Building>();`): all objects from the tree intersect (empty when the tree is null) -- the full list the loop iterated.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_time_destroy_state_result.derelict_buffer": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "godot_symbol": "source_team_data_time_destroy_state_result.derelict_buffer",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.timeDestroy()",
+      "java_expr": "finishScheduleDerelict();",
+      "rule": "The derelict buffer after (Teams.java:373, `finishScheduleDerelict();`): always the emptied Array -- the finish callee flushes it in chunks and clears it.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_time_destroy_state_result.destroy_payload_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "godot_symbol": "source_team_data_time_destroy_state_result.destroy_payload_calls",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.timeDestroy()",
+      "java_expr": "Call.destroyPayload(build);",
+      "rule": "The destroyPayload calls (Teams.java:401, `Call.destroyPayload(build);`): the build positions Call.destroyPayload was called with, aggregated over the scheduleDerelict calls.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_time_destroy_state_result.scheduled_kills": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "godot_symbol": "source_team_data_time_destroy_state_result.scheduled_kills",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.timeDestroy()",
+      "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+      "rule": "The scheduled kills (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): the {\"delay\": float, \"build_pos\": int} entries from the scheduleDerelict calls whose chance roll was below 0.2.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_time_destroy_state_result.add_plan_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "godot_symbol": "source_team_data_time_destroy_state_result.add_plan_calls",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.timeDestroy()",
+      "java_expr": "build.addPlan(false, true);",
+      "rule": "The addPlan calls (Teams.java:406, `build.addPlan(false, true);`): the build positions addPlan(false, true) was called with, aggregated over the scheduleDerelict calls.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_time_destroy_state_result.set_teams_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "godot_symbol": "source_team_data_time_destroy_state_result.set_teams_calls",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.timeDestroy()",
+      "java_expr": "derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));",
+      "rule": "The setTeams calls (Teams.java:412, `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`): the {\"values\": [...], \"team\": \"derelict\"} entries from the finish callee.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_time_destroy_state_result.has_sector": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "godot_symbol": "source_team_data_time_destroy_state_result.has_sector",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.timeDestroy()",
+      "java_expr": "if(sector != null){",
+      "rule": "Whether a sector exists (Teams.java:377, `if(sector != null){`): true when the sector param is non-null.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_time_destroy_state_result.any_replacement_present": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "godot_symbol": "source_team_data_time_destroy_state_result.any_replacement_present",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.timeDestroy()",
+      "java_expr": "if(indexer.isBlockPresent(entry.key)){",
+      "rule": "Whether a replacement is present (Teams.java:380, `if(indexer.isBlockPresent(entry.key)){`): true when any sectorCaptureReplacements key is in the present_keys Array.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_time_destroy_state_result.circle_radius_tiles": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "godot_symbol": "source_team_data_time_destroy_state_result.circle_radius_tiles",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.timeDestroy()",
+      "java_expr": "Geometry.circle(World.toTile(x), World.toTile(y), world.width(), world.height(), Mathf.round(range / tilesize), (tx, ty) -> {",
+      "rule": "The circle radius in tiles (Teams.java:385, `Geometry.circle(World.toTile(x), World.toTile(y), world.width(), world.height(), Mathf.round(range / tilesize), (tx, ty) -> {`): `Mathf.round(range / tilesize)`, computed only when a replacement is present, else 0.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_time_destroy_state_result.floor_changes": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "godot_symbol": "source_team_data_time_destroy_state_result.floor_changes",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.timeDestroy()",
+      "java_expr": "t.setFloor(result.asFloor());",
+      "rule": "The floor changes (Teams.java:389, `t.setFloor(result.asFloor());`): one {\"tx\": int, \"ty\": int, \"floor\": result} entry per tile whose floor was replaced -- only tiles with a replacement result and no core nearby.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_schedule_derelict_state_result.derelict_buffer": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state",
+      "godot_symbol": "source_team_data_schedule_derelict_state_result.derelict_buffer",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.scheduleDerelict()",
+      "java_expr": "derelictBuffer.add(build.pos());",
+      "rule": "The derelict buffer after (Teams.java:398, `derelictBuffer.add(build.pos());`): the same in/out Array, now with the build pos appended.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_schedule_derelict_state_result.destroy_payload_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state",
+      "godot_symbol": "source_team_data_schedule_derelict_state_result.destroy_payload_calls",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.scheduleDerelict()",
+      "java_expr": "Call.destroyPayload(build);",
+      "rule": "The destroyPayload calls (Teams.java:401, `Call.destroyPayload(build);`): the build positions Call.destroyPayload was called with -- empty when the build has no unit payload.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_schedule_derelict_state_result.scheduled_kill": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state",
+      "godot_symbol": "source_team_data_schedule_derelict_state_result.scheduled_kill",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.scheduleDerelict()",
+      "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+      "rule": "The scheduled kill (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): {\"delay\": float, \"build_pos\": int} when the chance roll was below 0.2, else null.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_schedule_derelict_state_result.add_plan_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state",
+      "godot_symbol": "source_team_data_schedule_derelict_state_result.add_plan_calls",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.scheduleDerelict()",
+      "java_expr": "build.addPlan(false, true);",
+      "rule": "The addPlan calls (Teams.java:406, `build.addPlan(false, true);`): the build positions addPlan(false, true) was called with -- always the one build.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_finish_schedule_derelict_state_result.derelict_buffer": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_finish_schedule_derelict_state",
+      "godot_symbol": "source_team_data_finish_schedule_derelict_state_result.derelict_buffer",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.finishScheduleDerelict()",
+      "java_expr": "derelictBuffer.clear();",
+      "rule": "The derelict buffer after (Teams.java:413, `derelictBuffer.clear();`): always the emptied Array -- the flush clears it.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_team_data_finish_schedule_derelict_state_result.set_teams_calls": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_finish_schedule_derelict_state",
+      "godot_symbol": "source_team_data_finish_schedule_derelict_state_result.set_teams_calls",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.finishScheduleDerelict()",
+      "java_expr": "derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));",
+      "rule": "The setTeams calls (Teams.java:412, `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`): one {\"values\": [...], \"team\": \"derelict\"} entry per chunk of at most 1000 positions, in buffer order.",
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof"
     }
   },
   "version": 1

@@ -249376,6 +249376,738 @@
       },
       "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof",
       "rule": "Source-backed BeamDrill drawSelect() / drawPlanRegion() / init() state from BeamDrill.java + Block.java + BuildingComp.java + Vars.java."
+    },
+    "source_team_data_destroy_to_derelict_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "source_slice": "N2395",
+      "keys": {
+        "building_tree_objects": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "buildingTree.getObjects(builds);",
+          "rule": "The tree objects (Teams.java:333, `buildingTree.getObjects(builds);`): buildingTree is the @Nullable QuadTree<Building> (Teams.java:294), not ported -- its objects arrive as a Variant param (null when the tree is null, else the Array of build records {\"pos\": int, \"privileged\": bool, \"is_core\": bool, \"has_unit_payload\": bool}).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "plans": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "plans.clear();",
+          "rule": "The plans queue (Teams.java:336, `plans.clear();`): the plans Queue<BlockPlan> (Teams.java:287) as an in/out Array param -- `plans.clear();` is already the exact_expr of N1143, so the clear is implemented here (cleared in place) but the expr is evidence only, not re-registered.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "units": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {",
+          "rule": "The team units (Teams.java:355, `units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {`): the units Seq as an Array of records {\"team_id\": int, ...} -- each unit gets one delayed kill action.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(u.team == team){",
+          "rule": "The team id (Teams.java:357, `if(u.team == team){`): the TeamData team as an int id -- the delayed action compares each unit team_id against it when the action runs.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "derelict_buffer": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "finishScheduleDerelict();",
+          "rule": "The derelict buffer (Teams.java:353, `finishScheduleDerelict();`): the static IntSeq derelictBuffer (Teams.java:271) as an in/out Array param -- filled by the scheduleDerelict calls, flushed and cleared by the finish callee.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "unit_delays": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {",
+          "rule": "The per-unit delays (Teams.java:355, `units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {`): the sampled `Mathf.random(0f, 60f * 5f)` delay per unit as an Array of floats in unit order -- a missing entry defaults to 0.0.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "chance_rolls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(Mathf.chance(0.2)){",
+          "rule": "The per-schedule chance rolls (Teams.java:403, `if(Mathf.chance(0.2)){`): the sampled `Mathf.chance(0.2)` rolls for the scheduleDerelict calls, in schedule order -- a missing entry defaults to 0.0 (kill scheduled).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "kill_delays": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+          "rule": "The per-schedule kill delays (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): the sampled `Mathf.random(0f, 60f * 6f)` delays for the scheduleDerelict calls, in schedule order -- a missing entry defaults to 0.0.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "destroy_payload": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Call.destroyPayload(build);",
+          "rule": "The payload destroy call (Teams.java:401, `Call.destroyPayload(build);`): forwarded to the scheduleDerelict callee -- Call is a network API, not ported.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "time_run": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {",
+          "rule": "The delayed-run hook (Teams.java:355, `units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {`): Time.run is not ported -- it arrives as a Callable param (delay, action) recording delay+action, shared by the scheduleDerelict callee and the per-unit actions.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "kill_build": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(b instanceof CoreBuild){",
+          "rule": "The build kill (Teams.java:346, `if(b instanceof CoreBuild){`): `b.kill();` is generic, not registered -- cores are killed at once via this Callable param (build_pos), and the same Callable is wrapped in the delayed scheduleDerelict actions.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "kill_unit": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(u.team == team){",
+          "rule": "The unit kill (Teams.java:357, `if(u.team == team){`): `u.kill();` is generic, not registered -- the delayed per-unit action calls this Callable param (unit record) only when the unit team still matches.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "add_plan": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "build.addPlan(false, true);",
+          "rule": "The plan add (Teams.java:406, `build.addPlan(false, true);`): forwarded to the scheduleDerelict callee -- Building.addPlan is not ported.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "set_teams": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));",
+          "rule": "The setTeams call (Teams.java:412, `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`): forwarded to the finishScheduleDerelict callee -- Call is a network API, not ported.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "source_team_data_destroy_to_derelict_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state",
+      "source_slice": "N2395",
+      "keys": {
+        "builds": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "var builds = new Seq<Building>();",
+          "rule": "The builds (Teams.java:330, `var builds = new Seq<Building>();`): all objects from the building tree (empty when the tree is null) -- the full list the loop iterated, including privileged and core builds.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "plans": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "plans.clear();",
+          "rule": "The plans after (Teams.java:336, `plans.clear();`): the same in/out Array, cleared -- `plans.clear();` is N1143 evidence, the clear is implemented here.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "derelict_buffer": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "finishScheduleDerelict();",
+          "rule": "The derelict buffer after (Teams.java:353, `finishScheduleDerelict();`): always the emptied Array -- the finish callee flushes it in chunks and clears it.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "killed_cores": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(b instanceof CoreBuild){",
+          "rule": "The killed cores (Teams.java:346, `if(b instanceof CoreBuild){`): the positions of the CoreBuild builds killed at once -- privileged builds are never in here.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "destroy_payload_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Call.destroyPayload(build);",
+          "rule": "The destroyPayload calls (Teams.java:401, `Call.destroyPayload(build);`): the build positions Call.destroyPayload was called with, aggregated over the scheduleDerelict calls.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "scheduled_kills": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+          "rule": "The scheduled kills (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): the {\"delay\": float, \"build_pos\": int} entries from the scheduleDerelict calls whose chance roll was below 0.2.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "add_plan_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "build.addPlan(false, true);",
+          "rule": "The addPlan calls (Teams.java:406, `build.addPlan(false, true);`): the build positions addPlan(false, true) was called with, aggregated over the scheduleDerelict calls.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "set_teams_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));",
+          "rule": "The setTeams calls (Teams.java:412, `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`): the {\"values\": [...], \"team\": \"derelict\"} entries from the finish callee.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        },
+        "scheduled_unit_kills": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {",
+          "rule": "The scheduled unit kills (Teams.java:355, `units.each(u -> Time.run(Mathf.random(0f, 60f * 5f), () -> {`): one {\"delay\": float, \"unit\": record} entry per unit, in unit order -- the action kills the unit only if its team still matches when run.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "source_team_data_time_destroy_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "source_slice": "N2395",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public void timeDestroy(float x, float y, float range){",
+          "rule": "The x asking (Teams.java:362, `public void timeDestroy(float x, float y, float range){`): the destroy centre x, passed to the tree intersect and the sector circle.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public void timeDestroy(float x, float y, float range){",
+          "rule": "The y asking (Teams.java:362, `public void timeDestroy(float x, float y, float range){`): the destroy centre y, passed to the tree intersect and the sector circle.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public void timeDestroy(float x, float y, float range){",
+          "rule": "The range (Teams.java:362, `public void timeDestroy(float x, float y, float range){`): the destroy radius -- the intersect rect, the within checks, and the circle radius all derive from it.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "building_tree_objects": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "buildingTree.intersect(x - range, y - range, range * 2f, range * 2f, builds);",
+          "rule": "The intersected objects (Teams.java:365, `buildingTree.intersect(x - range, y - range, range * 2f, range * 2f, builds);`): the @Nullable QuadTree<Building> (Teams.java:294) is not ported -- the intersected objects arrive as a Variant param (null when the tree is null, else the Array of build records {\"pos\": int, \"privileged\": bool, \"within_range\": bool, \"near_core\": bool, \"has_unit_payload\": bool}); the `x - range, y - range, range * 2f, range * 2f` rect is the QuadTree job, precomputed by the caller.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "derelict_buffer": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "finishScheduleDerelict();",
+          "rule": "The derelict buffer (Teams.java:373, `finishScheduleDerelict();`): the static IntSeq derelictBuffer (Teams.java:271) as an in/out Array param -- filled by the scheduleDerelict calls, flushed and cleared by the finish callee.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "chance_rolls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(Mathf.chance(0.2)){",
+          "rule": "The per-schedule chance rolls (Teams.java:403, `if(Mathf.chance(0.2)){`): the sampled `Mathf.chance(0.2)` rolls for the scheduleDerelict calls, in schedule order -- a missing entry defaults to 0.0 (kill scheduled).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "kill_delays": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+          "rule": "The per-schedule kill delays (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): the sampled `Mathf.random(0f, 60f * 6f)` delays for the scheduleDerelict calls, in schedule order -- a missing entry defaults to 0.0.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "sector": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "var sector = state.getSector();",
+          "rule": "The sector (Teams.java:376, `var sector = state.getSector();`): `state.getSector()` arrives as a Variant param (null when there is no sector, else a Dictionary {\"replacements\": Dictionary floor_key -> result, \"present_keys\": Array}) -- `sector.planet.sectorCaptureReplacements` is the \"replacements\" Dictionary, `indexer.isBlockPresent(entry.key)` arrives as the precomputed \"present_keys\" Array.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "circle_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Geometry.circle(World.toTile(x), World.toTile(y), world.width(), world.height(), Mathf.round(range / tilesize), (tx, ty) -> {",
+          "rule": "The circle tiles (Teams.java:385, `Geometry.circle(World.toTile(x), World.toTile(y), world.width(), world.height(), Mathf.round(range / tilesize), (tx, ty) -> {`): Geometry.circle is an engine API, not ported -- the iterated tiles arrive as an Array of records {\"tx\": int, \"ty\": int, \"floor\": Variant, \"near_core\": bool}; `world.rawTile(tx, ty)` is the tile record itself, `cores.contains(c -> c.within(t, range))` is its precomputed \"near_core\" flag.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Geometry.circle(World.toTile(x), World.toTile(y), world.width(), world.height(), Mathf.round(range / tilesize), (tx, ty) -> {",
+          "rule": "The tile size (Teams.java:385, `Geometry.circle(World.toTile(x), World.toTile(y), world.width(), world.height(), Mathf.round(range / tilesize), (tx, ty) -> {`): the world tilesize -- the circle radius in tiles is `Mathf.round(range / tilesize)`, computed here only when a replacement is present.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "destroy_payload": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Call.destroyPayload(build);",
+          "rule": "The payload destroy call (Teams.java:401, `Call.destroyPayload(build);`): forwarded to the scheduleDerelict callee -- Call is a network API, not ported.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "time_run": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+          "rule": "The delayed-run hook (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): forwarded to the scheduleDerelict callee -- Time.run is not ported.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "kill_build": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+          "rule": "The build kill (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): forwarded to the scheduleDerelict callee -- `build::kill` arrives as a Callable param (build_pos).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "add_plan": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "build.addPlan(false, true);",
+          "rule": "The plan add (Teams.java:406, `build.addPlan(false, true);`): forwarded to the scheduleDerelict callee -- Building.addPlan is not ported.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "set_teams": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));",
+          "rule": "The setTeams call (Teams.java:412, `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`): forwarded to the finishScheduleDerelict callee -- Call is a network API, not ported.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "set_floor": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "t.setFloor(result.asFloor());",
+          "rule": "The floor set (Teams.java:389, `t.setFloor(result.asFloor());`): Tile.setFloor is not ported -- it arrives as a Callable param (tile, result) and every call is recorded in the frame.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "source_team_data_time_destroy_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_time_destroy_state",
+      "source_slice": "N2395",
+      "keys": {
+        "builds": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "var builds = new Seq<Building>();",
+          "rule": "The builds (Teams.java:363, `var builds = new Seq<Building>();`): all objects from the tree intersect (empty when the tree is null) -- the full list the loop iterated.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "derelict_buffer": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "finishScheduleDerelict();",
+          "rule": "The derelict buffer after (Teams.java:373, `finishScheduleDerelict();`): always the emptied Array -- the finish callee flushes it in chunks and clears it.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "destroy_payload_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Call.destroyPayload(build);",
+          "rule": "The destroyPayload calls (Teams.java:401, `Call.destroyPayload(build);`): the build positions Call.destroyPayload was called with, aggregated over the scheduleDerelict calls.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "scheduled_kills": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+          "rule": "The scheduled kills (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): the {\"delay\": float, \"build_pos\": int} entries from the scheduleDerelict calls whose chance roll was below 0.2.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "add_plan_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "build.addPlan(false, true);",
+          "rule": "The addPlan calls (Teams.java:406, `build.addPlan(false, true);`): the build positions addPlan(false, true) was called with, aggregated over the scheduleDerelict calls.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "set_teams_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));",
+          "rule": "The setTeams calls (Teams.java:412, `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`): the {\"values\": [...], \"team\": \"derelict\"} entries from the finish callee.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "has_sector": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(sector != null){",
+          "rule": "Whether a sector exists (Teams.java:377, `if(sector != null){`): true when the sector param is non-null.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "any_replacement_present": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(indexer.isBlockPresent(entry.key)){",
+          "rule": "Whether a replacement is present (Teams.java:380, `if(indexer.isBlockPresent(entry.key)){`): true when any sectorCaptureReplacements key is in the present_keys Array.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "circle_radius_tiles": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Geometry.circle(World.toTile(x), World.toTile(y), world.width(), world.height(), Mathf.round(range / tilesize), (tx, ty) -> {",
+          "rule": "The circle radius in tiles (Teams.java:385, `Geometry.circle(World.toTile(x), World.toTile(y), world.width(), world.height(), Mathf.round(range / tilesize), (tx, ty) -> {`): `Mathf.round(range / tilesize)`, computed only when a replacement is present, else 0.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        },
+        "floor_changes": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "t.setFloor(result.asFloor());",
+          "rule": "The floor changes (Teams.java:389, `t.setFloor(result.asFloor());`): one {\"tx\": int, \"ty\": int, \"floor\": result} entry per tile whose floor was replaced -- only tiles with a replacement result and no core nearby.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_time_destroy_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "source_team_data_schedule_derelict_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state",
+      "source_slice": "N2395",
+      "keys": {
+        "build_pos": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.add(build.pos());",
+          "rule": "The build position (Teams.java:398, `derelictBuffer.add(build.pos());`): `build.pos()` arrives as the build_pos int param (Building is not ported) -- the pos buffered into derelictBuffer and passed to destroyPayload / the delayed kill / addPlan.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "has_unit_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(build.getPayload() instanceof UnitPayload){",
+          "rule": "Whether the build carries a unit payload (Teams.java:400, `if(build.getPayload() instanceof UnitPayload){`): `build.getPayload() instanceof UnitPayload` arrives as the has_unit_payload bool (UnitPayload is not ported) -- only then is Call.destroyPayload called.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "derelict_buffer": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.add(build.pos());",
+          "rule": "The derelict buffer (Teams.java:398, `derelictBuffer.add(build.pos());`): the static IntSeq derelictBuffer (Teams.java:271) as an in/out Array param -- the pos is appended in place, the same live Array the caller keeps.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "destroy_payload": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Call.destroyPayload(build);",
+          "rule": "The payload destroy call (Teams.java:401, `Call.destroyPayload(build);`): Call is a network API, not ported -- it arrives as a Callable param (build_pos) and the call is recorded in the frame, no packet is ever sent.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "chance_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(Mathf.chance(0.2)){",
+          "rule": "The chance roll (Teams.java:403, `if(Mathf.chance(0.2)){`): the sampled `Mathf.chance(0.2)` roll as an explicit float param (0.0-1.0) -- the delayed kill is scheduled only when the roll is below 0.2, exactly as the Java chance check.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "random_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+          "rule": "The kill delay (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): the sampled `Mathf.random(0f, 60f * 6f)` delay as an explicit float param -- recorded with the delayed kill action, never waited on.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "time_run": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+          "rule": "The delayed-run hook (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): Time.run is not ported -- it arrives as a Callable param (delay, action) recording the delay + the kill action; the kill only runs when the recorded action is executed.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "kill_build": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+          "rule": "The build kill (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): `build::kill` arrives as a Callable param (build_pos) -- `b.kill();` is generic, not registered; the kill is wrapped in the recorded Time.run action.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "add_plan": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "build.addPlan(false, true);",
+          "rule": "The plan add (Teams.java:406, `build.addPlan(false, true);`): Building.addPlan is not ported -- it arrives as a Callable param (build_pos, false, true) and the call is recorded in the frame.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "source_team_data_schedule_derelict_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state",
+      "source_slice": "N2395",
+      "keys": {
+        "derelict_buffer": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.add(build.pos());",
+          "rule": "The derelict buffer after (Teams.java:398, `derelictBuffer.add(build.pos());`): the same in/out Array, now with the build pos appended.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "destroy_payload_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Call.destroyPayload(build);",
+          "rule": "The destroyPayload calls (Teams.java:401, `Call.destroyPayload(build);`): the build positions Call.destroyPayload was called with -- empty when the build has no unit payload.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "scheduled_kill": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "Time.run(Mathf.random(0f, 60f * 6f), build::kill);",
+          "rule": "The scheduled kill (Teams.java:404, `Time.run(Mathf.random(0f, 60f * 6f), build::kill);`): {\"delay\": float, \"build_pos\": int} when the chance roll was below 0.2, else null.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        },
+        "add_plan_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "build.addPlan(false, true);",
+          "rule": "The addPlan calls (Teams.java:406, `build.addPlan(false, true);`): the build positions addPlan(false, true) was called with -- always the one build.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "source_team_data_finish_schedule_derelict_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_finish_schedule_derelict_state",
+      "source_slice": "N2395",
+      "keys": {
+        "derelict_buffer": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));",
+          "rule": "The derelict buffer (Teams.java:412, `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`): the static IntSeq derelictBuffer (Teams.java:271) as an in/out Array param -- flushed in chunks of 1000, then cleared.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_finish_schedule_derelict_state"
+          ]
+        },
+        "set_teams": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));",
+          "rule": "The setTeams call (Teams.java:412, `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`): Call is a network API, not ported -- it arrives as a Callable param (values, \"derelict\") and every chunk call is recorded in the frame, no packet is ever sent.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_finish_schedule_derelict_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "source_team_data_finish_schedule_derelict_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_finish_schedule_derelict_state",
+      "source_slice": "N2395",
+      "keys": {
+        "derelict_buffer": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.clear();",
+          "rule": "The derelict buffer after (Teams.java:413, `derelictBuffer.clear();`): always the emptied Array -- the flush clears it.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_finish_schedule_derelict_state"
+          ]
+        },
+        "set_teams_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));",
+          "rule": "The setTeams calls (Teams.java:412, `derelictBuffer.chunked(1000, values -> Call.setTeams(values, Team.derelict));`): one {\"values\": [...], \"team\": \"derelict\"} entry per chunk of at most 1000 positions, in buffer order.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_finish_schedule_derelict_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
     }
   },
   "version": 1

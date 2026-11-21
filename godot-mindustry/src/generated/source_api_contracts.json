@@ -75606,6 +75606,312 @@
       ],
       "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof",
       "rule": "Source-backed BeamDrill drawSelect() / drawPlanRegion() / init() state from BeamDrill.java + Block.java + BuildingComp.java + Vars.java."
+    },
+    "SourceTeamsRuntimeState.source_team_data_destroy_to_derelict_state": {
+      "status": "active",
+      "source_slice": "N2395",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.destroyToDerelict()",
+      "params": [
+        {
+          "name": "building_tree_objects",
+          "type": "Variant",
+          "schema": "source_team_data_destroy_to_derelict_state_input.building_tree_objects"
+        },
+        {
+          "name": "plans",
+          "type": "Array",
+          "schema": "source_team_data_destroy_to_derelict_state_input.plans"
+        },
+        {
+          "name": "units",
+          "type": "Array",
+          "schema": "source_team_data_destroy_to_derelict_state_input.units"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_team_data_destroy_to_derelict_state_input.team_id"
+        },
+        {
+          "name": "derelict_buffer",
+          "type": "Array",
+          "schema": "source_team_data_destroy_to_derelict_state_input.derelict_buffer"
+        },
+        {
+          "name": "unit_delays",
+          "type": "Array",
+          "schema": "source_team_data_destroy_to_derelict_state_input.unit_delays"
+        },
+        {
+          "name": "chance_rolls",
+          "type": "Array",
+          "schema": "source_team_data_destroy_to_derelict_state_input.chance_rolls"
+        },
+        {
+          "name": "kill_delays",
+          "type": "Array",
+          "schema": "source_team_data_destroy_to_derelict_state_input.kill_delays"
+        },
+        {
+          "name": "destroy_payload",
+          "type": "Callable",
+          "schema": "source_team_data_destroy_to_derelict_state_input.destroy_payload"
+        },
+        {
+          "name": "time_run",
+          "type": "Callable",
+          "schema": "source_team_data_destroy_to_derelict_state_input.time_run"
+        },
+        {
+          "name": "kill_build",
+          "type": "Callable",
+          "schema": "source_team_data_destroy_to_derelict_state_input.kill_build"
+        },
+        {
+          "name": "kill_unit",
+          "type": "Callable",
+          "schema": "source_team_data_destroy_to_derelict_state_input.kill_unit"
+        },
+        {
+          "name": "add_plan",
+          "type": "Callable",
+          "schema": "source_team_data_destroy_to_derelict_state_input.add_plan"
+        },
+        {
+          "name": "set_teams",
+          "type": "Callable",
+          "schema": "source_team_data_destroy_to_derelict_state_input.set_teams"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "builds",
+        "plans",
+        "derelict_buffer",
+        "killed_cores",
+        "destroy_payload_calls",
+        "scheduled_kills",
+        "add_plan_calls",
+        "set_teams_calls",
+        "scheduled_unit_kills"
+      ],
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_team_data_time_destroy_state": {
+      "status": "active",
+      "source_slice": "N2395",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.timeDestroy()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_team_data_time_destroy_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_team_data_time_destroy_state_input.y"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_team_data_time_destroy_state_input.range"
+        },
+        {
+          "name": "building_tree_objects",
+          "type": "Variant",
+          "schema": "source_team_data_time_destroy_state_input.building_tree_objects"
+        },
+        {
+          "name": "derelict_buffer",
+          "type": "Array",
+          "schema": "source_team_data_time_destroy_state_input.derelict_buffer"
+        },
+        {
+          "name": "chance_rolls",
+          "type": "Array",
+          "schema": "source_team_data_time_destroy_state_input.chance_rolls"
+        },
+        {
+          "name": "kill_delays",
+          "type": "Array",
+          "schema": "source_team_data_time_destroy_state_input.kill_delays"
+        },
+        {
+          "name": "sector",
+          "type": "Variant",
+          "schema": "source_team_data_time_destroy_state_input.sector"
+        },
+        {
+          "name": "circle_tiles",
+          "type": "Array",
+          "schema": "source_team_data_time_destroy_state_input.circle_tiles"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_team_data_time_destroy_state_input.tilesize"
+        },
+        {
+          "name": "destroy_payload",
+          "type": "Callable",
+          "schema": "source_team_data_time_destroy_state_input.destroy_payload"
+        },
+        {
+          "name": "time_run",
+          "type": "Callable",
+          "schema": "source_team_data_time_destroy_state_input.time_run"
+        },
+        {
+          "name": "kill_build",
+          "type": "Callable",
+          "schema": "source_team_data_time_destroy_state_input.kill_build"
+        },
+        {
+          "name": "add_plan",
+          "type": "Callable",
+          "schema": "source_team_data_time_destroy_state_input.add_plan"
+        },
+        {
+          "name": "set_teams",
+          "type": "Callable",
+          "schema": "source_team_data_time_destroy_state_input.set_teams"
+        },
+        {
+          "name": "set_floor",
+          "type": "Callable",
+          "schema": "source_team_data_time_destroy_state_input.set_floor"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "builds",
+        "derelict_buffer",
+        "destroy_payload_calls",
+        "scheduled_kills",
+        "add_plan_calls",
+        "set_teams_calls",
+        "has_sector",
+        "any_replacement_present",
+        "circle_radius_tiles",
+        "floor_changes"
+      ],
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_team_data_schedule_derelict_state": {
+      "status": "active",
+      "source_slice": "N2395",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.scheduleDerelict()",
+      "params": [
+        {
+          "name": "build_pos",
+          "type": "int",
+          "schema": "source_team_data_schedule_derelict_state_input.build_pos"
+        },
+        {
+          "name": "has_unit_payload",
+          "type": "bool",
+          "schema": "source_team_data_schedule_derelict_state_input.has_unit_payload"
+        },
+        {
+          "name": "derelict_buffer",
+          "type": "Array",
+          "schema": "source_team_data_schedule_derelict_state_input.derelict_buffer"
+        },
+        {
+          "name": "destroy_payload",
+          "type": "Callable",
+          "schema": "source_team_data_schedule_derelict_state_input.destroy_payload"
+        },
+        {
+          "name": "chance_roll",
+          "type": "float",
+          "schema": "source_team_data_schedule_derelict_state_input.chance_roll"
+        },
+        {
+          "name": "random_delay",
+          "type": "float",
+          "schema": "source_team_data_schedule_derelict_state_input.random_delay"
+        },
+        {
+          "name": "time_run",
+          "type": "Callable",
+          "schema": "source_team_data_schedule_derelict_state_input.time_run"
+        },
+        {
+          "name": "kill_build",
+          "type": "Callable",
+          "schema": "source_team_data_schedule_derelict_state_input.kill_build"
+        },
+        {
+          "name": "add_plan",
+          "type": "Callable",
+          "schema": "source_team_data_schedule_derelict_state_input.add_plan"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "derelict_buffer",
+        "destroy_payload_calls",
+        "scheduled_kill",
+        "add_plan_calls"
+      ],
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_team_data_finish_schedule_derelict_state": {
+      "status": "active",
+      "source_slice": "N2395",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.finishScheduleDerelict()",
+      "params": [
+        {
+          "name": "derelict_buffer",
+          "type": "Array",
+          "schema": "source_team_data_finish_schedule_derelict_state_input.derelict_buffer"
+        },
+        {
+          "name": "set_teams",
+          "type": "Callable",
+          "schema": "source_team_data_finish_schedule_derelict_state_input.set_teams"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "derelict_buffer",
+        "set_teams_calls"
+      ],
+      "tests": [
+        "test_c07_teams_derelict_registration",
+        "test_all_c07_teams_derelict_input_evidence_is_exact",
+        "test_teams_derelict_state",
+        "test_reference_graph_and_actual_c07_teams_derelict"
+      ],
+      "runtime_proof": "/root/C07TeamsDerelictProof",
+      "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
     }
   },
   "policy": {
