@@ -179896,6 +179896,22 @@
         "test_reference_graph_and_actual_c07_laser_turret_should_consume"
       ],
       "runtime_proof": "/root/C07LaserTurretShouldConsumeProof"
+    },
+    "source_teams_any_enemy_cores_within_state_result.within": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state",
+      "godot_symbol": "source_teams_any_enemy_cores_within_state_result.within",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "anyEnemyCoresWithin",
+      "java_expr": "return true;",
+      "rule": "Whether any enemy core is within radius (Teams.java:78, `return true;`): true as soon as one protected enemy team's core is within radius of the query point (tile.within is a STRICT < on the squared distance, arc Position.java:44-46); false when no core qualifies (`return false;`, Teams.java:83).",
+      "tests": [
+        "test_c07_teams_any_enemy_cores_within_registration",
+        "test_all_c07_teams_any_enemy_cores_within_input_evidence_is_exact",
+        "test_teams_any_enemy_cores_within_state",
+        "test_reference_graph_and_actual_c07_teams_any_enemy_cores_within"
+      ],
+      "runtime_proof": "/root/C07TeamsAnyEnemyCoresWithinProof"
     }
   },
   "version": 1

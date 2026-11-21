@@ -72898,6 +72898,61 @@
       ],
       "runtime_proof": "/root/C07LaserTurretShouldConsumeProof",
       "rule": "Source-backed LaserTurretBuild.shouldConsume() state from LaserTurret.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state": {
+      "status": "active",
+      "source_slice": "N2361",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "anyEnemyCoresWithin",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_any_enemy_cores_within_state_input.teams_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_any_enemy_cores_within_state_input.team_id"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_teams_any_enemy_cores_within_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_teams_any_enemy_cores_within_state_input.y"
+        },
+        {
+          "name": "radius",
+          "type": "float",
+          "schema": "source_teams_any_enemy_cores_within_state_input.radius"
+        },
+        {
+          "name": "protect_cores_by_team",
+          "type": "Dictionary",
+          "schema": "source_teams_any_enemy_cores_within_state_input.protect_cores_by_team"
+        },
+        {
+          "name": "enemy_cores",
+          "type": "Array",
+          "schema": "source_teams_any_enemy_cores_within_state_input.enemy_cores"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "within"
+      ],
+      "tests": [
+        "test_c07_teams_any_enemy_cores_within_registration",
+        "test_all_c07_teams_any_enemy_cores_within_input_evidence_is_exact",
+        "test_teams_any_enemy_cores_within_state",
+        "test_reference_graph_and_actual_c07_teams_any_enemy_cores_within"
+      ],
+      "runtime_proof": "/root/C07TeamsAnyEnemyCoresWithinProof",
+      "rule": "Source-backed Teams.anyEnemyCoresWithin() state from Teams.java."
     }
   },
   "policy": {

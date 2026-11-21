@@ -243940,6 +243940,104 @@
       },
       "runtime_proof": "/root/C07LaserTurretShouldConsumeProof",
       "rule": "Source-backed LaserTurretBuild.shouldConsume() state from LaserTurret.java."
+    },
+    "source_teams_any_enemy_cores_within_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state",
+      "source_slice": "N2361",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "for(TeamData data : active){",
+          "rule": "The teams state (Teams.anyEnemyCoresWithin, Teams.java:74): the family-convention first arg; it carries the active list (kept there by registerCore/unregisterCore, N2074/N2075 -- NOT ported here, only read).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(team != data.team && data.team.rules().protectCores){",
+          "rule": "The calling team id (Teams.java:75, `if(team != data.team && data.team.rules().protectCores){`): the team asking -- its own cores are never candidates, only other active teams' are.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public boolean anyEnemyCoresWithin(Team team, float x, float y, float radius){",
+          "rule": "The query point x (Teams.java:73, `public boolean anyEnemyCoresWithin(Team team, float x, float y, float radius){`): the point enemy cores are measured from.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public boolean anyEnemyCoresWithin(Team team, float x, float y, float radius){",
+          "rule": "The query point y (Teams.java:73, `public boolean anyEnemyCoresWithin(Team team, float x, float y, float radius){`): the point enemy cores are measured from.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(tile.within(x, y, radius)){",
+          "rule": "The radius in world units (Teams.java:77, `if(tile.within(x, y, radius)){`): taken straight from the signature param -- unlike N2359, no buildRadius lookup and no tilesize here.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state"
+          ]
+        },
+        "protect_cores_by_team": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(team != data.team && data.team.rules().protectCores){",
+          "rule": "Whether each team protects its cores, keyed by team_id (Teams.java:75, `if(team != data.team && data.team.rules().protectCores){`): data.team.rules() is Rules state (not ported), so it arrives as an explicit lookup (the N2330 param precedent); teams absent from the lookup are treated as unprotected.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state"
+          ]
+        },
+        "enemy_cores": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "for(CoreBuild tile : data.cores){",
+          "rule": "The enemy cores as explicit records {\"team_id\": int, \"x\": float, \"y\": float} (Teams.java:76, `for(CoreBuild tile : data.cores){`): the cores stored in teams_state are opaque refs with no position, so the caller flattens active -> cores and attaches positions (the N2330/N2354 param precedent); only records whose team_id is the active team being scanned are considered.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsAnyEnemyCoresWithinProof",
+      "rule": "Source-backed Teams.anyEnemyCoresWithin() state from Teams.java."
+    },
+    "source_teams_any_enemy_cores_within_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state",
+      "source_slice": "N2361",
+      "keys": {
+        "within": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return true;",
+          "rule": "Whether any enemy core is within radius (Teams.java:78, `return true;`): true as soon as one protected enemy team's core is within radius of the query point (tile.within is a STRICT < on the squared distance, arc Position.java:44-46); false when no core qualifies (`return false;`, Teams.java:83).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_any_enemy_cores_within_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsAnyEnemyCoresWithinProof",
+      "rule": "Source-backed Teams.anyEnemyCoresWithin() state from Teams.java."
     }
   },
   "version": 1
