@@ -5,7 +5,7 @@ Ngày: 2026-11-21 ~06:1x +07 (GREEN), gate xong 07:08:10 +07, push ~07:2x +07.
 ## Trạng thái
 
 - N2511 DONE + PUSHED (origin/main 82a501d5).
-- N2512 DONE + PUSHED (slice d0d4bbd7, docs b4ab1fc5, GOAL da22af06, status TBD, hashes TBD): `BuildingComp.sense()` `health` leg — leg deferred thứ hai BÊN TRONG `sense()` (BuildingComp.java:2101): `case health -> health;`, với `health` là field health hiện tại của building (`float health;`, HealthComp.java:11 — BuildingComp mixes HealthComp). N2284 đã port 23 handled legs của `sense()` (BuildingComp.java:2093-2126) và để dead/health/totalItems/camera*/powerNet* deferred; N2511 đã port `dead` (:2098), N2512 port đúng leg `health`, tiếp theo trong Java switch order. KHÔNG có driver tick (logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509/N2510/N2511).
+- N2512 DONE + PUSHED (slice d0d4bbd7, docs b4ab1fc5, GOAL da22af06, status 5317dfe6, hashes TBD): `BuildingComp.sense()` `health` leg — leg deferred thứ hai BÊN TRONG `sense()` (BuildingComp.java:2101): `case health -> health;`, với `health` là field health hiện tại của building (`float health;`, HealthComp.java:11 — BuildingComp mixes HealthComp). N2284 đã port 23 handled legs của `sense()` (BuildingComp.java:2093-2126) và để dead/health/totalItems/camera*/powerNet* deferred; N2511 đã port `dead` (:2098), N2512 port đúng leg `health`, tiếp theo trong Java switch order. KHÔNG có driver tick (logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509/N2510/N2511).
 
 ## Làm được lượt này (GREEN + gate xong)
 
