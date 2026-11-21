@@ -10373,6 +10373,42 @@
       "runtime_proof": "/root/C07TurretWriteReadProof",
       "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java.",
       "return_type": "Dictionary"
+    },
+    "SourceTurretDefaults.source_turret_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretDefaults.source_turret_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2400",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "Turret(String name)",
+      "params": [
+        {
+          "name": "turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_turret_default_constructor_state_input.turret_defaults"
+        }
+      ],
+      "return_keys": [
+        "outlined_icon",
+        "draw_liquid_light",
+        "sync",
+        "quick_rotate",
+        "draw_arrow",
+        "ignore_line_rotation",
+        "rotate_draw_editor",
+        "visual_rotation_offset",
+        "region_rotated_1",
+        "region_rotated_2",
+        "turret_defaults"
+      ],
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof",
+      "rule": "Source-backed Turret() ctor field defaults state from Turret.java.",
+      "return_type": "Dictionary"
     }
   }
 }

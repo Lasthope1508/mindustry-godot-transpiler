@@ -251018,6 +251018,144 @@
       },
       "runtime_proof": "/root/C07TeamsUpdateActiveProof",
       "rule": "Source-backed Teams updateActive()/default-constructor state from Teams.java."
+    },
+    "source_turret_default_constructor_state_input": {
+      "status": "active",
+      "owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "source_slice": "N2400",
+      "keys": {
+        "turret_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Turret(String name){",
+          "rule": "The Turret def frame (Turret.java:157, `public Turret(String name){`): the family-convention first arg; the ctor writes its 10 literal field defaults into it, so turret_defaults is an in/out param -- keys already present keep their unrelated values, the 10 ctor keys are overwritten with the ctor literals.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof",
+      "rule": "Source-backed Turret() ctor field defaults state from Turret.java."
+    },
+    "source_turret_default_constructor_state_result": {
+      "status": "active",
+      "owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "source_slice": "N2400",
+      "keys": {
+        "outlined_icon": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "outlinedIcon = 1;",
+          "rule": "The outlined-icon index (Turret.java:160, `outlinedIcon = 1;`): Block.outlinedIcon, the icon outline variant used by the icon builder; the ctor literal 1.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        },
+        "draw_liquid_light": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "drawLiquidLight = false;",
+          "rule": "Whether the turret draws its liquid light (Turret.java:161, `drawLiquidLight = false;`): Block.drawLiquidLight; the ctor disables it for turrets.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        },
+        "sync": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "sync = true;",
+          "rule": "Whether the block syncs its state over the network (Turret.java:162, `sync = true;`): Block.sync; the ctor enables it for turrets.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        },
+        "quick_rotate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "quickRotate = false;",
+          "rule": "Whether the block rotates quickly when placed (Turret.java:164, `quickRotate = false;`): Block.quickRotate; the ctor disables it for turrets.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        },
+        "draw_arrow": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "drawArrow = false;",
+          "rule": "Whether the block draws its placement arrow (Turret.java:165, `drawArrow = false;`): Block.drawArrow; the ctor disables it for turrets.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        },
+        "ignore_line_rotation": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "ignoreLineRotation = true;",
+          "rule": "Whether line placement ignores rotation (Turret.java:166, `ignoreLineRotation = true;`): Block.ignoreLineRotation; the ctor enables it for turrets.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        },
+        "rotate_draw_editor": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "rotateDrawEditor = false;",
+          "rule": "Whether the editor draw rotates with the block (Turret.java:167, `rotateDrawEditor = false;`): Block.rotateDrawEditor; the ctor disables it for turrets.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        },
+        "visual_rotation_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "visualRotationOffset = -90f;",
+          "rule": "The visual rotation offset in degrees (Turret.java:168, `visualRotationOffset = -90f;`): Block.visualRotationOffset, applied to the drawn rotation so the turret sprite points up at rotation 0; the ctor literal -90f.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        },
+        "region_rotated_1": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "regionRotated1 = 1;",
+          "rule": "The first region-rotation override (Turret.java:169, `regionRotated1 = 1;`): Block.regionRotated1, the placement rotation index whose icon uses the first rotated region; the ctor literal 1.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        },
+        "region_rotated_2": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "regionRotated2 = 2;",
+          "rule": "The second region-rotation override (Turret.java:170, `regionRotated2 = 2;`): Block.regionRotated2, the placement rotation index whose icon uses the second rotated region; the ctor literal 2.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        },
+        "turret_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Turret(String name){",
+          "rule": "The updated Turret def frame (Turret.java:157, `public Turret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the 10 ctor keys written with the ctor literals.",
+          "used_by": [
+            "SourceTurretDefaults.source_turret_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof",
+      "rule": "Source-backed Turret() ctor field defaults state from Turret.java."
     }
   },
   "version": 1

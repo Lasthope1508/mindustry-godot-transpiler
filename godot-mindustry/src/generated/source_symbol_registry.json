@@ -183112,6 +183112,182 @@
         "test_reference_graph_and_actual_c07_teams_update_active"
       ],
       "runtime_proof": "/root/C07TeamsUpdateActiveProof"
+    },
+    "source_turret_default_constructor_state_result.outlined_icon": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.outlined_icon",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "outlinedIcon = 1;",
+      "rule": "The outlined-icon index (Turret.java:160, `outlinedIcon = 1;`): Block.outlinedIcon, the icon outline variant used by the icon builder; the ctor literal 1.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
+    "source_turret_default_constructor_state_result.draw_liquid_light": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.draw_liquid_light",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "drawLiquidLight = false;",
+      "rule": "Whether the turret draws its liquid light (Turret.java:161, `drawLiquidLight = false;`): Block.drawLiquidLight; the ctor disables it for turrets.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
+    "source_turret_default_constructor_state_result.sync": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.sync",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "sync = true;",
+      "rule": "Whether the block syncs its state over the network (Turret.java:162, `sync = true;`): Block.sync; the ctor enables it for turrets.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
+    "source_turret_default_constructor_state_result.quick_rotate": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.quick_rotate",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "quickRotate = false;",
+      "rule": "Whether the block rotates quickly when placed (Turret.java:164, `quickRotate = false;`): Block.quickRotate; the ctor disables it for turrets.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
+    "source_turret_default_constructor_state_result.draw_arrow": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.draw_arrow",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "drawArrow = false;",
+      "rule": "Whether the block draws its placement arrow (Turret.java:165, `drawArrow = false;`): Block.drawArrow; the ctor disables it for turrets.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
+    "source_turret_default_constructor_state_result.ignore_line_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.ignore_line_rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "ignoreLineRotation = true;",
+      "rule": "Whether line placement ignores rotation (Turret.java:166, `ignoreLineRotation = true;`): Block.ignoreLineRotation; the ctor enables it for turrets.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
+    "source_turret_default_constructor_state_result.rotate_draw_editor": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.rotate_draw_editor",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "rotateDrawEditor = false;",
+      "rule": "Whether the editor draw rotates with the block (Turret.java:167, `rotateDrawEditor = false;`): Block.rotateDrawEditor; the ctor disables it for turrets.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
+    "source_turret_default_constructor_state_result.visual_rotation_offset": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.visual_rotation_offset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "visualRotationOffset = -90f;",
+      "rule": "The visual rotation offset in degrees (Turret.java:168, `visualRotationOffset = -90f;`): Block.visualRotationOffset, applied to the drawn rotation so the turret sprite points up at rotation 0; the ctor literal -90f.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
+    "source_turret_default_constructor_state_result.region_rotated_1": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.region_rotated_1",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "regionRotated1 = 1;",
+      "rule": "The first region-rotation override (Turret.java:169, `regionRotated1 = 1;`): Block.regionRotated1, the placement rotation index whose icon uses the first rotated region; the ctor literal 1.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
+    "source_turret_default_constructor_state_result.region_rotated_2": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.region_rotated_2",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "regionRotated2 = 2;",
+      "rule": "The second region-rotation override (Turret.java:170, `regionRotated2 = 2;`): Block.regionRotated2, the placement rotation index whose icon uses the second rotated region; the ctor literal 2.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
+    "source_turret_default_constructor_state_result.turret_defaults": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "godot_symbol": "source_turret_default_constructor_state_result.turret_defaults",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "java_expr": "public Turret(String name){",
+      "rule": "The updated Turret def frame (Turret.java:157, `public Turret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the 10 ctor keys written with the ctor literals.",
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
     }
   },
   "version": 1

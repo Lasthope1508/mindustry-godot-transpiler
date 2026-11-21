@@ -4337,6 +4337,33 @@
       ],
       "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
     },
+    "N2400": {
+      "canonical_ledger": "source_slice_ledger.N2400",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret(String name)",
+      "godot_owner": "SourceTurretDefaults.source_turret_default_constructor_state",
+      "source_symbols": [
+        "source_turret_default_constructor_state_result.outlined_icon",
+        "source_turret_default_constructor_state_result.draw_liquid_light",
+        "source_turret_default_constructor_state_result.sync",
+        "source_turret_default_constructor_state_result.quick_rotate",
+        "source_turret_default_constructor_state_result.draw_arrow",
+        "source_turret_default_constructor_state_result.ignore_line_rotation",
+        "source_turret_default_constructor_state_result.rotate_draw_editor",
+        "source_turret_default_constructor_state_result.visual_rotation_offset",
+        "source_turret_default_constructor_state_result.region_rotated_1",
+        "source_turret_default_constructor_state_result.region_rotated_2",
+        "source_turret_default_constructor_state_result.turret_defaults"
+      ],
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
