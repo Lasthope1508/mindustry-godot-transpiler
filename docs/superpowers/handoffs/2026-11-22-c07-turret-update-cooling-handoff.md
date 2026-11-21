@@ -1,6 +1,6 @@
 # Handoff — N2525 Turret `updateCooling()` coolant fold: pure function cho Turret family (C07) [DONE]
 
-## Status: DONE + PUSHED (gate lượt 2 xanh theo mẫu Godot-absent, xác minh độc lập lượt cron 02:15 +07 ngày 2026-11-22; slice c4fb3409, docs 5e5dc8e5, GOAL 71d79b2c, status TBD)
+## Status: DONE + PUSHED (gate lượt 2 xanh theo mẫu Godot-absent, xác minh độc lập lượt cron 02:15 +07 ngày 2026-11-22; slice c4fb3409, docs 5e5dc8e5, GOAL 71d79b2c, status 6eff12f9)
 
 - N2524 DONE + PUSHED ~00:15 +07 ngày 2026-11-22, origin/main == HEAD == b61fcdd8
   (5 commit: slice 5b4d3ed4 + docs 85b66637 + GOAL ea731672 + status ed9bdf54 + hashes b61fcdd8).

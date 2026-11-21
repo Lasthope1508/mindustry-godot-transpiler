@@ -5,7 +5,7 @@ Ngày: 2026-11-22 ~02:19 +07 (proof xanh, đọc trực tiếp proof .json mtime
 ## Trạng thái
 
 - N2524 DONE + PUSHED (origin/main b61fcdd8).
-- N2525 DONE + PUSHED (slice c4fb3409, docs 5e5dc8e5, GOAL 71d79b2c, status TBD, hashes TBD): port `ReloadTurretBuild.updateCooling()` thành 1 pure function mới `source_turret_cooling_state` (SourceTurretBuildState.gd:371) cho Turret family — KHÔNG driver tick call site (frame chưa có liquid state; catalog `coolant` không có trong properties của bất kỳ block nào). Hàm nhận 9 tham số, trả đúng 3 key `reload_counter` / `cooling_applied` / `coolant_consumed`; gate fail → không đổi `reload_counter`.
+- N2525 DONE + PUSHED (slice c4fb3409, docs 5e5dc8e5, GOAL 71d79b2c, status 6eff12f9, hashes TBD): port `ReloadTurretBuild.updateCooling()` thành 1 pure function mới `source_turret_cooling_state` (SourceTurretBuildState.gd:371) cho Turret family — KHÔNG driver tick call site (frame chưa có liquid state; catalog `coolant` không có trong properties của bất kỳ block nào). Hàm nhận 9 tham số, trả đúng 3 key `reload_counter` / `cooling_applied` / `coolant_consumed`; gate fail → không đổi `reload_counter`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
