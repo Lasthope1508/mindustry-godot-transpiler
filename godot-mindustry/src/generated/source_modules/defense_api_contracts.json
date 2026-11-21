@@ -1438,6 +1438,44 @@
       "rule": "Source-backed ContinuousTurretBuild.updateTile() state from ContinuousTurret.java.",
       "return_type": "Dictionary"
     },
+    "PortGame.source_continuous_turret_build_version_write_read_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_version_write_read_state",
+      "status": "active",
+      "source_slice": "N2375",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.version(); ContinuousTurretBuild.write(Writes); ContinuousTurretBuild.read(Reads, byte)",
+      "params": [
+        {
+          "name": "last_length",
+          "type": "float",
+          "schema": "source_continuous_turret_build_version_write_read_state_input.last_length"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_continuous_turret_build_version_write_read_state_input.revision"
+        },
+        {
+          "name": "stored_last_length",
+          "type": "float",
+          "schema": "source_continuous_turret_build_version_write_read_state_input.stored_last_length"
+        }
+      ],
+      "return_keys": [
+        "version",
+        "write_last_length",
+        "last_length"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_version_write_read_registration",
+        "test_all_c07_continuous_turret_version_write_read_input_evidence_is_exact",
+        "test_continuous_turret_version_write_read_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_version_write_read"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof",
+      "rule": "Source-backed ContinuousTurretBuild.version()/write()/read() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_continuous_turret_set_stats_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_set_stats_state",
       "status": "source-backed",

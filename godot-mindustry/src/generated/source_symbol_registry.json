@@ -180696,6 +180696,54 @@
         "test_reference_graph_and_actual_c07_teams_team_data_liveness"
       ],
       "runtime_proof": "/root/C07TeamDataLivenessProof"
+    },
+    "source_continuous_turret_build_version_write_read_state_result.version": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_version_write_read_state",
+      "godot_symbol": "source_continuous_turret_build_version_write_read_state_result.version",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.version(); ContinuousTurretBuild.write(Writes); ContinuousTurretBuild.read(Reads, byte)",
+      "java_expr": "return 3;",
+      "rule": "The save version (ContinuousTurret.java:176-178, `public byte version(){ return 3; }`): always 3 -- the name shares text with 7 other-class slices (N1187/N745/N923/N1885/N2217/N2286/N2322), registered under this java_method with the class prefix.",
+      "tests": [
+        "test_c07_continuous_turret_version_write_read_registration",
+        "test_all_c07_continuous_turret_version_write_read_input_evidence_is_exact",
+        "test_continuous_turret_version_write_read_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_version_write_read"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof"
+    },
+    "source_continuous_turret_build_version_write_read_state_result.write_last_length": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_version_write_read_state",
+      "godot_symbol": "source_continuous_turret_build_version_write_read_state_result.write_last_length",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.version(); ContinuousTurretBuild.write(Writes); ContinuousTurretBuild.read(Reads, byte)",
+      "java_expr": "write.f(lastLength);",
+      "rule": "The persisted lastLength (ContinuousTurret.java:184, `write.f(lastLength);`): the value write() stores, whatever the revision.",
+      "tests": [
+        "test_c07_continuous_turret_version_write_read_registration",
+        "test_all_c07_continuous_turret_version_write_read_input_evidence_is_exact",
+        "test_continuous_turret_version_write_read_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_version_write_read"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof"
+    },
+    "source_continuous_turret_build_version_write_read_state_result.last_length": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_version_write_read_state",
+      "godot_symbol": "source_continuous_turret_build_version_write_read_state_result.last_length",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.version(); ContinuousTurretBuild.write(Writes); ContinuousTurretBuild.read(Reads, byte)",
+      "java_expr": "lastLength = read.f();",
+      "rule": "The post-read lastLength (ContinuousTurret.java:191-193, `if(revision >= 3){ lastLength = read.f(); }`): the stored value at revision >= 3, the current value otherwise.",
+      "tests": [
+        "test_c07_continuous_turret_version_write_read_registration",
+        "test_all_c07_continuous_turret_version_write_read_input_evidence_is_exact",
+        "test_continuous_turret_version_write_read_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_version_write_read"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof"
     }
   },
   "version": 1

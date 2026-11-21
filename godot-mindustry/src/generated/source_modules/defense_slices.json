@@ -4117,6 +4117,25 @@
       ],
       "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof"
     },
+    "N2375": {
+      "canonical_ledger": "source_slice_ledger.N2375",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.version(); ContinuousTurretBuild.write(Writes); ContinuousTurretBuild.read(Reads, byte)",
+      "godot_owner": "PortGame.source_continuous_turret_build_version_write_read_state",
+      "source_symbols": [
+        "source_continuous_turret_build_version_write_read_state_result.version",
+        "source_continuous_turret_build_version_write_read_state_result.write_last_length",
+        "source_continuous_turret_build_version_write_read_state_result.last_length"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_version_write_read_registration",
+        "test_all_c07_continuous_turret_version_write_read_input_evidence_is_exact",
+        "test_continuous_turret_version_write_read_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_version_write_read"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

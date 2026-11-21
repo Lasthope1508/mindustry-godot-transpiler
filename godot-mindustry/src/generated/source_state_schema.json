@@ -245762,6 +245762,84 @@
       },
       "runtime_proof": "/root/C07TeamDataLivenessProof",
       "rule": "Source-backed TeamData.hasCore()+isAlive()+noCores()+core()+hasAI() state from Teams.java."
+    },
+    "source_continuous_turret_build_version_write_read_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_version_write_read_state",
+      "source_slice": "N2375",
+      "keys": {
+        "last_length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "write.f(lastLength);",
+          "rule": "The current lastLength field, lastLength (ContinuousTurret.java:40, `public float lastLength = size * 4f;`, written by updateBullet N2366): the value write() persists and read() keeps when the revision is below 3.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_version_write_read_state"
+          ]
+        },
+        "revision": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "if(revision >= 3){",
+          "rule": "The save revision, revision (ContinuousTurret.java:188-191): read() restores lastLength only when revision >= 3, the version() stamp.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_version_write_read_state"
+          ]
+        },
+        "stored_last_length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "lastLength = read.f();",
+          "rule": "The value read.f() would return from the stream (ContinuousTurret.java:192, `lastLength = read.f();`): the port has no save/load stream, so it arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_version_write_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof",
+      "rule": "Source-backed ContinuousTurretBuild.version()/write()/read() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_version_write_read_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_version_write_read_state",
+      "source_slice": "N2375",
+      "keys": {
+        "version": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return 3;",
+          "rule": "The save version (ContinuousTurret.java:176-178, `public byte version(){ return 3; }`): always 3 -- the name shares text with 7 other-class slices (N1187/N745/N923/N1885/N2217/N2286/N2322), registered under this java_method with the class prefix.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_version_write_read_state"
+          ]
+        },
+        "write_last_length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "write.f(lastLength);",
+          "rule": "The persisted lastLength (ContinuousTurret.java:184, `write.f(lastLength);`): the value write() stores, whatever the revision.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_version_write_read_state"
+          ]
+        },
+        "last_length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "lastLength = read.f();",
+          "rule": "The post-read lastLength (ContinuousTurret.java:191-193, `if(revision >= 3){ lastLength = read.f(); }`): the stored value at revision >= 3, the current value otherwise.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_version_write_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof",
+      "rule": "Source-backed ContinuousTurretBuild.version()/write()/read() state from ContinuousTurret.java."
     }
   },
   "version": 1

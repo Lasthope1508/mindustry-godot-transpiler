@@ -295,3 +295,63 @@ static func source_continuous_turret_build_turn_to_target_handle_bullet_state(ro
 		bullet_aim_x = aim_end.x
 		bullet_aim_y = aim_end.y
 	return {"rotation": new_rotation, "bullet_entry": bullet_entry, "bullet_aim_x": bullet_aim_x, "bullet_aim_y": bullet_aim_y}
+
+# ContinuousTurretBuild.version() (ContinuousTurret.java:176-178):
+# `@Override`
+# `public byte version(){`
+# `return 3;`
+# `}`
+# ContinuousTurretBuild.write() (ContinuousTurret.java:181-185):
+# `@Override`
+# `public void write(Writes write){`
+# `super.write(write);`
+# `write.f(lastLength);`
+# `}`
+# ContinuousTurretBuild.read() (ContinuousTurret.java:188-194):
+# `@Override`
+# `public void read(Reads read, byte revision){`
+# `super.read(read, revision);`
+# `if(revision >= 3){`
+# `lastLength = read.f();`
+# `}`
+# `}`
+# on `public class ContinuousTurretBuild extends TurretBuild{`
+# (ContinuousTurret.java:38) inside
+# `public class ContinuousTurret extends Turret{`.
+# This is the persistence record of the ContinuousTurret
+# build: version() stamps the save revision 3, write()
+# persists the single own field lastLength, and read()
+# restores it only for saves at revision >= 3 (the N2322
+# TurretBuild / N2286 DrillBuild merged-slice precedent).
+# The name `version` shares text with 7 other-class slices
+# (N1187/N745/N923/N1885/N2217/N2286/N2322) -- registered
+# under this java_method with the class prefix. The
+# `super.write(write);` / `super.read(read, revision);`
+# lines each EXACT-hit 9 slices -- they are callee/context
+# only, NOT distinguishing exprs: the super layer is
+# TurretBuild.write/read (N2322), not re-ported here.
+# RED decisions: (1) lastLength is the ContinuousTurretBuild
+# field (`public float lastLength = size * 4f;`,
+# ContinuousTurret.java:40), written by updateBullet (N2366)
+# and read by handleBullet (N2370) -- its value arrives as
+# the explicit last_length param. (2)
+# The port has no save/load stream, so the value read.f()
+# would return arrives as the explicit stored_last_length
+# param (the N2330 param precedent); a revision below 3
+# leaves lastLength where it already is. (3) The write
+# carries no revision: write.f(lastLength) persists the
+# current value whatever the revision, so write_last_length
+# never depends on the revision param. (4) Java write.f is
+# a 32-bit float while GDScript float is 64-bit -- the pure
+# function adds NO rounding epsilon; the proof round-trips
+# float32-safe values exactly. (5) NO driver tick line:
+# persistence is not a per-tick call, and the port has no
+# save/load stream to call this function yet. (6) Three
+# result symbols: version, write_last_length, last_length.
+static func source_continuous_turret_build_version_write_read_state(last_length: float, revision: int, stored_last_length: float) -> Dictionary:
+	var version: int = 3
+	var write_last_length: float = last_length
+	var read_last_length: float = last_length
+	if revision >= 3:
+		read_last_length = stored_last_length
+	return {"version": version, "write_last_length": write_last_length, "last_length": read_last_length}
