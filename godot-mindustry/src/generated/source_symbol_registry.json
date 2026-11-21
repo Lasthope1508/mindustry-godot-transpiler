@@ -181928,6 +181928,70 @@
         "test_reference_graph_and_actual_c07_team_data_lookup"
       ],
       "runtime_proof": "/root/C07TeamDataLookupProof"
+    },
+    "source_base_turret_build_draw_select_state_result.dash_circle_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_build_draw_select_state",
+      "godot_symbol": "source_base_turret_build_draw_select_state_result.dash_circle_called",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurretBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+      "rule": "Whether the dash-circle delegate was invoked (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): true when the dash_circle Callable is valid, false otherwise (the N2377 drawer_called precedent).",
+      "tests": [
+        "test_c07_base_turret_build_draw_select_registration",
+        "test_all_c07_base_turret_build_draw_select_input_evidence_is_exact",
+        "test_base_turret_build_draw_select_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_draw_select"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof"
+    },
+    "source_base_turret_build_draw_select_state_result.center": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_build_draw_select_state",
+      "godot_symbol": "source_base_turret_build_draw_select_state_result.center",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurretBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+      "rule": "The dash-circle center (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): the building position itself.",
+      "tests": [
+        "test_c07_base_turret_build_draw_select_registration",
+        "test_all_c07_base_turret_build_draw_select_input_evidence_is_exact",
+        "test_base_turret_build_draw_select_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_draw_select"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof"
+    },
+    "source_base_turret_build_draw_select_state_result.radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_build_draw_select_state",
+      "godot_symbol": "source_base_turret_build_draw_select_state_result.radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurretBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+      "rule": "The dash-circle radius (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): the live range() value, read through even when the delegate is invalid.",
+      "tests": [
+        "test_c07_base_turret_build_draw_select_registration",
+        "test_all_c07_base_turret_build_draw_select_input_evidence_is_exact",
+        "test_base_turret_build_draw_select_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_draw_select"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof"
+    },
+    "source_base_turret_build_draw_select_state_result.color": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_build_draw_select_state",
+      "godot_symbol": "source_base_turret_build_draw_select_state_result.color",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurretBuild.drawSelect()",
+      "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+      "rule": "The dash-circle color (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): the building team color, carried as the team_color String.",
+      "tests": [
+        "test_c07_base_turret_build_draw_select_registration",
+        "test_all_c07_base_turret_build_draw_select_input_evidence_is_exact",
+        "test_base_turret_build_draw_select_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_draw_select"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof"
     }
   },
   "version": 1

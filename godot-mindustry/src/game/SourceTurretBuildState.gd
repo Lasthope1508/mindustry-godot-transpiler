@@ -827,6 +827,35 @@ static func source_turret_draw_select_state(x: float, y: float, draw_min_range: 
 		return {"draw_min_range_circle": true, "center": Vector2(x, y), "radius": min_range, "color": team_color}
 	return {"draw_min_range_circle": false, "center": Vector2(x, y), "radius": 0.0, "color": team_color}
 
+# BaseTurretBuild.drawSelect() (BaseTurret.java:133-135):
+# `public void drawSelect(){`
+# `Drawf.dashCircle(x, y, range(), team.color);`
+# `}`
+# on `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`
+# (BaseTurret.java:110). The whole method is one line: it draws one dash
+# circle around the building. The center is the building world position,
+# the radius is the LIVE range() value (`public float range(){`,
+# BaseTurret.java:124, `return range;`, BaseTurret.java:125 -- computed
+# by the caller and passed in as the explicit range_value param, NOT
+# re-ported here; the field `range` (BaseTurret.java:22, `public float
+# range = 80f;`) is evidence only, the N2311/N2261 precedent), the color
+# is the building team color (`team.color`, passed as an explicit String,
+# the SourceBuildingDrawState draw_team precedent). Drawf.dashCircle
+# arrives as an explicit Callable param (the N2377 drawer precedent:
+# guarded with is_valid(), invoked with .call()), NOT re-ported here;
+# Drawf itself is NOT ported. NO driver tick line: drawSelect() is
+# selection UI, not per-tick state (the N2249/N2221 precedent). This is
+# a different method from N2334 TurretBuild.drawSelect() (selection UI,
+# Turret.java:481-488, the min-range circle, which calls
+# super.drawSelect() first) and from drawPlace()
+# (BaseTurret.java:84-92, which draws the range circle at place time).
+static func source_base_turret_build_draw_select_state(x: float, y: float, range_value: float, team_color: String, dash_circle: Callable) -> Dictionary:
+	var dash_circle_called: bool = false
+	if dash_circle.is_valid():
+		dash_circle.call(x, y, range_value, team_color)
+		dash_circle_called = true
+	return {"dash_circle_called": dash_circle_called, "center": Vector2(x, y), "radius": range_value, "color": team_color}
+
 # TurretBuild.draw() (Turret.java:476-478):
 # `public void draw(){`
 # `drawer.draw(this);`

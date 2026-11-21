@@ -8956,6 +8956,55 @@
       "rule": "Source-backed TractorBeamTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_base_turret_build_draw_select_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_base_turret_build_draw_select_state",
+      "status": "active",
+      "source_slice": "N2393",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "source_method": "BaseTurretBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_base_turret_build_draw_select_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_base_turret_build_draw_select_state_input.y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_base_turret_build_draw_select_state_input.range_value"
+        },
+        {
+          "name": "team_color",
+          "type": "String",
+          "schema": "source_base_turret_build_draw_select_state_input.team_color"
+        },
+        {
+          "name": "dash_circle",
+          "type": "Callable",
+          "schema": "source_base_turret_build_draw_select_state_input.dash_circle"
+        }
+      ],
+      "return_keys": [
+        "dash_circle_called",
+        "center",
+        "radius",
+        "color"
+      ],
+      "tests": [
+        "test_c07_base_turret_build_draw_select_registration",
+        "test_all_c07_base_turret_build_draw_select_input_evidence_is_exact",
+        "test_base_turret_build_draw_select_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_draw_select"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof",
+      "rule": "Source-backed BaseTurret drawSelect() row from BaseTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_active_sound_volume_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_active_sound_volume_state",
       "status": "active",

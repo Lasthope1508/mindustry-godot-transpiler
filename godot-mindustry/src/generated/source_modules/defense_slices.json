@@ -4269,6 +4269,26 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof"
     },
+    "N2393": {
+      "canonical_ledger": "source_slice_ledger.N2393",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurretBuild.drawSelect()",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_build_draw_select_state",
+      "source_symbols": [
+        "source_base_turret_build_draw_select_state_result.dash_circle_called",
+        "source_base_turret_build_draw_select_state_result.center",
+        "source_base_turret_build_draw_select_state_result.radius",
+        "source_base_turret_build_draw_select_state_result.color"
+      ],
+      "tests": [
+        "test_c07_base_turret_build_draw_select_registration",
+        "test_all_c07_base_turret_build_draw_select_input_evidence_is_exact",
+        "test_base_turret_build_draw_select_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_draw_select"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

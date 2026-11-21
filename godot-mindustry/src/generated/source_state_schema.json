@@ -248682,6 +248682,114 @@
       },
       "runtime_proof": "/root/C07TeamDataLookupProof",
       "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "source_base_turret_build_draw_select_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_base_turret_build_draw_select_state",
+      "source_slice": "N2393",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+          "rule": "The building world x (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): the dash circle is centered on the building position.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_draw_select_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+          "rule": "The building world y (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): the dash circle is centered on the building position.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_draw_select_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+          "rule": "The live range() value (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): range() (BaseTurret.java:124, `public float range(){` with `return range;`, BaseTurret.java:125) -- computed by the caller and passed in as an explicit param, NOT re-ported here (the N2311/N2261 precedent). The field `range` (BaseTurret.java:22, `public float range = 80f;`) is evidence only.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_draw_select_state"
+          ]
+        },
+        "team_color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+          "rule": "The building team color (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): `team.color` -- the Team color of the building, passed as an explicit String param (the SourceBuildingDrawState draw_team precedent, `team_color: String`); no Color object is constructed and no playback happens.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_draw_select_state"
+          ]
+        },
+        "dash_circle": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+          "rule": "The Drawf.dashCircle delegate (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): Drawf is NOT ported, so the dash-circle draw arrives as an explicit Callable param (the N2377 drawer precedent: guarded with is_valid(), invoked with .call(x, y, range_value, team_color)); an invalid callable is reported via dash_circle_called false.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof",
+      "rule": "Source-backed BaseTurret drawSelect() row from BaseTurret.java."
+    },
+    "source_base_turret_build_draw_select_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_base_turret_build_draw_select_state",
+      "source_slice": "N2393",
+      "keys": {
+        "dash_circle_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+          "rule": "Whether the dash-circle delegate was invoked (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): true when the dash_circle Callable is valid, false otherwise (the N2377 drawer_called precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_draw_select_state"
+          ]
+        },
+        "center": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+          "rule": "The dash-circle center (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): the building position itself.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_draw_select_state"
+          ]
+        },
+        "radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+          "rule": "The dash-circle radius (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): the live range() value, read through even when the delegate is invalid.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_draw_select_state"
+          ]
+        },
+        "color": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "Drawf.dashCircle(x, y, range(), team.color);",
+          "rule": "The dash-circle color (BaseTurret.java:134, `Drawf.dashCircle(x, y, range(), team.color);`): the building team color, carried as the team_color String.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_draw_select_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof",
+      "rule": "Source-backed BaseTurret drawSelect() row from BaseTurret.java."
     }
   },
   "version": 1
