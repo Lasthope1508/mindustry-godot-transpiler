@@ -240450,6 +240450,74 @@
       },
       "runtime_proof": "/root/C07TurretRangeProof",
       "rule": "Source-backed Turret range() / minRange() / trackingRange() accessors from Turret.java:334-350 + :217-219 + BaseTurret.java:21 + BulletType.java:157/:163 + Blocks.java."
+    },
+    "source_turret_status_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_status_state",
+      "source_slice": "N2527",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The turret frame (the port Building state) the tick stamps every tick (`public void updateTile(){`, Turret.java:490 -- the driver tick for every Turret-family build); it carries `enabled` (stamped by the tick, `frame[\"enabled\"] = bool(frame.get(\"enabled\", true))`), `is_shooting` / `reload_counter` (the N2524 shouldConsume leg) and the folded `efficiency` (stamped every tick by the driver via apply_update_consumption_state; absent folds to 1.0, the N2174 missing-stamp precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_status_state"
+          ]
+        },
+        "tick": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return ((state.tick / 30f) % 1f) < efficiency ? BlockStatus.active : BlockStatus.noInput;",
+          "rule": "The global tick (`state.tick`, BuildingComp.java:645 -- `((state.tick / 30f) % 1f) < efficiency`); it arrives as an explicit float param, not from the frame (the RepairTurret precedent -- the driver stamps no tick key).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_status_state"
+          ]
+        },
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(enabled && !hasAmmo()) return BlockStatus.noInput;",
+          "rule": "Whether the turret has ammo (`if(enabled && !hasAmmo()) return BlockStatus.noInput;`, Turret.java:370 -- the Turret leg, BEFORE super); a bool param, NOT computed in the function, because hasAmmo() MUTATES the ammo stack (`ammo.swap(ammo.size - 1, i);`, Turret.java:703) and cannot be a pure read. The boolean equivalent (no swap) is `canConsume() && size > 0 && (any entry amount >= ammoPerShot || cheating())` -- the swap only moves a sufficient entry to peek, it never changes the boolean; the live computation is a follow-up.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_status_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "public float reload = 10f;",
+          "rule": "The per-def reload time in ticks (`public float reload = 10f;`, ReloadTurret.java:10 -- the class default; duo 20f, scatter 18f, salvo 29f, foreshadow 200f, Blocks.java): the shouldConsume leg half (`return isShooting || reloadCounter < reload;`, Turret.java:365), read from the catalog `block.properties` with the 10.0 default (the tick :2665 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_status_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretStatusProof",
+      "rule": "Source-backed Turret status() read from Turret.java:369-372 + BuildingComp.java:632-646 + Turret.java:364-366 + ReloadTurret.java:10 + Blocks.java."
+    },
+    "source_turret_status_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_status_state",
+      "source_slice": "N2527",
+      "keys": {
+        "status": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BlockStatus status(){",
+          "rule": "The block status (`public BlockStatus status(){`, Turret.java:369 -- the Turret leg `enabled && !hasAmmo()` -> noInput, else super.status(), BuildingComp.java:632-646): one of \"logicDisable\" / \"noOutput\" / \"noInput\" / \"active\" (the SourceBuildingAccessState constants).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_status_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretStatusProof",
+      "rule": "Source-backed Turret status() read from Turret.java:369-372 + BuildingComp.java:632-646 + Turret.java:364-366 + ReloadTurret.java:10 + Blocks.java."
     }
   },
   "version": 1

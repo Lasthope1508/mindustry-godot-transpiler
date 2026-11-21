@@ -496,6 +496,81 @@ static func source_turret_range_state(frame: Dictionary, range_value: float, min
 	var tracking_range_out: float = range_out + maxf(range_value, tracking_range) - range_value
 	return {"range": range_out, "min_range": min_range_out, "tracking_range": tracking_range_out}
 
+static func source_turret_status_state(frame: Dictionary, tick: float, has_ammo: bool, reload: float) -> Dictionary:
+	# TurretBuild.status() (Turret.java:369-372,
+	# `public BlockStatus status(){` /
+	# `if(enabled && !hasAmmo()) return BlockStatus.noInput;` /
+	# `return super.status();`) with super.status() the
+	# BuildingComp chain (BuildingComp.java:632-646):
+	# `if(!enabled){` / `return BlockStatus.logicDisable;` /
+	# `if(!shouldConsume()){` / `return BlockStatus.noOutput;` /
+	# `if(efficiency <= 0 || !productionValid()){` /
+	# `return BlockStatus.noInput;` /
+	# `return ((state.tick / 30f) % 1f) < efficiency ? BlockStatus.active : BlockStatus.noInput;`.
+	# The Turret leg runs BEFORE super -- order matters: a
+	# turret with ammo falls through to super, a turret
+	# without ammo reports noInput even when enabled (and a
+	# disabled turret with no ammo still reports logicDisable,
+	# because the leg needs enabled). The shouldConsume leg
+	# reuses source_turret_should_consume_state(frame, reload)
+	# (N2524, Turret.java:364-366, `return isShooting ||
+	# reloadCounter < reload;`); `reload` is the per-def
+	# reload time (`public float reload = 10f;`,
+	# ReloadTurret.java:10), read from the catalog
+	# `block.properties` with the 10.0 default (the tick
+	# :2665 precedent) -- NOT hardcoded to duo.
+	# `has_ammo` is a bool param, NOT computed in the
+	# function: hasAmmo() MUTATES the ammo stack
+	# (`ammo.swap(ammo.size - 1, i);`, Turret.java:703), so
+	# it cannot be a pure read; the boolean equivalent (no
+	# swap) is `canConsume() && size > 0 && (any entry
+	# amount >= ammoPerShot || cheating())` -- the swap only
+	# moves a sufficient entry to peek, it never changes the
+	# boolean. canConsume() live is `potentialEfficiency >
+	# 0` (BuildingComp.java:1917-1919) through the heat gate
+	# (Turret.java:624-629, `if(heatRequirement > 0 &&
+	# heatReq <= 0f) return false;`, ported as
+	# source_turret_can_consume_heat_gate_state; the
+	# heatRequirement default is -1f, Turret.java:53, only
+	# afflict 20f / malign 144f are positive,
+	# Blocks.java:5122/:6240). ammoPerShot is 1 by default
+	# (Turret.java:49) with per-def overrides (ripple 2,
+	# foreshadow 5, spectre 2, diffuse 3, titan 4, smite
+	# 15, malign 2, Blocks.java:4069/:4225/:4443/:4521/
+	# :4791/:5639/:5736). The live hasAmmo computation
+	# (stacks + canConsume + ammoPerShot) is a follow-up --
+	# this slice ports super.status() + the Turret leg with
+	# the param. productionValid() is the canonical true
+	# default (source_building_access_state.
+	# production_valid_state(), BuildingComp.java:759-761,
+	# `return true;` -- no override in
+	# world/blocks/defense/turrets/ or world/blocks/defense/).
+	# The tick arrives as an explicit float param, not from
+	# the frame (the RepairTurret precedent,
+	# source_repair_turret_status_state). The status strings
+	# are the SourceBuildingAccessState constants
+	# ("logicDisable" / "noOutput" / "noInput" / "active").
+	# NO driver tick call site: status() is a read function,
+	# not per-tick, and no caller reads it today (UI/status
+	# display is C11). LIVE CONSEQUENCE (Java-faithful):
+	# DORMANT live today -- the driver tick never calls this
+	# function, so live behavior does not change.
+	var enabled: bool = bool(frame.get("enabled", true))
+	if enabled and not has_ammo:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_INPUT}
+	if not enabled:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_LOGIC_DISABLE}
+	var should_consume: bool = bool(source_turret_should_consume_state(frame, reload).get("should_consume", true))
+	if not should_consume:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_OUTPUT}
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var production_valid: bool = source_building_access_state.production_valid_state()
+	if efficiency <= 0.0 or not production_valid:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_INPUT}
+	if fmod(tick / 30.0, 1.0) < efficiency:
+		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_ACTIVE}
+	return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_INPUT}
+
 static func source_turret_can_heal_state(target_healing: bool, has_ammo: bool, ammo_collides_team: bool, ammo_heals: bool) -> Dictionary:
 	# TurretBuild.canHeal() (Turret.java:635-637):
 	# `protected boolean canHeal(){` /

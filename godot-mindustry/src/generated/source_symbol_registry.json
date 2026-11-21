@@ -178376,6 +178376,22 @@
         "test_reference_graph_and_actual_c07_turret_range"
       ],
       "runtime_proof": "/root/C07TurretRangeProof"
+    },
+    "source_turret_status_state_result.status": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_status_state",
+      "godot_symbol": "source_turret_status_state_result.status",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.status()",
+      "java_expr": "public BlockStatus status(){",
+      "rule": "The block status (`public BlockStatus status(){`, Turret.java:369 -- the Turret leg `enabled && !hasAmmo()` -> noInput, else super.status(), BuildingComp.java:632-646): one of \"logicDisable\" / \"noOutput\" / \"noInput\" / \"active\" (the SourceBuildingAccessState constants).",
+      "tests": [
+        "test_c07_turret_status_registration",
+        "test_all_c07_turret_status_input_evidence_is_exact",
+        "test_turret_status_state",
+        "test_reference_graph_and_actual_c07_turret_status"
+      ],
+      "runtime_proof": "/root/C07TurretStatusProof"
     }
   },
   "version": 1
