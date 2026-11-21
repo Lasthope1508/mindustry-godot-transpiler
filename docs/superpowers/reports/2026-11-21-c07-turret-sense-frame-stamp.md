@@ -5,7 +5,7 @@ Ngày: 2026-11-21 ~16:51 +07 (GREEN, xác minh độc lập), gate xong 17:35:44
 ## Trạng thái
 
 - N2519 DONE + PUSHED (origin/main b9112453).
-- N2520 DONE + PUSHED (slice 653a5c2f, docs TBD, GOAL TBD, status TBD, hashes TBD): turret driver tick stamp live sense inputs vào frame cho dispatch N2519 — 1 pure function mới `source_turret_sense_frame_stamp_state` (SourceTurretBuildState.gd:66) + 1 call site trong `source_turret_tick_buildings_state` (:2287) + 1 preload (`source_block_metadata_state`). Dispatch N2519 ngừng báo `handled:false` cho dead/health/camera* khi live turret tick. **sense() giờ có live input thật ở tầng tick**, không chỉ trong test/proof.
+- N2520 DONE + PUSHED (slice 653a5c2f, docs b76c6f9b, GOAL 0c543a46, status TBD, hashes TBD): turret driver tick stamp live sense inputs vào frame cho dispatch N2519 — 1 pure function mới `source_turret_sense_frame_stamp_state` (SourceTurretBuildState.gd:66) + 1 call site trong `source_turret_tick_buildings_state` (:2287) + 1 preload (`source_block_metadata_state`). Dispatch N2519 ngừng báo `handled:false` cho dead/health/camera* khi live turret tick. **sense() giờ có live input thật ở tầng tick**, không chỉ trong test/proof.
 
 ## Làm được lượt này (GREEN + gate xong)
 
