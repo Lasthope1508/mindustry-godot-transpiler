@@ -3918,6 +3918,24 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretUpdateTileProof"
     },
+    "N2363": {
+      "canonical_ledger": "source_slice_ledger.N2363",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.useAmmo()",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_use_ammo_state",
+      "source_symbols": [
+        "source_payload_ammo_turret_build_use_ammo_state_result.used_ammo",
+        "source_payload_ammo_turret_build_use_ammo_state_result.payload_contents"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_use_ammo_registration",
+        "test_all_c07_payload_ammo_turret_use_ammo_input_evidence_is_exact",
+        "test_payload_ammo_turret_use_ammo_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_use_ammo"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretUseAmmoProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
