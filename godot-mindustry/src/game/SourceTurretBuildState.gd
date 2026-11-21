@@ -440,6 +440,62 @@ static func source_turret_cooling_state(frame: Dictionary, has_coolant: bool, co
 		cooling_applied = true
 	return {"reload_counter": reload_counter, "cooling_applied": cooling_applied, "coolant_consumed": coolant_consumed}
 
+static func source_turret_range_state(frame: Dictionary, range_value: float, min_range: float, tracking_range: float, has_peek_ammo: bool, range_change: float, min_range_change: float) -> Dictionary:
+	# range() / minRange() / trackingRange() (Turret.java:334-350,
+	# the three TurretBuild accessors): `public float minRange(){` /
+	# `if(peekAmmo() != null){` /
+	# `return minRange + peekAmmo().minRangeChange;` /
+	# `return minRange;` (:334-338) /
+	# `public float range(){` /
+	# `if(peekAmmo() != null){` /
+	# `return range + peekAmmo().rangeChange;` /
+	# `return range;` (:340-346) /
+	# `public float trackingRange(){` /
+	# `return range() + trackingRange - range;` (:348-350).
+	# `range` is the BaseTurret field (`public float range = 80f;`,
+	# BaseTurret.java:21); `minRange` is the Turret field
+	# (`public float minRange = 0f;`, Turret.java:74 -- only ripple
+	# sets it, `minRange = 50f;`, Blocks.java:4076); `trackingRange`
+	# is the Turret field (`public float trackingRange = 0f;`,
+	# Turret.java:72 -- no def records it in the catalog, so it
+	# arrives as 0f and the init() normalization
+	# (`trackingRange = Math.max(range, trackingRange);`,
+	# Turret.java:217-219) is folded into this function: a raw 0f
+	# must NOT shrink the tracking range below range()).
+	# `rangeChange` / `minRangeChange` are BulletType defaults
+	# (`public float rangeChange = 0f;`, BulletType.java:157;
+	# `public float minRangeChange = 0f;`, :163 -- duo graphite
+	# sets `rangeChange = 16f;`, Blocks.java:3276, copper and
+	# silicon leave both at 0f, :3259-3295; NO def sets
+	# minRangeChange today, so the parameter stays for
+	# Java-faithfulness when content changes).
+	# `has_peek_ammo` is `peekAmmo() != null`
+	# (the ammo stack non-empty), NOT `hasAmmo()` (which also
+	# folds canConsume(), Turret.java:705-708); the tick's
+	# `peek_turret_ammo` returns an empty dict when there is no
+	# ammo. The three accessors are ONE function because they
+	# share the peekAmmo() read and the same consumers:
+	# `findTarget()` (`float trackRange = trackingRange(), range = range();`,
+	# Turret.java:652-656 -- findTarget stays BLOCKED,
+	# live entity scan) and the updateTile() within-check
+	# (`within(target, range() + hitSize/1.9f)`, :590). The frame
+	# is passed for the SourceTurretBuildState pure-function
+	# signature convention; this function reads no frame key
+	# today (all inputs are parameters) and stamps nothing --
+	# the consumers stamp the results onto the frame in later
+	# slices. NO driver tick call site: the frame stamps no
+	# `tracking_range` / `min_range` live keys. The aim inline
+	# (`SourceItemTurretBuildState.gd:506`, `shoot_range = range +
+	# range_change + hit_size / 1.9`) is a within-check, NOT
+	# range() -- left alone; rewiring aim onto this function is
+	# a consumer slice. LIVE CONSEQUENCE (Java-faithful):
+	# DORMANT live today -- the driver tick never calls this
+	# function, so live behavior does not change.
+	var range_out: float = range_value + range_change if has_peek_ammo else range_value
+	var min_range_out: float = min_range + min_range_change if has_peek_ammo else min_range
+	var tracking_range_out: float = range_out + maxf(range_value, tracking_range) - range_value
+	return {"range": range_out, "min_range": min_range_out, "tracking_range": tracking_range_out}
+
 static func source_turret_can_heal_state(target_healing: bool, has_ammo: bool, ammo_collides_team: bool, ammo_heals: bool) -> Dictionary:
 	# TurretBuild.canHeal() (Turret.java:635-637):
 	# `protected boolean canHeal(){` /

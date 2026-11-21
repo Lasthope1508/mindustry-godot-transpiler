@@ -275,11 +275,21 @@ def _contract_result_schema_name(
             candidates.append(f"{base}_result")
 
     requested_keys = {str(key) for key in (return_keys or [])}
+    existing = []
     for candidate in dict.fromkeys(candidates):
         schema = schemas.get(candidate)
         if not isinstance(schema, dict):
             continue
-        return candidate
+        existing.append(candidate)
+        # A legacy schema can shadow the canonical one: e.g. the old
+        # PortGame.source_turret_range owns source_turret_range_result, so
+        # the first candidate for source_turret_range_state is that legacy
+        # schema, not source_turret_range_state_result. Prefer the first
+        # candidate whose keys cover every requested return key.
+        if requested_keys and requested_keys <= set(schema.get("keys", {})):
+            return candidate
+    if existing:
+        return existing[0]
 
     # Some legacy contracts omit the canonical schema name. Accept only a
     # unique schema whose keys and explicit used_by metadata both identify it.

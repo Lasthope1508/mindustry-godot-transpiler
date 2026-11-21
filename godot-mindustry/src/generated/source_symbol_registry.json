@@ -178328,6 +178328,54 @@
         "test_reference_graph_and_actual_c07_turret_cooling"
       ],
       "runtime_proof": "/root/C07TurretCoolingProof"
+    },
+    "source_turret_range_state_result.range": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_range_state",
+      "godot_symbol": "source_turret_range_state_result.range",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.range()",
+      "java_expr": "return range + peekAmmo().rangeChange;",
+      "rule": "The effective range (`return range + peekAmmo().rangeChange;`, Turret.java:344, with `return range;`, :346, when there is no peeked ammo).",
+      "tests": [
+        "test_c07_turret_range_registration",
+        "test_all_c07_turret_range_input_evidence_is_exact",
+        "test_turret_range_state",
+        "test_reference_graph_and_actual_c07_turret_range"
+      ],
+      "runtime_proof": "/root/C07TurretRangeProof"
+    },
+    "source_turret_range_state_result.min_range": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_range_state",
+      "godot_symbol": "source_turret_range_state_result.min_range",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.range()",
+      "java_expr": "return minRange + peekAmmo().minRangeChange;",
+      "rule": "The effective minimum range (`return minRange + peekAmmo().minRangeChange;`, Turret.java:336, with `return minRange;`, :338, when there is no peeked ammo).",
+      "tests": [
+        "test_c07_turret_range_registration",
+        "test_all_c07_turret_range_input_evidence_is_exact",
+        "test_turret_range_state",
+        "test_reference_graph_and_actual_c07_turret_range"
+      ],
+      "runtime_proof": "/root/C07TurretRangeProof"
+    },
+    "source_turret_range_state_result.tracking_range": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_range_state",
+      "godot_symbol": "source_turret_range_state_result.tracking_range",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.range()",
+      "java_expr": "return range() + trackingRange - range;",
+      "rule": "The effective tracking range (`return range() + trackingRange - range;`, Turret.java:350 -- `range()` already folded with the ammo, minus the `range` field, plus the init-normalized `trackingRange`, Turret.java:217-219).",
+      "tests": [
+        "test_c07_turret_range_registration",
+        "test_all_c07_turret_range_input_evidence_is_exact",
+        "test_turret_range_state",
+        "test_reference_graph_and_actual_c07_turret_range"
+      ],
+      "runtime_proof": "/root/C07TurretRangeProof"
     }
   },
   "version": 1

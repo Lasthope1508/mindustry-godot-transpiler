@@ -4006,6 +4006,25 @@
       ],
       "runtime_proof": "/root/C07TurretCoolingProof"
     },
+    "N2526": {
+      "canonical_ledger": "source_slice_ledger.N2526",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.range()",
+      "godot_owner": "SourceTurretBuildState.source_turret_range_state",
+      "source_symbols": [
+        "source_turret_range_state_result.range",
+        "source_turret_range_state_result.min_range",
+        "source_turret_range_state_result.tracking_range"
+      ],
+      "tests": [
+        "test_c07_turret_range_registration",
+        "test_all_c07_turret_range_input_evidence_is_exact",
+        "test_turret_range_state",
+        "test_reference_graph_and_actual_c07_turret_range"
+      ],
+      "runtime_proof": "/root/C07TurretRangeProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

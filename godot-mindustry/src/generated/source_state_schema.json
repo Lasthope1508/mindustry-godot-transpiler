@@ -240332,6 +240332,124 @@
       },
       "runtime_proof": "/root/C07TurretCoolingProof",
       "rule": "Source-backed Turret updateCooling() coolant fold from ReloadTurret.java:28-38 + Turret.java:550/:727 + BaseTurret.java:32 + BuildingComp.java:1927-1929 + Blocks.java."
+    },
+    "source_turret_range_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_range_state",
+      "source_slice": "N2526",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The turret frame (the port Building state) the tick stamps every tick (`public void updateTile(){`, Turret.java:490 -- the driver tick for every Turret-family build); passed for the SourceTurretBuildState pure-function signature convention -- this function reads no frame key today (all inputs are parameters) and stamps nothing; the consumers (findTarget, the updateTile() within-check) stamp the results onto the frame in later slices.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_range_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The def range in tiles * 8 (`public float range = 80f;`, BaseTurret.java:21 -- the class default; duo 160, scatter 220.0, salvo 190.0, foreshadow 500.0, hail 235.0, lancer 165.0, ripple 290.0, smite 300, malign 410, Blocks.java / content_registry.json).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_range_state"
+          ]
+        },
+        "min_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float minRange = 0f;",
+          "rule": "The def minimum bullet range (`public float minRange = 0f;`, Turret.java:74 -- the class default; only ripple sets it, `minRange = 50f;`, Blocks.java:4076).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_range_state"
+          ]
+        },
+        "tracking_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float trackingRange = 0f;",
+          "rule": "The def tracking range (`public float trackingRange = 0f;`, Turret.java:72 -- the class default; no def records it in the catalog, so it arrives as 0f and the function normalizes it with `maxf(range_value, tracking_range)` per the init() normalization, Turret.java:217-219; smite and malign set `trackingRange = range * 1.4f;`, Blocks.java:5913/:6256).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_range_state"
+          ]
+        },
+        "has_peek_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(peekAmmo() != null){",
+          "rule": "Whether peekAmmo() returns an ammo type (`if(peekAmmo() != null){`, Turret.java:335/:343 -- the ammo stack non-empty), NOT hasAmmo() (which also folds canConsume(), Turret.java:705-708); the tick `peek_turret_ammo` returns an empty dict when there is no ammo.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_range_state"
+          ]
+        },
+        "range_change": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float rangeChange = 0f;",
+          "rule": "The peeked ammo range delta (`public float rangeChange = 0f;`, BulletType.java:157 -- the class default; duo graphite sets `rangeChange = 16f;`, Blocks.java:3276, copper and silicon leave it at 0f, :3259-3295).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_range_state"
+          ]
+        },
+        "min_range_change": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float minRangeChange = 0f;",
+          "rule": "The peeked ammo minimum-range delta (`public float minRangeChange = 0f;`, BulletType.java:163 -- the class default; NO def sets it today, so the parameter stays for Java-faithfulness when content changes).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRangeProof",
+      "rule": "Source-backed Turret range() / minRange() / trackingRange() accessors from Turret.java:334-350 + :217-219 + BaseTurret.java:21 + BulletType.java:157/:163 + Blocks.java."
+    },
+    "source_turret_range_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_range_state",
+      "source_slice": "N2526",
+      "keys": {
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return range + peekAmmo().rangeChange;",
+          "rule": "The effective range (`return range + peekAmmo().rangeChange;`, Turret.java:344, with `return range;`, :346, when there is no peeked ammo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_range_state"
+          ]
+        },
+        "min_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return minRange + peekAmmo().minRangeChange;",
+          "rule": "The effective minimum range (`return minRange + peekAmmo().minRangeChange;`, Turret.java:336, with `return minRange;`, :338, when there is no peeked ammo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_range_state"
+          ]
+        },
+        "tracking_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return range() + trackingRange - range;",
+          "rule": "The effective tracking range (`return range() + trackingRange - range;`, Turret.java:350 -- `range()` already folded with the ammo, minus the `range` field, plus the init-normalized `trackingRange`, Turret.java:217-219).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretRangeProof",
+      "rule": "Source-backed Turret range() / minRange() / trackingRange() accessors from Turret.java:334-350 + :217-219 + BaseTurret.java:21 + BulletType.java:157/:163 + Blocks.java."
     }
   },
   "version": 1

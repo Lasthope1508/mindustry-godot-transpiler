@@ -71101,6 +71101,63 @@
       ],
       "runtime_proof": "/root/C07TurretCoolingProof",
       "rule": "Source-backed Turret updateCooling() coolant fold from ReloadTurret.java:28-38 + Turret.java:550/:727 + BaseTurret.java:32 + BuildingComp.java:1927-1929 + Blocks.java."
+    },
+    "SourceTurretBuildState.source_turret_range_state": {
+      "status": "active",
+      "source_slice": "N2526",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.range()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_range_state_input.frame"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_turret_range_state_input.range_value"
+        },
+        {
+          "name": "min_range",
+          "type": "float",
+          "schema": "source_turret_range_state_input.min_range"
+        },
+        {
+          "name": "tracking_range",
+          "type": "float",
+          "schema": "source_turret_range_state_input.tracking_range"
+        },
+        {
+          "name": "has_peek_ammo",
+          "type": "bool",
+          "schema": "source_turret_range_state_input.has_peek_ammo"
+        },
+        {
+          "name": "range_change",
+          "type": "float",
+          "schema": "source_turret_range_state_input.range_change"
+        },
+        {
+          "name": "min_range_change",
+          "type": "float",
+          "schema": "source_turret_range_state_input.min_range_change"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "range",
+        "min_range",
+        "tracking_range"
+      ],
+      "tests": [
+        "test_c07_turret_range_registration",
+        "test_all_c07_turret_range_input_evidence_is_exact",
+        "test_turret_range_state",
+        "test_reference_graph_and_actual_c07_turret_range"
+      ],
+      "runtime_proof": "/root/C07TurretRangeProof",
+      "rule": "Source-backed Turret range() / minRange() / trackingRange() accessors from Turret.java:334-350 + :217-219 + BaseTurret.java:21 + BulletType.java:157/:163 + Blocks.java."
     }
   },
   "policy": {
