@@ -74499,6 +74499,64 @@
       ],
       "runtime_proof": "/root/C07BeamDrillDrawProof",
       "rule": "Source-backed BeamDrillBuild.draw() state from BeamDrill.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_update_team_stats_state": {
+      "status": "active",
+      "source_slice": "N2383",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.updateTeamStats()",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_update_team_stats_state_input.teams_state"
+        },
+        {
+          "name": "units",
+          "type": "Array",
+          "schema": "source_teams_update_team_stats_state_input.units"
+        },
+        {
+          "name": "players",
+          "type": "Array",
+          "schema": "source_teams_update_team_stats_state_input.players"
+        },
+        {
+          "name": "wave_team_id",
+          "type": "int",
+          "schema": "source_teams_update_team_stats_state_input.wave_team_id"
+        },
+        {
+          "name": "content_unit_size",
+          "type": "int",
+          "schema": "source_teams_update_team_stats_state_input.content_unit_size"
+        },
+        {
+          "name": "present",
+          "type": "Array",
+          "schema": "source_teams_update_team_stats_state_input.present"
+        },
+        {
+          "name": "bosses",
+          "type": "Array",
+          "schema": "source_teams_update_team_stats_state_input.bosses"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "teams_state",
+        "present",
+        "bosses",
+        "unit_counts_by_team"
+      ],
+      "tests": [
+        "test_c07_teams_update_team_stats_registration",
+        "test_all_c07_teams_update_team_stats_input_evidence_is_exact",
+        "test_teams_update_team_stats_state",
+        "test_reference_graph_and_actual_c07_teams_update_team_stats"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateTeamStatsProof",
+      "rule": "Source-backed Teams.updateTeamStats() state from Teams.java."
     }
   },
   "policy": {

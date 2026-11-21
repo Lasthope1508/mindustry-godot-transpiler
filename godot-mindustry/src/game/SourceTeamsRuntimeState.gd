@@ -15,6 +15,17 @@ const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwne
 # buildings > 0 || (team == neoplastic && units > 0) (Teams.java:446-448).
 # updateEnemies (Teams.java:252-268) keeps the wave team active and sets
 # each active team's coreEnemies to the other active teams.
+# updateTeamStats (Teams.java:181-251, N2383) reads and writes the
+# fuller TeamData shape on the same per-team dicts:
+# {"cores": [...], "buildings": [...], "units": [...],
+#  "core_enemies": [...], "present_flag": bool, "unit_count": int,
+#  "players": [player refs], "last_core": core ref or absent,
+#  "unit_tree": {"inserted": [unit records]} or absent,
+#  "type_counts": [int] or absent,
+#  "units_by_type": [Array of unit records or null] or absent}.
+# present_flag / lastCore / unitTree / typeCounts / unitsByType are
+# TeamData fields (Teams.java:280, 290, 296, 299, 311); present and
+# bosses are the Teams-level Seqs (Teams.java:30, 32).
 
 # Team.java:41: neoplastic = new Team(6, "neoplastic", ...).
 const SOURCE_TEAMS_NEOPLASTIC_TEAM_ID := 6
@@ -630,3 +641,213 @@ static func source_teams_get_active_state(teams_state: Dictionary) -> Dictionary
 			kept.append(member_team_id)
 	teams_state["active"] = kept
 	return {"active": kept, "teams_state": teams_state}
+
+
+static func _teams_reset_team_data(data: Dictionary) -> Dictionary:
+	# The per-team reset half of Teams.updateTeamStats
+	# (Teams.java:185-211) for one TeamData dict, shared by
+	# the Team.all loop and by units/players whose team had
+	# no entry yet (Java `team.data()` creates it, so the
+	# reset had already run on it in the first loop).
+	# `data.unitCount = 0;` / `if(data.typeCounts != null){`
+	# / `Arrays.fill(data.typeCounts, 0);` are already the
+	# exact_exprs of N2141 -- the reset behavior is
+	# implemented here, the exprs are cited as evidence
+	# only, not re-registered. lastCore keeps its previous
+	# value when the team has no cores (Java only assigns
+	# inside `if(data.cores.size > 0){`); unitTree is only
+	# cleared when present (Java `if(data.unitTree != null){`).
+	data["present_flag"] = int((data.get("buildings", []) as Array).size()) > 0
+	data["unit_count"] = 0
+	data["units"] = []
+	data["players"] = []
+	if int((data.get("cores", []) as Array).size()) > 0:
+		data["last_core"] = (data.get("cores", []) as Array)[0]
+	if data.get("unit_tree", null) is Dictionary:
+		(data["unit_tree"] as Dictionary)["inserted"] = []
+	var type_counts: Array = (data.get("type_counts", []) as Array).duplicate()
+	for i in type_counts.size():
+		type_counts[i] = 0
+	data["type_counts"] = type_counts
+	if data.get("units_by_type", null) is Array:
+		var units_by_type: Array = data["units_by_type"]
+		for i in units_by_type.size():
+			if units_by_type[i] is Array:
+				units_by_type[i] = []
+	return {"type_counts": type_counts, "unit_count": 0, "team_unit_counts": {}}
+
+
+static func source_teams_update_team_stats_state(teams_state: Dictionary, units: Array, players: Array, wave_team_id: int, content_unit_size: int, present: Array, bosses: Array) -> Dictionary:
+	# Teams.updateTeamStats (Teams.java:181-251):
+	# `present.clear();`
+	# `bosses.clear();`
+	# `for(Team team : Team.all){`
+	# `TeamData data = team.data();`
+	# `data.presentFlag = data.buildings.size > 0;`
+	# `data.unitCount = 0;`
+	# `data.units.clear();`
+	# `data.players.clear();`
+	# `if(data.cores.size > 0){`
+	# `data.lastCore = data.cores.first();`
+	# `}`
+	# `if(data.unitTree != null){`
+	# `data.unitTree.clear();`
+	# `}`
+	# `if(data.typeCounts != null){`
+	# `Arrays.fill(data.typeCounts, 0);`
+	# `}`
+	# `//clear old unit records`
+	# `if(data.unitsByType != null){`
+	# `for(int i = 0; i < data.unitsByType.length; i++){`
+	# `if(data.unitsByType[i] != null){`
+	# `data.unitsByType[i].clear();`
+	# `}`
+	# `}`
+	# `}`
+	# `}`
+	# `//TODO this is slow and dumb`
+	# `for(Unit unit : Groups.unit){`
+	# `if(unit.type == null) continue;`
+	# `TeamData data = unit.team.data();`
+	# `data.tree().insert(unit);`
+	# `data.units.add(unit);`
+	# `data.presentFlag = true;`
+	# `if(unit.team == state.rules.waveTeam && unit.isBoss()){`
+	# `bosses.add(unit);`
+	# `}`
+	# `if(data.unitsByType == null || data.unitsByType.length <= unit.type.id){`
+	# `data.unitsByType = new Seq[content.units().size];`
+	# `}`
+	# `if(data.unitsByType[unit.type.id] == null){`
+	# `data.unitsByType[unit.type.id] = new Seq<>();`
+	# `}`
+	# `data.unitsByType[unit.type.id].add(unit);`
+	# `count(unit);`
+	# `}`
+	# `for(var player : Groups.player){`
+	# `player.team().data().players.add(player);`
+	# `}`
+	# `//update presence of each team.`
+	# `for(Team team : Team.all){`
+	# `TeamData data = team.data();`
+	# `if(data.presentFlag || data.active()){`
+	# `present.add(data);`
+	# `}`
+	# `}`
+	# `}`
+	# on `public void updateTeamStats(){` (Teams.java:181,
+	# already the exact_expr of N2141, cited here as
+	# evidence only). The header, `data.unitCount = 0;`,
+	# `if(data.typeCounts != null){`,
+	# `Arrays.fill(data.typeCounts, 0);`,
+	# `for(Unit unit : Groups.unit){`,
+	# `data.units.add(unit);`, and helper `count(Unit unit){`
+	# are already the exact_exprs of N2141; the loop header
+	# `for(Team team : Team.all){` is already the exact_expr
+	# of N1356 (Block.load) -- none is re-registered. The
+	# reset + recount behavior they describe IS implemented
+	# here, through the N2141 callee
+	# `_team_data_count_unit` (which wraps
+	# `source_team_data_update_count_state`) for
+	# `count(unit);`. `data.tree()` is NOT called as an
+	# accessor: the team's unitTree arrives inside the
+	# per-team dict and is modeled as its inserted-unit
+	# list {"inserted": [...]} -- the QuadTree spatial
+	# structure (Teams.java:296, 437-439) is not ported;
+	# tree() creates the tree lazily when null, so the
+	# insert creates the {"inserted": [...]} dict when the
+	# team had none. `data.active()` is TeamData.active()
+	# (Teams.java:446-448), already the exact_expr of
+	# N2074/N2075 -- the file's `_teams_active` helper IS
+	# that callee. Team.all is the teams_state["teams"]
+	# keys (the frame's tracked teams, in key order); a
+	# unit/player whose team had no entry creates it via
+	# `_teams_data`, exactly as Java `team.data()` does.
+	# Groups.unit / Groups.player are live entity groups
+	# (not ported): units arrive as records {"team_id":
+	# int, "type_id": int (-1 maps to unit.type == null),
+	# "type_name": String, "is_boss": bool,
+	# "payload_units": [...]} (the N2141 record shape plus
+	# is_boss), players as {"team_id": int, "ref":
+	# Variant}. state.rules.waveTeam and
+	# content.units().size arrive as explicit params (the
+	# N2330 param precedent). present/bosses are the
+	# frame's in/out Seqs: cleared first, then rebuilt in
+	# place, so the caller's Arrays are the ones mutated.
+	# teams_state is an in/out param. The unitsByType
+	# regrowth replaces the whole array with a fresh one
+	# of length content_unit_size exactly as Java does
+	# (`data.unitsByType = new Seq[content.units().size];`)
+	# -- in practice it only fires on the first unit of a
+	# team, since afterwards length == content size.
+	present.clear()
+	bosses.clear()
+	var teams: Dictionary = teams_state.get("teams", {})
+	var rules: Dictionary = teams_state.get("rules", {})
+	var per_team := {}
+	for team_id in teams.keys():
+		var member_team_id := int(team_id)
+		var data: Dictionary = teams[member_team_id]
+		per_team[member_team_id] = _teams_reset_team_data(data)
+	for unit in units:
+		if not unit is Dictionary:
+			continue
+		if int(unit.get("type_id", -1)) < 0:
+			continue
+		var unit_team_id := int(unit.get("team_id", -1))
+		var data: Dictionary = _teams_data(teams_state, unit_team_id)
+		var work: Dictionary = per_team.get(unit_team_id, {})
+		if work.is_empty():
+			work = _teams_reset_team_data(data)
+			per_team[unit_team_id] = work
+		var unit_tree: Dictionary = data.get("unit_tree", {})
+		if not unit_tree is Dictionary:
+			unit_tree = {}
+		var inserted: Array = unit_tree.get("inserted", [])
+		inserted.append(unit)
+		unit_tree["inserted"] = inserted
+		data["unit_tree"] = unit_tree
+		var team_units: Array = data.get("units", [])
+		team_units.append(unit)
+		data["units"] = team_units
+		data["present_flag"] = true
+		if unit_team_id == wave_team_id and bool(unit.get("is_boss", false)):
+			bosses.append(unit)
+		var type_id := int(unit.get("type_id", -1))
+		var units_by_type: Variant = data.get("units_by_type", null)
+		if not units_by_type is Array or (units_by_type as Array).size() <= type_id:
+			var grown: Array = []
+			grown.resize(content_unit_size)
+			units_by_type = grown
+			data["units_by_type"] = units_by_type
+		if (units_by_type as Array)[type_id] == null:
+			(units_by_type as Array)[type_id] = []
+		((units_by_type as Array)[type_id] as Array).append(unit)
+		var counted: Dictionary = _team_data_count_unit(unit, unit_team_id, work.get("type_counts", []), int(work.get("unit_count", 0)), content_unit_size, work.get("team_unit_counts", {}))
+		work["type_counts"] = counted.get("type_counts", work.get("type_counts", []))
+		work["unit_count"] = int(counted.get("unit_count", 0))
+		work["team_unit_counts"] = counted.get("team_unit_counts", work.get("team_unit_counts", {}))
+	for player in players:
+		if not player is Dictionary:
+			continue
+		var player_team_id := int(player.get("team_id", -1))
+		var data: Dictionary = _teams_data(teams_state, player_team_id)
+		if not per_team.has(player_team_id):
+			per_team[player_team_id] = _teams_reset_team_data(data)
+		var team_players: Array = data.get("players", [])
+		team_players.append(player.get("ref", player))
+		data["players"] = team_players
+	var unit_counts_by_team := {}
+	for team_id in per_team.keys():
+		var member_team_id := int(team_id)
+		var data: Dictionary = (teams_state.get("teams", {}) as Dictionary).get(member_team_id, {})
+		var work: Dictionary = per_team[member_team_id]
+		data["type_counts"] = work.get("type_counts", data.get("type_counts", []))
+		data["unit_count"] = int(work.get("unit_count", 0))
+		unit_counts_by_team[member_team_id] = work.get("team_unit_counts", {})
+	for team_id in (teams_state.get("teams", {}) as Dictionary).keys():
+		var member_team_id := int(team_id)
+		var data: Dictionary = (teams_state.get("teams", {}) as Dictionary).get(member_team_id, {})
+		if bool(data.get("present_flag", false)) or _teams_active(data, member_team_id, rules):
+			present.append(member_team_id)
+	return {"teams_state": teams_state, "present": present, "bosses": bosses, "unit_counts_by_team": unit_counts_by_team}

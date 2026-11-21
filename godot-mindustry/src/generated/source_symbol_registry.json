@@ -181352,6 +181352,70 @@
         "test_reference_graph_and_actual_c07_beam_drill_draw"
       ],
       "runtime_proof": "/root/C07BeamDrillDrawProof"
+    },
+    "source_teams_update_team_stats_state_result.teams_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_update_team_stats_state",
+      "godot_symbol": "source_teams_update_team_stats_state_result.teams_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.updateTeamStats()",
+      "java_expr": "if(data.presentFlag || data.active()){",
+      "rule": "The updated teams state (Teams.java:246, `if(data.presentFlag || data.active()){`): every tracked team's data after the reset + recount -- present_flag, unit_count, units, players, last_core, unit_tree, type_counts, units_by_type all rewritten; teams created by a unit/player get the reset treatment too.",
+      "tests": [
+        "test_c07_teams_update_team_stats_registration",
+        "test_all_c07_teams_update_team_stats_input_evidence_is_exact",
+        "test_teams_update_team_stats_state",
+        "test_reference_graph_and_actual_c07_teams_update_team_stats"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateTeamStatsProof"
+    },
+    "source_teams_update_team_stats_state_result.present": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_update_team_stats_state",
+      "godot_symbol": "source_teams_update_team_stats_state_result.present",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.updateTeamStats()",
+      "java_expr": "present.add(data);",
+      "rule": "The present team ids (Teams.java:247, `present.add(data);`): every team whose presentFlag is true or whose TeamData.active() is true, in teams_state key order -- the same Array passed in, rebuilt in place.",
+      "tests": [
+        "test_c07_teams_update_team_stats_registration",
+        "test_all_c07_teams_update_team_stats_input_evidence_is_exact",
+        "test_teams_update_team_stats_state",
+        "test_reference_graph_and_actual_c07_teams_update_team_stats"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateTeamStatsProof"
+    },
+    "source_teams_update_team_stats_state_result.bosses": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_update_team_stats_state",
+      "godot_symbol": "source_teams_update_team_stats_state_result.bosses",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.updateTeamStats()",
+      "java_expr": "bosses.add(unit);",
+      "rule": "The current boss units (Teams.java:222, `bosses.add(unit);`): the wave-team boss unit records seen in this rebuild, in Groups.unit order -- the same Array passed in, rebuilt in place.",
+      "tests": [
+        "test_c07_teams_update_team_stats_registration",
+        "test_all_c07_teams_update_team_stats_input_evidence_is_exact",
+        "test_teams_update_team_stats_state",
+        "test_reference_graph_and_actual_c07_teams_update_team_stats"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateTeamStatsProof"
+    },
+    "source_teams_update_team_stats_state_result.unit_counts_by_team": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_update_team_stats_state",
+      "godot_symbol": "source_teams_update_team_stats_state_result.unit_counts_by_team",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.updateTeamStats()",
+      "java_expr": "count(unit);",
+      "rule": "The name-keyed unit counts per team (Teams.java:235, `count(unit);`): {team_id: {type_name: count}} -- the N2141 count() callee's team_unit_counts view, one entry per team that was reset (payload units included, exactly as count(unit) recurses).",
+      "tests": [
+        "test_c07_teams_update_team_stats_registration",
+        "test_all_c07_teams_update_team_stats_input_evidence_is_exact",
+        "test_teams_update_team_stats_state",
+        "test_reference_graph_and_actual_c07_teams_update_team_stats"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateTeamStatsProof"
     }
   },
   "version": 1

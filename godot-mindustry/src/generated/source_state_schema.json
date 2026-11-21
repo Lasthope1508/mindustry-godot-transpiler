@@ -247270,6 +247270,134 @@
       },
       "runtime_proof": "/root/C07BeamDrillDrawProof",
       "rule": "Source-backed BeamDrillBuild.draw() state from BeamDrill.java."
+    },
+    "source_teams_update_team_stats_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_update_team_stats_state",
+      "source_slice": "N2383",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "TeamData data = team.data();",
+          "rule": "The teams state (Teams.updateTeamStats, Teams.java:186, `TeamData data = team.data();`): the family-convention first arg; it carries the \"teams\" map team_id -> TeamData dict, the \"active\" list, and the \"rules\" ({wave_team, waves}) the active() callee reads. Every per-team field updateTeamStats touches lives here (present_flag, unit_count, units, players, last_core, unit_tree, type_counts, units_by_type) -- teams_state is an in/out param, mutated in place.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        },
+        "units": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "for(Unit unit : Groups.unit){",
+          "rule": "The live units (Teams.java:214, `for(Unit unit : Groups.unit){`): Groups.unit is a live entity group (not ported), so units arrive as explicit records {\"team_id\": int, \"type_id\": int (-1 maps to unit.type == null), \"type_name\": String, \"is_boss\": bool, \"payload_units\": [...]} (the N2141 record shape plus is_boss for unit.isBoss()). A record with type_id < 0 is skipped (`if(unit.type == null) continue;`, Teams.java:215).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        },
+        "players": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "for(var player : Groups.player){",
+          "rule": "The players (Teams.java:240, `for(var player : Groups.player){`): Groups.player is a live entity group (not ported), so players arrive as explicit records {\"team_id\": int, \"ref\": Variant} -- player.team() is the team_id, the player itself is the opaque ref stored in that team's players list.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        },
+        "wave_team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(unit.team == state.rules.waveTeam && unit.isBoss()){",
+          "rule": "state.rules.waveTeam as an explicit param (Teams.java:221, `if(unit.team == state.rules.waveTeam && unit.isBoss()){`): Rules is not ported, so the wave team arrives as its team id (the N2330 param precedent) -- only a boss unit of this team lands in bosses.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        },
+        "content_unit_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "data.unitsByType = new Seq[content.units().size];",
+          "rule": "content.units().size as an explicit param (Teams.java:226, `data.unitsByType = new Seq[content.units().size];`): the content registry is not ported, so the unit-type count arrives explicitly -- it sizes the fresh unitsByType array on regrowth and the type_counts growth inside the count() callee.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        },
+        "present": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "present.clear();",
+          "rule": "The frame's present Seq (Teams.java:182, `present.clear();`): cleared first, then rebuilt in place with the team ids whose presentFlag is true or whose TeamData.active() is true -- the caller's Array is the one mutated, so present is an in/out param.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        },
+        "bosses": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "bosses.clear();",
+          "rule": "The frame's bosses Seq (Teams.java:183, `bosses.clear();`): cleared first, then rebuilt in place with the wave-team boss unit records -- the caller's Array is the one mutated, so bosses is an in/out param.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsUpdateTeamStatsProof",
+      "rule": "Source-backed Teams.updateTeamStats() state from Teams.java."
+    },
+    "source_teams_update_team_stats_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_update_team_stats_state",
+      "source_slice": "N2383",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(data.presentFlag || data.active()){",
+          "rule": "The updated teams state (Teams.java:246, `if(data.presentFlag || data.active()){`): every tracked team's data after the reset + recount -- present_flag, unit_count, units, players, last_core, unit_tree, type_counts, units_by_type all rewritten; teams created by a unit/player get the reset treatment too.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        },
+        "present": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "present.add(data);",
+          "rule": "The present team ids (Teams.java:247, `present.add(data);`): every team whose presentFlag is true or whose TeamData.active() is true, in teams_state key order -- the same Array passed in, rebuilt in place.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        },
+        "bosses": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "bosses.add(unit);",
+          "rule": "The current boss units (Teams.java:222, `bosses.add(unit);`): the wave-team boss unit records seen in this rebuild, in Groups.unit order -- the same Array passed in, rebuilt in place.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        },
+        "unit_counts_by_team": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "count(unit);",
+          "rule": "The name-keyed unit counts per team (Teams.java:235, `count(unit);`): {team_id: {type_name: count}} -- the N2141 count() callee's team_unit_counts view, one entry per team that was reset (payload units included, exactly as count(unit) recurses).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_team_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsUpdateTeamStatsProof",
+      "rule": "Source-backed Teams.updateTeamStats() state from Teams.java."
     }
   },
   "version": 1
