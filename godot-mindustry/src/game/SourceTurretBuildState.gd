@@ -7,6 +7,7 @@ const source_item_turret_build_state := preload("res://src/game/SourceItemTurret
 const source_bullet_runtime_state := preload("res://src/game/SourceBulletRuntimeState.gd")
 const source_rules_state := preload("res://src/game/SourceRulesRuntimeState.gd")
 const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
@@ -60,6 +61,59 @@ static func source_turret_tick_frame_state(frame: Dictionary, block_implementati
 	# instead of resetting it, the factory pattern
 	# (SourceFactoryBuildState.gd:927).
 	frame["enabled"] = bool(frame.get("enabled", true))
+	return frame
+
+static func source_turret_sense_frame_stamp_state(frame: Dictionary, health: float, unit_sense_value: float) -> Dictionary:
+	# The sense stamp (N2520): the turret driver tick stamps the
+	# live sense inputs it CAN supply today into the frame, so
+	# the N2519-wired dispatch `source_building_comp_sense_state`
+	# stops reporting handled:false for them when a live turret
+	# ticks (BuildingComp.sense() is `public double sense(LAccess
+	# sensor){`, BuildingComp.java:2093-2126). The tick is
+	# TurretBuild.updateTile() (`public void updateTile(){`,
+	# Turret.java:490), which runs for every Turret-family build
+	# the tick already visits. Exactly six keys are written:
+	# - `health` is the live health passed in (`case health ->
+	# health;`, BuildingComp.java:2101);
+	# - `is_dead` is `health <= 0.0` (the kill trigger
+	# `if(health <= 0f && !dead()){`, BuildingComp.java:2170,
+	# sets `dead = true;` in killed(), :2243 -- the
+	# port-consistent reading, SourceBuildingDamageState.gd:40
+	# `"was_dead": current_health <= 0.0`, NOT a guess about
+	# the `dead` field);
+	# - `tile_build_is_self` is the constant true -- the tick
+	# only iterates live placed buildings, so `tile.build ==
+	# self()` holds (the first conjunct of `isValid()`,
+	# `return tile.build == self() && !dead();`,
+	# BuildingComp.java:2031);
+	# - `is_control_block` is the constant true -- every
+	# turret build implements ControlBlock (`public class
+	# TurretBuild extends ReloadTurretBuild implements
+	# ControlBlock{`, Turret.java:277);
+	# - `unit_sense_value` is passed in (the tick passes 0.0
+	# today -- the proxy unit has no player controller
+	# attached, so every camera* leg reads 0: `case cameraX,
+	# cameraY, cameraWidth, cameraHeight -> this instanceof
+	# ControlBlock c ? c.unit().sense(sensor) : 0;`,
+	# BuildingComp.java:2122, delegating to `case cameraX ->
+	# controller instanceof Player player ? World.conv
+	# (player.con == null ? Core.camera.position.x :
+	# player.con.viewX) : 0;`, UnitComp.java:283-286).
+	# It does NOT touch the other six wiring keys
+	# (`items_is_null` / `items_total` /
+	# `last_scaled_power_in` / `last_scaled_power_out` /
+	# `last_power_stored` / `last_capacity`): absent keys stay
+	# absent, so the dispatch keeps handled:false for
+	# totalItems / powerNet* exactly as N2519 left them --
+	# their live sources do not exist in the tick yet (the
+	# turret-ammo-inventory slice and the PowerGraph
+	# last-values prerequisite slice). The frame itself is
+	# returned (the N2108 tick-frame precedent).
+	frame["health"] = health
+	frame["is_dead"] = health <= 0.0
+	frame["tile_build_is_self"] = true
+	frame["is_control_block"] = true
+	frame["unit_sense_value"] = unit_sense_value
 	return frame
 
 static func _initial_frame() -> Dictionary:
@@ -2209,6 +2263,28 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 		var team_id: int = int(sprite.get_meta(source_block_geometry.SOURCE_BUILD_TEAM_META_KEY, source_block_geometry.SOURCE_TEAM_DERELICT_ID))
 		var rules_state: Variant = source_rules_state.source_game_rules_state(game.get("rules_state")).get("rules", {})
 		var wired: Dictionary = source_turret_tick_frame_state(frame, str(block.implementation), team_id, rules_state)
+		# The sense stamp (N2520): the tick stamps the six
+		# live sense inputs it can supply today into the
+		# frame, so the N2519-wired dispatch
+		# `source_building_comp_sense_state` stops reporting
+		# handled:false for the dead / health / camera* legs
+		# when a live turret ticks. Health reads the sprite
+		# meta `source_block_health` (SourcePlacedBlockState.gd:45,
+		# set at placement :82-86 and decremented by damage);
+		# a building with no damage record falls back to the
+		# block health (`source_block_metadata_state.
+		# block_health_value(block)`, the same helper the
+		# placement path uses, SourcePlacedBlockState.gd:82),
+		# so it is at full health, not dead.
+		# `unit_sense_value` is 0.0 today: the proxy unit has
+		# no player controller attached, so every camera* leg
+		# reads 0 (UnitComp.sense :283-286); when
+		# `controlled()` live wiring lands, the tick passes
+		# the live player camera value instead. The other six
+		# wiring keys (items pair + 4 graph keys) stay absent
+		# -- their live sources do not exist in the tick yet.
+		var sense_health: float = float(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_HEALTH_META_KEY, source_block_metadata_state.block_health_value(block)))
+		var stamped: Dictionary = source_turret_sense_frame_stamp_state(frame, sense_health, 0.0)
 		# The power consumer reads live since N2148 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a turret with a power consumer folds the pure power row

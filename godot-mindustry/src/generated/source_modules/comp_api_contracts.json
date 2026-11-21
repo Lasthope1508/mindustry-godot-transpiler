@@ -19006,6 +19006,42 @@
       "rule": "Source-backed BuildingComp configured() dispatch effect from BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_sense_frame_stamp_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_sense_frame_stamp_state",
+      "status": "active",
+      "source_slice": "N2520",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_sense_frame_stamp_state_input.frame"
+        },
+        {
+          "name": "health",
+          "type": "float",
+          "schema": "source_turret_sense_frame_stamp_state_input.health"
+        },
+        {
+          "name": "unit_sense_value",
+          "type": "float",
+          "schema": "source_turret_sense_frame_stamp_state_input.unit_sense_value"
+        }
+      ],
+      "return_keys": [
+        "frame"
+      ],
+      "tests": [
+        "test_c07_turret_sense_frame_stamp_registration",
+        "test_all_c07_turret_sense_frame_stamp_input_evidence_is_exact",
+        "test_turret_sense_frame_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_sense_frame_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretSenseFrameStampProof",
+      "rule": "Source-backed turret sense frame stamp from BuildingComp.java:2093-2126 + Turret.java:277/490 + UnitComp.java:283-286.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_sense_object_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_sense_object_state",
       "status": "active",

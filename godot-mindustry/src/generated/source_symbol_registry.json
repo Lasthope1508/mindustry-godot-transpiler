@@ -178200,6 +178200,22 @@
         "test_reference_graph_and_actual_c07_building_comp_sense_camera"
       ],
       "runtime_proof": "/root/C07BuildingCompSenseCameraProof"
+    },
+    "source_turret_sense_frame_stamp_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_sense_frame_stamp_state",
+      "godot_symbol": "source_turret_sense_frame_stamp_state_result.frame",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "public double sense(LAccess sensor){",
+      "rule": "The stamped frame, with the 6 live sense keys set (`health`, `is_dead` as `health <= 0.0`, `tile_build_is_self` true, `is_control_block` true, `unit_sense_value` as passed in) plus every key the frame already carried; the other 6 wiring keys stay absent, so the dispatch keeps handled:false for totalItems / powerNet* exactly as N2519 left them (`public double sense(LAccess sensor){`, BuildingComp.java:2093-2126).",
+      "tests": [
+        "test_c07_turret_sense_frame_stamp_registration",
+        "test_all_c07_turret_sense_frame_stamp_input_evidence_is_exact",
+        "test_turret_sense_frame_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_sense_frame_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretSenseFrameStampProof"
     }
   },
   "version": 1

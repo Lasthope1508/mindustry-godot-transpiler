@@ -239944,6 +239944,64 @@
       },
       "runtime_proof": "/root/C07BuildingCompSenseCameraProof",
       "rule": "Source-backed BuildingComp.sense() cameraX/cameraY/cameraWidth/cameraHeight legs from BuildingComp.java:2122 + UnitComp.java:283-286."
+    },
+    "source_turret_sense_frame_stamp_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_sense_frame_stamp_state",
+      "source_slice": "N2520",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The turret frame (the port Building state) the tick stamps every tick (`public double sense(LAccess sensor){`, BuildingComp.java:2093-2126 -- the dispatch reads the stamped keys from this frame); the stamp writes the 6 keys in place and returns the frame (the N2108 tick-frame precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_frame_stamp_state"
+          ]
+        },
+        "health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case health -> health;",
+          "rule": "The building's current live health (`case health -> health;`, BuildingComp.java:2101; `float health;`, HealthComp.java:11): read by the tick from the sprite meta `source_block_health` (SourcePlacedBlockState.gd:45, set at placement :82-86 and decremented by damage), with the block health as fallback when the meta is missing; the stamp writes it as `frame[\"health\"]` and derives `frame[\"is_dead\"]` from it (`health <= 0.0`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_frame_stamp_state"
+          ]
+        },
+        "unit_sense_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_expr": "case cameraX -> controller instanceof Player player ? World.conv(player.con == null ? Core.camera.position.x : player.con.viewX) : 0;",
+          "rule": "The proxy unit's sense result for the camera* sensor (`c.unit().sense(sensor)`, BuildingComp.java:2122): the already-ported unit sense camera leg (`case cameraX -> controller instanceof Player player ? World.conv(player.con == null ? Core.camera.position.x : player.con.viewX) : 0;`, UnitComp.java:283-286, via `SourceUnitSensorState.laccess_state`) -- 0 when the unit controller is not a Player, else `World.conv` of the player view / core camera value; the tick passes 0.0 today (no player controller attached) and the stamp writes it as `frame[\"unit_sense_value\"]`.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_frame_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretSenseFrameStampProof",
+      "rule": "Source-backed turret sense frame stamp from BuildingComp.java:2093-2126 + Turret.java:277/490 + UnitComp.java:283-286."
+    },
+    "source_turret_sense_frame_stamp_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_sense_frame_stamp_state",
+      "source_slice": "N2520",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The stamped frame, with the 6 live sense keys set (`health`, `is_dead` as `health <= 0.0`, `tile_build_is_self` true, `is_control_block` true, `unit_sense_value` as passed in) plus every key the frame already carried; the other 6 wiring keys stay absent, so the dispatch keeps handled:false for totalItems / powerNet* exactly as N2519 left them (`public double sense(LAccess sensor){`, BuildingComp.java:2093-2126).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_sense_frame_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretSenseFrameStampProof",
+      "rule": "Source-backed turret sense frame stamp from BuildingComp.java:2093-2126 + Turret.java:277/490 + UnitComp.java:283-286."
     }
   },
   "version": 1

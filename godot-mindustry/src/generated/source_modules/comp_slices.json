@@ -5821,6 +5821,23 @@
       ],
       "runtime_proof": "/root/C07BuildingCompSenseWiringProof"
     },
+    "N2520": {
+      "canonical_ledger": "source_slice_ledger.N2520",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "godot_owner": "SourceTurretBuildState.source_turret_sense_frame_stamp_state",
+      "source_symbols": [
+        "source_turret_sense_frame_stamp_state_result.frame"
+      ],
+      "tests": [
+        "test_c07_turret_sense_frame_stamp_registration",
+        "test_all_c07_turret_sense_frame_stamp_input_evidence_is_exact",
+        "test_turret_sense_frame_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_sense_frame_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretSenseFrameStampProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",
