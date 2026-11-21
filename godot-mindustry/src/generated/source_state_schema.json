@@ -245190,6 +245190,64 @@
       },
       "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof",
       "rule": "Source-backed ContinuousTurretBuild.turnToTarget()/handleBullet() state from ContinuousTurret.java."
+    },
+    "source_payload_turret_build_peek_ammo_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_turret_build_peek_ammo_state",
+      "source_slice": "N2371",
+      "keys": {
+        "ammo_keys": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "ammoKeys = ammoTypes.keys().toSeq().toArray(UnlockableContent.class);",
+          "rule": "The ordered ammo keys (PayloadAmmoTurret.java:89, `ammoKeys = ammoTypes.keys().toSeq().toArray(UnlockableContent.class);`): the iteration order peekAmmo scans -- the first key whose content is held wins; arrives as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_turret_build_peek_ammo_state"
+          ]
+        },
+        "payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "if(payloads.contains(content)){",
+          "rule": "The contents currently held in the payloads seq (PayloadAmmoTurret.java:135, `if(payloads.contains(content)){`): the `public PayloadSeq payloads = new PayloadSeq();` field (PayloadAmmoTurret.java:95) reduced to its contents -- the payloads.contains lookup itself is NOT ported, its contents arrive as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_turret_build_peek_ammo_state"
+          ]
+        },
+        "ammo_types": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "public ObjectMap<UnlockableContent, BulletType> ammoTypes = new ObjectMap<>();",
+          "rule": "The ammo-type map (PayloadAmmoTurret.java:22, `public ObjectMap<UnlockableContent, BulletType> ammoTypes = new ObjectMap<>();`): content name to bullet type name; ObjectMap is NOT ported, it arrives as an explicit Dictionary param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_turret_build_peek_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretPeekAmmoProof",
+      "rule": "Source-backed PayloadTurretBuild.peekAmmo() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_turret_build_peek_ammo_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_turret_build_peek_ammo_state",
+      "source_slice": "N2371",
+      "keys": {
+        "peeked_ammo": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return ammoTypes.get(content);",
+          "rule": "The peeked ammo bullet type (PayloadAmmoTurret.java:136, `return ammoTypes.get(content);`): the BulletType of the first ammo key (in ammoKeys order) whose content is held in payloads -- null when none matches (`return null;`, PayloadAmmoTurret.java:139) or when the held content has no ammoTypes entry; the content is NOT removed from payloads (no `payloads.remove(content);`, unlike useAmmo N2363); GD has no BulletType mapping, so bullet types are plain strings (bullet type names) and the caller must null-check before using it.",
+          "used_by": [
+            "PortGame.source_payload_turret_build_peek_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretPeekAmmoProof",
+      "rule": "Source-backed PayloadTurretBuild.peekAmmo() state from PayloadAmmoTurret.java."
     }
   },
   "version": 1

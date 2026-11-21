@@ -4056,6 +4056,23 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof"
     },
+    "N2371": {
+      "canonical_ledger": "source_slice_ledger.N2371",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.peekAmmo()",
+      "godot_owner": "PortGame.source_payload_turret_build_peek_ammo_state",
+      "source_symbols": [
+        "source_payload_turret_build_peek_ammo_state_result.peeked_ammo"
+      ],
+      "tests": [
+        "test_c07_payload_turret_peek_ammo_registration",
+        "test_all_c07_payload_turret_peek_ammo_input_evidence_is_exact",
+        "test_payload_turret_peek_ammo_state",
+        "test_reference_graph_and_actual_c07_payload_turret_peek_ammo"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPeekAmmoProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

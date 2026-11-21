@@ -180408,6 +180408,22 @@
         "test_reference_graph_and_actual_c07_continuous_turret_turn_to_target_handle_bullet"
       ],
       "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof"
+    },
+    "source_payload_turret_build_peek_ammo_state_result.peeked_ammo": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_turret_build_peek_ammo_state",
+      "godot_symbol": "source_payload_turret_build_peek_ammo_state_result.peeked_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.peekAmmo()",
+      "java_expr": "return ammoTypes.get(content);",
+      "rule": "The peeked ammo bullet type (PayloadAmmoTurret.java:136, `return ammoTypes.get(content);`): the BulletType of the first ammo key (in ammoKeys order) whose content is held in payloads -- null when none matches (`return null;`, PayloadAmmoTurret.java:139) or when the held content has no ammoTypes entry; the content is NOT removed from payloads (no `payloads.remove(content);`, unlike useAmmo N2363); GD has no BulletType mapping, so bullet types are plain strings (bullet type names) and the caller must null-check before using it.",
+      "tests": [
+        "test_c07_payload_turret_peek_ammo_registration",
+        "test_all_c07_payload_turret_peek_ammo_input_evidence_is_exact",
+        "test_payload_turret_peek_ammo_state",
+        "test_reference_graph_and_actual_c07_payload_turret_peek_ammo"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPeekAmmoProof"
     }
   },
   "version": 1

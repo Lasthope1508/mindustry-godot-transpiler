@@ -3867,6 +3867,42 @@
       "rule": "Source-backed PayloadTurretBuild.useAmmo() state from PayloadAmmoTurret.java.",
       "return_type": "Dictionary"
     },
+    "PortGame.source_payload_turret_build_peek_ammo_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_turret_build_peek_ammo_state",
+      "status": "active",
+      "source_slice": "N2371",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.peekAmmo()",
+      "params": [
+        {
+          "name": "ammo_keys",
+          "type": "Array",
+          "schema": "source_payload_turret_build_peek_ammo_state_input.ammo_keys"
+        },
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_turret_build_peek_ammo_state_input.payload_contents"
+        },
+        {
+          "name": "ammo_types",
+          "type": "Dictionary",
+          "schema": "source_payload_turret_build_peek_ammo_state_input.ammo_types"
+        }
+      ],
+      "return_keys": [
+        "peeked_ammo"
+      ],
+      "tests": [
+        "test_c07_payload_turret_peek_ammo_registration",
+        "test_all_c07_payload_turret_peek_ammo_input_evidence_is_exact",
+        "test_payload_turret_peek_ammo_state",
+        "test_reference_graph_and_actual_c07_payload_turret_peek_ammo"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPeekAmmoProof",
+      "rule": "Source-backed PayloadTurretBuild.peekAmmo() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_power_turret_build_get_ammo_fraction_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_power_turret_build_get_ammo_fraction_state",
       "status": "source-backed",
