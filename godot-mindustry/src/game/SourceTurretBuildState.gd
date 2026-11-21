@@ -99,13 +99,10 @@ static func source_turret_sense_frame_stamp_state(frame: Dictionary, health: flo
 	# controller instanceof Player player ? World.conv
 	# (player.con == null ? Core.camera.position.x :
 	# player.con.viewX) : 0;`, UnitComp.java:283-286).
-	# It does NOT touch the other four wiring keys
-	# (`last_scaled_power_in` / `last_scaled_power_out` /
-	# `last_power_stored` / `last_capacity`): absent keys stay
-	# absent, so the dispatch keeps handled:false for
-	# powerNet* exactly as N2519 left them -- their live
-	# sources do not exist in the tick yet (the PowerGraph
-	# last-values prerequisite slice). The items pair
+	# The four graph keys (`last_scaled_power_in` /
+	# `last_scaled_power_out` / `last_power_stored` /
+	# `last_capacity`) are stamped by the N2522 power-graph
+	# last-values stamp, not by this function. The items pair
 	# (`items_is_null` / `items_total`) is stamped by the
 	# N2521 ammo-items stamp, not by this function. The frame
 	# itself is returned (the N2108 tick-frame precedent).
@@ -150,16 +147,93 @@ static func source_turret_ammo_items_stamp_state(frame: Dictionary, has_items: b
 	# graphite 3 stacks would read 8.0 while Java reads 0.0),
 	# so the tick reads NO stacks dict for this stamp.
 	# The stamp OVERWRITES any stale `items_total` already on
-	# the frame. It does NOT touch the other four wiring keys
-	# (`last_scaled_power_in` / `last_scaled_power_out` /
-	# `last_power_stored` / `last_capacity`): absent keys stay
-	# absent, so the dispatch keeps handled:false for powerNet*
-	# exactly as N2519/N2520 left them -- their live sources do
-	# not exist in the tick yet (the PowerGraph last-values
-	# prerequisite slice). The frame itself is returned (the
-	# N2108 tick-frame precedent).
+	# the frame. The four graph keys (`last_scaled_power_in` /
+	# `last_scaled_power_out` / `last_power_stored` /
+	# `last_capacity`) are stamped by the N2522 power-graph
+	# last-values stamp, not by this function. The frame itself
+	# is returned (the N2108 tick-frame precedent).
 	frame["items_is_null"] = not has_items
 	frame["items_total"] = 0
+	return frame
+
+static func source_turret_power_graph_last_values_stamp_state(frame: Dictionary, power_graph_update: Dictionary) -> Dictionary:
+	# The power-graph last-values stamp (N2522): the turret
+	# driver tick stamps the live graph snapshot into the frame,
+	# so the N2519-wired dispatch
+	# `source_building_comp_sense_state` stops reporting
+	# handled:false for the powerNet* legs when a live turret
+	# ticks (BuildingComp.sense() is `public double sense(LAccess
+	# sensor){`, BuildingComp.java:2093-2126). The tick is
+	# TurretBuild.updateTile() (`public void updateTile(){`,
+	# Turret.java:490), which runs for every Turret-family build
+	# the tick already visits. Exactly four keys are written,
+	# copied verbatim from the graph update the live loop already
+	# ran this tick (`source_factory_update_power_graph_state`,
+	# SourceFactoryRuntimeState.gd:199, whose `update` is the
+	# `update_state` output — PowerGraph.update() is
+	# `public void update(){` (PowerGraph.java:216-260):
+	# - `last_scaled_power_in` from `update["balance_state"]
+	# ["last_scaled_power_in"]`
+	# (`lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;`,
+	# PowerGraph.java:233; `case powerNetIn -> power == null ? 0
+	# : power.graph.getLastScaledPowerIn() * 60;`,
+	# BuildingComp.java:2113);
+	# - `last_scaled_power_out` from `update["balance_state"]
+	# ["last_scaled_power_out"]`
+	# (`lastScaledPowerOut = powerNeeded / Time.delta;`,
+	# PowerGraph.java:234; `case powerNetOut -> power == null ?
+	# 0 : power.graph.getLastScaledPowerOut() * 60;`,
+	# BuildingComp.java:2114);
+	# - `last_capacity` from `update["balance_state"]
+	# ["last_capacity"]` (`lastCapacity = getTotalBatteryCapacity();`,
+	# PowerGraph.java:235; `case powerNetCapacity -> power ==
+	# null ? 0 : power.graph.getLastCapacity();`,
+	# BuildingComp.java:2116);
+	# - `last_power_stored` from `update["last_power_stored"]`
+	# (top-level on BOTH branches,
+	# `lastPowerStored = getBatteryStored();`,
+	# PowerGraph.java:236; `case powerNetStored -> power == null
+	# ? 0 : power.graph.getLastPowerStored();`,
+	# BuildingComp.java:2115).
+	# A key is stamped ONLY when present in the update: on the
+	# cheat branch `balance_state` is `{}` (Java returns before
+	# :233-236, PowerGraph.java:217-224, so the fields keep their
+	# previous values) and the stamp leaves the scaled/capacity
+	# keys untouched, so the frame keeps the previous tick's
+	# values, exactly like Java's fields. An empty `{}` update
+	# stamps NOTHING — the dispatch keeps handled:false for
+	# powerNet*, the N2519 absent-key fallback. `last_power_stored`
+	# IS present on the cheat branch in the port owner
+	# (`SourcePowerGraphState.update_state` reports the fresh
+	# stored total there, while Java keeps the old field value —
+	# a PRE-EXISTING owner deviation from N2142-era, NOT changed
+	# by this slice; the stamp copies the owner's snapshot
+	# verbatim, so a later owner fix flows through
+	# automatically). The stamp does NOT recompute any formula
+	# (the formula lives once in `update_balance_state`,
+	# SourcePowerGraphBalanceState.gd:116-119) and does NOT call
+	# the graph update. `power == null` handling stays in the
+	# dispatch legs (they return 0.0 when `not has_power`), so
+	# stamping graph values for a power-less turret is safe.
+	# Per-graph vs global: Java reads each building's OWN graph
+	# (`power.graph.getLastScaledPowerIn()`); the port groups ALL
+	# placed buildings into ONE graph (`_group_state`,
+	# SourcePlacedPowerGraphState.gd:254-284, has no connectivity
+	# split — `PowerGraph.addGraph` merge is not ported), so the
+	# building→graph lookup IS the single global placed graph,
+	# and the live loop's update is that graph's update. A
+	# per-graph split waits for connectivity grouping. The frame
+	# itself is returned (the N2108 tick-frame precedent).
+	var update_state: Dictionary = power_graph_update.get("update", {})
+	var balance_state: Dictionary = update_state.get("balance_state", {})
+	if balance_state.has("last_scaled_power_in"):
+		frame["last_scaled_power_in"] = float(balance_state.get("last_scaled_power_in", 0.0))
+	if balance_state.has("last_scaled_power_out"):
+		frame["last_scaled_power_out"] = float(balance_state.get("last_scaled_power_out", 0.0))
+	if balance_state.has("last_capacity"):
+		frame["last_capacity"] = float(balance_state.get("last_capacity", 0.0))
+	if update_state.has("last_power_stored"):
+		frame["last_power_stored"] = float(update_state.get("last_power_stored", 0.0))
 	return frame
 
 static func _initial_frame() -> Dictionary:
@@ -2326,10 +2400,10 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 		# no player controller attached, so every camera* leg
 		# reads 0 (UnitComp.sense :283-286); when
 		# `controlled()` live wiring lands, the tick passes
-		# the live player camera value instead. The other four
-		# wiring keys (4 graph keys) stay absent -- their live
-		# sources do not exist in the tick yet; the items pair
-		# is stamped by the N2521 call right below.
+		# the live player camera value instead. The four
+		# graph keys are stamped by the N2522 call right
+		# below; the items pair is stamped by the N2521 call
+		# right below.
 		var sense_health: float = float(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_HEALTH_META_KEY, source_block_metadata_state.block_health_value(block)))
 		var stamped: Dictionary = source_turret_sense_frame_stamp_state(frame, sense_health, 0.0)
 		# The ammo-items stamp (N2521): the tick stamps the
@@ -2347,6 +2421,27 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 		# `turret_ammo_stacks` are the Java `ammo` Seq, not
 		# the `items` module.
 		var ammo_items_stamped: Dictionary = source_turret_ammo_items_stamp_state(frame, str(block.implementation) == "ItemTurret")
+		# The power-graph last-values stamp (N2522): the tick
+		# stamps the live graph snapshot into the frame, so
+		# the N2519-wired dispatch
+		# `source_building_comp_sense_state` stops reporting
+		# handled:false for the powerNet* legs when a live
+		# turret ticks. The live loop already ran the graph
+		# update this tick (`simulate_factory`,
+		# SourceFactoryRuntimeState.gd:199) and stored its
+		# return on the game (`power_graph_update`, declared
+		# in SourcePortGameFactoryStatePortBridge.gd); the
+		# tick reads it from the game — it must NOT re-run
+		# the update (it is NOT idempotent: it writes battery
+		# `power_status` back to sprite metas, so a second
+		# run would charge/discharge AGAIN) and must NOT
+		# recompute from `game_runtime_state` (that would
+		# duplicate the formula, and its batteries read
+		# status 0.0). A game with no stored update (a proof
+		# calling the tick directly) reads `{}` and the stamp
+		# leaves the keys absent — the N2519 fallback.
+		var power_graph_update: Variant = game.get("power_graph_update")
+		var power_graph_last_values_stamped: Dictionary = source_turret_power_graph_last_values_stamp_state(frame, power_graph_update if power_graph_update is Dictionary else {})
 		# The power consumer reads live since N2148 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a turret with a power consumer folds the pure power row

@@ -21,6 +21,7 @@ var offload_neighbors: Array = []
 var building_dump_accum := 0.0
 var produced_total := 0
 var item_progress := 0.0
+var power_graph_update: Dictionary = {}
 var transport_progress := 0.0
 var conveyor_world_speed := 0.0
 var conveyor_path_progress_rate := 0.0

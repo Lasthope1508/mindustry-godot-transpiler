@@ -196,7 +196,18 @@ static func simulate_factory(game: Object, delta: float) -> void:
 	# receives seconds — convert at the live-loop boundary.
 	var conveyor_tick_delta: Dictionary = source_factory_conveyor_tick_delta_state(delta)
 	source_factory_advance_conveyors_state(game, advance_cells, float(conveyor_tick_delta.get("ticks", 0.0)))
-	source_factory_update_power_graph_state(game, delta)
+	# The graph update runs every live-loop tick (N2522): its
+	# return is stored on the game (`power_graph_update`,
+	# declared in SourcePortGameFactoryStatePortBridge.gd) so
+	# drivers that stamp from it — the turret tick's
+	# power-graph last-values stamp
+	# (`source_turret_power_graph_last_values_stamp_state`)
+	# — can read the snapshot instead of re-running the
+	# update (it is NOT idempotent: it writes battery
+	# `power_status` back to sprite metas) or recomputing
+	# the formula.
+	var power_graph_update: Dictionary = source_factory_update_power_graph_state(game, delta)
+	game.set("power_graph_update", power_graph_update)
 	source_pump_runtime_state.source_pump_update_state(game, source_playable_scenario_defaults.PUMP_POS, delta)
 	source_pump_runtime_state.source_pump_dump_liquid_state(game, source_playable_scenario_defaults.PUMP_POS)
 	for conduit_cell in source_playable_scenario_defaults.conduit_cells():

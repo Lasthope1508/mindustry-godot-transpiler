@@ -240050,6 +240050,54 @@
       },
       "runtime_proof": "/root/C07TurretAmmoItemsStampProof",
       "rule": "Source-backed turret ammo-items stamp from BuildingComp.java:145/2107 + ItemTurret.java:28/155-185 + ItemModule.java:174-176."
+    },
+    "source_turret_power_graph_last_values_stamp_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_power_graph_last_values_stamp_state",
+      "source_slice": "N2522",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The turret frame (the port Building state) the tick stamps every tick (`public double sense(LAccess sensor){`, BuildingComp.java:2093-2126 -- the dispatch reads the stamped keys from this frame); the stamp writes the 4 graph keys in place and returns the frame (the N2108 tick-frame precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_power_graph_last_values_stamp_state"
+          ]
+        },
+        "power_graph_update": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public void update(){",
+          "rule": "The graph update the live loop already ran this tick (`public void update(){`, PowerGraph.java:216-260 -- the `source_factory_update_power_graph_state` return, whose `update` is the `update_state` output; the tick reads it from the game, `power_graph_update`, declared in SourcePortGameFactoryStatePortBridge.gd): the stamp copies `last_scaled_power_in` / `last_scaled_power_out` / `last_capacity` from `update[\"balance_state\"]` and `last_power_stored` from `update[\"last_power_stored\"]`, stamping a key ONLY when present in the update.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_power_graph_last_values_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretPowerGraphLastValuesStampProof",
+      "rule": "Source-backed turret power-graph last-values stamp from BuildingComp.java:2093-2126 + PowerGraph.java:216-236 + Turret.java:490."
+    },
+    "source_turret_power_graph_last_values_stamp_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_power_graph_last_values_stamp_state",
+      "source_slice": "N2522",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The stamped frame, with the 4 live graph keys set (`last_scaled_power_in` / `last_scaled_power_out` / `last_power_stored` / `last_capacity`, copied from the owner's snapshot \u2014 a key absent from the update stays untouched, so the frame keeps the previous tick's value on the cheat branch and the dispatch keeps handled:false when no update ran) plus every key the frame already carried (`public double sense(LAccess sensor){`, BuildingComp.java:2093-2126).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_power_graph_last_values_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretPowerGraphLastValuesStampProof",
+      "rule": "Source-backed turret power-graph last-values stamp from BuildingComp.java:2093-2126 + PowerGraph.java:216-236 + Turret.java:490."
     }
   },
   "version": 1

@@ -178232,6 +178232,22 @@
         "test_reference_graph_and_actual_c07_turret_ammo_items_stamp"
       ],
       "runtime_proof": "/root/C07TurretAmmoItemsStampProof"
+    },
+    "source_turret_power_graph_last_values_stamp_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_power_graph_last_values_stamp_state",
+      "godot_symbol": "source_turret_power_graph_last_values_stamp_state_result.frame",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "public double sense(LAccess sensor){",
+      "rule": "The stamped frame, with the 4 live graph keys set (`last_scaled_power_in` / `last_scaled_power_out` / `last_power_stored` / `last_capacity`, copied from the owner's snapshot \u2014 a key absent from the update stays untouched, so the frame keeps the previous tick's value on the cheat branch and the dispatch keeps handled:false when no update ran) plus every key the frame already carried (`public double sense(LAccess sensor){`, BuildingComp.java:2093-2126).",
+      "tests": [
+        "test_c07_turret_power_graph_last_values_stamp_registration",
+        "test_all_c07_turret_power_graph_last_values_stamp_input_evidence_is_exact",
+        "test_turret_power_graph_last_values_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_power_graph_last_values_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretPowerGraphLastValuesStampProof"
     }
   },
   "version": 1
