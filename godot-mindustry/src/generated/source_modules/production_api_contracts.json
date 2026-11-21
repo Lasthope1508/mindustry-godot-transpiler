@@ -552,6 +552,72 @@
       "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed adjacent factory consumes its liquid rows each tick and gates efficiency on its item rows, and a sprite re-recorded with a different block reinitializes its consumers from the new block's consumeBuilder.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "status": "active",
+      "source_slice": "N2391",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.canPlaceOn(Tile tile, Team team, int rotation)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_can_place_on_state_input.frame"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.size"
+        },
+        {
+          "name": "range_value",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.range_value"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_can_place_on_state_input.blocked_items"
+        },
+        {
+          "name": "world_tile",
+          "type": "Callable",
+          "schema": "source_beam_drill_can_place_on_state_input.world_tile"
+        }
+      ],
+      "return_keys": [
+        "can_place_on"
+      ],
+      "tests": [
+        "test_c07_beam_drill_can_place_on_set_bars_registration",
+        "test_all_c07_beam_drill_can_place_on_set_bars_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_set_bars_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof",
+      "rule": "Source-backed BeamDrill canPlaceOn() / setBars() state from BeamDrill.java + Block.java + Pal.java + Bar.java + arc Strings.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_draw_place_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
       "status": "active",

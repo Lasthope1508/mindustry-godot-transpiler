@@ -75299,6 +75299,114 @@
       ],
       "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof",
       "rule": "Source-backed BaseTurret drawSelect() row from BaseTurret.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state": {
+      "status": "active",
+      "source_slice": "N2391",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.canPlaceOn(Tile tile, Team team, int rotation)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_can_place_on_state_input.frame"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.size"
+        },
+        {
+          "name": "range_value",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.range_value"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_can_place_on_state_input.blocked_items"
+        },
+        {
+          "name": "world_tile",
+          "type": "Callable",
+          "schema": "source_beam_drill_can_place_on_state_input.world_tile"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_place_on"
+      ],
+      "tests": [
+        "test_c07_beam_drill_can_place_on_set_bars_registration",
+        "test_all_c07_beam_drill_can_place_on_set_bars_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_set_bars_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof",
+      "rule": "Source-backed BeamDrill canPlaceOn() / setBars() state from BeamDrill.java + Block.java + Pal.java + Bar.java + arc Strings.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_set_bars_state": {
+      "status": "active",
+      "source_slice": "N2391",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.setBars()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_set_bars_state_input.frame"
+        },
+        {
+          "name": "super_set_bars",
+          "type": "Variant",
+          "schema": "source_beam_drill_set_bars_state_input.super_set_bars"
+        },
+        {
+          "name": "last_drill_speed",
+          "type": "float",
+          "schema": "source_beam_drill_set_bars_state_input.last_drill_speed"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_beam_drill_set_bars_state_input.warmup"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bar_key",
+        "bar_text",
+        "bar_color",
+        "bar_fraction"
+      ],
+      "tests": [
+        "test_c07_beam_drill_can_place_on_set_bars_registration",
+        "test_all_c07_beam_drill_can_place_on_set_bars_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_set_bars_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof",
+      "rule": "Source-backed BeamDrill canPlaceOn() / setBars() state from BeamDrill.java + Block.java + Pal.java + Bar.java + arc Strings.java."
     }
   },
   "policy": {

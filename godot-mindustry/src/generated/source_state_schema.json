@@ -248790,6 +248790,222 @@
       },
       "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof",
       "rule": "Source-backed BaseTurret drawSelect() row from BaseTurret.java."
+    },
+    "source_beam_drill_can_place_on_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "source_slice": "N2391",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+          "rule": "The beam-drill frame (BeamDrill.canPlaceOn, BeamDrill.java:198): carries no live keys for this block-level placement predicate -- size, tier, blockedItems are per-def static state, not live frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);",
+          "rule": "The placement tile x (BeamDrill.java:200, `nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);`): the scan starts at the footprint side of (tile_x, tile_y).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);",
+          "rule": "The placement tile y (BeamDrill.java:200, `nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);`): the scan starts at the footprint side of (tile_x, tile_y).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);",
+          "rule": "The placement rotation 0-3 (BeamDrill.java:200, `nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);`): it picks the faced side per footprint index and the d4 scan direction (Geometry.d4x/d4y).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (BeamDrill.java:199, `for(int i = 0; i < size; i++){`): the scan runs one ray per footprint side (plasma-bore 2, large-plasma-bore 3, Blocks.java:3049-3065); passed explicitly (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "range_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int range = 5;",
+          "rule": "The scan range in tiles (BeamDrill.java:40, `public int range = 5;`, class default; plasma-bore 5, large-plasma-bore 6, Blocks.java:3049-3065): the inner scan runs `for(int j = 0; j < range; j++)` (BeamDrill.java:201).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int tier = 1;",
+          "rule": "The drill tier (BeamDrill.java:41, `public int tier = 1;`, class default; plasma-bore 3, large-plasma-bore 5, Blocks.java:3049-3065): a drop counts only when `drop.hardness <= tier` (BeamDrill.java:205).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "The blocked items (BeamDrill.java:51, `public @Nullable Seq<Item> blockedItems;`, null or an Array of item names): a drop counts only when it is not blocked (BeamDrill.java:205, `blockedItems == null || !blockedItems.contains(drop)`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        },
+        "world_tile": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(Tmp.p1.x + Geometry.d4x(rotation)*j, Tmp.p1.y + Geometry.d4y(rotation)*j);",
+          "rule": "The world tile lookup (BeamDrill.java:202, `Tile other = world.tile(Tmp.p1.x + Geometry.d4x(rotation)*j, Tmp.p1.y + Geometry.d4y(rotation)*j);`): world_tile.call(rx, ry) returns null or a tile Dictionary {\"solid\", \"wall_drop\", \"wall_drop_hardness\"} (the N2379 param precedent -- the live world is not a frame key).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof",
+      "rule": "Source-backed BeamDrill canPlaceOn() / setBars() state from BeamDrill.java + Block.java + Pal.java + Bar.java + arc Strings.java."
+    },
+    "source_beam_drill_can_place_on_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "source_slice": "N2391",
+      "keys": {
+        "can_place_on": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+          "rule": "Whether the drill can be placed: true on the first mineable wall drop found on any side ray (`if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){` with `return true;`, BeamDrill.java:205-206), false when no side finds one (`return false;`, BeamDrill.java:212); a null or non-solid tile does NOT stop a ray, the first solid tile stops it whether or not its drop is mineable.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof",
+      "rule": "Source-backed BeamDrill canPlaceOn() / setBars() state from BeamDrill.java + Block.java + Pal.java + Bar.java + arc Strings.java."
+    },
+    "source_beam_drill_set_bars_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_set_bars_state",
+      "source_slice": "N2391",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public void setBars(){",
+          "rule": "The beam-drill frame (BeamDrill.setBars, BeamDrill.java:90): carries no live keys for this block-level bar spec -- lastDrillSpeed and warmup are live build state passed explicitly, not frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_bars_state"
+          ]
+        },
+        "super_set_bars": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "super.setBars();",
+          "rule": "The already-built Block.setBars() bars (BeamDrill.java:91, `super.setBars();`): the health bar `addBar(\"health\", entity -> new Bar(\"stat.health\", Pal.health, entity::healthf).blink(Color.white));` plus power / items / liquid bars (Block.java:696-746) -- NOT this slice: the caller passes the already-built super bars (the N2317/N2323 super-as-param precedent); this slice only adds the drillspeed bar spec.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_bars_state"
+          ]
+        },
+        "last_drill_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float lastDrillSpeed;",
+          "rule": "The last drill speed: the BeamDrillBuild field (`public float lastDrillSpeed;`, BeamDrill.java:227), set by updateTile (`lastDrillSpeed = (facingAmount * multiplier * timeScale) / drillTime * efficiency;`, BeamDrill.java:249); the bar text rate is `lastDrillSpeed * 60` (BeamDrill.java:94, `Strings.fixed(e.lastDrillSpeed * 60, 2)`, with NO timeScale factor -- BeamDrill folds timeScale into lastDrillSpeed itself); passed explicitly because it is live build state, not a frame key.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_bars_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float warmup, boostWarmup;",
+          "rule": "The drill warmup: the BeamDrillBuild field (`public float warmup, boostWarmup;`, BeamDrill.java:226), approached in updateTile (N2379); the bar fraction is `() -> e.warmup` (BeamDrill.java:94), clamped to 0..1 by the Bar constructor (`lastValue = value = Mathf.clamp(fraction.get());`, Bar.java:33); passed explicitly because it is live build state, not a frame key.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_bars_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof",
+      "rule": "Source-backed BeamDrill canPlaceOn() / setBars() state from BeamDrill.java + Block.java + Pal.java + Bar.java + arc Strings.java."
+    },
+    "source_beam_drill_set_bars_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_set_bars_state",
+      "source_slice": "N2391",
+      "keys": {
+        "bar_key": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "addBar(\"drillspeed\", (BeamDrillBuild e) ->",
+          "rule": "The bar key: \"drillspeed\" (BeamDrill.java:93, `addBar(\"drillspeed\", (BeamDrillBuild e) ->`); registered by `public <T extends Building> void addBar(String name, Func<T, Bar> sup){` (Block.java:667).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_bars_state"
+          ]
+        },
+        "bar_text": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "new Bar(() -> Core.bundle.format(\"bar.drillspeed\", Strings.fixed(e.lastDrillSpeed * 60, 2)), () -> Pal.ammo, () -> e.warmup));",
+          "rule": "The bar text: Core.bundle.format(\"bar.drillspeed\", fixed) over the bundle value `bar.drillspeed = Drill Speed: {0}/s` (bundle.properties:1279), with fixed = Strings.fixed(lastDrillSpeed * 60, 2) -- fixedBuilder truncation at 2 decimals (arc Strings.java:729-760, `dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));`); lastDrillSpeed is non-negative so the negative branch never fires.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_bars_state"
+          ]
+        },
+        "bar_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/graphics/Pal.java",
+          "java_expr": "ammo = Color.valueOf(\"ff8947\"),",
+          "rule": "The bar color: Pal.ammo (BeamDrill.java:94, `() -> Pal.ammo`), `ammo = Color.valueOf(\"ff8947\"),` (Pal.java:64, \"ff8947\"); passed as the Bar color provider (`public Bar(Prov<CharSequence> name, Prov<Color> color, Floatp fraction){`, Bar.java:31).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_bars_state"
+          ]
+        },
+        "bar_fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ui/Bar.java",
+          "java_expr": "lastValue = value = Mathf.clamp(fraction.get());",
+          "rule": "The bar fraction: warmup (BeamDrill.java:94, `() -> e.warmup`), clamped to 0..1 by the Bar constructor (`lastValue = value = Mathf.clamp(fraction.get());`, Bar.java:33); this slice returns the warmup value, the clamp is Bar-side.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_set_bars_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof",
+      "rule": "Source-backed BeamDrill canPlaceOn() / setBars() state from BeamDrill.java + Block.java + Pal.java + Bar.java + arc Strings.java."
     }
   },
   "version": 1

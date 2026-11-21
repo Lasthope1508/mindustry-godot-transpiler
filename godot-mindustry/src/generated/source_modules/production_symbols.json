@@ -2163,6 +2163,21 @@
       ],
       "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
     },
+    "source_beam_drill_can_place_on_state_result.can_place_on": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_can_place_on_state_result.can_place_on",
+      "status": "source-backed",
+      "java_expr": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+      "godot_symbol": "source_beam_drill_can_place_on_state_result.can_place_on",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "rule": "Whether the drill can be placed: true on the first mineable wall drop found on any side ray (`if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){` with `return true;`, BeamDrill.java:205-206), false when no side finds one (`return false;`, BeamDrill.java:212); a null or non-solid tile does NOT stop a ray, the first solid tile stops it whether or not its drop is mineable.",
+      "tests": [
+        "test_c07_beam_drill_can_place_on_set_bars_registration",
+        "test_all_c07_beam_drill_can_place_on_set_bars_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_set_bars_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof"
+    },
     "source_beam_drill_draw_place_state_result.branch": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.branch",
       "status": "source-backed",
@@ -2477,6 +2492,66 @@
         "test_reference_graph_and_actual_c07_beam_drill_power_status"
       ],
       "runtime_proof": "/root/C07BeamDrillPowerStatusProof"
+    },
+    "source_beam_drill_set_bars_state_result.bar_color": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_set_bars_state_result.bar_color",
+      "status": "source-backed",
+      "java_expr": "ammo = Color.valueOf(\"ff8947\"),",
+      "godot_symbol": "source_beam_drill_set_bars_state_result.bar_color",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_set_bars_state",
+      "rule": "The bar color: Pal.ammo (BeamDrill.java:94, `() -> Pal.ammo`), `ammo = Color.valueOf(\"ff8947\"),` (Pal.java:64, \"ff8947\"); passed as the Bar color provider (`public Bar(Prov<CharSequence> name, Prov<Color> color, Floatp fraction){`, Bar.java:31).",
+      "tests": [
+        "test_c07_beam_drill_can_place_on_set_bars_registration",
+        "test_all_c07_beam_drill_can_place_on_set_bars_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_set_bars_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof"
+    },
+    "source_beam_drill_set_bars_state_result.bar_fraction": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_set_bars_state_result.bar_fraction",
+      "status": "source-backed",
+      "java_expr": "lastValue = value = Mathf.clamp(fraction.get());",
+      "godot_symbol": "source_beam_drill_set_bars_state_result.bar_fraction",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_set_bars_state",
+      "rule": "The bar fraction: warmup (BeamDrill.java:94, `() -> e.warmup`), clamped to 0..1 by the Bar constructor (`lastValue = value = Mathf.clamp(fraction.get());`, Bar.java:33); this slice returns the warmup value, the clamp is Bar-side.",
+      "tests": [
+        "test_c07_beam_drill_can_place_on_set_bars_registration",
+        "test_all_c07_beam_drill_can_place_on_set_bars_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_set_bars_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof"
+    },
+    "source_beam_drill_set_bars_state_result.bar_key": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_set_bars_state_result.bar_key",
+      "status": "source-backed",
+      "java_expr": "addBar(\"drillspeed\", (BeamDrillBuild e) ->",
+      "godot_symbol": "source_beam_drill_set_bars_state_result.bar_key",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_set_bars_state",
+      "rule": "The bar key: \"drillspeed\" (BeamDrill.java:93, `addBar(\"drillspeed\", (BeamDrillBuild e) ->`); registered by `public <T extends Building> void addBar(String name, Func<T, Bar> sup){` (Block.java:667).",
+      "tests": [
+        "test_c07_beam_drill_can_place_on_set_bars_registration",
+        "test_all_c07_beam_drill_can_place_on_set_bars_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_set_bars_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof"
+    },
+    "source_beam_drill_set_bars_state_result.bar_text": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_set_bars_state_result.bar_text",
+      "status": "source-backed",
+      "java_expr": "new Bar(() -> Core.bundle.format(\"bar.drillspeed\", Strings.fixed(e.lastDrillSpeed * 60, 2)), () -> Pal.ammo, () -> e.warmup));",
+      "godot_symbol": "source_beam_drill_set_bars_state_result.bar_text",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_set_bars_state",
+      "rule": "The bar text: Core.bundle.format(\"bar.drillspeed\", fixed) over the bundle value `bar.drillspeed = Drill Speed: {0}/s` (bundle.properties:1279), with fixed = Strings.fixed(lastDrillSpeed * 60, 2) -- fixedBuilder truncation at 2 decimals (arc Strings.java:729-760, `dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));`); lastDrillSpeed is non-negative so the negative branch never fires.",
+      "tests": [
+        "test_c07_beam_drill_can_place_on_set_bars_registration",
+        "test_all_c07_beam_drill_can_place_on_set_bars_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_set_bars_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof"
     },
     "source_beam_drill_set_stats_state_result.booster_row": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_set_stats_state_result.booster_row",

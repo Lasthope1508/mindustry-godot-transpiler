@@ -1038,3 +1038,155 @@ static func source_beam_drill_set_stats_state(frame: Dictionary, drill_time: flo
 	if booster_row_replaced:
 		booster_row = {"format": "{0} x speed", "amount": booster_amount, "intensity": optional_boost_intensity, "strength": false, "consumes": booster_consumes}
 	return {"drill_tier_row": drill_tier_row, "drill_speed_row": drill_speed_row, "booster_row_replaced": booster_row_replaced, "booster_row": booster_row}
+
+@warning_ignore("unused_parameter")
+static func source_beam_drill_can_place_on_state(frame: Dictionary, tile_x: int, tile_y: int, rotation: int, size: int, range_value: int, tier: int, blocked_items: Variant, world_tile: Callable) -> Dictionary:
+	# N2391 -- BeamDrill.canPlaceOn() (BeamDrill.java:198-214):
+	# `public boolean canPlaceOn(Tile tile, Team team, int rotation){`
+	# `for(int i = 0; i < size; i++){`
+	# `nearbySide(tile.x, tile.y, rotation, i, Tmp.p1);`
+	# `for(int j = 0; j < range; j++){`
+	# `Tile other = world.tile(Tmp.p1.x + Geometry.d4x(rotation)*j, Tmp.p1.y + Geometry.d4y(rotation)*j);`
+	# `if(other != null && other.solid()){`
+	# `Item drop = other.wallDrop();`
+	# `if(drop != null && drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){`
+	# `return true;`
+	# `}`
+	# `break;`
+	# `}`
+	# `}`
+	# `}`
+	# `return false;`
+	# `}`
+	# on `public class BeamDrill extends Block{`
+	# (BeamDrill.java:25). Placement predicate, not
+	# per-tick state: one scan ray per footprint side
+	# (nearbySide + world.tile, the N2379 scan precedent),
+	# true on the first mineable wall drop, false when no
+	# side finds one. The 3 distinguishing exprs are the
+	# 0-hit lines re-probed at base 3b90de35 in both
+	# ledgers; the HIT lines are evidence/context only
+	# and are NOT in EXACT_EXPRS: `if(other != null &&
+	# other.solid()){` (N2385 drawPlace),
+	# `for(int i = 0; i < size; i++){` / `Item drop =
+	# other.wallDrop();` / the hardness check (all N2379
+	# updateFacing), `return true;` / `return false;`
+	# (generic). nearbySide is the N1762 callee
+	# (PortGame.source_block_nearby_side_state,
+	# Block.java:936), reached here through its static
+	# geometry form (the N2379 updateLasers precedent),
+	# NOT re-ported. world.tile arrives as the explicit
+	# world_tile Callable (the N2379 param precedent):
+	# world_tile.call(rx, ry) returns null or a tile
+	# Dictionary {"solid", "wall_drop",
+	# "wall_drop_hardness"}; item identity is by name
+	# (the N2379 singleton-name precedent). A null tile
+	# or a non-solid tile does NOT stop the ray (the
+	# break sits inside `if(other.solid()){`); the first
+	# solid tile stops it whether or not its drop is
+	# mineable. `other.solid()` is Tile.java:457;
+	# `other.wallDrop()` is Tile.java:575. Fields:
+	# `public int range = 5;` (BeamDrill.java:40),
+	# `public int tier = 1;` (:41), `public @Nullable
+	# Seq<Item> blockedItems;` (:51). Per-def:
+	# plasma-bore tier 3, size 2, range 5;
+	# large-plasma-bore tier 5, size 3, range 6
+	# (Blocks.java:3038-3065). The `team` param is
+	# unused by the Java body (only tile/rotation/size/
+	# range/tier/blockedItems are read), so it is not a
+	# GD param. NO driver tick line: canPlaceOn is a
+	# placement predicate, not per-tick state (the
+	# accessor precedent N2311/N2321/N2342/N2351).
+	var ddx: int = SOURCE_BEAM_DRILL_D4X[posmod(rotation, 4)]
+	var ddy: int = SOURCE_BEAM_DRILL_D4Y[posmod(rotation, 4)]
+	var can_place_on := false
+	for i in range(size):
+		var side: Dictionary = source_block_plan_geometry_state.nearby_side_state(tile_x, tile_y, rotation, i, size, Vector2i.ZERO)
+		var side_point: Dictionary = side.get("nearby_side", {})
+		var px: int = int(side_point.get("x", 0))
+		var py: int = int(side_point.get("y", 0))
+		for j in range(range_value):
+			var rx: int = px + ddx * j
+			var ry: int = py + ddy * j
+			var other: Variant = world_tile.call(rx, ry)
+			if other != null:
+				var other_tile: Dictionary = other
+				if bool(other_tile.get("solid", false)):
+					var drop: Variant = other_tile.get("wall_drop", null)
+					if drop != null and float(other_tile.get("wall_drop_hardness", 0.0)) <= float(tier) and (blocked_items == null or not (drop in blocked_items)):
+						can_place_on = true
+					break
+		if can_place_on:
+			break
+	return {"can_place_on": can_place_on}
+
+@warning_ignore("unused_parameter")
+static func source_beam_drill_set_bars_state(frame: Dictionary, super_set_bars: Variant, last_drill_speed: float, warmup: float) -> Dictionary:
+	# N2391 -- BeamDrill.setBars() (BeamDrill.java:90-97):
+	# `public void setBars(){`
+	# `super.setBars();`
+	#
+	# `addBar("drillspeed", (BeamDrillBuild e) ->`
+	# `new Bar(() -> Core.bundle.format("bar.drillspeed", Strings.fixed(e.lastDrillSpeed * 60, 2)), () -> Pal.ammo, () -> e.warmup));`
+	# `}`
+	# `super.setBars();` is Block.setBars()
+	# (Block.java:696-746) -- NOT this slice: the health
+	# bar (`addBar("health", entity -> new Bar(
+	# "stat.health", Pal.health, entity::healthf).blink(
+	# Color.white));`, Block.java:697) plus power / items /
+	# liquid bars are the caller-passed super_set_bars
+	# (the N2317/N2323 super-as-param precedent); this
+	# slice only adds the drillspeed bar spec. The bar is
+	# registered by `public <T extends Building> void
+	# addBar(String name, Func<T, Bar> sup){`
+	# (Block.java:667). The bundle value is
+	# `bar.drillspeed = Drill Speed: {0}/s`
+	# (bundle.properties:1279). The fixed text is
+	# Strings.fixed truncation at 2 decimals: `public
+	# static String fixed(float d, int decimalPlaces){`
+	# with `return fixedBuilder(d,
+	# decimalPlaces).toString();` and `public static
+	# StringBuilder fixedBuilder(float d, int
+	# decimalPlaces){` over `boolean negative = d < 0;`,
+	# `d = Math.abs(d);`, `dec.append((int)(float)(d *
+	# Math.pow(10, decimalPlaces) + 0.0001f));` and `int
+	# decimalPosition = len - decimalPlaces;` (arc
+	# Strings.java:729-760) -- lastDrillSpeed is
+	# non-negative (BeamDrillBuild.updateTile sets
+	# `lastDrillSpeed = (facingAmount * multiplier *
+	# timeScale) / drillTime * efficiency;`,
+	# BeamDrill.java:249), so the negative branch never
+	# fires and the fixed text is the truncated rate with
+	# 2 decimals. NOTE the BeamDrill rate has NO
+	# timeScale factor (unlike Drill.setBars N2330,
+	# `lastDrillSpeed * 60 * e.timeScale()`): BeamDrill
+	# folds timeScale into lastDrillSpeed itself
+	# (BeamDrill.java:249). Pal.ammo is `ammo =
+	# Color.valueOf("ff8947"),` (Pal.java:64). The Bar
+	# constructor is `public Bar(Prov<CharSequence> name,
+	# Prov<Color> color, Floatp fraction){` with
+	# `lastValue = value = Mathf.clamp(fraction.get());`
+	# (Bar.java:31-33) -- the fraction is clamped
+	# Bar-side; this slice returns the warmup value.
+	# `lastDrillSpeed` is the BeamDrillBuild field
+	# (`public float lastDrillSpeed;`,
+	# BeamDrill.java:227); `warmup` is the BeamDrillBuild
+	# field (`public float warmup, boostWarmup;`,
+	# BeamDrill.java:226). The classes are `public class
+	# BeamDrill extends Block{` (BeamDrill.java:25) and
+	# `public class BeamDrillBuild extends Building{`
+	# (BeamDrill.java:220). Pure function: returns the
+	# drillspeed bar spec (key, text, color, fraction)
+	# and does NOT touch real Bar/UI playback. frame
+	# carries no live keys for this block-level bar spec
+	# -- lastDrillSpeed and warmup are live build state
+	# passed explicitly (the N2212 / N2224 per-def-param
+	# precedent); frame is the canonical first param of
+	# this family file. There is NO driver tick line:
+	# setBars is a load-time bar spec, not per-tick state.
+	var rate: float = last_drill_speed * 60.0
+	var scaled: int = int(rate * 100.0 + 0.0001)
+	var fixed_text: String = "%d.%02d" % [scaled / 100, scaled % 100]
+	var bar_text: String = "Drill Speed: " + fixed_text + "/s"
+	var bar_color: Color = Color("ff8947")
+	return {"bar_key": "drillspeed", "bar_text": bar_text, "bar_color": bar_color, "bar_fraction": warmup}

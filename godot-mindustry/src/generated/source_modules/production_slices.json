@@ -1456,6 +1456,27 @@
       ],
       "runtime_proof": "/root/C07BeamDrillSetStatsProof"
     },
+    "N2391": {
+      "canonical_ledger": "source_slice_ledger.N2391",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.canPlaceOn(Tile tile, Team team, int rotation)/BeamDrill.setBars()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "source_symbols": [
+        "source_beam_drill_can_place_on_state_result.can_place_on",
+        "source_beam_drill_set_bars_state_result.bar_key",
+        "source_beam_drill_set_bars_state_result.bar_text",
+        "source_beam_drill_set_bars_state_result.bar_color",
+        "source_beam_drill_set_bars_state_result.bar_fraction"
+      ],
+      "tests": [
+        "test_c07_beam_drill_can_place_on_set_bars_registration",
+        "test_all_c07_beam_drill_can_place_on_set_bars_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_set_bars_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
