@@ -18952,6 +18952,37 @@
       "rule": "Source-backed SenseI Content leg from BuildingComp.java:2139-2147 + LExecutor.java:692-693.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_ammo_items_stamp_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_ammo_items_stamp_state",
+      "status": "active",
+      "source_slice": "N2521",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_ammo_items_stamp_state_input.frame"
+        },
+        {
+          "name": "has_items",
+          "type": "bool",
+          "schema": "source_turret_ammo_items_stamp_state_input.has_items"
+        }
+      ],
+      "return_keys": [
+        "frame"
+      ],
+      "tests": [
+        "test_c07_turret_ammo_items_stamp_registration",
+        "test_all_c07_turret_ammo_items_stamp_input_evidence_is_exact",
+        "test_turret_ammo_items_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_ammo_items_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretAmmoItemsStampProof",
+      "rule": "Source-backed turret ammo-items stamp from BuildingComp.java:145/2107 + ItemTurret.java:28/155-185 + ItemModule.java:174-176.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_configured_dispatch_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_configured_dispatch_state",
       "status": "active",

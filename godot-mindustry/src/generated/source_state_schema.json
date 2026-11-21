@@ -240002,6 +240002,54 @@
       },
       "runtime_proof": "/root/C07TurretSenseFrameStampProof",
       "rule": "Source-backed turret sense frame stamp from BuildingComp.java:2093-2126 + Turret.java:277/490 + UnitComp.java:283-286."
+    },
+    "source_turret_ammo_items_stamp_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_ammo_items_stamp_state",
+      "source_slice": "N2521",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The turret frame (the port Building state) the tick stamps every tick (`public double sense(LAccess sensor){`, BuildingComp.java:2093-2126 -- the dispatch reads the stamped keys from this frame); the stamp writes the 2 items keys in place and returns the frame (the N2108 tick-frame precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_ammo_items_stamp_state"
+          ]
+        },
+        "has_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_expr": "hasItems = true;",
+          "rule": "Whether the block has an item module (`hasItems = true;`, ItemTurret.java:28 -- the ONLY hasItems set among the 5 ticked implementations; `if(block.hasItems) items = new ItemModule();`, BuildingComp.java:145): the tick passes `str(block.implementation) == \"ItemTurret\"`; the stamp writes `items_is_null` as `not has_items`.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_ammo_items_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretAmmoItemsStampProof",
+      "rule": "Source-backed turret ammo-items stamp from BuildingComp.java:145/2107 + ItemTurret.java:28/155-185 + ItemModule.java:174-176."
+    },
+    "source_turret_ammo_items_stamp_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_ammo_items_stamp_state",
+      "source_slice": "N2521",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The stamped frame, with the 2 live items keys set (`items_is_null` as `not has_items`, `items_total` as the constant 0 -- the `items` module is never written for an ItemTurretBuild, so `items.total()` is 0 always) plus every key the frame already carried; the 4 graph keys stay absent, so the dispatch keeps handled:false for powerNet* exactly as N2519/N2520 left them (`public double sense(LAccess sensor){`, BuildingComp.java:2093-2126).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_ammo_items_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretAmmoItemsStampProof",
+      "rule": "Source-backed turret ammo-items stamp from BuildingComp.java:145/2107 + ItemTurret.java:28/155-185 + ItemModule.java:174-176."
     }
   },
   "version": 1

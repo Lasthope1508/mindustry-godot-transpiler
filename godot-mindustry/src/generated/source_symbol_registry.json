@@ -178216,6 +178216,22 @@
         "test_reference_graph_and_actual_c07_turret_sense_frame_stamp"
       ],
       "runtime_proof": "/root/C07TurretSenseFrameStampProof"
+    },
+    "source_turret_ammo_items_stamp_state_result.frame": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_ammo_items_stamp_state",
+      "godot_symbol": "source_turret_ammo_items_stamp_state_result.frame",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "public double sense(LAccess sensor){",
+      "rule": "The stamped frame, with the 2 live items keys set (`items_is_null` as `not has_items`, `items_total` as the constant 0 -- the `items` module is never written for an ItemTurretBuild, so `items.total()` is 0 always) plus every key the frame already carried; the 4 graph keys stay absent, so the dispatch keeps handled:false for powerNet* exactly as N2519/N2520 left them (`public double sense(LAccess sensor){`, BuildingComp.java:2093-2126).",
+      "tests": [
+        "test_c07_turret_ammo_items_stamp_registration",
+        "test_all_c07_turret_ammo_items_stamp_input_evidence_is_exact",
+        "test_turret_ammo_items_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_ammo_items_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretAmmoItemsStampProof"
     }
   },
   "version": 1

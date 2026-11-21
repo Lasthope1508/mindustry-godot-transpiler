@@ -99,21 +99,67 @@ static func source_turret_sense_frame_stamp_state(frame: Dictionary, health: flo
 	# controller instanceof Player player ? World.conv
 	# (player.con == null ? Core.camera.position.x :
 	# player.con.viewX) : 0;`, UnitComp.java:283-286).
-	# It does NOT touch the other six wiring keys
-	# (`items_is_null` / `items_total` /
-	# `last_scaled_power_in` / `last_scaled_power_out` /
+	# It does NOT touch the other four wiring keys
+	# (`last_scaled_power_in` / `last_scaled_power_out` /
 	# `last_power_stored` / `last_capacity`): absent keys stay
 	# absent, so the dispatch keeps handled:false for
-	# totalItems / powerNet* exactly as N2519 left them --
-	# their live sources do not exist in the tick yet (the
-	# turret-ammo-inventory slice and the PowerGraph
-	# last-values prerequisite slice). The frame itself is
-	# returned (the N2108 tick-frame precedent).
+	# powerNet* exactly as N2519 left them -- their live
+	# sources do not exist in the tick yet (the PowerGraph
+	# last-values prerequisite slice). The items pair
+	# (`items_is_null` / `items_total`) is stamped by the
+	# N2521 ammo-items stamp, not by this function. The frame
+	# itself is returned (the N2108 tick-frame precedent).
 	frame["health"] = health
 	frame["is_dead"] = health <= 0.0
 	frame["tile_build_is_self"] = true
 	frame["is_control_block"] = true
 	frame["unit_sense_value"] = unit_sense_value
+	return frame
+
+static func source_turret_ammo_items_stamp_state(frame: Dictionary, has_items: bool) -> Dictionary:
+	# The ammo-items stamp (N2521): the turret driver tick stamps
+	# the live item inventory into the frame, so the N2519-wired
+	# dispatch `source_building_comp_sense_state` stops reporting
+	# handled:false for the totalItems leg when a live turret
+	# ticks (BuildingComp.sense() is `public double sense(LAccess
+	# sensor){`, BuildingComp.java:2093-2126). The tick is
+	# TurretBuild.updateTile() (`public void updateTile(){`,
+	# Turret.java:490), which runs for every Turret-family build
+	# the tick already visits. Exactly two keys are written:
+	# - `items_is_null` is `not has_items` -- only ItemTurret
+	# has an item module (`if(block.hasItems) items = new
+	# ItemModule();`, BuildingComp.java:145; `hasItems = true;`,
+	# ItemTurret.java:28, the ONLY hasItems set among the 5
+	# ticked implementations), so every other Turret-family
+	# build has `items == null` (`case totalItems -> items ==
+	# null ? 0 : items.total();`, BuildingComp.java:2107);
+	# - `items_total` is the constant 0 -- the `items` module
+	# is NEVER written for an ItemTurretBuild:
+	# `ItemTurretBuild.handleItem` (ItemTurret.java:155-185)
+	# overrides `BuildingComp.handleItem` (:860-862,
+	# `items.add(item, 1);`) WITHOUT calling super, so it only
+	# updates `totalAmmo` (`totalAmmo += type.ammoMultiplier;`,
+	# :168) and the ammo-weighted `ammo` entries; `handleStack`
+	# (:141-147) loops `handleItem` and `read()` restores
+	# `ammo` + `totalAmmo`, never `items`. The module exists
+	# but stays empty, so `items.total()` is 0 always
+	# (`public int total(){`, ItemModule.java:174-176). The
+	# port's `turret_ammo_stacks` are the Java `ammo` Seq
+	# (ammo-weighted entries), NOT the `items` module -- summing
+	# them would invent behavior (a duo with copper 5 +
+	# graphite 3 stacks would read 8.0 while Java reads 0.0),
+	# so the tick reads NO stacks dict for this stamp.
+	# The stamp OVERWRITES any stale `items_total` already on
+	# the frame. It does NOT touch the other four wiring keys
+	# (`last_scaled_power_in` / `last_scaled_power_out` /
+	# `last_power_stored` / `last_capacity`): absent keys stay
+	# absent, so the dispatch keeps handled:false for powerNet*
+	# exactly as N2519/N2520 left them -- their live sources do
+	# not exist in the tick yet (the PowerGraph last-values
+	# prerequisite slice). The frame itself is returned (the
+	# N2108 tick-frame precedent).
+	frame["items_is_null"] = not has_items
+	frame["items_total"] = 0
 	return frame
 
 static func _initial_frame() -> Dictionary:
@@ -2280,11 +2326,27 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 		# no player controller attached, so every camera* leg
 		# reads 0 (UnitComp.sense :283-286); when
 		# `controlled()` live wiring lands, the tick passes
-		# the live player camera value instead. The other six
-		# wiring keys (items pair + 4 graph keys) stay absent
-		# -- their live sources do not exist in the tick yet.
+		# the live player camera value instead. The other four
+		# wiring keys (4 graph keys) stay absent -- their live
+		# sources do not exist in the tick yet; the items pair
+		# is stamped by the N2521 call right below.
 		var sense_health: float = float(sprite.get_meta(source_placed_block_state.SOURCE_BLOCK_HEALTH_META_KEY, source_block_metadata_state.block_health_value(block)))
 		var stamped: Dictionary = source_turret_sense_frame_stamp_state(frame, sense_health, 0.0)
+		# The ammo-items stamp (N2521): the tick stamps the
+		# live item inventory into the frame, so the N2519-wired
+		# dispatch `source_building_comp_sense_state` stops
+		# reporting handled:false for the totalItems leg when a
+		# live turret ticks. `has_items` is `str(block.
+		# implementation) == "ItemTurret"` -- only ItemTurret
+		# has an item module (`hasItems = true;`,
+		# ItemTurret.java:28); `items_total` stamps the
+		# constant 0 because the module is never written for
+		# an ItemTurretBuild (its handleItem override never
+		# calls super -- see the stamp function comment). The
+		# tick reads NO stacks dict here: the port's
+		# `turret_ammo_stacks` are the Java `ammo` Seq, not
+		# the `items` module.
+		var ammo_items_stamped: Dictionary = source_turret_ammo_items_stamp_state(frame, str(block.implementation) == "ItemTurret")
 		# The power consumer reads live since N2148 (the graph
 		# update stamps frame["power_status"] each tick, N2142):
 		# a turret with a power consumer folds the pure power row
