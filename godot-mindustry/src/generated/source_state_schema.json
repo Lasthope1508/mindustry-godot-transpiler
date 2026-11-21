@@ -239526,6 +239526,74 @@
       },
       "runtime_proof": "/root/C07BuildingCompSenseHealthProof",
       "rule": "Source-backed BuildingComp.sense() health leg from BuildingComp.java:2101 + HealthComp.java:11."
+    },
+    "source_building_comp_sense_total_items_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_total_items_state",
+      "source_slice": "N2513",
+      "keys": {
+        "items_is_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case totalItems -> items == null ? 0 : items.total();",
+          "rule": "Whether `items == null` (`case totalItems -> items == null ? 0 : items.total();`, BuildingComp.java:2107, first branch of the ternary): the building has no item module (`@Nullable ItemModule items;`, BuildingComp.java:81); passed explicitly because the live inventory total is not stamped in the frame yet (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_total_items_state"
+          ]
+        },
+        "items_total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+          "java_expr": "public int total(){",
+          "rule": "The building's total item count (`public int total(){`, ItemModule.java:174 -- returns int): the value `case totalItems -> items == null ? 0 : items.total();` (BuildingComp.java:2107) returns when items is not null; passed explicitly because the live inventory total is not stamped in the frame yet (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_total_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSenseTotalItemsProof",
+      "rule": "Source-backed BuildingComp.sense() totalItems leg from BuildingComp.java:2107 + ItemModule.java:174."
+    },
+    "source_building_comp_sense_total_items_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_total_items_state",
+      "source_slice": "N2513",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case totalItems -> items == null ? 0 : items.total();",
+          "rule": "Whether the leg resolved to a logic-variable write (`case totalItems -> items == null ? 0 : items.total();`, BuildingComp.java:2107): true always, because this function IS the totalItems leg and the sensor is fixed `totalItems`.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_total_items_state"
+          ]
+        },
+        "sense_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case totalItems -> items == null ? 0 : items.total();",
+          "rule": "The numeric value written to the logic variable (`case totalItems -> items == null ? 0 : items.total();`, BuildingComp.java:2107): 0.0 when items is null, else `float(items_total)` exactly (Java `sense()` returns double; the int widens exactly), no clamping, no rounding.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_total_items_state"
+          ]
+        },
+        "sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); false always for the totalItems leg, which never yields NaN -- the key stays in the wire shape for consistency with N2283/N2284/N2511/N2512.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_total_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSenseTotalItemsProof",
+      "rule": "Source-backed BuildingComp.sense() totalItems leg from BuildingComp.java:2107 + ItemModule.java:174."
     }
   },
   "version": 1

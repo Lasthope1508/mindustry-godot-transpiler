@@ -592,6 +592,40 @@ static func source_building_comp_sense_health_state(health: float) -> Dictionary
 	# living beside N2284).
 	return {"handled": true, "sense_value": health, "sense_value_is_nan": false}
 
+static func source_building_comp_sense_total_items_state(items_is_null: bool, items_total: int) -> Dictionary:
+	# BuildingComp.sense() `totalItems` leg (`public double sense(LAccess sensor){`,
+	# BuildingComp.java:2093-2126): `case totalItems -> items == null ? 0 : items.total();`
+	# (:2107) -- `items` is the building's item module
+	# (`@Nullable ItemModule items;`, BuildingComp.java:81)
+	# and `items.total()` its total item count
+	# (`public int total(){`, ItemModule.java:174 --
+	# returns int). The two
+	# params are the live input a future frame-stamp slice
+	# will supply (the N2212/N2220 per-def-param
+	# precedent): the live inventory total is not stamped
+	# in the frame yet, so `items_is_null` is `items ==
+	# null` (:2107, first branch of the ternary) and
+	# `items_total` is `items.total()`. The value is
+	# returned exactly: 0.0 when items is null, else
+	# `float(items_total)` (Java `sense()` returns double;
+	# the int widens exactly), no clamping, no rounding.
+	# The sensor spelling is the LAccess enum name:
+	# `totalItems,` (LAccess.java:7). The result is the
+	# N2283/N2284 sense wire shape: handled + sense_value +
+	# sense_value_is_nan; the leg never yields NaN (the
+	# default `default -> Float.NaN; //gets converted to null in logic`,
+	# :2123, never fires here). There is no driver tick
+	# line: the leg is a logic read, not a tick write (the
+	# N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509/N2510/N2511/N2512
+	# precedent); the proof calls the pure function directly
+	# with synthetic inputs. This does NOT wire into
+	# source_building_comp_sense_state: totalItems stays
+	# handled:false in the big dispatch until a later wiring
+	# slice connects this leg (same as N2511's dead leg and
+	# N2512's health leg living beside N2284).
+	var total_items_value: float = 0.0 if items_is_null else float(items_total)
+	return {"handled": true, "sense_value": total_items_value, "sense_value_is_nan": false}
+
 static func source_turret_sense_object_state(sensor: String, block_id: String, first_item: String) -> Dictionary:
 	# BuildingComp.senseObject() (BuildingComp.java:2128-2136):
 	# `public Object senseObject(LAccess sensor){` /

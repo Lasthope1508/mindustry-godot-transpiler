@@ -70682,6 +70682,38 @@
       ],
       "runtime_proof": "/root/C07BuildingCompSenseHealthProof",
       "rule": "Source-backed BuildingComp.sense() health leg from BuildingComp.java:2101 + HealthComp.java:11."
+    },
+    "SourceTurretBuildState.source_building_comp_sense_total_items_state": {
+      "status": "active",
+      "source_slice": "N2513",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "items_is_null",
+          "type": "bool",
+          "schema": "source_building_comp_sense_total_items_state_input.items_is_null"
+        },
+        {
+          "name": "items_total",
+          "type": "int",
+          "schema": "source_building_comp_sense_total_items_state_input.items_total"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_building_comp_sense_total_items_registration",
+        "test_all_c07_building_comp_sense_total_items_input_evidence_is_exact",
+        "test_building_comp_sense_total_items_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_total_items"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseTotalItemsProof",
+      "rule": "Source-backed BuildingComp.sense() totalItems leg from BuildingComp.java:2107 + ItemModule.java:174."
     }
   },
   "policy": {

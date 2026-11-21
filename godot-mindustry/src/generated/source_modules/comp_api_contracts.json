@@ -18685,6 +18685,39 @@
       "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_building_comp_sense_total_items_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_building_comp_sense_total_items_state",
+      "status": "active",
+      "source_slice": "N2513",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "items_is_null",
+          "type": "bool",
+          "schema": "source_building_comp_sense_total_items_state_input.items_is_null"
+        },
+        {
+          "name": "items_total",
+          "type": "int",
+          "schema": "source_building_comp_sense_total_items_state_input.items_total"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_building_comp_sense_total_items_registration",
+        "test_all_c07_building_comp_sense_total_items_input_evidence_is_exact",
+        "test_building_comp_sense_total_items_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_total_items"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseTotalItemsProof",
+      "rule": "Source-backed BuildingComp.sense() totalItems leg from BuildingComp.java:2107 + ItemModule.java:174.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_logic_sense_content_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_logic_sense_content_state",
       "status": "active",
