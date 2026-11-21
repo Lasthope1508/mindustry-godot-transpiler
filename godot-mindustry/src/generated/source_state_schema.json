@@ -239866,6 +239866,84 @@
       },
       "runtime_proof": "/root/C07BuildingCompSensePowerNetCapacityProof",
       "rule": "Source-backed BuildingComp.sense() powerNetCapacity leg from BuildingComp.java:2117 + PowerGraph.java:53-54."
+    },
+    "source_building_comp_sense_camera_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_camera_state",
+      "source_slice": "N2518",
+      "keys": {
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (`cameraX,` LAccess.java:37, `cameraY,` :38, `cameraWidth,` :39, `cameraHeight,` :40): one of the four camera labels of the single Java case (`case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;`, BuildingComp.java:2122); the sensor-specific selection already happened inside the unit sense call whose result is `unit_sense_value`.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_camera_state"
+          ]
+        },
+        "is_control_block": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+          "rule": "Whether `this instanceof ControlBlock` (`case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;`, BuildingComp.java:2122, the gate of the ternary): the building has a proxy unit (`public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`, Turret.java:291); passed explicitly because the live building type is not stamped in the frame yet (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_camera_state"
+          ]
+        },
+        "unit_sense_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_expr": "case cameraX -> controller instanceof Player player ? World.conv(player.con == null ? Core.camera.position.x : player.con.viewX) : 0;",
+          "rule": "The proxy unit's sense result for this sensor (`c.unit().sense(sensor)`, BuildingComp.java:2122): the already-ported unit sense camera leg (`case cameraX -> controller instanceof Player player ? World.conv(player.con == null ? Core.camera.position.x : player.con.viewX) : 0;`, UnitComp.java:283-286, and cameraY/cameraWidth/cameraHeight analogously, via `SourceUnitSensorState.laccess_state`) -- 0 when the unit controller is not a Player, else `World.conv` of the player view / core camera value; passed explicitly because the live unit sense value is not stamped in the frame yet (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_camera_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSenseCameraProof",
+      "rule": "Source-backed BuildingComp.sense() cameraX/cameraY/cameraWidth/cameraHeight legs from BuildingComp.java:2122 + UnitComp.java:283-286."
+    },
+    "source_building_comp_sense_camera_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_camera_state",
+      "source_slice": "N2518",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+          "rule": "Whether the leg resolved to a logic-variable write (`case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;`, BuildingComp.java:2122): true always, because this function IS the camera case and the sensor is one of the four camera labels.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_camera_state"
+          ]
+        },
+        "sense_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+          "rule": "The numeric value written to the logic variable (`case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;`, BuildingComp.java:2122): 0.0 when not a control block, else `unit_sense_value` exactly (Java `sense()` returns double; the float widens exactly), no clamping, no rounding, no World.conv here (the conv already happened inside the unit sense call).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_camera_state"
+          ]
+        },
+        "sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); false always for the camera legs, which never yield NaN -- the key stays in the wire shape for consistency with N2283/N2284/N2511/N2512/N2513/N2514/N2515/N2516/N2517.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_camera_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSenseCameraProof",
+      "rule": "Source-backed BuildingComp.sense() cameraX/cameraY/cameraWidth/cameraHeight legs from BuildingComp.java:2122 + UnitComp.java:283-286."
     }
   },
   "version": 1

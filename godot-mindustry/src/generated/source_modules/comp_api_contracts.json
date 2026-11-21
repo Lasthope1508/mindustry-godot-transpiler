@@ -18481,6 +18481,44 @@
       "rule": "Source-backed live TeamRules cheating; a cheating team skips its consumers.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_building_comp_sense_camera_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_building_comp_sense_camera_state",
+      "status": "active",
+      "source_slice": "N2518",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_building_comp_sense_camera_state_input.sensor"
+        },
+        {
+          "name": "is_control_block",
+          "type": "bool",
+          "schema": "source_building_comp_sense_camera_state_input.is_control_block"
+        },
+        {
+          "name": "unit_sense_value",
+          "type": "float",
+          "schema": "source_building_comp_sense_camera_state_input.unit_sense_value"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_building_comp_sense_camera_registration",
+        "test_all_c07_building_comp_sense_camera_input_evidence_is_exact",
+        "test_building_comp_sense_camera_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_camera"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseCameraProof",
+      "rule": "Source-backed BuildingComp.sense() cameraX/cameraY/cameraWidth/cameraHeight legs from BuildingComp.java:2122 + UnitComp.java:283-286.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_building_comp_sense_dead_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_building_comp_sense_dead_state",
       "status": "active",

@@ -178152,6 +178152,54 @@
         "test_reference_graph_and_actual_c07_building_comp_sense_power_net_capacity"
       ],
       "runtime_proof": "/root/C07BuildingCompSensePowerNetCapacityProof"
+    },
+    "source_building_comp_sense_camera_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_camera_state",
+      "godot_symbol": "source_building_comp_sense_camera_state_result.handled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "rule": "Whether the leg resolved to a logic-variable write (`case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;`, BuildingComp.java:2122): true always, because this function IS the camera case and the sensor is one of the four camera labels.",
+      "tests": [
+        "test_c07_building_comp_sense_camera_registration",
+        "test_all_c07_building_comp_sense_camera_input_evidence_is_exact",
+        "test_building_comp_sense_camera_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_camera"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseCameraProof"
+    },
+    "source_building_comp_sense_camera_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_camera_state",
+      "godot_symbol": "source_building_comp_sense_camera_state_result.sense_value",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "rule": "The numeric value written to the logic variable (`case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;`, BuildingComp.java:2122): 0.0 when not a control block, else `unit_sense_value` exactly (Java `sense()` returns double; the float widens exactly), no clamping, no rounding, no World.conv here (the conv already happened inside the unit sense call).",
+      "tests": [
+        "test_c07_building_comp_sense_camera_registration",
+        "test_all_c07_building_comp_sense_camera_input_evidence_is_exact",
+        "test_building_comp_sense_camera_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_camera"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseCameraProof"
+    },
+    "source_building_comp_sense_camera_state_result.sense_value_is_nan": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_camera_state",
+      "godot_symbol": "source_building_comp_sense_camera_state_result.sense_value_is_nan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); false always for the camera legs, which never yield NaN -- the key stays in the wire shape for consistency with N2283/N2284/N2511/N2512/N2513/N2514/N2515/N2516/N2517.",
+      "tests": [
+        "test_c07_building_comp_sense_camera_registration",
+        "test_all_c07_building_comp_sense_camera_input_evidence_is_exact",
+        "test_building_comp_sense_camera_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_camera"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseCameraProof"
     }
   },
   "version": 1

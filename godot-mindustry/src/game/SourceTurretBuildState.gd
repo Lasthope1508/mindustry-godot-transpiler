@@ -788,6 +788,56 @@ static func source_building_comp_sense_power_net_capacity_state(power_is_null: b
 	var power_net_capacity_value: float = 0.0 if power_is_null else last_capacity
 	return {"handled": true, "sense_value": power_net_capacity_value, "sense_value_is_nan": false}
 
+static func source_building_comp_sense_camera_state(sensor: String, is_control_block: bool, unit_sense_value: float) -> Dictionary:
+	# BuildingComp.sense() `cameraX/cameraY/cameraWidth/cameraHeight` legs
+	# (`public double sense(LAccess sensor){`,
+	# BuildingComp.java:2093-2126): `case cameraX, cameraY, cameraWidth,
+	# cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;`
+	# (:2122, the last leg of sense()) -- the sensor spellings are the
+	# LAccess enum names: `cameraX,` `cameraY,` `cameraWidth,`
+	# `cameraHeight,` (LAccess.java:37-40). The four legs share ONE Java
+	# case line and ONE delegation expression, so one pure function ports
+	# all four with a `sensor` param (splitting into four slices would
+	# quadruple near-identical functions for zero additional Java
+	# coverage). The delegation target already exists in the port:
+	# `SourceUnitSensorState.laccess_state`
+	# (SourceUnitSensorState.gd:41-44) ports the UnitComp.sense camera
+	# legs -- `case cameraX -> controller instanceof Player player ? World.conv(player.con == null ? Core.camera.position.x : player.con.viewX) : 0;`
+	# (UnitComp.java:283, and cameraY/cameraWidth/cameraHeight
+	# analogously at :284-286) -- 0 when the controller is not a
+	# Player, else `World.conv` of the player view / core camera value. This slice ports ONLY the BuildingComp gate
+	# (`instanceof ControlBlock` + fallback 0 + pass-through of the unit
+	# sense value); it does NOT re-port the unit-side camera math.
+	# The three params are the live input a future frame-stamp/wiring
+	# slice will supply (the N2212/N2220 per-def-param precedent):
+	# `sensor` is one of the four camera labels, `is_control_block` is
+	# `this instanceof ControlBlock` (:2122, the gate of the ternary)
+	# and `unit_sense_value` is `c.unit().sense(sensor)` -- the
+	# already-ported unit sense result for this sensor. The value is
+	# returned exactly: 0.0 when not a control block, else
+	# `unit_sense_value` (Java `sense()` returns double; the float
+	# widens exactly), no clamping, no rounding, no World.conv here
+	# (the conv already happened inside the unit sense call). The
+	# function does NOT validate the sensor: the dispatch guarantees
+	# one of the four labels, same as the N2511-N2517 fixed-sensor
+	# functions do not validate theirs. The result is the
+	# N2283/N2284 sense wire shape: handled + sense_value +
+	# sense_value_is_nan; the leg never yields NaN (the default
+	# `default -> Float.NaN; //gets converted to null in logic`, :2123,
+	# never fires here). There is no driver tick line: the leg is a
+	# logic read, not a tick write (the
+	# N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509/N2510/N2511/N2512/N2513/N2514/N2515/N2516/N2517
+	# precedent); the proof calls the pure function directly with
+	# synthetic inputs. This does NOT wire into
+	# source_building_comp_sense_state: camera* stay handled:false in
+	# the big dispatch until a later wiring slice connects this leg
+	# (same as N2511's dead leg, N2512's health leg, N2513's totalItems
+	# leg, N2514's powerNetIn leg, N2515's powerNetOut leg, N2516's
+	# powerNetStored leg and N2517's powerNetCapacity leg living beside
+	# N2284).
+	var camera_value: float = 0.0 if not is_control_block else unit_sense_value
+	return {"handled": true, "sense_value": camera_value, "sense_value_is_nan": false}
+
 static func source_turret_sense_object_state(sensor: String, block_id: String, first_item: String) -> Dictionary:
 	# BuildingComp.senseObject() (BuildingComp.java:2128-2136):
 	# `public Object senseObject(LAccess sensor){` /
