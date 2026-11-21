@@ -2193,6 +2193,81 @@
       ],
       "runtime_proof": "/root/C07BeamDrillPowerStatusProof"
     },
+    "source_beam_drill_write_state_result.time": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_write_state_result.time",
+      "status": "source-backed",
+      "java_expr": "time = read.f();",
+      "godot_symbol": "source_beam_drill_write_state_result.time",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
+      "rule": "The post-read time (BeamDrill.java:428-430, `if(revision >= 1){ time = read.f(); }`): the stored value at revision >= 1, the current value otherwise.",
+      "tests": [
+        "test_c07_beam_drill_version_write_read_registration",
+        "test_all_c07_beam_drill_version_write_read_input_evidence_is_exact",
+        "test_beam_drill_version_write_read_state",
+        "test_reference_graph_and_actual_c07_beam_drill_version_write_read"
+      ],
+      "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
+    },
+    "source_beam_drill_write_state_result.version": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_write_state_result.version",
+      "status": "source-backed",
+      "java_expr": "return 1;",
+      "godot_symbol": "source_beam_drill_write_state_result.version",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
+      "rule": "The save version (BeamDrill.java:414-416, `public byte version(){ return 1; }`): always 1 -- the name shares text with 8 other-class slices (N1187/N745/N923/N1885/N2217/N2286/N2322/N2375), registered under this java_method with the class prefix.",
+      "tests": [
+        "test_c07_beam_drill_version_write_read_registration",
+        "test_all_c07_beam_drill_version_write_read_input_evidence_is_exact",
+        "test_beam_drill_version_write_read_state",
+        "test_reference_graph_and_actual_c07_beam_drill_version_write_read"
+      ],
+      "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
+    },
+    "source_beam_drill_write_state_result.warmup": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_write_state_result.warmup",
+      "status": "source-backed",
+      "java_expr": "warmup = read.f();",
+      "godot_symbol": "source_beam_drill_write_state_result.warmup",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
+      "rule": "The post-read warmup (BeamDrill.java:428-431, `if(revision >= 1){ warmup = read.f(); }`): the stored value at revision >= 1, the current value otherwise.",
+      "tests": [
+        "test_c07_beam_drill_version_write_read_registration",
+        "test_all_c07_beam_drill_version_write_read_input_evidence_is_exact",
+        "test_beam_drill_version_write_read_state",
+        "test_reference_graph_and_actual_c07_beam_drill_version_write_read"
+      ],
+      "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
+    },
+    "source_beam_drill_write_state_result.write_time": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_write_state_result.write_time",
+      "status": "source-backed",
+      "java_expr": "write.f(time);",
+      "godot_symbol": "source_beam_drill_write_state_result.write_time",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
+      "rule": "The persisted time (BeamDrill.java:421, `write.f(time);`): the value write() stores, whatever the revision.",
+      "tests": [
+        "test_c07_beam_drill_version_write_read_registration",
+        "test_all_c07_beam_drill_version_write_read_input_evidence_is_exact",
+        "test_beam_drill_version_write_read_state",
+        "test_reference_graph_and_actual_c07_beam_drill_version_write_read"
+      ],
+      "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
+    },
+    "source_beam_drill_write_state_result.write_warmup": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_write_state_result.write_warmup",
+      "status": "source-backed",
+      "java_expr": "write.f(warmup);",
+      "godot_symbol": "source_beam_drill_write_state_result.write_warmup",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
+      "rule": "The persisted warmup (BeamDrill.java:422, `write.f(warmup);`): the value write() stores, whatever the revision.",
+      "tests": [
+        "test_c07_beam_drill_version_write_read_registration",
+        "test_all_c07_beam_drill_version_write_read_input_evidence_is_exact",
+        "test_beam_drill_version_write_read_state",
+        "test_reference_graph_and_actual_c07_beam_drill_version_write_read"
+      ],
+      "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
+    },
     "source_bind_item_consumers_state_input.block": {
       "canonical_symbol": "source_symbol_registry.source_bind_item_consumers_state_input.block",
       "status": "source-backed",

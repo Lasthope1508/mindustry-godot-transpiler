@@ -76,6 +76,61 @@
         }
       }
     },
+    "source_beam_drill_write_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_write_state_input",
+      "keys": {
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "write.f(time);",
+          "rule": "The current time field, time (BeamDrill.java:225, `public float time;`, advanced by updateTile): the value write() persists and read() keeps when the revision is below 1.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "write.f(warmup);",
+          "rule": "The current warmup field, warmup (BeamDrill.java:226, `public float warmup, boostWarmup;`, gated by updateTile): the value write() persists and read() keeps when the revision is below 1.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+          ]
+        },
+        "revision": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(revision >= 1){",
+          "rule": "The save revision, revision (BeamDrill.java:426-431): read() restores time and warmup only when revision >= 1, the version() stamp.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+          ]
+        },
+        "stored_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "time = read.f();",
+          "rule": "The value read.f() would return from the stream for time (BeamDrill.java:429, `time = read.f();`): the port has no save/load stream, so it arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+          ]
+        },
+        "stored_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "warmup = read.f();",
+          "rule": "The value read.f() would return from the stream for warmup (BeamDrill.java:430, `warmup = read.f();`): the port has no save/load stream, so it arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+          ]
+        }
+      }
+    },
     "source_block_has_liquids_input": {
       "canonical_schema": "source_state_schema.source_block_has_liquids_input",
       "keys": {

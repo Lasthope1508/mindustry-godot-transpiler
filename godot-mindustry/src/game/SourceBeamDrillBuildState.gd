@@ -186,3 +186,49 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_beam_drill_version_write_read_state(time: float, warmup: float, revision: int, stored_time: float, stored_warmup: float) -> Dictionary:
+	# BeamDrillBuild.version() (BeamDrill.java:414-416):
+	# `public byte version(){`
+	# `return 1;`
+	# `}`
+	# BeamDrillBuild.write() (BeamDrill.java:419-424):
+	# `public void write(Writes write){`
+	# `super.write(write);`
+	# `write.f(time);`
+	# `write.f(warmup);`
+	# `}`
+	# BeamDrillBuild.read() (BeamDrill.java:426-433):
+	# `public void read(Reads read, byte revision){`
+	# `super.read(read, revision);`
+	# `if(revision >= 1){`
+	# `time = read.f();`
+	# `warmup = read.f();`
+	# `}`
+	# `}`
+	# on `public class BeamDrillBuild extends Building{`
+	# (BeamDrill.java:220) inside `public class BeamDrill
+	# extends Block{` (BeamDrill.java:25). Each method is
+	# `@Override`. version() stamps the save revision:
+	# always 1. write() persists the two own fields time
+	# (BeamDrill.java:225, `public float time;`) and warmup
+	# (BeamDrill.java:226, `public float warmup, boostWarmup;`),
+	# whatever the revision. read() restores
+	# both only at revision >= 1; below 1 both keep their
+	# current values. The super layer is DrillBuild.write/
+	# read (N2286), a callee, not re-ported here. The port
+	# has no save/load stream, so the values read.f() would
+	# return arrive as the explicit stored_time /
+	# stored_warmup params (the N2330 param precedent). NO
+	# driver tick line: persistence is not a per-tick call.
+	# Write order is time then warmup (BeamDrill.java:
+	# 421-422), and read order is the same (:429-430).
+	var version: int = 1
+	var write_time: float = time
+	var write_warmup: float = warmup
+	var read_time: float = time
+	var read_warmup: float = warmup
+	if revision >= 1:
+		read_time = stored_time
+		read_warmup = stored_warmup
+	return {"version": version, "write_time": write_time, "write_warmup": write_warmup, "time": read_time, "warmup": read_warmup}

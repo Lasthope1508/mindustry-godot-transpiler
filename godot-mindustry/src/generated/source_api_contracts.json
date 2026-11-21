@@ -73853,6 +73853,55 @@
       ],
       "runtime_proof": "/root/C07TurretDrawProof",
       "rule": "Source-backed Turret draw() row from Turret.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_write_state": {
+      "status": "active",
+      "source_slice": "N2378",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.version(); BeamDrillBuild.write(Writes); BeamDrillBuild.read(Reads, byte)",
+      "params": [
+        {
+          "name": "time",
+          "type": "float",
+          "schema": "source_beam_drill_write_state_input.time"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_beam_drill_write_state_input.warmup"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_beam_drill_write_state_input.revision"
+        },
+        {
+          "name": "stored_time",
+          "type": "float",
+          "schema": "source_beam_drill_write_state_input.stored_time"
+        },
+        {
+          "name": "stored_warmup",
+          "type": "float",
+          "schema": "source_beam_drill_write_state_input.stored_warmup"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "version",
+        "write_time",
+        "write_warmup",
+        "time",
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_beam_drill_version_write_read_registration",
+        "test_all_c07_beam_drill_version_write_read_input_evidence_is_exact",
+        "test_beam_drill_version_write_read_state",
+        "test_reference_graph_and_actual_c07_beam_drill_version_write_read"
+      ],
+      "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof",
+      "rule": "Source-backed BeamDrillBuild.version()/write()/read() state from BeamDrill.java."
     }
   },
   "policy": {
