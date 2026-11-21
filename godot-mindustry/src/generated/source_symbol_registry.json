@@ -180616,6 +180616,86 @@
         "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg2"
       ],
       "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof"
+    },
+    "source_team_data_liveness_state_result.has_core": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_liveness_state",
+      "godot_symbol": "source_team_data_liveness_state_result.has_core",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.hasCore()/isAlive()/noCores()/core()/hasAI()",
+      "java_expr": "return cores.size > 0;",
+      "rule": "Whether the team has any core (Teams.java:451, `return cores.size > 0;`): true exactly when the cores Array is non-empty.",
+      "tests": [
+        "test_c07_teams_team_data_liveness_registration",
+        "test_all_c07_teams_team_data_liveness_input_evidence_is_exact",
+        "test_teams_team_data_liveness_state",
+        "test_reference_graph_and_actual_c07_teams_team_data_liveness"
+      ],
+      "runtime_proof": "/root/C07TeamDataLivenessProof"
+    },
+    "source_team_data_liveness_state_result.is_alive": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_liveness_state",
+      "godot_symbol": "source_team_data_liveness_state_result.is_alive",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.hasCore()/isAlive()/noCores()/core()/hasAI()",
+      "java_expr": "return hasCore();",
+      "rule": "Whether the team is alive (Teams.java:456, `return hasCore();`): isAlive() delegates to hasCore() in Java, so this is the same value as has_core -- the delegate is inside this same group, not an outside dedup.",
+      "tests": [
+        "test_c07_teams_team_data_liveness_registration",
+        "test_all_c07_teams_team_data_liveness_input_evidence_is_exact",
+        "test_teams_team_data_liveness_state",
+        "test_reference_graph_and_actual_c07_teams_team_data_liveness"
+      ],
+      "runtime_proof": "/root/C07TeamDataLivenessProof"
+    },
+    "source_team_data_liveness_state_result.no_cores": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_liveness_state",
+      "godot_symbol": "source_team_data_liveness_state_result.no_cores",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.hasCore()/isAlive()/noCores()/core()/hasAI()",
+      "java_expr": "return cores.isEmpty();",
+      "rule": "Whether the team has no cores (Teams.java:460, `return cores.isEmpty();`): the exact inverse of has_core.",
+      "tests": [
+        "test_c07_teams_team_data_liveness_registration",
+        "test_all_c07_teams_team_data_liveness_input_evidence_is_exact",
+        "test_teams_team_data_liveness_state",
+        "test_reference_graph_and_actual_c07_teams_team_data_liveness"
+      ],
+      "runtime_proof": "/root/C07TeamDataLivenessProof"
+    },
+    "source_team_data_liveness_state_result.core": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_liveness_state",
+      "godot_symbol": "source_team_data_liveness_state_result.core",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.hasCore()/isAlive()/noCores()/core()/hasAI()",
+      "java_expr": "return cores.isEmpty() ? null : cores.first();",
+      "rule": "The first core, or null (Teams.java:465, `return cores.isEmpty() ? null : cores.first();`): null when the team has no cores (the @Nullable return, Teams.java:463) -- the caller must null-check before using it.",
+      "tests": [
+        "test_c07_teams_team_data_liveness_registration",
+        "test_all_c07_teams_team_data_liveness_input_evidence_is_exact",
+        "test_teams_team_data_liveness_state",
+        "test_reference_graph_and_actual_c07_teams_team_data_liveness"
+      ],
+      "runtime_proof": "/root/C07TeamDataLivenessProof"
+    },
+    "source_team_data_liveness_state_result.has_ai": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_liveness_state",
+      "godot_symbol": "source_team_data_liveness_state_result.has_ai",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.hasCore()/isAlive()/noCores()/core()/hasAI()",
+      "java_expr": "return team.rules().rtsAi || team.rules().buildAi;",
+      "rule": "Whether the team is controlled by the AI and builds bases (Teams.java:471, `return team.rules().rtsAi || team.rules().buildAi;`): true when either rts_ai or build_ai is set in team_rules.",
+      "tests": [
+        "test_c07_teams_team_data_liveness_registration",
+        "test_all_c07_teams_team_data_liveness_input_evidence_is_exact",
+        "test_teams_team_data_liveness_state",
+        "test_reference_graph_and_actual_c07_teams_team_data_liveness"
+      ],
+      "runtime_proof": "/root/C07TeamDataLivenessProof"
     }
   },
   "version": 1

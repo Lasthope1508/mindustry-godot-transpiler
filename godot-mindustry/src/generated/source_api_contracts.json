@@ -73715,6 +73715,40 @@
       ],
       "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof",
       "rule": "Source-backed LaserTurretBuild.updateTile() leg 2 state from LaserTurret.java."
+    },
+    "SourceTeamsRuntimeState.source_team_data_liveness_state": {
+      "status": "active",
+      "source_slice": "N2374",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.hasCore()/isAlive()/noCores()/core()/hasAI()",
+      "params": [
+        {
+          "name": "cores",
+          "type": "Array",
+          "schema": "source_team_data_liveness_state_input.cores"
+        },
+        {
+          "name": "team_rules",
+          "type": "Dictionary",
+          "schema": "source_team_data_liveness_state_input.team_rules"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "has_core",
+        "is_alive",
+        "no_cores",
+        "core",
+        "has_ai"
+      ],
+      "tests": [
+        "test_c07_teams_team_data_liveness_registration",
+        "test_all_c07_teams_team_data_liveness_input_evidence_is_exact",
+        "test_teams_team_data_liveness_state",
+        "test_reference_graph_and_actual_c07_teams_team_data_liveness"
+      ],
+      "runtime_proof": "/root/C07TeamDataLivenessProof",
+      "rule": "Source-backed TeamData.hasCore()+isAlive()+noCores()+core()+hasAI() state from Teams.java."
     }
   },
   "policy": {

@@ -245674,6 +245674,94 @@
       },
       "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof",
       "rule": "Source-backed LaserTurretBuild.updateTile() leg 2 state from LaserTurret.java."
+    },
+    "source_team_data_liveness_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_liveness_state",
+      "source_slice": "N2374",
+      "keys": {
+        "cores": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return cores.size > 0;",
+          "rule": "The team cores as opaque refs (Teams.java:451, `return cores.size > 0;`): the cores seq is NOT ported -- it arrives as an explicit Array (the N2330 param precedent); the caller passes the team's cores, in order, so core() can return the first.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_liveness_state"
+          ]
+        },
+        "team_rules": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return team.rules().rtsAi || team.rules().buildAi;",
+          "rule": "The team rules as {rts_ai, build_ai} (Teams.java:471, `return team.rules().rtsAi || team.rules().buildAi;`): team.rules() is Rules state (not ported), so it arrives as an explicit dict (the N2330 param precedent); missing keys read as false.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_liveness_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamDataLivenessProof",
+      "rule": "Source-backed TeamData.hasCore()+isAlive()+noCores()+core()+hasAI() state from Teams.java."
+    },
+    "source_team_data_liveness_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_liveness_state",
+      "source_slice": "N2374",
+      "keys": {
+        "has_core": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return cores.size > 0;",
+          "rule": "Whether the team has any core (Teams.java:451, `return cores.size > 0;`): true exactly when the cores Array is non-empty.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_liveness_state"
+          ]
+        },
+        "is_alive": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return hasCore();",
+          "rule": "Whether the team is alive (Teams.java:456, `return hasCore();`): isAlive() delegates to hasCore() in Java, so this is the same value as has_core -- the delegate is inside this same group, not an outside dedup.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_liveness_state"
+          ]
+        },
+        "no_cores": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return cores.isEmpty();",
+          "rule": "Whether the team has no cores (Teams.java:460, `return cores.isEmpty();`): the exact inverse of has_core.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_liveness_state"
+          ]
+        },
+        "core": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return cores.isEmpty() ? null : cores.first();",
+          "rule": "The first core, or null (Teams.java:465, `return cores.isEmpty() ? null : cores.first();`): null when the team has no cores (the @Nullable return, Teams.java:463) -- the caller must null-check before using it.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_liveness_state"
+          ]
+        },
+        "has_ai": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return team.rules().rtsAi || team.rules().buildAi;",
+          "rule": "Whether the team is controlled by the AI and builds bases (Teams.java:471, `return team.rules().rtsAi || team.rules().buildAi;`): true when either rts_ai or build_ai is set in team_rules.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_liveness_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamDataLivenessProof",
+      "rule": "Source-backed TeamData.hasCore()+isAlive()+noCores()+core()+hasAI() state from Teams.java."
     }
   },
   "version": 1

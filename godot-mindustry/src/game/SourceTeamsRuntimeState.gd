@@ -461,3 +461,38 @@ static func source_teams_each_enemy_core_state(teams_state: Dictionary, team_id:
 				continue
 			found.append([enemy_team_id, float(entry.get("x", 0.0)), float(entry.get("y", 0.0))])
 	return {"cores": found}
+
+
+static func source_team_data_liveness_state(cores: Array, team_rules: Dictionary) -> Dictionary:
+	# TeamData.hasCore()+isAlive()+noCores()+core()+hasAI()
+	# (Teams.java:450-472), one grouped slice (main-thread
+	# decision 2026-11-21, N2326/N2297 group precedent):
+	# `public boolean hasCore(){`
+	# `return cores.size > 0;`
+	# `}`
+	# `public boolean isAlive(){`
+	# `return hasCore();`
+	# `}`
+	# `public boolean noCores(){`
+	# `return cores.isEmpty();`
+	# `}`
+	# `@Nullable`
+	# `public CoreBuild core(){`
+	# `return cores.isEmpty() ? null : cores.first();`
+	# `}`
+	# `public boolean hasAI(){`
+	# `return team.rules().rtsAi || team.rules().buildAi;`
+	# `}`
+	# isAlive() delegates to hasCore() -- that delegate is
+	# inside this same group, not an outside dedup. active()
+	# (Teams.java:446-448) is NOT ported here: its only line
+	# is already the exact_expr of N2074+N2075. The cores
+	# arrive as an explicit Array of opaque core refs (the
+	# N2330 param precedent); team.rules() arrives as the
+	# explicit team_rules dict {rts_ai, build_ai} because
+	# Rules is not ported. The read does not mutate cores
+	# or team_rules.
+	var has_core: bool = cores.size() > 0
+	var has_ai: bool = bool(team_rules.get("rts_ai", false)) or bool(team_rules.get("build_ai", false))
+	var first_core: Variant = null if cores.is_empty() else cores[0]
+	return {"has_core": has_core, "is_alive": has_core, "no_cores": cores.is_empty(), "core": first_core, "has_ai": has_ai}
