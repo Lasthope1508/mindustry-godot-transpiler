@@ -178248,6 +178248,22 @@
         "test_reference_graph_and_actual_c07_turret_power_graph_last_values_stamp"
       ],
       "runtime_proof": "/root/C07TurretPowerGraphLastValuesStampProof"
+    },
+    "source_turret_controlled_stamp_state_result.controlled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_controlled_stamp_state",
+      "godot_symbol": "source_turret_controlled_stamp_state_result.controlled",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.controlled()",
+      "java_expr": "return unit.isPlayer();",
+      "rule": "Whether the turret is player-controlled (`public boolean controlled(){` / `return unit.isPlayer();`, Turret.java:441-443 -- rescues validateTarget :631-633, picks the player branch of isShooting :492, and gates the warmup hold :503; the three driver readers now read this stamped key instead of the never-stamped absent default).",
+      "tests": [
+        "test_c07_turret_controlled_stamp_registration",
+        "test_all_c07_turret_controlled_stamp_input_evidence_is_exact",
+        "test_turret_controlled_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_controlled_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretControlledStampProof"
     }
   },
   "version": 1

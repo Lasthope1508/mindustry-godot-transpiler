@@ -50,11 +50,14 @@ func _ready() -> void:
 	# branch, clears frame["target"] / frame["has_target"] when it
 	# is invalid, and feeds it into the aim/shoot target_valid arg
 	# (N2250). The frame target dict carries only x/y/vx/vy/hit_size,
-	# so the team / health / targetable / controlled bools are
-	# stamped in from the frame with vacuous defaults (health_valid
-	# / unit_targetable true, same team / controlled false);
-	# logic_controlled is derived LIVE from logic_control_time by
-	# the N2278 stamp tick right before the validate call, so the
+	# so the team / health / targetable bools are stamped in from
+	# the frame with vacuous defaults (health_valid /
+	# unit_targetable true, same team false); controlled is
+	# derived LIVE from unit_is_player by the N2523 stamp tick
+	# right before the validate call, so the controlled segment
+	# below sets the input, not the flag -- and logic_controlled
+	# is derived LIVE from logic_control_time by the N2278 stamp
+	# tick right before the validate call, so the
 	# logic-controlled segment below sets the time, not the flag.
 	# A frame with has_target false holds
 	# no acquired target, so its target dict (if any) counts as null
@@ -122,10 +125,15 @@ func _ready() -> void:
 	# 4: one same-team target due east, but the build is
 	# player-controlled -- controlled() rescues the verdict, the
 	# driver must NOT clear it and the aim must run (dest 90).
+	# The rescue is driven from unit_is_player = true (N2523):
+	# the stamp tick derives controlled() live from the frame
+	# input, so stamping the flag directly would be overwritten
+	# by the live derivation (the N2278 logic_control_time
+	# precedent in segment 5).
 	frames[4]["target"] = {"x": positions[4].x + 100.0, "y": positions[4].y, "vx": 0.0, "vy": 0.0, "hit_size": 0.0}
 	frames[4]["has_target"] = true
 	frames[4]["target_same_team_effective"] = true
-	frames[4]["controlled"] = true
+	frames[4]["unit_is_player"] = true
 	# logicControlled() rescues the verdict, the driver must NOT
 	# clear it and the aim must run (dest 90). The rescue is
 	# driven from logic_control_time = 120.0 (N2278): the stamp

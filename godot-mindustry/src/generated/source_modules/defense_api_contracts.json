@@ -8397,6 +8397,37 @@
       "rule": "Source-backed Turret control() setters from Turret.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_controlled_stamp_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_controlled_stamp_state",
+      "status": "active",
+      "source_slice": "N2523",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.controlled()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_controlled_stamp_state_input.frame"
+        },
+        {
+          "name": "unit_is_player",
+          "type": "bool",
+          "schema": "source_turret_controlled_stamp_state_input.unit_is_player"
+        }
+      ],
+      "return_keys": [
+        "controlled"
+      ],
+      "tests": [
+        "test_c07_turret_controlled_stamp_registration",
+        "test_all_c07_turret_controlled_stamp_input_evidence_is_exact",
+        "test_turret_controlled_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_controlled_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretControlledStampProof",
+      "rule": "Source-backed Turret controlled() frame stamp from Turret.java:441-443 + :490-503 + :631-633.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_efficiency_multiplier_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_efficiency_multiplier_state",
       "status": "active",

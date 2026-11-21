@@ -3953,6 +3953,23 @@
       ],
       "runtime_proof": "/root/C07TurretSenseProof"
     },
+    "N2523": {
+      "canonical_ledger": "source_slice_ledger.N2523",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.controlled()",
+      "godot_owner": "SourceTurretBuildState.source_turret_controlled_stamp_state",
+      "source_symbols": [
+        "source_turret_controlled_stamp_state_result.controlled"
+      ],
+      "tests": [
+        "test_c07_turret_controlled_stamp_registration",
+        "test_all_c07_turret_controlled_stamp_input_evidence_is_exact",
+        "test_turret_controlled_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_controlled_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretControlledStampProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

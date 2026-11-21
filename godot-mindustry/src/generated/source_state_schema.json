@@ -240098,6 +240098,54 @@
       },
       "runtime_proof": "/root/C07TurretPowerGraphLastValuesStampProof",
       "rule": "Source-backed turret power-graph last-values stamp from BuildingComp.java:2093-2126 + PowerGraph.java:216-236 + Turret.java:490."
+    },
+    "source_turret_controlled_stamp_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_controlled_stamp_state",
+      "source_slice": "N2523",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The turret frame (the port Building state) the tick stamps every tick (`public void updateTile(){`, Turret.java:490 -- the driver tick for every Turret-family build); the stamp writes the `controlled` key in place and returns the frame (the N2108 tick-frame precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_controlled_stamp_state"
+          ]
+        },
+        "unit_is_player": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return unit.isPlayer();",
+          "rule": "Whether the turret's own unit is player-controlled (`return unit.isPlayer();`, Turret.java:441-443, on `public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`, :291); the tick passes `false` today -- the port has NO player unit, so every live turret reads false (the N2520 `unit_sense_value = 0.0` precedent) -- and passes the live value when player control lands.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_controlled_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretControlledStampProof",
+      "rule": "Source-backed Turret controlled() frame stamp from Turret.java:441-443 + :490-503 + :631-633."
+    },
+    "source_turret_controlled_stamp_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_controlled_stamp_state",
+      "source_slice": "N2523",
+      "keys": {
+        "controlled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return unit.isPlayer();",
+          "rule": "Whether the turret is player-controlled (`public boolean controlled(){` / `return unit.isPlayer();`, Turret.java:441-443 -- rescues validateTarget :631-633, picks the player branch of isShooting :492, and gates the warmup hold :503; the three driver readers now read this stamped key instead of the never-stamped absent default).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_controlled_stamp_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretControlledStampProof",
+      "rule": "Source-backed Turret controlled() frame stamp from Turret.java:441-443 + :490-503 + :631-633."
     }
   },
   "version": 1

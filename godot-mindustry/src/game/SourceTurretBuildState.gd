@@ -391,9 +391,44 @@ static func source_turret_logic_controlled_state(logic_control_time: float) -> D
 	# duo with an otherwise-invalid target wrongly failed
 	# validation; this slice stamps it live from the previous
 	# tick's logic_control_time right before the validate call.
-	# The result is a 1-key dict: `logic_controlled`.
+	# The result is a 1-key dict: `logic_controlled`. The sibling
+	# controlled() stamp (N2523) sits immediately after this
+	# function and stamps frame["controlled"] live right before
+	# the same validate call.
 	var logic_controlled: bool = logic_control_time > 0.0
 	return {"logic_controlled": logic_controlled}
+
+static func source_turret_controlled_stamp_state(frame: Dictionary, unit_is_player: bool) -> Dictionary:
+	# controlled() (`public boolean controlled(){` /
+	# `return unit.isPlayer();`, Turret.java:441-443) is the
+	# one-line predicate on the turret's own unit
+	# (`public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);`,
+	# Turret.java:291). It rescues validateTarget (`return
+	# !Units.invalidateTarget(target, canHeal() ? Team.derelict
+	# : team, x, y) || controlled() || logicControlled();`,
+	# Turret.java:631-633, N2251), picks the player branch of
+	# isShooting (`isShooting = alwaysShooting || (unit.controller()
+	# instanceof Player ? unit.isShooting() : logicControlled() ?
+	# logicShooting : target != null);`, :492, N2277) and gates
+	# the warmup hold (`if(warmupTarget > 0 && !controlled()){` /
+	# `warmupHold = 1f;`, :503, N2253). The driver validate /
+	# isShooting / warmup calls used to read `frame["controlled"]`
+	# with a false default, but the key was NEVER stamped anywhere
+	# -- so the three readers always saw the absent default; this
+	# slice stamps it live right before the validate call (the
+	# N2278 logicControlled precedent, Java order :491 validate
+	# reads it). The tick reads the live `unit_is_player` frame
+	# input (absent today, so false: the port has NO player unit
+	# -- every turret unit is the BlockUnitc from
+	# UnitTypes.block.create(team) (:291), PortGame.gd carries no
+	# player, and the proxy unit has no player controller attached
+	# -- so unit.isPlayer() is false for every live turret (the
+	# N2520 `unit_sense_value = 0.0` precedent). When player
+	# control lands, the tick passes the live value and this stamp
+	# needs no change. Exactly one key is written: `controlled`.
+	# The frame itself is returned (the N2108 tick-frame precedent).
+	frame["controlled"] = unit_is_player
+	return frame
 
 static func source_turret_sense_state(frame: Dictionary, sensor: String, total_ammo: int, max_ammo: int, tilesize: float) -> Dictionary:
 	# TurretBuild.sense() (Turret.java:405-419):
@@ -2562,10 +2597,15 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			# target and feeds false into the aim/shoot target_valid
 			# arg; the team / health / targetable / controlled bools
 			# are stamped in from the frame with vacuous defaults
-			# (health_valid / unit_targetable true, same team /
-			# controlled false) until their live wiring lands in
-			# its own slice. logic_controlled is NOT a vacuous
-			# default anymore: the N2278 tick just below derives
+			# (health_valid / unit_targetable true, same team false)
+			# until their live wiring lands in its own slice.
+			# controlled is NOT a vacuous default anymore: the
+			# N2523 tick just below stamps it live from the
+			# `unit_is_player` frame input (absent -- so false --
+			# today, no player unit in the port,
+			# Turret.java:441-443) right after the
+			# logic_controlled stamp. logic_controlled
+			# is NOT a vacuous default anymore: the N2278 tick just below derives
 			# it LIVE from the PREVIOUS tick's logic_control_time
 			# (the N2261 decay tick runs later in the driver;
 			# Java order :491 validate before :534-536 decay),
@@ -2596,6 +2636,24 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 			frame["can_heal"] = can_heal_state.get("can_heal", false)
 			var logic_controlled_state: Dictionary = source_turret_logic_controlled_state(float(frame.get("logic_control_time", -1.0)))
 			frame["logic_controlled"] = logic_controlled_state.get("logic_controlled", false)
+			# The controlled stamp (N2523): the tick stamps the
+			# live controlled() value into the frame, so the
+			# validateTarget call below (Turret.java:491, N2251)
+			# and the isShooting (:492, N2277) and warmup (:503,
+			# N2253) calls after it stop reading the never-stamped
+			# absent default. controlled() is `public boolean
+			# controlled(){` / `return unit.isPlayer();`
+			# (Turret.java:441-443); the tick reads the live
+			# `unit_is_player` frame input (the N2278 precedent,
+			# which reads `logic_control_time` the same way), so
+			# a proof / driver that sets the input drives the
+			# stamp instead of the stamp overwriting it -- and
+			# the input is absent on every live frame today (no
+			# player unit exists in the port, the N2520
+			# precedent), so the stamped value still equals the
+			# old absent default on every live frame.
+			var controlled_state: Dictionary = source_turret_controlled_stamp_state(frame, bool(frame.get("unit_is_player", false)))
+			frame["controlled"] = controlled_state.get("controlled", false)
 			var validate: Dictionary = source_item_turret_build_state.source_item_turret_validate_target_state(
 				frame.get("target", null) == null or not bool(frame.get("has_target", false)),
 				bool(frame.get("target_same_team_effective", false)),

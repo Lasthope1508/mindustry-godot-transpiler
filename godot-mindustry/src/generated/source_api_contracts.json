@@ -70974,6 +70974,36 @@
       ],
       "runtime_proof": "/root/C07TurretPowerGraphLastValuesStampProof",
       "rule": "Source-backed turret power-graph last-values stamp from BuildingComp.java:2093-2126 + PowerGraph.java:216-236 + Turret.java:490."
+    },
+    "SourceTurretBuildState.source_turret_controlled_stamp_state": {
+      "status": "active",
+      "source_slice": "N2523",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.controlled()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_controlled_stamp_state_input.frame"
+        },
+        {
+          "name": "unit_is_player",
+          "type": "bool",
+          "schema": "source_turret_controlled_stamp_state_input.unit_is_player"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "controlled"
+      ],
+      "tests": [
+        "test_c07_turret_controlled_stamp_registration",
+        "test_all_c07_turret_controlled_stamp_input_evidence_is_exact",
+        "test_turret_controlled_stamp_state",
+        "test_reference_graph_and_actual_c07_turret_controlled_stamp"
+      ],
+      "runtime_proof": "/root/C07TurretControlledStampProof",
+      "rule": "Source-backed Turret controlled() frame stamp from Turret.java:441-443 + :490-503 + :631-633."
     }
   },
   "policy": {
