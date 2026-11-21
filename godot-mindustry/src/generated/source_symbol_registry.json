@@ -177864,6 +177864,54 @@
         "test_reference_graph_and_actual_c07_building_comp_sense_dead"
       ],
       "runtime_proof": "/root/C07BuildingCompSenseDeadProof"
+    },
+    "source_building_comp_sense_health_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_health_state",
+      "godot_symbol": "source_building_comp_sense_health_state_result.handled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case health -> health;",
+      "rule": "Whether the leg resolved to a logic-variable write (`case health -> health;`, BuildingComp.java:2101): true always, because this function IS the health leg and the sensor is fixed `health`.",
+      "tests": [
+        "test_c07_building_comp_sense_health_registration",
+        "test_all_c07_building_comp_sense_health_input_evidence_is_exact",
+        "test_building_comp_sense_health_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_health"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseHealthProof"
+    },
+    "source_building_comp_sense_health_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_health_state",
+      "godot_symbol": "source_building_comp_sense_health_state_result.sense_value",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case health -> health;",
+      "rule": "The numeric value written to the logic variable (`case health -> health;`, BuildingComp.java:2101): `health` exactly, no clamping, no rounding, no healthf() conversion.",
+      "tests": [
+        "test_c07_building_comp_sense_health_registration",
+        "test_all_c07_building_comp_sense_health_input_evidence_is_exact",
+        "test_building_comp_sense_health_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_health"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseHealthProof"
+    },
+    "source_building_comp_sense_health_state_result.sense_value_is_nan": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_health_state",
+      "godot_symbol": "source_building_comp_sense_health_state_result.sense_value_is_nan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); false always for the health leg, which never yields NaN -- the key stays in the wire shape for consistency with N2283/N2284/N2511.",
+      "tests": [
+        "test_c07_building_comp_sense_health_registration",
+        "test_all_c07_building_comp_sense_health_input_evidence_is_exact",
+        "test_building_comp_sense_health_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_health"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseHealthProof"
     }
   },
   "version": 1

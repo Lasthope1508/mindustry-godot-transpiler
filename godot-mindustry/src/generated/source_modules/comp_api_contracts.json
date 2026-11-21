@@ -18514,6 +18514,34 @@
       "rule": "Source-backed BuildingComp.sense() dead leg from BuildingComp.java:2098 + isValid() :2030-2032.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_building_comp_sense_health_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_building_comp_sense_health_state",
+      "status": "active",
+      "source_slice": "N2512",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "health",
+          "type": "float",
+          "schema": "source_building_comp_sense_health_state_input.health"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_building_comp_sense_health_registration",
+        "test_all_c07_building_comp_sense_health_input_evidence_is_exact",
+        "test_building_comp_sense_health_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_health"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSenseHealthProof",
+      "rule": "Source-backed BuildingComp.sense() health leg from BuildingComp.java:2101 + HealthComp.java:11.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_building_comp_sense_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_building_comp_sense_state",
       "status": "active",

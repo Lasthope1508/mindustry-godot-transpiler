@@ -563,6 +563,35 @@ static func source_building_comp_sense_dead_state(tile_build_is_self: bool, is_d
 	var dead_value: float = 0.0 if is_valid else 1.0
 	return {"handled": true, "sense_value": dead_value, "sense_value_is_nan": false}
 
+static func source_building_comp_sense_health_state(health: float) -> Dictionary:
+	# BuildingComp.sense() `health` leg (`public double sense(LAccess sensor){`,
+	# BuildingComp.java:2093-2126): `case health -> health;`
+	# (:2101) -- `health` is the building's current health
+	# field (`float health;`, HealthComp.java:11 --
+	# BuildingComp mixes HealthComp). The live health is
+	# passed in as a param (the N2212/N2220 per-def-param
+	# precedent): the live building health is not stamped
+	# in the frame yet, so a future frame-stamp slice will
+	# supply it. The value is returned exactly, no
+	# clamping, no rounding, no healthf() conversion
+	# (`healthf()` is a different accessor,
+	# HealthComp.java:20, NOT this leg). The sensor
+	# spelling is the LAccess enum name: `health,`
+	# (LAccess.java:22). The result is the N2283/N2284 sense
+	# wire shape: handled + sense_value +
+	# sense_value_is_nan; the leg never yields NaN (the
+	# default `default -> Float.NaN; //gets converted to null in logic`,
+	# :2123, never fires here). There is no driver tick
+	# line: the leg is a logic read, not a tick write (the
+	# N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509/N2510/N2511
+	# precedent); the proof calls the pure function directly
+	# with synthetic inputs. This does NOT wire into
+	# source_building_comp_sense_state: health stays
+	# handled:false in the big dispatch until a later wiring
+	# slice connects this leg (same as N2511's dead leg
+	# living beside N2284).
+	return {"handled": true, "sense_value": health, "sense_value_is_nan": false}
+
 static func source_turret_sense_object_state(sensor: String, block_id: String, first_item: String) -> Dictionary:
 	# BuildingComp.senseObject() (BuildingComp.java:2128-2136):
 	# `public Object senseObject(LAccess sensor){` /

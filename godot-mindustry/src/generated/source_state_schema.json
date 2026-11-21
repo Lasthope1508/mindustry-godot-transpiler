@@ -239468,6 +239468,64 @@
       },
       "runtime_proof": "/root/C07BuildingCompSenseDeadProof",
       "rule": "Source-backed BuildingComp.sense() dead leg from BuildingComp.java:2098 + isValid() :2030-2032."
+    },
+    "source_building_comp_sense_health_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_health_state",
+      "source_slice": "N2512",
+      "keys": {
+        "health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/HealthComp.java",
+          "java_expr": "float health;",
+          "rule": "The building's current health (`float health;`, HealthComp.java:11 -- BuildingComp mixes HealthComp): the live value `case health -> health;` (BuildingComp.java:2101) returns; passed explicitly because the live building health is not stamped in the frame yet (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_health_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSenseHealthProof",
+      "rule": "Source-backed BuildingComp.sense() health leg from BuildingComp.java:2101 + HealthComp.java:11."
+    },
+    "source_building_comp_sense_health_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_health_state",
+      "source_slice": "N2512",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case health -> health;",
+          "rule": "Whether the leg resolved to a logic-variable write (`case health -> health;`, BuildingComp.java:2101): true always, because this function IS the health leg and the sensor is fixed `health`.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_health_state"
+          ]
+        },
+        "sense_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case health -> health;",
+          "rule": "The numeric value written to the logic variable (`case health -> health;`, BuildingComp.java:2101): `health` exactly, no clamping, no rounding, no healthf() conversion.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_health_state"
+          ]
+        },
+        "sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); false always for the health leg, which never yields NaN -- the key stays in the wire shape for consistency with N2283/N2284/N2511.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_health_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSenseHealthProof",
+      "rule": "Source-backed BuildingComp.sense() health leg from BuildingComp.java:2101 + HealthComp.java:11."
     }
   },
   "version": 1
