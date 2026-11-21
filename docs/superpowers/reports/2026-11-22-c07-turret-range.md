@@ -1,11 +1,11 @@
-# Báo cáo — N2526 Turret range/minRange/trackingRange accessors: pure Turret.java range() port cho Turret family (C07) [DONE]
+# Báo cáo — N2526 Turret range/minRange/trackingRange accessors: pure Turret.java range() port cho Turret family (C07) [DONE + PUSHED]
 
-Ngày: 2026-11-22 ~04:31 +07 (proof xanh, đọc trực tiếp proof .json mtime 21:31Z — .json được tạo lại bởi targeted re-run của main thread lượt 05:00, mtime 22:03Z, nội dung vẫn matches:true 11/11; targeted 4/4 xác minh bởi main thread lượt này), gate lượt 4 xong 21:56:47Z (04:56:47 +07), push TBD.
+Ngày: 2026-11-22 ~04:31 +07 (proof xanh, đọc trực tiếp proof .json mtime 21:31Z — .json được tạo lại bởi targeted re-run của main thread lượt 05:00, mtime 22:03Z, nội dung vẫn matches:true 11/11; targeted 4/4 xác minh bởi main thread lượt này), gate lượt 4 xong 21:56:47Z (04:56:47 +07), push ~05:10 +07.
 
 ## Trạng thái
 
 - N2525 DONE + PUSHED (origin/main 6faf7e09).
-- N2526 DONE (slice cf949d7a, docs TBD, GOAL TBD, status TBD, hashes TBD): port 3 accessor `range()` / `minRange()` / `trackingRange()` của `TurretBuild` thành 1 pure function mới `source_turret_range_state` (SourceTurretBuildState.gd:443) cho Turret family — KHÔNG driver tick call site (frame chưa stamp `range`/`min_range`/`tracking_range` live; các consumer findTarget/aim là slice sau). Hàm nhận 7 tham số (frame, range_value, min_range, tracking_range, has_peek_ammo, range_change, min_range_change), trả đúng 3 key `range` / `min_range` / `tracking_range`.
+- N2526 DONE + PUSHED (slice cf949d7a, docs 97dc8203, GOAL 057295b4, status TBD, hashes TBD): port 3 accessor `range()` / `minRange()` / `trackingRange()` của `TurretBuild` thành 1 pure function mới `source_turret_range_state` (SourceTurretBuildState.gd:443) cho Turret family — KHÔNG driver tick call site (frame chưa stamp `range`/`min_range`/`tracking_range` live; các consumer findTarget/aim là slice sau). Hàm nhận 7 tham số (frame, range_value, min_range, tracking_range, has_peek_ammo, range_change, min_range_change), trả đúng 3 key `range` / `min_range` / `tracking_range`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
