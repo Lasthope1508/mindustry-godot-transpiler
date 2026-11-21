@@ -183000,6 +183000,118 @@
         "test_reference_graph_and_actual_c07_beam_drill_update_tile"
       ],
       "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_teams_update_active_state_result.active_changed": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_update_active_state",
+      "godot_symbol": "source_teams_update_active_state_result.active_changed",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.updateActive()",
+      "java_expr": "//register in active list if needed",
+      "rule": "Whether the team was newly registered (Teams.java:137, `//register in active list if needed`): true only when the team is active and was not in the active list yet -- the guard branch ran and updateEnemies() refreshed the enemies map; false when the team was already active or is inactive.",
+      "tests": [
+        "test_c07_teams_update_active_registration",
+        "test_all_c07_teams_update_active_input_evidence_is_exact",
+        "test_teams_update_active_state",
+        "test_reference_graph_and_actual_c07_teams_update_active"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof"
+    },
+    "source_teams_update_active_state_result.active": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_update_active_state",
+      "godot_symbol": "source_teams_update_active_state_result.active",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.updateActive()",
+      "java_expr": "TeamData data = get(team);",
+      "rule": "The active list after (Teams.java:136, `TeamData data = get(team);`): the team ids in the active list, in registration order -- the team id appended when the guard branch ran, unchanged otherwise.",
+      "tests": [
+        "test_c07_teams_update_active_registration",
+        "test_all_c07_teams_update_active_input_evidence_is_exact",
+        "test_teams_update_active_state",
+        "test_reference_graph_and_actual_c07_teams_update_active"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof"
+    },
+    "source_teams_update_active_state_result.enemies_by_team": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_update_active_state",
+      "godot_symbol": "source_teams_update_active_state_result.enemies_by_team",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.updateActive()",
+      "java_expr": "public void updateActive(Team team){",
+      "rule": "The enemies map after (Teams.java:135, `public void updateActive(Team team){`): team_id -> the other active team ids -- refreshed by updateEnemies() (Teams.java:140, already the exact_expr of N2074/N2075, called here as evidence only) when the guard branch ran, else the current map.",
+      "tests": [
+        "test_c07_teams_update_active_registration",
+        "test_all_c07_teams_update_active_input_evidence_is_exact",
+        "test_teams_update_active_state",
+        "test_reference_graph_and_actual_c07_teams_update_active"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof"
+    },
+    "source_teams_update_active_state_result.teams_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_update_active_state",
+      "godot_symbol": "source_teams_update_active_state_result.teams_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.updateActive()",
+      "java_expr": "TeamData data = get(team);",
+      "rule": "The updated teams_state (Teams.java:136, `TeamData data = get(team);`): the same in/out Dictionary -- the team entry created by get() when missing, the active list rewritten when the guard branch ran, and each active team's core_enemies rewritten by updateEnemies().",
+      "tests": [
+        "test_c07_teams_update_active_registration",
+        "test_all_c07_teams_update_active_input_evidence_is_exact",
+        "test_teams_update_active_state",
+        "test_reference_graph_and_actual_c07_teams_update_active"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof"
+    },
+    "source_teams_default_constructor_state_result.team_data": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_default_constructor_state",
+      "godot_symbol": "source_teams_default_constructor_state_result.team_data",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams()",
+      "java_expr": "active.add(get(Team.crux));",
+      "rule": "The crux TeamData (Teams.java:35, `active.add(get(Team.crux));`): the TeamData dict get(Team.crux) returned -- the existing entry when present, otherwise the fresh empty TeamData shape ({\"cores\": [], \"buildings\": [], \"units\": [], \"core_enemies\": []}).",
+      "tests": [
+        "test_c07_teams_update_active_registration",
+        "test_all_c07_teams_update_active_input_evidence_is_exact",
+        "test_teams_update_active_state",
+        "test_reference_graph_and_actual_c07_teams_update_active"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof"
+    },
+    "source_teams_default_constructor_state_result.active": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_default_constructor_state",
+      "godot_symbol": "source_teams_default_constructor_state_result.active",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams()",
+      "java_expr": "active.add(get(Team.crux));",
+      "rule": "The active list after (Teams.java:35, `active.add(get(Team.crux));`): the team ids in the active list -- Java Seq.add appends unconditionally, so the crux id is appended even if already present, exactly as the Java ctor does on a fresh Teams (empty active).",
+      "tests": [
+        "test_c07_teams_update_active_registration",
+        "test_all_c07_teams_update_active_input_evidence_is_exact",
+        "test_teams_update_active_state",
+        "test_reference_graph_and_actual_c07_teams_update_active"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof"
+    },
+    "source_teams_default_constructor_state_result.teams_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_default_constructor_state",
+      "godot_symbol": "source_teams_default_constructor_state_result.teams_state",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams()",
+      "java_expr": "active.add(get(Team.crux));",
+      "rule": "The updated teams_state (Teams.java:35, `active.add(get(Team.crux));`): the same in/out Dictionary -- the crux entry created by get() when missing and the active list with the crux id appended.",
+      "tests": [
+        "test_c07_teams_update_active_registration",
+        "test_all_c07_teams_update_active_input_evidence_is_exact",
+        "test_teams_update_active_state",
+        "test_reference_graph_and_actual_c07_teams_update_active"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof"
     }
   },
   "version": 1

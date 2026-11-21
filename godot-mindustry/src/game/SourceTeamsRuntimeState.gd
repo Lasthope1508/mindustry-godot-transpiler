@@ -1275,3 +1275,65 @@ static func source_team_data_time_destroy_state(x: float, y: float, range: float
 					set_floor.call(tile, result)
 					floor_changes.append({"tx": int(tile.get("tx", 0)), "ty": int(tile.get("ty", 0)), "floor": result})
 	return {"builds": builds, "derelict_buffer": derelict_buffer, "destroy_payload_calls": destroy_payload_calls, "scheduled_kills": scheduled_kills, "add_plan_calls": add_plan_calls, "set_teams_calls": finished.get("set_teams_calls", []), "has_sector": has_sector, "any_replacement_present": any_replacement, "circle_radius_tiles": circle_radius_tiles, "floor_changes": floor_changes}
+
+
+static func source_teams_update_active_state(teams_state: Dictionary, team_id: int) -> Dictionary:
+	# Teams.updateActive (Teams.java:135-141):
+	# `public void updateActive(Team team){`
+	# `TeamData data = get(team);`
+	# `//register in active list if needed`
+	# `if(data.active() && !active.contains(data)){`
+	# `active.add(data);`
+	# `updateEnemies();`
+	# `}`
+	# `}`
+	# The get() call is INSIDE this group (an internal
+	# self-reference, not an outside expr): it may create
+	# the team's entry, so teams_state is in/out.
+	# data.active() is TeamData.active() (Teams.java:446-448),
+	# already the exact_expr of N2074/N2075 -- the file's
+	# _teams_active helper IS that callee, called here as
+	# evidence only, not re-ported. `active.contains(data)`
+	# is the active list (team ids) has-check; `active.add(data)`
+	# appends the team id; `updateEnemies()` is the file's
+	# _teams_update_enemies helper, called as evidence only,
+	# not re-ported. The `active_changed` flag records
+	# whether the guard branch ran; enemies_by_team is the
+	# current map when the branch did not run.
+	var got: Dictionary = source_teams_get_state(teams_state, team_id)
+	var data: Dictionary = got.get("team_data", {})
+	var rules: Dictionary = teams_state.get("rules", {})
+	var active: Array = teams_state.get("active", [])
+	var active_changed := false
+	var enemies_by_team := {}
+	if _teams_active(data, team_id, rules) and not active.has(team_id):
+		active.append(team_id)
+		teams_state["active"] = active
+		enemies_by_team = _teams_update_enemies(teams_state)
+		active_changed = true
+	else:
+		enemies_by_team = _teams_current_enemies(teams_state)
+	return {"active_changed": active_changed, "active": teams_state.get("active", []), "enemies_by_team": enemies_by_team, "teams_state": teams_state}
+
+
+static func source_teams_default_constructor_state(teams_state: Dictionary, crux_team_id: int) -> Dictionary:
+	# Teams() (Teams.java:34-36):
+	# `public Teams(){`
+	# `active.add(get(Team.crux));`
+	# `}`
+	# The default constructor seeds the active list with
+	# the crux team. Team.crux is a Team const (not ported),
+	# so it arrives as the explicit crux_team_id param
+	# (crux id 2, Team.java:41, per the file header
+	# comment). The get() call is INSIDE this group (an
+	# internal self-reference, not an outside expr): it may
+	# create the crux entry, so teams_state is in/out.
+	# Java Seq.add appends unconditionally -- the crux id
+	# is appended even if already present, exactly as the
+	# Java ctor does on a fresh Teams (empty active).
+	var got: Dictionary = source_teams_get_state(teams_state, crux_team_id)
+	var data: Dictionary = got.get("team_data", {})
+	var active: Array = teams_state.get("active", [])
+	active.append(crux_team_id)
+	teams_state["active"] = active
+	return {"team_data": data, "active": teams_state.get("active", []), "teams_state": teams_state}

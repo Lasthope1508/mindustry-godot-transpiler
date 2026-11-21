@@ -76228,6 +76228,71 @@
       ],
       "runtime_proof": "/root/C07BeamDrillUpdateTileProof",
       "rule": "Source-backed BeamDrill updateTile() facing-harvest + dump state from BeamDrill.java + BuildingComp.java + Mathf.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_update_active_state": {
+      "status": "active",
+      "source_slice": "N2399",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.updateActive()",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_update_active_state_input.teams_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_update_active_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "active_changed",
+        "active",
+        "enemies_by_team",
+        "teams_state"
+      ],
+      "tests": [
+        "test_c07_teams_update_active_registration",
+        "test_all_c07_teams_update_active_input_evidence_is_exact",
+        "test_teams_update_active_state",
+        "test_reference_graph_and_actual_c07_teams_update_active"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof",
+      "rule": "Source-backed Teams updateActive()/default-constructor state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_default_constructor_state": {
+      "status": "active",
+      "source_slice": "N2399",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams()",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_default_constructor_state_input.teams_state"
+        },
+        {
+          "name": "crux_team_id",
+          "type": "int",
+          "schema": "source_teams_default_constructor_state_input.crux_team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "team_data",
+        "active",
+        "teams_state"
+      ],
+      "tests": [
+        "test_c07_teams_update_active_registration",
+        "test_all_c07_teams_update_active_input_evidence_is_exact",
+        "test_teams_update_active_state",
+        "test_reference_graph_and_actual_c07_teams_update_active"
+      ],
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof",
+      "rule": "Source-backed Teams updateActive()/default-constructor state from Teams.java."
     }
   },
   "policy": {

@@ -250872,6 +250872,152 @@
       },
       "runtime_proof": "/root/C07BeamDrillUpdateTileProof",
       "rule": "Source-backed BeamDrill updateTile() facing-harvest + dump state from BeamDrill.java + BuildingComp.java + Mathf.java."
+    },
+    "source_teams_update_active_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_update_active_state",
+      "source_slice": "N2399",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "TeamData data = get(team);",
+          "rule": "The teams state (Teams.updateActive, Teams.java:136, `TeamData data = get(team);`): the family-convention first arg; it carries the \"teams\" map team_id -> TeamData dict (Java `map`, Teams.java:28, `private TeamData[] map = new TeamData[256];`) and the \"active\" list -- get() WRITES teams_state[\"teams\"][team_id] when the team is missing, and the guard branch WRITES teams_state[\"active\"], so teams_state is an in/out param here.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_active_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public void updateActive(Team team){",
+          "rule": "The team asking (Teams.java:135, `public void updateActive(Team team){`): team.id indexes the map; teams are compared by team_id, not the Team enum.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_active_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof",
+      "rule": "Source-backed Teams updateActive()/default-constructor state from Teams.java."
+    },
+    "source_teams_update_active_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_update_active_state",
+      "source_slice": "N2399",
+      "keys": {
+        "active_changed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "//register in active list if needed",
+          "rule": "Whether the team was newly registered (Teams.java:137, `//register in active list if needed`): true only when the team is active and was not in the active list yet -- the guard branch ran and updateEnemies() refreshed the enemies map; false when the team was already active or is inactive.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_active_state"
+          ]
+        },
+        "active": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "TeamData data = get(team);",
+          "rule": "The active list after (Teams.java:136, `TeamData data = get(team);`): the team ids in the active list, in registration order -- the team id appended when the guard branch ran, unchanged otherwise.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_active_state"
+          ]
+        },
+        "enemies_by_team": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public void updateActive(Team team){",
+          "rule": "The enemies map after (Teams.java:135, `public void updateActive(Team team){`): team_id -> the other active team ids -- refreshed by updateEnemies() (Teams.java:140, already the exact_expr of N2074/N2075, called here as evidence only) when the guard branch ran, else the current map.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_active_state"
+          ]
+        },
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "TeamData data = get(team);",
+          "rule": "The updated teams_state (Teams.java:136, `TeamData data = get(team);`): the same in/out Dictionary -- the team entry created by get() when missing, the active list rewritten when the guard branch ran, and each active team's core_enemies rewritten by updateEnemies().",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_update_active_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof",
+      "rule": "Source-backed Teams updateActive()/default-constructor state from Teams.java."
+    },
+    "source_teams_default_constructor_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_default_constructor_state",
+      "source_slice": "N2399",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "active.add(get(Team.crux));",
+          "rule": "The teams state (Teams(), Teams.java:35, `active.add(get(Team.crux));`): the family-convention first arg; it carries the \"teams\" map and the \"active\" list -- get(Team.crux) WRITES teams_state[\"teams\"][crux_team_id] when the crux entry is missing, and the ctor WRITES teams_state[\"active\"], so teams_state is an in/out param here.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_default_constructor_state"
+          ]
+        },
+        "crux_team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "active.add(get(Team.crux));",
+          "rule": "The crux team id (Teams.java:35, `active.add(get(Team.crux));`): Team.crux is a Team const (not ported), so it arrives as an explicit param (crux id 2, Team.java:41, per the file header comment) -- the team seeded into the active list by the default constructor.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof",
+      "rule": "Source-backed Teams updateActive()/default-constructor state from Teams.java."
+    },
+    "source_teams_default_constructor_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_default_constructor_state",
+      "source_slice": "N2399",
+      "keys": {
+        "team_data": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "active.add(get(Team.crux));",
+          "rule": "The crux TeamData (Teams.java:35, `active.add(get(Team.crux));`): the TeamData dict get(Team.crux) returned -- the existing entry when present, otherwise the fresh empty TeamData shape ({\"cores\": [], \"buildings\": [], \"units\": [], \"core_enemies\": []}).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_default_constructor_state"
+          ]
+        },
+        "active": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "active.add(get(Team.crux));",
+          "rule": "The active list after (Teams.java:35, `active.add(get(Team.crux));`): the team ids in the active list -- Java Seq.add appends unconditionally, so the crux id is appended even if already present, exactly as the Java ctor does on a fresh Teams (empty active).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_default_constructor_state"
+          ]
+        },
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "active.add(get(Team.crux));",
+          "rule": "The updated teams_state (Teams.java:35, `active.add(get(Team.crux));`): the same in/out Dictionary -- the crux entry created by get() when missing and the active list with the crux id appended.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsUpdateActiveProof",
+      "rule": "Source-backed Teams updateActive()/default-constructor state from Teams.java."
     }
   },
   "version": 1
