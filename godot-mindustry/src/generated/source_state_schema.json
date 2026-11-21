@@ -248480,6 +248480,208 @@
       },
       "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
       "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
+    },
+    "source_team_data_get_buildings_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_get_buildings_state",
+      "source_slice": "N2390",
+      "keys": {
+        "building_types": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return buildingTypes.get(block, () -> new Seq<>(false));",
+          "rule": "The buildingTypes map (TeamData.getBuildings, Teams.java:319, `return buildingTypes.get(block, () -> new Seq<>(false));`): the ObjectMap<Block, Seq<Building>> (Teams.java:304) as a Dictionary keyed by block key -- read-only here, ObjectMap.get with a default never stores the default, so a missing block leaves the map untouched.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_get_buildings_state"
+          ]
+        },
+        "block_key": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public Seq<Building> getBuildings(Block block){",
+          "rule": "The block asking (Teams.java:318, `public Seq<Building> getBuildings(Block block){`): Block is not ported, so the block arrives as its key into the buildingTypes map.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_get_buildings_state"
+          ]
+        },
+        "default_buildings": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return buildingTypes.get(block, () -> new Seq<>(false));",
+          "rule": "The default supplier (Teams.java:319, `return buildingTypes.get(block, () -> new Seq<>(false));`): the `() -> new Seq<>(false)` lambda as a Callable param (the N2386 Callable precedent) -- called only when the block has no entry, returning a fresh empty Array (Seq<>(false) is the unordered Seq, the empty Array is the GD shape).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_get_buildings_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "source_team_data_get_buildings_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_get_buildings_state",
+      "source_slice": "N2390",
+      "keys": {
+        "buildings": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return buildingTypes.get(block, () -> new Seq<>(false));",
+          "rule": "The buildings for the block (Teams.java:319, `return buildingTypes.get(block, () -> new Seq<>(false));`): the stored Seq for a known block (the same Seq reference Java returns, never a copy), or the fresh empty Seq from the default supplier when the block is missing.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_get_buildings_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "source_team_data_get_count_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_get_count_state",
+      "source_slice": "N2390",
+      "keys": {
+        "building_types": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "var res = buildingTypes.get(block);",
+          "rule": "The buildingTypes map (TeamData.getCount, Teams.java:323, `var res = buildingTypes.get(block);`): the same ObjectMap as getBuildings (Teams.java:304) as a Dictionary keyed by block key -- read-only here, getCount never writes.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_get_count_state"
+          ]
+        },
+        "block_key": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public int getCount(Block block){",
+          "rule": "The block asking (Teams.java:322, `public int getCount(Block block){`): Block is not ported, so the block arrives as its key into the buildingTypes map.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_get_count_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "source_team_data_get_count_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_get_count_state",
+      "source_slice": "N2390",
+      "keys": {
+        "count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return res == null ? 0 : res.size;",
+          "rule": "The building count for the block (Teams.java:324, `return res == null ? 0 : res.size;`): the stored Seq size for a known block, or 0 on the `res == null` branch when the block is missing.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_get_count_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "source_team_data_get_units_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_get_units_state",
+      "source_slice": "N2390",
+      "keys": {
+        "units_by_type": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return unitCache(type);",
+          "rule": "The unitsByType table (TeamData.getUnits, Teams.java:419, `return unitCache(type);`): the @Nullable Seq<Unit>[] (Teams.java:311) as an Array of unit Arrays (or null) -- passed through to the unitCache callee inside this group, which may return null.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_get_units_state"
+          ]
+        },
+        "type_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public Seq<Unit> getUnits(UnitType type){",
+          "rule": "The unit type asking (Teams.java:418, `public Seq<Unit> getUnits(UnitType type){`): type.id arrives as the type_id param (UnitType is not ported).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_get_units_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "source_team_data_get_units_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_get_units_state",
+      "source_slice": "N2390",
+      "keys": {
+        "units": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return unitCache(type);",
+          "rule": "The units of the type (Teams.java:419, `return unitCache(type);`): whatever unitCache returns -- the cached Array, or null (the @Nullable return, Teams.java:419) when the table is null, the type id is out of range, or the slot is null.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_get_units_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "source_team_data_unit_cache_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_unit_cache_state",
+      "source_slice": "N2390",
+      "keys": {
+        "units_by_type": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(unitsByType == null || unitsByType.length <= type.id || unitsByType[type.id] == null) return null;",
+          "rule": "The unitsByType table (TeamData.unitCache, Teams.java:424, `if(unitsByType == null || unitsByType.length <= type.id || unitsByType[type.id] == null) return null;`): the @Nullable Seq<Unit>[] (Teams.java:311) as an Array of unit Arrays (or null) -- all three null guards run before the index.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_unit_cache_state"
+          ]
+        },
+        "type_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public Seq<Unit> unitCache(UnitType type){",
+          "rule": "The unit type asking (Teams.java:423, `public Seq<Unit> unitCache(UnitType type){`): type.id arrives as the type_id param (UnitType is not ported) -- the `unitsByType.length <= type.id` guard makes an out-of-range id return null.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_unit_cache_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "source_team_data_unit_cache_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_unit_cache_state",
+      "source_slice": "N2390",
+      "keys": {
+        "units": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return unitsByType[type.id];",
+          "rule": "The cached units of the type (Teams.java:425, `return unitsByType[type.id];`): the slot Array when every guard passes, else null (the @Nullable return, Teams.java:421).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_unit_cache_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
     }
   },
   "version": 1

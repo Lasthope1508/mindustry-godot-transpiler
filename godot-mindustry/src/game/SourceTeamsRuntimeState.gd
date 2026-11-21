@@ -643,6 +643,81 @@ static func source_teams_get_active_state(teams_state: Dictionary) -> Dictionary
 	return {"active": kept, "teams_state": teams_state}
 
 
+static func source_team_data_get_buildings_state(building_types: Dictionary, block_key: Variant, default_buildings: Callable) -> Dictionary:
+	# TeamData.getBuildings (Teams.java:318-320) on
+	# `public static class TeamData{` (Teams.java:270):
+	# `public Seq<Building> getBuildings(Block block){`
+	# `return buildingTypes.get(block, () -> new Seq<>(false));`
+	# `}`
+	# buildingTypes is the ObjectMap<Block, Seq<Building>>
+	# (Teams.java:304) as a Dictionary keyed by block key.
+	# ObjectMap.get(key, default) does NOT store the
+	# default, so a missing block returns a fresh empty
+	# Array from the default supplier and leaves the map
+	# untouched; a present block returns its stored Array
+	# as-is (the same Seq reference Java returns). The
+	# `() -> new Seq<>(false)` supplier arrives as the
+	# default_buildings Callable (the N2386 Callable
+	# precedent); Block is not ported, so the block
+	# arrives as its key.
+	if building_types.has(block_key):
+		return {"buildings": building_types[block_key]}
+	return {"buildings": default_buildings.call()}
+
+
+static func source_team_data_get_count_state(building_types: Dictionary, block_key: Variant) -> Dictionary:
+	# TeamData.getCount (Teams.java:322-325):
+	# `public int getCount(Block block){`
+	# `var res = buildingTypes.get(block);`
+	# `return res == null ? 0 : res.size;`
+	# `}`
+	# Same map as getBuildings, read-only: a missing
+	# block counts 0 (the `res == null` branch); a
+	# present block counts its stored Array size.
+	var res: Variant = building_types.get(block_key, null)
+	if res == null:
+		return {"count": 0}
+	return {"count": (res as Array).size()}
+
+
+static func source_team_data_get_units_state(units_by_type: Variant, type_id: int) -> Dictionary:
+	# TeamData.getUnits (Teams.java:418-420):
+	# `public Seq<Unit> getUnits(UnitType type){`
+	# `return unitCache(type);`
+	# `}`
+	# getUnits is just an alias for unitCache (the comment
+	# at Teams.java:417) -- the unitCache call is INSIDE
+	# this group (an internal self-reference, not an
+	# outside expr): units_by_type passes through to
+	# unitCache, which may return null (the @Nullable
+	# return, Teams.java:419).
+	var cached: Dictionary = source_team_data_unit_cache_state(units_by_type, type_id)
+	return {"units": cached.get("units", null)}
+
+
+static func source_team_data_unit_cache_state(units_by_type: Variant, type_id: int) -> Dictionary:
+	# TeamData.unitCache (Teams.java:422-426):
+	# `public Seq<Unit> unitCache(UnitType type){`
+	# `if(unitsByType == null || unitsByType.length <= type.id || unitsByType[type.id] == null) return null;`
+	# `return unitsByType[type.id];`
+	# `}`
+	# unitsByType is the @Nullable Seq<Unit>[] (Teams.java:311)
+	# as an Array of unit Arrays (or null); type.id arrives
+	# as the type_id param (UnitType is not ported). All
+	# three null guards run before the index: a null table,
+	# an out-of-range type id, or a null slot all return
+	# null (the @Nullable return, Teams.java:421).
+	if units_by_type == null:
+		return {"units": null}
+	var by_type: Array = units_by_type as Array
+	if type_id < 0 or type_id >= by_type.size():
+		return {"units": null}
+	var slot: Variant = by_type[type_id]
+	if slot == null:
+		return {"units": null}
+	return {"units": slot}
+
+
 static func _teams_reset_team_data(data: Dictionary) -> Dictionary:
 	# The per-team reset half of Teams.updateTeamStats
 	# (Teams.java:185-211) for one TeamData dict, shared by

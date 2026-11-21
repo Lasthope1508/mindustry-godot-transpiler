@@ -75126,6 +75126,131 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
       "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
+    },
+    "SourceTeamsRuntimeState.source_team_data_get_buildings_state": {
+      "status": "active",
+      "source_slice": "N2390",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.getBuildings(Block)",
+      "params": [
+        {
+          "name": "building_types",
+          "type": "Dictionary",
+          "schema": "source_team_data_get_buildings_state_input.building_types"
+        },
+        {
+          "name": "block_key",
+          "type": "Variant",
+          "schema": "source_team_data_get_buildings_state_input.block_key"
+        },
+        {
+          "name": "default_buildings",
+          "type": "Callable",
+          "schema": "source_team_data_get_buildings_state_input.default_buildings"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "buildings"
+      ],
+      "tests": [
+        "test_c07_team_data_lookup_registration",
+        "test_all_c07_team_data_lookup_input_evidence_is_exact",
+        "test_team_data_lookup_state",
+        "test_reference_graph_and_actual_c07_team_data_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_team_data_get_count_state": {
+      "status": "active",
+      "source_slice": "N2390",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.getCount(Block)",
+      "params": [
+        {
+          "name": "building_types",
+          "type": "Dictionary",
+          "schema": "source_team_data_get_count_state_input.building_types"
+        },
+        {
+          "name": "block_key",
+          "type": "Variant",
+          "schema": "source_team_data_get_count_state_input.block_key"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "count"
+      ],
+      "tests": [
+        "test_c07_team_data_lookup_registration",
+        "test_all_c07_team_data_lookup_input_evidence_is_exact",
+        "test_team_data_lookup_state",
+        "test_reference_graph_and_actual_c07_team_data_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_team_data_get_units_state": {
+      "status": "active",
+      "source_slice": "N2390",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.getUnits(UnitType)",
+      "params": [
+        {
+          "name": "units_by_type",
+          "type": "Variant",
+          "schema": "source_team_data_get_units_state_input.units_by_type"
+        },
+        {
+          "name": "type_id",
+          "type": "int",
+          "schema": "source_team_data_get_units_state_input.type_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "units"
+      ],
+      "tests": [
+        "test_c07_team_data_lookup_registration",
+        "test_all_c07_team_data_lookup_input_evidence_is_exact",
+        "test_team_data_lookup_state",
+        "test_reference_graph_and_actual_c07_team_data_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_team_data_unit_cache_state": {
+      "status": "active",
+      "source_slice": "N2390",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.unitCache(UnitType)",
+      "params": [
+        {
+          "name": "units_by_type",
+          "type": "Variant",
+          "schema": "source_team_data_unit_cache_state_input.units_by_type"
+        },
+        {
+          "name": "type_id",
+          "type": "int",
+          "schema": "source_team_data_unit_cache_state_input.type_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "units"
+      ],
+      "tests": [
+        "test_c07_team_data_lookup_registration",
+        "test_all_c07_team_data_lookup_input_evidence_is_exact",
+        "test_team_data_lookup_state",
+        "test_reference_graph_and_actual_c07_team_data_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamDataLookupProof",
+      "rule": "Source-backed TeamData.getBuildings()/getCount()/getUnits()/unitCache() state from Teams.java."
     }
   },
   "policy": {

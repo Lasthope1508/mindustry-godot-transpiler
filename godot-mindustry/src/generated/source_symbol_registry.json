@@ -181864,6 +181864,70 @@
         "test_reference_graph_and_actual_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound"
       ],
       "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof"
+    },
+    "source_team_data_get_buildings_state_result.buildings": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_get_buildings_state",
+      "godot_symbol": "source_team_data_get_buildings_state_result.buildings",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.getBuildings(Block)",
+      "java_expr": "return buildingTypes.get(block, () -> new Seq<>(false));",
+      "rule": "The buildings for the block (Teams.java:319, `return buildingTypes.get(block, () -> new Seq<>(false));`): the stored Seq for a known block (the same Seq reference Java returns, never a copy), or the fresh empty Seq from the default supplier when the block is missing.",
+      "tests": [
+        "test_c07_team_data_lookup_registration",
+        "test_all_c07_team_data_lookup_input_evidence_is_exact",
+        "test_team_data_lookup_state",
+        "test_reference_graph_and_actual_c07_team_data_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamDataLookupProof"
+    },
+    "source_team_data_get_count_state_result.count": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_get_count_state",
+      "godot_symbol": "source_team_data_get_count_state_result.count",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.getCount(Block)",
+      "java_expr": "return res == null ? 0 : res.size;",
+      "rule": "The building count for the block (Teams.java:324, `return res == null ? 0 : res.size;`): the stored Seq size for a known block, or 0 on the `res == null` branch when the block is missing.",
+      "tests": [
+        "test_c07_team_data_lookup_registration",
+        "test_all_c07_team_data_lookup_input_evidence_is_exact",
+        "test_team_data_lookup_state",
+        "test_reference_graph_and_actual_c07_team_data_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamDataLookupProof"
+    },
+    "source_team_data_get_units_state_result.units": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_get_units_state",
+      "godot_symbol": "source_team_data_get_units_state_result.units",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.getUnits(UnitType)",
+      "java_expr": "return unitCache(type);",
+      "rule": "The units of the type (Teams.java:419, `return unitCache(type);`): whatever unitCache returns -- the cached Array, or null (the @Nullable return, Teams.java:419) when the table is null, the type id is out of range, or the slot is null.",
+      "tests": [
+        "test_c07_team_data_lookup_registration",
+        "test_all_c07_team_data_lookup_input_evidence_is_exact",
+        "test_team_data_lookup_state",
+        "test_reference_graph_and_actual_c07_team_data_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamDataLookupProof"
+    },
+    "source_team_data_unit_cache_state_result.units": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_unit_cache_state",
+      "godot_symbol": "source_team_data_unit_cache_state_result.units",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.unitCache(UnitType)",
+      "java_expr": "return unitsByType[type.id];",
+      "rule": "The cached units of the type (Teams.java:425, `return unitsByType[type.id];`): the slot Array when every guard passes, else null (the @Nullable return, Teams.java:421).",
+      "tests": [
+        "test_c07_team_data_lookup_registration",
+        "test_all_c07_team_data_lookup_input_evidence_is_exact",
+        "test_team_data_lookup_state",
+        "test_reference_graph_and_actual_c07_team_data_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamDataLookupProof"
     }
   },
   "version": 1
