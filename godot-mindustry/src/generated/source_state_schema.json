@@ -243834,6 +243834,54 @@
       },
       "runtime_proof": "/root/C07TeamsAnyEnemyCoresWithinBuildRadiusProof",
       "rule": "Source-backed Teams.anyEnemyCoresWithinBuildRadius() state from Teams.java."
+    },
+    "source_payload_ammo_turret_build_current_ammo_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_current_ammo_state",
+      "source_slice": "N2358",
+      "keys": {
+        "ammo_keys": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "ammoKeys = ammoTypes.keys().toSeq().toArray(UnlockableContent.class);",
+          "rule": "The ordered ammo keys (PayloadAmmoTurret.java:89, `ammoKeys = ammoTypes.keys().toSeq().toArray(UnlockableContent.class);`): the iteration order currentAmmo scans -- the first key whose content is held wins; arrives as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_current_ammo_state"
+          ]
+        },
+        "payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "if(payloads.contains(content)){",
+          "rule": "The contents currently held in the payloads seq (PayloadAmmoTurret.java:99, `if(payloads.contains(content)){`): the `public PayloadSeq payloads = new PayloadSeq();` field (PayloadAmmoTurret.java:95) reduced to its contents -- the payloads.contains lookup itself is NOT ported, its contents arrive as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_current_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadAmmoTurretCurrentAmmoProof",
+      "rule": "Source-backed PayloadTurretBuild.currentAmmo() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_current_ammo_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_current_ammo_state",
+      "source_slice": "N2358",
+      "keys": {
+        "current_ammo": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return content;",
+          "rule": "The current ammo content (PayloadAmmoTurret.java:100, `return content;`): the first ammo key (in ammoKeys order) whose content is held in payloads -- null when none matches (`return null;`, PayloadAmmoTurret.java:102); GD has no UnlockableContent mapping, so content refs are plain strings (content names) and the caller must null-check before using it.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_current_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadAmmoTurretCurrentAmmoProof",
+      "rule": "Source-backed PayloadTurretBuild.currentAmmo() state from PayloadAmmoTurret.java."
     }
   },
   "version": 1

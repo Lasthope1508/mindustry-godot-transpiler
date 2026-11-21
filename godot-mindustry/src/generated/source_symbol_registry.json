@@ -179864,6 +179864,22 @@
         "test_reference_graph_and_actual_c07_teams_any_enemy_cores_within_build_radius"
       ],
       "runtime_proof": "/root/C07TeamsAnyEnemyCoresWithinBuildRadiusProof"
+    },
+    "source_payload_ammo_turret_build_current_ammo_state_result.current_ammo": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_current_ammo_state",
+      "godot_symbol": "source_payload_ammo_turret_build_current_ammo_state_result.current_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.currentAmmo()",
+      "java_expr": "return content;",
+      "rule": "The current ammo content (PayloadAmmoTurret.java:100, `return content;`): the first ammo key (in ammoKeys order) whose content is held in payloads -- null when none matches (`return null;`, PayloadAmmoTurret.java:102); GD has no UnlockableContent mapping, so content refs are plain strings (content names) and the caller must null-check before using it.",
+      "tests": [
+        "test_c07_payload_ammo_turret_current_ammo_registration",
+        "test_all_c07_payload_ammo_turret_current_ammo_input_evidence_is_exact",
+        "test_payload_ammo_turret_current_ammo_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_current_ammo"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretCurrentAmmoProof"
     }
   },
   "version": 1

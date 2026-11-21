@@ -3285,6 +3285,37 @@
       "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
       "rule": "Public runtime contract for OverdriveProjector updateTile eachBlock target filter summary state."
     },
+    "PortGame.source_payload_ammo_turret_build_current_ammo_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_current_ammo_state",
+      "status": "active",
+      "source_slice": "N2358",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.currentAmmo()",
+      "params": [
+        {
+          "name": "ammo_keys",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_current_ammo_state_input.ammo_keys"
+        },
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_current_ammo_state_input.payload_contents"
+        }
+      ],
+      "return_keys": [
+        "current_ammo"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_current_ammo_registration",
+        "test_all_c07_payload_ammo_turret_current_ammo_input_evidence_is_exact",
+        "test_payload_ammo_turret_current_ammo_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_current_ammo"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretCurrentAmmoProof",
+      "rule": "Source-backed PayloadTurretBuild.currentAmmo() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_power_turret_build_get_ammo_fraction_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_power_turret_build_get_ammo_fraction_state",
       "status": "source-backed",
