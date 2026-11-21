@@ -95,7 +95,7 @@ ROOT = Path(__file__).resolve().parents[2]
 GODOT = ROOT / 'godot-mindustry'
 BEAM_DRILL = 'core/src/mindustry/world/blocks/production/BeamDrill.java'
 PROOF = '/root/C07BeamDrillVersionWriteReadProof'
-VERSION_WRITE_READ_OWNER = 'SourceBeamDrillBuildState.source_beam_drill_write_state'
+VERSION_WRITE_READ_OWNER = 'SourceBeamDrillBuildState.source_beam_drill_version_write_read_state'
 TESTS = ['test_c07_beam_drill_version_write_read_registration', 'test_all_c07_beam_drill_version_write_read_input_evidence_is_exact', 'test_beam_drill_version_write_read_state', 'test_reference_graph_and_actual_c07_beam_drill_version_write_read']
 # The 1 slice source the N2378 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
@@ -194,7 +194,7 @@ def main():
     (version_write_read_inputs, version_write_read_outputs) = definitions()
 
     entries = [
-        ('N2378', VERSION_WRITE_READ_OWNER, 'source_beam_drill_write_state', BEAM_DRILL, 'mindustry.world.blocks.production.BeamDrill.BeamDrillBuild', 'BeamDrillBuild.version(); BeamDrillBuild.write(Writes); BeamDrillBuild.read(Reads, byte)', version_write_read_inputs, version_write_read_outputs, True, 'Dictionary'),
+        ('N2378', VERSION_WRITE_READ_OWNER, 'source_beam_drill_version_write_read_state', BEAM_DRILL, 'mindustry.world.blocks.production.BeamDrill.BeamDrillBuild', 'BeamDrillBuild.version(); BeamDrillBuild.write(Writes); BeamDrillBuild.read(Reads, byte)', version_write_read_inputs, version_write_read_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:

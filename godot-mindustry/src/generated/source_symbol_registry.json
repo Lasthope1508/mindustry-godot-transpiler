@@ -180809,10 +180809,10 @@
       ],
       "runtime_proof": "/root/C07TurretDrawProof"
     },
-    "source_beam_drill_write_state_result.version": {
+    "source_beam_drill_version_write_read_state_result.version": {
       "status": "source-backed",
-      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
-      "godot_symbol": "source_beam_drill_write_state_result.version",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state",
+      "godot_symbol": "source_beam_drill_version_write_read_state_result.version",
       "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
       "java_method": "BeamDrillBuild.version(); BeamDrillBuild.write(Writes); BeamDrillBuild.read(Reads, byte)",
       "java_expr": "return 1;",
@@ -180825,10 +180825,10 @@
       ],
       "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
     },
-    "source_beam_drill_write_state_result.write_time": {
+    "source_beam_drill_version_write_read_state_result.write_time": {
       "status": "source-backed",
-      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
-      "godot_symbol": "source_beam_drill_write_state_result.write_time",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state",
+      "godot_symbol": "source_beam_drill_version_write_read_state_result.write_time",
       "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
       "java_method": "BeamDrillBuild.version(); BeamDrillBuild.write(Writes); BeamDrillBuild.read(Reads, byte)",
       "java_expr": "write.f(time);",
@@ -180841,10 +180841,10 @@
       ],
       "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
     },
-    "source_beam_drill_write_state_result.write_warmup": {
+    "source_beam_drill_version_write_read_state_result.write_warmup": {
       "status": "source-backed",
-      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
-      "godot_symbol": "source_beam_drill_write_state_result.write_warmup",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state",
+      "godot_symbol": "source_beam_drill_version_write_read_state_result.write_warmup",
       "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
       "java_method": "BeamDrillBuild.version(); BeamDrillBuild.write(Writes); BeamDrillBuild.read(Reads, byte)",
       "java_expr": "write.f(warmup);",
@@ -180857,10 +180857,10 @@
       ],
       "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
     },
-    "source_beam_drill_write_state_result.time": {
+    "source_beam_drill_version_write_read_state_result.time": {
       "status": "source-backed",
-      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
-      "godot_symbol": "source_beam_drill_write_state_result.time",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state",
+      "godot_symbol": "source_beam_drill_version_write_read_state_result.time",
       "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
       "java_method": "BeamDrillBuild.version(); BeamDrillBuild.write(Writes); BeamDrillBuild.read(Reads, byte)",
       "java_expr": "time = read.f();",
@@ -180873,10 +180873,10 @@
       ],
       "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof"
     },
-    "source_beam_drill_write_state_result.warmup": {
+    "source_beam_drill_version_write_read_state_result.warmup": {
       "status": "source-backed",
-      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
-      "godot_symbol": "source_beam_drill_write_state_result.warmup",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state",
+      "godot_symbol": "source_beam_drill_version_write_read_state_result.warmup",
       "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
       "java_method": "BeamDrillBuild.version(); BeamDrillBuild.write(Writes); BeamDrillBuild.read(Reads, byte)",
       "java_expr": "warmup = read.f();",

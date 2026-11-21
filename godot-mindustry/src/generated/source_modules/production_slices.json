@@ -1349,13 +1349,13 @@
       "status": "done",
       "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
       "java_method": "BeamDrillBuild.version(); BeamDrillBuild.write(Writes); BeamDrillBuild.read(Reads, byte)",
-      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state",
       "source_symbols": [
-        "source_beam_drill_write_state_result.version",
-        "source_beam_drill_write_state_result.write_time",
-        "source_beam_drill_write_state_result.write_warmup",
-        "source_beam_drill_write_state_result.time",
-        "source_beam_drill_write_state_result.warmup"
+        "source_beam_drill_version_write_read_state_result.version",
+        "source_beam_drill_version_write_read_state_result.write_time",
+        "source_beam_drill_version_write_read_state_result.write_warmup",
+        "source_beam_drill_version_write_read_state_result.time",
+        "source_beam_drill_version_write_read_state_result.warmup"
       ],
       "tests": [
         "test_c07_beam_drill_version_write_read_registration",

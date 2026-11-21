@@ -584,8 +584,8 @@
       "rule": "Source-backed BeamDrill power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
-    "SourceBeamDrillBuildState.source_beam_drill_write_state": {
-      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_write_state",
+    "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_version_write_read_state",
       "status": "active",
       "source_slice": "N2378",
       "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
@@ -594,27 +594,27 @@
         {
           "name": "time",
           "type": "float",
-          "schema": "source_beam_drill_write_state_input.time"
+          "schema": "source_beam_drill_version_write_read_state_input.time"
         },
         {
           "name": "warmup",
           "type": "float",
-          "schema": "source_beam_drill_write_state_input.warmup"
+          "schema": "source_beam_drill_version_write_read_state_input.warmup"
         },
         {
           "name": "revision",
           "type": "int",
-          "schema": "source_beam_drill_write_state_input.revision"
+          "schema": "source_beam_drill_version_write_read_state_input.revision"
         },
         {
           "name": "stored_time",
           "type": "float",
-          "schema": "source_beam_drill_write_state_input.stored_time"
+          "schema": "source_beam_drill_version_write_read_state_input.stored_time"
         },
         {
           "name": "stored_warmup",
           "type": "float",
-          "schema": "source_beam_drill_write_state_input.stored_warmup"
+          "schema": "source_beam_drill_version_write_read_state_input.stored_warmup"
         }
       ],
       "return_keys": [

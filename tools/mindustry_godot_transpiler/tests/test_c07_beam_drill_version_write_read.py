@@ -14,7 +14,7 @@ class C07BeamDrillVersionWriteReadTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2378']['godot_owner'], 'SourceBeamDrillBuildState.source_beam_drill_write_state')
+        self.assertEqual(ledger['N2378']['godot_owner'], 'SourceBeamDrillBuildState.source_beam_drill_version_write_read_state')
         # BeamDrillBuild.version()
         # (BeamDrill.java:414-416):
         # `public byte version(){`
@@ -67,11 +67,11 @@ class C07BeamDrillVersionWriteReadTests(unittest.TestCase):
         self.assertEqual(
             ledger['N2378']['source_symbols'],
             [
-                'source_beam_drill_write_state_result.version',
-                'source_beam_drill_write_state_result.write_time',
-                'source_beam_drill_write_state_result.write_warmup',
-                'source_beam_drill_write_state_result.time',
-                'source_beam_drill_write_state_result.warmup',
+                'source_beam_drill_version_write_read_state_result.version',
+                'source_beam_drill_version_write_read_state_result.write_time',
+                'source_beam_drill_version_write_read_state_result.write_warmup',
+                'source_beam_drill_version_write_read_state_result.time',
+                'source_beam_drill_version_write_read_state_result.warmup',
             ],
         )
         for name in ledger['N2378']['source_symbols']:

@@ -245967,9 +245967,9 @@
       "runtime_proof": "/root/C07TurretDrawProof",
       "rule": "Source-backed Turret draw() row from Turret.java."
     },
-    "source_beam_drill_write_state_input": {
+    "source_beam_drill_version_write_read_state_input": {
       "status": "active",
-      "owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state",
       "source_slice": "N2378",
       "keys": {
         "time": {
@@ -245979,7 +245979,7 @@
           "java_expr": "write.f(time);",
           "rule": "The current time field, time (BeamDrill.java:225, `public float time;`, advanced by updateTile): the value write() persists and read() keeps when the revision is below 1.",
           "used_by": [
-            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+            "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state"
           ]
         },
         "warmup": {
@@ -245989,7 +245989,7 @@
           "java_expr": "write.f(warmup);",
           "rule": "The current warmup field, warmup (BeamDrill.java:226, `public float warmup, boostWarmup;`, gated by updateTile): the value write() persists and read() keeps when the revision is below 1.",
           "used_by": [
-            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+            "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state"
           ]
         },
         "revision": {
@@ -245999,7 +245999,7 @@
           "java_expr": "if(revision >= 1){",
           "rule": "The save revision, revision (BeamDrill.java:426-431): read() restores time and warmup only when revision >= 1, the version() stamp.",
           "used_by": [
-            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+            "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state"
           ]
         },
         "stored_time": {
@@ -246009,7 +246009,7 @@
           "java_expr": "time = read.f();",
           "rule": "The value read.f() would return from the stream for time (BeamDrill.java:429, `time = read.f();`): the port has no save/load stream, so it arrives as an explicit param, not re-ported here.",
           "used_by": [
-            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+            "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state"
           ]
         },
         "stored_warmup": {
@@ -246019,16 +246019,16 @@
           "java_expr": "warmup = read.f();",
           "rule": "The value read.f() would return from the stream for warmup (BeamDrill.java:430, `warmup = read.f();`): the port has no save/load stream, so it arrives as an explicit param, not re-ported here.",
           "used_by": [
-            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+            "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state"
           ]
         }
       },
       "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof",
       "rule": "Source-backed BeamDrillBuild.version()/write()/read() state from BeamDrill.java."
     },
-    "source_beam_drill_write_state_result": {
+    "source_beam_drill_version_write_read_state_result": {
       "status": "active",
-      "owner": "SourceBeamDrillBuildState.source_beam_drill_write_state",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state",
       "source_slice": "N2378",
       "keys": {
         "version": {
@@ -246038,7 +246038,7 @@
           "java_expr": "return 1;",
           "rule": "The save version (BeamDrill.java:414-416, `public byte version(){ return 1; }`): always 1 -- the name shares text with 8 other-class slices (N1187/N745/N923/N1885/N2217/N2286/N2322/N2375), registered under this java_method with the class prefix.",
           "used_by": [
-            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+            "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state"
           ]
         },
         "write_time": {
@@ -246048,7 +246048,7 @@
           "java_expr": "write.f(time);",
           "rule": "The persisted time (BeamDrill.java:421, `write.f(time);`): the value write() stores, whatever the revision.",
           "used_by": [
-            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+            "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state"
           ]
         },
         "write_warmup": {
@@ -246058,7 +246058,7 @@
           "java_expr": "write.f(warmup);",
           "rule": "The persisted warmup (BeamDrill.java:422, `write.f(warmup);`): the value write() stores, whatever the revision.",
           "used_by": [
-            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+            "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state"
           ]
         },
         "time": {
@@ -246068,7 +246068,7 @@
           "java_expr": "time = read.f();",
           "rule": "The post-read time (BeamDrill.java:428-430, `if(revision >= 1){ time = read.f(); }`): the stored value at revision >= 1, the current value otherwise.",
           "used_by": [
-            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+            "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state"
           ]
         },
         "warmup": {
@@ -246078,7 +246078,7 @@
           "java_expr": "warmup = read.f();",
           "rule": "The post-read warmup (BeamDrill.java:428-431, `if(revision >= 1){ warmup = read.f(); }`): the stored value at revision >= 1, the current value otherwise.",
           "used_by": [
-            "SourceBeamDrillBuildState.source_beam_drill_write_state"
+            "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state"
           ]
         }
       },
