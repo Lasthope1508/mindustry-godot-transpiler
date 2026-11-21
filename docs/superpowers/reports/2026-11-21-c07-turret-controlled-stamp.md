@@ -5,7 +5,7 @@ Ngày: 2026-11-21 ~21:46 +07 (proof xanh, đọc trực tiếp proof .json mtime
 ## Trạng thái
 
 - N2522 DONE + PUSHED (origin/main 98e341aa).
-- N2523 DONE + PUSHED (slice 80bb3601, docs fc96b411, GOAL 1850c9f9, status TBD, hashes TBD): turret driver tick stamp live `controlled` key vào frame cho 3 reader đã đọc nó từ trước — 1 pure function mới `source_turret_controlled_stamp_state` (SourceTurretBuildState.gd:401) + 1 call site trong `source_turret_tick_buildings_state` (:2655, ngay trước validate). Ba reader ngừng đọc default absent: validateTarget (:2604, N2251), isShooting (:2623, N2277), warmup (:2649, N2253).
+- N2523 DONE + PUSHED (slice 80bb3601, docs fc96b411, GOAL 1850c9f9, status 6687ffbf, hashes TBD): turret driver tick stamp live `controlled` key vào frame cho 3 reader đã đọc nó từ trước — 1 pure function mới `source_turret_controlled_stamp_state` (SourceTurretBuildState.gd:401) + 1 call site trong `source_turret_tick_buildings_state` (:2655, ngay trước validate). Ba reader ngừng đọc default absent: validateTarget (:2604, N2251), isShooting (:2623, N2277), warmup (:2649, N2253).
 
 ## Làm được lượt này (GREEN + gate xong)
 
