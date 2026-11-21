@@ -5,7 +5,7 @@ Ngày: 2026-11-22 ~06:16 +07 (proof xanh, đọc trực tiếp proof .json mtime
 ## Trạng thái
 
 - N2526 DONE + PUSHED (origin/main 19d62d1c).
-- N2527 DONE + PUSHED (slice bd0ea3c8, docs ef5272e3, GOAL d19606df, status TBD, hashes TBD): port `status()` của `TurretBuild` thành 1 pure function mới `source_turret_status_state` (SourceTurretBuildState.gd:499) cho Turret family — KHÔNG driver tick call site (status() là read function, không phải per-tick; không caller nào đọc nó hôm nay, UI/status display là C11). Hàm nhận 4 tham số (frame, tick, has_ammo, reload), trả đúng 1 key `status`.
+- N2527 DONE + PUSHED (slice bd0ea3c8, docs ef5272e3, GOAL d19606df, status 07cbccf9, hashes TBD): port `status()` của `TurretBuild` thành 1 pure function mới `source_turret_status_state` (SourceTurretBuildState.gd:499) cho Turret family — KHÔNG driver tick call site (status() là read function, không phải per-tick; không caller nào đọc nó hôm nay, UI/status display là C11). Hàm nhận 4 tham số (frame, tick, has_ammo, reload), trả đúng 1 key `status`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
