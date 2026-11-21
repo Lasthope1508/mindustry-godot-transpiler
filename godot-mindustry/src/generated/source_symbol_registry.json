@@ -180504,6 +180504,118 @@
         "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg1"
       ],
       "runtime_proof": "/root/C07LaserTurretUpdateTileLeg1Proof"
+    },
+    "source_laser_turret_build_update_tile_leg2_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_update_tile_leg2_state",
+      "godot_symbol": "source_laser_turret_build_update_tile_leg2_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateTile()",
+      "java_expr": "reloadCounter -= used * liquid.heatCapacity * coolantMultiplier;",
+      "rule": "The reload counter after the tick (LaserTurret.java:97, `reloadCounter -= used * liquid.heatCapacity * coolantMultiplier;`): cooled by the used liquid with coolant, by edelta() without (LaserTurret.java:104) -- unchanged when the guard fails.",
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg2_registration",
+        "test_all_c07_laser_turret_update_tile_leg2_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg2_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg2"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof"
+    },
+    "source_laser_turret_build_update_tile_leg2_state_result.liquids": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_update_tile_leg2_state",
+      "godot_symbol": "source_laser_turret_build_update_tile_leg2_state_result.liquids",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateTile()",
+      "java_expr": "liquids.remove(liquid, used);",
+      "rule": "The stored liquids after the tick (LaserTurret.java:98, `liquids.remove(liquid, used);`): a fresh Dictionary, the used liquid removed (capped at zero, the LiquidModule.remove contract) -- unchanged without coolant or when the guard fails.",
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg2_registration",
+        "test_all_c07_laser_turret_update_tile_leg2_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg2_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg2"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof"
+    },
+    "source_laser_turret_build_update_tile_leg2_state_result.used": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_update_tile_leg2_state",
+      "godot_symbol": "source_laser_turret_build_update_tile_leg2_state_result.used",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateTile()",
+      "java_expr": "float used = (cheating() ? maxUsed : Math.min(liquids.get(liquid), maxUsed)) * delta();",
+      "rule": "The liquid used this tick (LaserTurret.java:95, `float used = (cheating() ? maxUsed : Math.min(liquids.get(liquid), maxUsed)) * delta();`): 0 when the guard fails or without coolant.",
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg2_registration",
+        "test_all_c07_laser_turret_update_tile_leg2_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg2_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg2"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof"
+    },
+    "source_laser_turret_build_update_tile_leg2_state_result.max_used": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_update_tile_leg2_state",
+      "godot_symbol": "source_laser_turret_build_update_tile_leg2_state_result.max_used",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateTile()",
+      "java_expr": "float maxUsed = coolant.amount;",
+      "rule": "The per-second coolant cap, maxUsed (LaserTurret.java:94, `float maxUsed = coolant.amount;`): 0 when the guard fails or without coolant.",
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg2_registration",
+        "test_all_c07_laser_turret_update_tile_leg2_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg2_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg2"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof"
+    },
+    "source_laser_turret_build_update_tile_leg2_state_result.reload_branch": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_update_tile_leg2_state",
+      "godot_symbol": "source_laser_turret_build_update_tile_leg2_state_result.reload_branch",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateTile()",
+      "java_expr": "}else if(reloadCounter > 0){",
+      "rule": "The branch flag (LaserTurret.java:90, `}else if(reloadCounter > 0){`): \"coolant\" when the coolant branch ran, \"edelta\" when the fallback ran, \"none\" when the guard failed -- the driver writes the returned reloadCounter/liquids back on \"coolant\" or \"edelta\".",
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg2_registration",
+        "test_all_c07_laser_turret_update_tile_leg2_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg2_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg2"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof"
+    },
+    "source_laser_turret_build_update_tile_leg2_state_result.cool_effect_called": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_update_tile_leg2_state",
+      "godot_symbol": "source_laser_turret_build_update_tile_leg2_state_result.cool_effect_called",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateTile()",
+      "java_expr": "if(Mathf.chance(0.06 * used)){",
+      "rule": "Whether the cool effect spawned (LaserTurret.java:100, `if(Mathf.chance(0.06 * used)){`): true exactly when the coolant branch ran and the chance roll hit.",
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg2_registration",
+        "test_all_c07_laser_turret_update_tile_leg2_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg2_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg2"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof"
+    },
+    "source_laser_turret_build_update_tile_leg2_state_result.cool_effect_call": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_update_tile_leg2_state",
+      "godot_symbol": "source_laser_turret_build_update_tile_leg2_state_result.cool_effect_call",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateTile()",
+      "java_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+      "rule": "The cool-effect spawn call (LaserTurret.java:101, `coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));`): {call, x, y, range} when spawned, {} otherwise -- the driver performs the spawn.",
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg2_registration",
+        "test_all_c07_laser_turret_update_tile_leg2_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg2_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg2"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof"
     }
   },
   "version": 1

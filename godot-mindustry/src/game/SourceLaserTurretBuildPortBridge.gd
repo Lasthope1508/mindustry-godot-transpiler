@@ -228,3 +228,111 @@ static func source_laser_turret_build_update_tile_leg1_state(bullets: Array, x: 
 	var next_cur_recoil: float = 1.0 if was_shooting else cur_recoil
 	var reload_branch: String = "bullets" if was_shooting else "reload"
 	return {"bullets": pruned, "was_shooting": was_shooting, "heat": next_heat, "cur_recoil": next_cur_recoil, "reload_branch": reload_branch}
+
+
+# LaserTurretBuild.updateTile() LEG 2 (LaserTurret.java:90-106):
+# `}else if(reloadCounter > 0){`
+# `if(coolant != null){`
+# `//TODO does not handle multi liquid req?`
+# `Liquid liquid = liquids.current();`
+# `float maxUsed = coolant.amount;`
+# `float used = (cheating() ? maxUsed : Math.min(liquids.get(liquid), maxUsed)) * delta();`
+# `reloadCounter -= used * liquid.heatCapacity * coolantMultiplier;`
+# `liquids.remove(liquid, used);`
+# `if(Mathf.chance(0.06 * used)){`
+# `coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));`
+# `}`
+# `}else{`
+# `reloadCounter -= edelta();`
+# `}`
+# `}`
+# on `public class LaserTurretBuild extends PowerTurretBuild{`
+# (LaserTurret.java:44) inside
+# `public class LaserTurret extends PowerTurret{`.
+# LEG 2 is the whole else-if reloadCounter > 0 branch:
+# with coolant, burn liquid to cool the reload counter
+# down (used * liquid.heatCapacity *
+# coolantMultiplier) and remove the used liquid,
+# sometimes spawning the cool effect; without coolant,
+# the counter falls by edelta(). The class decls,
+# @Override, `public void updateTile(){` and
+# `if(bullets.any()){` are NOT re-registered here --
+# they stay owned by N2372 (leg 1) and are only
+# context/callees for this leg.
+# RED decisions: (1) The guard `reloadCounter > 0` is
+# evaluated inside the pure function (the leg-1
+# precedent: leg 1 evaluates bullets.any() itself and
+# returns the branch flag); when the guard fails
+# nothing happens and reload_branch is "none". (2)
+# `coolant` is `ConsumeLiquid` (Turret.java, field
+# `coolant`, `coolant.amount` is the per-second cap):
+# it arrives as an explicit Dictionary {amount} or
+# null. `coolantMultiplier` is a LaserTurret field
+# with default 1f (LaserTurret.java:22,
+# `coolantMultiplier = 1f;`): it arrives as an
+# explicit float, the driver passes 1.0 when unset.
+# `reload` is NOT a param: it never appears in
+# LaserTurret.java:90-106 (progress() reads it, a
+# different method). (3) `liquids` is the
+# LiquidModule (BuildingComp.liquids): it arrives as
+# an explicit Dictionary (liquid name -> amount) and
+# is NEVER mutated -- the returned dict is fresh.
+# `liquids.current()` arrives as the explicit
+# current_liquid key (the N1243 TractorBeam coolant
+# precedent); `liquids.get(liquid)` is the stored
+# amount for that key (0 when absent); `liquids.
+# remove(liquid, used)` caps the removal at zero
+# (LiquidModule.remove: "cap to prevent negative
+# removal", `add(liquid, Math.max(-amount,
+# -liquids[liquid.id]))`). When cheating, used =
+# maxUsed * delta() even if less is stored, so the
+# removal still caps at zero. When current_liquid
+# is null there is nothing to remove and the liquids
+# dict passes through unchanged. (4) cheating() /
+# delta() / edelta() are Building methods
+# (BuildingComp.java:1922-1930: delta() is Time.delta
+# * timeScale, edelta() is efficiency * delta()):
+# they arrive as explicit cheating/delta/edelta
+# params. (5) `Mathf.chance(0.06 * used)` arrives as
+# the explicit chance_result bool and the two
+# `Mathf.range(size * tilesize / 2f)` offsets as
+# explicit range_x/range_y floats (the N1246
+# TractorBeam coolant-effect precedent); the effect
+# itself is NOT ported -- the pure function returns
+# the cool_effect_call dict (or {} when not
+# spawned), the driver performs the spawn. (6) The
+# TODO comment ("does not handle multi liquid req?")
+# is recorded here only: single-current-liquid
+# behaviour is what the code does. (7) NO driver
+# line: a pure function the tick reads, not a
+# per-tick write; the driver writes the returned
+# reloadCounter/liquids back when reload_branch is
+# "coolant" or "edelta".
+static func source_laser_turret_build_update_tile_leg2_state(reload_counter: float, coolant: Variant, coolant_multiplier: float, cheating: bool, delta: float, edelta: float, liquids: Dictionary, current_liquid: Variant, liquid_heat_capacity: float, chance_result: bool, x: float, y: float, size: float, source_tilesize: float, range_x: float, range_y: float) -> Dictionary:
+	var max_used: float = 0.0
+	var used: float = 0.0
+	var new_reload_counter: float = reload_counter
+	var new_liquids: Dictionary = liquids.duplicate()
+	var reload_branch: String = "none"
+	var cool_effect_called: bool = false
+	var cool_effect_call: Dictionary = {}
+	if reload_counter > 0.0:
+		if coolant != null:
+			var coolant_dict: Dictionary = coolant
+			max_used = float(coolant_dict.get("amount", 0.0))
+			var stored: float = 0.0
+			if current_liquid != null:
+				stored = float(liquids.get(current_liquid, 0.0))
+			var base: float = max_used if cheating else minf(stored, max_used)
+			used = base * delta
+			new_reload_counter = reload_counter - used * liquid_heat_capacity * coolant_multiplier
+			if current_liquid != null:
+				new_liquids[current_liquid] = maxf(0.0, stored - used)
+			reload_branch = "coolant"
+			if chance_result:
+				cool_effect_called = true
+				cool_effect_call = {"call": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));", "x": x + range_x, "y": y + range_y, "range": size * source_tilesize / 2.0}
+		else:
+			new_reload_counter = reload_counter - edelta
+			reload_branch = "edelta"
+	return {"reload_counter": new_reload_counter, "liquids": new_liquids, "used": used, "max_used": max_used, "reload_branch": reload_branch, "cool_effect_called": cool_effect_called, "cool_effect_call": cool_effect_call}

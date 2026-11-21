@@ -245426,6 +245426,254 @@
       },
       "runtime_proof": "/root/C07LaserTurretUpdateTileLeg1Proof",
       "rule": "Source-backed LaserTurretBuild.updateTile() leg 1 state from LaserTurret.java."
+    },
+    "source_laser_turret_build_update_tile_leg2_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_update_tile_leg2_state",
+      "source_slice": "N2373",
+      "keys": {
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "}else if(reloadCounter > 0){",
+          "rule": "The reload counter entering the branch, reloadCounter (LaserTurret.java:90, `}else if(reloadCounter > 0){`): the else-if guard -- when it is not positive nothing happens and reload_branch is \"none\".",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "coolant": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(coolant != null){",
+          "rule": "The coolant consumer, coolant (LaserTurret.java:92, `if(coolant != null){`): a Dictionary {amount} (ConsumeLiquid.amount, the per-second cap) or null -- null takes the edelta fallback branch.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "coolant_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "reloadCounter -= used * liquid.heatCapacity * coolantMultiplier;",
+          "rule": "The coolant multiplier, coolantMultiplier (LaserTurret.java:97): a LaserTurret field with default 1f (LaserTurret.java:22, `coolantMultiplier = 1f;`) -- the driver passes 1.0 when unset.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "cheating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "float used = (cheating() ? maxUsed : Math.min(liquids.get(liquid), maxUsed)) * delta();",
+          "rule": "Whether the building cheats, cheating() (LaserTurret.java:95): a Building method -- when true the used liquid is maxUsed * delta() regardless of what is stored.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "float used = (cheating() ? maxUsed : Math.min(liquids.get(liquid), maxUsed)) * delta();",
+          "rule": "The frame delta, delta() (LaserTurret.java:95): a Building method (BuildingComp.java:1922-1924, Time.delta * timeScale) -- scales the used liquid.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "reloadCounter -= edelta();",
+          "rule": "The efficiency-scaled delta, edelta() (LaserTurret.java:104, `reloadCounter -= edelta();`): a Building method (BuildingComp.java:1927-1929, efficiency * delta()) -- the fallback counter decay without coolant.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "liquids.remove(liquid, used);",
+          "rule": "The stored liquids, liquids (LaserTurret.java:98, `liquids.remove(liquid, used);`): a Dictionary (liquid name -> amount) -- the input is never mutated, the returned dict is fresh.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "current_liquid": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "Liquid liquid = liquids.current();",
+          "rule": "The current liquid, liquids.current() (LaserTurret.java:93, `Liquid liquid = liquids.current();`): the key into the liquids dict (the N1243 TractorBeam coolant precedent) -- null means there is nothing to remove.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "liquid_heat_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "reloadCounter -= used * liquid.heatCapacity * coolantMultiplier;",
+          "rule": "The current liquid heat capacity, liquid.heatCapacity (LaserTurret.java:97): scales how much the used liquid cools the reload counter.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "chance_result": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(Mathf.chance(0.06 * used)){",
+          "rule": "The chance roll result, Mathf.chance(0.06 * used) (LaserTurret.java:100, `if(Mathf.chance(0.06 * used)){`): the explicit bool (the N1246 TractorBeam coolant-effect precedent) -- true spawns the cool effect.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+          "rule": "The building x, x (LaserTurret.java:101): the cool-effect spawn origin.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+          "rule": "The building y, y (LaserTurret.java:101): the cool-effect spawn origin.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+          "rule": "The block size, size (LaserTurret.java:101): the cool-effect spawn range is size * tilesize / 2f.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "source_tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+          "rule": "The tile size, tilesize (LaserTurret.java:101): the cool-effect spawn range is size * tilesize / 2f.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "range_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+          "rule": "The x random offset, Mathf.range(size * tilesize / 2f) (LaserTurret.java:101): the explicit float (the N1246 TractorBeam coolant-effect precedent).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "range_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+          "rule": "The y random offset, Mathf.range(size * tilesize / 2f) (LaserTurret.java:101): the explicit float (the N1246 TractorBeam coolant-effect precedent).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof",
+      "rule": "Source-backed LaserTurretBuild.updateTile() leg 2 state from LaserTurret.java."
+    },
+    "source_laser_turret_build_update_tile_leg2_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_update_tile_leg2_state",
+      "source_slice": "N2373",
+      "keys": {
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "reloadCounter -= used * liquid.heatCapacity * coolantMultiplier;",
+          "rule": "The reload counter after the tick (LaserTurret.java:97, `reloadCounter -= used * liquid.heatCapacity * coolantMultiplier;`): cooled by the used liquid with coolant, by edelta() without (LaserTurret.java:104) -- unchanged when the guard fails.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "liquids": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "liquids.remove(liquid, used);",
+          "rule": "The stored liquids after the tick (LaserTurret.java:98, `liquids.remove(liquid, used);`): a fresh Dictionary, the used liquid removed (capped at zero, the LiquidModule.remove contract) -- unchanged without coolant or when the guard fails.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "used": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "float used = (cheating() ? maxUsed : Math.min(liquids.get(liquid), maxUsed)) * delta();",
+          "rule": "The liquid used this tick (LaserTurret.java:95, `float used = (cheating() ? maxUsed : Math.min(liquids.get(liquid), maxUsed)) * delta();`): 0 when the guard fails or without coolant.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "max_used": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "float maxUsed = coolant.amount;",
+          "rule": "The per-second coolant cap, maxUsed (LaserTurret.java:94, `float maxUsed = coolant.amount;`): 0 when the guard fails or without coolant.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "reload_branch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "}else if(reloadCounter > 0){",
+          "rule": "The branch flag (LaserTurret.java:90, `}else if(reloadCounter > 0){`): \"coolant\" when the coolant branch ran, \"edelta\" when the fallback ran, \"none\" when the guard failed -- the driver writes the returned reloadCounter/liquids back on \"coolant\" or \"edelta\".",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "cool_effect_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(Mathf.chance(0.06 * used)){",
+          "rule": "Whether the cool effect spawned (LaserTurret.java:100, `if(Mathf.chance(0.06 * used)){`): true exactly when the coolant branch ran and the chance roll hit.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        },
+        "cool_effect_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+          "rule": "The cool-effect spawn call (LaserTurret.java:101, `coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));`): {call, x, y, range} when spawned, {} otherwise -- the driver performs the spawn.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg2_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof",
+      "rule": "Source-backed LaserTurretBuild.updateTile() leg 2 state from LaserTurret.java."
     }
   },
   "version": 1

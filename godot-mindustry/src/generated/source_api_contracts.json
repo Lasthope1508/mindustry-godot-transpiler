@@ -73609,6 +73609,112 @@
       ],
       "runtime_proof": "/root/C07LaserTurretUpdateTileLeg1Proof",
       "rule": "Source-backed LaserTurretBuild.updateTile() leg 1 state from LaserTurret.java."
+    },
+    "PortGame.source_laser_turret_build_update_tile_leg2_state": {
+      "status": "active",
+      "source_slice": "N2373",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.reload_counter"
+        },
+        {
+          "name": "coolant",
+          "type": "Variant",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.coolant"
+        },
+        {
+          "name": "coolant_multiplier",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.coolant_multiplier"
+        },
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.cheating"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.delta"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.edelta"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.liquids"
+        },
+        {
+          "name": "current_liquid",
+          "type": "Variant",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.current_liquid"
+        },
+        {
+          "name": "liquid_heat_capacity",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.liquid_heat_capacity"
+        },
+        {
+          "name": "chance_result",
+          "type": "bool",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.chance_result"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.y"
+        },
+        {
+          "name": "size",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.size"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.source_tilesize"
+        },
+        {
+          "name": "range_x",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.range_x"
+        },
+        {
+          "name": "range_y",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.range_y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "reload_counter",
+        "liquids",
+        "used",
+        "max_used",
+        "reload_branch",
+        "cool_effect_called",
+        "cool_effect_call"
+      ],
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg2_registration",
+        "test_all_c07_laser_turret_update_tile_leg2_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg2_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg2"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof",
+      "rule": "Source-backed LaserTurretBuild.updateTile() leg 2 state from LaserTurret.java."
     }
   },
   "policy": {
