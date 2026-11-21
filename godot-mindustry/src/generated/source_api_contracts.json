@@ -76421,6 +76421,93 @@
       ],
       "runtime_proof": "/root/C07TeamsDestroyPayloadProof",
       "rule": "Source-backed Teams destroyPayload() state from Teams.java."
+    },
+    "SourceBurstDrillBuildState.source_drill_default_constructor_state": {
+      "status": "active",
+      "source_slice": "N2403",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.Drill(String name)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_default_constructor_state_input.frame"
+        },
+        {
+          "name": "block_name",
+          "type": "String",
+          "schema": "source_drill_default_constructor_state_input.block_name"
+        },
+        {
+          "name": "ambient_sound",
+          "type": "Variant",
+          "schema": "source_drill_default_constructor_state_input.ambient_sound"
+        },
+        {
+          "name": "group",
+          "type": "Variant",
+          "schema": "source_drill_default_constructor_state_input.group"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "name",
+        "group",
+        "ambient_sound",
+        "ambient_sound_volume"
+      ],
+      "tests": [
+        "test_c07_drill_burst_drill_default_constructor_registration",
+        "test_all_c07_drill_burst_drill_default_constructor_input_evidence_is_exact",
+        "test_drill_burst_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_drill_burst_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07DrillBurstDrillDefaultConstructorProof",
+      "rule": "Source-backed Drill()/BurstDrill() ctor field defaults from Drill.java + BurstDrill.java + Block.java."
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_default_constructor_state": {
+      "status": "active",
+      "source_slice": "N2403",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrill.BurstDrill(String name)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_default_constructor_state_input.frame"
+        },
+        {
+          "name": "block_name",
+          "type": "String",
+          "schema": "source_burst_drill_default_constructor_state_input.block_name"
+        },
+        {
+          "name": "ambient_sound",
+          "type": "Variant",
+          "schema": "source_burst_drill_default_constructor_state_input.ambient_sound"
+        },
+        {
+          "name": "drill_effect",
+          "type": "Variant",
+          "schema": "source_burst_drill_default_constructor_state_input.drill_effect"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "name",
+        "drill_effect_rnd",
+        "drill_effect",
+        "ambient_sound_volume",
+        "ambient_sound"
+      ],
+      "tests": [
+        "test_c07_drill_burst_drill_default_constructor_registration",
+        "test_all_c07_drill_burst_drill_default_constructor_input_evidence_is_exact",
+        "test_drill_burst_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_drill_burst_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07DrillBurstDrillDefaultConstructorProof",
+      "rule": "Source-backed Drill()/BurstDrill() ctor field defaults from Drill.java + BurstDrill.java + Block.java."
     }
   },
   "policy": {

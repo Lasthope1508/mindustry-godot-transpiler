@@ -1960,6 +1960,50 @@
       "rule": "Source-backed Drill canPlaceOn() / setBars() / drawPlanConfig() state from Drill.java + Block.java + BuildingComp.java + BuildPlan.java + Item.java + Pal.java + Bar.java + arc Strings.java + Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceBurstDrillBuildState.source_drill_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2403",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.Drill(String name)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_default_constructor_state_input.frame"
+        },
+        {
+          "name": "block_name",
+          "type": "String",
+          "schema": "source_drill_default_constructor_state_input.block_name"
+        },
+        {
+          "name": "ambient_sound",
+          "type": "Variant",
+          "schema": "source_drill_default_constructor_state_input.ambient_sound"
+        },
+        {
+          "name": "group",
+          "type": "Variant",
+          "schema": "source_drill_default_constructor_state_input.group"
+        }
+      ],
+      "return_keys": [
+        "name",
+        "group",
+        "ambient_sound",
+        "ambient_sound_volume"
+      ],
+      "tests": [
+        "test_c07_drill_burst_drill_default_constructor_registration",
+        "test_all_c07_drill_burst_drill_default_constructor_input_evidence_is_exact",
+        "test_drill_burst_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_drill_burst_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07DrillBurstDrillDefaultConstructorProof",
+      "rule": "Source-backed Drill()/BurstDrill() ctor field defaults from Drill.java + BurstDrill.java + Block.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_drill_draw_place_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_draw_place_state",
       "status": "active",

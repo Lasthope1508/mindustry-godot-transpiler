@@ -1547,6 +1547,31 @@
       ],
       "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof"
     },
+    "N2403": {
+      "canonical_ledger": "source_slice_ledger.N2403",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.Drill(String name)/BurstDrill.BurstDrill(String name)",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_default_constructor_state",
+      "source_symbols": [
+        "source_drill_default_constructor_state_result.name",
+        "source_drill_default_constructor_state_result.group",
+        "source_drill_default_constructor_state_result.ambient_sound",
+        "source_drill_default_constructor_state_result.ambient_sound_volume",
+        "source_burst_drill_default_constructor_state_result.name",
+        "source_burst_drill_default_constructor_state_result.drill_effect_rnd",
+        "source_burst_drill_default_constructor_state_result.drill_effect",
+        "source_burst_drill_default_constructor_state_result.ambient_sound_volume",
+        "source_burst_drill_default_constructor_state_result.ambient_sound"
+      ],
+      "tests": [
+        "test_c07_drill_burst_drill_default_constructor_registration",
+        "test_all_c07_drill_burst_drill_default_constructor_input_evidence_is_exact",
+        "test_drill_burst_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_drill_burst_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07DrillBurstDrillDefaultConstructorProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

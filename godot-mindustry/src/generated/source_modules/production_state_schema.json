@@ -2015,6 +2015,51 @@
         }
       }
     },
+    "source_drill_default_constructor_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_default_constructor_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Drill(String name){",
+          "rule": "The drill frame (Drill(), Drill.java:76): carries no live keys for this load-time setup -- the ctor name and the two resource/enum params are passed explicitly, not as frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_default_constructor_state"
+          ]
+        },
+        "block_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "public Drill(String name){",
+          "rule": "The block name (Drill.java:76, `public Drill(String name){`): the ctor name argument (mechanical-drill, pneumatic-drill, laser-drill, blast-drill, Blocks.java:2865-2919); it passes through to the result name key, and the three defaults below do not depend on it.",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_default_constructor_state"
+          ]
+        },
+        "ambient_sound": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "ambientSound = Sounds.loopDrill;",
+          "rule": "The ambient sound ref (Drill.java:82, `ambientSound = Sounds.loopDrill;`): the drill loop sound asset ref -- Sounds is NOT ported here: it arrives as an explicit Variant param and passes through to the result ambient_sound key; the Block base default it overrides is `public Sound ambientSound = Sounds.none;` (Block.java:351).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_default_constructor_state"
+          ]
+        },
+        "group": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "group = BlockGroup.drills;",
+          "rule": "The block group (Drill.java:80, `group = BlockGroup.drills;`): the block-group enum value -- BlockGroup is NOT ported here: it arrives as an explicit Variant param and passes through to the result group key; the Block base default it overrides is `public BlockGroup group = BlockGroup.none;` (Block.java:249).",
+          "used_by": [
+            "SourceBurstDrillBuildState.source_drill_default_constructor_state"
+          ]
+        }
+      }
+    },
     "source_drill_delay_input": {
       "canonical_schema": "source_state_schema.source_drill_delay_input",
       "keys": {

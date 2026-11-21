@@ -1382,3 +1382,95 @@ static func source_drill_version_state(frame: Dictionary) -> Dictionary:
 	# state. There is NO driver tick line: the version is a load-time constant,
 	# not a per-tick write.
 	return {"version": 1}
+
+@warning_ignore("unused_parameter")
+static func source_drill_default_constructor_state(frame: Dictionary, block_name: String, ambient_sound: Variant, group: Variant) -> Dictionary:
+	# N2403 -- Drill(String name) (Drill.java:76-88):
+	# `public Drill(String name){`
+	# `super(name);`
+	# `update = true;`
+	# `solid = true;`
+	# `group = BlockGroup.drills;`
+	# `hasLiquids = true;`
+	# `hasItems = true;`
+	# `ambientSound = Sounds.loopDrill;`
+	# `ambientSoundVolume = 0.019f;`
+	# `envEnabled |= Env.space;`
+	# `flags = EnumSet.of(BlockFlag.drill);`
+	# `}`
+	# on `public class Drill extends Block{`
+	# (Drill.java:27). Only the three Drill-only
+	# defaults are this slice: the block group (`group
+	# = BlockGroup.drills;`) and the ambient sound
+	# (`ambientSound = Sounds.loopDrill;`,
+	# `ambientSoundVolume = 0.019f;`). NOT this slice:
+	# `super(name);` (N2185), `update = true;` /
+	# `solid = true;` / `hasItems = true;`
+	# (N2180-N2183 and friends), `hasLiquids = true;`
+	# (N927/N2000/N2179/N2182/N2209), `envEnabled |=
+	# Env.space;` (N2185) and `flags =
+	# EnumSet.of(BlockFlag.drill);` (N2401, batch 25).
+	# The Block base defaults the ctor overrides are
+	# `public BlockGroup group = BlockGroup.none;`
+	# (Block.java:249), `public Sound ambientSound =
+	# Sounds.none;` (Block.java:351) and `public float
+	# ambientSoundVolume = 0.05f;` (Block.java:353).
+	# `Sounds.loopDrill` is the drill loop sound asset
+	# ref -- it arrives as the explicit ambient_sound
+	# Variant param, NOT re-ported. `BlockGroup.drills`
+	# is the block-group enum value -- it arrives as
+	# the explicit group Variant param, NOT re-ported.
+	# This is field defaults only: NOT ambient C (N2304
+	# HELD -- the SoundControl updateLoops mixer), NO
+	# driver tick line: the ctor is load-time block
+	# definition setup, not per-tick state. frame
+	# carries no live keys for this load-time setup --
+	# it is the canonical first param of this family
+	# file.
+	var ambient_sound_volume: float = 0.019
+	return {"name": block_name, "group": group, "ambient_sound": ambient_sound, "ambient_sound_volume": ambient_sound_volume}
+
+@warning_ignore("unused_parameter")
+static func source_burst_drill_default_constructor_state(frame: Dictionary, block_name: String, ambient_sound: Variant, drill_effect: Variant) -> Dictionary:
+	# N2403 -- BurstDrill(String name) (BurstDrill.java:35-45):
+	# `public BurstDrill(String name){`
+	# `super(name);`
+	# `hardnessDrillMultiplier = 0f;`
+	# `drillEffectRnd = 0f;`
+	# `drillEffect = Fx.shockwave;`
+	# `ambientSoundVolume = 0.18f;`
+	# `ambientSound = Sounds.drillCharge;`
+	# `}`
+	# on `public class BurstDrill extends Drill{`
+	# (BurstDrill.java:17). Only the four
+	# BurstDrill-only defaults are this slice: the
+	# drill effect (`drillEffectRnd = 0f;`,
+	# `drillEffect = Fx.shockwave;`) and the ambient
+	# sound (`ambientSoundVolume = 0.18f;`,
+	# `ambientSound = Sounds.drillCharge;`). NOT this
+	# slice: `super(name);` (N2185) and
+	# `hardnessDrillMultiplier = 0f;` (N2344,
+	# getDrillTime, batch 5 -- evidence only). The
+	# Drill base defaults the ctor overrides are
+	# `public Effect drillEffect = Fx.mine;`
+	# (Drill.java:53) and `public float
+	# drillEffectRnd = -1f;` (Drill.java:55); the
+	# Block base defaults are `public Sound
+	# ambientSound = Sounds.none;` (Block.java:351)
+	# and `public float ambientSoundVolume = 0.05f;`
+	# (Block.java:353). `Fx.shockwave` is the burst
+	# effect ref -- it arrives as the explicit
+	# drill_effect Variant param, NOT re-ported.
+	# `Sounds.drillCharge` is the drill-charge sound
+	# asset ref -- it arrives as the explicit
+	# ambient_sound Variant param, NOT re-ported.
+	# This is field defaults only: NOT ambient C (N2304
+	# HELD -- the SoundControl updateLoops mixer), NO
+	# driver tick line: the ctor is load-time block
+	# definition setup, not per-tick state. frame
+	# carries no live keys for this load-time setup --
+	# it is the canonical first param of this family
+	# file.
+	var drill_effect_rnd: float = 0.0
+	var ambient_sound_volume: float = 0.18
+	return {"name": block_name, "drill_effect_rnd": drill_effect_rnd, "drill_effect": drill_effect, "ambient_sound_volume": ambient_sound_volume, "ambient_sound": ambient_sound}

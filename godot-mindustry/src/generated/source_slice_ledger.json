@@ -99004,6 +99004,50 @@
         "Teams.updateActive()+Teams() Windows Godot proof -- debt in GOAL.md section 5, same as N2395: the N2399 proof runs headless on Linux here and waits for a Windows Godot run.",
         "Teams.destroyPayload() Windows Godot proof -- debt in GOAL.md section 5, same as N2399: the N2402 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2403": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_class": "mindustry.world.blocks.production.Drill",
+      "java_method": "Drill.Drill(String name)/BurstDrill.BurstDrill(String name)",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_default_constructor_state",
+      "exact_exprs": [
+        "group = BlockGroup.drills;",
+        "ambientSound = Sounds.loopDrill;",
+        "ambientSoundVolume = 0.019f;",
+        "drillEffectRnd = 0f;",
+        "drillEffect = Fx.shockwave;",
+        "ambientSoundVolume = 0.18f;",
+        "ambientSound = Sounds.drillCharge;"
+      ],
+      "source_symbols": [
+        "source_drill_default_constructor_state_result.name",
+        "source_drill_default_constructor_state_result.group",
+        "source_drill_default_constructor_state_result.ambient_sound",
+        "source_drill_default_constructor_state_result.ambient_sound_volume",
+        "source_burst_drill_default_constructor_state_result.name",
+        "source_burst_drill_default_constructor_state_result.drill_effect_rnd",
+        "source_burst_drill_default_constructor_state_result.drill_effect",
+        "source_burst_drill_default_constructor_state_result.ambient_sound_volume",
+        "source_burst_drill_default_constructor_state_result.ambient_sound"
+      ],
+      "tests": [
+        "test_c07_drill_burst_drill_default_constructor_registration",
+        "test_all_c07_drill_burst_drill_default_constructor_input_evidence_is_exact",
+        "test_drill_burst_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_drill_burst_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07DrillBurstDrillDefaultConstructorProof",
+      "deferred_exprs": [
+        "DrillBuild drawPlace() Windows Godot proof -- debt in GOAL.md section 5, same as N2173/N2227: the N2351 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "DrillBuild drawPlace() super leg (Block.drawPlace, Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as the explicit super_draw_place_called param; the link/overlay drawing itself waits for its own slice (the N2342 Radar drawPlace precedent).",
+        "DrillBuild drawPlace() drillspeed text width (Drill.java:149, `float width = drawPlaceText(...)`) stays owned by N699 (PortGame source_drill_output_rate); the caller computes width via N699 + N1780 drawPlaceText and passes it explicitly -- this slice never re-owns :149.",
+        "DrillBuild drawPlace() countOre call (Drill.java:146, `countOre(tile);`) stays owned by N2020/N2302; the caller passes the already-bound returnItem as explicit params (has_return_item, return_item_icon, return_item_color) -- this slice never re-owns :146.",
+        "DrillBuild drawPlace() null-tile guard (Drill.java:144, `if(tile == null) return;`) and the generic Draw lines (`Draw.mixcol(Color.darkGray, 1f);` :151, `Draw.reset();` :153, `Draw.color();` :159) are owned by other-method slices (N1769/N919/N1821/N2038/N2330, N570/N2341); this slice implements the guard via the explicit has_tile param and carries the Draw calls as command dicts -- it never re-owns those lines.",
+        "DrillBuild drawPlace() linked-tile search (Drill.java:162, `tile.getLinkedTilesAs(this, tempTiles).find(...)`) is deferred to the caller as the explicit linked_item param (the batch-8 scope \u00a72.6); this slice never ports the search itself.",
+        "DrillBuild drawPlace() tier-req text rendering stays owned by the live N1780 helper (PortGame source_block_draw_place_text_state); this slice only returns the draw_place_text command (text key \"bar.drilltierreq\", color \"Pal.accent\" / \"Pal.remove\" by valid) for the driver to render.",
+        "Drill()+BurstDrill() ctor field defaults Windows Godot proof -- debt in GOAL.md section 5, same as N2351: the N2403 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1
