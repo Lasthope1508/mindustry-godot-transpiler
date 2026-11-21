@@ -4166,6 +4166,42 @@
       "rule": "Source-backed PayloadTurretBuild.write()+read() state from PayloadAmmoTurret.java.",
       "return_type": "Dictionary"
     },
+    "PortGame.source_payload_ammo_turret_limit_range_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_limit_range_state",
+      "status": "active",
+      "source_slice": "N2384",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurret.limitRange(float)",
+      "params": [
+        {
+          "name": "ammo_entries",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_limit_range_state_input.ammo_entries"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_payload_ammo_turret_limit_range_state_input.range_value"
+        },
+        {
+          "name": "margin",
+          "type": "float",
+          "schema": "source_payload_ammo_turret_limit_range_state_input.margin"
+        }
+      ],
+      "return_keys": [
+        "ammo_entries"
+      ],
+      "tests": [
+        "test_c07_payload_turret_limit_range_registration",
+        "test_all_c07_payload_turret_limit_range_input_evidence_is_exact",
+        "test_payload_turret_limit_range_set_stats_state",
+        "test_reference_graph_and_actual_c07_payload_turret_limit_range"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof",
+      "rule": "Source-backed PayloadAmmoTurret.limitRange()+limitRange(float)+setStats() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_payload_turret_build_peek_ammo_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_payload_turret_build_peek_ammo_state",
       "status": "active",

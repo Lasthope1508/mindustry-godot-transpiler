@@ -339,3 +339,83 @@ static func source_payload_ammo_turret_build_update_tile_state(payload_contents:
 # payload / HUD caller reads, not a per-tick write.
 static func source_payload_ammo_turret_build_get_payloads_state(payload_contents: Array) -> Dictionary:
 	return {"payloads": payload_contents.duplicate()}
+
+# PayloadAmmoTurret.limitRange(float) (PayloadAmmoTurret.java:45-49):
+# `public void limitRange(float margin){`
+# `for(var entry : ammoTypes.copy().entries()){`
+# `entry.value.lifetime = (range + margin) / entry.value.speed;`
+# `}`
+# `}`
+# on `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# class method: it copies every ammo bullet and rewrites its
+# lifetime to (range + margin) / speed
+# (`entry.value.lifetime = (range + margin) / entry.value.speed;`).
+# `ammoTypes` is `public ObjectMap<UnlockableContent, BulletType> ammoTypes`
+# (PayloadAmmoTurret.java:22) and arrives as the explicit
+# ammo_entries param (one dict per ammo entry: content /
+# lifetime / speed -- the N2330 param precedent); the copy in
+# Java (`ammoTypes.copy()`) means the original bullets are
+# never touched, so the result returns fresh dicts and the
+# input is never mutated. `range` is the BaseTurret field
+# (`public float range = 80f;`, BaseTurret.java:21) and
+# arrives as the explicit range_value param; `margin`
+# arrives as an explicit float param. Float division by a
+# zero speed yields Infinity, exactly like Java float
+# division -- no guard is invented. NO driver tick line:
+# limitRange is a def-time setup call, not per-tick state.
+static func source_payload_ammo_turret_limit_range_state(ammo_entries: Array, range_value: float, margin: float) -> Dictionary:
+	var updated: Array = []
+	for entry in ammo_entries:
+		var row: Dictionary = (entry as Dictionary).duplicate()
+		row["lifetime"] = (range_value + margin) / float(row.get("speed", 0.0))
+		updated.append(row)
+	return {"ammo_entries": updated}
+
+# PayloadAmmoTurret.limitRange() (PayloadAmmoTurret.java:40-42):
+# `public void limitRange(){`
+# `limitRange(1f);`
+# `}`
+# on `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the no-arg form: it
+# delegates to limitRange(float) with margin 1f
+# (`limitRange(1f);`), so the lifetimes are (range + 1.0) /
+# speed. The delegation is the GD call below (the N2379
+# sibling-call precedent: onProximityUpdate calls
+# updateLasers/updateFacing by name in the same file).
+# NO driver tick line: a def-time setup call.
+static func source_payload_ammo_turret_limit_range_default_state(ammo_entries: Array, range_value: float) -> Dictionary:
+	return source_payload_ammo_turret_limit_range_state(ammo_entries, range_value, 1.0)
+
+# PayloadAmmoTurret.setStats() (PayloadAmmoTurret.java:51-56):
+# `@Override`
+# `public void setStats(){`
+# `super.setStats();`
+# `stats.remove(Stat.itemCapacity);`
+# `stats.add(Stat.ammo, StatValues.ammo(ammoTypes, true));`
+# `}`
+# on `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# class method: it drops the itemCapacity stat row
+# (`stats.remove(Stat.itemCapacity);` -- hits N1175 in both
+# ledgers, evidence only, NOT a distinguishing expr) and
+# adds the ammo row
+# (`stats.add(Stat.ammo, StatValues.ammo(ammoTypes, true));`).
+# `super.setStats();` is callee/context (Block/Turret super
+# stats) -- NOT a distinguishing expr. `stats` (Stats UI
+# API) arrives as the explicit stats param (rows of stat
+# dicts -- the N2330 param precedent); `StatValues.ammo`
+# is NOT ported -- the ammo row spec carries the ammo types
+# list and the showUnit flag (`show_unit: true`,
+# StatValues.java:606-607 `ammo(map, boolean showUnit)`).
+# NO driver tick line: a UI spec, not a per-tick write --
+# the caller wiring waits for its own slice.
+static func source_payload_ammo_turret_set_stats_state(stats: Array, ammo_types: Array) -> Dictionary:
+	var rows: Array = []
+	for row in stats:
+		var stat_row: Dictionary = (row as Dictionary).duplicate()
+		if stat_row.get("stat", "") == "itemCapacity":
+			continue
+		rows.append(stat_row)
+	rows.append({"stat": "ammo", "ammo_types": ammo_types.duplicate(), "show_unit": true})
+	return {"stats": rows}

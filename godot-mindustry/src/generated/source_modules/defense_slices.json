@@ -4192,6 +4192,25 @@
       ],
       "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof"
     },
+    "N2384": {
+      "canonical_ledger": "source_slice_ledger.N2384",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurret.limitRange(); PayloadAmmoTurret.limitRange(float); PayloadAmmoTurret.setStats()",
+      "godot_owner": "PortGame.source_payload_ammo_turret_limit_range_state",
+      "source_symbols": [
+        "source_payload_ammo_turret_limit_range_state_result.ammo_entries",
+        "source_payload_ammo_turret_limit_range_default_state_result.ammo_entries",
+        "source_payload_ammo_turret_set_stats_state_result.stats"
+      ],
+      "tests": [
+        "test_c07_payload_turret_limit_range_registration",
+        "test_all_c07_payload_turret_limit_range_input_evidence_is_exact",
+        "test_payload_turret_limit_range_set_stats_state",
+        "test_reference_graph_and_actual_c07_payload_turret_limit_range"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

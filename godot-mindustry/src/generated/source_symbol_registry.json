@@ -181416,6 +181416,54 @@
         "test_reference_graph_and_actual_c07_teams_update_team_stats"
       ],
       "runtime_proof": "/root/C07TeamsUpdateTeamStatsProof"
+    },
+    "source_payload_ammo_turret_limit_range_state_result.ammo_entries": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_limit_range_state",
+      "godot_symbol": "source_payload_ammo_turret_limit_range_state_result.ammo_entries",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurret.limitRange(float)",
+      "java_expr": "entry.value.lifetime = (range + margin) / entry.value.speed;",
+      "rule": "The limited ammo entries (PayloadAmmoTurret.java:47, `entry.value.lifetime = (range + margin) / entry.value.speed;`): fresh dicts with lifetime rewritten to (range + margin) / speed, other fields kept, input order kept -- the input is never mutated.",
+      "tests": [
+        "test_c07_payload_turret_limit_range_registration",
+        "test_all_c07_payload_turret_limit_range_input_evidence_is_exact",
+        "test_payload_turret_limit_range_set_stats_state",
+        "test_reference_graph_and_actual_c07_payload_turret_limit_range"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof"
+    },
+    "source_payload_ammo_turret_limit_range_default_state_result.ammo_entries": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_limit_range_default_state",
+      "godot_symbol": "source_payload_ammo_turret_limit_range_default_state_result.ammo_entries",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurret.limitRange()",
+      "java_expr": "limitRange(1f);",
+      "rule": "The limited ammo entries (PayloadAmmoTurret.java:41, `limitRange(1f);`): the no-arg form delegates to limitRange(float) with margin 1f, so each lifetime is (range + 1.0) / speed -- fresh dicts, input never mutated.",
+      "tests": [
+        "test_c07_payload_turret_limit_range_registration",
+        "test_all_c07_payload_turret_limit_range_input_evidence_is_exact",
+        "test_payload_turret_limit_range_set_stats_state",
+        "test_reference_graph_and_actual_c07_payload_turret_limit_range"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof"
+    },
+    "source_payload_ammo_turret_set_stats_state_result.stats": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_set_stats_state",
+      "godot_symbol": "source_payload_ammo_turret_set_stats_state_result.stats",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurret.setStats()",
+      "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, true));",
+      "rule": "The updated stat rows (PayloadAmmoTurret.java:54-55, `stats.remove(Stat.itemCapacity);` / `stats.add(Stat.ammo, StatValues.ammo(ammoTypes, true));`): the input rows minus any itemCapacity row, plus the ammo row `{\"stat\": \"ammo\", \"ammo_types\": [...], \"show_unit\": true}` appended -- a fresh copy, the input is never mutated.",
+      "tests": [
+        "test_c07_payload_turret_limit_range_registration",
+        "test_all_c07_payload_turret_limit_range_input_evidence_is_exact",
+        "test_payload_turret_limit_range_set_stats_state",
+        "test_reference_graph_and_actual_c07_payload_turret_limit_range"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof"
     }
   },
   "version": 1

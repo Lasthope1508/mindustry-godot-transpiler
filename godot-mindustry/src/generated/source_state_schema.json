@@ -247398,6 +247398,160 @@
       },
       "runtime_proof": "/root/C07TeamsUpdateTeamStatsProof",
       "rule": "Source-backed Teams.updateTeamStats() state from Teams.java."
+    },
+    "source_payload_ammo_turret_limit_range_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_limit_range_state",
+      "source_slice": "N2384",
+      "keys": {
+        "ammo_entries": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "for(var entry : ammoTypes.copy().entries()){",
+          "rule": "The ammo entries to limit (PayloadAmmoTurret.java:46, `for(var entry : ammoTypes.copy().entries()){`): one dict per ammo entry (content / lifetime / speed) from the `public ObjectMap<UnlockableContent, BulletType> ammoTypes` field (PayloadAmmoTurret.java:22) -- the Java copy (`ammoTypes.copy()`) means the original bullets are never touched, so the entries arrive as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_limit_range_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "entry.value.lifetime = (range + margin) / entry.value.speed;",
+          "rule": "The turret range (PayloadAmmoTurret.java:47, `entry.value.lifetime = (range + margin) / entry.value.speed;`): the BaseTurret field (`public float range = 80f;`, BaseTurret.java:21) -- arrives as an explicit float param.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_limit_range_state"
+          ]
+        },
+        "margin": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "public void limitRange(float margin){",
+          "rule": "The range margin (PayloadAmmoTurret.java:45, `public void limitRange(float margin){`): added to range before dividing by speed; 1.0 for the no-arg form (`limitRange(1f);`, PayloadAmmoTurret.java:41).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_limit_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof",
+      "rule": "Source-backed PayloadAmmoTurret.limitRange()+limitRange(float)+setStats() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_limit_range_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_limit_range_state",
+      "source_slice": "N2384",
+      "keys": {
+        "ammo_entries": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "entry.value.lifetime = (range + margin) / entry.value.speed;",
+          "rule": "The limited ammo entries (PayloadAmmoTurret.java:47, `entry.value.lifetime = (range + margin) / entry.value.speed;`): fresh dicts with lifetime rewritten to (range + margin) / speed, other fields kept, input order kept -- the input is never mutated.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_limit_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof",
+      "rule": "Source-backed PayloadAmmoTurret.limitRange()+limitRange(float)+setStats() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_limit_range_default_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_limit_range_default_state",
+      "source_slice": "N2384",
+      "keys": {
+        "ammo_entries": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "for(var entry : ammoTypes.copy().entries()){",
+          "rule": "The ammo entries to limit (PayloadAmmoTurret.java:46, `for(var entry : ammoTypes.copy().entries()){`): one dict per ammo entry (content / lifetime / speed) from the ammoTypes field (PayloadAmmoTurret.java:22) -- arrives as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_limit_range_default_state"
+          ]
+        },
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "entry.value.lifetime = (range + margin) / entry.value.speed;",
+          "rule": "The turret range (PayloadAmmoTurret.java:47, `entry.value.lifetime = (range + margin) / entry.value.speed;`): the BaseTurret field (`public float range = 80f;`, BaseTurret.java:21) -- arrives as an explicit float param.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_limit_range_default_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof",
+      "rule": "Source-backed PayloadAmmoTurret.limitRange()+limitRange(float)+setStats() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_limit_range_default_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_limit_range_default_state",
+      "source_slice": "N2384",
+      "keys": {
+        "ammo_entries": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "limitRange(1f);",
+          "rule": "The limited ammo entries (PayloadAmmoTurret.java:41, `limitRange(1f);`): the no-arg form delegates to limitRange(float) with margin 1f, so each lifetime is (range + 1.0) / speed -- fresh dicts, input never mutated.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_limit_range_default_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof",
+      "rule": "Source-backed PayloadAmmoTurret.limitRange()+limitRange(float)+setStats() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_set_stats_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_set_stats_state",
+      "source_slice": "N2384",
+      "keys": {
+        "stats": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, true));",
+          "rule": "The current stat rows (PayloadAmmoTurret.java:55, `stats.add(Stat.ammo, StatValues.ammo(ammoTypes, true));`): rows of stat dicts -- the Stats UI API itself is NOT ported, its rows arrive as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_set_stats_state"
+          ]
+        },
+        "ammo_types": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, true));",
+          "rule": "The ammo types for the ammo row (PayloadAmmoTurret.java:55, `stats.add(Stat.ammo, StatValues.ammo(ammoTypes, true));`): content names from the ammoTypes field (PayloadAmmoTurret.java:22) -- StatValues.ammo itself is NOT ported, the row spec carries the list plus the showUnit flag.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof",
+      "rule": "Source-backed PayloadAmmoTurret.limitRange()+limitRange(float)+setStats() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_set_stats_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_set_stats_state",
+      "source_slice": "N2384",
+      "keys": {
+        "stats": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, true));",
+          "rule": "The updated stat rows (PayloadAmmoTurret.java:54-55, `stats.remove(Stat.itemCapacity);` / `stats.add(Stat.ammo, StatValues.ammo(ammoTypes, true));`): the input rows minus any itemCapacity row, plus the ammo row `{\"stat\": \"ammo\", \"ammo_types\": [...], \"show_unit\": true}` appended -- a fresh copy, the input is never mutated.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof",
+      "rule": "Source-backed PayloadAmmoTurret.limitRange()+limitRange(float)+setStats() state from PayloadAmmoTurret.java."
     }
   },
   "version": 1
