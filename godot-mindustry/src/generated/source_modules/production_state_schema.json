@@ -976,6 +976,151 @@
         }
       }
     },
+    "source_beam_drill_update_tile_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_update_tile_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The beam-drill frame (BeamDrillBuild.updateTile, BeamDrill.java:237): carries no live keys for this tick half -- lastItem / boostWarmup / time / facing / items state arrive as explicit params, not frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "last_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Item lastItem;",
+          "rule": "The last mined item: the BeamDrillBuild field (`public @Nullable Item lastItem;`, BeamDrill.java:223), set by updateFacing (`lastItem = drop;`, BeamDrill.java:396) and cleared when the facing changes (`lastItem = null;`, BeamDrill.java:376, :409); passed explicitly because it is live build state, not a frame key.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "boost_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float warmup, boostWarmup;",
+          "rule": "The boost warmup before this tick (BeamDrill.java:226, `public float warmup, boostWarmup;`): lerped toward optionalEfficiency at 0.1f per delta (BeamDrill.java:248).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "optional_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient float optionalEfficiency;",
+          "rule": "The optional-consumer efficiency (BuildingComp.java:87, `transient float optionalEfficiency;`): the lerp target for boostWarmup (BeamDrill.java:248, `Mathf.lerpDelta(boostWarmup, optionalEfficiency, 0.1f);`) and the boost multiplier input (BeamDrill.java:246, N2155).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float time;",
+          "rule": "The drill progress time before this tick: the BeamDrillBuild field (`public float time;`, BeamDrill.java:225) shared with N2155 (`time += edelta() * multiplier;`, BeamDrill.java:251) -- taken in/out, NOT re-registered; this slice only applies the `time %= drillTime;` wrap (BeamDrill.java:261) when the harvest gate fires.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "Time.delta",
+          "rule": "Time.delta (Mathf.java:431, `clamp(progress * Time.delta)` inside `Mathf.lerpDelta`): the frame delta the lerpDelta fold scales by (the ported SourceMathState.source_lerp_delta helper).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "facing": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Tile[] facing = new Tile[size];",
+          "rule": "The facing tiles: the BeamDrillBuild field (`public Tile[] facing = new Tile[size];`, BeamDrill.java:221), built by updateFacing (N2379) -- an Array of tile Dictionaries {\"wall_drop\": ...} or null (the N2379 precedent), so `tile.wallDrop()` (Tile.java:575) reads \"wall_drop\".",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "items_total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(items.total() < itemCapacity && drop != null){",
+          "rule": "The current item count (BeamDrill.java:256, `items.total()` inside the capacity gate): the ItemModule total before this tick; the gate is re-checked against a running total inside the loop because Java re-reads items.total() after each add.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(items.total() < itemCapacity && drop != null){",
+          "rule": "The block item capacity (BeamDrill.java:256, `itemCapacity` inside the capacity gate): the ItemModule cap the running total is checked against (Block default 10).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "dump_ready": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+          "rule": "The dump timer result (BeamDrill.java:263, `if(timer(timerDump, dumpTime / timeScale)){`): the generic timer gate (N691/N2068/N2072/N2073/N2294) computed by the caller -- the TractorBeam timer_target_ready precedent; dump() fires only when it is true.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "get_drill_time": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float drillTime = getDrillTime(lastItem);",
+          "rule": "The getDrillTime delegate (BeamDrill.java:247, `float drillTime = getDrillTime(lastItem);`): BeamDrill's own method (BeamDrill.java:216-218, `return drillTime / drillMultipliers.get(item, 1f);`, class default 200f) -- NOT re-ported here: it arrives as an explicit Callable param (the drawPlace precedent: guarded with is_valid(), invoked with .call(last_item)); an invalid callable reports drill_time 0.0 and the harvest gate does not fire.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "items_add": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "items.add(drop, 1);",
+          "rule": "The items.add delegate (BeamDrill.java:257, `items.add(drop, 1);`): the ItemModule engine API -- NOT re-ported here: it arrives as an explicit Callable param (the N2377 drawer precedent: guarded with is_valid(), invoked with .call(drop, 1)); an invalid callable is reported via items_add_called false and the harvested drops still read through.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "produced": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "produced(drop);",
+          "rule": "The produced delegate (BeamDrill.java:258, `produced(drop);`): the BuildingComp callee (`public void produced(Item item){`, BuildingComp.java:1035, `produced(item, 1);`) -- NOT re-ported here: it arrives as an explicit Callable param (the N2377 drawer precedent: guarded with is_valid(), invoked with .call(drop)); an invalid callable is reported via produced_called false.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        },
+        "dump": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "dump();",
+          "rule": "The dump delegate (BeamDrill.java:264, `dump();`): the BuildingComp callee (`public boolean dump(){`, BuildingComp.java:1064, `return dump(null);`) -- NOT re-ported here: it arrives as an explicit Callable param (the N2377 drawer precedent: guarded with is_valid(), invoked with .call()); an invalid callable is reported via dump_called false.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_update_tile_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_version_write_read_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_version_write_read_state_input",
       "keys": {

@@ -2778,6 +2778,126 @@
       ],
       "runtime_proof": "/root/C07BeamDrillUpdateFacingProof"
     },
+    "source_beam_drill_update_tile_state_result.boost_warmup": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_state_result.boost_warmup",
+      "status": "source-backed",
+      "java_expr": "boostWarmup = Mathf.lerpDelta(boostWarmup, optionalEfficiency, 0.1f);",
+      "godot_symbol": "source_beam_drill_update_tile_state_result.boost_warmup",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_state",
+      "rule": "The boost warmup after this tick (BeamDrill.java:248, `boostWarmup = Mathf.lerpDelta(boostWarmup, optionalEfficiency, 0.1f);`): lerped toward optionalEfficiency at 0.1f per delta (arc Mathf.java:430-432, folded by SourceMathState.source_lerp_delta).",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_state_result.drill_time": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_state_result.drill_time",
+      "status": "source-backed",
+      "java_expr": "float drillTime = getDrillTime(lastItem);",
+      "godot_symbol": "source_beam_drill_update_tile_state_result.drill_time",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_state",
+      "rule": "The drill time for the last item (BeamDrill.java:247, `float drillTime = getDrillTime(lastItem);`): drillTime / drillMultipliers.get(item, 1f) (BeamDrill.java:217) -- 200.0 for the class default with no multiplier.",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_state_result.dump_called": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_state_result.dump_called",
+      "status": "source-backed",
+      "java_expr": "dump();",
+      "godot_symbol": "source_beam_drill_update_tile_state_result.dump_called",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_state",
+      "rule": "Whether the dump delegate was invoked (BeamDrill.java:264, `dump();`): true when the dump_ready gate is true and the dump Callable is valid, false otherwise (the N2377 drawer_called precedent).",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_state_result.get_drill_time_called": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_state_result.get_drill_time_called",
+      "status": "source-backed",
+      "java_expr": "float drillTime = getDrillTime(lastItem);",
+      "godot_symbol": "source_beam_drill_update_tile_state_result.get_drill_time_called",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_state",
+      "rule": "Whether the getDrillTime delegate was invoked (BeamDrill.java:247, `float drillTime = getDrillTime(lastItem);`): true when the get_drill_time Callable is valid, false otherwise (the N2377 drawer_called precedent).",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_state_result.harvested": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_state_result.harvested",
+      "status": "source-backed",
+      "java_expr": "for(Tile tile : facing){",
+      "godot_symbol": "source_beam_drill_update_tile_state_result.harvested",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_state",
+      "rule": "The drops harvested this tick, in facing order (BeamDrill.java:254-259, `for(Tile tile : facing){` / `Item drop = tile == null ? null : tile.wallDrop();` / the capacity gate / `items.add(drop, 1);` / `produced(drop);`): null tiles and null drops are skipped, a full item store blocks adds (checked against the running total).",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_state_result.items_add_called": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_state_result.items_add_called",
+      "status": "source-backed",
+      "java_expr": "items.add(drop, 1);",
+      "godot_symbol": "source_beam_drill_update_tile_state_result.items_add_called",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_state",
+      "rule": "Whether the items.add delegate was invoked (BeamDrill.java:257, `items.add(drop, 1);`): true when the items_add Callable is valid and at least one drop passed the capacity gate, false otherwise (the N2377 drawer_called precedent).",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_state_result.produced_called": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_state_result.produced_called",
+      "status": "source-backed",
+      "java_expr": "produced(drop);",
+      "godot_symbol": "source_beam_drill_update_tile_state_result.produced_called",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_state",
+      "rule": "Whether the produced delegate was invoked (BeamDrill.java:258, `produced(drop);`): true when the produced Callable is valid and at least one drop passed the capacity gate, false otherwise (the N2377 drawer_called precedent).",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
+    "source_beam_drill_update_tile_state_result.time": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_update_tile_state_result.time",
+      "status": "source-backed",
+      "java_expr": "time %= drillTime;",
+      "godot_symbol": "source_beam_drill_update_tile_state_result.time",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_state",
+      "rule": "The drill progress time after this tick (BeamDrill.java:261, `time %= drillTime;`): wrapped by modulo when the harvest gate fires, unchanged otherwise (the `time += edelta() * multiplier;` advance is N2155).",
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
     "source_beam_drill_version_write_read_state_result.time": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_version_write_read_state_result.time",
       "status": "source-backed",

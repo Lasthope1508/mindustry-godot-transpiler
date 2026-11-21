@@ -1500,6 +1500,30 @@
       ],
       "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof"
     },
+    "N2398": {
+      "canonical_ledger": "source_slice_ledger.N2398",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.updateTile()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_update_tile_state",
+      "source_symbols": [
+        "source_beam_drill_update_tile_state_result.drill_time",
+        "source_beam_drill_update_tile_state_result.boost_warmup",
+        "source_beam_drill_update_tile_state_result.time",
+        "source_beam_drill_update_tile_state_result.harvested",
+        "source_beam_drill_update_tile_state_result.get_drill_time_called",
+        "source_beam_drill_update_tile_state_result.items_add_called",
+        "source_beam_drill_update_tile_state_result.produced_called",
+        "source_beam_drill_update_tile_state_result.dump_called"
+      ],
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

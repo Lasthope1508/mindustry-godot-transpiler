@@ -76131,6 +76131,103 @@
       ],
       "runtime_proof": "/root/C07TurretUpdateTileDriverProof",
       "rule": "Source-backed TurretBuild.updateTile() remaining driver-tick legs from Turret.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_update_tile_state": {
+      "status": "active",
+      "source_slice": "N2398",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_update_tile_state_input.frame"
+        },
+        {
+          "name": "last_item",
+          "type": "Variant",
+          "schema": "source_beam_drill_update_tile_state_input.last_item"
+        },
+        {
+          "name": "boost_warmup",
+          "type": "float",
+          "schema": "source_beam_drill_update_tile_state_input.boost_warmup"
+        },
+        {
+          "name": "optional_efficiency",
+          "type": "float",
+          "schema": "source_beam_drill_update_tile_state_input.optional_efficiency"
+        },
+        {
+          "name": "time",
+          "type": "float",
+          "schema": "source_beam_drill_update_tile_state_input.time"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_beam_drill_update_tile_state_input.time_delta"
+        },
+        {
+          "name": "facing",
+          "type": "Array",
+          "schema": "source_beam_drill_update_tile_state_input.facing"
+        },
+        {
+          "name": "items_total",
+          "type": "int",
+          "schema": "source_beam_drill_update_tile_state_input.items_total"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_beam_drill_update_tile_state_input.item_capacity"
+        },
+        {
+          "name": "dump_ready",
+          "type": "bool",
+          "schema": "source_beam_drill_update_tile_state_input.dump_ready"
+        },
+        {
+          "name": "get_drill_time",
+          "type": "Callable",
+          "schema": "source_beam_drill_update_tile_state_input.get_drill_time"
+        },
+        {
+          "name": "items_add",
+          "type": "Callable",
+          "schema": "source_beam_drill_update_tile_state_input.items_add"
+        },
+        {
+          "name": "produced",
+          "type": "Callable",
+          "schema": "source_beam_drill_update_tile_state_input.produced"
+        },
+        {
+          "name": "dump",
+          "type": "Callable",
+          "schema": "source_beam_drill_update_tile_state_input.dump"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "drill_time",
+        "boost_warmup",
+        "time",
+        "harvested",
+        "get_drill_time_called",
+        "items_add_called",
+        "produced_called",
+        "dump_called"
+      ],
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof",
+      "rule": "Source-backed BeamDrill updateTile() facing-harvest + dump state from BeamDrill.java + BuildingComp.java + Mathf.java."
     }
   },
   "policy": {

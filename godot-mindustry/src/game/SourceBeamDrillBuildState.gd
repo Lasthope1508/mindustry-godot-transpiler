@@ -1321,3 +1321,142 @@ static func source_beam_drill_init_state(frame: Dictionary, range_value: int, ti
 		update_clip_radius.call(clip_radius)
 		update_clip_radius_called = true
 	return {"clip_radius": clip_radius, "update_clip_radius_called": update_clip_radius_called}
+
+@warning_ignore("unused_parameter")
+static func source_beam_drill_update_tile_state(frame: Dictionary, last_item: Variant, boost_warmup: float, optional_efficiency: float, time: float, time_delta: float, facing: Array, items_total: int, item_capacity: int, dump_ready: bool, get_drill_time: Callable, items_add: Callable, produced: Callable, dump: Callable) -> Dictionary:
+	# N2398 -- BeamDrillBuild.updateTile() (BeamDrill.java:237-265):
+	# `public void updateTile(){`
+	# `super.updateTile();`
+	# `if(lasers[0] == null) updateLasers();`
+	# `warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);`
+	# `updateFacing();`
+	# `float multiplier = Mathf.lerp(1f, optionalBoostIntensity, optionalEfficiency);`
+	# `float drillTime = getDrillTime(lastItem);`
+	# `boostWarmup = Mathf.lerpDelta(boostWarmup, optionalEfficiency, 0.1f);`
+	# `lastDrillSpeed = (facingAmount * multiplier * timeScale) / drillTime * efficiency;`
+	# `time += edelta() * multiplier;`
+	# `if(time >= drillTime){`
+	# `for(Tile tile : facing){`
+	# `Item drop = tile == null ? null : tile.wallDrop();`
+	# `if(items.total() < itemCapacity && drop != null){`
+	# `items.add(drop, 1);`
+	# `produced(drop);`
+	# `}`
+	# `}`
+	# `time %= drillTime;`
+	# `}`
+	# `if(timer(timerDump, dumpTime / timeScale)){`
+	# `dump();`
+	# `}`
+	# `}`
+	# on `public class BeamDrillBuild extends Building{`
+	# (BeamDrill.java:220) inside `public class BeamDrill
+	# extends Block{` (BeamDrill.java:25). This slice is
+	# the facing-harvest + dump half (the 10 exprs above
+	# from :247-248, :253-258, :261, :264). NOT this
+	# slice: `super.updateTile();` (generic, 8 hits
+	# local), `if(lasers[0] == null) updateLasers();` /
+	# `updateFacing();` (N2379), the warmup gate
+	# (`warmup = Mathf.approachDelta(...)`, :242), `float
+	# multiplier = ...` (:246), `lastDrillSpeed = ...`
+	# (:249), `time += edelta() * multiplier;` (:251)
+	# (all N2155), and the timer gate
+	# (`if(timer(timerDump, dumpTime / timeScale)){`,
+	# :263 -- N691/N2068/N2072/N2073/N2294, generic -- it
+	# arrives as the dump_ready bool, the timer result
+	# computed by the caller, the TractorBeam
+	# timer_target_ready precedent). getDrillTime is
+	# BeamDrill's own method (BeamDrill.java:216-218,
+	# `public float getDrillTime(Item item){` /
+	# `return drillTime / drillMultipliers.get(item,
+	# 1f);`, class default `public float drillTime =
+	# 200f;`, BeamDrill.java:39; plasma-bore 160f,
+	# large-plasma-bore 100f, Blocks.java:3038-3065) --
+	# NOT N2344's BurstDrill.getDrillTime (different
+	# class, same formula shape): it arrives as the
+	# explicit get_drill_time Callable (item name ->
+	# drill time), the drawPlace precedent. `Mathf.
+	# lerpDelta` is arc (Mathf.java:430-432, `public
+	# static float lerpDelta(float fromValue, float
+	# toValue, float progress){` / `return lerp(
+	# fromValue, toValue, clamp(progress * Time.delta));`
+	# `}`) -- the ported SourceMathState.source_lerp_
+	# delta helper (from, to, progress, delta) folds it,
+	# so time_delta (Time.delta) arrives as an explicit
+	# param. `wallDrop()` is Tile.java:575 (the block
+	# itemDrop when solid, else the wall-ore overlay
+	# drop, else null) -- the facing tiles arrive as the
+	# explicit facing Array of tile Dictionaries
+	# {"wall_drop": ...} or null (the N2379 updateFacing
+	# precedent), and wallDrop reads "wall_drop". `items.
+	# total()` / `items.add(drop, 1)` are the ItemModule
+	# engine API: the current total arrives as the
+	# explicit items_total int, the block capacity as
+	# item_capacity, and the add arrives as the explicit
+	# items_add Callable (the N2377 drawer precedent:
+	# guarded with is_valid(), invoked with .call(drop,
+	# 1)). The capacity gate is checked against a
+	# running total, not the frozen input: Java re-reads
+	# items.total() after each add inside the loop, so
+	# the running total grows by 1 per harvested drop
+	# and a drill that fills up mid-loop stops adding.
+	# `produced(drop)` is BuildingComp.java:1035-1037
+	# (`public void produced(Item item){` /
+	# `produced(item, 1);`) -- it arrives as the explicit
+	# produced Callable (guarded, .call(drop)). `dump()`
+	# is BuildingComp.java:1064-1066 (`public boolean
+	# dump(){` / `return dump(null);`) -- it arrives as
+	# the explicit dump Callable (guarded, .call()).
+	# `time` is the BeamDrillBuild field (`public float
+	# time;`, BeamDrill.java:225) shared with N2155 --
+	# taken in/out, NOT re-registered: the `time +=
+	# edelta() * multiplier;` advance is N2155, this
+	# slice only applies the `time %= drillTime;` wrap
+	# (fmod) when the harvest gate fires. `boostWarmup`
+	# is the field (`public float warmup, boostWarmup;`,
+	# BeamDrill.java:226) and `optionalEfficiency` is
+	# the BuildingComp field (`transient float
+	# optionalEfficiency;`, BuildingComp.java:87).
+	# An invalid get_drill_time Callable reports
+	# drill_time 0.0 and the harvest gate does not fire
+	# (no cadence source); an invalid items_add /
+	# produced / dump Callable is not called but the
+	# harvested drops still read through (the N2377
+	# drawer precedent). frame carries no live keys for
+	# this tick half -- it is the canonical first param
+	# of this family file. THIS is the driver-tick state
+	# function: the live loop drives it with synthetic
+	# frames in the proof (no live tick).
+	var get_drill_time_called: bool = false
+	var drill_time: float = 0.0
+	if get_drill_time.is_valid():
+		drill_time = float(get_drill_time.call(last_item))
+		get_drill_time_called = true
+	var boost_warmup_after: float = source_math_state.source_lerp_delta(boost_warmup, optional_efficiency, 0.1, time_delta)
+	var time_after: float = time
+	var harvested: Array = []
+	var items_add_called: bool = false
+	var produced_called: bool = false
+	var running_total: int = items_total
+	if get_drill_time_called and time >= drill_time:
+		for tile in facing:
+			var drop: Variant = null
+			if tile != null:
+				var tile_dict: Dictionary = tile
+				drop = tile_dict.get("wall_drop", null)
+			if running_total < item_capacity and drop != null:
+				if items_add.is_valid():
+					items_add.call(drop, 1)
+					items_add_called = true
+				if produced.is_valid():
+					produced.call(drop)
+					produced_called = true
+				harvested.append(drop)
+				running_total += 1
+		time_after = fmod(time, drill_time)
+	var dump_called: bool = false
+	if dump_ready:
+		if dump.is_valid():
+			dump.call()
+			dump_called = true
+	return {"drill_time": drill_time, "boost_warmup": boost_warmup_after, "time": time_after, "harvested": harvested, "get_drill_time_called": get_drill_time_called, "items_add_called": items_add_called, "produced_called": produced_called, "dump_called": dump_called}
