@@ -1,0 +1,33 @@
+# Báo cáo — N2522 Turret power-graph last-values stamp: 4 live keys into frame for N2519 dispatch (C07) [DONE + PUSHED]
+
+Ngày: 2026-11-21 ~19:49 +07 (proof xanh, đọc trực tiếp proof .json; targeted 4/4 xác minh bởi main thread), gate xong 20:22:11 +07, push ~20:35 +07.
+
+## Trạng thái
+
+- N2521 DONE + PUSHED (origin/main 716ff678).
+- N2522 DONE + PUSHED (slice TBD, docs TBD, GOAL TBD, status TBD, hashes TBD): turret driver tick stamp live power-graph last-values snapshot vào frame cho dispatch N2519 — 1 pure function mới `source_turret_power_graph_last_values_stamp_state` (SourceTurretBuildState.gd:159) + 1 call site trong `source_turret_tick_buildings_state` (:2444). Dispatch N2519 ngừng báo `handled:false` cho powerNet* khi live turret tick. **sense() frame ĐÓNG 12/12 key** — mọi leg sense() đã port (N2511–N2518) + dispatch wiring (N2519) + frame stamps (N2520 sense, N2521 items, N2522 graph) đều có live input ở tầng tick.
+
+## Làm được lượt này (GREEN + gate xong)
+
+- Hàm stamp ghi đúng 4 key, copy verbatim từ graph update mà live loop đã chạy trong tick này (`source_factory_update_power_graph_state`, SourceFactoryRuntimeState.gd:199, `update` là `update_state` output): `last_scaled_power_in` / `last_scaled_power_out` / `last_capacity` từ `update["balance_state"]`, `last_power_stored` từ `update["last_power_stored"]` (top-level cả hai branch). Một key chỉ được stamp KHI có mặt trong update: cheat branch `balance_state` là `{}` (Java return trước :233-236, PowerGraph.java:217-224) — scaled/capacity giữ absent, nhưng `last_power_stored` vẫn được stamp. Update rỗng `{}` → cả 4 key giữ absent — fallback N2519.
+- Call site :2444: ngay sau call N2521 items-stamp, đọc update đã lưu trên game (`power_graph_update`, khai báo trong SourcePortGameFactoryStatePortBridge.gd) — KHÔNG chạy lại update (NOT idempotent: nó ghi battery `power_status` về sprite metas, chạy lần hai sẽ charge/discharge LẠI) và KHÔNG recompute từ `game_runtime_state` (sẽ duplicate formula, và batteries của nó đọc status 0.0). Game không có stored update (proof gọi tick trực tiếp) đọc `{}` và stamp để keys absent.
+- Java gốc: `case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;` (BuildingComp.java:2113), powerNetOut :2114, powerNetStored :2115 (`getLastPowerStored()`), powerNetCapacity :2116 (`getLastCapacity()`); `PowerGraph.update()` :216-260 với `lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;` :233, `lastScaledPowerOut = powerNeeded / Time.delta;` :234, `lastCapacity = getTotalBatteryCapacity();` :235, `lastPowerStored = getBatteryStored();` :236.
+- Proof 8 keys semantic: matches:true, 11/11 true (8 semantic + registry_valid + one_headquarter_per_ssot + matches; đọc trực tiếp `C07TurretPowerGraphLastValuesStampProof.json`, mtime 12:49Z). 8 key: powerNetIn/Out/Stored/Capacity đọc đúng giá trị stamp; cheat branch giữ scaled/capacity absent nhưng vẫn cập nhật stored; sense + ammo + graph stamps compose; empty update giữ keys absent.
+- `register_c07_turret_power_graph_last_values_stamp.py --verify`: 17/17 (main thread xác minh lượt này). SSOT đo từ đĩa: 11710/1751/1684/3159 (symbols +1, Done +1, contracts +1, schemas +2 — đúng mẫu 1 hàm mới); comp slices 572, contracts 475 (+1/+1, N2522 vào comp shard — java_source BuildingComp.java, tiền lệ N2267/N2284/N2506/N2508/N2511–N2521); defense slices 210, contracts 209 không đổi. Deferred pool đo lại: row N2521 460 → row N2522 463, đúng 3 entry mới, 0 entry bị xóa (1 ghi 4 graph key STAMPED + 1 ghi per-graph split vẫn DEFERRED + 1 nợ Windows). Ledger N2522 status done, java_source BuildingComp.java, godot_owner `SourceTurretBuildState.source_turret_power_graph_last_values_stamp_state`.
+- Commit 1 gồm 13 file (9 sửa + 4 mới — main thread đã xác minh từ đĩa, đính chính brief lượt trước ghi sai "đúng 9 file"; đối chiếu mẫu N2521: slice commit f1c3c133 = 11 file = 7 sửa + 4 mới). Số slice N2522, KHÔNG phải N2285: N2285–N2505 đã có trên branch khác, `git log --all` max là N2521 (xác minh lượt scope). Lấy N2285 sẽ đụng khi merge.
+
+## Test xanh/đỏ
+
+- Xanh: targeted 4/4 (65 subtests — main thread xác minh lượt này); neighbours 271/271 passed trong 900.55s, 0 flake (NEIGHBOURS-EXIT 0 12:49:56Z, log `~/workspace/goals/mindustry-c06-factory-to-defense-work/hidden_files/n2522-neighbours.log`); wiring 32 tests OK trong 123.969s (WIRING-EXIT 0 12:52:00Z); `git diff --check` OK (1390 insertions, 20 deletions — 767/20 trên 9 file sửa + 623 dòng trên 4 file mới).
+- Gate: main thread launch bằng script gate-only-main.sh (PATH reset không có godot-bin). GATE-START 13:01:37Z, GATE-EXIT 1 13:22:11Z (log tools/mindustry_godot_transpiler/full-suite-n2522-gate.log, 168673 byte). Ran 6297 trong 1232.402s, failures=251, skipped=5 — xác minh độc lập lượt này (đếm theo FAIL block, không đếm substring): 251 FAIL = 250 × `AssertionError: unexpectedly None` thuần + 1 × `AssertionError: unexpectedly None : Godot required for hydration proof`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR, toàn Godot-absent (+4 tests / +1 failure đúng mẫu vs N2521 — đúng 4 test mới của N2522, +1 failure là reference-graph test của N2522, Godot-absent vì gate reset PATH không có godot-bin).
+- Đỏ: không có test đỏ ngoài 251 failure Godot-absent trong gate (mẫu đã biết). BÀI HỌC ĐẾM (nhắc lại từ N2520/N2521): chuỗi `Godot required for hydration proof` xuất hiện 2 lần nhưng cả 2 lần đều thuộc CÙNG 1 failure block (test_liquid_consumer_hydration.py:66 — dòng assert trong traceback + dòng AssertionError); hydration là HẰNG SỐ baseline (N2518 = 246 thuần + 1, N2519 = 247 + 1, N2520 = 248 + 1, N2521 = 249 + 1, N2522 = 250 + 1), không phải +1 của slice nào — đếm chuỗi sẽ nhân đôi, luôn đếm theo FAIL block + tên test.
+
+## Blocker
+
+- Không có blocker cho slice. Môi trường: không có VM restart mới trong lúc chain/gate (kiểm tra lượt này — chain/gate chạy 12:25–13:22Z liền mạch). Lượt sau vẫn kiểm tra lại javalang trước mọi gate theo quy tắc repo.
+
+## Bước tiếp theo
+
+- Push N2522 (slice + docs + GOAL + status + hashes, theo mẫu N2521).
+- Slice tiếp theo (N2523) cần scope mới từ backlog — kiểm tra `git log --all` trước khi chọn số (N2285–N2505 đã có trên branch khác). Ứng viên: per-graph split (building→graph lookup theo connectivity — chờ PowerGraph.addGraph merge port); compose SenseI leg (N2510) với dispatch ở caller (chờ logic-executor driver); `controlled()` live wiring (cần player unit — khi đó tick truyền live player camera value thay 0.0). calculateHeat vẫn BLOCKED (live entity scan); findTarget BLOCKED; LaserTurret shouldConsume cần bullets live list; validateTarget effective-team live wiring chờ findTarget slice.
+- Chi tiết: xem handoff docs/superpowers/handoffs/2026-11-21-c07-turret-power-graph-last-values-stamp-handoff.md.
