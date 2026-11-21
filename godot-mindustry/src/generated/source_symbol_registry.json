@@ -178056,6 +178056,54 @@
         "test_reference_graph_and_actual_c07_building_comp_sense_power_net_out"
       ],
       "runtime_proof": "/root/C07BuildingCompSensePowerNetOutProof"
+    },
+    "source_building_comp_sense_power_net_stored_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_power_net_stored_state",
+      "godot_symbol": "source_building_comp_sense_power_net_stored_state_result.handled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();",
+      "rule": "Whether the leg resolved to a logic-variable write (`case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();`, BuildingComp.java:2116): true always, because this function IS the powerNetStored leg and the sensor is fixed `powerNetStored`.",
+      "tests": [
+        "test_c07_building_comp_sense_power_net_stored_registration",
+        "test_all_c07_building_comp_sense_power_net_stored_input_evidence_is_exact",
+        "test_building_comp_sense_power_net_stored_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_power_net_stored"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetStoredProof"
+    },
+    "source_building_comp_sense_power_net_stored_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_power_net_stored_state",
+      "godot_symbol": "source_building_comp_sense_power_net_stored_state_result.sense_value",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();",
+      "rule": "The numeric value written to the logic variable (`case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();`, BuildingComp.java:2116): 0.0 when power is null, else `last_power_stored` exactly (NO `* 60` -- the stored value is an absolute amount, battery charge, not a per-tick rate; Java `sense()` returns double; the float widens exactly), no clamping, no rounding.",
+      "tests": [
+        "test_c07_building_comp_sense_power_net_stored_registration",
+        "test_all_c07_building_comp_sense_power_net_stored_input_evidence_is_exact",
+        "test_building_comp_sense_power_net_stored_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_power_net_stored"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetStoredProof"
+    },
+    "source_building_comp_sense_power_net_stored_state_result.sense_value_is_nan": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_power_net_stored_state",
+      "godot_symbol": "source_building_comp_sense_power_net_stored_state_result.sense_value_is_nan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); false always for the powerNetStored leg, which never yields NaN -- the key stays in the wire shape for consistency with N2283/N2284/N2511/N2512/N2513/N2514/N2515.",
+      "tests": [
+        "test_c07_building_comp_sense_power_net_stored_registration",
+        "test_all_c07_building_comp_sense_power_net_stored_input_evidence_is_exact",
+        "test_building_comp_sense_power_net_stored_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_power_net_stored"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetStoredProof"
     }
   },
   "version": 1

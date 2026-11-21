@@ -70778,6 +70778,38 @@
       ],
       "runtime_proof": "/root/C07BuildingCompSensePowerNetOutProof",
       "rule": "Source-backed BuildingComp.sense() powerNetOut leg from BuildingComp.java:2115 + PowerGraph.java:49-51."
+    },
+    "SourceTurretBuildState.source_building_comp_sense_power_net_stored_state": {
+      "status": "active",
+      "source_slice": "N2516",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "power_is_null",
+          "type": "bool",
+          "schema": "source_building_comp_sense_power_net_stored_state_input.power_is_null"
+        },
+        {
+          "name": "last_power_stored",
+          "type": "float",
+          "schema": "source_building_comp_sense_power_net_stored_state_input.last_power_stored"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_building_comp_sense_power_net_stored_registration",
+        "test_all_c07_building_comp_sense_power_net_stored_input_evidence_is_exact",
+        "test_building_comp_sense_power_net_stored_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_power_net_stored"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetStoredProof",
+      "rule": "Source-backed BuildingComp.sense() powerNetStored leg from BuildingComp.java:2116 + PowerGraph.java:73-75."
     }
   },
   "policy": {
