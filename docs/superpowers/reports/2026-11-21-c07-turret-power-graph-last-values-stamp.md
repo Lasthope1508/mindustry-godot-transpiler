@@ -5,7 +5,7 @@ Ngày: 2026-11-21 ~19:49 +07 (proof xanh, đọc trực tiếp proof .json; targ
 ## Trạng thái
 
 - N2521 DONE + PUSHED (origin/main 716ff678).
-- N2522 DONE + PUSHED (slice TBD, docs TBD, GOAL TBD, status TBD, hashes TBD): turret driver tick stamp live power-graph last-values snapshot vào frame cho dispatch N2519 — 1 pure function mới `source_turret_power_graph_last_values_stamp_state` (SourceTurretBuildState.gd:159) + 1 call site trong `source_turret_tick_buildings_state` (:2444). Dispatch N2519 ngừng báo `handled:false` cho powerNet* khi live turret tick. **sense() frame ĐÓNG 12/12 key** — mọi leg sense() đã port (N2511–N2518) + dispatch wiring (N2519) + frame stamps (N2520 sense, N2521 items, N2522 graph) đều có live input ở tầng tick.
+- N2522 DONE + PUSHED (slice a9cae2a9, docs 219f02e7, GOAL bf531fe2, status TBD, hashes TBD): turret driver tick stamp live power-graph last-values snapshot vào frame cho dispatch N2519 — 1 pure function mới `source_turret_power_graph_last_values_stamp_state` (SourceTurretBuildState.gd:159) + 1 call site trong `source_turret_tick_buildings_state` (:2444). Dispatch N2519 ngừng báo `handled:false` cho powerNet* khi live turret tick. **sense() frame ĐÓNG 12/12 key** — mọi leg sense() đã port (N2511–N2518) + dispatch wiring (N2519) + frame stamps (N2520 sense, N2521 items, N2522 graph) đều có live input ở tầng tick.
 
 ## Làm được lượt này (GREEN + gate xong)
 

@@ -1,6 +1,6 @@
 # Handoff — N2522 Turret power-graph last-values stamp: 4 live keys into the frame for N2519 dispatch (C07, duo) [DONE + PUSHED]
 
-## Status: DONE + PUSHED (slice TBD, docs TBD, GOAL TBD; cập nhật lượt cron 20:30 +07 — chain + gate xong GATE-EXIT 1 13:22:11Z, Ran 6297 trong 1232.402s, failures=251, skipped=5; xác minh độc lập: 251 FAIL = 250 × unexpectedly None thuần + 1 × unexpectedly None : Godot required for hydration proof (1 failure block pre-existing, chuỗi xuất hiện 2 lần trong cùng block), 0 KeyError, 0 return_schema_linkage, 0 ERROR, toàn Godot-absent). Neighbours 271/271 (0 flake), WIRING-EXIT 0 12:52:00Z; wiring XONG 32 tests OK. N2521 đã DONE + PUSHED (716ff678). Slice commit TBD, docs TBD, GOAL TBD, status TBD. Targeted 4/4 (65 subtests, main thread xác minh lượt này); register --verify 17/17; proof matches:true 11/11 (8 semantic keys, đọc trực tiếp proof .json); SSOT đo từ đĩa 11710/1751/1684/3159; `git diff --check` OK.
+## Status: DONE + PUSHED (slice a9cae2a9, docs 219f02e7, GOAL bf531fe2; cập nhật lượt cron 20:30 +07 — chain + gate xong GATE-EXIT 1 13:22:11Z, Ran 6297 trong 1232.402s, failures=251, skipped=5; xác minh độc lập: 251 FAIL = 250 × unexpectedly None thuần + 1 × unexpectedly None : Godot required for hydration proof (1 failure block pre-existing, chuỗi xuất hiện 2 lần trong cùng block), 0 KeyError, 0 return_schema_linkage, 0 ERROR, toàn Godot-absent). Neighbours 271/271 (0 flake), WIRING-EXIT 0 12:52:00Z; wiring XONG 32 tests OK. N2521 đã DONE + PUSHED (716ff678). Slice commit a9cae2a9, docs 219f02e7, GOAL bf531fe2, status TBD. Targeted 4/4 (65 subtests, main thread xác minh lượt này); register --verify 17/17; proof matches:true 11/11 (8 semantic keys, đọc trực tiếp proof .json); SSOT đo từ đĩa 11710/1751/1684/3159; `git diff --check` OK.
 
 - N2521 DONE + PUSHED ~19:07 +07, origin/main == HEAD == 716ff678.
 - **N2522 GREEN xong ~19:49 +07, lượt cron 20:30 +07**: turret
@@ -57,7 +57,7 @@
   minh từ đĩa, đính chính brief lượt trước ghi sai "đúng 9
   file"; đối chiếu mẫu N2521: slice commit f1c3c133 = 11 file =
   7 sửa + 4 mới).
-- **Gate xanh — commit + push theo mẫu 5 commit (slice TBD).**
+- **Gate xanh — commit + push theo mẫu 5 commit (slice a9cae2a9).**
 
 ## GATE — CHỈ MAIN THREAD LAUNCH (worker KHÔNG launch)
 
