@@ -250108,6 +250108,124 @@
       },
       "runtime_proof": "/root/C07TeamsDerelictProof",
       "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "source_payload_ammo_turret_init_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_init_state",
+      "source_slice": "N2396",
+      "keys": {
+        "content_blocks": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "for(var block : content.blocks()) displayContent(build, image, block);",
+          "rule": "The content blocks walked by build() (PayloadAmmoTurret.java:65, `for(var block : content.blocks()) displayContent(build, image, block);`): content.blocks() arrives as an explicit Array param (the N2330 param precedent); blocks are listed before units.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_init_state"
+          ]
+        },
+        "content_units": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "for(var unit : content.units()) displayContent(build, image, unit);",
+          "rule": "The content units walked by build() (PayloadAmmoTurret.java:66, `for(var unit : content.units()) displayContent(build, image, unit);`): content.units() arrives as an explicit Array param (the N2330 param precedent); units are listed after blocks.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_init_state"
+          ]
+        },
+        "filter": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "if(filter.get(content) && content.unlockedNow()){",
+          "rule": "The ConsumePayloadFilter predicate (PayloadAmmoTurret.java:72, `if(filter.get(content) && content.unlockedNow()){`): the `public Boolf<UnlockableContent> filter;` field (ConsumePayloadFilter.java) bound at construction to `i -> ammoTypes.containsKey(i)` (PayloadAmmoTurret.java:60) -- it arrives as an explicit Callable param, invoked with .call(content); an invalid callable closes the gate.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_init_state"
+          ]
+        },
+        "unlocked_now": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "if(filter.get(content) && content.unlockedNow()){",
+          "rule": "The per-content unlocked check (PayloadAmmoTurret.java:72, `if(filter.get(content) && content.unlockedNow()){`): `content.unlockedNow()` (UnlockableContent.java:273) arrives as an explicit Callable param, invoked with .call(content); an invalid callable closes the gate.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_init_state"
+          ]
+        },
+        "ui_icon": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "image.add(new ReqImage(new Image(content.uiIcon), () -> build instanceof PayloadTurretBuild it && !it.payloads.isEmpty() && it.currentAmmo() == content));",
+          "rule": "The per-content icon lookup (PayloadAmmoTurret.java:73, `image.add(new ReqImage(new Image(content.uiIcon), ...));`): `content.uiIcon` (UnlockableContent.java:46, `public TextureRegion uiIcon;`) arrives as an explicit Callable param, invoked with .call(content); an invalid callable yields an empty icon string.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_init_state"
+          ]
+        },
+        "is_payload_turret_build": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return build instanceof PayloadTurretBuild it && it.payloads.any() ? 1f : 0f;",
+          "rule": "Whether the build is a PayloadTurretBuild (PayloadAmmoTurret.java:81, `return build instanceof PayloadTurretBuild it && it.payloads.any() ? 1f : 0f;`): the `build instanceof PayloadTurretBuild it` pattern guard, passed as an explicit bool param.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_init_state"
+          ]
+        },
+        "payloads_any": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return build instanceof PayloadTurretBuild it && it.payloads.any() ? 1f : 0f;",
+          "rule": "Whether the payloads seq holds anything (PayloadAmmoTurret.java:81, `return build instanceof PayloadTurretBuild it && it.payloads.any() ? 1f : 0f;`): `it.payloads.any()` -- and the same fact as `!it.payloads.isEmpty()` in the ReqImage visibility lambda (PayloadAmmoTurret.java:73), since PayloadSeq.any() is total > 0 and isEmpty() is total == 0 (PayloadSeq.java:14-20) -- passed as one explicit bool param.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_init_state"
+          ]
+        },
+        "current_ammo": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "image.add(new ReqImage(new Image(content.uiIcon), () -> build instanceof PayloadTurretBuild it && !it.payloads.isEmpty() && it.currentAmmo() == content));",
+          "rule": "The live current ammo content (PayloadAmmoTurret.java:73, `... && it.currentAmmo() == content));`): currentAmmo() (N2358) arrives as an explicit param, NOT re-ported here; content refs are plain strings (content names), null when no ammo is held.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadAmmoTurretInitProof",
+      "rule": "Source-backed PayloadAmmoTurret.init() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_init_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_init_state",
+      "source_slice": "N2396",
+      "keys": {
+        "display_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "image.add(new ReqImage(new Image(content.uiIcon), () -> build instanceof PayloadTurretBuild it && !it.payloads.isEmpty() && it.currentAmmo() == content));",
+          "rule": "The displayed contents (PayloadAmmoTurret.java:73, `image.add(new ReqImage(new Image(content.uiIcon), ...));`): one entry per content passing filter and unlockedNow, in blocks-then-units order, each `{\"content\": name, \"ui_icon\": icon, \"visible\": bool}` -- visible is the ReqImage predicate `build instanceof PayloadTurretBuild it && !it.payloads.isEmpty() && it.currentAmmo() == content`; Table/MultiReqImage/ReqImage are NOT ported, this list is the frame.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_init_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return build instanceof PayloadTurretBuild it && it.payloads.any() ? 1f : 0f;",
+          "rule": "The consumer efficiency (PayloadAmmoTurret.java:81, `return build instanceof PayloadTurretBuild it && it.payloads.any() ? 1f : 0f;`): 1.0 exactly when the build is a PayloadTurretBuild with any payload, else 0.0 -- valid when there is any ammo in the turret.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadAmmoTurretInitProof",
+      "rule": "Source-backed PayloadAmmoTurret.init() state from PayloadAmmoTurret.java."
     }
   },
   "version": 1

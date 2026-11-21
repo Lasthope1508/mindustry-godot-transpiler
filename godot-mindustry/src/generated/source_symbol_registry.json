@@ -182616,6 +182616,38 @@
         "test_reference_graph_and_actual_c07_teams_derelict"
       ],
       "runtime_proof": "/root/C07TeamsDerelictProof"
+    },
+    "source_payload_ammo_turret_init_state_result.display_contents": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_init_state",
+      "godot_symbol": "source_payload_ammo_turret_init_state_result.display_contents",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurret.init()",
+      "java_expr": "image.add(new ReqImage(new Image(content.uiIcon), () -> build instanceof PayloadTurretBuild it && !it.payloads.isEmpty() && it.currentAmmo() == content));",
+      "rule": "The displayed contents (PayloadAmmoTurret.java:73, `image.add(new ReqImage(new Image(content.uiIcon), ...));`): one entry per content passing filter and unlockedNow, in blocks-then-units order, each `{\"content\": name, \"ui_icon\": icon, \"visible\": bool}` -- visible is the ReqImage predicate `build instanceof PayloadTurretBuild it && !it.payloads.isEmpty() && it.currentAmmo() == content`; Table/MultiReqImage/ReqImage are NOT ported, this list is the frame.",
+      "tests": [
+        "test_c07_payload_ammo_turret_init_registration",
+        "test_all_c07_payload_ammo_turret_init_input_evidence_is_exact",
+        "test_payload_ammo_turret_init_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_init"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretInitProof"
+    },
+    "source_payload_ammo_turret_init_state_result.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_init_state",
+      "godot_symbol": "source_payload_ammo_turret_init_state_result.efficiency",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurret.init()",
+      "java_expr": "return build instanceof PayloadTurretBuild it && it.payloads.any() ? 1f : 0f;",
+      "rule": "The consumer efficiency (PayloadAmmoTurret.java:81, `return build instanceof PayloadTurretBuild it && it.payloads.any() ? 1f : 0f;`): 1.0 exactly when the build is a PayloadTurretBuild with any payload, else 0.0 -- valid when there is any ammo in the turret.",
+      "tests": [
+        "test_c07_payload_ammo_turret_init_registration",
+        "test_all_c07_payload_ammo_turret_init_input_evidence_is_exact",
+        "test_payload_ammo_turret_init_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_init"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretInitProof"
     }
   },
   "version": 1

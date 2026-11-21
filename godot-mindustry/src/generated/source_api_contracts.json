@@ -75912,6 +75912,67 @@
       ],
       "runtime_proof": "/root/C07TeamsDerelictProof",
       "rule": "Source-backed TeamData derelict lifecycle state from Teams.java."
+    },
+    "PortGame.source_payload_ammo_turret_init_state": {
+      "status": "active",
+      "source_slice": "N2396",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurret.init()",
+      "params": [
+        {
+          "name": "content_blocks",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_init_state_input.content_blocks"
+        },
+        {
+          "name": "content_units",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_init_state_input.content_units"
+        },
+        {
+          "name": "filter",
+          "type": "Callable",
+          "schema": "source_payload_ammo_turret_init_state_input.filter"
+        },
+        {
+          "name": "unlocked_now",
+          "type": "Callable",
+          "schema": "source_payload_ammo_turret_init_state_input.unlocked_now"
+        },
+        {
+          "name": "ui_icon",
+          "type": "Callable",
+          "schema": "source_payload_ammo_turret_init_state_input.ui_icon"
+        },
+        {
+          "name": "is_payload_turret_build",
+          "type": "bool",
+          "schema": "source_payload_ammo_turret_init_state_input.is_payload_turret_build"
+        },
+        {
+          "name": "payloads_any",
+          "type": "bool",
+          "schema": "source_payload_ammo_turret_init_state_input.payloads_any"
+        },
+        {
+          "name": "current_ammo",
+          "type": "Variant",
+          "schema": "source_payload_ammo_turret_init_state_input.current_ammo"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "display_contents",
+        "efficiency"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_init_registration",
+        "test_all_c07_payload_ammo_turret_init_input_evidence_is_exact",
+        "test_payload_ammo_turret_init_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_init"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretInitProof",
+      "rule": "Source-backed PayloadAmmoTurret.init() state from PayloadAmmoTurret.java."
     }
   },
   "policy": {

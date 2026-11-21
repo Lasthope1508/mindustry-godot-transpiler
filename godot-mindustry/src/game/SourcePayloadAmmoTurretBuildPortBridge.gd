@@ -514,3 +514,66 @@ static func source_payload_ammo_turret_build_handle_payload_state(payload_conten
 	if payload_content != null:
 		updated_contents.append(payload_content)
 	return {"payload_contents": updated_contents}
+
+# PayloadAmmoTurret.init() (PayloadAmmoTurret.java:59-93):
+# `public void init(){`
+# `consume(new ConsumePayloadFilter(i -> ammoTypes.containsKey(i)){`
+# on `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). The anonymous
+# ConsumePayloadFilter overrides build(), efficiency() and
+# display(); displayContent() is its package-private helper:
+# `void displayContent(Building build, MultiReqImage image, UnlockableContent content){`
+# `if(filter.get(content) && content.unlockedNow()){`
+# `image.add(new ReqImage(new Image(content.uiIcon), () -> build instanceof PayloadTurretBuild it && !it.payloads.isEmpty() && it.currentAmmo() == content));`
+# `}`
+# `}`
+# (PayloadAmmoTurret.java:71-75). build() walks the content
+# lists in order, blocks first then units:
+# `for(var block : content.blocks()) displayContent(build, image, block);`
+# `for(var unit : content.units()) displayContent(build, image, unit);`
+# (PayloadAmmoTurret.java:65-66). efficiency() is the
+# any-payload gate:
+# `return build instanceof PayloadTurretBuild it && it.payloads.any() ? 1f : 0f;`
+# (PayloadAmmoTurret.java:81). display() is a no-op
+# comment (`//don't display`, PayloadAmmoTurret.java:86)
+# and owns no expr. `ammoKeys = ...`
+# (PayloadAmmoTurret.java:89) and `super.init();` are
+# already owned (N2358/N2363/N2368/N2371 and generic) and
+# are NOT re-registered here. The `filter` is the
+# ConsumePayloadFilter predicate (ConsumePayloadFilter.java,
+# `public Boolf<UnlockableContent> filter;`); `content`
+# is `Vars.content`, `content.uiIcon` is the
+# `public TextureRegion uiIcon;` field
+# (UnlockableContent.java:46), `content.unlockedNow()` is
+# UnlockableContent.java:273. `payloads` is
+# `public PayloadSeq payloads = new PayloadSeq();`
+# (PayloadAmmoTurret.java:95) on
+# `public class PayloadTurretBuild extends TurretBuild{`
+# (PayloadAmmoTurret.java:94). content.blocks/units arrive
+# as explicit Array params, filter/unlockedNow/uiIcon as
+# explicit Callable params (the N2330 param precedent);
+# Table/MultiReqImage/ReqImage/Stats are NOT ported -- the
+# result is frame data: the displayed list (content +
+# uiIcon + per-entry visibility) in blocks-then-units order
+# plus the efficiency value. payloads.any() and
+# !payloads.isEmpty() are the same fact (PayloadSeq.java:
+# 14-20, any() is `total > 0`, isEmpty() is `total == 0`),
+# so one payloads_any bool param stands for both the
+# efficiency gate and the ReqImage visibility lambda.
+# currentAmmo() (N2358) arrives as the explicit
+# current_ammo param, NOT re-ported. An invalid filter or
+# unlocked_now callable closes that gate (the entry is
+# excluded); an invalid ui_icon callable yields an empty
+# icon string (the entry is still listed). NO driver line:
+# init() registers the consumer once, it is not a per-tick
+# write -- the caller wiring waits for its own slice.
+static func source_payload_ammo_turret_init_state(content_blocks: Array, content_units: Array, filter: Callable, unlocked_now: Callable, ui_icon: Callable, is_payload_turret_build: bool, payloads_any: bool, current_ammo: Variant) -> Dictionary:
+	var display_contents: Array = []
+	for content in content_blocks:
+		if filter.is_valid() and bool(filter.call(content)) and unlocked_now.is_valid() and bool(unlocked_now.call(content)):
+			display_contents.append({"content": content, "ui_icon": str(ui_icon.call(content)) if ui_icon.is_valid() else "", "visible": is_payload_turret_build and payloads_any and current_ammo == content})
+	for content in content_units:
+		if filter.is_valid() and bool(filter.call(content)) and unlocked_now.is_valid() and bool(unlocked_now.call(content)):
+			display_contents.append({"content": content, "ui_icon": str(ui_icon.call(content)) if ui_icon.is_valid() else "", "visible": is_payload_turret_build and payloads_any and current_ammo == content})
+	var efficiency: float = 1.0 if is_payload_turret_build and payloads_any else 0.0
+	return {"display_contents": display_contents, "efficiency": efficiency}
