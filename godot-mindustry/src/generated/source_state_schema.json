@@ -245908,6 +245908,64 @@
       },
       "runtime_proof": "/root/C07PayloadTurretWriteReadProof",
       "rule": "Source-backed PayloadTurretBuild.write()+read() state from PayloadAmmoTurret.java."
+    },
+    "source_turret_draw_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_draw_state",
+      "source_slice": "N2377",
+      "keys": {
+        "drawer": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "drawer.draw(this);",
+          "rule": "The block-level drawer (Turret.java:477, `drawer.draw(this);`): the DrawBlock field (`public DrawBlock drawer = new DrawTurret();`, Turret.java:155, \"Defines drawing behavior for this turret.\") arrives as an explicit Callable param (the SourceBlockGeometry world_tile_lookup precedent: guarded with is_valid(), invoked with .call()); DrawTurret itself is NOT ported here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_state"
+          ]
+        },
+        "build": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "drawer.draw(this);",
+          "rule": "The turret build itself (Turret.java:477, `drawer.draw(this);`): the `this` the drawer draws -- the build state passed to the drawer, carried as an explicit Dictionary param (the N2334 drawSelect precedent: no frame, explicit params only).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretDrawProof",
+      "rule": "Source-backed Turret draw() row from Turret.java."
+    },
+    "source_turret_draw_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_draw_state",
+      "source_slice": "N2377",
+      "keys": {
+        "draw_delegated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "drawer.draw(this);",
+          "rule": "Whether draw() delegated to the drawer (Turret.java:477, `drawer.draw(this);`): always true -- the whole method is the delegation; the flag reads true even when the drawer callable is invalid (the call is skipped, the delegation is still the method behavior).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_state"
+          ]
+        },
+        "drawer_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "drawer.draw(this);",
+          "rule": "Whether the drawer callable was actually invoked (Turret.java:477, `drawer.draw(this);`): true when the drawer Callable is valid and was called with the build, false when the drawer is invalid (the SourceBlockGeometry is_valid() guard precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretDrawProof",
+      "rule": "Source-backed Turret draw() row from Turret.java."
     }
   },
   "version": 1

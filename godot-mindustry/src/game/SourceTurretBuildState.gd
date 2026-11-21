@@ -827,6 +827,29 @@ static func source_turret_draw_select_state(x: float, y: float, draw_min_range: 
 		return {"draw_min_range_circle": true, "center": Vector2(x, y), "radius": min_range, "color": team_color}
 	return {"draw_min_range_circle": false, "center": Vector2(x, y), "radius": 0.0, "color": team_color}
 
+# TurretBuild.draw() (Turret.java:476-478):
+# `public void draw(){`
+# `drawer.draw(this);`
+# `}`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277). The whole method is one line: it delegates the
+# draw to the block-level drawer (`public DrawBlock drawer = new DrawTurret();`,
+# Turret.java:155) -- the DrawBlock that draws the whole turret. The drawer arrives as an
+# explicit Callable param (the SourceBlockGeometry world_tile_lookup precedent: guarded
+# with is_valid(), invoked with .call()), NOT re-ported here;
+# DrawTurret itself is NOT ported. The build (`this`) arrives as
+# an explicit Dictionary param. NO driver tick line: draw() is a
+# render delegate, not per-tick state (the N2249/N2221 precedent).
+# This is a different method from N2334 drawSelect() (selection
+# UI, Turret.java:481-488) and from drawPlace() (Turret.java:252-253,
+# already ported as N1162 turret_draw_place.min_range).
+static func source_turret_draw_state(drawer: Callable, build: Dictionary) -> Dictionary:
+	var drawer_called: bool = false
+	if drawer.is_valid():
+		drawer.call(build)
+		drawer_called = true
+	return {"draw_delegated": true, "drawer_called": drawer_called}
+
 # TurretBuild.canControl() (Turret.java:376-378):
 # `public boolean canControl(){`
 # `return playerControllable;`

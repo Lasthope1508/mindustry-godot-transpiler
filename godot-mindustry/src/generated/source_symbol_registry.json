@@ -180776,6 +180776,38 @@
         "test_reference_graph_and_actual_c07_payload_turret_write_read"
       ],
       "runtime_proof": "/root/C07PayloadTurretWriteReadProof"
+    },
+    "source_turret_draw_state_result.draw_delegated": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_draw_state",
+      "godot_symbol": "source_turret_draw_state_result.draw_delegated",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.draw()",
+      "java_expr": "drawer.draw(this);",
+      "rule": "Whether draw() delegated to the drawer (Turret.java:477, `drawer.draw(this);`): always true -- the whole method is the delegation; the flag reads true even when the drawer callable is invalid (the call is skipped, the delegation is still the method behavior).",
+      "tests": [
+        "test_c07_turret_draw_registration",
+        "test_all_c07_turret_draw_input_evidence_is_exact",
+        "test_turret_draw_state",
+        "test_reference_graph_and_actual_c07_turret_draw"
+      ],
+      "runtime_proof": "/root/C07TurretDrawProof"
+    },
+    "source_turret_draw_state_result.drawer_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_draw_state",
+      "godot_symbol": "source_turret_draw_state_result.drawer_called",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.draw()",
+      "java_expr": "drawer.draw(this);",
+      "rule": "Whether the drawer callable was actually invoked (Turret.java:477, `drawer.draw(this);`): true when the drawer Callable is valid and was called with the build, false when the drawer is invalid (the SourceBlockGeometry is_valid() guard precedent).",
+      "tests": [
+        "test_c07_turret_draw_registration",
+        "test_all_c07_turret_draw_input_evidence_is_exact",
+        "test_turret_draw_state",
+        "test_reference_graph_and_actual_c07_turret_draw"
+      ],
+      "runtime_proof": "/root/C07TurretDrawProof"
     }
   },
   "version": 1

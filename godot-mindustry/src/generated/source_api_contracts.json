@@ -73822,6 +73822,37 @@
       ],
       "runtime_proof": "/root/C07PayloadTurretWriteReadProof",
       "rule": "Source-backed PayloadTurretBuild.write()+read() state from PayloadAmmoTurret.java."
+    },
+    "SourceTurretBuildState.source_turret_draw_state": {
+      "status": "active",
+      "source_slice": "N2377",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.draw()",
+      "params": [
+        {
+          "name": "drawer",
+          "type": "Callable",
+          "schema": "source_turret_draw_state_input.drawer"
+        },
+        {
+          "name": "build",
+          "type": "Dictionary",
+          "schema": "source_turret_draw_state_input.build"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "draw_delegated",
+        "drawer_called"
+      ],
+      "tests": [
+        "test_c07_turret_draw_registration",
+        "test_all_c07_turret_draw_input_evidence_is_exact",
+        "test_turret_draw_state",
+        "test_reference_graph_and_actual_c07_turret_draw"
+      ],
+      "runtime_proof": "/root/C07TurretDrawProof",
+      "rule": "Source-backed Turret draw() row from Turret.java."
     }
   },
   "policy": {
