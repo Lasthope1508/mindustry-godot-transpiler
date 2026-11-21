@@ -5,7 +5,7 @@ Ngày: 2026-11-21 ~23:34 +07 (proof xanh, đọc trực tiếp proof .json mtime
 ## Trạng thái
 
 - N2523 DONE + PUSHED (origin/main eff1a4b3).
-- N2524 DONE + PUSHED (slice 5b4d3ed4, docs 85b66637, GOAL ea731672, status TBD, hashes TBD): turret driver tick wire live `TurretBuild.shouldConsume()` gate vào consumption branch — 1 pure function mới `source_turret_should_consume_state` (SourceTurretBuildState.gd:338) + 1 call site trong `source_turret_tick_buildings_state` (:2537-2538). Gate thay dòng `should_consume=true when enabled` bằng predicate Java `isShooting || reloadCounter < reload`, để một turret có power consumer ngừng tiêu thụ điện khi vừa không bắn vừa đã nạp đầy.
+- N2524 DONE + PUSHED (slice 5b4d3ed4, docs 85b66637, GOAL ea731672, status ed9bdf54, hashes TBD): turret driver tick wire live `TurretBuild.shouldConsume()` gate vào consumption branch — 1 pure function mới `source_turret_should_consume_state` (SourceTurretBuildState.gd:338) + 1 call site trong `source_turret_tick_buildings_state` (:2537-2538). Gate thay dòng `should_consume=true when enabled` bằng predicate Java `isShooting || reloadCounter < reload`, để một turret có power consumer ngừng tiêu thụ điện khi vừa không bắn vừa đã nạp đầy.
 
 ## Làm được lượt này (GREEN + gate xong)
 
