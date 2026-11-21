@@ -1,0 +1,32 @@
+# Báo cáo — N2519 BuildingComp.sense() wiring: 8 legs vào dispatch (C07) [DONE + PUSHED]
+
+Ngày: 2026-11-21 ~15:00 +07 (GREEN), gate xong 16:08:03 +07, push ~16:3x +07.
+
+## Trạng thái
+
+- N2518 DONE + PUSHED (origin/main 5a8bca23).
+- N2519 DONE + PUSHED (slice f7db9a06, docs TBD, GOAL TBD, status TBD, hashes TBD): wiring TÁM leg `BuildingComp.sense()` đã port (N2511–N2518) vào big dispatch `source_building_comp_sense_state` (SourceTurretBuildState.gd:393, N2284) — dispatch ngừng báo `handled:false` cho các leg này khi live input có trong frame. Các leg: dead (:2098, N2511), health (:2101, N2512), totalItems (:2107, N2513), powerNetIn (:2114, N2514), powerNetOut (:2115, N2515), powerNetStored (:2116, N2516), powerNetCapacity (:2117, N2517), cameraX/Y/Width/Height (:2122, N2518). **sense() legs HOÀN TẤT cả ở tầng pure function lẫn tầng dispatch** — không còn leg nào `handled:false` vì chưa wiring. KHÔNG có driver tick (sense là logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506–N2518).
+
+## Làm được lượt này (GREEN + gate xong)
+
+- KHÔNG thêm pure function mới: wiring tái dùng 8 leg function đã port. Dispatch giữ nguyên signature 24 params (tiền lệ N2235): 12 frame key mới đọc qua `frame.get`/`frame.has` — `tile_build_is_self`, `is_dead`, `health`, `items_is_null`, `items_total`, `last_scaled_power_in`, `last_scaled_power_out`, `last_power_stored`, `last_capacity`, `is_control_block`, `unit_sense_value` (+ `has_power` đã có). Thiếu key → giữ `handled:false` + `sense_value: null` + `sense_value_is_nan: true` (fallback cũ, không đổi).
+- Nhánh mới trong dispatch: dead :494-497 (đủ 2 key → delegate `source_building_comp_sense_dead_state`); health :504-507 (key `health` → delegate `source_building_comp_sense_health_state`); totalItems :524-527 (2 key → delegate `source_building_comp_sense_total_items_state`); powerNet* :546-573 (fold `has_power == false` → 0.0 handled:true GIỮ NGUYÊN đầu nhánh; `has_power == true` + đủ graph key → delegate leg tương ứng, thiếu key → handled:false); camera* :575-578 (2 key → delegate `source_building_comp_sense_camera_state`). Comment trong dispatch cập nhật: dead/health/totalItems/camera* từ "deferred" → "wired (N2519)", powerNet* từ "report handled=false when present" → "read their own graph frame key when present".
+- Proof 15 keys semantic: matches:true, 18/18 true (15 semantic + registry_valid + one_headquarter_per_ssot + matches; đọc từ `C07BuildingCompSenseWiringProof.gd:83-156`, xác minh qua targeted run — test assert `proofs[0]['matches']` và từng key). 15 key: wiring_dead_alive_num (tile self + alive → 0.0); wiring_dead_dead_num (tile self + dead → 1.0); wiring_dead_not_self_num (tile không self → 1.0); wiring_health_num (250.0 → 250.0); wiring_total_items_num (items present, total 7 → 7.0); wiring_total_items_null_num (items null → 0.0); wiring_power_net_in_num (has_power + 2.5 → 150.0); wiring_power_net_out_num (has_power + 1.0 → 60.0); wiring_power_net_stored_num (has_power + 500.0 → 500.0); wiring_power_net_capacity_num (has_power + 1000.0 → 1000.0); wiring_camera_x_num (control block + 12.5 → 12.5); wiring_camera_y_not_control_num (không phải control block → 0.0); wiring_dead_absent_fallback (thiếu key → handled:false); wiring_power_net_in_absent_fallback (has_power true, thiếu graph key → handled:false); wiring_power_net_in_no_power_num (has_power=false fold → 0.0 handled:true).
+- `register_c07_building_comp_sense_wiring.py --verify`: 26/26 exprs present (xác minh độc lập lượt này). SSOT đo từ đĩa: 11707/1748/1681/3153 (symbols +0, Done +1, contracts +0, schemas +0 — wiring không thêm symbol/contract/schema mới, chỉ tái dùng leg function); comp slices 569, contracts 472 (+1/+0, N2519 vào comp shard — java_source BuildingComp.java, tiền lệ N2267/N2284/N2506/N2508/N2511–N2518); defense slices 210, contracts 209 không đổi. Đúng kỳ vọng scope.
+- Số slice N2519, KHÔNG phải N2285: N2285–N2505 đã có trên branch khác, `git log --all` max là N2518. Lấy N2285 sẽ đụng khi merge.
+
+## Test xanh/đỏ
+
+- Xanh: targeted 4/4 (88 subtests, 17.82s, xác minh độc lập lượt này — tự chạy lại, Godot trên PATH, port 7777 free); neighbours 259/259 (254 passed + 5 flake port-7777 re-run xanh 4/4 mỗi module trong 894.48s; NEIGHBOURS-START 08:16:09Z, NEIGHBOURS-EXIT 1 08:31:04Z, log hidden_files/n2519-chain.log + rerun hidden_files/n2519-neighbours-rerun.log); wiring 32 tests OK trong 125.463s (WIRING-START 08:31:04Z, WIRING-EXIT 0 08:33:10Z); `git diff --check` OK.
+- Gate: main-thread, script hidden_files/n2519-gate-only-main.sh (gate-only; PATH reset không có godot-bin). GATE-START 08:48:08Z, GATE-EXIT 1 09:08:03Z (log tools/mindustry_godot_transpiler/full-suite-n2519-gate.log, 166656 byte). Ran 6285 trong 1193.929s, failures=248, skipped=5 — xác minh độc lập: 248 FAIL = 247 × `AssertionError: unexpectedly None` + 1 × `AssertionError: unexpectedly None : Godot required for hydration proof`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR, toàn Godot-absent (+4 tests / +1 failure đúng mẫu vs N2518 — đúng 4 test mới của N2519, +1 failure là reference-graph test của N2519, Godot-absent vì gate reset PATH không có godot-bin).
+- Đỏ: không có test đỏ ngoài 248 failure Godot-absent trong gate (mẫu đã biết).
+
+## Blocker
+
+- Không có blocker cho slice. Môi trường: VM restart #17 lúc 05:41:54Z (PID1) — TRƯỚC chain (08:16Z), KHÔNG có restart trong lúc chain/gate; gate chạy sau restart và sống tới EXIT; javalang importable OK (xác minh lượt này); port 7777 free. Lượt sau vẫn kiểm tra lại javalang trước mọi gate theo quy tắc repo.
+
+## Bước tiếp theo
+
+- Push N2519 (slice + docs + GOAL + status + hashes, theo mẫu N2280–N2284/N2506–N2518).
+- Slice tiếp theo (N2520) cần scope mới từ backlog: `sense()` đã hoàn tất cả pure function lẫn dispatch wiring — các mục deferred tiếp theo trong BuildingComp hoặc wiring các sense leg vào live logic-executor driver tick (logic executor chưa có trong driver; wiring slice sẽ gọi `SourceUnitSensorState.laccess_state(sensor, unit_state, tilesize)` cho proxy unit và stamp live values vào frame keys mới của N2519). calculateHeat vẫn BLOCKED (live entity scan); findTarget BLOCKED; shootp live wiring cần logic executor; `controlled()` cần player unit; LaserTurret shouldConsume cần bullets live list; validateTarget effective-team live wiring chờ findTarget slice.
+- Chi tiết: xem handoff docs/superpowers/handoffs/2026-11-21-c07-building-comp-sense-wiring-handoff.md.
