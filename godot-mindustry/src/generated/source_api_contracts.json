@@ -72863,6 +72863,41 @@
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretCurrentAmmoProof",
       "rule": "Source-backed PayloadTurretBuild.currentAmmo() state from PayloadAmmoTurret.java."
+    },
+    "PortGame.source_laser_turret_build_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2360",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_laser_turret_build_should_consume_state_input.has_bullets"
+        },
+        {
+          "name": "is_active",
+          "type": "bool",
+          "schema": "source_laser_turret_build_should_consume_state_input.is_active"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_laser_turret_build_should_consume_state_input.is_shooting"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_laser_turret_should_consume_registration",
+        "test_all_c07_laser_turret_should_consume_input_evidence_is_exact",
+        "test_laser_turret_should_consume_state",
+        "test_reference_graph_and_actual_c07_laser_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07LaserTurretShouldConsumeProof",
+      "rule": "Source-backed LaserTurretBuild.shouldConsume() state from LaserTurret.java."
     }
   },
   "policy": {

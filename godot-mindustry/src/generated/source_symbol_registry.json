@@ -179880,6 +179880,22 @@
         "test_reference_graph_and_actual_c07_payload_ammo_turret_current_ammo"
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretCurrentAmmoProof"
+    },
+    "source_laser_turret_build_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_should_consume_state",
+      "godot_symbol": "source_laser_turret_build_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.shouldConsume()",
+      "java_expr": "return isShooting;",
+      "rule": "Whether the turret should consume power (LaserTurret.java:56, `return isShooting;`): true while a bullet is around or while active, otherwise the isShooting flag -- the fall-through return defines the result.",
+      "tests": [
+        "test_c07_laser_turret_should_consume_registration",
+        "test_all_c07_laser_turret_should_consume_input_evidence_is_exact",
+        "test_laser_turret_should_consume_state",
+        "test_reference_graph_and_actual_c07_laser_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07LaserTurretShouldConsumeProof"
     }
   },
   "version": 1

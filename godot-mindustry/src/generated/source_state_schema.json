@@ -243882,6 +243882,64 @@
       },
       "runtime_proof": "/root/C07PayloadAmmoTurretCurrentAmmoProof",
       "rule": "Source-backed PayloadTurretBuild.currentAmmo() state from PayloadAmmoTurret.java."
+    },
+    "source_laser_turret_build_should_consume_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_should_consume_state",
+      "source_slice": "N2360",
+      "keys": {
+        "has_bullets": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(bullets.any() || isActive()) return true;",
+          "rule": "Whether the bullets seq is non-empty, bullets.any() (LaserTurret.java:55): the seq itself is NOT ported -- its emptiness arrives as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_should_consume_state"
+          ]
+        },
+        "is_active": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(bullets.any() || isActive()) return true;",
+          "rule": "Whether the turret is active, isActive() (LaserTurret.java:55): owned at N2328, its value arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_should_consume_state"
+          ]
+        },
+        "is_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "return isShooting;",
+          "rule": "Whether the turret is shooting, isShooting (LaserTurret.java:56): owned at N2343, its value arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretShouldConsumeProof",
+      "rule": "Source-backed LaserTurretBuild.shouldConsume() state from LaserTurret.java."
+    },
+    "source_laser_turret_build_should_consume_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_should_consume_state",
+      "source_slice": "N2360",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "return isShooting;",
+          "rule": "Whether the turret should consume power (LaserTurret.java:56, `return isShooting;`): true while a bullet is around or while active, otherwise the isShooting flag -- the fall-through return defines the result.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretShouldConsumeProof",
+      "rule": "Source-backed LaserTurretBuild.shouldConsume() state from LaserTurret.java."
     }
   },
   "version": 1
