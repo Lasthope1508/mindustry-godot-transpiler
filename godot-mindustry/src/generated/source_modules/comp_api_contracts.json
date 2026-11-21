@@ -18542,6 +18542,39 @@
       "rule": "Source-backed BuildingComp.sense() health leg from BuildingComp.java:2101 + HealthComp.java:11.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_building_comp_sense_power_net_in_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_building_comp_sense_power_net_in_state",
+      "status": "active",
+      "source_slice": "N2514",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "power_is_null",
+          "type": "bool",
+          "schema": "source_building_comp_sense_power_net_in_state_input.power_is_null"
+        },
+        {
+          "name": "last_scaled_power_in",
+          "type": "float",
+          "schema": "source_building_comp_sense_power_net_in_state_input.last_scaled_power_in"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_building_comp_sense_power_net_in_registration",
+        "test_all_c07_building_comp_sense_power_net_in_input_evidence_is_exact",
+        "test_building_comp_sense_power_net_in_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_power_net_in"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetInProof",
+      "rule": "Source-backed BuildingComp.sense() powerNetIn leg from BuildingComp.java:2114 + PowerGraph.java:45-47.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_building_comp_sense_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_building_comp_sense_state",
       "status": "active",

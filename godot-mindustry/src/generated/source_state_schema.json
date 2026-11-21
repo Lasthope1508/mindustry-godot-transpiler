@@ -239594,6 +239594,74 @@
       },
       "runtime_proof": "/root/C07BuildingCompSenseTotalItemsProof",
       "rule": "Source-backed BuildingComp.sense() totalItems leg from BuildingComp.java:2107 + ItemModule.java:174."
+    },
+    "source_building_comp_sense_power_net_in_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_power_net_in_state",
+      "source_slice": "N2514",
+      "keys": {
+        "power_is_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;",
+          "rule": "Whether `power == null` (`case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;`, BuildingComp.java:2114, first branch of the ternary): the building has no power module (`@Nullable PowerModule power;`, BuildingComp.java:80); passed explicitly because the live graph values are not stamped in the frame yet (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_power_net_in_state"
+          ]
+        },
+        "last_scaled_power_in": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+          "java_expr": "public float getLastScaledPowerIn(){",
+          "rule": "The graph's last scaled power-in per tick (`public float getLastScaledPowerIn(){`, PowerGraph.java:45-47 -- returns float; updated :233 `lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta`): the value `case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;` (BuildingComp.java:2114) scales by 60 when power is not null; passed explicitly because the live graph values are not stamped in the frame yet (the N2212/N2220 per-def-param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_power_net_in_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetInProof",
+      "rule": "Source-backed BuildingComp.sense() powerNetIn leg from BuildingComp.java:2114 + PowerGraph.java:45-47."
+    },
+    "source_building_comp_sense_power_net_in_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_building_comp_sense_power_net_in_state",
+      "source_slice": "N2514",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;",
+          "rule": "Whether the leg resolved to a logic-variable write (`case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;`, BuildingComp.java:2114): true always, because this function IS the powerNetIn leg and the sensor is fixed `powerNetIn`.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_power_net_in_state"
+          ]
+        },
+        "sense_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;",
+          "rule": "The numeric value written to the logic variable (`case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;`, BuildingComp.java:2114): 0.0 when power is null, else `last_scaled_power_in * 60.0` exactly (the `* 60` converts the per-tick value to a per-second rate; Java `sense()` returns double; the float widens exactly), no clamping, no rounding.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_power_net_in_state"
+          ]
+        },
+        "sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); false always for the powerNetIn leg, which never yields NaN -- the key stays in the wire shape for consistency with N2283/N2284/N2511/N2512/N2513.",
+          "used_by": [
+            "SourceTurretBuildState.source_building_comp_sense_power_net_in_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetInProof",
+      "rule": "Source-backed BuildingComp.sense() powerNetIn leg from BuildingComp.java:2114 + PowerGraph.java:45-47."
     }
   },
   "version": 1

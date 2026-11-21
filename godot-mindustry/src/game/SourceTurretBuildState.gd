@@ -626,6 +626,45 @@ static func source_building_comp_sense_total_items_state(items_is_null: bool, it
 	var total_items_value: float = 0.0 if items_is_null else float(items_total)
 	return {"handled": true, "sense_value": total_items_value, "sense_value_is_nan": false}
 
+static func source_building_comp_sense_power_net_in_state(power_is_null: bool, last_scaled_power_in: float) -> Dictionary:
+	# BuildingComp.sense() `powerNetIn` leg (`public double sense(LAccess sensor){`,
+	# BuildingComp.java:2093-2126): `case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;`
+	# (:2114) -- `power` is the building's power module
+	# (`@Nullable PowerModule power;`, BuildingComp.java:80)
+	# and `power.graph.getLastScaledPowerIn()` the graph's
+	# last scaled power-in per tick (`public float getLastScaledPowerIn(){`,
+	# PowerGraph.java:45-47 -- returns float; updated :233
+	# `lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta`). The
+	# `* 60` converts the per-tick value to a per-second
+	# rate. The two params are the live input a future
+	# frame-stamp slice will supply (the N2212/N2220
+	# per-def-param precedent): the live graph values are
+	# not stamped in the frame yet, so `power_is_null` is
+	# `power == null` (:2114, first branch of the ternary)
+	# and `last_scaled_power_in` is
+	# `power.graph.getLastScaledPowerIn()`. The value is
+	# returned exactly: 0.0 when power is null, else
+	# `last_scaled_power_in * 60.0` (Java `sense()` returns
+	# double; the float widens exactly), no clamping, no
+	# rounding. The sensor spelling is the LAccess enum
+	# name: `powerNetIn,` (LAccess.java:16). The result is
+	# the N2283/N2284 sense wire shape: handled +
+	# sense_value + sense_value_is_nan; the leg never
+	# yields NaN (the default `default -> Float.NaN;
+	# //gets converted to null in logic`, :2123, never
+	# fires here). There is no driver tick line: the leg
+	# is a logic read, not a tick write (the
+	# N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509/N2510/N2511/N2512/N2513
+	# precedent); the proof calls the pure function
+	# directly with synthetic inputs. This does NOT wire
+	# into source_building_comp_sense_state: powerNetIn
+	# stays handled:false in the big dispatch until a
+	# later wiring slice connects this leg (same as
+	# N2511's dead leg, N2512's health leg and N2513's
+	# totalItems leg living beside N2284).
+	var power_net_in_value: float = 0.0 if power_is_null else last_scaled_power_in * 60.0
+	return {"handled": true, "sense_value": power_net_in_value, "sense_value_is_nan": false}
+
 static func source_turret_sense_object_state(sensor: String, block_id: String, first_item: String) -> Dictionary:
 	# BuildingComp.senseObject() (BuildingComp.java:2128-2136):
 	# `public Object senseObject(LAccess sensor){` /
