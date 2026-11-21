@@ -1,11 +1,11 @@
-# Báo cáo — N2524 Turret shouldConsume gate: live isShooting || reloadCounter < reload into consumption branch (C07) [DONE]
+# Báo cáo — N2524 Turret shouldConsume gate: live isShooting || reloadCounter < reload into consumption branch (C07) [DONE + PUSHED]
 
-Ngày: 2026-11-21 ~23:34 +07 (proof xanh, đọc trực tiếp proof .json mtime 17:17Z — .json được tạo lại bởi targeted re-run của main thread lượt này, nội dung vẫn matches:true 8/8; targeted 4/4 xác minh bởi main thread lượt này), gate xong 00:11:10 +07 ngày 2026-11-22, push TBD.
+Ngày: 2026-11-21 ~23:34 +07 (proof xanh, đọc trực tiếp proof .json mtime 17:17Z — .json được tạo lại bởi targeted re-run của main thread lượt này, nội dung vẫn matches:true 8/8; targeted 4/4 xác minh bởi main thread lượt này), gate xong 00:11:10 +07 ngày 2026-11-22, push ~00:30 +07.
 
 ## Trạng thái
 
 - N2523 DONE + PUSHED (origin/main eff1a4b3).
-- N2524 DONE (slice 5b4d3ed4, docs TBD, GOAL TBD, status TBD, hashes TBD): turret driver tick wire live `TurretBuild.shouldConsume()` gate vào consumption branch — 1 pure function mới `source_turret_should_consume_state` (SourceTurretBuildState.gd:338) + 1 call site trong `source_turret_tick_buildings_state` (:2537-2538). Gate thay dòng `should_consume=true when enabled` bằng predicate Java `isShooting || reloadCounter < reload`, để một turret có power consumer ngừng tiêu thụ điện khi vừa không bắn vừa đã nạp đầy.
+- N2524 DONE + PUSHED (slice 5b4d3ed4, docs 85b66637, GOAL ea731672, status TBD, hashes TBD): turret driver tick wire live `TurretBuild.shouldConsume()` gate vào consumption branch — 1 pure function mới `source_turret_should_consume_state` (SourceTurretBuildState.gd:338) + 1 call site trong `source_turret_tick_buildings_state` (:2537-2538). Gate thay dòng `should_consume=true when enabled` bằng predicate Java `isShooting || reloadCounter < reload`, để một turret có power consumer ngừng tiêu thụ điện khi vừa không bắn vừa đã nạp đầy.
 
 ## Làm được lượt này (GREEN + gate xong)
 
