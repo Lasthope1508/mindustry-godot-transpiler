@@ -73407,6 +73407,94 @@
       ],
       "runtime_proof": "/root/C07LaserTurretTurnToTargetHandleBulletProof",
       "rule": "Source-backed LaserTurretBuild.turnToTarget()/handleBullet() state from LaserTurret.java."
+    },
+    "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state": {
+      "status": "active",
+      "source_slice": "N2370",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.turnToTarget(float); ContinuousTurretBuild.handleBullet(Bullet, float, float, float)",
+      "params": [
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.rotation"
+        },
+        {
+          "name": "target_rot",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.target_rot"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.efficiency"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.rotate_speed"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.delta"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.y"
+        },
+        {
+          "name": "shoot_y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.shoot_y"
+        },
+        {
+          "name": "last_length",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.last_length"
+        },
+        {
+          "name": "bullet",
+          "type": "Variant",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.bullet"
+        },
+        {
+          "name": "offset_x",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.offset_x"
+        },
+        {
+          "name": "offset_y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.offset_y"
+        },
+        {
+          "name": "angle_offset",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.angle_offset"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation",
+        "bullet_entry",
+        "bullet_aim_x",
+        "bullet_aim_y"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_continuous_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_continuous_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof",
+      "rule": "Source-backed ContinuousTurretBuild.turnToTarget()/handleBullet() state from ContinuousTurret.java."
     }
   },
   "policy": {

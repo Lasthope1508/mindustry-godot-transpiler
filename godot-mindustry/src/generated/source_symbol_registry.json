@@ -180344,6 +180344,70 @@
         "test_reference_graph_and_actual_c07_laser_turret_turn_to_target_handle_bullet"
       ],
       "runtime_proof": "/root/C07LaserTurretTurnToTargetHandleBulletProof"
+    },
+    "source_continuous_turret_build_turn_to_target_handle_bullet_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_turn_to_target_handle_bullet_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.turnToTarget(float); ContinuousTurretBuild.handleBullet(Bullet, float, float, float)",
+      "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta());",
+      "rule": "The new rotation (ContinuousTurret.java:150, `rotation = Angles.moveToward(...);`): the wraparound moveToward result, snapped to targetRot when closer than the step.",
+      "tests": [
+        "test_c07_continuous_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_continuous_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_continuous_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof"
+    },
+    "source_continuous_turret_build_turn_to_target_handle_bullet_state_result.bullet_entry": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_turn_to_target_handle_bullet_state_result.bullet_entry",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.turnToTarget(float); ContinuousTurretBuild.handleBullet(Bullet, float, float, float)",
+      "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, 0f));",
+      "rule": "The BulletEntry dict (ContinuousTurret.java:157, `bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, 0f));`): {\"bullet\", \"x\", \"y\", \"rotation\", \"life\"} with life 0f for a non-null bullet, null otherwise -- the driver adds it to the bullets seq.",
+      "tests": [
+        "test_c07_continuous_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_continuous_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_continuous_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof"
+    },
+    "source_continuous_turret_build_turn_to_target_handle_bullet_state_result.bullet_aim_x": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_turn_to_target_handle_bullet_state_result.bullet_aim_x",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.turnToTarget(float); ContinuousTurretBuild.handleBullet(Bullet, float, float, float)",
+      "java_expr": "bullet.aimX = Tmp.v1.x;",
+      "rule": "The bullet aim x (ContinuousTurret.java:162, `bullet.aimX = Tmp.v1.x;`): Tmp.v1.trns(new rotation, shootY + lastLength).add(x, y) -- shares text with N851 (Weapon.handleBullet, different class), registered under this java_method per the N632-N639 precedent.",
+      "tests": [
+        "test_c07_continuous_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_continuous_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_continuous_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof"
+    },
+    "source_continuous_turret_build_turn_to_target_handle_bullet_state_result.bullet_aim_y": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_turn_to_target_handle_bullet_state_result.bullet_aim_y",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.turnToTarget(float); ContinuousTurretBuild.handleBullet(Bullet, float, float, float)",
+      "java_expr": "bullet.aimY = Tmp.v1.y;",
+      "rule": "The bullet aim y (ContinuousTurret.java:163, `bullet.aimY = Tmp.v1.y;`): Tmp.v1.trns(new rotation, shootY + lastLength).add(x, y) -- shares text with N851 (Weapon.handleBullet, different class), registered under this java_method per the N632-N639 precedent.",
+      "tests": [
+        "test_c07_continuous_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_continuous_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_continuous_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof"
     }
   },
   "version": 1

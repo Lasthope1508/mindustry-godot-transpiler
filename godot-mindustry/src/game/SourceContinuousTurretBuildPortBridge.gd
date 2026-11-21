@@ -219,3 +219,79 @@ static func source_continuous_turret_build_update_shooting_state(has_bullets: bo
 			shot = true
 			shot_ammo_type = ammo_type
 	return {"shot": shot, "ammo_type": shot_ammo_type}
+
+# ContinuousTurretBuild.turnToTarget() (ContinuousTurret.java:149-151):
+# `@Override`
+# `protected void turnToTarget(float targetRot){`
+# `rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta());`
+# `}`
+# ContinuousTurretBuild.handleBullet() (ContinuousTurret.java:154-164):
+# `@Override`
+# `protected void handleBullet(@Nullable Bullet bullet, float offsetX, float offsetY, float angleOffset){`
+# `if(bullet != null){`
+# `bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, 0f));`
+# `//make sure the length updates to the last set value`
+# `Tmp.v1.trns(rotation, shootY + lastLength).add(x, y);`
+# `bullet.aimX = Tmp.v1.x;`
+# `bullet.aimY = Tmp.v1.y;`
+# `}`
+# `}`
+# on `public class ContinuousTurretBuild extends TurretBuild{`
+# (ContinuousTurret.java:38) inside
+# `public class ContinuousTurret extends Turret{`.
+# This is the turn-and-hand-over step of the ContinuousTurret
+# tick: the tick turns rotation toward the target, then hands
+# the new bullet over as a BulletEntry -- one driver step,
+# hence one record, one symbol/owner, with BOTH java_method
+# names (the N2346/N2336 merged-slice precedent, same shape
+# as LaserTurret turnToTarget+handleBullet N2369).
+# Distinguishing Continuous from Laser (N2369): the turn step
+# here has NO firingMoveFract factor (LaserTurret.java:136
+# scales by `(bullets.any() ? firingMoveFract : 1f)`), the
+# entry life is 0f (not shootDuration), and the aim is
+# initialised from Tmp.v1 (shootY + lastLength) -- no dedup
+# between them. The two aim lines share text with N851
+# (Weapon.handleBullet, different class) -- registered under
+# this java_method (the N632-N639 vs N1078-N1085 precedent).
+# RED decisions: (1) Angles.moveToward is NOT re-ported: it
+# already exists as SourceMathState.source_angles_move_toward
+# (wraparound, snaps when closer than the step), called here
+# exactly as N2369 calls it. (2) delta() is the BuildingComp
+# callee (BuildingComp.java:1922-1924, `return Time.delta *
+# timeScale;`) -- its value arrives as the explicit delta
+# param, not re-ported. (3) shootY is the TurretBuild field
+# (Turret.java:66, default NEGATIVE_INFINITY, resolved to
+# size * tilesize / 2f at :206) -- the resolved value arrives
+# as the explicit shoot_y param. (4) lastLength is the
+# ContinuousTurretBuild field (ContinuousTurret.java:40,
+# default size * 4f, written by updateBullet N2366) -- its
+# value arrives as the explicit last_length param; read() is
+# NOT ported here (a later slice). (5) The bullets Seq is NOT
+# ported: the seq append itself is the driver-side effect, so
+# the pure function returns the entry dict (or null) and the
+# driver adds it. BulletEntry fields (Turret.java:864-875):
+# bullet/x/y/rotation/life, positional from the constructor
+# call: offsetX -> x, offsetY -> y, angleOffset -> rotation,
+# 0f -> life. (6) The aim uses the NEW rotation: in the tick
+# turnToTarget runs before handleBullet, so Tmp.v1.trns reads
+# the already-turned rotation -- the proof checks this
+# (aim_uses_new_rotation). (7) For a null bullet Java does
+# nothing at all: no entry and no aim update. The pure
+# function returns bullet_aim_x/y as 0.0 then, and they are
+# only meaningful when bullet_entry is non-null -- the driver
+# must not apply them otherwise. (8) NO driver line: the pure
+# function returns the frame the driver writes; the driver
+# tick that calls it per tick is a later slice. (9) The input
+# bullet Variant is never mutated: the result is a fresh
+# Dictionary built from read values.
+static func source_continuous_turret_build_turn_to_target_handle_bullet_state(rotation: float, target_rot: float, efficiency: float, rotate_speed: float, delta: float, x: float, y: float, shoot_y: float, last_length: float, bullet: Variant, offset_x: float, offset_y: float, angle_offset: float) -> Dictionary:
+	var new_rotation: float = source_math_state.source_angles_move_toward(rotation, target_rot, efficiency * rotate_speed * delta)
+	var bullet_entry: Variant = null
+	var bullet_aim_x: float = 0.0
+	var bullet_aim_y: float = 0.0
+	if bullet != null:
+		bullet_entry = {"bullet": bullet, "x": offset_x, "y": offset_y, "rotation": angle_offset, "life": 0.0}
+		var aim_end: Vector2 = Vector2(cos(deg_to_rad(new_rotation)), sin(deg_to_rad(new_rotation))) * (shoot_y + last_length) + Vector2(x, y)
+		bullet_aim_x = aim_end.x
+		bullet_aim_y = aim_end.y
+	return {"rotation": new_rotation, "bullet_entry": bullet_entry, "bullet_aim_x": bullet_aim_x, "bullet_aim_y": bullet_aim_y}

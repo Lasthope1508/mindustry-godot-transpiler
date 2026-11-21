@@ -245002,6 +245002,194 @@
       },
       "runtime_proof": "/root/C07LaserTurretTurnToTargetHandleBulletProof",
       "rule": "Source-backed LaserTurretBuild.turnToTarget()/handleBullet() state from LaserTurret.java."
+    },
+    "source_continuous_turret_build_turn_to_target_handle_bullet_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state",
+      "source_slice": "N2370",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta());",
+          "rule": "The current rotation, rotation (ContinuousTurret.java:150): the angle moveToward starts from.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "target_rot": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta());",
+          "rule": "The target rotation, targetRot (ContinuousTurret.java:149): the angle moveToward moves toward.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta());",
+          "rule": "The build efficiency, efficiency (ContinuousTurret.java:150): scales the turn step; zero efficiency does not turn.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta());",
+          "rule": "The rotate speed, rotateSpeed (ContinuousTurret.java:150): scales the turn step.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta());",
+          "rule": "The frame delta, delta() (ContinuousTurret.java:150, BuildingComp.java:1922-1924 `return Time.delta * timeScale;`): scales the turn step; its value arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "Tmp.v1.trns(rotation, shootY + lastLength).add(x, y);",
+          "rule": "The building x, x (ContinuousTurret.java:161): the aim point is offset from here.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "Tmp.v1.trns(rotation, shootY + lastLength).add(x, y);",
+          "rule": "The building y, y (ContinuousTurret.java:161): the aim point is offset from here.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "shoot_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "Tmp.v1.trns(rotation, shootY + lastLength).add(x, y);",
+          "rule": "The shoot Y offset, shootY (ContinuousTurret.java:161, Turret.java:66 default NEGATIVE_INFINITY, resolved at :206): the aim length base together with lastLength.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "last_length": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "Tmp.v1.trns(rotation, shootY + lastLength).add(x, y);",
+          "rule": "The last set aim length, lastLength (ContinuousTurret.java:161, :40 default size * 4f, written by updateBullet N2366): the aim length together with shootY; read() is NOT ported here.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "bullet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "if(bullet != null){",
+          "rule": "The bullet to hand over, bullet (ContinuousTurret.java:155-156): only a non-null bullet yields an entry.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "offset_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, 0f));",
+          "rule": "The bullet entry x offset, offsetX (ContinuousTurret.java:157): the BulletEntry x field (Turret.java:864-876).",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "offset_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, 0f));",
+          "rule": "The bullet entry y offset, offsetY (ContinuousTurret.java:157): the BulletEntry y field (Turret.java:864-876).",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "angle_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, 0f));",
+          "rule": "The bullet entry angle offset, angleOffset (ContinuousTurret.java:157): the BulletEntry rotation field (Turret.java:864-876).",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof",
+      "rule": "Source-backed ContinuousTurretBuild.turnToTarget()/handleBullet() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_turn_to_target_handle_bullet_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state",
+      "source_slice": "N2370",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta());",
+          "rule": "The new rotation (ContinuousTurret.java:150, `rotation = Angles.moveToward(...);`): the wraparound moveToward result, snapped to targetRot when closer than the step.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "bullet_entry": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, 0f));",
+          "rule": "The BulletEntry dict (ContinuousTurret.java:157, `bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, 0f));`): {\"bullet\", \"x\", \"y\", \"rotation\", \"life\"} with life 0f for a non-null bullet, null otherwise -- the driver adds it to the bullets seq.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "bullet_aim_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "bullet.aimX = Tmp.v1.x;",
+          "rule": "The bullet aim x (ContinuousTurret.java:162, `bullet.aimX = Tmp.v1.x;`): Tmp.v1.trns(new rotation, shootY + lastLength).add(x, y) -- shares text with N851 (Weapon.handleBullet, different class), registered under this java_method per the N632-N639 precedent.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "bullet_aim_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "bullet.aimY = Tmp.v1.y;",
+          "rule": "The bullet aim y (ContinuousTurret.java:163, `bullet.aimY = Tmp.v1.y;`): Tmp.v1.trns(new rotation, shootY + lastLength).add(x, y) -- shares text with N851 (Weapon.handleBullet, different class), registered under this java_method per the N632-N639 precedent.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof",
+      "rule": "Source-backed ContinuousTurretBuild.turnToTarget()/handleBullet() state from ContinuousTurret.java."
     }
   },
   "version": 1
