@@ -1,11 +1,11 @@
-# Báo cáo — N2523 Turret controlled frame stamp: live unit.isPlayer() key into frame for validate/isShooting/warmup (C07) [DONE]
+# Báo cáo — N2523 Turret controlled frame stamp: live unit.isPlayer() key into frame for validate/isShooting/warmup (C07) [DONE + PUSHED]
 
-Ngày: 2026-11-21 ~21:46 +07 (proof xanh, đọc trực tiếp proof .json mtime 14:46Z; targeted 4/4 xác minh bởi main thread lượt này, chạy lại 22:18 +07), gate xong 22:11:14 +07, push TBD.
+Ngày: 2026-11-21 ~21:46 +07 (proof xanh, đọc trực tiếp proof .json mtime 14:46Z; targeted 4/4 xác minh bởi main thread lượt này, chạy lại 22:18 +07), gate xong 22:11:14 +07, push ~22:35 +07.
 
 ## Trạng thái
 
 - N2522 DONE + PUSHED (origin/main 98e341aa).
-- N2523 DONE (slice 80bb3601, docs TBD, GOAL TBD, status TBD, hashes TBD): turret driver tick stamp live `controlled` key vào frame cho 3 reader đã đọc nó từ trước — 1 pure function mới `source_turret_controlled_stamp_state` (SourceTurretBuildState.gd:401) + 1 call site trong `source_turret_tick_buildings_state` (:2655, ngay trước validate). Ba reader ngừng đọc default absent: validateTarget (:2604, N2251), isShooting (:2623, N2277), warmup (:2649, N2253).
+- N2523 DONE + PUSHED (slice 80bb3601, docs fc96b411, GOAL 1850c9f9, status TBD, hashes TBD): turret driver tick stamp live `controlled` key vào frame cho 3 reader đã đọc nó từ trước — 1 pure function mới `source_turret_controlled_stamp_state` (SourceTurretBuildState.gd:401) + 1 call site trong `source_turret_tick_buildings_state` (:2655, ngay trước validate). Ba reader ngừng đọc default absent: validateTarget (:2604, N2251), isShooting (:2623, N2277), warmup (:2649, N2253).
 
 ## Làm được lượt này (GREEN + gate xong)
 
