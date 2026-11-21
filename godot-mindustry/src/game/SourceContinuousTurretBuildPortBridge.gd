@@ -355,3 +355,71 @@ static func source_continuous_turret_build_version_write_read_state(last_length:
 	if revision >= 3:
 		read_last_length = stored_last_length
 	return {"version": version, "write_last_length": write_last_length, "last_length": read_last_length}
+
+# ContinuousTurretBuild.estimateDps() (ContinuousTurret.java:43-46):
+# `@Override`
+# `public float estimateDps(){`
+# `if(!hasAmmo()) return 0f;`
+# `return shootType.damage * 60f / (shootType instanceof ContinuousBulletType c ? c.damageInterval : 5f);`
+# `}`
+# ContinuousTurretBuild.hasAmmo() (ContinuousTurret.java:60-62):
+# `@Override`
+# `public boolean hasAmmo(){`
+# `return canConsume();`
+# `}`
+# ContinuousTurretBuild.shouldActiveSound() (ContinuousTurret.java:166-168):
+# `@Override`
+# `public boolean shouldActiveSound(){`
+# `return bullets.any();`
+# `}`
+# on `public class ContinuousTurretBuild extends TurretBuild{`
+# (ContinuousTurret.java:38) inside
+# `public class ContinuousTurret extends Turret{`.
+# This is the ammo/sound-state record of the
+# ContinuousTurret build: estimateDps is 0 without ammo
+# and otherwise the shoot type damage per second over the
+# damage interval, hasAmmo is the consume gate, and
+# shouldActiveSound is true while any bullet flies. The
+# three methods share one concern and each carries only
+# one distinguishing expr, so they are one slice
+# (grouping approved by the main thread; the N2381/N2384/
+# N2386 three-method precedent). `return bullets.any();`
+# is registered HERE -- LaserTurretBuild.shouldActiveSound
+# (LaserTurret.java:152-154, byte-identical) is DEAD,
+# never scoped again (main-thread allocation, draft batch
+# 21 §2.2). The shared line `if(!hasAmmo()) return 0f;`
+# is evidence only (already owned by N2301, TurretBuild
+# .estimateDps): hasAmmo is the callee of this very slice
+# and arrives as the explicit has_ammo param.
+# RED decisions: (1) shootType.damage / damageInterval
+# are BulletType values (BulletType.java) -- they arrive
+# as explicit floats (the N2330 param precedent), never
+# re-ported; the pattern-matching ternary keeps its
+# branch in the port via the explicit
+# is_continuous_bullet_type param, defaulting to 5f when
+# the shoot type is not a ContinuousBulletType.
+# (2) canConsume() is the TurretBuild callee
+# (Turret.java:624-629) -- its value arrives as the
+# explicit can_consume param, not re-ported. (3) The
+# bullets Seq is NOT ported: it arrives as an explicit
+# Array (the N2330 param precedent); arc Seq.any() is
+# size > 0, so the port reads not bullets.is_empty().
+# (4) NO driver line: three pure functions the setup /
+# tick reads, not per-tick writes. (5) Three result
+# symbols: estimate_dps, has_ammo, should_active_sound.
+# (6) The input Array is never mutated: the result is a
+# fresh Dictionary built from read values.
+static func source_continuous_turret_build_estimate_dps_state(has_ammo: bool, shoot_type_damage: float, is_continuous_bullet_type: bool, damage_interval: float) -> Dictionary:
+	var estimate_dps: float = 0.0
+	if has_ammo:
+		var interval: float = damage_interval if is_continuous_bullet_type else 5.0
+		estimate_dps = shoot_type_damage * 60.0 / interval
+	return {"estimate_dps": estimate_dps}
+
+static func source_continuous_turret_build_has_ammo_state(can_consume: bool) -> Dictionary:
+	var has_ammo: bool = can_consume
+	return {"has_ammo": has_ammo}
+
+static func source_continuous_turret_build_should_active_sound_state(bullets: Array) -> Dictionary:
+	var should_active_sound: bool = not bullets.is_empty()
+	return {"should_active_sound": should_active_sound}

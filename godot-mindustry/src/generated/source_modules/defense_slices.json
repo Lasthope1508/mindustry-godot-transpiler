@@ -4250,6 +4250,25 @@
       ],
       "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof"
     },
+    "N2389": {
+      "canonical_ledger": "source_slice_ledger.N2389",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.estimateDps(); ContinuousTurretBuild.hasAmmo(); ContinuousTurretBuild.shouldActiveSound()",
+      "godot_owner": "PortGame.source_continuous_turret_build_estimate_dps_state",
+      "source_symbols": [
+        "source_continuous_turret_build_estimate_dps_state_result.estimate_dps",
+        "source_continuous_turret_build_has_ammo_state_result.has_ammo",
+        "source_continuous_turret_build_should_active_sound_state_result.should_active_sound"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_registration",
+        "test_all_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_input_evidence_is_exact",
+        "test_continuous_turret_estimate_dps_has_ammo_should_active_sound_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

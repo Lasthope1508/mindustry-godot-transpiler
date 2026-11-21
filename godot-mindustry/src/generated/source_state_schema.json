@@ -248336,6 +248336,150 @@
       },
       "runtime_proof": "/root/C07BeamDrillSetStatsProof",
       "rule": "Source-backed BeamDrill setStats() state from BeamDrill.java + Blocks.java + StatValues.java + StatUnit.java + Stat.java + ConsumeLiquidBase.java + Block.java + Consume.java + bundle.properties."
+    },
+    "source_continuous_turret_build_estimate_dps_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_estimate_dps_state",
+      "source_slice": "N2389",
+      "keys": {
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "if(!hasAmmo()) return 0f;",
+          "rule": "Whether the build has ammo, hasAmmo() (ContinuousTurret.java:44, `if(!hasAmmo()) return 0f;`): the callee of this very slice -- true when canConsume() holds (ContinuousTurret.java:60-62) -- false forces a 0f estimate.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_estimate_dps_state"
+          ]
+        },
+        "shoot_type_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return shootType.damage * 60f / (shootType instanceof ContinuousBulletType c ? c.damageInterval : 5f);",
+          "rule": "The shoot type damage, shootType.damage (ContinuousTurret.java:45, `return shootType.damage * 60f / (shootType instanceof ContinuousBulletType c ? c.damageInterval : 5f);`): BulletType.damage -- the per-shot damage, scaled to per-second by 60f.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_estimate_dps_state"
+          ]
+        },
+        "is_continuous_bullet_type": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return shootType.damage * 60f / (shootType instanceof ContinuousBulletType c ? c.damageInterval : 5f);",
+          "rule": "Whether the shoot type is a ContinuousBulletType, shootType instanceof ContinuousBulletType c (ContinuousTurret.java:45): true selects the type damageInterval, false selects the 5f default.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_estimate_dps_state"
+          ]
+        },
+        "damage_interval": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return shootType.damage * 60f / (shootType instanceof ContinuousBulletType c ? c.damageInterval : 5f);",
+          "rule": "The damage interval, c.damageInterval (ContinuousTurret.java:45): ContinuousBulletType.damageInterval -- the seconds between damage ticks; only read when the shoot type is a ContinuousBulletType.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_estimate_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_estimate_dps_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_estimate_dps_state",
+      "source_slice": "N2389",
+      "keys": {
+        "estimate_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return shootType.damage * 60f / (shootType instanceof ContinuousBulletType c ? c.damageInterval : 5f);",
+          "rule": "The estimated damage per second (ContinuousTurret.java:45, `return shootType.damage * 60f / (shootType instanceof ContinuousBulletType c ? c.damageInterval : 5f);`): 0f without ammo, else shootType.damage * 60f over the damage interval (5f default).",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_estimate_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_has_ammo_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_has_ammo_state",
+      "source_slice": "N2389",
+      "keys": {
+        "can_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return canConsume();",
+          "rule": "Whether the build can consume, canConsume() (ContinuousTurret.java:61, `return canConsume();`): the TurretBuild callee (Turret.java:624-629) -- the consume gate, false when the turret cannot consume.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_has_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_has_ammo_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_has_ammo_state",
+      "source_slice": "N2389",
+      "keys": {
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return canConsume();",
+          "rule": "Whether the build has ammo (ContinuousTurret.java:61, `return canConsume();`): true exactly when the build can consume -- ContinuousTurret spends nothing directly, so ammo is the consume gate.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_has_ammo_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_should_active_sound_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_should_active_sound_state",
+      "source_slice": "N2389",
+      "keys": {
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return bullets.any();",
+          "rule": "The flying bullets, bullets (ContinuousTurret.java:167, `return bullets.any();`): the ContinuousTurretBuild bullets Seq (ContinuousTurret.java:39) as an explicit Array of BulletEntry dicts -- only its emptiness is read, never mutated.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_should_active_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_should_active_sound_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_should_active_sound_state",
+      "source_slice": "N2389",
+      "keys": {
+        "should_active_sound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return bullets.any();",
+          "rule": "Whether the active sound should play (ContinuousTurret.java:167, `return bullets.any();`): true exactly when at least one bullet is flying -- arc Seq.any() is size > 0.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_should_active_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
     }
   },
   "version": 1

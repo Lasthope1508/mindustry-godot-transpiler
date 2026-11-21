@@ -1095,6 +1095,47 @@
       "runtime_proof": "/root/Main.source_continuous_liquid_turret_set_stats_state",
       "rule": "Public runtime contract for ContinuousLiquidTurret.setStats state; ObjectMap/StatValues internals stay deferred."
     },
+    "PortGame.source_continuous_turret_build_estimate_dps_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_estimate_dps_state",
+      "status": "active",
+      "source_slice": "N2389",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.estimateDps()",
+      "params": [
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.has_ammo"
+        },
+        {
+          "name": "shoot_type_damage",
+          "type": "float",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.shoot_type_damage"
+        },
+        {
+          "name": "is_continuous_bullet_type",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.is_continuous_bullet_type"
+        },
+        {
+          "name": "damage_interval",
+          "type": "float",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.damage_interval"
+        }
+      ],
+      "return_keys": [
+        "estimate_dps"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_registration",
+        "test_all_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_input_evidence_is_exact",
+        "test_continuous_turret_estimate_dps_has_ammo_should_active_sound_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_continuous_turret_build_get_ammo_fraction_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_get_ammo_fraction_state",
       "status": "active",

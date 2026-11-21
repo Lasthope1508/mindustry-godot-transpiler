@@ -181816,6 +181816,54 @@
         "test_reference_graph_and_actual_c07_beam_drill_set_stats"
       ],
       "runtime_proof": "/root/C07BeamDrillSetStatsProof"
+    },
+    "source_continuous_turret_build_estimate_dps_state_result.estimate_dps": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_estimate_dps_state",
+      "godot_symbol": "source_continuous_turret_build_estimate_dps_state_result.estimate_dps",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.estimateDps()",
+      "java_expr": "return shootType.damage * 60f / (shootType instanceof ContinuousBulletType c ? c.damageInterval : 5f);",
+      "rule": "The estimated damage per second (ContinuousTurret.java:45, `return shootType.damage * 60f / (shootType instanceof ContinuousBulletType c ? c.damageInterval : 5f);`): 0f without ammo, else shootType.damage * 60f over the damage interval (5f default).",
+      "tests": [
+        "test_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_registration",
+        "test_all_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_input_evidence_is_exact",
+        "test_continuous_turret_estimate_dps_has_ammo_should_active_sound_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof"
+    },
+    "source_continuous_turret_build_has_ammo_state_result.has_ammo": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_has_ammo_state",
+      "godot_symbol": "source_continuous_turret_build_has_ammo_state_result.has_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.hasAmmo()",
+      "java_expr": "return canConsume();",
+      "rule": "Whether the build has ammo (ContinuousTurret.java:61, `return canConsume();`): true exactly when the build can consume -- ContinuousTurret spends nothing directly, so ammo is the consume gate.",
+      "tests": [
+        "test_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_registration",
+        "test_all_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_input_evidence_is_exact",
+        "test_continuous_turret_estimate_dps_has_ammo_should_active_sound_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof"
+    },
+    "source_continuous_turret_build_should_active_sound_state_result.should_active_sound": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_should_active_sound_state",
+      "godot_symbol": "source_continuous_turret_build_should_active_sound_state_result.should_active_sound",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.shouldActiveSound()",
+      "java_expr": "return bullets.any();",
+      "rule": "Whether the active sound should play (ContinuousTurret.java:167, `return bullets.any();`): true exactly when at least one bullet is flying -- arc Seq.any() is size > 0.",
+      "tests": [
+        "test_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_registration",
+        "test_all_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_input_evidence_is_exact",
+        "test_continuous_turret_estimate_dps_has_ammo_should_active_sound_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof"
     }
   },
   "version": 1

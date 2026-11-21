@@ -75036,6 +75036,96 @@
       ],
       "runtime_proof": "/root/C07BeamDrillSetStatsProof",
       "rule": "Source-backed BeamDrill setStats() state from BeamDrill.java + Blocks.java + StatValues.java + StatUnit.java + Stat.java + ConsumeLiquidBase.java + Block.java + Consume.java + bundle.properties."
+    },
+    "PortGame.source_continuous_turret_build_estimate_dps_state": {
+      "status": "active",
+      "source_slice": "N2389",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.estimateDps()",
+      "params": [
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.has_ammo"
+        },
+        {
+          "name": "shoot_type_damage",
+          "type": "float",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.shoot_type_damage"
+        },
+        {
+          "name": "is_continuous_bullet_type",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.is_continuous_bullet_type"
+        },
+        {
+          "name": "damage_interval",
+          "type": "float",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.damage_interval"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "estimate_dps"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_registration",
+        "test_all_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_input_evidence_is_exact",
+        "test_continuous_turret_estimate_dps_has_ammo_should_active_sound_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
+    },
+    "PortGame.source_continuous_turret_build_has_ammo_state": {
+      "status": "active",
+      "source_slice": "N2389",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.hasAmmo()",
+      "params": [
+        {
+          "name": "can_consume",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_has_ammo_state_input.can_consume"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "has_ammo"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_registration",
+        "test_all_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_input_evidence_is_exact",
+        "test_continuous_turret_estimate_dps_has_ammo_should_active_sound_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
+    },
+    "PortGame.source_continuous_turret_build_should_active_sound_state": {
+      "status": "active",
+      "source_slice": "N2389",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.shouldActiveSound()",
+      "params": [
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_continuous_turret_build_should_active_sound_state_input.bullets"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_active_sound"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_registration",
+        "test_all_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_input_evidence_is_exact",
+        "test_continuous_turret_estimate_dps_has_ammo_should_active_sound_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java."
     }
   },
   "policy": {
