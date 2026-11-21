@@ -71,3 +71,94 @@ static func source_continuous_turret_build_update_tile_state(bullets: Array, rec
 	var next_heat: float = 1.0 if was_shooting else heat
 	var next_cur_recoil: float = recoil if was_shooting else cur_recoil
 	return {"bullets": pruned, "was_shooting": was_shooting, "heat": next_heat, "cur_recoil": next_cur_recoil}
+
+# ContinuousTurretBuild.updateBullet() (ContinuousTurret.java:102-130):
+# `protected void updateBullet(BulletEntry entry){`
+# `float`
+# `bulletX = x + Angles.trnsx(rotation - 90, shootX + entry.x, shootY + entry.y),`
+# `bulletY = y + Angles.trnsy(rotation - 90, shootX + entry.x, shootY + entry.y),`
+# `angle = rotation + entry.rotation;`
+# `entry.bullet.rotation(angle);`
+# `entry.bullet.set(bulletX, bulletY);`
+# `//target length of laser`
+# `float shootLength = Math.min(dst(targetPos), range);`
+# `//current length of laser`
+# `float curLength = dst(entry.bullet.aimX, entry.bullet.aimY);`
+# `//resulting length of the bullet (smoothed)`
+# `float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed);`
+# `//actual aim end point based on length`
+# `Tmp.v1.trns(rotation, lastLength = resultLength).add(x, y);`
+# `entry.bullet.aimX = Tmp.v1.x;`
+# `entry.bullet.aimY = Tmp.v1.y;`
+# `if(scaleDamageEfficiency){`
+# `entry.bullet.damage = entry.bullet.type.damage * Math.min(efficiency, 1f) * timeScale * entry.bullet.damageMultiplier();`
+# `}`
+# `if(isShooting && hasAmmo()){`
+# `entry.bullet.time = entry.bullet.lifetime * entry.bullet.type.optimalLifeFract * Math.min(shootWarmup, efficiency);`
+# `entry.bullet.keepAlive = true;`
+# `}`
+# `}`
+# on `public class ContinuousTurretBuild extends TurretBuild{`
+# (ContinuousTurret.java:38) inside
+# `public class ContinuousTurret extends Turret{`.
+# This is the per-bullet half of the ContinuousTurret tick:
+# N2362 (updateTile) prunes the bullets seq and calls this
+# for each survivor; this slice moves one surviving bullet
+# to its rotated muzzle offset, re-aims its laser end point
+# toward the target with a smoothed length, and refreshes
+# its damage / lifetime while the turret is shooting.
+# RED decisions: (1) Angles.trnsx/trnsy here are the
+# THREE-arg overloads (Angles.java:74-79): they rotate the
+# (shootX + entry.x, shootY + entry.y) offset vector by
+# rotation - 90 degrees -- NOT the len overloads -- so the
+# offset is Vector2(...).rotated(deg_to_rad(rotation - 90)).
+# (2) dst(targetPos) is the distance from the building (x, y)
+# to targetPos, and dst(aimX, aimY) the distance from (x, y)
+# to the bullet aim point -- both are Vector2.distance_to
+# here. (3) Mathf.approachDelta(from, to, speed) is
+# approach(from, to, Time.delta * speed) (Mathf.java:420-422),
+# so Time.delta arrives as the explicit source_delta param
+# (the N2330 param precedent); the step is computed inline,
+# exactly SourceMathState.source_approach_delta. aimChangeSpeed
+# defaults to Float.POSITIVE_INFINITY (ContinuousTurret.java:17),
+# so with delta > 0 the length snaps to shootLength in one tick.
+# (4) The resultLength line shares text with N866 (Weapon.update
+# continuous laser aim, same text in a different method) --
+# registered under this java_method (the N632-N639 vs N1078-N1085
+# precedent); flagged for the main thread, see register.
+# (5) entry arrives as a Dictionary {x, y, rotation, bullet} and
+# bullet as {aim_x, aim_y, damage, time, lifetime, type_damage,
+# type_optimal_life_fract, damage_multiplier}: BulletEntry (Turret.java:864-875),
+# BulletType.damage / lifetime / optimalLifeFract and
+# Bullet.damageMultiplier() (BulletComp.java:95) are NOT re-ported,
+# their values arrive as explicit fields (the N2330 param precedent).
+# (6) isShooting / hasAmmo() are state / callee already owned
+# (N2343 isShooting, N2313 hasAmmo) -- explicit bool params, not
+# re-ported. (7) lastLength is the ContinuousTurretBuild field
+# (ContinuousTurret.java:40) assigned here, returned as last_length.
+# (8) NO driver line: the pure function returns the frame the
+# driver writes; the driver tick that calls it per tick is a later
+# slice. (9) The input dicts are never mutated: the result is a
+# fresh Dictionary built from read values.
+static func source_continuous_turret_build_update_bullet_state(entry: Dictionary, x: float, y: float, rotation: float, shoot_x: float, shoot_y: float, target_pos_x: float, target_pos_y: float, range_value: float, aim_change_speed: float, scale_damage_efficiency: bool, efficiency: float, time_scale: float, shoot_warmup: float, is_shooting: bool, has_ammo: bool, source_delta: float) -> Dictionary:
+	var bullet: Dictionary = entry.get("bullet", {})
+	var entry_x: float = float(entry.get("x", 0.0))
+	var entry_y: float = float(entry.get("y", 0.0))
+	var entry_rotation: float = float(entry.get("rotation", 0.0))
+	var offset: Vector2 = Vector2(shoot_x + entry_x, shoot_y + entry_y).rotated(deg_to_rad(rotation - 90.0))
+	var bullet_x: float = x + offset.x
+	var bullet_y: float = y + offset.y
+	var angle: float = rotation + entry_rotation
+	var shoot_length: float = minf(Vector2(x, y).distance_to(Vector2(target_pos_x, target_pos_y)), range_value)
+	var cur_length: float = Vector2(x, y).distance_to(Vector2(float(bullet.get("aim_x", 0.0)), float(bullet.get("aim_y", 0.0))))
+	var result_length: float = cur_length + clampf(shoot_length - cur_length, -source_delta * aim_change_speed, source_delta * aim_change_speed)
+	var aim_end: Vector2 = Vector2(cos(deg_to_rad(rotation)), sin(deg_to_rad(rotation))) * result_length + Vector2(x, y)
+	var bullet_damage: float = float(bullet.get("damage", 0.0))
+	if scale_damage_efficiency:
+		bullet_damage = float(bullet.get("type_damage", 0.0)) * minf(efficiency, 1.0) * time_scale * float(bullet.get("damage_multiplier", 1.0))
+	var bullet_time: float = float(bullet.get("time", 0.0))
+	var bullet_keep_alive: bool = false
+	if is_shooting and has_ammo:
+		bullet_time = float(bullet.get("lifetime", 0.0)) * float(bullet.get("type_optimal_life_fract", 0.0)) * minf(shoot_warmup, efficiency)
+		bullet_keep_alive = true
+	return {"bullet_x": bullet_x, "bullet_y": bullet_y, "bullet_angle": angle, "bullet_aim_x": aim_end.x, "bullet_aim_y": aim_end.y, "bullet_damage": bullet_damage, "bullet_time": bullet_time, "bullet_keep_alive": bullet_keep_alive, "last_length": result_length, "shoot_length": shoot_length, "cur_length": cur_length, "result_length": result_length}

@@ -73129,6 +73129,122 @@
       ],
       "runtime_proof": "/root/C07TeamsEachEnemyCoreProof",
       "rule": "Source-backed Teams.eachEnemyCore() state from Teams.java."
+    },
+    "PortGame.source_continuous_turret_build_update_bullet_state": {
+      "status": "active",
+      "source_slice": "N2366",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.updateBullet()",
+      "params": [
+        {
+          "name": "entry",
+          "type": "Dictionary",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.entry"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.rotation"
+        },
+        {
+          "name": "shoot_x",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.shoot_x"
+        },
+        {
+          "name": "shoot_y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.shoot_y"
+        },
+        {
+          "name": "target_pos_x",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.target_pos_x"
+        },
+        {
+          "name": "target_pos_y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.target_pos_y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.range_value"
+        },
+        {
+          "name": "aim_change_speed",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.aim_change_speed"
+        },
+        {
+          "name": "scale_damage_efficiency",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.scale_damage_efficiency"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.efficiency"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.time_scale"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.shoot_warmup"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.is_shooting"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.has_ammo"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.source_delta"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bullet_x",
+        "bullet_y",
+        "bullet_angle",
+        "bullet_aim_x",
+        "bullet_aim_y",
+        "bullet_damage",
+        "bullet_time",
+        "bullet_keep_alive",
+        "last_length",
+        "shoot_length",
+        "cur_length",
+        "result_length"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof",
+      "rule": "Source-backed ContinuousTurretBuild.updateBullet() state from ContinuousTurret.java."
     }
   },
   "policy": {

@@ -3955,6 +3955,34 @@
       ],
       "runtime_proof": "/root/C07LaserTurretUpdateShootingProof"
     },
+    "N2366": {
+      "canonical_ledger": "source_slice_ledger.N2366",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "source_symbols": [
+        "source_continuous_turret_build_update_bullet_state_result.bullet_x",
+        "source_continuous_turret_build_update_bullet_state_result.bullet_y",
+        "source_continuous_turret_build_update_bullet_state_result.bullet_angle",
+        "source_continuous_turret_build_update_bullet_state_result.bullet_aim_x",
+        "source_continuous_turret_build_update_bullet_state_result.bullet_aim_y",
+        "source_continuous_turret_build_update_bullet_state_result.bullet_damage",
+        "source_continuous_turret_build_update_bullet_state_result.bullet_time",
+        "source_continuous_turret_build_update_bullet_state_result.bullet_keep_alive",
+        "source_continuous_turret_build_update_bullet_state_result.last_length",
+        "source_continuous_turret_build_update_bullet_state_result.shoot_length",
+        "source_continuous_turret_build_update_bullet_state_result.cur_length",
+        "source_continuous_turret_build_update_bullet_state_result.result_length"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

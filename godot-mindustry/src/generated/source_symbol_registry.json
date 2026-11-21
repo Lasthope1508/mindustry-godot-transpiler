@@ -180072,6 +180072,198 @@
         "test_reference_graph_and_actual_c07_teams_each_enemy_core"
       ],
       "runtime_proof": "/root/C07TeamsEachEnemyCoreProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.bullet_x": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.bullet_x",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "entry.bullet.set(bulletX, bulletY);",
+      "rule": "The bullet x after the tick (ContinuousTurret.java:109, `entry.bullet.set(bulletX, bulletY);`): the building x plus the (shootX + entry.x, shootY + entry.y) offset rotated by rotation - 90.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.bullet_y": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.bullet_y",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "entry.bullet.set(bulletX, bulletY);",
+      "rule": "The bullet y after the tick (ContinuousTurret.java:109): the building y plus the rotated offset y.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.bullet_angle": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.bullet_angle",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "entry.bullet.rotation(angle);",
+      "rule": "The bullet rotation after the tick (ContinuousTurret.java:108, `entry.bullet.rotation(angle);`): rotation + entry.rotation.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.bullet_aim_x": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.bullet_aim_x",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "entry.bullet.aimX = Tmp.v1.x;",
+      "rule": "The bullet aimX after the tick (ContinuousTurret.java:119, `entry.bullet.aimX = Tmp.v1.x;`): x plus cos(rotation) * resultLength.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.bullet_aim_y": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.bullet_aim_y",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "entry.bullet.aimY = Tmp.v1.y;",
+      "rule": "The bullet aimY after the tick (ContinuousTurret.java:120, `entry.bullet.aimY = Tmp.v1.y;`): y plus sin(rotation) * resultLength.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.bullet_damage": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.bullet_damage",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "entry.bullet.damage = entry.bullet.type.damage * Math.min(efficiency, 1f) * timeScale * entry.bullet.damageMultiplier();",
+      "rule": "The bullet damage after the tick (ContinuousTurret.java:122): type.damage * min(efficiency, 1f) * timeScale * damageMultiplier() when scaleDamageEfficiency, otherwise the input damage unchanged.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.bullet_time": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.bullet_time",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "entry.bullet.time = entry.bullet.lifetime * entry.bullet.type.optimalLifeFract * Math.min(shootWarmup, efficiency);",
+      "rule": "The bullet time after the tick (ContinuousTurret.java:127): lifetime * type.optimalLifeFract * min(shootWarmup, efficiency) when isShooting and hasAmmo, otherwise the input time unchanged.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.bullet_keep_alive": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.bullet_keep_alive",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "entry.bullet.keepAlive = true;",
+      "rule": "Whether the bullet is kept alive this tick (ContinuousTurret.java:128, `entry.bullet.keepAlive = true;`): true exactly when isShooting and hasAmmo.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.last_length": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.last_length",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "Tmp.v1.trns(rotation, lastLength = resultLength).add(x, y);",
+      "rule": "The lastLength field after the tick (ContinuousTurret.java:40, `lastLength = resultLength` inside the trns call at :117): the smoothed laser length.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.shoot_length": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.shoot_length",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "float shootLength = Math.min(dst(targetPos), range);",
+      "rule": "The target laser length (ContinuousTurret.java:112): min(distance from the building to targetPos, range).",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.cur_length": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.cur_length",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "float curLength = dst(entry.bullet.aimX, entry.bullet.aimY);",
+      "rule": "The current laser length (ContinuousTurret.java:114): distance from the building to the bullet aim point before smoothing.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
+    },
+    "source_continuous_turret_build_update_bullet_state_result.result_length": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_bullet_state",
+      "godot_symbol": "source_continuous_turret_build_update_bullet_state_result.result_length",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateBullet()",
+      "java_expr": "float resultLength = Mathf.approachDelta(curLength, shootLength, aimChangeSpeed);",
+      "rule": "The resulting laser length (ContinuousTurret.java:116): curLength moved toward shootLength by source_delta * aimChangeSpeed.",
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof"
     }
   },
   "version": 1
