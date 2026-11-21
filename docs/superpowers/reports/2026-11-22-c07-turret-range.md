@@ -5,7 +5,7 @@ Ngày: 2026-11-22 ~04:31 +07 (proof xanh, đọc trực tiếp proof .json mtime
 ## Trạng thái
 
 - N2525 DONE + PUSHED (origin/main 6faf7e09).
-- N2526 DONE + PUSHED (slice cf949d7a, docs 97dc8203, GOAL 057295b4, status TBD, hashes TBD): port 3 accessor `range()` / `minRange()` / `trackingRange()` của `TurretBuild` thành 1 pure function mới `source_turret_range_state` (SourceTurretBuildState.gd:443) cho Turret family — KHÔNG driver tick call site (frame chưa stamp `range`/`min_range`/`tracking_range` live; các consumer findTarget/aim là slice sau). Hàm nhận 7 tham số (frame, range_value, min_range, tracking_range, has_peek_ammo, range_change, min_range_change), trả đúng 3 key `range` / `min_range` / `tracking_range`.
+- N2526 DONE + PUSHED (slice cf949d7a, docs 97dc8203, GOAL 057295b4, status 5321486f, hashes TBD): port 3 accessor `range()` / `minRange()` / `trackingRange()` của `TurretBuild` thành 1 pure function mới `source_turret_range_state` (SourceTurretBuildState.gd:443) cho Turret family — KHÔNG driver tick call site (frame chưa stamp `range`/`min_range`/`tracking_range` live; các consumer findTarget/aim là slice sau). Hàm nhận 7 tham số (frame, range_value, min_range, tracking_range, has_peek_ammo, range_change, min_range_change), trả đúng 3 key `range` / `min_range` / `tracking_range`.
 
 ## Làm được lượt này (GREEN + gate xong)
 

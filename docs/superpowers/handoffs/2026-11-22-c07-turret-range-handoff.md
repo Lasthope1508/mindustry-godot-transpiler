@@ -1,6 +1,6 @@
 # Handoff — N2526 Turret `range()` / `minRange()` / `trackingRange()` accessors: pure function cho Turret family (C07) [DONE]
 
-## Status: DONE + PUSHED (gate lượt 4 xanh theo mẫu Godot-absent, xác minh độc lập lượt cron 05:00 +07 ngày 2026-11-22; slice cf949d7a, docs 97dc8203, GOAL 057295b4, status TBD)
+## Status: DONE + PUSHED (gate lượt 4 xanh theo mẫu Godot-absent, xác minh độc lập lượt cron 05:00 +07 ngày 2026-11-22; slice cf949d7a, docs 97dc8203, GOAL 057295b4, status 5321486f)
 
 - N2525 DONE + PUSHED ~02:22 +07 ngày 2026-11-22, origin/main == HEAD == 6faf7e09
   (5 commit: slice c4fb3409 + docs 5e5dc8e5 + GOAL 71d79b2c + status 6eff12f9 + hashes 6faf7e09).
