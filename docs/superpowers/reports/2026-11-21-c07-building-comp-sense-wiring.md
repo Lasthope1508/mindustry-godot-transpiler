@@ -5,7 +5,7 @@ Ngày: 2026-11-21 ~15:00 +07 (GREEN), gate xong 16:08:03 +07, push ~16:3x +07.
 ## Trạng thái
 
 - N2518 DONE + PUSHED (origin/main 5a8bca23).
-- N2519 DONE + PUSHED (slice f7db9a06, docs TBD, GOAL TBD, status TBD, hashes TBD): wiring TÁM leg `BuildingComp.sense()` đã port (N2511–N2518) vào big dispatch `source_building_comp_sense_state` (SourceTurretBuildState.gd:393, N2284) — dispatch ngừng báo `handled:false` cho các leg này khi live input có trong frame. Các leg: dead (:2098, N2511), health (:2101, N2512), totalItems (:2107, N2513), powerNetIn (:2114, N2514), powerNetOut (:2115, N2515), powerNetStored (:2116, N2516), powerNetCapacity (:2117, N2517), cameraX/Y/Width/Height (:2122, N2518). **sense() legs HOÀN TẤT cả ở tầng pure function lẫn tầng dispatch** — không còn leg nào `handled:false` vì chưa wiring. KHÔNG có driver tick (sense là logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506–N2518).
+- N2519 DONE + PUSHED (slice f7db9a06, docs f5be1814, GOAL 4cd99a05, status TBD, hashes TBD): wiring TÁM leg `BuildingComp.sense()` đã port (N2511–N2518) vào big dispatch `source_building_comp_sense_state` (SourceTurretBuildState.gd:393, N2284) — dispatch ngừng báo `handled:false` cho các leg này khi live input có trong frame. Các leg: dead (:2098, N2511), health (:2101, N2512), totalItems (:2107, N2513), powerNetIn (:2114, N2514), powerNetOut (:2115, N2515), powerNetStored (:2116, N2516), powerNetCapacity (:2117, N2517), cameraX/Y/Width/Height (:2122, N2518). **sense() legs HOÀN TẤT cả ở tầng pure function lẫn tầng dispatch** — không còn leg nào `handled:false` vì chưa wiring. KHÔNG có driver tick (sense là logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506–N2518).
 
 ## Làm được lượt này (GREEN + gate xong)
 
