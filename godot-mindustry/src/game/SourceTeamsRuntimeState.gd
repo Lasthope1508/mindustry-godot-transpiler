@@ -1337,3 +1337,44 @@ static func source_teams_default_constructor_state(teams_state: Dictionary, crux
 	active.append(crux_team_id)
 	teams_state["active"] = active
 	return {"team_data": data, "active": teams_state.get("active", []), "teams_state": teams_state}
+
+
+static func source_teams_destroy_payload_state(build: Variant, has_unit_payload: bool, take_payload: Callable, dump_payload: Callable, kill_unit: Callable) -> Dictionary:
+	# Teams.destroyPayload (Teams.java:483-488):
+	# `@Remote(called = Loc.server, unreliable = true)`
+	# `public static void destroyPayload(Building build){`
+	# `if(build != null && build.getPayload() instanceof UnitPayload && build.takePayload() instanceof UnitPayload unit){`
+	# `unit.dump();`
+	# `unit.unit.killed();`
+	# `}`
+	# `}`
+	# @Remote is transport metadata (Call.destroyPayload),
+	# NOT behavior: the annotation is recorded in the
+	# register note only, never as a distinguishing expr
+	# (main-thread decision 2026-11-22, batch 25 slot 3).
+	# Building is not ported: it arrives as the build
+	# Variant (null when absent). `build.getPayload()
+	# instanceof UnitPayload` arrives as the
+	# has_unit_payload bool. takePayload() returns the
+	# same payload getPayload() saw, so its `instanceof
+	# UnitPayload unit` is the payload-is-Dictionary
+	# check below -- the taken payload must be a record
+	# with a "unit" key. `unit.dump()` arrives as the
+	# dump_payload Callable (payload); `unit.unit.killed()`
+	# arrives as the kill_unit Callable (unit). No packet
+	# is ever sent; the frame records which payload was
+	# destroyed, which payloads were dumped and which
+	# units were killed.
+	var destroyed_payload: Variant = null
+	var dumped_payloads: Array = []
+	var killed_units: Array = []
+	if build != null and has_unit_payload:
+		var payload: Variant = take_payload.call(build)
+		if payload is Dictionary and (payload as Dictionary).has("unit"):
+			destroyed_payload = payload
+			dump_payload.call(payload)
+			dumped_payloads.append(payload)
+			var unit: Variant = (payload as Dictionary).get("unit", null)
+			kill_unit.call(unit)
+			killed_units.append(unit)
+	return {"destroyed_payload": destroyed_payload, "dumped_payloads": dumped_payloads, "killed_units": killed_units}

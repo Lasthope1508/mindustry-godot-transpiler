@@ -76374,6 +76374,53 @@
       ],
       "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof",
       "rule": "Source-backed BeamDrill() ctor field defaults from BeamDrill.java + Block.java + BlockFlag.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_destroy_payload_state": {
+      "status": "active",
+      "source_slice": "N2402",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.destroyPayload()",
+      "params": [
+        {
+          "name": "build",
+          "type": "Variant",
+          "schema": "source_teams_destroy_payload_state_input.build"
+        },
+        {
+          "name": "has_unit_payload",
+          "type": "bool",
+          "schema": "source_teams_destroy_payload_state_input.has_unit_payload"
+        },
+        {
+          "name": "take_payload",
+          "type": "Callable",
+          "schema": "source_teams_destroy_payload_state_input.take_payload"
+        },
+        {
+          "name": "dump_payload",
+          "type": "Callable",
+          "schema": "source_teams_destroy_payload_state_input.dump_payload"
+        },
+        {
+          "name": "kill_unit",
+          "type": "Callable",
+          "schema": "source_teams_destroy_payload_state_input.kill_unit"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "destroyed_payload",
+        "dumped_payloads",
+        "killed_units"
+      ],
+      "tests": [
+        "test_c07_teams_destroy_payload_registration",
+        "test_all_c07_teams_destroy_payload_input_evidence_is_exact",
+        "test_teams_destroy_payload_state",
+        "test_reference_graph_and_actual_c07_teams_destroy_payload"
+      ],
+      "runtime_proof": "/root/C07TeamsDestroyPayloadProof",
+      "rule": "Source-backed Teams destroyPayload() state from Teams.java."
     }
   },
   "policy": {

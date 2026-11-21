@@ -183400,6 +183400,54 @@
         "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
       ],
       "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof"
+    },
+    "source_teams_destroy_payload_state_result.destroyed_payload": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_destroy_payload_state",
+      "godot_symbol": "source_teams_destroy_payload_state_result.destroyed_payload",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.destroyPayload()",
+      "java_expr": "if(build != null && build.getPayload() instanceof UnitPayload && build.takePayload() instanceof UnitPayload unit){",
+      "rule": "The destroyed payload (Teams.java:484, `build.takePayload() instanceof UnitPayload unit`): the taken UnitPayload record when the guard passed and the taken payload was a record with a \"unit\" key, else null.",
+      "tests": [
+        "test_c07_teams_destroy_payload_registration",
+        "test_all_c07_teams_destroy_payload_input_evidence_is_exact",
+        "test_teams_destroy_payload_state",
+        "test_reference_graph_and_actual_c07_teams_destroy_payload"
+      ],
+      "runtime_proof": "/root/C07TeamsDestroyPayloadProof"
+    },
+    "source_teams_destroy_payload_state_result.dumped_payloads": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_destroy_payload_state",
+      "godot_symbol": "source_teams_destroy_payload_state_result.dumped_payloads",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.destroyPayload()",
+      "java_expr": "unit.dump();",
+      "rule": "The dumped payloads (Teams.java:485, `unit.dump();`): the payload records passed to dump_payload, in call order -- empty when the guard did not pass or the taken payload was not a record.",
+      "tests": [
+        "test_c07_teams_destroy_payload_registration",
+        "test_all_c07_teams_destroy_payload_input_evidence_is_exact",
+        "test_teams_destroy_payload_state",
+        "test_reference_graph_and_actual_c07_teams_destroy_payload"
+      ],
+      "runtime_proof": "/root/C07TeamsDestroyPayloadProof"
+    },
+    "source_teams_destroy_payload_state_result.killed_units": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_destroy_payload_state",
+      "godot_symbol": "source_teams_destroy_payload_state_result.killed_units",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.destroyPayload()",
+      "java_expr": "unit.unit.killed();",
+      "rule": "The killed units (Teams.java:486, `unit.unit.killed();`): the units passed to kill_unit, in call order -- empty when the guard did not pass or the taken payload was not a record.",
+      "tests": [
+        "test_c07_teams_destroy_payload_registration",
+        "test_all_c07_teams_destroy_payload_input_evidence_is_exact",
+        "test_teams_destroy_payload_state",
+        "test_reference_graph_and_actual_c07_teams_destroy_payload"
+      ],
+      "runtime_proof": "/root/C07TeamsDestroyPayloadProof"
     }
   },
   "version": 1

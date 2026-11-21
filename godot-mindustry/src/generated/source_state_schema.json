@@ -251284,6 +251284,104 @@
       },
       "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof",
       "rule": "Source-backed BeamDrill() ctor field defaults from BeamDrill.java + Block.java + BlockFlag.java."
+    },
+    "source_teams_destroy_payload_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_destroy_payload_state",
+      "source_slice": "N2402",
+      "keys": {
+        "build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public static void destroyPayload(Building build){",
+          "rule": "The build whose payload is destroyed (Teams.java:483, `public static void destroyPayload(Building build){`): Building is not ported, so it arrives as a Variant -- the build record, or null when absent (the `build != null` guard, Teams.java:484).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_destroy_payload_state"
+          ]
+        },
+        "has_unit_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(build != null && build.getPayload() instanceof UnitPayload && build.takePayload() instanceof UnitPayload unit){",
+          "rule": "Whether the build carries a UnitPayload (Teams.java:484, `build.getPayload() instanceof UnitPayload`): getPayload() is a Building accessor, not ported -- its instanceof result arrives as this bool; takePayload() returns the same payload, so this bool also gates the takePayload() instanceof check.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_destroy_payload_state"
+          ]
+        },
+        "take_payload": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(build != null && build.getPayload() instanceof UnitPayload && build.takePayload() instanceof UnitPayload unit){",
+          "rule": "The payload take hook (Teams.java:484, `build.takePayload() instanceof UnitPayload unit`): takePayload() removes and returns the build payload -- it arrives as a Callable (build) returning the taken payload record (a Dictionary with a \"unit\" key) or null; the instanceof on its result is the payload-is-Dictionary check in the GD function.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_destroy_payload_state"
+          ]
+        },
+        "dump_payload": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "unit.dump();",
+          "rule": "The payload dump hook (Teams.java:485, `unit.dump();`): UnitPayload.dump() drops the unit into the world -- it arrives as a Callable (payload) and is recorded in the frame; nothing is dumped here.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_destroy_payload_state"
+          ]
+        },
+        "kill_unit": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "unit.unit.killed();",
+          "rule": "The unit kill hook (Teams.java:486, `unit.unit.killed();`): the payload unit is killed -- it arrives as a Callable (unit) and is recorded in the frame; nothing is killed here.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_destroy_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsDestroyPayloadProof",
+      "rule": "Source-backed Teams destroyPayload() state from Teams.java."
+    },
+    "source_teams_destroy_payload_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_destroy_payload_state",
+      "source_slice": "N2402",
+      "keys": {
+        "destroyed_payload": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(build != null && build.getPayload() instanceof UnitPayload && build.takePayload() instanceof UnitPayload unit){",
+          "rule": "The destroyed payload (Teams.java:484, `build.takePayload() instanceof UnitPayload unit`): the taken UnitPayload record when the guard passed and the taken payload was a record with a \"unit\" key, else null.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_destroy_payload_state"
+          ]
+        },
+        "dumped_payloads": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "unit.dump();",
+          "rule": "The dumped payloads (Teams.java:485, `unit.dump();`): the payload records passed to dump_payload, in call order -- empty when the guard did not pass or the taken payload was not a record.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_destroy_payload_state"
+          ]
+        },
+        "killed_units": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "unit.unit.killed();",
+          "rule": "The killed units (Teams.java:486, `unit.unit.killed();`): the units passed to kill_unit, in call order -- empty when the guard did not pass or the taken payload was not a record.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_destroy_payload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsDestroyPayloadProof",
+      "rule": "Source-backed Teams destroyPayload() state from Teams.java."
     }
   },
   "version": 1
