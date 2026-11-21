@@ -183,3 +183,55 @@ static func source_payload_turret_build_peek_ammo_state(ammo_keys: Array, payloa
 			peeked_ammo = ammo_types.get(content, null)
 			break
 	return {"peeked_ammo": peeked_ammo}
+
+# PayloadTurretBuild.write()+read() (PayloadAmmoTurret.java:179-190):
+# `@Override`
+# `public void write(Writes write){`
+# `super.write(write);`
+# `payloads.write(write);`
+# `}`
+# `@Override`
+# `public void read(Reads read, byte revision){`
+# `super.read(read, revision);`
+# `payloads.read(read);`
+# `payloads.removeAll(u -> !ammoTypes.containsKey(u));`
+# `}`
+# on `public class PayloadTurretBuild extends TurretBuild{`
+# (PayloadAmmoTurret.java:94) inside
+# `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# override: write persists the payloads seq
+# (`payloads.write(write);`) and read restores it
+# (`payloads.read(read);`) then drops every held content
+# whose type is not in ammoTypes
+# (`payloads.removeAll(u -> !ammoTypes.containsKey(u));`).
+# `super.write(write);` / `super.read(read, revision);` are
+# callee/context (TurretBuild.write/read already owned by
+# N2322) — NOT distinguishing exprs. The distinguishing
+# lines are `payloads.write(write);`, `payloads.read(read);`
+# and `payloads.removeAll(u -> !ammoTypes.containsKey(u));`
+# (all three 0-hit in both ledgers at HEAD 76d71f1e).
+# `payloads` is `public PayloadSeq payloads = new PayloadSeq();`
+# (PayloadAmmoTurret.java:95) and `ammoTypes` is
+# `public ObjectMap<UnlockableContent, BulletType> ammoTypes = new ObjectMap<>();`
+# (PayloadAmmoTurret.java:22). The payloads seq arrives as
+# the explicit payload_contents param (write input) and the
+# stored seq read back from the stream as the explicit
+# stored_payload_contents param (read input); ammoTypes
+# arrives as the explicit ammo_types Dictionary param
+# (content name -> bullet type name); ObjectMap is NOT
+# ported (the N2330 param precedent). The write result is
+# the persisted contents in order (a copy of the held
+# contents); the read result is the stored contents
+# filtered to ammoTypes members, in stored order. The
+# inputs are never mutated: both results are fresh arrays.
+# Content refs are plain strings here. NO driver line: pure
+# persistence functions, not a per-tick write — the caller
+# wiring waits for its own slice.
+static func source_payload_ammo_turret_build_write_read_state(payload_contents: Array, stored_payload_contents: Array, ammo_types: Dictionary) -> Dictionary:
+	var write_payload_contents: Array = payload_contents.duplicate()
+	var read_payload_contents: Array = []
+	for content in stored_payload_contents:
+		if ammo_types.has(content):
+			read_payload_contents.append(content)
+	return {"write_payload_contents": write_payload_contents, "payload_contents": read_payload_contents}

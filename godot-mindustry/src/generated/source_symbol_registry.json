@@ -180744,6 +180744,38 @@
         "test_reference_graph_and_actual_c07_continuous_turret_version_write_read"
       ],
       "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof"
+    },
+    "source_payload_ammo_turret_build_write_read_state_result.write_payload_contents": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_write_read_state",
+      "godot_symbol": "source_payload_ammo_turret_build_write_read_state_result.write_payload_contents",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.write(Writes); PayloadTurretBuild.read(Reads, byte)",
+      "java_expr": "payloads.write(write);",
+      "rule": "The persisted payload contents (PayloadAmmoTurret.java:181, `payloads.write(write);`): the held contents in order, as written to the stream -- a copy of the payload_contents input; the result is a fresh array, the input is never mutated.",
+      "tests": [
+        "test_c07_payload_turret_write_read_registration",
+        "test_all_c07_payload_turret_write_read_input_evidence_is_exact",
+        "test_payload_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_payload_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretWriteReadProof"
+    },
+    "source_payload_ammo_turret_build_write_read_state_result.payload_contents": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_write_read_state",
+      "godot_symbol": "source_payload_ammo_turret_build_write_read_state_result.payload_contents",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.write(Writes); PayloadTurretBuild.read(Reads, byte)",
+      "java_expr": "payloads.removeAll(u -> !ammoTypes.containsKey(u));",
+      "rule": "The restored payload contents (PayloadAmmoTurret.java:189, `payloads.removeAll(u -> !ammoTypes.containsKey(u));`): the stored contents filtered to the ones whose type is in ammoTypes, in stored order -- contents whose type has no ammoTypes entry are dropped, exactly as PayloadSeq.removeAll does after `payloads.read(read);` (PayloadAmmoTurret.java:188).",
+      "tests": [
+        "test_c07_payload_turret_write_read_registration",
+        "test_all_c07_payload_turret_write_read_input_evidence_is_exact",
+        "test_payload_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_payload_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretWriteReadProof"
     }
   },
   "version": 1

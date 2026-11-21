@@ -245840,6 +245840,74 @@
       },
       "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof",
       "rule": "Source-backed ContinuousTurretBuild.version()/write()/read() state from ContinuousTurret.java."
+    },
+    "source_payload_ammo_turret_build_write_read_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_write_read_state",
+      "source_slice": "N2376",
+      "keys": {
+        "payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "public PayloadSeq payloads = new PayloadSeq();",
+          "rule": "The contents currently held in the payloads seq (PayloadAmmoTurret.java:95, `public PayloadSeq payloads = new PayloadSeq();`): the write input -- what `payloads.write(write);` (PayloadAmmoTurret.java:181) persists, in order; the payloads.write stream call itself is NOT ported, its contents arrive as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_write_read_state"
+          ]
+        },
+        "stored_payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "payloads.read(read);",
+          "rule": "The contents read back from the stream (PayloadAmmoTurret.java:188, `payloads.read(read);`): the read input -- what `payloads.read(read);` restores before the removeAll filter; the payloads.read stream call itself is NOT ported, its contents arrive as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_write_read_state"
+          ]
+        },
+        "ammo_types": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "public ObjectMap<UnlockableContent, BulletType> ammoTypes = new ObjectMap<>();",
+          "rule": "The ammo-type map (PayloadAmmoTurret.java:22, `public ObjectMap<UnlockableContent, BulletType> ammoTypes = new ObjectMap<>();`): content name to bullet type name; ObjectMap is NOT ported, it arrives as an explicit Dictionary param (the N2330 param precedent). Only its keys are used, in `payloads.removeAll(u -> !ammoTypes.containsKey(u));` (PayloadAmmoTurret.java:189).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_write_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretWriteReadProof",
+      "rule": "Source-backed PayloadTurretBuild.write()+read() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_write_read_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_write_read_state",
+      "source_slice": "N2376",
+      "keys": {
+        "write_payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "payloads.write(write);",
+          "rule": "The persisted payload contents (PayloadAmmoTurret.java:181, `payloads.write(write);`): the held contents in order, as written to the stream -- a copy of the payload_contents input; the result is a fresh array, the input is never mutated.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_write_read_state"
+          ]
+        },
+        "payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "payloads.removeAll(u -> !ammoTypes.containsKey(u));",
+          "rule": "The restored payload contents (PayloadAmmoTurret.java:189, `payloads.removeAll(u -> !ammoTypes.containsKey(u));`): the stored contents filtered to the ones whose type is in ammoTypes, in stored order -- contents whose type has no ammoTypes entry are dropped, exactly as PayloadSeq.removeAll does after `payloads.read(read);` (PayloadAmmoTurret.java:188).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_write_read_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretWriteReadProof",
+      "rule": "Source-backed PayloadTurretBuild.write()+read() state from PayloadAmmoTurret.java."
     }
   },
   "version": 1

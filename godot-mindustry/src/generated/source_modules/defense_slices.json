@@ -4136,6 +4136,24 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof"
     },
+    "N2376": {
+      "canonical_ledger": "source_slice_ledger.N2376",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.write(Writes); PayloadTurretBuild.read(Reads, byte)",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_write_read_state",
+      "source_symbols": [
+        "source_payload_ammo_turret_build_write_read_state_result.write_payload_contents",
+        "source_payload_ammo_turret_build_write_read_state_result.payload_contents"
+      ],
+      "tests": [
+        "test_c07_payload_turret_write_read_registration",
+        "test_all_c07_payload_turret_write_read_input_evidence_is_exact",
+        "test_payload_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_payload_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretWriteReadProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

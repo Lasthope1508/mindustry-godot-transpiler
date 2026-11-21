@@ -73786,6 +73786,42 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof",
       "rule": "Source-backed ContinuousTurretBuild.version()/write()/read() state from ContinuousTurret.java."
+    },
+    "PortGame.source_payload_ammo_turret_build_write_read_state": {
+      "status": "active",
+      "source_slice": "N2376",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.write(Writes); PayloadTurretBuild.read(Reads, byte)",
+      "params": [
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_write_read_state_input.payload_contents"
+        },
+        {
+          "name": "stored_payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_write_read_state_input.stored_payload_contents"
+        },
+        {
+          "name": "ammo_types",
+          "type": "Dictionary",
+          "schema": "source_payload_ammo_turret_build_write_read_state_input.ammo_types"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "write_payload_contents",
+        "payload_contents"
+      ],
+      "tests": [
+        "test_c07_payload_turret_write_read_registration",
+        "test_all_c07_payload_turret_write_read_input_evidence_is_exact",
+        "test_payload_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_payload_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretWriteReadProof",
+      "rule": "Source-backed PayloadTurretBuild.write()+read() state from PayloadAmmoTurret.java."
     }
   },
   "policy": {
