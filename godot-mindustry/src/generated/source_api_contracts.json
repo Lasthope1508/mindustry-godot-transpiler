@@ -75973,6 +75973,164 @@
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretInitProof",
       "rule": "Source-backed PayloadAmmoTurret.init() state from PayloadAmmoTurret.java."
+    },
+    "SourceTurretBuildState.source_turret_update_tile_driver_state": {
+      "status": "active",
+      "source_slice": "N2397",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_update_tile_driver_state_input.frame"
+        },
+        {
+          "name": "is_player",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.is_player"
+        },
+        {
+          "name": "ammo_fraction",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.ammo_fraction"
+        },
+        {
+          "name": "has_sound_loop",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.has_sound_loop"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.y"
+        },
+        {
+          "name": "should_active_sound",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.should_active_sound"
+        },
+        {
+          "name": "active_sound_volume",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.active_sound_volume"
+        },
+        {
+          "name": "reload_while_charging",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.reload_while_charging"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.charging"
+        },
+        {
+          "name": "fog",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.fog"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.has_ammo"
+        },
+        {
+          "name": "ammo_range_change",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.ammo_range_change"
+        },
+        {
+          "name": "last_range_change",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.last_range_change"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.reload_counter"
+        },
+        {
+          "name": "timer_target_ready",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.timer_target_ready"
+        },
+        {
+          "name": "validate_target",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.validate_target"
+        },
+        {
+          "name": "controlled",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.controlled"
+        },
+        {
+          "name": "logic_controlled",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.logic_controlled"
+        },
+        {
+          "name": "target_pos",
+          "type": "Vector2",
+          "schema": "source_turret_update_tile_driver_state_input.target_pos"
+        },
+        {
+          "name": "unit_aim_x",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.unit_aim_x"
+        },
+        {
+          "name": "unit_aim_y",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.unit_aim_y"
+        },
+        {
+          "name": "unit_is_shooting",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.unit_is_shooting"
+        },
+        {
+          "name": "logic_shooting",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.logic_shooting"
+        },
+        {
+          "name": "always_shooting",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.always_shooting"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unit_ammo_fraction",
+        "sound_loop_update",
+        "reload_gate_open",
+        "update_reload_called",
+        "last_range_change",
+        "fog_range_changed",
+        "fog_force_update_called",
+        "reload_counter",
+        "find_target_called",
+        "target_pos",
+        "can_shoot",
+        "unit_aim_x",
+        "unit_aim_y",
+        "always_shooting_gate"
+      ],
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof",
+      "rule": "Source-backed TurretBuild.updateTile() remaining driver-tick legs from Turret.java."
     }
   },
   "policy": {

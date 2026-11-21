@@ -398,6 +398,138 @@ static func source_turret_update_tile_warmup_state(frame: Dictionary, is_shootin
 		new_shoot_warmup = source_math_state.source_lerp_delta(shoot_warmup, warmup_target, rate, delta)
 	return {"warmup_target": warmup_target, "warmup_hold": new_warmup_hold, "shoot_warmup": new_shoot_warmup}
 
+# TurretBuild.updateTile() remaining driver-tick legs (Turret.java:494-499,
+# :548-557, :566-608):
+# `if(unit.isPlayer()){ //there's no reason to update this when a player isn't controlling it`
+# `unit.ammo(getAmmoFraction());`
+# `soundLoop.update(x, y, shouldActiveSound(), activeSoundVolume());`
+# `if(reloadWhileCharging || !charging()){`
+# `updateReload();`
+# `if(state.rules.fog){`
+# `float newRange = hasAmmo() ? peekAmmo().rangeChange : 0f;`
+# `if(newRange != lastRangeChange){`
+# `lastRangeChange = newRange;`
+# `fogControl.forceUpdate(team, this);`
+# `if(hasAmmo()){`
+# `if(Float.isNaN(reloadCounter)) reloadCounter = 0;`
+# `if(timer(timerTarget, target != null ? newTargetInterval : targetInterval)){`
+# `findTarget();`
+# `boolean canShoot;`
+# `if(controlled()){ //player behavior`
+# `targetPos.set(unit.aimX(), unit.aimY());`
+# `canShoot = unit.isShooting();`
+# `}else if(logicControlled()){ //logic behavior`
+# `canShoot = logicShooting;`
+# `}else{ //default AI behavior`
+# `if(!controlled()){`
+# `unit.aimX(targetPos.x);`
+# `unit.aimY(targetPos.y);`
+# `if(alwaysShooting){`
+# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+# (Turret.java:277), inside `public void updateTile(){` (Turret.java:490).
+# The guard lines are registered with their Java trailing comments, so they
+# are distinct from the same bare text owned elsewhere (`if(unit.isPlayer()){`
+# alone is N1899 BuildingComp.handleUnitPayload; `}else{` alone is owned by
+# sixteen slices). NOT registered here: `updateCooling();` (N2241),
+# `wasShooting = true;` (N2362), `updateShooting();` (remote N2269),
+# `if(soundLoop != null){` (N2350). Call-sites already owned arrive as
+# Callables/params, never re-registered: updateReload/updateCooling (N2241),
+# findTarget (N2316), validateTarget/charging/controlled/logicControlled
+# (N2324/N2297), getAmmoFraction (N2348/N2355),
+# shouldActiveSound/activeSoundVolume (N2346).
+# getAmmoFraction() is Turret.java:324-326 (`public float getAmmoFraction(){` /
+# `return 1f;`, "ammo as a fraction of capacity; used for direct turret control
+# HUD"); the unit ammo write only runs for a player-controlled unit, so a
+# non-player unit applies nothing (null). soundLoop is the nullable
+# TurretBuild field (Turret.java:298, `public @Nullable SoundLoop
+# soundLoop = (loopSound == Sounds.none ? null : new SoundLoop(loopSound,
+# loopSoundVolume));`); the update call passes the build position plus
+# shouldActiveSound() (Turret.java:826-828, `public boolean
+# shouldActiveSound(){` / `return shootWarmup > 0.01f && loopSound !=
+# Sounds.none;`) and activeSoundVolume() (Turret.java:822-824, `public float
+# activeSoundVolume(){` / `return shootWarmup;`), both N2346, so an absent
+# loop carries a null update. reloadWhileCharging is the per-def flag
+# (Turret.java:82, `public boolean reloadWhileCharging = true;`); charging()
+# is Turret.java:715-717 (`public boolean charging(){` / `return queuedBullets
+# > 0 && shoot.firstShotDelay > 0;`); the gate opens whenever the turret is
+# not charging, or while charging when the def allows it, and updateReload()
+# (Turret.java:719-720, body N2241) is a call-site: the frame records that it
+# was called, never re-ports its body. The fog leg reads state.rules.fog and
+# the peeked ammo range change (peekAmmo().rangeChange, Turret.java:344);
+# with no ammo the new range is 0f, and fogControl.forceUpdate(team, this)
+# (FogControl.java:177) runs only when the range actually changed.
+# lastRangeChange is the TurretBuild field (Turret.java:300, `float
+# lastRangeChange;`). The hasAmmo block first normalizes a NaN reloadCounter
+# to 0 (Float.isNaN, the Java float check), then fires findTarget() (body
+# N2316) only when the target timer is ready (timer() is TimerComp.java:10,
+# `public boolean timer(int index, float time){`; timerTarget is
+# Turret.java:40, `public final int timerTarget = timers++;`, and the
+# interval is newTargetInterval with a target, targetInterval without --
+# Turret.java:42-44, `public float targetInterval = 20;`). Inside a valid
+# target the player branch sets targetPos from the unit aim and reads
+# canShoot from unit.isShooting(); the logic branch reads canShoot from
+# logicShooting (Turret.java:288, `public boolean logicShooting = false;`);
+# the default-AI branch (targetPosition/within, remote N2250) is NOT ported,
+# so can_shoot stays null there -- the frame never invents a within() read.
+# The aim write runs exactly when !controlled(), after the branch, on the
+# (possibly updated) targetPos (targetPos is Turret.java:290, `public Vec2
+# targetPos = new Vec2();`; controlled() is Turret.java:441-443, `public
+# boolean controlled(){` / `return unit.isPlayer();`; logicControlled() is
+# Turret.java:445-447). alwaysShooting is the per-def flag (Turret.java:103,
+# `public boolean alwaysShooting = false;`); only its gate is recorded --
+# wasShooting = true and updateShooting() inside it belong to N2362 /
+# remote N2269. All live values arrive as explicit params (the N2188
+# precedent): the tick frame tracks no ammo/sound/reload/fog/target keys yet,
+# so there is NO driver tick line (the N2308/N2294 updateTile precedent);
+# the driver waits until those frame keys are tracked. Proof asserts frame
+# only, never a real shot.
+@warning_ignore("unused_parameter")
+static func source_turret_update_tile_driver_state(frame: Dictionary, is_player: bool, ammo_fraction: float, has_sound_loop: bool, x: float, y: float, should_active_sound: bool, active_sound_volume: float, reload_while_charging: bool, charging: bool, fog: bool, has_ammo: bool, ammo_range_change: float, last_range_change: float, reload_counter: float, timer_target_ready: bool, validate_target: bool, controlled: bool, logic_controlled: bool, target_pos: Vector2, unit_aim_x: float, unit_aim_y: float, unit_is_shooting: bool, logic_shooting: bool, always_shooting: bool) -> Dictionary:
+	var unit_ammo_fraction: Variant = ammo_fraction if is_player else null
+	var sound_loop_update: Variant = null
+	if has_sound_loop:
+		sound_loop_update = {"x": x, "y": y, "active": should_active_sound, "volume": active_sound_volume}
+	var reload_gate_open: bool = reload_while_charging or not charging
+	var update_reload_called: bool = reload_gate_open
+	var new_last_range_change: float = last_range_change
+	var fog_range_changed := false
+	var fog_force_update_called := false
+	if fog:
+		var new_range: float = ammo_range_change if has_ammo else 0.0
+		if new_range != last_range_change:
+			new_last_range_change = new_range
+			fog_range_changed = true
+			fog_force_update_called = true
+	var new_reload_counter: float = reload_counter
+	var find_target_called := false
+	var new_target_pos: Vector2 = target_pos
+	var can_shoot: Variant = null
+	var new_unit_aim_x: float = unit_aim_x
+	var new_unit_aim_y: float = unit_aim_y
+	var always_shooting_gate := false
+	if has_ammo:
+		if is_nan(new_reload_counter):
+			new_reload_counter = 0.0
+		if timer_target_ready:
+			find_target_called = true
+		if validate_target:
+			if controlled:
+				new_target_pos = Vector2(unit_aim_x, unit_aim_y)
+				can_shoot = unit_is_shooting
+			elif logic_controlled:
+				can_shoot = logic_shooting
+			else:
+				# Default AI behavior: targetPosition(target) /
+				# canShoot = within(...) is remote N2250 -- not
+				# ported, so can_shoot stays null.
+				pass
+			if not controlled:
+				new_unit_aim_x = new_target_pos.x
+				new_unit_aim_y = new_target_pos.y
+		if always_shooting:
+			always_shooting_gate = true
+	return {"unit_ammo_fraction": unit_ammo_fraction, "sound_loop_update": sound_loop_update, "reload_gate_open": reload_gate_open, "update_reload_called": update_reload_called, "last_range_change": new_last_range_change, "fog_range_changed": fog_range_changed, "fog_force_update_called": fog_force_update_called, "reload_counter": new_reload_counter, "find_target_called": find_target_called, "target_pos": new_target_pos, "can_shoot": can_shoot, "unit_aim_x": new_unit_aim_x, "unit_aim_y": new_unit_aim_y, "always_shooting_gate": always_shooting_gate}
+
 # TurretBuild.estimateDps() (Turret.java:329-332):
 # `public float estimateDps(){`
 # `if(!hasAmmo()) return 0f;`

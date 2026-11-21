@@ -182648,6 +182648,230 @@
         "test_reference_graph_and_actual_c07_payload_ammo_turret_init"
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretInitProof"
+    },
+    "source_turret_update_tile_driver_state_result.unit_ammo_fraction": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.unit_ammo_fraction",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "unit.ammo(getAmmoFraction());",
+      "rule": "The ammo fraction applied to the unit (Turret.java:495, `unit.ammo(getAmmoFraction());`): the ammo_fraction param when is_player, else null -- a non-player unit applies nothing.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.sound_loop_update": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.sound_loop_update",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "soundLoop.update(x, y, shouldActiveSound(), activeSoundVolume());",
+      "rule": "The soundLoop update call (Turret.java:499, `soundLoop.update(x, y, shouldActiveSound(), activeSoundVolume());`): {\"x\": x, \"y\": y, \"active\": should_active_sound, \"volume\": active_sound_volume} when has_sound_loop, else null -- SoundLoop.update is an arc audio call, so the frame records the call, never re-ports it.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.reload_gate_open": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.reload_gate_open",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "if(reloadWhileCharging || !charging()){",
+      "rule": "Whether the reload gate is open (Turret.java:548, `if(reloadWhileCharging || !charging()){`): true whenever the turret is not charging, or while charging when reloadWhileCharging is true -- \"turret always reloads regardless of whether it's targeting something\".",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.update_reload_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.update_reload_called",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "updateReload();",
+      "rule": "Whether updateReload() was called (Turret.java:549, `updateReload();`): true exactly when the reload gate is open; updateReload() (Turret.java:719-720, body N2241) is a call-site, so the frame records the call, never re-ports its body. updateCooling() on the next line is N2241 and is NOT recorded here.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.last_range_change": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.last_range_change",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "lastRangeChange = newRange;",
+      "rule": "The last fog range change after the tick (Turret.java:556, `lastRangeChange = newRange;`): the new range when fog is on and it changed, else the incoming value.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.fog_range_changed": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.fog_range_changed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "if(newRange != lastRangeChange){",
+      "rule": "Whether the fog range changed this tick (Turret.java:555, `if(newRange != lastRangeChange){`): true exactly when fog is on and the new range differs from lastRangeChange.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.fog_force_update_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.fog_force_update_called",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "fogControl.forceUpdate(team, this);",
+      "rule": "Whether fogControl.forceUpdate(team, this) was called (Turret.java:557, `fogControl.forceUpdate(team, this);`): true exactly when the fog range changed; FogControl.forceUpdate (FogControl.java:177) is an engine call, so the frame records the call, never re-ports it.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "if(Float.isNaN(reloadCounter)) reloadCounter = 0;",
+      "rule": "The reload counter after the tick (Turret.java:567, `if(Float.isNaN(reloadCounter)) reloadCounter = 0;`): 0 when has_ammo and the incoming value is NaN, else the incoming value -- with no ammo the block is skipped entirely and a NaN is kept.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.find_target_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.find_target_called",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "findTarget();",
+      "rule": "Whether findTarget() was called (Turret.java:570, `findTarget();`): true exactly when has_ammo and the target timer fired; findTarget() (body N2316) is a call-site, so the frame records the call, never re-ports its body.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.target_pos": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.target_pos",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "targetPos.set(unit.aimX(), unit.aimY());",
+      "rule": "The aim target position after the tick (Turret.java:577, `targetPos.set(unit.aimX(), unit.aimY());`): set from the unit aim in the player branch, unchanged in the logic and default-AI branches (the default-AI targetPosition leg is remote N2250).",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.can_shoot": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.can_shoot",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "boolean canShoot;",
+      "rule": "Whether the turret can shoot this tick (Turret.java:574, `boolean canShoot;`): unit_is_shooting in the player branch, logic_shooting in the logic branch, null in the default-AI branch -- the within() read there (remote N2250) is NOT ported, so the frame never invents it; null outside a valid target or with no ammo.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.unit_aim_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.unit_aim_x",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "unit.aimX(targetPos.x);",
+      "rule": "The unit aim x after the tick (Turret.java:591, `unit.aimX(targetPos.x);`): the targetPos x when !controlled() (after the branch), else the incoming unit aim x.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.unit_aim_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.unit_aim_y",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "unit.aimY(targetPos.y);",
+      "rule": "The unit aim y after the tick (Turret.java:592, `unit.aimY(targetPos.y);`): the targetPos y when !controlled() (after the branch), else the incoming unit aim y.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
+    "source_turret_update_tile_driver_state_result.always_shooting_gate": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "godot_symbol": "source_turret_update_tile_driver_state_result.always_shooting_gate",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "java_expr": "if(alwaysShooting){",
+      "rule": "Whether the alwaysShooting gate fired (Turret.java:607, `if(alwaysShooting){`): true exactly when has_ammo and always_shooting -- only the gate is recorded; wasShooting = true and updateShooting() inside it belong to N2362 / remote N2269.",
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
     }
   },
   "version": 1

@@ -4307,6 +4307,36 @@
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretInitProof"
     },
+    "N2397": {
+      "canonical_ledger": "source_slice_ledger.N2397",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "godot_owner": "SourceTurretBuildState.source_turret_update_tile_driver_state",
+      "source_symbols": [
+        "source_turret_update_tile_driver_state_result.unit_ammo_fraction",
+        "source_turret_update_tile_driver_state_result.sound_loop_update",
+        "source_turret_update_tile_driver_state_result.reload_gate_open",
+        "source_turret_update_tile_driver_state_result.update_reload_called",
+        "source_turret_update_tile_driver_state_result.last_range_change",
+        "source_turret_update_tile_driver_state_result.fog_range_changed",
+        "source_turret_update_tile_driver_state_result.fog_force_update_called",
+        "source_turret_update_tile_driver_state_result.reload_counter",
+        "source_turret_update_tile_driver_state_result.find_target_called",
+        "source_turret_update_tile_driver_state_result.target_pos",
+        "source_turret_update_tile_driver_state_result.can_shoot",
+        "source_turret_update_tile_driver_state_result.unit_aim_x",
+        "source_turret_update_tile_driver_state_result.unit_aim_y",
+        "source_turret_update_tile_driver_state_result.always_shooting_gate"
+      ],
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
