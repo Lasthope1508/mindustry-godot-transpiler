@@ -178104,6 +178104,54 @@
         "test_reference_graph_and_actual_c07_building_comp_sense_power_net_stored"
       ],
       "runtime_proof": "/root/C07BuildingCompSensePowerNetStoredProof"
+    },
+    "source_building_comp_sense_power_net_capacity_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_power_net_capacity_state",
+      "godot_symbol": "source_building_comp_sense_power_net_capacity_state_result.handled",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();",
+      "rule": "Whether the leg resolved to a logic-variable write (`case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();`, BuildingComp.java:2117): true always, because this function IS the powerNetCapacity leg and the sensor is fixed `powerNetCapacity`.",
+      "tests": [
+        "test_c07_building_comp_sense_power_net_capacity_registration",
+        "test_all_c07_building_comp_sense_power_net_capacity_input_evidence_is_exact",
+        "test_building_comp_sense_power_net_capacity_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_power_net_capacity"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetCapacityProof"
+    },
+    "source_building_comp_sense_power_net_capacity_state_result.sense_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_power_net_capacity_state",
+      "godot_symbol": "source_building_comp_sense_power_net_capacity_state_result.sense_value",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();",
+      "rule": "The numeric value written to the logic variable (`case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();`, BuildingComp.java:2117): 0.0 when power is null, else `last_capacity` exactly (NO `* 60` -- the capacity is an absolute amount, total battery capacity, not a per-tick rate; Java `sense()` returns double; the float widens exactly), no clamping, no rounding.",
+      "tests": [
+        "test_c07_building_comp_sense_power_net_capacity_registration",
+        "test_all_c07_building_comp_sense_power_net_capacity_input_evidence_is_exact",
+        "test_building_comp_sense_power_net_capacity_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_power_net_capacity"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetCapacityProof"
+    },
+    "source_building_comp_sense_power_net_capacity_state_result.sense_value_is_nan": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_power_net_capacity_state",
+      "godot_symbol": "source_building_comp_sense_power_net_capacity_state_result.sense_value_is_nan",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); false always for the powerNetCapacity leg, which never yields NaN -- the key stays in the wire shape for consistency with N2283/N2284/N2511/N2512/N2513/N2514/N2515/N2516.",
+      "tests": [
+        "test_c07_building_comp_sense_power_net_capacity_registration",
+        "test_all_c07_building_comp_sense_power_net_capacity_input_evidence_is_exact",
+        "test_building_comp_sense_power_net_capacity_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_power_net_capacity"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetCapacityProof"
     }
   },
   "version": 1

@@ -70810,6 +70810,38 @@
       ],
       "runtime_proof": "/root/C07BuildingCompSensePowerNetStoredProof",
       "rule": "Source-backed BuildingComp.sense() powerNetStored leg from BuildingComp.java:2116 + PowerGraph.java:73-75."
+    },
+    "SourceTurretBuildState.source_building_comp_sense_power_net_capacity_state": {
+      "status": "active",
+      "source_slice": "N2517",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "source_method": "BuildingComp.sense(LAccess)",
+      "params": [
+        {
+          "name": "power_is_null",
+          "type": "bool",
+          "schema": "source_building_comp_sense_power_net_capacity_state_input.power_is_null"
+        },
+        {
+          "name": "last_capacity",
+          "type": "float",
+          "schema": "source_building_comp_sense_power_net_capacity_state_input.last_capacity"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_building_comp_sense_power_net_capacity_registration",
+        "test_all_c07_building_comp_sense_power_net_capacity_input_evidence_is_exact",
+        "test_building_comp_sense_power_net_capacity_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_power_net_capacity"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetCapacityProof",
+      "rule": "Source-backed BuildingComp.sense() powerNetCapacity leg from BuildingComp.java:2117 + PowerGraph.java:53-54."
     }
   },
   "policy": {

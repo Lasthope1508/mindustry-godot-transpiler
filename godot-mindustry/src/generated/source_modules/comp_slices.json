@@ -5764,6 +5764,25 @@
       ],
       "runtime_proof": "/root/C07BuildingCompSensePowerNetStoredProof"
     },
+    "N2517": {
+      "canonical_ledger": "source_slice_ledger.N2517",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.sense(LAccess)",
+      "godot_owner": "SourceTurretBuildState.source_building_comp_sense_power_net_capacity_state",
+      "source_symbols": [
+        "source_building_comp_sense_power_net_capacity_state_result.handled",
+        "source_building_comp_sense_power_net_capacity_state_result.sense_value",
+        "source_building_comp_sense_power_net_capacity_state_result.sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_building_comp_sense_power_net_capacity_registration",
+        "test_all_c07_building_comp_sense_power_net_capacity_input_evidence_is_exact",
+        "test_building_comp_sense_power_net_capacity_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_power_net_capacity"
+      ],
+      "runtime_proof": "/root/C07BuildingCompSensePowerNetCapacityProof"
+    },
     "N514": {
       "canonical_ledger": "source_slice_ledger.N514",
       "status": "done",
