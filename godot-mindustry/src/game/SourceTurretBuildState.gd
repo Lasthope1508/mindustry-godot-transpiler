@@ -368,6 +368,78 @@ static func source_turret_should_consume_state(frame: Dictionary, reload: float)
 	var should_consume: bool = bool(frame.get("enabled", true)) and (bool(frame.get("is_shooting", false)) or float(frame.get("reload_counter", 0.0)) < reload)
 	return {"should_consume": should_consume}
 
+static func source_turret_cooling_state(frame: Dictionary, has_coolant: bool, coolant_amount: float, coolant_efficiency: float, heat_capacity: float, coolant_multiplier: float, ammo_reload_multiplier: float, reload: float, edelta: float) -> Dictionary:
+	# updateCooling() (ReloadTurret.java:28-38, called from
+	# Turret.java:550 `if(reloadWhileCharging || !charging()){` /
+	# `updateReload();` / `updateCooling(); }` -- "turret always
+	# reloads regardless of whether it's targeting something"):
+	# the gate (`if(canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){`, ReloadTurret.java:29) uses canReload() =
+	# `reloadCounter < reload` (`return reloadCounter < reload;`,
+	# ReloadTurret.java:46-48); capacity is the consumed
+	# liquid's heatCapacity (`float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);`, ReloadTurret.java:30 -- ConsumeCoolant extends
+	# ConsumeLiquidFilter, so the filter branch applies; the
+	# 0.4f fallback belongs to the coolant-pick slice, not this
+	# function); amount = `coolant.amount *
+	# coolant.efficiency(this)` (`float amount = coolant.amount * coolant.efficiency(this);`, ReloadTurret.java:31);
+	# `coolant.update(this);` (ReloadTurret.java:32) removes
+	# `amount * edelta() * multiplier`
+	# (ConsumeLiquidFilter.java:44-49, multiplier default 1f,
+	# `public Floatf<Building> multiplier = b -> 1f;`,
+	# Consume.java:18) -- the pure function returns that as
+	# coolant_consumed for a later wiring slice to apply, since
+	# the frame carries no liquid inventory; the reload boost is
+	# `reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier();` (ReloadTurret.java:33) with
+	# coolantMultiplier = 5f for the Turret family
+	# (`public float coolantMultiplier = 5f;`, BaseTurret.java:32 --
+	# no override in ItemTurret / Turret / PowerTurret; only
+	# PointDefenseTurret 2f, LaserTurret / ContinuousTurret /
+	# TractorBeamTurret 1f) and ammoReloadMultiplier() the
+	# Turret.java:727 override (`return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;`, NOT the
+	# ReloadTurret.java:41-43 default 1f). The coolEffect chance
+	# (`if(Mathf.chance(0.06 * amount)){`, ReloadTurret.java:35)
+	# is a random visual, NOT in the pure function (the N2240
+	# random-pitch precedent). `edelta()` is `efficiency * delta()`
+	# (BuildingComp.java:1927-1929, `return efficiency * delta();`),
+	# passed in precomputed. `cooling_applied` is false whenever
+	# the gate fails, and `coolant_consumed` is 0.0 then;
+	# `reload_counter` is unchanged when the gate fails.
+	# NO driver tick call site: the frame carries no liquid
+	# state and the catalog records `coolant` for NO block, so
+	# the driver tick cannot read a coolant amount today; the
+	# Turret.java:550 call-site gate (`reloadWhileCharging ||
+	# !charging()`) belongs to the driver-tick slice. LIVE
+	# CONSEQUENCE (Java-faithful): DORMANT live today -- the
+	# driver tick never calls this function, so live behavior
+	# does not change. When liquid-module wiring lands, the
+	# gate opens for defs with coolant + liquid (duo defines
+	# `coolant = consumeCoolant(0.1f);`, Blocks.java:3324, but
+	# hasLiquids false so efficiency stays 0 and it stays a
+	# no-op; defs with real liquid boost reload). The
+	# Turret-family coolant pick reuses
+	# `source_point_defense_turret_coolant_state` (N2248)
+	# as-is -- no twin: its ConsumeCoolant filter /
+	# getConsumed pick / efficiency / removal / heatCapacity /
+	# coolEffect-chance math is class-level
+	# ConsumeCoolant/ConsumeLiquidFilter logic with no
+	# PointDefense-specific branch (only the name is
+	# PointDefense-specific); the future coolant-pick slice
+	# calls it directly. LaserTurret / ContinuousTurret
+	# override updateCooling into a no-op
+	# (LaserTurret.java:48-50, ContinuousTurret.java:49-51),
+	# so meltdown (coolant 0.5f, Blocks.java:4346) never uses
+	# this function -- out of scope, no slice needed unless
+	# Java changes.
+	var reload_counter: float = float(frame.get("reload_counter", 0.0))
+	var efficiency: float = float(frame.get("efficiency", 1.0))
+	var cooling_applied: bool = false
+	var coolant_consumed: float = 0.0
+	if has_coolant and reload_counter < reload and coolant_efficiency > 0.0 and efficiency > 0.0:
+		var amount: float = coolant_amount * coolant_efficiency
+		coolant_consumed = amount * edelta
+		reload_counter += amount * edelta * heat_capacity * coolant_multiplier * ammo_reload_multiplier
+		cooling_applied = true
+	return {"reload_counter": reload_counter, "cooling_applied": cooling_applied, "coolant_consumed": coolant_consumed}
+
 static func source_turret_can_heal_state(target_healing: bool, has_ammo: bool, ammo_collides_team: bool, ammo_heals: bool) -> Dictionary:
 	# TurretBuild.canHeal() (Turret.java:635-637):
 	# `protected boolean canHeal(){` /

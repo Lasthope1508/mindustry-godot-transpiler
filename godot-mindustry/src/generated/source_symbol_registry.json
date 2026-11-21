@@ -178280,6 +178280,54 @@
         "test_reference_graph_and_actual_c07_turret_should_consume"
       ],
       "runtime_proof": "/root/C07TurretShouldConsumeProof"
+    },
+    "source_turret_cooling_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_cooling_state",
+      "godot_symbol": "source_turret_cooling_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "ReloadTurretBuild.updateCooling()",
+      "java_expr": "reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier();",
+      "rule": "The reload counter after the coolant boost (`reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier();`, ReloadTurret.java:33, with `amount = coolant.amount * coolant.efficiency(this)`, :31); unchanged when the gate fails.",
+      "tests": [
+        "test_c07_turret_cooling_registration",
+        "test_all_c07_turret_cooling_input_evidence_is_exact",
+        "test_turret_cooling_state",
+        "test_reference_graph_and_actual_c07_turret_cooling"
+      ],
+      "runtime_proof": "/root/C07TurretCoolingProof"
+    },
+    "source_turret_cooling_state_result.cooling_applied": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_cooling_state",
+      "godot_symbol": "source_turret_cooling_state_result.cooling_applied",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "ReloadTurretBuild.updateCooling()",
+      "java_expr": "if(canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){",
+      "rule": "Whether the updateCooling gate passed (ReloadTurret.java:29, `if(canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){`, canReload() = `reloadCounter < reload`, :46-48); false whenever the gate fails, and `coolant_consumed` is 0.0 then.",
+      "tests": [
+        "test_c07_turret_cooling_registration",
+        "test_all_c07_turret_cooling_input_evidence_is_exact",
+        "test_turret_cooling_state",
+        "test_reference_graph_and_actual_c07_turret_cooling"
+      ],
+      "runtime_proof": "/root/C07TurretCoolingProof"
+    },
+    "source_turret_cooling_state_result.coolant_consumed": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_cooling_state",
+      "godot_symbol": "source_turret_cooling_state_result.coolant_consumed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "ReloadTurretBuild.updateCooling()",
+      "java_expr": "coolant.update(this);",
+      "rule": "The coolant amount the update removes (`coolant.update(this);`, ReloadTurret.java:32 -- `amount * edelta() * multiplier`, ConsumeLiquidFilter.java:44-49, multiplier default 1f, returned for a later wiring slice to apply since the frame carries no liquid inventory; the N2241 precedent).",
+      "tests": [
+        "test_c07_turret_cooling_registration",
+        "test_all_c07_turret_cooling_input_evidence_is_exact",
+        "test_turret_cooling_state",
+        "test_reference_graph_and_actual_c07_turret_cooling"
+      ],
+      "runtime_proof": "/root/C07TurretCoolingProof"
     }
   },
   "version": 1

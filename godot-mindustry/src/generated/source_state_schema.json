@@ -240194,6 +240194,144 @@
       },
       "runtime_proof": "/root/C07TurretShouldConsumeProof",
       "rule": "Source-backed Turret shouldConsume() gate from Turret.java:364-366 + :490-492 + ReloadTurret.java:10/:26/:46-48 + BuildingComp.java:1947/:2274/:2277."
+    },
+    "source_turret_cooling_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_cooling_state",
+      "source_slice": "N2525",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public void updateTile(){",
+          "rule": "The turret frame (the port Building state) the tick stamps every tick (`public void updateTile(){`, Turret.java:490 -- the driver tick for every Turret-family build); the pure function reads `reload_counter` (default 0.0, N2240 stamp) and `efficiency` (default 1.0) from it and returns exactly three keys (the N2241 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        },
+        "has_coolant": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "coolant != null",
+          "rule": "Whether the def defines a coolant consumer (`coolant != null`, ReloadTurret.java:29 -- the gate half; BaseTurret.init finds it with `coolant = findConsumer(c -> c instanceof ConsumeCoolant);`, BaseTurret.java:50-52; the catalog records `coolant` for NO block, so this is false live today).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        },
+        "coolant_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "coolant.amount",
+          "rule": "The ConsumeCoolant consumer amount field (`coolant.amount`, ReloadTurret.java:31, `float amount = coolant.amount * coolant.efficiency(this);`): duo 0.1f, scatter 0.2f, salvo 0.2f, foreshadow 1f (Blocks.java); the local amount is this times the efficiency.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        },
+        "coolant_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "coolant.efficiency(this)",
+          "rule": "The ConsumeCoolant efficiency (`coolant.efficiency(this)`, ReloadTurret.java:29, :31 -- `min(liquids.get(liq) / (amount * ed * multiplier), 1f)`, ConsumeLiquidFilter.java:50-56, 0 when no liquid): passed in as a parameter, computed by the future coolant-pick slice reusing `source_point_defense_turret_coolant_state` (N2248).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        },
+        "heat_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);",
+          "rule": "The consumed liquid heatCapacity (ReloadTurret.java:30, the ConsumeLiquidFilter filter branch applies because ConsumeCoolant extends ConsumeLiquidFilter); passed in as a parameter, with the 0.4f fallback belonging to the coolant-pick slice, not this function.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        },
+        "coolant_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float coolantMultiplier = 5f;",
+          "rule": "The per-class coolant multiplier (`public float coolantMultiplier = 5f;`, BaseTurret.java:32 -- the Turret-family value; no override in ItemTurret / Turret / PowerTurret; only PointDefenseTurret 2f, LaserTurret / ContinuousTurret / TractorBeamTurret 1f).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        },
+        "ammo_reload_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;",
+          "rule": "The Turret ammo reload multiplier (Turret.java:727, `return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;` -- the Turret override, NOT the ReloadTurret.java:41-43 default 1f); passed in as a parameter, live peekAmmo wiring is a later slice (the frame has no peeked reloadMultiplier yet).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "public float reload = 10f;",
+          "rule": "The per-def reload time in ticks (`public float reload = 10f;`, ReloadTurret.java:10 -- the class default; duo 20f, scatter 18f, salvo 29f, foreshadow 200f, Blocks.java): the canReload() gate half (`return reloadCounter < reload;`, ReloadTurret.java:46-48).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "return efficiency * delta();",
+          "rule": "The per-tick efficiency-scaled delta (`return efficiency * delta();`, BuildingComp.java:1927-1929, `edelta()` is `efficiency * delta()`), passed in precomputed (the N2240/N2248 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretCoolingProof",
+      "rule": "Source-backed Turret updateCooling() coolant fold from ReloadTurret.java:28-38 + Turret.java:550/:727 + BaseTurret.java:32 + BuildingComp.java:1927-1929 + Blocks.java."
+    },
+    "source_turret_cooling_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_cooling_state",
+      "source_slice": "N2525",
+      "keys": {
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier();",
+          "rule": "The reload counter after the coolant boost (`reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier();`, ReloadTurret.java:33, with `amount = coolant.amount * coolant.efficiency(this)`, :31); unchanged when the gate fails.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        },
+        "cooling_applied": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "if(canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){",
+          "rule": "Whether the updateCooling gate passed (ReloadTurret.java:29, `if(canReload() && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){`, canReload() = `reloadCounter < reload`, :46-48); false whenever the gate fails, and `coolant_consumed` is 0.0 then.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        },
+        "coolant_consumed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "coolant.update(this);",
+          "rule": "The coolant amount the update removes (`coolant.update(this);`, ReloadTurret.java:32 -- `amount * edelta() * multiplier`, ConsumeLiquidFilter.java:44-49, multiplier default 1f, returned for a later wiring slice to apply since the frame carries no liquid inventory; the N2241 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_cooling_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretCoolingProof",
+      "rule": "Source-backed Turret updateCooling() coolant fold from ReloadTurret.java:28-38 + Turret.java:550/:727 + BaseTurret.java:32 + BuildingComp.java:1927-1929 + Blocks.java."
     }
   },
   "version": 1

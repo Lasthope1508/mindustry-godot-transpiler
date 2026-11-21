@@ -8428,6 +8428,74 @@
       "rule": "Source-backed Turret controlled() frame stamp from Turret.java:441-443 + :490-503 + :631-633.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_cooling_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_cooling_state",
+      "status": "active",
+      "source_slice": "N2525",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "source_method": "ReloadTurretBuild.updateCooling()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_cooling_state_input.frame"
+        },
+        {
+          "name": "has_coolant",
+          "type": "bool",
+          "schema": "source_turret_cooling_state_input.has_coolant"
+        },
+        {
+          "name": "coolant_amount",
+          "type": "float",
+          "schema": "source_turret_cooling_state_input.coolant_amount"
+        },
+        {
+          "name": "coolant_efficiency",
+          "type": "float",
+          "schema": "source_turret_cooling_state_input.coolant_efficiency"
+        },
+        {
+          "name": "heat_capacity",
+          "type": "float",
+          "schema": "source_turret_cooling_state_input.heat_capacity"
+        },
+        {
+          "name": "coolant_multiplier",
+          "type": "float",
+          "schema": "source_turret_cooling_state_input.coolant_multiplier"
+        },
+        {
+          "name": "ammo_reload_multiplier",
+          "type": "float",
+          "schema": "source_turret_cooling_state_input.ammo_reload_multiplier"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_turret_cooling_state_input.reload"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "schema": "source_turret_cooling_state_input.edelta"
+        }
+      ],
+      "return_keys": [
+        "reload_counter",
+        "cooling_applied",
+        "coolant_consumed"
+      ],
+      "tests": [
+        "test_c07_turret_cooling_registration",
+        "test_all_c07_turret_cooling_input_evidence_is_exact",
+        "test_turret_cooling_state",
+        "test_reference_graph_and_actual_c07_turret_cooling"
+      ],
+      "runtime_proof": "/root/C07TurretCoolingProof",
+      "rule": "Source-backed Turret updateCooling() coolant fold from ReloadTurret.java:28-38 + Turret.java:550/:727 + BaseTurret.java:32 + BuildingComp.java:1927-1929 + Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_efficiency_multiplier_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_efficiency_multiplier_state",
       "status": "active",
