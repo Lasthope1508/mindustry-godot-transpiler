@@ -1,11 +1,11 @@
-# Báo cáo — N2525 Turret updateCooling coolant fold: pure ReloadTurret.updateCooling port cho Turret family (C07) [DONE]
+# Báo cáo — N2525 Turret updateCooling coolant fold: pure ReloadTurret.updateCooling port cho Turret family (C07) [DONE + PUSHED]
 
-Ngày: 2026-11-22 ~02:19 +07 (proof xanh, đọc trực tiếp proof .json mtime 19:19Z — .json được tạo lại bởi targeted re-run của main thread lượt này, nội dung vẫn matches:true 8/8; targeted 4/4 xác minh bởi main thread lượt này), gate lượt 2 xong 19:07:15Z (02:07:15 +07), push TBD.
+Ngày: 2026-11-22 ~02:19 +07 (proof xanh, đọc trực tiếp proof .json mtime 19:19Z — .json được tạo lại bởi targeted re-run của main thread lượt này, nội dung vẫn matches:true 8/8; targeted 4/4 xác minh bởi main thread lượt này), gate lượt 2 xong 19:07:15Z (02:07:15 +07), push ~02:30 +07.
 
 ## Trạng thái
 
 - N2524 DONE + PUSHED (origin/main b61fcdd8).
-- N2525 DONE (slice c4fb3409, docs TBD, GOAL TBD, status TBD, hashes TBD): port `ReloadTurretBuild.updateCooling()` thành 1 pure function mới `source_turret_cooling_state` (SourceTurretBuildState.gd:371) cho Turret family — KHÔNG driver tick call site (frame chưa có liquid state; catalog `coolant` không có trong properties của bất kỳ block nào). Hàm nhận 9 tham số, trả đúng 3 key `reload_counter` / `cooling_applied` / `coolant_consumed`; gate fail → không đổi `reload_counter`.
+- N2525 DONE + PUSHED (slice c4fb3409, docs 5e5dc8e5, GOAL 71d79b2c, status TBD, hashes TBD): port `ReloadTurretBuild.updateCooling()` thành 1 pure function mới `source_turret_cooling_state` (SourceTurretBuildState.gd:371) cho Turret family — KHÔNG driver tick call site (frame chưa có liquid state; catalog `coolant` không có trong properties của bất kỳ block nào). Hàm nhận 9 tham số, trả đúng 3 key `reload_counter` / `cooling_applied` / `coolant_consumed`; gate fail → không đổi `reload_counter`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
