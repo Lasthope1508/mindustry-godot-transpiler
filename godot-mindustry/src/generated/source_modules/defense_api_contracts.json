@@ -2614,6 +2614,86 @@
       "rule": "Source-backed LaserTurretBuild.updateShooting() state from LaserTurret.java.",
       "return_type": "Dictionary"
     },
+    "PortGame.source_laser_turret_build_update_tile_leg1_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_update_tile_leg1_state",
+      "status": "active",
+      "source_slice": "N2372",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.bullets"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.rotation"
+        },
+        {
+          "name": "shoot_x",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.shoot_x"
+        },
+        {
+          "name": "shoot_y",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.shoot_y"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.efficiency"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.time_scale"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.source_delta"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.heat"
+        },
+        {
+          "name": "cur_recoil",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.cur_recoil"
+        }
+      ],
+      "return_keys": [
+        "bullets",
+        "was_shooting",
+        "heat",
+        "cur_recoil",
+        "reload_branch"
+      ],
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg1_registration",
+        "test_all_c07_laser_turret_update_tile_leg1_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg1_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg1"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg1Proof",
+      "rule": "Source-backed LaserTurretBuild.updateTile() leg 1 state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_liquid_turret_ammo_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_liquid_turret_ammo_state",
       "status": "source-backed",

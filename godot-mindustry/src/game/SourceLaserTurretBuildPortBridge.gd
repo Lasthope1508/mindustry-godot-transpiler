@@ -125,3 +125,106 @@ static func source_laser_turret_build_turn_to_target_handle_bullet_state(rotatio
 	if bullet != null:
 		bullet_entry = {"bullet": bullet, "x": offset_x, "y": offset_y, "rotation": angle_offset, "life": shoot_duration}
 	return {"rotation": new_rotation, "bullet_entry": bullet_entry}
+
+
+# LaserTurretBuild.updateTile() LEG 1 (LaserTurret.java:67-89):
+# `public void updateTile(){`
+# `super.updateTile();`
+# `bullets.removeAll(b -> !b.bullet.isAdded() || b.bullet.type == null || b.life <= 0f || b.bullet.owner != this);`
+# `if(bullets.any()){`
+# `for(var entry : bullets){`
+# `float`
+# `bulletX = x + Angles.trnsx(rotation - 90, shootX + entry.x, shootY + entry.y),`
+# `bulletY = y + Angles.trnsy(rotation - 90, shootX + entry.x, shootY + entry.y),`
+# `angle = rotation + entry.rotation;`
+# `entry.bullet.rotation(angle);`
+# `entry.bullet.set(bulletX, bulletY);`
+# `entry.bullet.time = entry.bullet.type.lifetime * entry.bullet.type.optimalLifeFract;`
+# `entry.bullet.keepAlive = true;`
+# `entry.life -= Time.delta * timeScale / Math.max(efficiency, 0.00001f);`
+# `}`
+# `wasShooting = true;`
+# `heat = 1f;`
+# `curRecoil = 1f;`
+# `}else if(reloadCounter > 0){`
+# `... (LEG 2, a later slice) ...`
+# `}`
+# `}`
+# on `public class LaserTurretBuild extends PowerTurretBuild{`
+# (LaserTurret.java:44) inside
+# `public class LaserTurret extends PowerTurret{`.
+# LEG 1 is the whole bullets.any() branch: prune dead bullet
+# entries, update each survivor's bullet position/rotation/
+# time/keepAlive and decay its life, then set wasShooting/
+# heat/curRecoil. Leg 2 (the else-if reloadCounter > 0
+# branch, LaserTurret.java:90-108) is a LATER slice: the
+# two legs' write-sets are disjoint (leg 1 writes
+# bullets/wasShooting/heat/curRecoil, leg 2 writes
+# reloadCounter/liquids), the only join is the if/else-if
+# guard, and leg 1 returns the branch flag "reload_branch":
+# "bullets" (leg 2 later returns "coolant"|"edelta").
+# Leg-split approved by the main thread (write-sets
+# disjoint, BurstDrill updateTile leg precedent
+# N2294+N2149+N2296).
+# RED decisions: (1) `super.updateTile();` is a shared
+# callee (exact hit in 7 local slices), NOT a
+# distinguishing expr. (2) `heat = 1f;` / `wasShooting =
+# true;` / `curRecoil = 1f;` are state outputs in the
+# returned dict, NOT distinguishing exprs. (3) The shared
+# lines `entry.bullet.rotation(angle);` /
+# `entry.bullet.set(bulletX, bulletY);` /
+# `entry.bullet.keepAlive = true;` (exact 1 hit local:
+# N2366, different class), `for(var entry : bullets){`
+# (N2362), the three float declarators (N2366),
+# `if(bullets.any()){` (N2362, N2364, N2367) are
+# text-shares across classes/methods, registered under
+# this java_method (the N632-N639 vs N1078-N1085
+# precedent). (4) Angles.trnsx/trnsy here are the
+# THREE-arg overloads (Angles.java:74-79): they rotate the
+# (shootX + entry.x, shootY + entry.y) offset vector by
+# rotation - 90 degrees -- NOT the len overloads -- so the
+# offset is Vector2(...).rotated(deg_to_rad(rotation - 90))
+# (the N2366 precedent). (5) Time.delta arrives as the
+# explicit source_delta param (the N2330 param precedent);
+# Math.max(efficiency, 0.00001f) is maxf. (6) The bullets
+# seq is NOT ported: it arrives as an explicit Array of
+# entry dicts {x, y, rotation, life, bullet: {is_added,
+# type_null, owner_is_self, time, lifetime,
+# type_optimal_life_fract, keep_alive, rotation, x, y}}
+# (the N2330 param precedent); the input array is never
+# mutated, the pruned+updated list is fresh. (7) NO driver
+# line: a pure function the tick reads, not a per-tick
+# write; the driver writes the returned bullets back and
+# evaluates leg 2 when reload_branch is "reload".
+static func source_laser_turret_build_update_tile_leg1_state(bullets: Array, x: float, y: float, rotation: float, shoot_x: float, shoot_y: float, efficiency: float, time_scale: float, source_delta: float, heat: float, cur_recoil: float) -> Dictionary:
+	var pruned: Array = []
+	for entry in bullets:
+		var e: Dictionary = entry
+		var bullet: Dictionary = e.get("bullet", {})
+		if bool(bullet.get("is_added", false)) and not bool(bullet.get("type_null", true)) and float(e.get("life", 0.0)) > 0.0 and bool(bullet.get("owner_is_self", false)):
+			var entry_x: float = float(e.get("x", 0.0))
+			var entry_y: float = float(e.get("y", 0.0))
+			var entry_rotation: float = float(e.get("rotation", 0.0))
+			var offset: Vector2 = Vector2(shoot_x + entry_x, shoot_y + entry_y).rotated(deg_to_rad(rotation - 90.0))
+			var bullet_x: float = x + offset.x
+			var bullet_y: float = y + offset.y
+			var angle: float = rotation + entry_rotation
+			var new_life: float = float(e.get("life", 0.0)) - source_delta * time_scale / maxf(efficiency, 0.00001)
+			var new_bullet: Dictionary = {
+				"is_added": bool(bullet.get("is_added", false)),
+				"type_null": bool(bullet.get("type_null", true)),
+				"owner_is_self": bool(bullet.get("owner_is_self", false)),
+				"time": float(bullet.get("lifetime", 0.0)) * float(bullet.get("type_optimal_life_fract", 0.0)),
+				"lifetime": float(bullet.get("lifetime", 0.0)),
+				"type_optimal_life_fract": float(bullet.get("type_optimal_life_fract", 0.0)),
+				"keep_alive": true,
+				"rotation": angle,
+				"x": bullet_x,
+				"y": bullet_y,
+			}
+			pruned.append({"x": entry_x, "y": entry_y, "rotation": entry_rotation, "life": new_life, "bullet": new_bullet})
+	var was_shooting: bool = not pruned.is_empty()
+	var next_heat: float = 1.0 if was_shooting else heat
+	var next_cur_recoil: float = 1.0 if was_shooting else cur_recoil
+	var reload_branch: String = "bullets" if was_shooting else "reload"
+	return {"bullets": pruned, "was_shooting": was_shooting, "heat": next_heat, "cur_recoil": next_cur_recoil, "reload_branch": reload_branch}

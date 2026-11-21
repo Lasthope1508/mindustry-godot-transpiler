@@ -245248,6 +245248,184 @@
       },
       "runtime_proof": "/root/C07PayloadTurretPeekAmmoProof",
       "rule": "Source-backed PayloadTurretBuild.peekAmmo() state from PayloadAmmoTurret.java."
+    },
+    "source_laser_turret_build_update_tile_leg1_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_update_tile_leg1_state",
+      "source_slice": "N2372",
+      "keys": {
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bullets.removeAll(b -> !b.bullet.isAdded() || b.bullet.type == null || b.life <= 0f || b.bullet.owner != this);",
+          "rule": "The bullet entries to prune and update, bullets (LaserTurret.java:70, `bullets.removeAll(...)`): the seq itself is NOT ported -- it arrives as an explicit Array of entry dicts {x, y, rotation, life, bullet} (the N2330 param precedent); the input array is never mutated.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX + entry.x, shootY + entry.y),",
+          "rule": "The building x, x (LaserTurret.java:76): the bullet position origin.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bulletY = y + Angles.trnsy(rotation - 90, shootX + entry.x, shootY + entry.y),",
+          "rule": "The building y, y (LaserTurret.java:77): the bullet position origin.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "angle = rotation + entry.rotation;",
+          "rule": "The current rotation, rotation (LaserTurret.java:78): the base angle for the muzzle offset rotation and the entry angle.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "shoot_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX + entry.x, shootY + entry.y),",
+          "rule": "The shoot x offset, shootX (LaserTurret.java:76): the muzzle offset vector x component.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "shoot_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bulletX = x + Angles.trnsx(rotation - 90, shootX + entry.x, shootY + entry.y),",
+          "rule": "The shoot y offset, shootY (LaserTurret.java:76): the muzzle offset vector y component.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "entry.life -= Time.delta * timeScale / Math.max(efficiency, 0.00001f);",
+          "rule": "The build efficiency, efficiency (LaserTurret.java:84): the life-decay divisor floor Math.max(efficiency, 0.00001f).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "entry.life -= Time.delta * timeScale / Math.max(efficiency, 0.00001f);",
+          "rule": "The time scale, timeScale (LaserTurret.java:84): scales the life decay.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "entry.life -= Time.delta * timeScale / Math.max(efficiency, 0.00001f);",
+          "rule": "The frame delta, Time.delta (LaserTurret.java:84): scales the life decay; arrives as the explicit source_delta param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "heat = 1f;",
+          "rule": "The current heat (LaserTurret.java:88, `heat = 1f;`): the value kept when no bullet survives, replaced by 1f when one does -- taken as an explicit in/out param.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "cur_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "curRecoil = 1f;",
+          "rule": "The current curRecoil (LaserTurret.java:89, `curRecoil = 1f;`): the value kept when no bullet survives, replaced by 1f when one does -- taken as an explicit in/out param.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg1Proof",
+      "rule": "Source-backed LaserTurretBuild.updateTile() leg 1 state from LaserTurret.java."
+    },
+    "source_laser_turret_build_update_tile_leg1_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_update_tile_leg1_state",
+      "source_slice": "N2372",
+      "keys": {
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bullets.removeAll(b -> !b.bullet.isAdded() || b.bullet.type == null || b.life <= 0f || b.bullet.owner != this);",
+          "rule": "The pruned+updated bullet entries (LaserTurret.java:70-84): survivors only, each with its bullet moved to the rotated muzzle offset, its time refreshed and keepAlive set, its life decayed -- a fresh Array, the input is never mutated.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "was_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "wasShooting = true;",
+          "rule": "Whether the turret was shooting this tick (LaserTurret.java:87, `wasShooting = true;`): true exactly when a pruned bullet remains.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "heat = 1f;",
+          "rule": "The heat after the tick (LaserTurret.java:88, `heat = 1f;`): 1f when a bullet survives, otherwise the input heat unchanged.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "cur_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "curRecoil = 1f;",
+          "rule": "The curRecoil after the tick (LaserTurret.java:89, `curRecoil = 1f;`): 1f when a bullet survives, otherwise the input curRecoil unchanged.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        },
+        "reload_branch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(bullets.any()){",
+          "rule": "The branch flag (LaserTurret.java:72, `if(bullets.any()){`): \"bullets\" when the bullets branch ran, \"reload\" when it did not -- the driver evaluates leg 2 (the else-if reloadCounter > 0 branch) when it is \"reload\".",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_tile_leg1_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg1Proof",
+      "rule": "Source-backed LaserTurretBuild.updateTile() leg 1 state from LaserTurret.java."
     }
   },
   "version": 1

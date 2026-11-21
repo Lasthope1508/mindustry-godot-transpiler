@@ -4073,6 +4073,27 @@
       ],
       "runtime_proof": "/root/C07PayloadTurretPeekAmmoProof"
     },
+    "N2372": {
+      "canonical_ledger": "source_slice_ledger.N2372",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateTile()",
+      "godot_owner": "PortGame.source_laser_turret_build_update_tile_leg1_state",
+      "source_symbols": [
+        "source_laser_turret_build_update_tile_leg1_state_result.bullets",
+        "source_laser_turret_build_update_tile_leg1_state_result.was_shooting",
+        "source_laser_turret_build_update_tile_leg1_state_result.heat",
+        "source_laser_turret_build_update_tile_leg1_state_result.cur_recoil",
+        "source_laser_turret_build_update_tile_leg1_state_result.reload_branch"
+      ],
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg1_registration",
+        "test_all_c07_laser_turret_update_tile_leg1_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg1_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg1"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg1Proof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
