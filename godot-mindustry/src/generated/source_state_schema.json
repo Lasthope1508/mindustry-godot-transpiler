@@ -246232,6 +246232,402 @@
       },
       "runtime_proof": "/root/C07BeamDrillUpdateFacingProof",
       "rule": "Source-backed BeamDrillBuild.onProximityUpdate()/updateLasers()/updateFacing() state from BeamDrill.java."
+    },
+    "source_teams_get_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_get_state",
+      "source_slice": "N2380",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "var data = map[team.id];",
+          "rule": "The teams state (Teams.get, Teams.java:98, `var data = map[team.id];`): the family-convention first arg; it carries the \"teams\" map team_id -> TeamData dict (Java `map`, Teams.java:28, `private TeamData[] map = new TeamData[256];`) -- get() WRITES teams_state[\"teams\"][team_id] when the team is missing (Java `map[team.id] = new TeamData(team)`), so teams_state is an in/out param here.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public TeamData get(Team team){",
+          "rule": "The team asking (Teams.java:97, `public TeamData get(Team team){`): team.id indexes the map; teams are compared by team_id, not the Team enum.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_get_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_get_state",
+      "source_slice": "N2380",
+      "keys": {
+        "team_data": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return map[team.id] = new TeamData(team);",
+          "rule": "The TeamData dict for the team (Teams.java:101-102, `return map[team.id] = new TeamData(team);`): the existing entry when present, or a freshly created empty TeamData dict {\"cores\": [], \"buildings\": [], \"units\": [], \"core_enemies\": []} (the _teams_data empty shape) when the team had none -- new TeamData(team) in Java starts with empty cores/buildings/units.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_state"
+          ]
+        },
+        "created": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(data != null){",
+          "rule": "Whether get() had to create the TeamData (Teams.java:99, `if(data != null){`): false when map[team.id] was non-null (the `return data;` branch, Teams.java:100), true when it took the else branch and stored a new TeamData.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_state"
+          ]
+        },
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return map[team.id] = new TeamData(team);",
+          "rule": "The updated teams state (Teams.java:102, `return map[team.id] = new TeamData(team);`): identical when the team existed, carrying the new empty TeamData entry when created -- Java writes map[team.id].",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_get_or_null_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_get_or_null_state",
+      "source_slice": "N2380",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return map[team.id];",
+          "rule": "The teams state (Teams.getOrNull, Teams.java:107, `return map[team.id];`): read-only here -- getOrNull() never creates an entry, unlike get().",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_or_null_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public @Nullable TeamData getOrNull(Team team){",
+          "rule": "The team asking (Teams.java:106, `public @Nullable TeamData getOrNull(Team team){`): team.id indexes the map.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_or_null_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_get_or_null_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_get_or_null_state",
+      "source_slice": "N2380",
+      "keys": {
+        "team_data": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return map[team.id];",
+          "rule": "The TeamData dict, or null (Teams.java:107, `return map[team.id];`): null when the team has no entry (the @Nullable return, Teams.java:106) -- the caller must null-check before using it, and the missing entry is NOT created.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_or_null_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_player_cores_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_player_cores_state",
+      "source_slice": "N2380",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return get(state.rules.defaultTeam).cores;",
+          "rule": "The teams state (Teams.playerCores, Teams.java:111, `return get(state.rules.defaultTeam).cores;`): the get() inside may create the default team entry, so teams_state is in/out.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_player_cores_state"
+          ]
+        },
+        "default_team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return get(state.rules.defaultTeam).cores;",
+          "rule": "state.rules.defaultTeam as an explicit param (Teams.java:111, `return get(state.rules.defaultTeam).cores;`): Rules is not ported, so the default team arrives as its team id (the N2330 param precedent).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_player_cores_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_player_cores_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_player_cores_state",
+      "source_slice": "N2380",
+      "keys": {
+        "cores": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return get(state.rules.defaultTeam).cores;",
+          "rule": "The default team cores (Teams.java:111, `return get(state.rules.defaultTeam).cores;`): the .cores Array of the default team TeamData -- empty when the default team has no cores (get() creates the entry first, so this never nulls).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_player_cores_state"
+          ]
+        },
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return get(state.rules.defaultTeam).cores;",
+          "rule": "The updated teams state (Teams.java:111, `return get(state.rules.defaultTeam).cores;`): the get() inside may have created the default team entry.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_player_cores_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_cores_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_cores_state",
+      "source_slice": "N2380",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return get(team).cores;",
+          "rule": "The teams state (Teams.cores, Teams.java:116, `return get(team).cores;`): the get() inside may create the team entry, so teams_state is in/out.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_cores_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public Seq<CoreBuild> cores(Team team){",
+          "rule": "The team asking (Teams.java:115, `public Seq<CoreBuild> cores(Team team){`): team.id indexes the map.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_cores_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_cores_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_cores_state",
+      "source_slice": "N2380",
+      "keys": {
+        "cores": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return get(team).cores;",
+          "rule": "The team cores (Teams.java:116, `return get(team).cores;`): the .cores Array of the team TeamData -- empty when the team has no cores (get() creates the entry first, so this never nulls). Do not modify: the /** Do not modify! */ note on cores() (Teams.java:114).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_cores_state"
+          ]
+        },
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return get(team).cores;",
+          "rule": "The updated teams state (Teams.java:116, `return get(team).cores;`): the get() inside may have created the team entry.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_cores_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_is_active_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_is_active_state",
+      "source_slice": "N2380",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return get(team).active();",
+          "rule": "The teams state (Teams.isActive, Teams.java:122, `return get(team).active();`): carries the \"rules\" ({wave_team, waves}) the active() callee reads, and the get() inside may create the team entry, so teams_state is in/out.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_is_active_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public boolean isActive(Team team){",
+          "rule": "The team asking (Teams.java:120, `public boolean isActive(Team team){`): team.id indexes the map.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_is_active_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_is_active_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_is_active_state",
+      "source_slice": "N2380",
+      "keys": {
+        "is_active": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return get(team).active();",
+          "rule": "Whether the team is active (Teams.java:122, `return get(team).active();`): get(team).active() -- active() is TeamData.active() (Teams.java:446-448), already the exact_expr of N2074/N2075 and the file _teams_active helper, called here as callee evidence only; the enemy wave team is always active via the wave condition in active() (the comment at Teams.java:121).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_is_active_state"
+          ]
+        },
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return get(team).active();",
+          "rule": "The updated teams state (Teams.java:122, `return get(team).active();`): the get() inside may have created the team entry.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_is_active_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_can_interact_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_can_interact_state",
+      "source_slice": "N2380",
+      "keys": {
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public boolean canInteract(Team team, Team other){",
+          "rule": "The team asking (Teams.java:125, `public boolean canInteract(Team team, Team other){`).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_can_interact_state"
+          ]
+        },
+        "other_team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return team == other || other == Team.derelict;",
+          "rule": "The other team (Teams.java:126, `return team == other || other == Team.derelict;`): compared by team_id.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_can_interact_state"
+          ]
+        },
+        "derelict_team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return team == other || other == Team.derelict;",
+          "rule": "Team.derelict as an explicit param (Teams.java:126, `return team == other || other == Team.derelict;`): the Team const is not ported, so the derelict id arrives explicitly (derelict id 0, Team.java:41, per the file header comment).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_can_interact_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_can_interact_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_can_interact_state",
+      "source_slice": "N2380",
+      "keys": {
+        "can_interact": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return team == other || other == Team.derelict;",
+          "rule": "Whether the teams can interact (Teams.java:126, `return team == other || other == Team.derelict;`): true when the teams are the same, or when the other team is derelict -- a pure id predicate, no teams_state needed.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_can_interact_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_get_active_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_get_active_state",
+      "source_slice": "N2380",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "active.removeAll(t -> !t.active());",
+          "rule": "The teams state (Teams.getActive, Teams.java:131, `active.removeAll(t -> !t.active());`): carries the \"active\" list; getActive() REMOVES inactive entries in place (Java removeAll mutates the Seq), so teams_state is an in/out param here.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_active_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_teams_get_active_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_get_active_state",
+      "source_slice": "N2380",
+      "keys": {
+        "active": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return active;",
+          "rule": "The active team ids after pruning (Teams.java:132, `return active;`): every entry whose TeamData.active() is false is removed, in original order. Do not modify: the /** Do not modify. */ note on getActive() (Teams.java:129).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_active_state"
+          ]
+        },
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "active.removeAll(t -> !t.active());",
+          "rule": "The updated teams state (Teams.java:131, `active.removeAll(t -> !t.active());`): teams_state[\"active\"] is the pruned list -- Java mutates the Seq in place.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_get_active_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
     }
   },
   "version": 1

@@ -496,3 +496,137 @@ static func source_team_data_liveness_state(cores: Array, team_rules: Dictionary
 	var has_ai: bool = bool(team_rules.get("rts_ai", false)) or bool(team_rules.get("build_ai", false))
 	var first_core: Variant = null if cores.is_empty() else cores[0]
 	return {"has_core": has_core, "is_alive": has_core, "no_cores": cores.is_empty(), "core": first_core, "has_ai": has_ai}
+
+
+static func source_teams_get_state(teams_state: Dictionary, team_id: int) -> Dictionary:
+	# Teams.get (Teams.java:97-104):
+	# `public TeamData get(Team team){`
+	# `var data = map[team.id];`
+	# `if(data != null){`
+	# `return data;`
+	# `}else{`
+	# `return map[team.id] = new TeamData(team);`
+	# `}`
+	# `}`
+	# on `public class Teams{` (Teams.java:27). `map` is the
+	# teams_state["teams"] dict (team_id -> TeamData dict);
+	# the existing entry is returned when present, otherwise
+	# a new empty TeamData dict is created and stored -- the
+	# empty shape is the _teams_data shape ({"cores": [],
+	# "buildings": [], "units": [], "core_enemies": []}),
+	# since new TeamData(team) in Java starts with empty
+	# cores/buildings/units. The `created` flag records
+	# which branch ran: false on the `if(data != null){`
+	# branch, true on the else branch. The write makes
+	# teams_state an in/out param.
+	var teams: Dictionary = teams_state.get("teams", {})
+	var created: bool = not teams.has(team_id)
+	var data: Dictionary = _teams_data(teams_state, team_id)
+	return {"team_data": data, "created": created, "teams_state": teams_state}
+
+
+static func source_teams_get_or_null_state(teams_state: Dictionary, team_id: int) -> Dictionary:
+	# Teams.getOrNull (Teams.java:106-108):
+	# `public @Nullable TeamData getOrNull(Team team){`
+	# `return map[team.id];`
+	# `}`
+	# Unlike get(), this only READS the map: a missing team
+	# returns null (the @Nullable return) and the entry is
+	# NOT created -- it never calls _teams_data, which would
+	# create a missing team entry. teams_state is read-only
+	# here.
+	var teams: Dictionary = teams_state.get("teams", {})
+	var data: Variant = teams.get(team_id, null)
+	return {"team_data": data}
+
+
+static func source_teams_player_cores_state(teams_state: Dictionary, default_team_id: int) -> Dictionary:
+	# Teams.playerCores (Teams.java:110-112):
+	# `public Seq<CoreBuild> playerCores(){`
+	# `return get(state.rules.defaultTeam).cores;`
+	# `}`
+	# The get() call is INSIDE this group (an internal
+	# self-reference, not an outside expr): it may create
+	# the default team's entry, so teams_state is in/out.
+	# state.rules.defaultTeam is Rules state (not ported),
+	# so it arrives as the explicit default_team_id param
+	# (the N2330 param precedent).
+	var got: Dictionary = source_teams_get_state(teams_state, default_team_id)
+	var data: Dictionary = got.get("team_data", {})
+	return {"cores": data.get("cores", []), "teams_state": got.get("teams_state", teams_state)}
+
+
+static func source_teams_cores_state(teams_state: Dictionary, team_id: int) -> Dictionary:
+	# Teams.cores (Teams.java:115-117):
+	# `public Seq<CoreBuild> cores(Team team){`
+	# `return get(team).cores;`
+	# `}`
+	# The get() call is INSIDE this group (an internal
+	# self-reference, not an outside expr): it may create
+	# the team's entry, so teams_state is in/out. Do not
+	# modify: the /** Do not modify! */ note on cores()
+	# (Teams.java:114).
+	var got: Dictionary = source_teams_get_state(teams_state, team_id)
+	var data: Dictionary = got.get("team_data", {})
+	return {"cores": data.get("cores", []), "teams_state": got.get("teams_state", teams_state)}
+
+
+static func source_teams_is_active_state(teams_state: Dictionary, team_id: int) -> Dictionary:
+	# Teams.isActive (Teams.java:120-123):
+	# `public boolean isActive(Team team){`
+	# `//the enemy wave team is always active`
+	# `return get(team).active();`
+	# `}`
+	# The get() call is INSIDE this group (an internal
+	# self-reference, not an outside expr): it may create
+	# the team's entry, so teams_state is in/out. active()
+	# is TeamData.active() (Teams.java:446-448), already the
+	# exact_expr of N2074/N2075 -- the file's _teams_active
+	# helper IS that callee, called here as evidence only,
+	# not re-ported. The wave team is always active via the
+	# wave condition inside active().
+	var got: Dictionary = source_teams_get_state(teams_state, team_id)
+	var data: Dictionary = got.get("team_data", {})
+	var rules: Dictionary = teams_state.get("rules", {})
+	return {"is_active": _teams_active(data, team_id, rules), "teams_state": got.get("teams_state", teams_state)}
+
+
+static func source_teams_can_interact_state(team_id: int, other_team_id: int, derelict_team_id: int) -> Dictionary:
+	# Teams.canInteract (Teams.java:125-127):
+	# `public boolean canInteract(Team team, Team other){`
+	# `return team == other || other == Team.derelict;`
+	# `}`
+	# A pure id predicate -- no teams_state needed.
+	# Team.derelict is a Team const (not ported), so it
+	# arrives as the explicit derelict_team_id param
+	# (derelict id 0, Team.java:41, per the file header
+	# comment).
+	return {"can_interact": team_id == other_team_id or other_team_id == derelict_team_id}
+
+
+static func source_teams_get_active_state(teams_state: Dictionary) -> Dictionary:
+	# Teams.getActive (Teams.java:130-133):
+	# `public Seq<TeamData> getActive(){`
+	# `active.removeAll(t -> !t.active());`
+	# `return active;`
+	# `}`
+	# Java removeAll mutates the active Seq in place,
+	# keeping only entries whose TeamData.active() is true,
+	# in original order -- so teams_state["active"] is
+	# rewritten here and teams_state is an in/out param.
+	# active() is TeamData.active() (Teams.java:446-448),
+	# already the exact_expr of N2074/N2075 -- the file's
+	# _teams_active helper IS that callee, called here as
+	# evidence only, not re-ported. Do not modify: the
+	# /** Do not modify. */ note on getActive()
+	# (Teams.java:129).
+	var rules: Dictionary = teams_state.get("rules", {})
+	var teams: Dictionary = teams_state.get("teams", {})
+	var kept: Array = []
+	for member_id in teams_state.get("active", []):
+		var member_team_id := int(member_id)
+		var data: Dictionary = teams.get(member_team_id, {})
+		if _teams_active(data, member_team_id, rules):
+			kept.append(member_team_id)
+	teams_state["active"] = kept
+	return {"active": kept, "teams_state": teams_state}

@@ -73970,6 +73970,222 @@
       ],
       "runtime_proof": "/root/C07BeamDrillUpdateFacingProof",
       "rule": "Source-backed BeamDrillBuild.onProximityUpdate()/updateLasers()/updateFacing() state from BeamDrill.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_get_state": {
+      "status": "active",
+      "source_slice": "N2380",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.get(Team)",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_get_state_input.teams_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_get_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "team_data",
+        "created",
+        "teams_state"
+      ],
+      "tests": [
+        "test_c07_teams_lookup_registration",
+        "test_all_c07_teams_lookup_input_evidence_is_exact",
+        "test_teams_lookup_state",
+        "test_reference_graph_and_actual_c07_teams_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_get_or_null_state": {
+      "status": "active",
+      "source_slice": "N2380",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.getOrNull(Team)",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_get_or_null_state_input.teams_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_get_or_null_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "team_data"
+      ],
+      "tests": [
+        "test_c07_teams_lookup_registration",
+        "test_all_c07_teams_lookup_input_evidence_is_exact",
+        "test_teams_lookup_state",
+        "test_reference_graph_and_actual_c07_teams_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_player_cores_state": {
+      "status": "active",
+      "source_slice": "N2380",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.playerCores()",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_player_cores_state_input.teams_state"
+        },
+        {
+          "name": "default_team_id",
+          "type": "int",
+          "schema": "source_teams_player_cores_state_input.default_team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cores",
+        "teams_state"
+      ],
+      "tests": [
+        "test_c07_teams_lookup_registration",
+        "test_all_c07_teams_lookup_input_evidence_is_exact",
+        "test_teams_lookup_state",
+        "test_reference_graph_and_actual_c07_teams_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_cores_state": {
+      "status": "active",
+      "source_slice": "N2380",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.cores(Team)",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_cores_state_input.teams_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_cores_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "cores",
+        "teams_state"
+      ],
+      "tests": [
+        "test_c07_teams_lookup_registration",
+        "test_all_c07_teams_lookup_input_evidence_is_exact",
+        "test_teams_lookup_state",
+        "test_reference_graph_and_actual_c07_teams_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_is_active_state": {
+      "status": "active",
+      "source_slice": "N2380",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.isActive(Team)",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_is_active_state_input.teams_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_is_active_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "is_active",
+        "teams_state"
+      ],
+      "tests": [
+        "test_c07_teams_lookup_registration",
+        "test_all_c07_teams_lookup_input_evidence_is_exact",
+        "test_teams_lookup_state",
+        "test_reference_graph_and_actual_c07_teams_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_can_interact_state": {
+      "status": "active",
+      "source_slice": "N2380",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.canInteract(Team, Team)",
+      "params": [
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_can_interact_state_input.team_id"
+        },
+        {
+          "name": "other_team_id",
+          "type": "int",
+          "schema": "source_teams_can_interact_state_input.other_team_id"
+        },
+        {
+          "name": "derelict_team_id",
+          "type": "int",
+          "schema": "source_teams_can_interact_state_input.derelict_team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_interact"
+      ],
+      "tests": [
+        "test_c07_teams_lookup_registration",
+        "test_all_c07_teams_lookup_input_evidence_is_exact",
+        "test_teams_lookup_state",
+        "test_reference_graph_and_actual_c07_teams_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_get_active_state": {
+      "status": "active",
+      "source_slice": "N2380",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.getActive()",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_teams_get_active_state_input.teams_state"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "active",
+        "teams_state"
+      ],
+      "tests": [
+        "test_c07_teams_lookup_registration",
+        "test_all_c07_teams_lookup_input_evidence_is_exact",
+        "test_teams_lookup_state",
+        "test_reference_graph_and_actual_c07_teams_lookup"
+      ],
+      "runtime_proof": "/root/C07TeamsLookupProof",
+      "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
     }
   },
   "policy": {
