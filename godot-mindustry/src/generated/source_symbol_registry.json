@@ -179912,6 +179912,70 @@
         "test_reference_graph_and_actual_c07_teams_any_enemy_cores_within"
       ],
       "runtime_proof": "/root/C07TeamsAnyEnemyCoresWithinProof"
+    },
+    "source_continuous_turret_build_update_tile_state_result.bullets": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_tile_state",
+      "godot_symbol": "source_continuous_turret_build_update_tile_state_result.bullets",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateTile()",
+      "java_expr": "bullets.removeAll(b -> !b.bullet.isAdded() || b.bullet.type == null || b.bullet.owner != this);",
+      "rule": "The bullets seq after pruning (ContinuousTurret.java:89, `bullets.removeAll(...)`): only entries whose bullet is added, whose type is not null, and whose owner is this turret survive, in original order.",
+      "tests": [
+        "test_c07_continuous_turret_update_tile_registration",
+        "test_all_c07_continuous_turret_update_tile_input_evidence_is_exact",
+        "test_continuous_turret_update_tile_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateTileProof"
+    },
+    "source_continuous_turret_build_update_tile_state_result.was_shooting": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_tile_state",
+      "godot_symbol": "source_continuous_turret_build_update_tile_state_result.was_shooting",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateTile()",
+      "java_expr": "wasShooting = true;",
+      "rule": "Whether the turret was shooting this tick (ContinuousTurret.java:96, `wasShooting = true;`): super.updateTile() resets wasShooting to false first (Turret.java:517), so this is true exactly when pruned bullets remain.",
+      "tests": [
+        "test_c07_continuous_turret_update_tile_registration",
+        "test_all_c07_continuous_turret_update_tile_input_evidence_is_exact",
+        "test_continuous_turret_update_tile_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateTileProof"
+    },
+    "source_continuous_turret_build_update_tile_state_result.heat": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_tile_state",
+      "godot_symbol": "source_continuous_turret_build_update_tile_state_result.heat",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateTile()",
+      "java_expr": "heat = 1f;",
+      "rule": "The heat after the tick (ContinuousTurret.java:97, `heat = 1f;`): 1f when a bullet survives, otherwise the input heat unchanged.",
+      "tests": [
+        "test_c07_continuous_turret_update_tile_registration",
+        "test_all_c07_continuous_turret_update_tile_input_evidence_is_exact",
+        "test_continuous_turret_update_tile_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateTileProof"
+    },
+    "source_continuous_turret_build_update_tile_state_result.cur_recoil": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_update_tile_state",
+      "godot_symbol": "source_continuous_turret_build_update_tile_state_result.cur_recoil",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.updateTile()",
+      "java_expr": "curRecoil = recoil;",
+      "rule": "The curRecoil after the tick (ContinuousTurret.java:98, `curRecoil = recoil;`): recoil when a bullet survives, otherwise the input curRecoil unchanged.",
+      "tests": [
+        "test_c07_continuous_turret_update_tile_registration",
+        "test_all_c07_continuous_turret_update_tile_input_evidence_is_exact",
+        "test_continuous_turret_update_tile_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateTileProof"
     }
   },
   "version": 1

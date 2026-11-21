@@ -1136,6 +1136,50 @@
       "rule": "Source-backed ContinuousTurretBuild.getAmmoFraction() state from ContinuousTurret.java.",
       "return_type": "Dictionary"
     },
+    "PortGame.source_continuous_turret_build_update_tile_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_update_tile_state",
+      "status": "active",
+      "source_slice": "N2362",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_continuous_turret_build_update_tile_state_input.bullets"
+        },
+        {
+          "name": "recoil",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_tile_state_input.recoil"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_tile_state_input.heat"
+        },
+        {
+          "name": "cur_recoil",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_tile_state_input.cur_recoil"
+        }
+      ],
+      "return_keys": [
+        "bullets",
+        "was_shooting",
+        "heat",
+        "cur_recoil"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_update_tile_registration",
+        "test_all_c07_continuous_turret_update_tile_input_evidence_is_exact",
+        "test_continuous_turret_update_tile_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateTileProof",
+      "rule": "Source-backed ContinuousTurretBuild.updateTile() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_continuous_turret_set_stats_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_set_stats_state",
       "status": "source-backed",

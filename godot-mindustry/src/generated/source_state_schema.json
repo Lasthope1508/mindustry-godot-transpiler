@@ -244038,6 +244038,104 @@
       },
       "runtime_proof": "/root/C07TeamsAnyEnemyCoresWithinProof",
       "rule": "Source-backed Teams.anyEnemyCoresWithin() state from Teams.java."
+    },
+    "source_continuous_turret_build_update_tile_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_update_tile_state",
+      "source_slice": "N2362",
+      "keys": {
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "bullets.removeAll(b -> !b.bullet.isAdded() || b.bullet.type == null || b.bullet.owner != this);",
+          "rule": "The bullets seq (ContinuousTurret.java:89): the ContinuousTurretBuild field -- NOT re-ported here (BulletEntry/Seq are not ported); it arrives as an explicit param (the N2313 hasAmmo Array precedent) as an Array of {is_added, type_null, owner_is_self} dicts, one per BulletEntry, and the function returns a fresh pruned Array -- the input array is never mutated.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_tile_state"
+          ]
+        },
+        "recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "curRecoil = recoil;",
+          "rule": "The block recoil field (ContinuousTurret.java:98): the value curRecoil is set to when a bullet survives -- taken as an explicit param.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_tile_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "heat = 1f;",
+          "rule": "The current heat after the super tick decayed it toward 0 (ContinuousTurret.java:97, Turret.java:525): the value kept when no bullet survives, replaced by 1f when one does -- taken as an explicit in/out param.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_tile_state"
+          ]
+        },
+        "cur_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "curRecoil = recoil;",
+          "rule": "The current curRecoil after the super tick decayed it toward 0 (ContinuousTurret.java:98, Turret.java:519): the value kept when no bullet survives, replaced by recoil when one does -- taken as an explicit in/out param.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretUpdateTileProof",
+      "rule": "Source-backed ContinuousTurretBuild.updateTile() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_update_tile_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_update_tile_state",
+      "source_slice": "N2362",
+      "keys": {
+        "bullets": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "bullets.removeAll(b -> !b.bullet.isAdded() || b.bullet.type == null || b.bullet.owner != this);",
+          "rule": "The bullets seq after pruning (ContinuousTurret.java:89, `bullets.removeAll(...)`): only entries whose bullet is added, whose type is not null, and whose owner is this turret survive, in original order.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_tile_state"
+          ]
+        },
+        "was_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "wasShooting = true;",
+          "rule": "Whether the turret was shooting this tick (ContinuousTurret.java:96, `wasShooting = true;`): super.updateTile() resets wasShooting to false first (Turret.java:517), so this is true exactly when pruned bullets remain.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_tile_state"
+          ]
+        },
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "heat = 1f;",
+          "rule": "The heat after the tick (ContinuousTurret.java:97, `heat = 1f;`): 1f when a bullet survives, otherwise the input heat unchanged.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_tile_state"
+          ]
+        },
+        "cur_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "curRecoil = recoil;",
+          "rule": "The curRecoil after the tick (ContinuousTurret.java:98, `curRecoil = recoil;`): recoil when a bullet survives, otherwise the input curRecoil unchanged.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretUpdateTileProof",
+      "rule": "Source-backed ContinuousTurretBuild.updateTile() state from ContinuousTurret.java."
     }
   },
   "version": 1
