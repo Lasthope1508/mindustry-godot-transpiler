@@ -244844,6 +244844,164 @@
       },
       "runtime_proof": "/root/C07PayloadAmmoTurretGetAmmoContentProof",
       "rule": "Source-backed PayloadTurretBuild.getAmmoContent() state from PayloadAmmoTurret.java."
+    },
+    "source_laser_turret_build_turn_to_target_handle_bullet_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state",
+      "source_slice": "N2369",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta() * (bullets.any() ? firingMoveFract : 1f));",
+          "rule": "The current rotation, rotation (LaserTurret.java:136): the angle moveToward starts from.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "target_rot": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta() * (bullets.any() ? firingMoveFract : 1f));",
+          "rule": "The target rotation, targetRot (LaserTurret.java:135): the angle moveToward moves toward.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta() * (bullets.any() ? firingMoveFract : 1f));",
+          "rule": "The build efficiency, efficiency (LaserTurret.java:136): scales the turn step; zero efficiency does not turn.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta() * (bullets.any() ? firingMoveFract : 1f));",
+          "rule": "The rotate speed, rotateSpeed (LaserTurret.java:136): scales the turn step.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta() * (bullets.any() ? firingMoveFract : 1f));",
+          "rule": "The frame delta, delta() (LaserTurret.java:136): scales the turn step.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "has_bullets": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta() * (bullets.any() ? firingMoveFract : 1f));",
+          "rule": "Whether the bullets seq is non-empty, bullets.any() (LaserTurret.java:136): the seq itself is NOT ported -- its emptiness arrives as an explicit param (the N2330 param precedent); while a bullet is around the step is scaled by firingMoveFract.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "firing_move_fract": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta() * (bullets.any() ? firingMoveFract : 1f));",
+          "rule": "The firing move fraction, firingMoveFract (LaserTurret.java:16, `public float firingMoveFract = 0.25f;`): the turn-step scale while a bullet is around.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "bullet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(bullet != null){",
+          "rule": "The bullet to hand over, bullet (LaserTurret.java:140-141): only a non-null bullet yields an entry.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "offset_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, shootDuration));",
+          "rule": "The bullet entry x offset, offsetX (LaserTurret.java:142): the BulletEntry x field (Turret.java:864-876).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "offset_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, shootDuration));",
+          "rule": "The bullet entry y offset, offsetY (LaserTurret.java:142): the BulletEntry y field (Turret.java:864-876).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "angle_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, shootDuration));",
+          "rule": "The bullet entry angle offset, angleOffset (LaserTurret.java:142): the BulletEntry rotation field (Turret.java:864-876).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "shoot_duration": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, shootDuration));",
+          "rule": "The bullet entry life, shootDuration (LaserTurret.java:17, `public float shootDuration = 100f;`): the BulletEntry life field (Turret.java:864-876).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretTurnToTargetHandleBulletProof",
+      "rule": "Source-backed LaserTurretBuild.turnToTarget()/handleBullet() state from LaserTurret.java."
+    },
+    "source_laser_turret_build_turn_to_target_handle_bullet_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state",
+      "source_slice": "N2369",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta() * (bullets.any() ? firingMoveFract : 1f));",
+          "rule": "The new rotation (LaserTurret.java:136, `rotation = Angles.moveToward(...);`): the wraparound moveToward result, snapped to targetRot when closer than the step.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        },
+        "bullet_entry": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, shootDuration));",
+          "rule": "The BulletEntry dict (LaserTurret.java:142, `bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, shootDuration));`): {\"bullet\", \"x\", \"y\", \"rotation\", \"life\"} for a non-null bullet, null otherwise -- the driver adds it to the bullets seq.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretTurnToTargetHandleBulletProof",
+      "rule": "Source-backed LaserTurretBuild.turnToTarget()/handleBullet() state from LaserTurret.java."
     }
   },
   "version": 1

@@ -2380,6 +2380,88 @@
       "rule": "Source-backed LaserTurretBuild.shouldConsume() state from LaserTurret.java.",
       "return_type": "Dictionary"
     },
+    "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state",
+      "status": "active",
+      "source_slice": "N2369",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.turnToTarget(float); LaserTurretBuild.handleBullet(Bullet, float, float, float)",
+      "params": [
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.rotation"
+        },
+        {
+          "name": "target_rot",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.target_rot"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.efficiency"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.rotate_speed"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.delta"
+        },
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.has_bullets"
+        },
+        {
+          "name": "firing_move_fract",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.firing_move_fract"
+        },
+        {
+          "name": "bullet",
+          "type": "Variant",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.bullet"
+        },
+        {
+          "name": "offset_x",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.offset_x"
+        },
+        {
+          "name": "offset_y",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.offset_y"
+        },
+        {
+          "name": "angle_offset",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.angle_offset"
+        },
+        {
+          "name": "shoot_duration",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.shoot_duration"
+        }
+      ],
+      "return_keys": [
+        "rotation",
+        "bullet_entry"
+      ],
+      "tests": [
+        "test_c07_laser_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_laser_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_laser_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_laser_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07LaserTurretTurnToTargetHandleBulletProof",
+      "rule": "Source-backed LaserTurretBuild.turnToTarget()/handleBullet() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_laser_turret_build_update_shooting_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_update_shooting_state",
       "status": "active",

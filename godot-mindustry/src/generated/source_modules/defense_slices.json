@@ -4018,6 +4018,24 @@
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretGetAmmoContentProof"
     },
+    "N2369": {
+      "canonical_ledger": "source_slice_ledger.N2369",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.turnToTarget(float); LaserTurretBuild.handleBullet(Bullet, float, float, float)",
+      "godot_owner": "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state",
+      "source_symbols": [
+        "source_laser_turret_build_turn_to_target_handle_bullet_state_result.rotation",
+        "source_laser_turret_build_turn_to_target_handle_bullet_state_result.bullet_entry"
+      ],
+      "tests": [
+        "test_c07_laser_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_laser_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_laser_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_laser_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07LaserTurretTurnToTargetHandleBulletProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

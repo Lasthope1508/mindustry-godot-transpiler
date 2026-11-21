@@ -72,3 +72,56 @@ static func source_laser_turret_build_update_shooting_state(has_bullets: bool, r
 			shoot_type = ammo_type
 			new_reload_counter = reload
 	return {"should_shoot": should_shoot, "shoot_type": shoot_type, "reload_counter": new_reload_counter}
+
+
+# LaserTurretBuild.turnToTarget() (LaserTurret.java:135-137):
+# `@Override`
+# `protected void turnToTarget(float targetRot){`
+# `rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta() * (bullets.any() ? firingMoveFract : 1f));`
+# `}`
+# LaserTurretBuild.handleBullet() (LaserTurret.java:140-144):
+# `@Override`
+# `protected void handleBullet(@Nullable Bullet bullet, float offsetX, float offsetY, float angleOffset){`
+# `if(bullet != null){`
+# `bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, shootDuration));`
+# `}`
+# `}`
+# on `public class LaserTurretBuild extends PowerTurretBuild{`
+# (LaserTurret.java:44) inside
+# `public class LaserTurret extends PowerTurret{`.
+# MERGED slice (N2346/N2336 precedent): ONE pure function,
+# ONE owner, covering BOTH java methods -- the rotation
+# turn and the bullet entry are one driver step (the tick
+# turns then hands the bullet over), and both read the
+# same bullets-any() state. Angles.moveToward is NOT
+# re-ported: it already exists as
+# SourceMathState.source_angles_move_toward (wraparound,
+# snaps when closer than the step). The step is scaled by
+# firingMoveFract (LaserTurret.java:16,
+# `public float firingMoveFract = 0.25f;`) only while a
+# bullet is around, full speed otherwise. bullets is
+# `public Seq<BulletEntry> bullets = new Seq<>();`
+# (LaserTurret.java:45): the seq itself is NOT ported --
+# its emptiness arrives as the explicit has_bullets param
+# (the N2330 param precedent). handleBullet appends a
+# BulletEntry (Turret.java:864-876, fields bullet/x/y/
+# rotation/life, positional from the constructor call:
+# offsetX -> x, offsetY -> y, angleOffset -> rotation,
+# shootDuration -> life) only for a non-null bullet; the
+# seq append itself is the driver-side effect, so this
+# pure function returns the entry dict (or null) and the
+# driver adds it. Distinguishing Laser from
+# ContinuousTurretBuild.turnToTarget/handleBullet (NOT
+# owned, later batch): Laser uses firingMoveFract while
+# bullets are around and shootDuration as the entry life
+# (LaserTurret.java:17, `public float shootDuration =
+# 100f;`); Continuous uses duration 0f and initialises
+# aim from Tmp.v1 -- no dedup between them. NO driver
+# line: pure functions the tick reads, not per-tick writes.
+static func source_laser_turret_build_turn_to_target_handle_bullet_state(rotation: float, target_rot: float, efficiency: float, rotate_speed: float, delta: float, has_bullets: bool, firing_move_fract: float, bullet: Variant, offset_x: float, offset_y: float, angle_offset: float, shoot_duration: float) -> Dictionary:
+	var move_fract: float = firing_move_fract if has_bullets else 1.0
+	var new_rotation: float = source_math_state.source_angles_move_toward(rotation, target_rot, efficiency * rotate_speed * delta * move_fract)
+	var bullet_entry: Variant = null
+	if bullet != null:
+		bullet_entry = {"bullet": bullet, "x": offset_x, "y": offset_y, "rotation": angle_offset, "life": shoot_duration}
+	return {"rotation": new_rotation, "bullet_entry": bullet_entry}

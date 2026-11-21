@@ -180312,6 +180312,38 @@
         "test_reference_graph_and_actual_c07_payload_ammo_turret_get_ammo_content"
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretGetAmmoContentProof"
+    },
+    "source_laser_turret_build_turn_to_target_handle_bullet_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state",
+      "godot_symbol": "source_laser_turret_build_turn_to_target_handle_bullet_state_result.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.turnToTarget(float); LaserTurretBuild.handleBullet(Bullet, float, float, float)",
+      "java_expr": "rotation = Angles.moveToward(rotation, targetRot, efficiency * rotateSpeed * delta() * (bullets.any() ? firingMoveFract : 1f));",
+      "rule": "The new rotation (LaserTurret.java:136, `rotation = Angles.moveToward(...);`): the wraparound moveToward result, snapped to targetRot when closer than the step.",
+      "tests": [
+        "test_c07_laser_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_laser_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_laser_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_laser_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07LaserTurretTurnToTargetHandleBulletProof"
+    },
+    "source_laser_turret_build_turn_to_target_handle_bullet_state_result.bullet_entry": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state",
+      "godot_symbol": "source_laser_turret_build_turn_to_target_handle_bullet_state_result.bullet_entry",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.turnToTarget(float); LaserTurretBuild.handleBullet(Bullet, float, float, float)",
+      "java_expr": "bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, shootDuration));",
+      "rule": "The BulletEntry dict (LaserTurret.java:142, `bullets.add(new BulletEntry(bullet, offsetX, offsetY, angleOffset, shootDuration));`): {\"bullet\", \"x\", \"y\", \"rotation\", \"life\"} for a non-null bullet, null otherwise -- the driver adds it to the bullets seq.",
+      "tests": [
+        "test_c07_laser_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_laser_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_laser_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_laser_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07LaserTurretTurnToTargetHandleBulletProof"
     }
   },
   "version": 1
