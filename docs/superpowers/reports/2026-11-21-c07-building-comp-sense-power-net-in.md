@@ -1,0 +1,32 @@
+# Báo cáo — N2514 BuildingComp.sense() powerNetIn leg (C07) [DONE + PUSHED]
+
+Ngày: 2026-11-21 ~09:19 +07 (GREEN), gate xong 09:51:13 +07, push ~10:1x +07.
+
+## Trạng thái
+
+- N2513 DONE + PUSHED (origin/main 451bb8c5).
+- N2514 DONE + PUSHED (slice 05ee5b98, docs TBD, GOAL TBD, status TBD, hashes TBD): `BuildingComp.sense()` `powerNetIn` leg — leg deferred đầu tiên trong bốn powerNet leg BÊN TRONG `sense()` (BuildingComp.java:2114): `case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;`, với `power` là power module của building (`@Nullable PowerModule power;`, BuildingComp.java:80) và `power.graph.getLastScaledPowerIn()` là last scaled power-in mỗi tick của graph (`public float getLastScaledPowerIn(){ return lastScaledPowerIn; }`, PowerGraph.java:45-47; cập nhật :233 `lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta`). `* 60` đổi giá trị mỗi tick sang rate mỗi giây. N2284 đã port 23 handled legs của `sense()` (BuildingComp.java:2093-2126) và để dead/health/totalItems/camera*/powerNet* deferred; N2511 đã port `dead` (:2098), N2512 đã port `health` (:2101), N2513 đã port `totalItems` (:2107), N2514 port đúng leg `powerNetIn`, tiếp theo trong Java switch order. KHÔNG có driver tick (logic read, tiền lệ N2206/N2208/N2223/N2283/N2284/N2506/N2507/N2508/N2509/N2510/N2511/N2512/N2513).
+
+## Làm được lượt này (GREEN + gate xong)
+
+- 1 pure function `source_building_comp_sense_power_net_in_state` (2 params power_is_null, last_scaled_power_in; 3 keys: handled, sense_value, sense_value_is_nan) trong SourceTurretBuildState.gd:629, ngay SAU `source_building_comp_sense_total_items_state` (:595, kết thúc ~:628), TRƯỚC `source_turret_sense_object_state` (:668 — bị đẩy từ :629) (mirror Java order — sense() :2093 → senseObject() :2128; trong sense() dead :2098 → health :2101 → totalItems :2107 → powerNetIn :2114). `sense_value = 0.0` khi power null, else `last_scaled_power_in * 60.0` chính xác (float * int literal 60; Java `sense()` returns double, float widen chính xác), không clamp, không làm tròn. `handled` luôn true (function này CHÍNH là powerNetIn leg, sensor cố định `powerNetIn` nên không có param sensor); `sense_value_is_nan` luôn false (leg không bao giờ ra NaN).
+- KHÔNG sửa `source_building_comp_sense_state`: powerNetIn vẫn `handled:false` trong big dispatch cho tới slice wiring sau (tiền lệ N2508 Content leg, N2511 dead leg, N2512 health leg, N2513 totalItems leg sống cạnh N2284). KHÔNG có driver tick: powerNetIn leg là logic read; wiring vào live logic-executor driver tick là slice riêng sau (logic executor chưa có trong driver); live graph values chưa được stamp trong frame — stamping là frame work riêng, params của N2514 là live input slice đó sẽ cung cấp.
+- Proof 6 keys: matches:true, 9/9 true (đọc trực tiếp từ C07BuildingCompSensePowerNetInProof.json, mtime 02:19:06Z ~09:19 +07, xác minh độc lập lượt cron 10:00 +07). 6 key semantic: power_net_in_null_num (null → 0.0); power_net_in_zero_num (0.0 → 0.0); power_net_in_some_num (2.5 → 150.0, đúng * 60 rate mỗi giây); power_net_in_large_num (10.0 → 600.0 chính xác); power_net_in_handled_true; power_net_in_value_not_nan.
+- `register_c07_building_comp_sense_power_net_in.py --verify`: 10/10 exprs present, exit 0 (chạy lại độc lập lượt này). SSOT đo từ đĩa: 11695/1743/1677/3145 (symbols +3, Done +1, contracts +1, schemas +2); comp slices 564, contracts 468 (+1/+1, N2514 vào comp shard — java_source BuildingComp.java, tiền lệ N2267/N2284/N2506/N2508/N2511/N2512/N2513); defense slices 210, contracts 209 không đổi. Đúng kỳ vọng scope.
+- Số slice N2514, KHÔNG phải N2285: N2285–N2505 đã có trên branch khác (slice/N2285-pump-dump-liquid, integration/wave-advances-36-n2499-n2505), `git log --all` max là N2513. Lấy N2285 sẽ đụng khi merge.
+
+## Test xanh/đỏ
+
+- Xanh: targeted 4/4 (30 subtests, lượt worker GREEN, Godot trên PATH); re-run độc lập lượt cron 10:00 +07: 3 passed + 1 fail Godot-absent (reference-graph test, `shutil.which('godot')` None trong shell này), 24 subtests passed; neighbours thực chất 239/239 (238 passed + 1 flake port-7777 — coolant test, proof của nó matches:true đủ 15 key, chỉ dính `ERROR: [MCP Runtime] Failed to start server on port 7777: 22`; re-run module đó 4 passed, 56 subtests passed trong 16.83s; NEIGHBOURS-START 02:05:21Z, NEIGHBOURS-EXIT 1 02:18:33Z, 791.00s, log hidden_files/n2514-chain.log); wiring 32 tests OK trong 130.176s (WIRING-START 02:18:33Z, WIRING-EXIT 0 02:20:43Z); `git diff --check` OK.
+- Gate: launch main-thread relaunch (script hidden_files/n2514-gate-only-main.sh). GATE-START 02:24:05Z (worker launch, chết theo session — log partial full-suite-n2514-gate-partial-worker.log), GATE-START 02:31:18Z (main-thread relaunch), GATE-EXIT 1 02:51:13Z (log full-suite-n2514-gate.log, 163173 byte). Ran 6265 trong 1192.788s, failures=243, skipped=5 — xác minh độc lập: 243 FAIL = 243 × `AssertionError: unexpectedly None`, 0 KeyError, 0 `return_schema_linkage`, 0 ERROR, toàn Godot-absent (+4 tests / +1 failure đúng mẫu vs N2513 — đúng 4 test mới của N2514, +1 failure là reference-graph test của N2514, Godot-absent vì chain script reset PATH không có godot-bin).
+- Đỏ: không có test đỏ ngoài 243 failure Godot-absent trong gate (mẫu đã biết) và 1 flake port-7777 ở neighbours (đã re-run xanh).
+
+## Blocker
+
+- Không có blocker cho slice. Môi trường: VM restart #15 lúc 01:36:30Z (uptime 1:29 lúc 03:06Z) — TRƯỚC khi N2514 RED/GREEN; không VM restart trong lúc chain/gate; javalang 0.13.0 + pytest 9.2.0 importable OK (xác minh lượt này); port 7777 free trước mỗi lần chạy proof. Lượt sau vẫn kiểm tra lại javalang trước mọi gate theo quy tắc repo.
+
+## Bước tiếp theo
+
+- Push N2514 đang chạy (slice + docs + GOAL + status + hashes, theo mẫu N2280–N2284/N2506/N2507/N2508/N2509/N2510/N2511/N2512/N2513).
+- Slice tiếp theo: các sensor leg BÊN TRONG `sense()` còn deferred, theo Java switch order — powerNetOut / powerNetStored / powerNetCapacity (:2115-2117, graph chưa live trong frame), camera* (:2122, cần UnitComp.sense delegation cho proxy unit). calculateHeat vẫn BLOCKED (live entity scan); findTarget BLOCKED; shootp live wiring cần logic executor; `controlled()` cần player unit; LaserTurret shouldConsume cần bullets live list; validateTarget effective-team live wiring chờ findTarget slice.
+- Chi tiết: xem handoff docs/superpowers/handoffs/2026-11-21-c07-building-comp-sense-power-net-in-handoff.md.
