@@ -181640,6 +181640,70 @@
         "test_reference_graph_and_actual_c07_beam_drill_draw_place"
       ],
       "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_laser_turret_build_set_stats_state_result.stats": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_set_stats_state",
+      "godot_symbol": "source_laser_turret_build_set_stats_state_result.stats",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurret.setStats()",
+      "java_expr": "stats.remove(Stat.booster);",
+      "rule": "The stats rows after setStats (LaserTurret.java:29, `stats.remove(Stat.booster);`): the booster rows dropped, and the input row with the boosters spec appended when coolant exists (LaserTurret.java:31) -- unchanged apart from those two ops.",
+      "tests": [
+        "test_c07_laser_turret_set_stats_init_progress_registration",
+        "test_all_c07_laser_turret_set_stats_init_progress_input_evidence_is_exact",
+        "test_laser_turret_set_stats_init_progress_state",
+        "test_reference_graph_and_actual_c07_laser_turret_set_stats_init_progress"
+      ],
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof"
+    },
+    "source_laser_turret_build_init_state_result.coolant": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_init_state",
+      "godot_symbol": "source_laser_turret_build_init_state_result.coolant",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurret.init()",
+      "java_expr": "coolant = findConsumer(c -> c instanceof ConsumeLiquidBase);",
+      "rule": "The resolved coolant consumer (LaserTurret.java:40, `coolant = findConsumer(c -> c instanceof ConsumeLiquidBase);`): the found consumer when the input was null, the input unchanged otherwise -- null when nothing was found.",
+      "tests": [
+        "test_c07_laser_turret_set_stats_init_progress_registration",
+        "test_all_c07_laser_turret_set_stats_init_progress_input_evidence_is_exact",
+        "test_laser_turret_set_stats_init_progress_state",
+        "test_reference_graph_and_actual_c07_laser_turret_set_stats_init_progress"
+      ],
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof"
+    },
+    "source_laser_turret_build_init_state_result.coolant_found": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_init_state",
+      "godot_symbol": "source_laser_turret_build_init_state_result.coolant_found",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurret.init()",
+      "java_expr": "if(coolant == null){",
+      "rule": "Whether the finder supplied the coolant (LaserTurret.java:39, `if(coolant == null){`): true exactly when the input coolant was null and a consumer was found.",
+      "tests": [
+        "test_c07_laser_turret_set_stats_init_progress_registration",
+        "test_all_c07_laser_turret_set_stats_init_progress_input_evidence_is_exact",
+        "test_laser_turret_set_stats_init_progress_state",
+        "test_reference_graph_and_actual_c07_laser_turret_set_stats_init_progress"
+      ],
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof"
+    },
+    "source_laser_turret_build_progress_state_result.progress": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_progress_state",
+      "godot_symbol": "source_laser_turret_build_progress_state_result.progress",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.progress()",
+      "java_expr": "return 1f - Mathf.clamp(reloadCounter / reload);",
+      "rule": "The reload progress (LaserTurret.java:111, `return 1f - Mathf.clamp(reloadCounter / reload);`): 1 - clamp(reloadCounter / reload, 0, 1) -- 1 when ready, 0 when at or past reload.",
+      "tests": [
+        "test_c07_laser_turret_set_stats_init_progress_registration",
+        "test_all_c07_laser_turret_set_stats_init_progress_input_evidence_is_exact",
+        "test_laser_turret_set_stats_init_progress_state",
+        "test_reference_graph_and_actual_c07_laser_turret_set_stats_init_progress"
+      ],
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof"
     }
   },
   "version": 1

@@ -247830,6 +247830,190 @@
       },
       "runtime_proof": "/root/C07BeamDrillDrawPlaceProof",
       "rule": "Source-backed BeamDrillBuild.drawPlace() state from BeamDrill.java."
+    },
+    "source_laser_turret_build_set_stats_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_set_stats_state",
+      "source_slice": "N2386",
+      "keys": {
+        "stats": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "stats.remove(Stat.booster);",
+          "rule": "The stats rows, stats (LaserTurret.java:29, `stats.remove(Stat.booster);`): an Array of row dicts {stat, ...} (the N2384 setStats precedent) -- the input is never mutated, the returned rows are fresh.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_set_stats_state"
+          ]
+        },
+        "coolant": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(coolant != null){",
+          "rule": "The coolant consumer, coolant (LaserTurret.java:30, `if(coolant != null){`): a Dictionary {amount} (ConsumeLiquidBase, BaseTurret.java:34) or null -- null skips the input row.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_set_stats_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "stats.add(Stat.input, StatValues.boosters(reload, coolant.amount, coolantMultiplier, false, this::consumesLiquid));",
+          "rule": "The reload time, reload (LaserTurret.java:31, `stats.add(Stat.input, StatValues.boosters(reload, coolant.amount, coolantMultiplier, false, this::consumesLiquid));`): Turret.reload -- passed to the boosters spec.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_set_stats_state"
+          ]
+        },
+        "coolant_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "stats.add(Stat.input, StatValues.boosters(reload, coolant.amount, coolantMultiplier, false, this::consumesLiquid));",
+          "rule": "The coolant multiplier, coolantMultiplier (LaserTurret.java:31): a LaserTurret field with default 1f (LaserTurret.java:22, `coolantMultiplier = 1f;`) -- passed to the boosters spec.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_set_stats_state"
+          ]
+        },
+        "consumes_liquid": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "stats.add(Stat.input, StatValues.boosters(reload, coolant.amount, coolantMultiplier, false, this::consumesLiquid));",
+          "rule": "The consumes-liquid filter, this::consumesLiquid (LaserTurret.java:31): Block.consumesLiquid (Block.java:778, `public boolean consumesLiquid(Liquid liq)`) as the Boolf<Liquid> filter StatValues.boosters takes (StatValues.java:439) -- the driver evaluates it per liquid when rendering the row.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof",
+      "rule": "Source-backed LaserTurret.setStats()+init() + LaserTurretBuild.progress() state from LaserTurret.java."
+    },
+    "source_laser_turret_build_set_stats_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_set_stats_state",
+      "source_slice": "N2386",
+      "keys": {
+        "stats": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "stats.remove(Stat.booster);",
+          "rule": "The stats rows after setStats (LaserTurret.java:29, `stats.remove(Stat.booster);`): the booster rows dropped, and the input row with the boosters spec appended when coolant exists (LaserTurret.java:31) -- unchanged apart from those two ops.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_set_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof",
+      "rule": "Source-backed LaserTurret.setStats()+init() + LaserTurretBuild.progress() state from LaserTurret.java."
+    },
+    "source_laser_turret_build_init_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_init_state",
+      "source_slice": "N2386",
+      "keys": {
+        "coolant": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(coolant == null){",
+          "rule": "The coolant consumer, coolant (LaserTurret.java:39, `if(coolant == null){`): a Dictionary {amount} (ConsumeLiquidBase, BaseTurret.java:34) or null -- when already set the finder never runs.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_init_state"
+          ]
+        },
+        "found_consumer": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "coolant = findConsumer(c -> c instanceof ConsumeLiquidBase);",
+          "rule": "The consumer findConsumer found, findConsumer(c -> c instanceof ConsumeLiquidBase) (LaserTurret.java:40, `coolant = findConsumer(c -> c instanceof ConsumeLiquidBase);`): Block.findConsumer (Block.java:1104) run by the driver -- the first matching consumer, or null when none matches.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof",
+      "rule": "Source-backed LaserTurret.setStats()+init() + LaserTurretBuild.progress() state from LaserTurret.java."
+    },
+    "source_laser_turret_build_init_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_init_state",
+      "source_slice": "N2386",
+      "keys": {
+        "coolant": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "coolant = findConsumer(c -> c instanceof ConsumeLiquidBase);",
+          "rule": "The resolved coolant consumer (LaserTurret.java:40, `coolant = findConsumer(c -> c instanceof ConsumeLiquidBase);`): the found consumer when the input was null, the input unchanged otherwise -- null when nothing was found.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_init_state"
+          ]
+        },
+        "coolant_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(coolant == null){",
+          "rule": "Whether the finder supplied the coolant (LaserTurret.java:39, `if(coolant == null){`): true exactly when the input coolant was null and a consumer was found.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof",
+      "rule": "Source-backed LaserTurret.setStats()+init() + LaserTurretBuild.progress() state from LaserTurret.java."
+    },
+    "source_laser_turret_build_progress_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_progress_state",
+      "source_slice": "N2386",
+      "keys": {
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "return 1f - Mathf.clamp(reloadCounter / reload);",
+          "rule": "The reload counter, reloadCounter (LaserTurret.java:111, `return 1f - Mathf.clamp(reloadCounter / reload);`): the TurretBuild reload counter -- 0 means ready to fire.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_progress_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "return 1f - Mathf.clamp(reloadCounter / reload);",
+          "rule": "The reload time, reload (LaserTurret.java:111): Turret.reload -- the counter is measured against it.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof",
+      "rule": "Source-backed LaserTurret.setStats()+init() + LaserTurretBuild.progress() state from LaserTurret.java."
+    },
+    "source_laser_turret_build_progress_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_progress_state",
+      "source_slice": "N2386",
+      "keys": {
+        "progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "return 1f - Mathf.clamp(reloadCounter / reload);",
+          "rule": "The reload progress (LaserTurret.java:111, `return 1f - Mathf.clamp(reloadCounter / reload);`): 1 - clamp(reloadCounter / reload, 0, 1) -- 1 when ready, 0 when at or past reload.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_progress_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof",
+      "rule": "Source-backed LaserTurret.setStats()+init() + LaserTurretBuild.progress() state from LaserTurret.java."
     }
   },
   "version": 1

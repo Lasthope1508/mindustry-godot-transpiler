@@ -4211,6 +4211,26 @@
       ],
       "runtime_proof": "/root/C07PayloadTurretLimitRangeProof"
     },
+    "N2386": {
+      "canonical_ledger": "source_slice_ledger.N2386",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurret.setStats(); LaserTurret.init(); LaserTurretBuild.progress()",
+      "godot_owner": "PortGame.source_laser_turret_build_set_stats_state",
+      "source_symbols": [
+        "source_laser_turret_build_set_stats_state_result.stats",
+        "source_laser_turret_build_init_state_result.coolant",
+        "source_laser_turret_build_init_state_result.coolant_found",
+        "source_laser_turret_build_progress_state_result.progress"
+      ],
+      "tests": [
+        "test_c07_laser_turret_set_stats_init_progress_registration",
+        "test_all_c07_laser_turret_set_stats_init_progress_input_evidence_is_exact",
+        "test_laser_turret_set_stats_init_progress_state",
+        "test_reference_graph_and_actual_c07_laser_turret_set_stats_init_progress"
+      ],
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

@@ -336,3 +336,114 @@ static func source_laser_turret_build_update_tile_leg2_state(reload_counter: flo
 			new_reload_counter = reload_counter - edelta
 			reload_branch = "edelta"
 	return {"reload_counter": new_reload_counter, "liquids": new_liquids, "used": used, "max_used": max_used, "reload_branch": reload_branch, "cool_effect_called": cool_effect_called, "cool_effect_call": cool_effect_call}
+
+
+# LaserTurret.setStats() (LaserTurret.java:26-33):
+# `public void setStats(){`
+# `super.setStats();`
+# `stats.remove(Stat.booster);`
+# `if(coolant != null){`
+# `stats.add(Stat.input, StatValues.boosters(reload, coolant.amount, coolantMultiplier, false, this::consumesLiquid));`
+# `}`
+# `}`
+# on `public class LaserTurret extends PowerTurret{`
+# (LaserTurret.java:15) inside
+# `public class LaserTurret extends PowerTurret{`.
+# setStats drops the booster stat row (the base
+# Turret stats add a booster row that does not apply
+# to the laser) and, when a coolant consumer exists,
+# adds an input row with the boosters spec: reload,
+# coolant.amount, coolantMultiplier, baseReload
+# false, and the consumesLiquid filter. `super.
+# setStats();` is a shared callee (exact hit in 18
+# local slices), NOT a distinguishing expr. `stats`
+# is the Stats UI object: it arrives as an explicit
+# Array of row dicts (the N2384 setStats precedent)
+# and is NEVER mutated -- the returned rows are
+# fresh. `coolant` is `ConsumeLiquidBase`
+# (BaseTurret.java:34, `public @Nullable
+# ConsumeLiquidBase coolant;`): it arrives as an
+# explicit Dictionary {amount} or null.
+# `coolantMultiplier` is a LaserTurret field with
+# default 1f (LaserTurret.java:22,
+# `coolantMultiplier = 1f;`): it arrives as an
+# explicit float. `this::consumesLiquid` is
+# Block.consumesLiquid (Block.java:778,
+# `public boolean consumesLiquid(Liquid liq)`): the
+# Boolf<Liquid> filter StatValues.boosters takes
+# (StatValues.java:439, `public static StatValue
+# boosters(float reload, float maxUsed, float
+# multiplier, boolean baseReload, Boolf<Liquid>
+# filter)`) -- it arrives as an explicit Callable,
+# the driver evaluates it per liquid when rendering
+# the row. NO driver line: a pure function the setup
+# reads, not a per-tick write.
+static func source_laser_turret_build_set_stats_state(stats: Array, coolant: Variant, reload: float, coolant_multiplier: float, consumes_liquid: Callable) -> Dictionary:
+	var rows: Array = []
+	for row in stats:
+		var stat_row: Dictionary = (row as Dictionary).duplicate()
+		if stat_row.get("stat", "") == "booster":
+			continue
+		rows.append(stat_row)
+	if coolant != null:
+		var coolant_dict: Dictionary = coolant
+		rows.append({"stat": "input", "boosters": {"reload": reload, "coolant_amount": float(coolant_dict.get("amount", 0.0)), "coolant_multiplier": coolant_multiplier, "base_reload": false, "consumes_liquid": consumes_liquid}})
+	return {"stats": rows}
+
+
+# LaserTurret.init() (LaserTurret.java:36-43):
+# `@Override`
+# `public void init(){`
+# `super.init();`
+# `if(coolant == null){`
+# `coolant = findConsumer(c -> c instanceof ConsumeLiquidBase);`
+# `}`
+# `}`
+# on `public class LaserTurret extends PowerTurret{`
+# (LaserTurret.java:15) inside
+# `public class LaserTurret extends PowerTurret{`.
+# init resolves the coolant consumer when it is still
+# null: findConsumer takes the predicate `c ->
+# c instanceof ConsumeLiquidBase` (Block.java:1104,
+# `public <T extends Consume> T findConsumer(Boolf
+# <Consume> filter)`) and returns the first matching
+# consumer, or null when none matches. The predicate
+# itself is NOT ported -- the driver runs
+# findConsumer and the found consumer arrives as the
+# explicit found_consumer param (nullable), following
+# the brief's approved shape. `super.init();` is a
+# shared callee (exact hit in 38 local slices), NOT
+# a distinguishing expr. When coolant is already set
+# the finder never runs and the value passes through
+# unchanged. NO driver line: a pure function the setup
+# reads, not a per-tick write.
+static func source_laser_turret_build_init_state(coolant: Variant, found_consumer: Variant) -> Dictionary:
+	var resolved_coolant: Variant = coolant
+	var coolant_found: bool = false
+	if coolant == null:
+		resolved_coolant = found_consumer
+		coolant_found = found_consumer != null
+	return {"coolant": resolved_coolant, "coolant_found": coolant_found}
+
+
+# LaserTurretBuild.progress() (LaserTurret.java:110-112):
+# `@Override`
+# `public float progress(){`
+# `return 1f - Mathf.clamp(reloadCounter / reload);`
+# `}`
+# on `public class LaserTurretBuild extends PowerTurretBuild{`
+# (LaserTurret.java:44) inside
+# `public class LaserTurret extends PowerTurret{`.
+# progress is the reload fraction remaining: 1 when
+# the counter is at 0 (ready to fire), 0 when it is
+# at or past reload. Mathf.clamp with one argument
+# clamps to [0, 1] (arc Mathf.clamp(value) =
+# clamp(value, 0, 1)), so an over-full counter
+# clamps to 0 and a negative counter clamps to 1.
+# reloadCounter is the TurretBuild reload counter,
+# reload is Turret.reload -- both arrive as explicit
+# float params. NO driver line: a pure function the
+# tick reads, not a per-tick write.
+static func source_laser_turret_build_progress_state(reload_counter: float, reload: float) -> Dictionary:
+	var progress: float = 1.0 - clampf(reload_counter / reload, 0.0, 1.0)
+	return {"progress": progress}

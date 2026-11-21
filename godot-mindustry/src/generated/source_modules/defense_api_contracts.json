@@ -2471,6 +2471,52 @@
       "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
       "rule": "Public runtime contract for ItemTurret.setStats() stat call sequence and ammo capacity formula."
     },
+    "PortGame.source_laser_turret_build_set_stats_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_set_stats_state",
+      "status": "active",
+      "source_slice": "N2386",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurret.setStats()",
+      "params": [
+        {
+          "name": "stats",
+          "type": "Array",
+          "schema": "source_laser_turret_build_set_stats_state_input.stats"
+        },
+        {
+          "name": "coolant",
+          "type": "Variant",
+          "schema": "source_laser_turret_build_set_stats_state_input.coolant"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_laser_turret_build_set_stats_state_input.reload"
+        },
+        {
+          "name": "coolant_multiplier",
+          "type": "float",
+          "schema": "source_laser_turret_build_set_stats_state_input.coolant_multiplier"
+        },
+        {
+          "name": "consumes_liquid",
+          "type": "Callable",
+          "schema": "source_laser_turret_build_set_stats_state_input.consumes_liquid"
+        }
+      ],
+      "return_keys": [
+        "stats"
+      ],
+      "tests": [
+        "test_c07_laser_turret_set_stats_init_progress_registration",
+        "test_all_c07_laser_turret_set_stats_init_progress_input_evidence_is_exact",
+        "test_laser_turret_set_stats_init_progress_state",
+        "test_reference_graph_and_actual_c07_laser_turret_set_stats_init_progress"
+      ],
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof",
+      "rule": "Source-backed LaserTurret.setStats()+init() + LaserTurretBuild.progress() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_laser_turret_build_should_consume_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_should_consume_state",
       "status": "active",
