@@ -552,6 +552,112 @@
       "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed adjacent factory consumes its liquid rows each tick and gates efficiency on its item rows, and a sprite re-recorded with a different block reinitializes its consumers from the new block's consumeBuilder.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_place_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "status": "active",
+      "source_slice": "N2385",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.drawPlace",
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_place_state_input.valid"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.size"
+        },
+        {
+          "name": "range_value",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.range_value"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_place_state_input.blocked_items"
+        },
+        {
+          "name": "world_tile",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_place_state_input.world_tile"
+        },
+        {
+          "name": "get_drill_time",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_place_state_input.get_drill_time"
+        },
+        {
+          "name": "item_icon",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_place_state_input.item_icon"
+        },
+        {
+          "name": "offset",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.offset"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.tilesize"
+        },
+        {
+          "name": "icon_small",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.icon_small"
+        },
+        {
+          "name": "text_width",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.text_width"
+        }
+      ],
+      "return_keys": [
+        "item",
+        "invalid_item",
+        "multiple",
+        "count",
+        "dash_lines",
+        "drill_speed",
+        "drill_speed_text",
+        "icon_rect",
+        "icon_shadow_rect",
+        "commands",
+        "branch"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof",
+      "rule": "Source-backed BeamDrillBuild.drawPlace() state from BeamDrill.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_draw_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_draw_state",
       "status": "active",

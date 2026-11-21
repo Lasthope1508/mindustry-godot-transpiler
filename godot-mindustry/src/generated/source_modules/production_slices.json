@@ -1409,6 +1409,33 @@
       ],
       "runtime_proof": "/root/C07BeamDrillDrawProof"
     },
+    "N2385": {
+      "canonical_ledger": "source_slice_ledger.N2385",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.drawPlace",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "source_symbols": [
+        "source_beam_drill_draw_place_state_result.item",
+        "source_beam_drill_draw_place_state_result.invalid_item",
+        "source_beam_drill_draw_place_state_result.multiple",
+        "source_beam_drill_draw_place_state_result.count",
+        "source_beam_drill_draw_place_state_result.dash_lines",
+        "source_beam_drill_draw_place_state_result.drill_speed",
+        "source_beam_drill_draw_place_state_result.drill_speed_text",
+        "source_beam_drill_draw_place_state_result.icon_rect",
+        "source_beam_drill_draw_place_state_result.icon_shadow_rect",
+        "source_beam_drill_draw_place_state_result.commands",
+        "source_beam_drill_draw_place_state_result.branch"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

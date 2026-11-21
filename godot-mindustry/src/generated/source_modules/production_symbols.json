@@ -2163,6 +2163,171 @@
       ],
       "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
     },
+    "source_beam_drill_draw_place_state_result.branch": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.branch",
+      "status": "source-backed",
+      "java_expr": "}else if(invalidItem != null){",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.branch",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "Which tail branch ran: \"item\" when an item was found, \"tier_req\" when only an invalid drop was found (BeamDrill.java:190, `}else if(invalidItem != null){`), \"none\" otherwise.",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.commands": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.commands",
+      "status": "source-backed",
+      "java_expr": "Drawf.dashLine(found == null ? Pal.remove : Pal.placing,",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.commands",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "The draw commands in Java order (the N2351 commands precedent): one dash_line per side, then the drillspeed draw_place_text, then (when a single item) mixcol / rect / reset / rect for the icon, or (when only an invalid drop) the tier-req draw_place_text.",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.count": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.count",
+      "status": "source-backed",
+      "java_expr": "int count = 0;",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.count",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "How many sides found a mineable drop (BeamDrill.java:141, `int count = 0;`, incremented BeamDrill.java:156, `count++;`): the drillspeed rate is 60 / getDrillTime(item) * count.",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.dash_lines": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.dash_lines",
+      "status": "source-backed",
+      "java_expr": "Drawf.dashLine(found == null ? Pal.remove : Pal.placing,",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.dash_lines",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "One dash line per footprint side {color, x1, y1, x2, y2} (BeamDrill.java:178-182, `Drawf.dashLine(found == null ? Pal.remove : Pal.placing, ...`): the color is \"Pal.remove\" when the side found nothing, \"Pal.placing\" otherwise; the end is (p1 + d4 * len) * tilesize with len = min(j, range - 1).",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.drill_speed": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.drill_speed",
+      "status": "source-backed",
+      "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.drill_speed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "The drillspeed rate 60 / getDrillTime(item) * count, or null when no item was found (BeamDrill.java:183, `60f / getDrillTime(item) * count`).",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.drill_speed_text": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.drill_speed_text",
+      "status": "source-backed",
+      "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.drill_speed_text",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "The drillspeed text {key \"bar.drillspeed\", value, decimals 2}, or null when no item was found (BeamDrill.java:183, `Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2)`): the i18n key is kept verbatim, never translated.",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.icon_rect": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.icon_rect",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(item.fullIcon, dx, dy, s, s);",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.icon_rect",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "The found item icon rect {region, x, y, w, h}, or null when there is no item or multiple items (BeamDrill.java:188, `Draw.rect(item.fullIcon, dx, dy, s, s);`).",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.icon_shadow_rect": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.icon_shadow_rect",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(item.fullIcon, dx, dy - 1, s, s);",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.icon_shadow_rect",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "The icon shadow rect {region, x, y - 1, w, h}, or null when there is no item or multiple items (BeamDrill.java:187, `Draw.rect(item.fullIcon, dx, dy - 1, s, s);`, after `Draw.mixcol(Color.darkGray, 1f);`).",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.invalid_item": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.invalid_item",
+      "status": "source-backed",
+      "java_expr": "Item item = null, invalidItem = null;",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.invalid_item",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "The unmineable drop name, or null when no side hit a too-hard or blocked drop (BeamDrill.java:139, set BeamDrill.java:158, `invalidItem = drop;`).",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.item": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.item",
+      "status": "source-backed",
+      "java_expr": "Item item = null, invalidItem = null;",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.item",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "The found item name, or null when no side found a mineable drop (BeamDrill.java:139, `Item item = null, invalidItem = null;`, set BeamDrill.java:174, `item = found;`).",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
+    "source_beam_drill_draw_place_state_result.multiple": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.multiple",
+      "status": "source-backed",
+      "java_expr": "boolean multiple = false;",
+      "godot_symbol": "source_beam_drill_draw_place_state_result.multiple",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "rule": "Whether more than one distinct item will be drilled (BeamDrill.java:140, `boolean multiple = false;`, set BeamDrill.java:170-172, `if(item != found && item != null){ multiple = true; }`): when true the icon is hidden.",
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof"
+    },
     "source_beam_drill_draw_state_result.base_rect": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.base_rect",
       "status": "source-backed",

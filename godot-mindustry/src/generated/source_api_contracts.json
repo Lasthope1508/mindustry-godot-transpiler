@@ -74652,6 +74652,111 @@
       ],
       "runtime_proof": "/root/C07PayloadTurretLimitRangeProof",
       "rule": "Source-backed PayloadAmmoTurret.limitRange()+limitRange(float)+setStats() state from PayloadAmmoTurret.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_place_state": {
+      "status": "active",
+      "source_slice": "N2385",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.drawPlace",
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_place_state_input.valid"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.size"
+        },
+        {
+          "name": "range_value",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.range_value"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_place_state_input.blocked_items"
+        },
+        {
+          "name": "world_tile",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_place_state_input.world_tile"
+        },
+        {
+          "name": "get_drill_time",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_place_state_input.get_drill_time"
+        },
+        {
+          "name": "item_icon",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_place_state_input.item_icon"
+        },
+        {
+          "name": "offset",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.offset"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.tilesize"
+        },
+        {
+          "name": "icon_small",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.icon_small"
+        },
+        {
+          "name": "text_width",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.text_width"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "item",
+        "invalid_item",
+        "multiple",
+        "count",
+        "dash_lines",
+        "drill_speed",
+        "drill_speed_text",
+        "icon_rect",
+        "icon_shadow_rect",
+        "commands",
+        "branch"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof",
+      "rule": "Source-backed BeamDrillBuild.drawPlace() state from BeamDrill.java."
     }
   },
   "policy": {

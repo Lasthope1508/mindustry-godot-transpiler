@@ -701,3 +701,206 @@ static func source_beam_drill_draw_state(x: float, y: float, region: Variant, to
 			entry["spark_z_layer"] = 110.0
 			laser_entries.append(entry)
 	return {"base_rect": base_rect, "top_rect": top_rect, "is_payload": is_payload, "lasers": laser_entries, "glow_visible": glow_visible, "glow_alpha": glow_alpha, "glow_color": glow_col, "glow_rect": glow_rect}
+
+static func source_beam_drill_draw_place_state(x: int, y: int, rotation: int, valid: bool, size: int, range_value: int, tier: int, blocked_items: Variant, world_tile: Callable, get_drill_time: Callable, item_icon: Callable, offset: float, tilesize: float, icon_small: float, text_width: float) -> Dictionary:
+	# BeamDrillBuild.drawPlace() (BeamDrill.java:138-197):
+	# `public void drawPlace(int x, int y, int rotation, boolean valid){`
+	# `Item item = null, invalidItem = null;`
+	# `boolean multiple = false;`
+	# `int count = 0;`
+	# `for(int i = 0; i < size; i++){`
+	# `nearbySide(x, y, rotation, i, Tmp.p1);`
+	# `int j = 0;`
+	# `Item found = null;`
+	# `for(; j < range; j++){`
+	# `int rx = Tmp.p1.x + Geometry.d4x(rotation)*j, ry = Tmp.p1.y + Geometry.d4y(rotation)*j;`
+	# `Tile other = world.tile(rx, ry);`
+	# `if(other != null && other.solid()){`
+	# `Item drop = other.wallDrop();`
+	# `if(drop != null){`
+	# `if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){`
+	# `found = drop;`
+	# `count++;`
+	# `}else{`
+	# `invalidItem = drop;`
+	# `}`
+	# `break;`
+	# `}`
+	# `}`
+	# `if(found != null){`
+	# `if(item != found && item != null){`
+	# `multiple = true;`
+	# `}`
+	# `item = found;`
+	# `}`
+	# `int len = Math.min(j, range - 1);`
+	# `Drawf.dashLine(found == null ? Pal.remove : Pal.placing,`
+	# `Tmp.p1.x * tilesize,`
+	# `Tmp.p1.y *tilesize,`
+	# `(Tmp.p1.x + Geometry.d4x(rotation)*len) * tilesize,`
+	# `(Tmp.p1.y + Geometry.d4y(rotation)*len) * tilesize`
+	# `);`
+	# `}`
+	# `if(item != null){`
+	# `float width = drawPlaceText(Core.bundle.formatFloat("bar.drillspeed", 60f / getDrillTime(item) * count, 2), x, y, valid);`
+	# `if(!multiple){`
+	# `float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;`
+	# `Draw.mixcol(Color.darkGray, 1f);`
+	# `Draw.rect(item.fullIcon, dx, dy - 1, s, s);`
+	# `Draw.reset();`
+	# `Draw.rect(item.fullIcon, dx, dy, s, s);`
+	# `}`
+	# `}else if(invalidItem != null){`
+	# `drawPlaceText(Core.bundle.get("bar.drilltierreq"), x, y, false);`
+	# `}`
+	# `}`
+	# on `public class BeamDrillBuild extends Building{`
+	# (BeamDrill.java:220) inside `public class BeamDrill
+	# extends Block{` (BeamDrill.java:25). Placement UI,
+	# not per-tick state: it scans one ray per footprint
+	# side (nearbySide + world.tile, the N2379 scan
+	# precedent), draws one dash line per side, and shows
+	# the drillspeed text plus the found item's icon (or
+	# the tier-requirement text when only an unmineable
+	# drop was found). The 28 distinguishing exprs are
+	# the 0-hit lines re-probed at base 1047fc24 in both
+	# ledgers; the 12 HIT lines are evidence/context only
+	# and are NOT in EXACT_EXPRS: `boolean multiple =
+	# false;` / `for(int i = 0; i < size; i++){` /
+	# `Tile other = world.tile(rx, ry);` /
+	# `Item drop = other.wallDrop();` / `multiple = true;`
+	# (all N2379 updateFacing), `if(item != null){`
+	# (N1465/N2351), the dx/dy/s line (N2351
+	# DrillBuild.drawPlace, same formula),
+	# `Draw.mixcol(Color.darkGray, 1f);` (N570/N2341),
+	# `public void drawPlace(int x, int y, int rotation,
+	# boolean valid){` (11 drawPlace slices),
+	# `}else{` / `break;` / `Draw.reset();` (generic).
+	# nearbySide is the N1762 callee
+	# (PortGame.source_block_nearby_side_state,
+	# Block.java:936), reached here through its static
+	# geometry form (the N2379 updateLasers precedent),
+	# NOT re-ported. world.tile arrives as the explicit
+	# world_tile Callable (the N2379 param precedent):
+	# world_tile.call(rx, ry) returns null or a tile
+	# Dictionary {"solid", "wall_drop",
+	# "wall_drop_hardness"}; item identity is by name
+	# (the N2379 singleton-name precedent). getDrillTime
+	# is BeamDrill's own method (BeamDrill.java:216-217,
+	# `public float getDrillTime(Item item){` /
+	# `return drillTime / drillMultipliers.get(item, 1f);`),
+	# NOT N2344's BurstDrill.getDrillTime (different
+	# class, same formula shape): it arrives as the
+	# explicit get_drill_time Callable (item name ->
+	# drill time), and the proof drives it with the
+	# N2344 pure function applied to BeamDrill's own
+	# per-def drillTime. drawPlaceText is the already-live
+	# N1779/N1780 helper (PortGame
+	# source_block_draw_place_text_simple_state): this
+	# function returns the text as a command dict (the
+	# N2351 commands precedent) instead of rendering it,
+	# and the text width arrives as the explicit
+	# text_width param (the N2351 width precedent --
+	# the caller computes it via the N1779 helper; the
+	# proof pins a fixed width and asserts dx against
+	# it). The i18n keys "bar.drillspeed" /
+	# "bar.drilltierreq" are kept verbatim, never
+	# translated. The drillspeed text color is
+	# "Pal.accent" when valid else "Pal.remove" (the
+	# 4-arg drawPlaceText overload, Block.java:532); the
+	# tier-req text always passes false, so "Pal.remove".
+	# The icon rects follow the N2351 formula exactly:
+	# dx = x * tilesize + offset - width/2 - 4, dy = y *
+	# tilesize + offset + size * tilesize/2 + 5, s =
+	# iconSmall/4, shadow rect at dy - 1. The dash line
+	# length is len = min(j, range - 1) where j is the
+	# scan step that stopped the ray (range when no
+	# solid tile was found): the inner scan is a while
+	# loop so j keeps Java's post-loop value (a GDScript
+	# for loop would leave j at range - 1). A null tile
+	# or a non-solid tile does NOT stop the ray (the
+	# break sits inside `if(other.solid()){`); the first
+	# solid tile stops it whether or not its drop is
+	# mineable. `other.solid()` is Tile.java:457;
+	# `other.wallDrop()` is Tile.java:575. Fields:
+	# `public float drillTime = 200f;`
+	# (BeamDrill.java:39), `public int range = 5;` (:40),
+	# `public int tier = 1;` (:41), `public
+	# ObjectFloatMap<Item> drillMultipliers = new
+	# ObjectFloatMap<>();` (:47), `public @Nullable
+	# Seq<Item> blockedItems;` (:51), `public float
+	# offset = 0f;` (Block.java:217), tilesize 8
+	# (Vars.java:135, `public static final int tilesize
+	# = 8;`), iconSmall 24 (Vars.java:139, `iconSmall =
+	# 8*3f;`). Per-def: plasma-bore drillTime 160f, tier
+	# 3, size 2, range 5; large-plasma-bore drillTime
+	# 100f, tier 5, size 3, range 6
+	# (Blocks.java:3038-3065). NO driver tick line:
+	# drawPlace is placement UI, not per-tick state (the
+	# accessor precedent N2311/N2321/N2342/N2351).
+	var item: Variant = null
+	var invalid_item: Variant = null
+	var multiple := false
+	var count := 0
+	var dash_lines: Array = []
+	var commands: Array = []
+	var ddx: int = SOURCE_BEAM_DRILL_D4X[posmod(rotation, 4)]
+	var ddy: int = SOURCE_BEAM_DRILL_D4Y[posmod(rotation, 4)]
+	for i in range(size):
+		var side: Dictionary = source_block_plan_geometry_state.nearby_side_state(x, y, rotation, i, size, Vector2i.ZERO)
+		var side_point: Dictionary = side.get("nearby_side", {})
+		var px: int = int(side_point.get("x", 0))
+		var py: int = int(side_point.get("y", 0))
+		var j := 0
+		var found: Variant = null
+		while j < range_value:
+			var rx: int = px + ddx * j
+			var ry: int = py + ddy * j
+			var other: Variant = world_tile.call(rx, ry)
+			if other != null:
+				var other_tile: Dictionary = other
+				if bool(other_tile.get("solid", false)):
+					var drop: Variant = other_tile.get("wall_drop", null)
+					if drop != null:
+						if float(other_tile.get("wall_drop_hardness", 0.0)) <= float(tier) and (blocked_items == null or not (drop in blocked_items)):
+							found = drop
+							count += 1
+						else:
+							invalid_item = drop
+					break
+			j += 1
+		if found != null:
+			if item != found and item != null:
+				multiple = true
+			item = found
+		var dash_len: int = mini(j, range_value - 1)
+		var dash_color: String = "Pal.remove" if found == null else "Pal.placing"
+		var dash_line: Dictionary = {"color": dash_color, "x1": float(px) * tilesize, "y1": float(py) * tilesize, "x2": float(px + ddx * dash_len) * tilesize, "y2": float(py + ddy * dash_len) * tilesize}
+		dash_lines.append(dash_line)
+		commands.append({"action": "dash_line", "color": dash_color, "x1": dash_line["x1"], "y1": dash_line["y1"], "x2": dash_line["x2"], "y2": dash_line["y2"]})
+	var drill_speed: Variant = null
+	var drill_speed_text: Variant = null
+	var icon_rect: Variant = null
+	var icon_shadow_rect: Variant = null
+	var branch := "none"
+	if item != null:
+		branch = "item"
+		drill_speed = 60.0 / float(get_drill_time.call(item)) * float(count)
+		drill_speed_text = {"key": "bar.drillspeed", "value": drill_speed, "decimals": 2}
+		var text_color: String = "Pal.accent" if valid else "Pal.remove"
+		commands.append({"action": "draw_place_text", "text_key": "bar.drillspeed", "value": drill_speed, "decimals": 2, "x": x, "y": y, "valid": valid, "color": text_color})
+		if not multiple:
+			var icon_dx: float = float(x) * tilesize + offset - text_width / 2.0 - 4.0
+			var icon_dy: float = float(y) * tilesize + offset + float(size) * tilesize / 2.0 + 5.0
+			var icon_s: float = icon_small / 4.0
+			var icon_region: Variant = item_icon.call(item)
+			icon_shadow_rect = {"region": icon_region, "x": icon_dx, "y": icon_dy - 1.0, "w": icon_s, "h": icon_s}
+			icon_rect = {"region": icon_region, "x": icon_dx, "y": icon_dy, "w": icon_s, "h": icon_s}
+			commands.append({"action": "mixcol", "color": "darkGray", "alpha": 1.0})
+			commands.append({"action": "rect", "region": icon_region, "x": icon_dx, "y": icon_dy - 1.0, "w": icon_s, "h": icon_s})
+			commands.append({"action": "reset"})
+			commands.append({"action": "rect", "region": icon_region, "x": icon_dx, "y": icon_dy, "w": icon_s, "h": icon_s})
+	elif invalid_item != null:
+		branch = "tier_req"
+		commands.append({"action": "draw_place_text", "text_key": "bar.drilltierreq", "x": x, "y": y, "valid": false, "color": "Pal.remove"})
+	return {"item": item, "invalid_item": invalid_item, "multiple": multiple, "count": count, "dash_lines": dash_lines, "drill_speed": drill_speed, "drill_speed_text": drill_speed_text, "icon_rect": icon_rect, "icon_shadow_rect": icon_shadow_rect, "commands": commands, "branch": branch}

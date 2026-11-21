@@ -247552,6 +247552,284 @@
       },
       "runtime_proof": "/root/C07PayloadTurretLimitRangeProof",
       "rule": "Source-backed PayloadAmmoTurret.limitRange()+limitRange(float)+setStats() state from PayloadAmmoTurret.java."
+    },
+    "source_beam_drill_draw_place_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "source_slice": "N2385",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(x, y, rotation, i, Tmp.p1);",
+          "rule": "The placement tile x (BeamDrill.java:143, `nearbySide(x, y, rotation, i, Tmp.p1);`): the scan starts at the footprint side of (x, y).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(x, y, rotation, i, Tmp.p1);",
+          "rule": "The placement tile y (BeamDrill.java:143, `nearbySide(x, y, rotation, i, Tmp.p1);`): the scan starts at the footprint side of (x, y).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "nearbySide(x, y, rotation, i, Tmp.p1);",
+          "rule": "The placement rotation 0-3 (BeamDrill.java:143, `nearbySide(x, y, rotation, i, Tmp.p1);`): it picks the faced side per footprint index and the d4 scan direction (Geometry.d4x/d4y).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);",
+          "rule": "Whether the placement is valid (BeamDrill.java:183, `float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);`): it picks the drillspeed text color (valid ? Pal.accent : Pal.remove, Block.java:532).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (BeamDrill.java:142, `for(int i = 0; i < size; i++){`): the scan runs one ray per footprint side (plasma-bore 2, large-plasma-bore 3, Blocks.java:3049-3065); passed explicitly (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "range_value": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int range = 5;",
+          "rule": "The scan range in tiles (BeamDrill.java:40, `public int range = 5;`, class default; plasma-bore 5, large-plasma-bore 6, Blocks.java:3049-3065): the inner scan runs `for(; j < range; j++)` (BeamDrill.java:149).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "tier": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int tier = 1;",
+          "rule": "The drill tier (BeamDrill.java:41, `public int tier = 1;`, class default; plasma-bore 3, large-plasma-bore 5, Blocks.java:3049-3065): a drop counts only when `drop.hardness <= tier` (BeamDrill.java:154).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "blocked_items": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Seq<Item> blockedItems;",
+          "rule": "The blocked items (BeamDrill.java:51, `public @Nullable Seq<Item> blockedItems;`, null or an Array of item names): a drop counts only when it is not blocked (BeamDrill.java:154, `blockedItems == null || !blockedItems.contains(drop)`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "world_tile": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile other = world.tile(rx, ry);",
+          "rule": "The world tile lookup (BeamDrill.java:151, `Tile other = world.tile(rx, ry);`): world_tile.call(rx, ry) returns null or a tile Dictionary {\"solid\", \"wall_drop\", \"wall_drop_hardness\"} (the N2379 param precedent -- the live world is not a frame key).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "get_drill_time": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float getDrillTime(Item item){",
+          "rule": "The drill-time lookup for the found item (BeamDrill.java:216, `public float getDrillTime(Item item){`, `return drillTime / drillMultipliers.get(item, 1f);`): get_drill_time.call(item) returns the drill time in ticks; driven in the proof by the N2344 pure function applied to BeamDrill per-def values.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "item_icon": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(item.fullIcon, dx, dy, s, s);",
+          "rule": "The item icon lookup (BeamDrill.java:187, `Draw.rect(item.fullIcon, dx, dy, s, s);`, Item.fullIcon): item_icon.call(item) returns the region Variant for the found item; passed explicitly because regions are load-time state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public float offset = 0f;",
+          "rule": "The block draw offset (Block.java:217, `public float offset = 0f;`): it shifts the icon rect (BeamDrill.java:184, `float dx = x * tilesize + offset - width/2f - 4f, ...`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The world tilesize (Vars.java:135, `public static final int tilesize = 8;`): tile-to-world conversion for the dash lines and the icon rect.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "icon_small": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "iconSmall = 8*3f;",
+          "rule": "The small icon size (Vars.java:139, `iconSmall = 8*3f;`, 24): the icon size is s = iconSmall / 4f (BeamDrill.java:184).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "text_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);",
+          "rule": "The drillspeed text width as laid out by the drawPlaceText helper (BeamDrill.java:183, `float width = drawPlaceText(...);`): the caller computes it via the N1779/N1780 helper; the icon dx is x * tilesize + offset - width/2 - 4 (the N2351 width precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof",
+      "rule": "Source-backed BeamDrillBuild.drawPlace() state from BeamDrill.java."
+    },
+    "source_beam_drill_draw_place_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "source_slice": "N2385",
+      "keys": {
+        "item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Item item = null, invalidItem = null;",
+          "rule": "The found item name, or null when no side found a mineable drop (BeamDrill.java:139, `Item item = null, invalidItem = null;`, set BeamDrill.java:174, `item = found;`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "invalid_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Item item = null, invalidItem = null;",
+          "rule": "The unmineable drop name, or null when no side hit a too-hard or blocked drop (BeamDrill.java:139, set BeamDrill.java:158, `invalidItem = drop;`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "multiple": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "boolean multiple = false;",
+          "rule": "Whether more than one distinct item will be drilled (BeamDrill.java:140, `boolean multiple = false;`, set BeamDrill.java:170-172, `if(item != found && item != null){ multiple = true; }`): when true the icon is hidden.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "int count = 0;",
+          "rule": "How many sides found a mineable drop (BeamDrill.java:141, `int count = 0;`, incremented BeamDrill.java:156, `count++;`): the drillspeed rate is 60 / getDrillTime(item) * count.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "dash_lines": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Drawf.dashLine(found == null ? Pal.remove : Pal.placing,",
+          "rule": "One dash line per footprint side {color, x1, y1, x2, y2} (BeamDrill.java:178-182, `Drawf.dashLine(found == null ? Pal.remove : Pal.placing, ...`): the color is \"Pal.remove\" when the side found nothing, \"Pal.placing\" otherwise; the end is (p1 + d4 * len) * tilesize with len = min(j, range - 1).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "drill_speed": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);",
+          "rule": "The drillspeed rate 60 / getDrillTime(item) * count, or null when no item was found (BeamDrill.java:183, `60f / getDrillTime(item) * count`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "drill_speed_text": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2), x, y, valid);",
+          "rule": "The drillspeed text {key \"bar.drillspeed\", value, decimals 2}, or null when no item was found (BeamDrill.java:183, `Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(item) * count, 2)`): the i18n key is kept verbatim, never translated.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "icon_rect": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(item.fullIcon, dx, dy, s, s);",
+          "rule": "The found item icon rect {region, x, y, w, h}, or null when there is no item or multiple items (BeamDrill.java:188, `Draw.rect(item.fullIcon, dx, dy, s, s);`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "icon_shadow_rect": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(item.fullIcon, dx, dy - 1, s, s);",
+          "rule": "The icon shadow rect {region, x, y - 1, w, h}, or null when there is no item or multiple items (BeamDrill.java:187, `Draw.rect(item.fullIcon, dx, dy - 1, s, s);`, after `Draw.mixcol(Color.darkGray, 1f);`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "commands": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Drawf.dashLine(found == null ? Pal.remove : Pal.placing,",
+          "rule": "The draw commands in Java order (the N2351 commands precedent): one dash_line per side, then the drillspeed draw_place_text, then (when a single item) mixcol / rect / reset / rect for the icon, or (when only an invalid drop) the tier-req draw_place_text.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        },
+        "branch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "}else if(invalidItem != null){",
+          "rule": "Which tail branch ran: \"item\" when an item was found, \"tier_req\" when only an invalid drop was found (BeamDrill.java:190, `}else if(invalidItem != null){`), \"none\" otherwise.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_place_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof",
+      "rule": "Source-backed BeamDrillBuild.drawPlace() state from BeamDrill.java."
     }
   },
   "version": 1
