@@ -5,7 +5,7 @@ Ngày: 2026-11-21 ~18:33 +07 (proof xanh, đọc trực tiếp proof .json; targ
 ## Trạng thái
 
 - N2520 DONE + PUSHED (origin/main 16eecc2c).
-- N2521 DONE + PUSHED (slice f1c3c133, docs 43364a2b, GOAL 02162c59, status TBD, hashes TBD): turret driver tick stamp live item inventory vào frame cho dispatch N2519 — 1 pure function mới `source_turret_ammo_items_stamp_state` (SourceTurretBuildState.gd:119) + 1 call site trong `source_turret_tick_buildings_state` (:2349). Dispatch N2519 ngừng báo `handled:false` cho totalItems khi live turret tick. **totalItems giờ có live input thật ở tầng tick** — nhưng giá trị luôn là 0.0, đúng Java (xem correction dưới).
+- N2521 DONE + PUSHED (slice f1c3c133, docs 43364a2b, GOAL 02162c59, status bfbd22b6, hashes TBD): turret driver tick stamp live item inventory vào frame cho dispatch N2519 — 1 pure function mới `source_turret_ammo_items_stamp_state` (SourceTurretBuildState.gd:119) + 1 call site trong `source_turret_tick_buildings_state` (:2349). Dispatch N2519 ngừng báo `handled:false` cho totalItems khi live turret tick. **totalItems giờ có live input thật ở tầng tick** — nhưng giá trị luôn là 0.0, đúng Java (xem correction dưới).
 
 ## Làm được lượt này (GREEN + gate xong)
 
