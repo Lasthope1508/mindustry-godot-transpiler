@@ -2178,6 +2178,111 @@
       ],
       "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof"
     },
+    "source_beam_drill_default_constructor_state_result.ambient_sound": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_default_constructor_state_result.ambient_sound",
+      "status": "source-backed",
+      "java_expr": "ambientSound = Sounds.loopMineBeam;",
+      "godot_symbol": "source_beam_drill_default_constructor_state_result.ambient_sound",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state",
+      "rule": "The ambient sound ref, read through (BeamDrill.java:74, `ambientSound = Sounds.loopMineBeam;`): the beam-mining loop sound asset ref passed in as ambient_sound; the Block base default it overrides is `public Sound ambientSound = Sounds.none;` (Block.java:351).",
+      "tests": [
+        "test_c07_beam_drill_default_constructor_registration",
+        "test_all_c07_beam_drill_default_constructor_input_evidence_is_exact",
+        "test_beam_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof"
+    },
+    "source_beam_drill_default_constructor_state_result.ambient_sound_volume": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_default_constructor_state_result.ambient_sound_volume",
+      "status": "source-backed",
+      "java_expr": "ambientSoundVolume = 0.05f;",
+      "godot_symbol": "source_beam_drill_default_constructor_state_result.ambient_sound_volume",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state",
+      "rule": "The ambient sound base volume (BeamDrill.java:73, `ambientSoundVolume = 0.05f;`): 0.05 -- the same value as the Block base default (`public float ambientSoundVolume = 0.05f;`, Block.java:353), so the ctor line only re-asserts it.",
+      "tests": [
+        "test_c07_beam_drill_default_constructor_registration",
+        "test_all_c07_beam_drill_default_constructor_input_evidence_is_exact",
+        "test_beam_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof"
+    },
+    "source_beam_drill_default_constructor_state_result.draw_arrow": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_default_constructor_state_result.draw_arrow",
+      "status": "source-backed",
+      "java_expr": "drawArrow = false;",
+      "godot_symbol": "source_beam_drill_default_constructor_state_result.draw_arrow",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state",
+      "rule": "Whether to draw a rotation arrow (BeamDrill.java:70, `drawArrow = false;`): false -- the BeamDrill ctor disables the arrow the Block base default enables (`public boolean drawArrow = true;`, Block.java:136); a line of blocks never draws the arrow.",
+      "tests": [
+        "test_c07_beam_drill_default_constructor_registration",
+        "test_all_c07_beam_drill_default_constructor_input_evidence_is_exact",
+        "test_beam_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof"
+    },
+    "source_beam_drill_default_constructor_state_result.flags": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_default_constructor_state_result.flags",
+      "status": "source-backed",
+      "java_expr": "flags = EnumSet.of(BlockFlag.drill);",
+      "godot_symbol": "source_beam_drill_default_constructor_state_result.flags",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state",
+      "rule": "The block flags, read through (BeamDrill.java:77, `flags = EnumSet.of(BlockFlag.drill);`): the block-flag enum value passed in as block_flags; the Block base default it overrides is `public EnumSet<BlockFlag> flags = EnumSet.of();` (Block.java:251).",
+      "tests": [
+        "test_c07_beam_drill_default_constructor_registration",
+        "test_all_c07_beam_drill_default_constructor_input_evidence_is_exact",
+        "test_beam_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof"
+    },
+    "source_beam_drill_default_constructor_state_result.ignore_line_rotation": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_default_constructor_state_result.ignore_line_rotation",
+      "status": "source-backed",
+      "java_expr": "ignoreLineRotation = true;",
+      "godot_symbol": "source_beam_drill_default_constructor_state_result.ignore_line_rotation",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state",
+      "rule": "Whether to ignore the line-drag rotation (BeamDrill.java:72, `ignoreLineRotation = true;`): true -- the drill does not face the line drag direction, overriding the Block base default (`public boolean ignoreLineRotation = false;`, Block.java:130).",
+      "tests": [
+        "test_c07_beam_drill_default_constructor_registration",
+        "test_all_c07_beam_drill_default_constructor_input_evidence_is_exact",
+        "test_beam_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof"
+    },
+    "source_beam_drill_default_constructor_state_result.name": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_default_constructor_state_result.name",
+      "status": "source-backed",
+      "java_expr": "public BeamDrill(String name){",
+      "godot_symbol": "source_beam_drill_default_constructor_state_result.name",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state",
+      "rule": "The block name, read through (BeamDrill.java:63, `public BeamDrill(String name){`): the ctor name argument passed in as block_name.",
+      "tests": [
+        "test_c07_beam_drill_default_constructor_registration",
+        "test_all_c07_beam_drill_default_constructor_input_evidence_is_exact",
+        "test_beam_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof"
+    },
+    "source_beam_drill_default_constructor_state_result.region_rotated_1": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_default_constructor_state_result.region_rotated_1",
+      "status": "source-backed",
+      "java_expr": "regionRotated1 = 1;",
+      "godot_symbol": "source_beam_drill_default_constructor_state_result.region_rotated_1",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state",
+      "rule": "The first rotated region index (BeamDrill.java:71, `regionRotated1 = 1;`): 1 -- the icons() region index rotated in ConstructBlocks, overriding the Block base default (`public int regionRotated1 = -1, regionRotated2 = -1;`, Block.java:426).",
+      "tests": [
+        "test_c07_beam_drill_default_constructor_registration",
+        "test_all_c07_beam_drill_default_constructor_input_evidence_is_exact",
+        "test_beam_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof"
+    },
     "source_beam_drill_draw_place_state_result.branch": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_place_state_result.branch",
       "status": "source-backed",

@@ -146,6 +146,51 @@
         }
       }
     },
+    "source_beam_drill_default_constructor_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_default_constructor_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public BeamDrill(String name){",
+          "rule": "The beam-drill frame (BeamDrill(), BeamDrill.java:63): carries no live keys for this load-time setup -- the ctor name and the two resource/enum params are passed explicitly, not as frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state"
+          ]
+        },
+        "block_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public BeamDrill(String name){",
+          "rule": "The block name (BeamDrill.java:63, `public BeamDrill(String name){`): the ctor name argument (plasma-bore, large-plasma-bore, Blocks.java:3038-3065); it passes through to the result name key, and the six defaults below do not depend on it.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state"
+          ]
+        },
+        "ambient_sound": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "ambientSound = Sounds.loopMineBeam;",
+          "rule": "The ambient sound ref (BeamDrill.java:74, `ambientSound = Sounds.loopMineBeam;`): the beam-mining loop sound asset ref (core/assets/sounds/beams) -- Sounds is NOT ported here: it arrives as an explicit Variant param and passes through to the result ambient_sound key; the Block base default it overrides is `public Sound ambientSound = Sounds.none;` (Block.java:351).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state"
+          ]
+        },
+        "block_flags": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "flags = EnumSet.of(BlockFlag.drill);",
+          "rule": "The block flags (BeamDrill.java:77, `flags = EnumSet.of(BlockFlag.drill);`): the block-flag enum value (`drill` -- \"Is a drill.\", BlockFlag.java, core/src/mindustry/world/meta/BlockFlag.java) -- EnumSet is NOT ported here: it arrives as an explicit Variant param and passes through to the result flags key; the Block base default it overrides is `public EnumSet<BlockFlag> flags = EnumSet.of();` (Block.java:251).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_draw_place_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_draw_place_state_input",
       "keys": {

@@ -1524,6 +1524,29 @@
       ],
       "runtime_proof": "/root/C07BeamDrillUpdateTileProof"
     },
+    "N2401": {
+      "canonical_ledger": "source_slice_ledger.N2401",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.BeamDrill(String name)",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state",
+      "source_symbols": [
+        "source_beam_drill_default_constructor_state_result.name",
+        "source_beam_drill_default_constructor_state_result.draw_arrow",
+        "source_beam_drill_default_constructor_state_result.region_rotated_1",
+        "source_beam_drill_default_constructor_state_result.ignore_line_rotation",
+        "source_beam_drill_default_constructor_state_result.ambient_sound_volume",
+        "source_beam_drill_default_constructor_state_result.ambient_sound",
+        "source_beam_drill_default_constructor_state_result.flags"
+      ],
+      "tests": [
+        "test_c07_beam_drill_default_constructor_registration",
+        "test_all_c07_beam_drill_default_constructor_input_evidence_is_exact",
+        "test_beam_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

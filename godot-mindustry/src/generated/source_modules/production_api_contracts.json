@@ -618,6 +618,53 @@
       "rule": "Source-backed BeamDrill canPlaceOn() / setBars() state from BeamDrill.java + Block.java + Pal.java + Bar.java + arc Strings.java.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2401",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.BeamDrill(String name)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_default_constructor_state_input.frame"
+        },
+        {
+          "name": "block_name",
+          "type": "String",
+          "schema": "source_beam_drill_default_constructor_state_input.block_name"
+        },
+        {
+          "name": "ambient_sound",
+          "type": "Variant",
+          "schema": "source_beam_drill_default_constructor_state_input.ambient_sound"
+        },
+        {
+          "name": "block_flags",
+          "type": "Variant",
+          "schema": "source_beam_drill_default_constructor_state_input.block_flags"
+        }
+      ],
+      "return_keys": [
+        "name",
+        "draw_arrow",
+        "region_rotated_1",
+        "ignore_line_rotation",
+        "ambient_sound_volume",
+        "ambient_sound",
+        "flags"
+      ],
+      "tests": [
+        "test_c07_beam_drill_default_constructor_registration",
+        "test_all_c07_beam_drill_default_constructor_input_evidence_is_exact",
+        "test_beam_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof",
+      "rule": "Source-backed BeamDrill() ctor field defaults from BeamDrill.java + Block.java + BlockFlag.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_draw_place_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
       "status": "active",

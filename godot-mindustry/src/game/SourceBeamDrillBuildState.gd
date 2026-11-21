@@ -1460,3 +1460,67 @@ static func source_beam_drill_update_tile_state(frame: Dictionary, last_item: Va
 			dump.call()
 			dump_called = true
 	return {"drill_time": drill_time, "boost_warmup": boost_warmup_after, "time": time_after, "harvested": harvested, "get_drill_time_called": get_drill_time_called, "items_add_called": items_add_called, "produced_called": produced_called, "dump_called": dump_called}
+
+@warning_ignore("unused_parameter")
+static func source_beam_drill_default_constructor_state(frame: Dictionary, block_name: String, ambient_sound: Variant, block_flags: Variant) -> Dictionary:
+	# N2401 -- BeamDrill(String name) (BeamDrill.java:63-80):
+	# `public BeamDrill(String name){`
+	# `super(name);`
+	# `hasItems = true;`
+	# `rotate = true;`
+	# `update = true;`
+	# `solid = true;`
+	# `drawArrow = false;`
+	# `regionRotated1 = 1;`
+	# `ignoreLineRotation = true;`
+	# `ambientSoundVolume = 0.05f;`
+	# `ambientSound = Sounds.loopMineBeam;`
+	# `envEnabled |= Env.space;`
+	# `flags = EnumSet.of(BlockFlag.drill);`
+	# `}`
+	# on `public class BeamDrill extends Block{`
+	# (BeamDrill.java:25). Only the six BeamDrill-only
+	# defaults are this slice: the render flags
+	# (`drawArrow = false;`, `regionRotated1 = 1;`,
+	# `ignoreLineRotation = true;`) and the ambient sound
+	# (`ambientSoundVolume = 0.05f;`, `ambientSound =
+	# Sounds.loopMineBeam;`) plus the block flag (`flags =
+	# EnumSet.of(BlockFlag.drill);`). NOT this slice:
+	# `super(name);` (N2185), `hasItems = true;` /
+	# `rotate = true;` / `update = true;` / `solid =
+	# true;` (N2180-N2183 and friends) and `envEnabled
+	# |= Env.space;` (N2185). The Block base defaults
+	# the ctor overrides are `public boolean drawArrow
+	# = true;` (Block.java:136), `public int
+	# regionRotated1 = -1, regionRotated2 = -1;`
+	# (Block.java:426), `public boolean
+	# ignoreLineRotation = false;` (Block.java:130),
+	# `public Sound ambientSound = Sounds.none;`
+	# (Block.java:351) and `public EnumSet<BlockFlag>
+	# flags = EnumSet.of();` (Block.java:251) -- while
+	# `public float ambientSoundVolume = 0.05f;`
+	# (Block.java:353) already equals the ctor value,
+	# so the ctor line only re-asserts it. The three
+	# render-flag strings also appear in the Turret
+	# ctor (N2400, same strings, different class) --
+	# both slices register them, but this func is
+	# pinned to the BeamDrill ctor. `Sounds.loopMineBeam`
+	# is the beam-mining loop sound asset ref
+	# (core/assets/sounds/beams) -- it arrives as the
+	# explicit ambient_sound Variant param, NOT
+	# re-ported. `EnumSet.of(BlockFlag.drill)` is the
+	# block-flag enum value (`drill` -- "Is a drill.",
+	# BlockFlag.java) -- it arrives as the explicit
+	# block_flags Variant param, NOT re-ported. This
+	# is field defaults only: NOT ambient C (N2304
+	# HELD -- the SoundControl updateLoops mixer), NO
+	# driver tick line: the ctor is load-time block
+	# definition setup, not per-tick state. frame
+	# carries no live keys for this load-time setup --
+	# it is the canonical first param of this family
+	# file.
+	var draw_arrow: bool = false
+	var region_rotated_1: int = 1
+	var ignore_line_rotation: bool = true
+	var ambient_sound_volume: float = 0.05
+	return {"name": block_name, "draw_arrow": draw_arrow, "region_rotated_1": region_rotated_1, "ignore_line_rotation": ignore_line_rotation, "ambient_sound_volume": ambient_sound_volume, "ambient_sound": ambient_sound, "flags": block_flags}
