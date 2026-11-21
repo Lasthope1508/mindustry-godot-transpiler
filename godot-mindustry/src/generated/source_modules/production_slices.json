@@ -1477,6 +1477,29 @@
       ],
       "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof"
     },
+    "N2394": {
+      "canonical_ledger": "source_slice_ledger.N2394",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.drawSelect()/BeamDrill.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)/BeamDrill.init()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_select_state",
+      "source_symbols": [
+        "source_beam_drill_draw_select_state_result.draw_item_selection_called",
+        "source_beam_drill_draw_select_state_result.last_item",
+        "source_beam_drill_draw_plan_region_state_result.draw_rect_called",
+        "source_beam_drill_draw_plan_region_state_result.top_region_rotation",
+        "source_beam_drill_draw_plan_region_state_result.plan_position",
+        "source_beam_drill_init_state_result.clip_radius",
+        "source_beam_drill_init_state_result.update_clip_radius_called"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

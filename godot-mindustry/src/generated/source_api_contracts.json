@@ -75477,6 +75477,135 @@
       ],
       "runtime_proof": "/root/C07TeamsClosestCoreTreeProof",
       "rule": "Source-backed Teams.closestCore()/TeamData.tree() state from Teams.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_select_state": {
+      "status": "active",
+      "source_slice": "N2394",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.drawSelect()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_draw_select_state_input.frame"
+        },
+        {
+          "name": "last_item",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_select_state_input.last_item"
+        },
+        {
+          "name": "draw_item_selection",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_select_state_input.draw_item_selection"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "draw_item_selection_called",
+        "last_item"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof",
+      "rule": "Source-backed BeamDrill drawSelect() / drawPlanRegion() / init() state from BeamDrill.java + Block.java + BuildingComp.java + Vars.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_plan_region_state": {
+      "status": "active",
+      "source_slice": "N2394",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_draw_plan_region_state_input.frame"
+        },
+        {
+          "name": "plan_drawx",
+          "type": "float",
+          "schema": "source_beam_drill_draw_plan_region_state_input.plan_drawx"
+        },
+        {
+          "name": "plan_drawy",
+          "type": "float",
+          "schema": "source_beam_drill_draw_plan_region_state_input.plan_drawy"
+        },
+        {
+          "name": "plan_rotation",
+          "type": "int",
+          "schema": "source_beam_drill_draw_plan_region_state_input.plan_rotation"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_plan_region_state_input.top_region"
+        },
+        {
+          "name": "draw_rect",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_plan_region_state_input.draw_rect"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "draw_rect_called",
+        "top_region_rotation",
+        "plan_position"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof",
+      "rule": "Source-backed BeamDrill drawSelect() / drawPlanRegion() / init() state from BeamDrill.java + Block.java + BuildingComp.java + Vars.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_init_state": {
+      "status": "active",
+      "source_slice": "N2394",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.init()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_init_state_input.frame"
+        },
+        {
+          "name": "range_value",
+          "type": "int",
+          "schema": "source_beam_drill_init_state_input.range_value"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_beam_drill_init_state_input.tilesize"
+        },
+        {
+          "name": "update_clip_radius",
+          "type": "Callable",
+          "schema": "source_beam_drill_init_state_input.update_clip_radius"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "clip_radius",
+        "update_clip_radius_called"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof",
+      "rule": "Source-backed BeamDrill drawSelect() / drawPlanRegion() / init() state from BeamDrill.java + Block.java + BuildingComp.java + Vars.java."
     }
   },
   "policy": {

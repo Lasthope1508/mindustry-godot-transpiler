@@ -182104,6 +182104,118 @@
         "test_reference_graph_and_actual_c07_teams_closest_core_tree"
       ],
       "runtime_proof": "/root/C07TeamsClosestCoreTreeProof"
+    },
+    "source_beam_drill_draw_select_state_result.draw_item_selection_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_select_state",
+      "godot_symbol": "source_beam_drill_draw_select_state_result.draw_item_selection_called",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.drawSelect()",
+      "java_expr": "drawItemSelection(lastItem);",
+      "rule": "Whether the drawItemSelection delegate was invoked (BeamDrill.java:233, `drawItemSelection(lastItem);`): true when the draw_item_selection Callable is valid, false otherwise (the N2377 drawer_called precedent).",
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof"
+    },
+    "source_beam_drill_draw_select_state_result.last_item": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_select_state",
+      "godot_symbol": "source_beam_drill_draw_select_state_result.last_item",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.drawSelect()",
+      "java_expr": "public @Nullable Item lastItem;",
+      "rule": "The last mined item, read through (BeamDrill.java:233, `drawItemSelection(lastItem);` over `public @Nullable Item lastItem;`, BeamDrill.java:223): the item whose selection icon the delegate draws, or null when nothing was mined yet.",
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof"
+    },
+    "source_beam_drill_draw_plan_region_state_result.draw_rect_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_plan_region_state",
+      "godot_symbol": "source_beam_drill_draw_plan_region_state_result.draw_rect_called",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "java_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+      "rule": "Whether the Draw.rect delegate was invoked (BeamDrill.java:116, `Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);`): true when the draw_rect Callable is valid, false otherwise (the N2377 drawer_called precedent).",
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof"
+    },
+    "source_beam_drill_draw_plan_region_state_result.top_region_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_plan_region_state",
+      "godot_symbol": "source_beam_drill_draw_plan_region_state_result.top_region_rotation",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "java_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+      "rule": "The top-region draw rotation in degrees (BeamDrill.java:116, `plan.rotation * 90`): plan_rotation * 90, so rotation 0-3 draws at 0/90/180/270 degrees.",
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof"
+    },
+    "source_beam_drill_draw_plan_region_state_result.plan_position": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_plan_region_state",
+      "godot_symbol": "source_beam_drill_draw_plan_region_state_result.plan_position",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "java_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+      "rule": "The plan draw position (BeamDrill.java:116, `Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);`): Vector2(plan_drawx, plan_drawy), the placement-plan draw position the top region is drawn at.",
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof"
+    },
+    "source_beam_drill_init_state_result.clip_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_init_state",
+      "godot_symbol": "source_beam_drill_init_state_result.clip_radius",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.init()",
+      "java_expr": "updateClipRadius((range + 2) * tilesize);",
+      "rule": "The clip radius in world units (BeamDrill.java:82, `updateClipRadius((range + 2) * tilesize);`): (range_value + 2) * tilesize -- 56.0 for the plasma-bore defaults (range 5, tilesize 8), 64.0 for large-plasma-bore (range 6).",
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof"
+    },
+    "source_beam_drill_init_state_result.update_clip_radius_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_init_state",
+      "godot_symbol": "source_beam_drill_init_state_result.update_clip_radius_called",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.init()",
+      "java_expr": "updateClipRadius((range + 2) * tilesize);",
+      "rule": "Whether the updateClipRadius delegate was invoked (BeamDrill.java:82, `updateClipRadius((range + 2) * tilesize);`): true when the update_clip_radius Callable is valid, false otherwise (the N2377 drawer_called precedent).",
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof"
     }
   },
   "version": 1

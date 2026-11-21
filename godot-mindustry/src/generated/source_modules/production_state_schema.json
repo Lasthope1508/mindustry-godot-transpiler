@@ -301,6 +301,41 @@
         }
       }
     },
+    "source_beam_drill_draw_select_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_draw_select_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public void drawSelect(){",
+          "rule": "The beam-drill frame (BeamDrillBuild.drawSelect, BeamDrill.java:231): carries no live keys for this selection UI -- lastItem is live build state passed explicitly, not a frame key (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_select_state"
+          ]
+        },
+        "last_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Nullable Item lastItem;",
+          "rule": "The last mined item: the BeamDrillBuild field (`public @Nullable Item lastItem;`, BeamDrill.java:223), set by updateTile (`lastItem = drop;`, BeamDrill.java:396) and cleared when the facing changes (`lastItem = null;`, BeamDrill.java:376, :409); passed explicitly because it is live build state, not a frame key.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_select_state"
+          ]
+        },
+        "draw_item_selection": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "drawItemSelection(lastItem);",
+          "rule": "The drawItemSelection delegate (BeamDrill.java:233, `drawItemSelection(lastItem);`): the BuildingComp callee (`public void drawItemSelection(@Nullable UnlockableContent selection){`, BuildingComp.java:1249, which draws the item icon at the top-left of the block when the selection is not null and is a no-op otherwise) -- NOT re-ported here: it arrives as an explicit Callable param (the N2377 drawer precedent: guarded with is_valid(), invoked with .call(last_item)); an invalid callable is reported via draw_item_selection_called false.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_select_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_draw_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_draw_state_input",
       "keys": {

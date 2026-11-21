@@ -1190,3 +1190,134 @@ static func source_beam_drill_set_bars_state(frame: Dictionary, super_set_bars: 
 	var bar_text: String = "Drill Speed: " + fixed_text + "/s"
 	var bar_color: Color = Color("ff8947")
 	return {"bar_key": "drillspeed", "bar_text": bar_text, "bar_color": bar_color, "bar_fraction": warmup}
+
+@warning_ignore("unused_parameter")
+static func source_beam_drill_draw_select_state(frame: Dictionary, last_item: Variant, draw_item_selection: Callable) -> Dictionary:
+	# N2394 -- BeamDrillBuild.drawSelect() (BeamDrill.java:231-234):
+	# `public void drawSelect(){`
+	# `drawItemSelection(lastItem);`
+	# `}`
+	# on `public class BeamDrillBuild extends Building{`
+	# (BeamDrill.java:220). The whole method is one line: it
+	# delegates the last mined item's selection icon to
+	# drawItemSelection (`public void drawItemSelection(
+	# @Nullable UnlockableContent selection){`,
+	# BuildingComp.java:1249, which draws the item icon at
+	# the top-left of the block when the selection is not
+	# null and is a no-op otherwise). drawItemSelection is
+	# the BuildingComp callee -- NOT re-ported here: it
+	# arrives as the explicit draw_item_selection Callable
+	# (the N2377 drawer precedent: guarded with is_valid(),
+	# invoked with .call(last_item)); an invalid callable
+	# is reported via draw_item_selection_called false and
+	# the last_item key still reads its value. `lastItem`
+	# is the BeamDrillBuild field (`public @Nullable Item
+	# lastItem;`, BeamDrill.java:223), set by updateTile
+	# (`lastItem = drop;`, BeamDrill.java:396) and cleared
+	# when the facing changes (`lastItem = null;`,
+	# BeamDrill.java:376, :409); it arrives as an explicit
+	# param because it is live build state, not a frame
+	# key. frame carries no live keys for this selection
+	# UI -- it is the canonical first param of this family
+	# file. NO driver tick line: drawSelect is selection
+	# UI, not per-tick state (the accessor precedent
+	# N2311/N2321/N2342/N2351). This is a different method
+	# from BaseTurretBuild.drawSelect() (N2393, the range
+	# dash circle) and from BeamDrillBuild.drawPlace()
+	# (N2385) -- no overlap.
+	var draw_item_selection_called: bool = false
+	if draw_item_selection.is_valid():
+		draw_item_selection.call(last_item)
+		draw_item_selection_called = true
+	return {"draw_item_selection_called": draw_item_selection_called, "last_item": last_item}
+
+@warning_ignore("unused_parameter")
+static func source_beam_drill_draw_plan_region_state(frame: Dictionary, plan_drawx: float, plan_drawy: float, plan_rotation: int, top_region: Variant, draw_rect: Callable) -> Dictionary:
+	# N2394 -- BeamDrill.drawPlanRegion() (BeamDrill.java:113-117):
+	# `public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){`
+	# `Draw.rect(region, plan.drawx(), plan.drawy());`
+	# `Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);`
+	# `}`
+	# on `public class BeamDrill extends Block{`
+	# (BeamDrill.java:25). The plain region rect
+	# (`Draw.rect(region, plan.drawx(), plan.drawy());`)
+	# is N1411 (BlockProducer.drawPlanRegion) -- NOT this
+	# slice: this function draws only the top region,
+	# rotated by the plan rotation (`plan.rotation * 90`,
+	# rotation 0-3 in quarter turns, so 0/90/180/270
+	# degrees). Draw.rect is NOT ported here: it arrives
+	# as the explicit draw_rect Callable (the N2377 drawer
+	# precedent: guarded with is_valid(), invoked with
+	# .call(top_region, plan_drawx, plan_drawy,
+	# plan_rotation * 90)); an invalid callable is
+	# reported via draw_rect_called false and the
+	# top_region_rotation / plan_position keys still read
+	# their values. `region` / `topRegion` are the block
+	# TextureRegions (`region` is the Block base region;
+	# `topRegion` is `public @Load("@-top") TextureRegion
+	# topRegion;`, BeamDrill.java:36 -- the icons() pair,
+	# `return new TextureRegion[]{region, topRegion};`,
+	# BeamDrill.java:108); only top_region
+	# is a param here because only its rect is drawn by
+	# this slice. `plan` arrives as its explicit draw
+	# coordinates (plan_drawx / plan_drawy from
+	# `plan.drawx()` / `plan.drawy()`, plan_rotation from
+	# `plan.rotation`), not as a live object. frame
+	# carries no live keys for this placement UI -- it is
+	# the canonical first param of this family file. NO
+	# driver tick line: drawPlanRegion is placement UI,
+	# not per-tick state.
+	var top_region_rotation: float = float(plan_rotation * 90)
+	var draw_rect_called: bool = false
+	if draw_rect.is_valid():
+		draw_rect.call(top_region, plan_drawx, plan_drawy, top_region_rotation)
+		draw_rect_called = true
+	return {"draw_rect_called": draw_rect_called, "top_region_rotation": top_region_rotation, "plan_position": Vector2(plan_drawx, plan_drawy)}
+
+@warning_ignore("unused_parameter")
+static func source_beam_drill_init_state(frame: Dictionary, range_value: int, tilesize: float, update_clip_radius: Callable) -> Dictionary:
+	# N2394 -- BeamDrill.init() (BeamDrill.java:81-89):
+	# `public void init(){`
+	# `updateClipRadius((range + 2) * tilesize);`
+	# `super.init();`
+	# `if(blockedItems == null && blockedItem != null){`
+	# `blockedItems = Seq.with(blockedItem);`
+	# `}`
+	# `}`
+	# on `public class BeamDrill extends Block{`
+	# (BeamDrill.java:25). Only the clip-radius line is
+	# this slice: the drill must keep drawing its lasers
+	# past the block bounds, so init widens the clip
+	# radius to (range + 2) * tilesize world units.
+	# updateClipRadius is the Block callee (`public void
+	# updateClipRadius(float radiusInWorldUnits){`,
+	# Block.java:1006, with `clipSize = Math.max(
+	# clipSize, this.size * tilesize +
+	# radiusInWorldUnits * 2f);`, Block.java:1007) --
+	# NOT re-ported here: it arrives as the explicit
+	# update_clip_radius Callable (the N2377 drawer
+	# precedent: guarded with is_valid(), invoked with
+	# .call(clip_radius)); an invalid callable is
+	# reported via update_clip_radius_called false and
+	# the clip_radius key still reads its value.
+	# `super.init();` is generic (39 hits local) -- NOT
+	# this slice. The blockedItems fill
+	# (`if(blockedItems == null && blockedItem != null){`
+	# / `blockedItems = Seq.with(blockedItem);`) is
+	# N2012/N2302 -- NOT this slice. `range` is the
+	# BeamDrill field (`public int range = 5;`,
+	# BeamDrill.java:40; plasma-bore 5, large-plasma-bore
+	# 6, Blocks.java:3049-3065) and `tilesize` is
+	# (`public static final int tilesize = 8;`,
+	# Vars.java:135) -- both arrive as explicit params
+	# (the N2212 per-def-param precedent). frame carries
+	# no live keys for this load-time setup -- it is the
+	# canonical first param of this family file. NO
+	# driver tick line: init is load-time clip setup, not
+	# per-tick state.
+	var clip_radius: float = float(range_value + 2) * tilesize
+	var update_clip_radius_called: bool = false
+	if update_clip_radius.is_valid():
+		update_clip_radius.call(clip_radius)
+		update_clip_radius_called = true
+	return {"clip_radius": clip_radius, "update_clip_radius_called": update_clip_radius_called}
