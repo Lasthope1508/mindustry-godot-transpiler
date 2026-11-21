@@ -7,6 +7,7 @@ const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
 const source_block_plan_geometry_state := preload("res://src/game/SourceBlockPlanGeometryState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
 
 # Geometry.d4x / d4y (arc-core Geometry.java:23-24,
 # `public final static int[] d4x = {1, 0, -1, 0};` /
@@ -419,3 +420,284 @@ static func source_beam_drill_update_facing_state(frame: Dictionary, rotation: i
 	frame["last_item"] = last_item
 	frame["facing_amount"] = facing_amount
 	return {"facing": facing, "last_item": last_item, "facing_amount": facing_amount}
+
+static func _beam_drill_rand_xorshift_next_long(rand_state: Dictionary) -> int:
+	# arc Rand xorshift128+ step (Rand.java: `public long nextLong(){` /
+	# `long s1 = this.seed0;` / `final long s0 = this.seed1;` /
+	# `this.seed0 = s0;` / `s1 ^= s1 << 23;` / `return (this.seed1 =
+	# (s1 ^ s0 ^ (s1 >>> 17) ^ (s0 >>> 26))) + s0;`): seed1 stores the
+	# XOR value WITHOUT the + s0 -- the + s0 is only in the return.
+	# The logical shifts are emulated by masking (>>> 17 keeps 47
+	# bits, >>> 26 keeps 38 bits). Copied from the
+	# RepairTurret-proven helper
+	# (SourceRepairTurretBuildState.source_arc_rand_xorshift_next_long,
+	# N2289/N2290, live-probed there) -- re-implemented here file-local
+	# instead of calling across families, so this file does not depend
+	# on the Windows line's RepairTurret file.
+	var s1: int = int(rand_state.get("seed0", 0))
+	var s0: int = int(rand_state.get("seed1", 0))
+	rand_state["seed0"] = s0
+	s1 = int(s1 ^ (s1 << 23))
+	var next_seed1: int = int(s1 ^ s0 ^ ((s1 >> 17) & 0x7FFFFFFFFFFF) ^ ((s0 >> 26) & 0x3FFFFFFFFF))
+	rand_state["seed1"] = next_seed1
+	return int(next_seed1 + s0)
+
+static func _beam_drill_rand_xorshift_next_float(rand_state: Dictionary) -> float:
+	# arc Rand nextFloat (Rand.java: `public float nextFloat(){` /
+	# `return (float)((nextLong() >>> 40) * NORM_FLOAT);`, NORM_FLOAT =
+	# 1.0 / (1L << 24)): the top 24 bits of the next long, scaled to
+	# [0, 1).
+	return float((_beam_drill_rand_xorshift_next_long(rand_state) >> 40) & 0xFFFFFF) * SourceMathState.SOURCE_RAND_NORM_FLOAT
+
+static func _beam_drill_rand_random_max(rand_state: Dictionary, max_value: float) -> float:
+	# arc Rand.random(float max) (Rand.java: `public float
+	# random(float max){` / `return nextFloat() * max;`).
+	return _beam_drill_rand_xorshift_next_float(rand_state) * max_value
+
+static func _beam_drill_rand_range(rand_state: Dictionary, range_value: float) -> float:
+	# arc Rand.range(float range) (Rand.java: `public float
+	# range(float range){` / `return (nextFloat() * 2f - 1f) *
+	# range;`): a symmetric draw in [-range, +range].
+	return (_beam_drill_rand_xorshift_next_float(rand_state) * 2.0 - 1.0) * range_value
+
+static func source_beam_drill_draw_state(x: float, y: float, region: Variant, top_region: Variant, laser: Variant, laser_end: Variant, laser_center: Variant, laser_boost: Variant, laser_end_boost: Variant, laser_center_boost: Variant, glow_region: Variant, glow_region_found: bool, rotation: int, size: int, build_id: int, warmup: float, boost_warmup: float, is_payload: bool, facing: Array, lasers: Array, laser_width: float, glow_scl: float, pulse_intensity: float, glow_color: Variant, glow_intensity: float, spark_color: Variant, boost_heat_color: Variant, heat_color: Variant, heat_pulse: float, heat_pulse_scl: float, sparks: int, spark_life: float, spark_recurrence: float, spark_range: float, spark_spread: float, spark_size: float, time_ticks: float, lod_l2: bool, lod_alpha2: float, tilesize: float) -> Dictionary:
+	# BeamDrillBuild.draw() (BeamDrill.java:275-361):
+	# `public void draw(){`
+	# `Draw.rect(block.region, x, y);`
+	# `Draw.rect(topRegion, x, y, rotdeg());`
+	# ``
+	# `if(isPayload()) return;`
+	# ``
+	# `var dir = Geometry.d4(rotation);`
+	# `int ddx = Geometry.d4x(rotation + 1), ddy = Geometry.d4y(rotation + 1);`
+	# ``
+	# `for(int i = 0; i < size; i++){`
+	# `Tile face = facing[i];`
+	# `if(face != null){`
+	# `Item drop = face.wallDrop();`
+	# ``
+	# `if(drop == null) continue;`
+	# `Point2 p = lasers[i];`
+	# `float lx = face.worldx() - (dir.x/2f)*tilesize, ly = face.worldy() - (dir.y/2f)*tilesize;`
+	# ``
+	# `float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;`
+	# ``
+	# `Draw.z(Layer.power - 1);`
+	# `Draw.mixcol(glowColor, Mathf.absin(Time.time + i*5 + id*9, glowScl, glowIntensity));`
+	# `if(Math.abs(p.x - face.x) + Math.abs(p.y - face.y) == 0){`
+	# `Draw.scl(width);`
+	# ``
+	# `if(boostWarmup < 0.99f){`
+	# `Draw.alpha(1f - boostWarmup);`
+	# `Draw.rect(laserCenter, lx, ly);`
+	# `}`
+	# ``
+	# `if(boostWarmup > 0.01f){`
+	# `Draw.alpha(boostWarmup);`
+	# `Draw.rect(laserCenterBoost, lx, ly);`
+	# `}`
+	# ``
+	# `Draw.scl();`
+	# `}else{`
+	# `float lsx = (p.x - dir.x/2f) * tilesize, lsy = (p.y - dir.y/2f) * tilesize;`
+	# ``
+	# `if(boostWarmup < 0.99f){`
+	# `Draw.alpha(1f - boostWarmup);`
+	# `Drawf.laser(laser, laserEnd, lsx, lsy, lx, ly, width);`
+	# `}`
+	# ``
+	# `if(boostWarmup > 0.001f){`
+	# `Draw.alpha(boostWarmup);`
+	# `Drawf.laser(laserBoost, laserEndBoost, lsx, lsy, lx, ly, width);`
+	# `}`
+	# `}`
+	# `Draw.color();`
+	# `Draw.mixcol();`
+	# ``
+	# `if(Lod.l2){`
+	# `Draw.z(Layer.effect);`
+	# `Lines.stroke(warmup);`
+	# `rand.setState(i, id);`
+	# `Color col = drop.color;`
+	# `Color spark = Tmp.c3.set(sparkColor).lerp(boostHeatColor, boostWarmup);`
+	# `for(int j = 0; j < sparks; j++){`
+	# `float fin = (Time.time / sparkLife + rand.random(sparkRecurrence + 1f)) % sparkRecurrence;`
+	# `float or = rand.range(2f);`
+	# `Tmp.v1.set(sparkRange * fin, 0).rotate(rotdeg() + rand.range(sparkSpread));`
+	# ``
+	# `Color result = Tmp.c1.set(spark).lerp(col, fin);`
+	# `Draw.color(result.r, result.g, result.b, result.a * Lod.alpha2);`
+	# `float px = Tmp.v1.x, py = Tmp.v1.y;`
+	# `if(fin <= 1f) Lines.lineAngle(lx + px + or * ddx, ly + py + or * ddy, Angles.angle(px, py), Mathf.slope(fin) * sparkSize);`
+	# `}`
+	# `Draw.reset();`
+	# `}`
+	# `}`
+	# `}`
+	# ``
+	# `if(glowRegion.found()){`
+	# `Draw.z(Layer.blockAdditive);`
+	# `Draw.blend(Blending.additive);`
+	# `Draw.color(Tmp.c1.set(heatColor).lerp(boostHeatColor, boostWarmup), warmup * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))));`
+	# `Draw.rect(glowRegion, x, y, rotdeg());`
+	# `Draw.blend();`
+	# `Draw.color();`
+	# `}`
+	# ``
+	# `Draw.blend();`
+	# `Draw.reset();`
+	# `}`
+	# on `public class BeamDrillBuild extends Building{`
+	# (BeamDrill.java:220) inside `public class BeamDrill
+	# extends Block{` (BeamDrill.java:25). Pure function:
+	# returns the computed draw state (rects, laser
+	# endpoints, spark lines, glow) and does NOT touch real
+	# Draw / Drawf / Lines playback (the N2314/N2325 draw
+	# precedent). NO driver tick line: draw() is per-frame
+	# render state, not per-tick state.
+	# Fields: facing / lasers / lastItem (BeamDrill.java:
+	# 221-223), warmup / boostWarmup (BeamDrill.java:226),
+	# laserWidth 0.65f / glowScl 3f / glowIntensity 0.2f /
+	# pulseIntensity 0.07f / sparks 7 / sparkRange 10f /
+	# sparkLife 27f / sparkRecurrence 4f / sparkSpread 45f /
+	# sparkSize 3.5f / sparkColor "fd9e81" / glowColor white
+	# / boostHeatColor sky*0.87 / heatColor (1, 0.35, 0.35,
+	# 0.9) / heatPulse 0.3f / heatPulseScl 7f
+	# (BeamDrill.java:28-64). Per-def: plasma-bore
+	# (Blocks.java:3038-3051) uses class defaults (tier 3,
+	# size 2, range 5); large-plasma-bore
+	# (Blocks.java:3052-3065) overrides laserWidth 0.7f
+	# (tier 5, size 3, range 6). The caller passes the
+	# per-def values explicitly (the N2212/N2248
+	# per-def-param precedent).
+	# Semantics kept: Tile.worldx() = x * tilesize
+	# (Tile.java:166-168, no +tilesize/2); rotdeg() =
+	# rotation * 90; Geometry.d4(rotation) is the (d4x,
+	# d4y) unit vector (Geometry.java:23-24, 47-51, read
+	# with posmod); the centered branch is taken exactly
+	# when the laser point sits ON the face tile
+	# (|p.x-face.x| + |p.y-face.y| == 0); the two boost
+	# gates differ per branch (center 0.99/0.01, beam
+	# 0.99/0.001); Drawf.laser draws from the laser point
+	# (lsx, lsy) to the face point (lx, ly); the spark
+	# loop runs only under Lod.l2 (Lod.java: l2 default
+	# true, alpha2 default 1f -- live zoom values arrive
+	# as explicit params); rand.setState(i, id) seeds the
+	# arc xorshift Rand directly with the two longs (no
+	# murmur hash -- setState(seed0, seed1) is a direct
+	# assignment, Rand.java), and each spark draws THREE
+	# values in order -- random(sparkRecurrence + 1f),
+	# range(2f), range(sparkSpread) -- from the one
+	# shared state, so the state threads through the
+	# loop; fin is fmod of a non-negative sum, matching
+	# Java float %; the line is drawn only when
+	# fin <= 1f, with length Mathf.slope(fin) * sparkSize
+	# (slope is the triangle 0 at 0, 1 at 0.5, 0 at 1:
+	# 2f below 0.5, 2(1-f) above -- no slice owns slope
+	# yet, so it is computed inline here and NOT
+	# registered as a math slice); Angles.angle(px, py)
+	# is atan2 normalized to [0, 360) (the port's
+	# source_vec2_angle); Tmp.c1/c3/v1 are scratch only.
+	# absin goes through the port helper
+	# SourceMathState.source_absin with the original scl
+	# (the MendProjector / RepairTower draw precedent):
+	# the arc formula (N485: (sin(in, scl*2f, mag) +
+	# mag) / 2f) differs from the helper by a 2x period
+	# factor, and the deviation is documented here, not
+	# worked around with a *2.0 -- fixing the helper
+	# belongs to a math slice of its own. Time.time is
+	# the explicit time_ticks param (pin in proof frame);
+	# the known phase deviation is documented: the
+	# per-building clock starts at 0.0 at the first tick
+	# after placement while Java Time.time is global, so
+	# pulse phase differs between buildings and from
+	# Java -- speed and period are exact, render is
+	# outside gameplay per the user boundary, and if the
+	# port ever gains a global clock the driver changes
+	# its time source while the pure function (time
+	# already a param) does not change. Layers:
+	# Layer.power - 1 = 69 (power = 70, Layer.java:57),
+	# Layer.effect = 110 (Layer.java:75),
+	# Layer.blockAdditive = 31 (Layer.java:36). The
+	# payload early return (`if(isPayload()) return;`,
+	# BeamDrill.java:281) leaves the base/top rects
+	# drawn and skips lasers + glow: the pure function
+	# always returns the full shape with is_payload set,
+	# an empty lasers list and glow_visible false when
+	# payload (the RepairTower draw visible-flag
+	# precedent). A face with no drop is skipped
+	# (`if(drop == null) continue;`); a missing laser
+	# point leaves its face skipped -- Java would throw
+	# there; the guard is documented, not a behavior
+	# change for any frame updateLasers built (the N2379
+	# guard precedent). The glow alpha returned is the
+	# Draw.color second argument (warmup * (heatColor.a
+	# * (1 - heatPulse + absin))), the lerped glow color
+	# carries its own .a separately (the RepairTower
+	# glow precedent).
+	var rotdeg: float = float(rotation) * 90.0
+	var dir_x: int = SOURCE_BEAM_DRILL_D4X[posmod(rotation, 4)]
+	var dir_y: int = SOURCE_BEAM_DRILL_D4Y[posmod(rotation, 4)]
+	var ddx: int = SOURCE_BEAM_DRILL_D4X[posmod(rotation + 1, 4)]
+	var ddy: int = SOURCE_BEAM_DRILL_D4Y[posmod(rotation + 1, 4)]
+	var base_rect: Dictionary = {"region": region, "x": x, "y": y}
+	var top_rect: Dictionary = {"region": top_region, "x": x, "y": y, "rotation_deg": rotdeg}
+	var laser_entries: Array = []
+	var glow_col: Color = Color(heat_color).lerp(Color(boost_heat_color), boost_warmup)
+	var glow_alpha: float = warmup * (Color(heat_color).a * (1.0 - heat_pulse + source_math_state.source_absin(time_ticks, heat_pulse_scl, heat_pulse)))
+	var glow_visible: bool = glow_region_found and not is_payload
+	var glow_rect: Variant = {"region": glow_region, "x": x, "y": y, "rotation_deg": rotdeg} if glow_visible else null
+	if not is_payload:
+		for i in range(size):
+			var face: Variant = facing[i] if i < facing.size() else null
+			if face == null:
+				continue
+			var face_tile: Dictionary = face
+			var drop: Variant = face_tile.get("wall_drop", null)
+			if drop == null:
+				continue
+			var point: Variant = lasers[i] if i < lasers.size() else null
+			if point == null:
+				continue
+			var face_x: int = int(face_tile.get("x", 0))
+			var face_y: int = int(face_tile.get("y", 0))
+			var lx: float = float(face_x) * tilesize - (float(dir_x) / 2.0) * tilesize
+			var ly: float = float(face_y) * tilesize - (float(dir_y) / 2.0) * tilesize
+			var width: float = (laser_width + source_math_state.source_absin(time_ticks + float(i) * 5.0 + float(build_id % 9) * 9.0, glow_scl, pulse_intensity)) * warmup
+			var mix_amount: float = source_math_state.source_absin(time_ticks + float(i) * 5.0 + float(build_id) * 9.0, glow_scl, glow_intensity)
+			var centered: bool = absi(int(point.x) - face_x) + absi(int(point.y) - face_y) == 0
+			var entry: Dictionary = {"index": i, "drop": drop, "lx": lx, "ly": ly, "width": width, "mix_amount": mix_amount, "z_layer": 69.0, "centered": centered}
+			if centered:
+				entry["center_scale"] = width
+				entry["center_rect"] = {"region": laser_center, "x": lx, "y": ly, "scale": width, "alpha": 1.0 - boost_warmup} if boost_warmup < 0.99 else null
+				entry["center_boost_rect"] = {"region": laser_center_boost, "x": lx, "y": ly, "scale": width, "alpha": boost_warmup} if boost_warmup > 0.01 else null
+			else:
+				var lsx: float = (float(point.x) - float(dir_x) / 2.0) * tilesize
+				var lsy: float = (float(point.y) - float(dir_y) / 2.0) * tilesize
+				entry["lsx"] = lsx
+				entry["lsy"] = lsy
+				entry["laser"] = {"region": laser, "end_region": laser_end, "x1": lsx, "y1": lsy, "x2": lx, "y2": ly, "width": width, "alpha": 1.0 - boost_warmup} if boost_warmup < 0.99 else null
+				entry["laser_boost"] = {"region": laser_boost, "end_region": laser_end_boost, "x1": lsx, "y1": lsy, "x2": lx, "y2": ly, "width": width, "alpha": boost_warmup} if boost_warmup > 0.001 else null
+			var spark_list: Array = []
+			if lod_l2:
+				var rand_state: Dictionary = {"seed0": i, "seed1": build_id}
+				var spark_col: Color = Color(spark_color).lerp(Color(boost_heat_color), boost_warmup)
+				var drop_col: Color = face_tile.get("drop_color", Color.WHITE)
+				for j in range(sparks):
+					var fin: float = fmod(time_ticks / spark_life + _beam_drill_rand_random_max(rand_state, spark_recurrence + 1.0), spark_recurrence)
+					var or_value: float = _beam_drill_rand_range(rand_state, 2.0)
+					var spread_draw: float = _beam_drill_rand_range(rand_state, spark_spread)
+					var offset: Vector2 = Vector2(spark_range * fin, 0.0).rotated(deg_to_rad(rotdeg + spread_draw))
+					var px: float = offset.x
+					var py: float = offset.y
+					var result_col: Color = spark_col.lerp(drop_col, fin)
+					var line: Variant = null
+					if fin <= 1.0:
+						var slope_fin: float = fin * 2.0 if fin <= 0.5 else (1.0 - fin) * 2.0
+						line = {"x": lx + px + or_value * float(ddx), "y": ly + py + or_value * float(ddy), "angle_deg": source_math_state.source_vec2_angle(px, py), "length": slope_fin * spark_size}
+					spark_list.append({"fin": fin, "or": or_value, "px": px, "py": py, "color": result_col, "alpha": result_col.a * lod_alpha2, "line": line})
+			entry["sparks"] = spark_list
+			entry["spark_stroke"] = warmup
+			entry["spark_z_layer"] = 110.0
+			laser_entries.append(entry)
+	return {"base_rect": base_rect, "top_rect": top_rect, "is_payload": is_payload, "lasers": laser_entries, "glow_visible": glow_visible, "glow_alpha": glow_alpha, "glow_color": glow_col, "glow_rect": glow_rect}

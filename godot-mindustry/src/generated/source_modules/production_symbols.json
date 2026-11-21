@@ -2163,6 +2163,126 @@
       ],
       "runtime_proof": "/root/AdjacentFactoryLiveLoopProof"
     },
+    "source_beam_drill_draw_state_result.base_rect": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.base_rect",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(block.region, x, y);",
+      "godot_symbol": "source_beam_drill_draw_state_result.base_rect",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The base rect {region, x, y}, always drawn (BeamDrill.java:276, `Draw.rect(block.region, x, y);`).",
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof"
+    },
+    "source_beam_drill_draw_state_result.glow_alpha": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.glow_alpha",
+      "status": "source-backed",
+      "java_expr": "Draw.color(Tmp.c1.set(heatColor).lerp(boostHeatColor, boostWarmup), warmup * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))));",
+      "godot_symbol": "source_beam_drill_draw_state_result.glow_alpha",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The glow draw alpha: warmup * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))) (BeamDrill.java:351) -- the Draw.color second argument; the lerped glow color carries its own .a separately (the RepairTower glow precedent).",
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof"
+    },
+    "source_beam_drill_draw_state_result.glow_color": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.glow_color",
+      "status": "source-backed",
+      "java_expr": "Draw.color(Tmp.c1.set(heatColor).lerp(boostHeatColor, boostWarmup), warmup * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))));",
+      "godot_symbol": "source_beam_drill_draw_state_result.glow_color",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The glow color: heatColor lerped toward boostHeatColor by boostWarmup (BeamDrill.java:351, `Tmp.c1.set(heatColor).lerp(boostHeatColor, boostWarmup)`).",
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof"
+    },
+    "source_beam_drill_draw_state_result.glow_rect": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.glow_rect",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(glowRegion, x, y, rotdeg());",
+      "godot_symbol": "source_beam_drill_draw_state_result.glow_rect",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The glow rect {region, x, y, rotation_deg} when visible, else null (BeamDrill.java:352, `Draw.rect(glowRegion, x, y, rotdeg());`, z 31 additive).",
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof"
+    },
+    "source_beam_drill_draw_state_result.glow_visible": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.glow_visible",
+      "status": "source-backed",
+      "java_expr": "if(glowRegion.found()){",
+      "godot_symbol": "source_beam_drill_draw_state_result.glow_visible",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "Whether the glow is drawn: true exactly when the glow region exists and the build is not a payload (BeamDrill.java:347, `if(glowRegion.found()){`, after the BeamDrill.java:280 payload return).",
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof"
+    },
+    "source_beam_drill_draw_state_result.is_payload": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.is_payload",
+      "status": "source-backed",
+      "java_expr": "if(isPayload()) return;",
+      "godot_symbol": "source_beam_drill_draw_state_result.is_payload",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "Whether the build is a payload (BeamDrill.java:280, `if(isPayload()) return;`): when true the lasers list is empty and the glow is hidden.",
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof"
+    },
+    "source_beam_drill_draw_state_result.lasers": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.lasers",
+      "status": "source-backed",
+      "java_expr": "float lx = face.worldx() - (dir.x/2f)*tilesize, ly = face.worldy() - (dir.y/2f)*tilesize;",
+      "godot_symbol": "source_beam_drill_draw_state_result.lasers",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The per-face computed draw state (BeamDrill.java:285-344): index, drop, lx/ly, width, mix_amount, z 69, centered flag, the center/beam rects or laser endpoints with their boost-gated alphas, and the spark list with stroke + z 110.",
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof"
+    },
+    "source_beam_drill_draw_state_result.top_rect": {
+      "canonical_symbol": "source_symbol_registry.source_beam_drill_draw_state_result.top_rect",
+      "status": "source-backed",
+      "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+      "godot_symbol": "source_beam_drill_draw_state_result.top_rect",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "rule": "The top rect {region, x, y, rotation_deg}, always drawn (BeamDrill.java:277, `Draw.rect(topRegion, x, y, rotdeg());`, rotdeg() = rotation * 90).",
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof"
+    },
     "source_beam_drill_power_status_row_state_result.has_power_row": {
       "canonical_symbol": "source_symbol_registry.source_beam_drill_power_status_row_state_result.has_power_row",
       "status": "source-backed",

@@ -74272,6 +74272,233 @@
       ],
       "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
       "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_state": {
+      "status": "active",
+      "source_slice": "N2382",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.draw",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.y"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.top_region"
+        },
+        {
+          "name": "laser",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser"
+        },
+        {
+          "name": "laser_end",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser_end"
+        },
+        {
+          "name": "laser_center",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser_center"
+        },
+        {
+          "name": "laser_boost",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser_boost"
+        },
+        {
+          "name": "laser_end_boost",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser_end_boost"
+        },
+        {
+          "name": "laser_center_boost",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser_center_boost"
+        },
+        {
+          "name": "glow_region",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.glow_region"
+        },
+        {
+          "name": "glow_region_found",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.glow_region_found"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.size"
+        },
+        {
+          "name": "build_id",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.build_id"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.warmup"
+        },
+        {
+          "name": "boost_warmup",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.boost_warmup"
+        },
+        {
+          "name": "is_payload",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.is_payload"
+        },
+        {
+          "name": "facing",
+          "type": "Array",
+          "schema": "source_beam_drill_draw_state_input.facing"
+        },
+        {
+          "name": "lasers",
+          "type": "Array",
+          "schema": "source_beam_drill_draw_state_input.lasers"
+        },
+        {
+          "name": "laser_width",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.laser_width"
+        },
+        {
+          "name": "glow_scl",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.glow_scl"
+        },
+        {
+          "name": "pulse_intensity",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.pulse_intensity"
+        },
+        {
+          "name": "glow_color",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.glow_color"
+        },
+        {
+          "name": "glow_intensity",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.glow_intensity"
+        },
+        {
+          "name": "spark_color",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.spark_color"
+        },
+        {
+          "name": "boost_heat_color",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.boost_heat_color"
+        },
+        {
+          "name": "heat_color",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.heat_color"
+        },
+        {
+          "name": "heat_pulse",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.heat_pulse"
+        },
+        {
+          "name": "heat_pulse_scl",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.heat_pulse_scl"
+        },
+        {
+          "name": "sparks",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.sparks"
+        },
+        {
+          "name": "spark_life",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.spark_life"
+        },
+        {
+          "name": "spark_recurrence",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.spark_recurrence"
+        },
+        {
+          "name": "spark_range",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.spark_range"
+        },
+        {
+          "name": "spark_spread",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.spark_spread"
+        },
+        {
+          "name": "spark_size",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.spark_size"
+        },
+        {
+          "name": "time_ticks",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.time_ticks"
+        },
+        {
+          "name": "lod_l2",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.lod_l2"
+        },
+        {
+          "name": "lod_alpha2",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.lod_alpha2"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.tilesize"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "base_rect",
+        "top_rect",
+        "is_payload",
+        "lasers",
+        "glow_visible",
+        "glow_alpha",
+        "glow_color",
+        "glow_rect"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof",
+      "rule": "Source-backed BeamDrillBuild.draw() state from BeamDrill.java."
     }
   },
   "policy": {

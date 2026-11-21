@@ -1385,6 +1385,30 @@
       ],
       "runtime_proof": "/root/C07BeamDrillUpdateFacingProof"
     },
+    "N2382": {
+      "canonical_ledger": "source_slice_ledger.N2382",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.draw",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "source_symbols": [
+        "source_beam_drill_draw_state_result.base_rect",
+        "source_beam_drill_draw_state_result.top_rect",
+        "source_beam_drill_draw_state_result.is_payload",
+        "source_beam_drill_draw_state_result.lasers",
+        "source_beam_drill_draw_state_result.glow_visible",
+        "source_beam_drill_draw_state_result.glow_alpha",
+        "source_beam_drill_draw_state_result.glow_color",
+        "source_beam_drill_draw_state_result.glow_rect"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

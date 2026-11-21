@@ -51,6 +51,411 @@
         }
       }
     },
+    "source_beam_drill_draw_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_draw_state_input",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The building world x (BeamDrill.java:276, `Draw.rect(block.region, x, y);`); passed explicitly because draw() reads the live building position.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The building world y (BeamDrill.java:276, `Draw.rect(block.region, x, y);`); passed explicitly because draw() reads the live building position.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(block.region, x, y);",
+          "rule": "The block region (BeamDrill.java:276, `Draw.rect(block.region, x, y);`, Block.region); passed explicitly because it is per-def static state, not a live frame key (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "top_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(topRegion, x, y, rotdeg());",
+          "rule": "The BeamDrill top region (BeamDrill.java:38, `public @Load(\"@-top\") TextureRegion topRegion;`, drawn BeamDrill.java:277, `Draw.rect(topRegion, x, y, rotdeg());`); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "laser": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Drawf.laser(laser, laserEnd, lsx, lsy, lx, ly, width);",
+          "rule": "The beam region (BeamDrill.java:28, `public @Load(value = \"@-beam\", fallback = \"drill-laser\") TextureRegion laser;`, drawn BeamDrill.java:312, `Drawf.laser(laser, laserEnd, lsx, lsy, lx, ly, width);`); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "laser_end": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Drawf.laser(laser, laserEnd, lsx, lsy, lx, ly, width);",
+          "rule": "The beam end region (BeamDrill.java:29, `public @Load(value = \"@-beam-end\", fallback = \"drill-laser-end\") TextureRegion laserEnd;`, drawn BeamDrill.java:312); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "laser_center": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(laserCenter, lx, ly);",
+          "rule": "The beam center region (BeamDrill.java:30, `public @Load(value = \"@-beam-center\", fallback = \"drill-laser-center\") TextureRegion laserCenter;`, drawn BeamDrill.java:298, `Draw.rect(laserCenter, lx, ly);`); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "laser_boost": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Drawf.laser(laserBoost, laserEndBoost, lsx, lsy, lx, ly, width);",
+          "rule": "The boosted beam region (BeamDrill.java:32, `public @Load(value = \"@-beam-boost\", fallback = \"drill-laser-boost\") TextureRegion laserBoost;`, drawn BeamDrill.java:317, `Drawf.laser(laserBoost, laserEndBoost, lsx, lsy, lx, ly, width);`); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "laser_end_boost": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Drawf.laser(laserBoost, laserEndBoost, lsx, lsy, lx, ly, width);",
+          "rule": "The boosted beam end region (BeamDrill.java:33, `public @Load(value = \"@-beam-boost-end\", fallback = \"drill-laser-boost-end\") TextureRegion laserEndBoost;`, drawn BeamDrill.java:317); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "laser_center_boost": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(laserCenterBoost, lx, ly);",
+          "rule": "The boosted beam center region (BeamDrill.java:34, `public @Load(value = \"@-beam-boost-center\", fallback = \"drill-laser-boost-center\") TextureRegion laserCenterBoost;`, drawn BeamDrill.java:303, `Draw.rect(laserCenterBoost, lx, ly);`); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "glow_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.rect(glowRegion, x, y, rotdeg());",
+          "rule": "The glow region (BeamDrill.java:39, `public @Load(\"@-glow\") TextureRegion glowRegion;`, drawn BeamDrill.java:352, `Draw.rect(glowRegion, x, y, rotdeg());`); passed explicitly because it is per-def static state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "glow_region_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(glowRegion.found()){",
+          "rule": "Whether the @-glow region exists (BeamDrill.java:347, `if(glowRegion.found()){`); passed explicitly because region presence is load-time state.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "var dir = Geometry.d4(rotation);",
+          "rule": "The build rotation 0-3 (BeamDrill.java:283, `var dir = Geometry.d4(rotation);`): it picks the faced side, the top-rect angle (rotdeg() = rotation * 90) and the spark rotation.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "for(int i = 0; i < size; i++){",
+          "rule": "The block size (BeamDrill.java:285, `for(int i = 0; i < size; i++){`): the facing / lasers arrays are sized `size` (plasma-bore 2, large-plasma-bore 3, Blocks.java:3049-3065); passed explicitly (the N2212 / N2248 per-def-param precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "build_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;",
+          "rule": "The build id (BeamDrill.java:293, `float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;`): it phases the width pulse and seeds the spark rand (`rand.setState(i, id);`, BeamDrill.java:328).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;",
+          "rule": "The drill warmup (BeamDrill.java:226, `public float warmup, boostWarmup;`, folded BeamDrill.java:293, `... * warmup;`): it scales the laser width, the spark stroke and the glow alpha.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "boost_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(boostWarmup < 0.99f){",
+          "rule": "The boost warmup (BeamDrill.java:226, `public float warmup, boostWarmup;`): it gates the center/beam vs boost rects/lasers (BeamDrill.java:296-317, `if(boostWarmup < 0.99f){` / `if(boostWarmup > 0.01f){` / `if(boostWarmup > 0.001f){`) and lerps the spark/glow colors toward boostHeatColor.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "is_payload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(isPayload()) return;",
+          "rule": "Whether the build is carried as a payload (BeamDrill.java:280, `if(isPayload()) return;`): a payload build draws only the base + top rects, no lasers or glow.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "facing": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Tile face = facing[i];",
+          "rule": "The facing tiles per footprint side (BeamDrill.java:221, `public Tile[] facing = new Tile[size];`, read BeamDrill.java:286, `Tile face = facing[i];`): each entry is null or a tile Dictionary {\"x\", \"y\", \"wall_drop\", \"drop_color\"} (the N2379 tile-Dictionary precedent, extended with the drop color draw() reads as `drop.color`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "lasers": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Point2 p = lasers[i];",
+          "rule": "The laser side points per footprint side (BeamDrill.java:222, `public Point2[] lasers = new Point2[size];`, read BeamDrill.java:292, `Point2 p = lasers[i];`): one Vector2i per side, built by updateLasers (N2379).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "laser_width": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float laserWidth = 0.65f;",
+          "rule": "The base laser width (BeamDrill.java:44, `public float laserWidth = 0.65f;`, class default; large-plasma-bore overrides `laserWidth = 0.7f;`, Blocks.java:3062); passed explicitly (the N2212 per-def-param precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "glow_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float glowScl = 3f;",
+          "rule": "The glow pulse scale (BeamDrill.java:57, `public float glowScl = 3f;`): the absin period for the width pulse and the mixcol amount.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "pulse_intensity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float glowIntensity = 0.2f, pulseIntensity = 0.07f;",
+          "rule": "The width pulse magnitude (BeamDrill.java:56, `public float glowIntensity = 0.2f, pulseIntensity = 0.07f;`): the absin magnitude in the width formula (BeamDrill.java:293).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "glow_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Color sparkColor = Color.valueOf(\"fd9e81\"), glowColor = Color.white;",
+          "rule": "The glow color (BeamDrill.java:55, `public Color sparkColor = Color.valueOf(\"fd9e81\"), glowColor = Color.white;`): the mixcol target (BeamDrill.java:295, `Draw.mixcol(glowColor, ...)`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "glow_intensity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float glowIntensity = 0.2f, pulseIntensity = 0.07f;",
+          "rule": "The mixcol pulse magnitude (BeamDrill.java:56, `public float glowIntensity = 0.2f, pulseIntensity = 0.07f;`): the absin magnitude for the mixcol amount (BeamDrill.java:295).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "spark_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Color sparkColor = Color.valueOf(\"fd9e81\"), glowColor = Color.white;",
+          "rule": "The spark base color (BeamDrill.java:55, `public Color sparkColor = Color.valueOf(\"fd9e81\"), glowColor = Color.white;`, \"fd9e81\"): the spark color before the boost lerp (BeamDrill.java:330, `Color spark = Tmp.c3.set(sparkColor).lerp(boostHeatColor, boostWarmup);`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "boost_heat_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Color boostHeatColor = Color.sky.cpy().mul(0.87f);",
+          "rule": "The boosted heat color (BeamDrill.java:62, `public Color boostHeatColor = Color.sky.cpy().mul(0.87f);`): the spark and glow colors lerp toward it by boostWarmup.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "heat_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Color heatColor = new Color(1f, 0.35f, 0.35f, 0.9f);",
+          "rule": "The glow heat color (BeamDrill.java:63, `public Color heatColor = new Color(1f, 0.35f, 0.35f, 0.9f);`, alpha 0.9): the glow color before the boost lerp, and its alpha scales the glow alpha (BeamDrill.java:351).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "heat_pulse": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float heatPulse = 0.3f, heatPulseScl = 7f;",
+          "rule": "The glow pulse depth (BeamDrill.java:64, `public float heatPulse = 0.3f, heatPulseScl = 7f;`): the glow alpha is warmup * heatColor.a * (1 - heatPulse + absin) (BeamDrill.java:351).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "heat_pulse_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float heatPulse = 0.3f, heatPulseScl = 7f;",
+          "rule": "The glow pulse scale (BeamDrill.java:64, `public float heatPulse = 0.3f, heatPulseScl = 7f;`): the absin scale for the glow alpha pulse (BeamDrill.java:351, `Mathf.absin(heatPulseScl, heatPulse)` is the Time.time overload).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "sparks": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int sparks = 7;",
+          "rule": "How many sparks per face (BeamDrill.java:58, `public int sparks = 7;`): the spark loop count (BeamDrill.java:332, `for(int j = 0; j < sparks; j++){`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "spark_life": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+          "rule": "The spark life divisor (BeamDrill.java:59, `public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;`): fin advances as Time.time / sparkLife (BeamDrill.java:333).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "spark_recurrence": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+          "rule": "The spark recurrence modulus (BeamDrill.java:59): fin wraps mod sparkRecurrence (BeamDrill.java:333, `float fin = (Time.time / sparkLife + rand.random(sparkRecurrence + 1f)) % sparkRecurrence;`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "spark_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+          "rule": "The spark travel range (BeamDrill.java:59): the spark offset is (sparkRange * fin, 0) rotated (BeamDrill.java:335).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "spark_spread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+          "rule": "The spark angle spread (BeamDrill.java:59): the spark rotation draws rand.range(sparkSpread) (BeamDrill.java:335).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "spark_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+          "rule": "The spark line size (BeamDrill.java:59): the line length is Mathf.slope(fin) * sparkSize (BeamDrill.java:341).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "time_ticks": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float width = (laserWidth + Mathf.absin(Time.time + i*5 + (id % 9)*9, glowScl, pulseIntensity)) * warmup;",
+          "rule": "Time.time in ticks (BeamDrill.java:293, `Mathf.absin(Time.time + i*5 + (id % 9)*9, ...)`): the absolute clock draw() pulses against; passed explicitly (the N2314/N2325 draw precedent -- no frame key carries global time).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "lod_l2": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "if(Lod.l2){",
+          "rule": "The level-of-detail flag (BeamDrill.java:324, `if(Lod.l2){`, Lod.java: l2 default true): the spark loop runs only when it holds; passed explicitly because the live zoom value is not a frame key.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "lod_alpha2": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "Draw.color(result.r, result.g, result.b, result.a * Lod.alpha2);",
+          "rule": "The Lod alpha2 fade (BeamDrill.java:340, `Draw.color(result.r, result.g, result.b, result.a * Lod.alpha2);`, Lod.java: alpha2 default 1f): it scales the spark draw alpha; passed explicitly with lod_l2.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "float lx = face.worldx() - (dir.x/2f)*tilesize, ly = face.worldy() - (dir.y/2f)*tilesize;",
+          "rule": "The world tilesize (BeamDrill.java:294, `float lx = face.worldx() - (dir.x/2f)*tilesize, ly = face.worldy() - (dir.y/2f)*tilesize;`, Vars.tilesize 8): tile-to-world conversion for the laser endpoints.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_draw_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_power_status_row_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_power_status_row_state_input",
       "keys": {
