@@ -180008,6 +180008,54 @@
         "test_reference_graph_and_actual_c07_payload_ammo_turret_use_ammo"
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretUseAmmoProof"
+    },
+    "source_laser_turret_build_update_shooting_state_result.should_shoot": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_update_shooting_state",
+      "godot_symbol": "source_laser_turret_build_update_shooting_state_result.should_shoot",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateShooting()",
+      "java_expr": "shoot(type);",
+      "rule": "Whether to shoot (LaserTurret.java:127, `shoot(type);`): true only when no bullet is around and the guard holds -- the shoot call is the observable effect of the decision.",
+      "tests": [
+        "test_c07_laser_turret_update_shooting_registration",
+        "test_all_c07_laser_turret_update_shooting_input_evidence_is_exact",
+        "test_laser_turret_update_shooting_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_shooting"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateShootingProof"
+    },
+    "source_laser_turret_build_update_shooting_state_result.shoot_type": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_update_shooting_state",
+      "godot_symbol": "source_laser_turret_build_update_shooting_state_result.shoot_type",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateShooting()",
+      "java_expr": "BulletType type = peekAmmo();",
+      "rule": "The type to shoot (LaserTurret.java:126, `BulletType type = peekAmmo();`): the peekAmmo() result when shooting, null otherwise.",
+      "tests": [
+        "test_c07_laser_turret_update_shooting_registration",
+        "test_all_c07_laser_turret_update_shooting_input_evidence_is_exact",
+        "test_laser_turret_update_shooting_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_shooting"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateShootingProof"
+    },
+    "source_laser_turret_build_update_shooting_state_result.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_update_shooting_state",
+      "godot_symbol": "source_laser_turret_build_update_shooting_state_result.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.updateShooting()",
+      "java_expr": "reloadCounter = reload;",
+      "rule": "The new reload counter (LaserTurret.java:129, `reloadCounter = reload;`): reload when shooting, the input value otherwise.",
+      "tests": [
+        "test_c07_laser_turret_update_shooting_registration",
+        "test_all_c07_laser_turret_update_shooting_input_evidence_is_exact",
+        "test_laser_turret_update_shooting_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_shooting"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateShootingProof"
     }
   },
   "version": 1

@@ -30,3 +30,45 @@ static func source_laser_turret_build_should_consume_state(has_bullets: bool, is
 	if has_bullets or is_active:
 		should_consume = true
 	return {"should_consume": should_consume}
+
+
+# LaserTurretBuild.updateShooting() (LaserTurret.java:120-132):
+# `protected void updateShooting(){`
+# `if(bullets.any()){`
+# `return;`
+# `}`
+# `if(reloadCounter <= 0 && efficiency > 0 && !charging() && shootWarmup >= minWarmup){`
+# `BulletType type = peekAmmo();`
+# `shoot(type);`
+# `reloadCounter = reload;`
+# `}`
+# `}`
+# on `public class LaserTurretBuild extends PowerTurretBuild{`
+# (LaserTurret.java:44) inside
+# `public class LaserTurret extends PowerTurret{`.
+# The turret shoots only when no bullet is around and the
+# guard holds (reloadCounter <= 0, efficiency > 0, not
+# charging, shootWarmup >= minWarmup). bullets is
+# `public Seq<BulletEntry> bullets = new Seq<>();`
+# (LaserTurret.java:45): the seq itself is NOT ported --
+# its emptiness arrives as the explicit has_bullets param
+# (the N2330 param precedent). peekAmmo() is owned at
+# N1172 (PowerTurretBuild, body `return shootType;`) and
+# charging() at Turret.java:715-717 (`return queuedBullets
+# > 0 && shoot.firstShotDelay > 0;`) -- their values
+# arrive as explicit params; shoot(type) is a callee the
+# driver performs, so this pure function only decides
+# whether to shoot, which type to shoot, and the new
+# reloadCounter (reload when shooting, unchanged
+# otherwise). NO driver line: a pure decision function the
+# tick reads, not a per-tick write.
+static func source_laser_turret_build_update_shooting_state(has_bullets: bool, reload_counter: float, efficiency: float, charging: bool, shoot_warmup: float, min_warmup: float, reload: float, ammo_type: Variant) -> Dictionary:
+	var should_shoot: bool = false
+	var shoot_type: Variant = null
+	var new_reload_counter: float = reload_counter
+	if not has_bullets:
+		if reload_counter <= 0.0 and efficiency > 0.0 and not charging and shoot_warmup >= min_warmup:
+			should_shoot = true
+			shoot_type = ammo_type
+			new_reload_counter = reload
+	return {"should_shoot": should_shoot, "shoot_type": shoot_type, "reload_counter": new_reload_counter}

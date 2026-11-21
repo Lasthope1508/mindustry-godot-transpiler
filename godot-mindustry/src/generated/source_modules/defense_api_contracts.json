@@ -2211,6 +2211,69 @@
       "rule": "Source-backed LaserTurretBuild.shouldConsume() state from LaserTurret.java.",
       "return_type": "Dictionary"
     },
+    "PortGame.source_laser_turret_build_update_shooting_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_update_shooting_state",
+      "status": "active",
+      "source_slice": "N2364",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.updateShooting()",
+      "params": [
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_laser_turret_build_update_shooting_state_input.has_bullets"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_shooting_state_input.reload_counter"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_shooting_state_input.efficiency"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_laser_turret_build_update_shooting_state_input.charging"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_shooting_state_input.shoot_warmup"
+        },
+        {
+          "name": "min_warmup",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_shooting_state_input.min_warmup"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_shooting_state_input.reload"
+        },
+        {
+          "name": "ammo_type",
+          "type": "Variant",
+          "schema": "source_laser_turret_build_update_shooting_state_input.ammo_type"
+        }
+      ],
+      "return_keys": [
+        "should_shoot",
+        "shoot_type",
+        "reload_counter"
+      ],
+      "tests": [
+        "test_c07_laser_turret_update_shooting_registration",
+        "test_all_c07_laser_turret_update_shooting_input_evidence_is_exact",
+        "test_laser_turret_update_shooting_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_shooting"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateShootingProof",
+      "rule": "Source-backed LaserTurretBuild.updateShooting() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_liquid_turret_ammo_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_liquid_turret_ammo_state",
       "status": "source-backed",

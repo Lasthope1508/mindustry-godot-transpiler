@@ -244204,6 +244204,134 @@
       },
       "runtime_proof": "/root/C07PayloadAmmoTurretUseAmmoProof",
       "rule": "Source-backed PayloadTurretBuild.useAmmo() state from PayloadAmmoTurret.java."
+    },
+    "source_laser_turret_build_update_shooting_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_update_shooting_state",
+      "source_slice": "N2364",
+      "keys": {
+        "has_bullets": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(bullets.any()){",
+          "rule": "Whether the bullets seq is non-empty, bullets.any() (LaserTurret.java:121): the seq itself is NOT ported -- its emptiness arrives as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(reloadCounter <= 0 && efficiency > 0 && !charging() && shootWarmup >= minWarmup){",
+          "rule": "The reload counter, reloadCounter (LaserTurret.java:124): shooting requires it at or below zero.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(reloadCounter <= 0 && efficiency > 0 && !charging() && shootWarmup >= minWarmup){",
+          "rule": "The build efficiency, efficiency (LaserTurret.java:124): shooting requires it above zero.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        },
+        "charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(reloadCounter <= 0 && efficiency > 0 && !charging() && shootWarmup >= minWarmup){",
+          "rule": "Whether the turret is charging, charging() (LaserTurret.java:124, Turret.java:715-717): a callee, its value arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        },
+        "shoot_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(reloadCounter <= 0 && efficiency > 0 && !charging() && shootWarmup >= minWarmup){",
+          "rule": "The shoot warmup, shootWarmup (LaserTurret.java:124): shooting requires it at or above minWarmup.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        },
+        "min_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "if(reloadCounter <= 0 && efficiency > 0 && !charging() && shootWarmup >= minWarmup){",
+          "rule": "The minimum warmup, minWarmup (LaserTurret.java:124, Turret.java:76 `public float minWarmup = 0f;`): the shoot threshold.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "reloadCounter = reload;",
+          "rule": "The reload time, reload (LaserTurret.java:129): the new reloadCounter when shooting.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        },
+        "ammo_type": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "BulletType type = peekAmmo();",
+          "rule": "The peekAmmo() result, BulletType type (LaserTurret.java:126): peekAmmo() is owned at N1172 (PowerTurretBuild, body `return shootType;`), its value arrives as an explicit param, not re-ported here.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretUpdateShootingProof",
+      "rule": "Source-backed LaserTurretBuild.updateShooting() state from LaserTurret.java."
+    },
+    "source_laser_turret_build_update_shooting_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_update_shooting_state",
+      "source_slice": "N2364",
+      "keys": {
+        "should_shoot": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "shoot(type);",
+          "rule": "Whether to shoot (LaserTurret.java:127, `shoot(type);`): true only when no bullet is around and the guard holds -- the shoot call is the observable effect of the decision.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        },
+        "shoot_type": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "BulletType type = peekAmmo();",
+          "rule": "The type to shoot (LaserTurret.java:126, `BulletType type = peekAmmo();`): the peekAmmo() result when shooting, null otherwise.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        },
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "reloadCounter = reload;",
+          "rule": "The new reload counter (LaserTurret.java:129, `reloadCounter = reload;`): reload when shooting, the input value otherwise.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_update_shooting_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretUpdateShootingProof",
+      "rule": "Source-backed LaserTurretBuild.updateShooting() state from LaserTurret.java."
     }
   },
   "version": 1
