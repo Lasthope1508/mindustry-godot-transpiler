@@ -251676,6 +251676,94 @@
       },
       "runtime_proof": "/root/C07RadarDefaultConstructorProof",
       "rule": "Source-backed Radar() ctor field defaults state from Radar.java."
+    },
+    "source_base_turret_default_constructor_state_input": {
+      "status": "active",
+      "owner": "SourceBaseTurretDefaults.source_base_turret_default_constructor_state",
+      "source_slice": "N2405",
+      "keys": {
+        "base_turret_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public BaseTurret(String name){",
+          "rule": "The BaseTurret def frame (BaseTurret.java:36, `public BaseTurret(String name){`): the family-convention first arg; the ctor writes its 4 literal field defaults into it, so base_turret_defaults is an in/out param -- keys already present keep their unrelated values, the 4 ctor keys are overwritten with the ctor literals.",
+          "used_by": [
+            "SourceBaseTurretDefaults.source_base_turret_default_constructor_state"
+          ]
+        },
+        "block_flags": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "flags = EnumSet.of(BlockFlag.turret);",
+          "rule": "The block flags (BaseTurret.java:45, `flags = EnumSet.of(BlockFlag.turret);`): the block-flag enum value (`turret` -- \"Any turret.\", BlockFlag.java, core/src/mindustry/world/meta/BlockFlag.java) -- EnumSet is NOT ported here: it arrives as an explicit Variant param and passes through to the result flags key; the Block base default it overrides is `public EnumSet<BlockFlag> flags = EnumSet.of();` (Block.java:251).",
+          "used_by": [
+            "SourceBaseTurretDefaults.source_base_turret_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof",
+      "rule": "Source-backed BaseTurret() ctor field defaults state from BaseTurret.java."
+    },
+    "source_base_turret_default_constructor_state_result": {
+      "status": "active",
+      "owner": "SourceBaseTurretDefaults.source_base_turret_default_constructor_state",
+      "source_slice": "N2405",
+      "keys": {
+        "outline_icon": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "outlineIcon = true;",
+          "rule": "Whether the block draws its outline icon (BaseTurret.java:41, `outlineIcon = true;`): Block.outlineIcon; the ctor enables it for base turrets, overriding the Block base default (`public boolean outlineIcon = false;`, Block.java:313).",
+          "used_by": [
+            "SourceBaseTurretDefaults.source_base_turret_default_constructor_state"
+          ]
+        },
+        "attacks": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "attacks = true;",
+          "rule": "Whether the block attacks (BaseTurret.java:42, `attacks = true;`): Block.attacks; the ctor enables it for base turrets, overriding the Block base default (`public boolean attacks = false;`, Block.java:305).",
+          "used_by": [
+            "SourceBaseTurretDefaults.source_base_turret_default_constructor_state"
+          ]
+        },
+        "priority": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "priority = TargetPriority.turret;",
+          "rule": "The targeting priority of this block, as seen by enemies (BaseTurret.java:43, `priority = TargetPriority.turret;`): Block.priority is a float field defaulting to TargetPriority.base = 0f (Block.java:253); TargetPriority.turret is the float constant 1f (TargetPriority.java, core/src/mindustry/entities/TargetPriority.java), so the ctor literal is the float 1.0 -- turrets deal damage so they are more important.",
+          "used_by": [
+            "SourceBaseTurretDefaults.source_base_turret_default_constructor_state"
+          ]
+        },
+        "flags": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "flags = EnumSet.of(BlockFlag.turret);",
+          "rule": "The block flags, read through (BaseTurret.java:45, `flags = EnumSet.of(BlockFlag.turret);`): the block-flag enum value passed in as block_flags; the Block base default it overrides is `public EnumSet<BlockFlag> flags = EnumSet.of();` (Block.java:251).",
+          "used_by": [
+            "SourceBaseTurretDefaults.source_base_turret_default_constructor_state"
+          ]
+        },
+        "base_turret_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public BaseTurret(String name){",
+          "rule": "The updated BaseTurret def frame (BaseTurret.java:36, `public BaseTurret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the 4 ctor keys written with the ctor literals.",
+          "used_by": [
+            "SourceBaseTurretDefaults.source_base_turret_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof",
+      "rule": "Source-backed BaseTurret() ctor field defaults state from BaseTurret.java."
     }
   },
   "version": 1

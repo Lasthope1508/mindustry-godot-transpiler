@@ -4385,6 +4385,27 @@
       ],
       "runtime_proof": "/root/C07RadarDefaultConstructorProof"
     },
+    "N2405": {
+      "canonical_ledger": "source_slice_ledger.N2405",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurret(String name)",
+      "godot_owner": "SourceBaseTurretDefaults.source_base_turret_default_constructor_state",
+      "source_symbols": [
+        "source_base_turret_default_constructor_state_result.outline_icon",
+        "source_base_turret_default_constructor_state_result.attacks",
+        "source_base_turret_default_constructor_state_result.priority",
+        "source_base_turret_default_constructor_state_result.flags",
+        "source_base_turret_default_constructor_state_result.base_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_base_turret_default_constructor_registration",
+        "test_all_c07_base_turret_default_constructor_input_evidence_is_exact",
+        "test_base_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_base_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

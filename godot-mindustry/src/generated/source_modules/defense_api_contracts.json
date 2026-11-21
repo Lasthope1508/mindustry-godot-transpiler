@@ -7681,6 +7681,41 @@
       "rule": "Source-backed BaseShield power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBaseTurretDefaults.source_base_turret_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceBaseTurretDefaults.source_base_turret_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2405",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "source_method": "BaseTurret(String name)",
+      "params": [
+        {
+          "name": "base_turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_base_turret_default_constructor_state_input.base_turret_defaults"
+        },
+        {
+          "name": "block_flags",
+          "type": "Variant",
+          "schema": "source_base_turret_default_constructor_state_input.block_flags"
+        }
+      ],
+      "return_keys": [
+        "outline_icon",
+        "attacks",
+        "priority",
+        "flags",
+        "base_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_base_turret_default_constructor_registration",
+        "test_all_c07_base_turret_default_constructor_input_evidence_is_exact",
+        "test_base_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_base_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof",
+      "rule": "Source-backed BaseTurret() ctor field defaults state from BaseTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildTurretBuildState.source_build_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_power_status_row_state",
       "status": "active",

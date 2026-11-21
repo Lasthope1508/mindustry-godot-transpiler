@@ -183672,6 +183672,86 @@
         "test_reference_graph_and_actual_c07_radar_default_constructor"
       ],
       "runtime_proof": "/root/C07RadarDefaultConstructorProof"
+    },
+    "source_base_turret_default_constructor_state_result.outline_icon": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseTurretDefaults.source_base_turret_default_constructor_state",
+      "godot_symbol": "source_base_turret_default_constructor_state_result.outline_icon",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurret(String name)",
+      "java_expr": "outlineIcon = true;",
+      "rule": "Whether the block draws its outline icon (BaseTurret.java:41, `outlineIcon = true;`): Block.outlineIcon; the ctor enables it for base turrets, overriding the Block base default (`public boolean outlineIcon = false;`, Block.java:313).",
+      "tests": [
+        "test_c07_base_turret_default_constructor_registration",
+        "test_all_c07_base_turret_default_constructor_input_evidence_is_exact",
+        "test_base_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_base_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof"
+    },
+    "source_base_turret_default_constructor_state_result.attacks": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseTurretDefaults.source_base_turret_default_constructor_state",
+      "godot_symbol": "source_base_turret_default_constructor_state_result.attacks",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurret(String name)",
+      "java_expr": "attacks = true;",
+      "rule": "Whether the block attacks (BaseTurret.java:42, `attacks = true;`): Block.attacks; the ctor enables it for base turrets, overriding the Block base default (`public boolean attacks = false;`, Block.java:305).",
+      "tests": [
+        "test_c07_base_turret_default_constructor_registration",
+        "test_all_c07_base_turret_default_constructor_input_evidence_is_exact",
+        "test_base_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_base_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof"
+    },
+    "source_base_turret_default_constructor_state_result.priority": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseTurretDefaults.source_base_turret_default_constructor_state",
+      "godot_symbol": "source_base_turret_default_constructor_state_result.priority",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurret(String name)",
+      "java_expr": "priority = TargetPriority.turret;",
+      "rule": "The targeting priority of this block, as seen by enemies (BaseTurret.java:43, `priority = TargetPriority.turret;`): Block.priority is a float field defaulting to TargetPriority.base = 0f (Block.java:253); TargetPriority.turret is the float constant 1f (TargetPriority.java, core/src/mindustry/entities/TargetPriority.java), so the ctor literal is the float 1.0 -- turrets deal damage so they are more important.",
+      "tests": [
+        "test_c07_base_turret_default_constructor_registration",
+        "test_all_c07_base_turret_default_constructor_input_evidence_is_exact",
+        "test_base_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_base_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof"
+    },
+    "source_base_turret_default_constructor_state_result.flags": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseTurretDefaults.source_base_turret_default_constructor_state",
+      "godot_symbol": "source_base_turret_default_constructor_state_result.flags",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurret(String name)",
+      "java_expr": "flags = EnumSet.of(BlockFlag.turret);",
+      "rule": "The block flags, read through (BaseTurret.java:45, `flags = EnumSet.of(BlockFlag.turret);`): the block-flag enum value passed in as block_flags; the Block base default it overrides is `public EnumSet<BlockFlag> flags = EnumSet.of();` (Block.java:251).",
+      "tests": [
+        "test_c07_base_turret_default_constructor_registration",
+        "test_all_c07_base_turret_default_constructor_input_evidence_is_exact",
+        "test_base_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_base_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof"
+    },
+    "source_base_turret_default_constructor_state_result.base_turret_defaults": {
+      "status": "source-backed",
+      "godot_owner": "SourceBaseTurretDefaults.source_base_turret_default_constructor_state",
+      "godot_symbol": "source_base_turret_default_constructor_state_result.base_turret_defaults",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurret(String name)",
+      "java_expr": "public BaseTurret(String name){",
+      "rule": "The updated BaseTurret def frame (BaseTurret.java:36, `public BaseTurret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the 4 ctor keys written with the ctor literals.",
+      "tests": [
+        "test_c07_base_turret_default_constructor_registration",
+        "test_all_c07_base_turret_default_constructor_input_evidence_is_exact",
+        "test_base_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_base_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof"
     }
   },
   "version": 1
