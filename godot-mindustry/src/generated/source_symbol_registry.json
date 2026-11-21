@@ -182072,6 +182072,38 @@
         "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
       ],
       "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof"
+    },
+    "source_teams_closest_core_state_result.core": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_closest_core_state",
+      "godot_symbol": "source_teams_closest_core_state_result.core",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.closestCore(float, float, Team)",
+      "java_expr": "return Geometry.findClosest(x, y, get(team).cores);",
+      "rule": "The closest core (Teams.java:57, `return Geometry.findClosest(x, y, get(team).cores);`): whatever Geometry.findClosest returns -- the nearest CoreBuild ref, or null (the @Nullable return) when the cores Array is empty.",
+      "tests": [
+        "test_c07_teams_closest_core_tree_registration",
+        "test_all_c07_teams_closest_core_tree_input_evidence_is_exact",
+        "test_teams_closest_core_tree_state",
+        "test_reference_graph_and_actual_c07_teams_closest_core_tree"
+      ],
+      "runtime_proof": "/root/C07TeamsClosestCoreTreeProof"
+    },
+    "source_team_data_tree_state_result.unit_tree": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_data_tree_state",
+      "godot_symbol": "source_team_data_tree_state_result.unit_tree",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.tree()",
+      "java_expr": "return unitTree;",
+      "rule": "The unit tree (Teams.java:439, `return unitTree;`): the cached tree when present, or the fresh tree from the world-bounds Callable when the cache was null -- the value the caller stores back into TeamData.",
+      "tests": [
+        "test_c07_teams_closest_core_tree_registration",
+        "test_all_c07_teams_closest_core_tree_input_evidence_is_exact",
+        "test_teams_closest_core_tree_state",
+        "test_reference_graph_and_actual_c07_teams_closest_core_tree"
+      ],
+      "runtime_proof": "/root/C07TeamsClosestCoreTreeProof"
     }
   },
   "version": 1

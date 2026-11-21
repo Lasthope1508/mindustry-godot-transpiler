@@ -249006,6 +249006,122 @@
       },
       "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof",
       "rule": "Source-backed BeamDrill canPlaceOn() / setBars() state from BeamDrill.java + Block.java + Pal.java + Bar.java + arc Strings.java."
+    },
+    "source_teams_closest_core_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_closest_core_state",
+      "source_slice": "N2392",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public CoreBuild closestCore(float x, float y, Team team){",
+          "rule": "The x asking (Teams.java:56, `public CoreBuild closestCore(float x, float y, Team team){`): the query point x, passed straight to Geometry.findClosest.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_core_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "public CoreBuild closestCore(float x, float y, Team team){",
+          "rule": "The y asking (Teams.java:56, `public CoreBuild closestCore(float x, float y, Team team){`): the query point y, passed straight to Geometry.findClosest.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_core_state"
+          ]
+        },
+        "cores": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return Geometry.findClosest(x, y, get(team).cores);",
+          "rule": "The team cores (Teams.java:57, `return Geometry.findClosest(x, y, get(team).cores);`): get(team).cores -- the TeamData cores Seq (Teams.java:288) as an Array of core refs; get(team) is the Teams.get(Team) lookup (Teams.java:97), already the exact_expr of N2380, so the cores arrive already resolved.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_core_state"
+          ]
+        },
+        "find_closest": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return Geometry.findClosest(x, y, get(team).cores);",
+          "rule": "The nearest-core search (Teams.java:57, `return Geometry.findClosest(x, y, get(team).cores);`): Geometry.findClosest is an arc engine API, not ported -- it arrives as a Callable param (x, y, cores) -> the nearest core ref, or null (the @Nullable return, Teams.java:55) when no core is near.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_core_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsClosestCoreTreeProof",
+      "rule": "Source-backed Teams.closestCore()/TeamData.tree() state from Teams.java."
+    },
+    "source_teams_closest_core_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_closest_core_state",
+      "source_slice": "N2392",
+      "keys": {
+        "core": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return Geometry.findClosest(x, y, get(team).cores);",
+          "rule": "The closest core (Teams.java:57, `return Geometry.findClosest(x, y, get(team).cores);`): whatever Geometry.findClosest returns -- the nearest CoreBuild ref, or null (the @Nullable return) when the cores Array is empty.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_closest_core_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsClosestCoreTreeProof",
+      "rule": "Source-backed Teams.closestCore()/TeamData.tree() state from Teams.java."
+    },
+    "source_team_data_tree_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_tree_state",
+      "source_slice": "N2392",
+      "keys": {
+        "unit_tree": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(unitTree == null) unitTree = new QuadTree<>(Vars.world.getQuadBounds(new Rect()));",
+          "rule": "The cached unit tree (TeamData.tree, Teams.java:438, `if(unitTree == null) unitTree = new QuadTree<>(Vars.world.getQuadBounds(new Rect()));`): the @Nullable QuadTree<Unit> cache (Teams.java:296) as a Dictionary-or-null param -- the QuadTree itself is not ported, the cache arrives as its Dictionary shape (the same shape _teams_reset_team_data keeps under \"unit_tree\").",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_tree_state"
+          ]
+        },
+        "world_quad_bounds": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(unitTree == null) unitTree = new QuadTree<>(Vars.world.getQuadBounds(new Rect()));",
+          "rule": "The world bounds supplier (Teams.java:438, `if(unitTree == null) unitTree = new QuadTree<>(Vars.world.getQuadBounds(new Rect()));`): Vars.world.getQuadBounds is a live world API, not ported -- it arrives as a Callable param (no args -> the bounds Dictionary for the fresh tree), called only when the cache is null (the lazy init).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_tree_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsClosestCoreTreeProof",
+      "rule": "Source-backed Teams.closestCore()/TeamData.tree() state from Teams.java."
+    },
+    "source_team_data_tree_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_data_tree_state",
+      "source_slice": "N2392",
+      "keys": {
+        "unit_tree": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return unitTree;",
+          "rule": "The unit tree (Teams.java:439, `return unitTree;`): the cached tree when present, or the fresh tree from the world-bounds Callable when the cache was null -- the value the caller stores back into TeamData.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_data_tree_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsClosestCoreTreeProof",
+      "rule": "Source-backed Teams.closestCore()/TeamData.tree() state from Teams.java."
     }
   },
   "version": 1

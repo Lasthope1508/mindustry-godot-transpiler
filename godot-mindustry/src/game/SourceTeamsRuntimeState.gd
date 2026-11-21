@@ -718,6 +718,48 @@ static func source_team_data_unit_cache_state(units_by_type: Variant, type_id: i
 	return {"units": slot}
 
 
+static func source_teams_closest_core_state(x: float, y: float, cores: Array, find_closest: Callable) -> Dictionary:
+	# Teams.closestCore (Teams.java:56-58):
+	# `@Nullable`
+	# `public CoreBuild closestCore(float x, float y, Team team){`
+	# `return Geometry.findClosest(x, y, get(team).cores);`
+	# `}`
+	# get(team).cores is the TeamData cores Seq (Teams.java:288)
+	# as an Array param -- get(team) is Teams.get(Team)
+	# (Teams.java:97), already the exact_expr of N2380, so
+	# the lookup is the caller's job and the cores arrive
+	# here already resolved. Geometry.findClosest is an
+	# engine API (arc Geometry), not ported: it arrives as
+	# the find_closest Callable (x, y, cores) -> the
+	# nearest core ref, or null (the @Nullable return).
+	# Read-only: nothing is written back.
+	return {"core": find_closest.call(x, y, cores)}
+
+
+static func source_team_data_tree_state(unit_tree: Variant, world_quad_bounds: Callable) -> Dictionary:
+	# TeamData.tree (Teams.java:437-440) on
+	# `public static class TeamData{` (Teams.java:270):
+	# `public QuadTree<Unit> tree(){`
+	# `if(unitTree == null) unitTree = new QuadTree<>(Vars.world.getQuadBounds(new Rect()));`
+	# `return unitTree;`
+	# `}`
+	# unitTree is the cached @Nullable QuadTree<Unit>
+	# (Teams.java:296) as a Dictionary-or-null param (the
+	# QuadTree itself is not ported -- the cache arrives
+	# as its Dictionary shape, the same shape
+	# _teams_reset_team_data keeps under "unit_tree").
+	# Vars.world.getQuadBounds arrives as the
+	# world_quad_bounds Callable (no args -> the bounds
+	# Dictionary for the fresh tree), called only when
+	# the cache is null -- the lazy init. The returned
+	# unit_tree is the value the caller stores back into
+	# TeamData (the function itself stays pure, like
+	# getBuildings above).
+	if unit_tree == null:
+		return {"unit_tree": world_quad_bounds.call()}
+	return {"unit_tree": unit_tree}
+
+
 static func _teams_reset_team_data(data: Dictionary) -> Dictionary:
 	# The per-team reset half of Teams.updateTeamStats
 	# (Teams.java:185-211) for one TeamData dict, shared by
