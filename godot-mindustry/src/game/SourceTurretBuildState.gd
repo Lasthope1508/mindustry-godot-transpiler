@@ -393,16 +393,22 @@ static func source_building_comp_sense_state(frame: Dictionary, sensor: String, 
 	# `derelict = new Team(0, "derelict", Color.valueOf("4d4e58")),`
 	# (Team.java:33); sharded is
 	# `sharded = new Team(1, "sharded", Pal.accent.cpy(), Color.valueOf("ffd37f"), Color.valueOf("eab678"), Color.valueOf("d4816b")),`
-	# (Team.java:34). `dead` is deferred: `isValid()` is
+	# (Team.java:34). `dead` is wired (N2519): `isValid()` is
 	# `return tile.build == self() && !dead();`
-	# (BuildingComp.java:2031) and needs tile state not in
-	# the frame. `solid` reads block_solid (duo true,
+	# (BuildingComp.java:2031) and its two conjuncts arrive
+	# as the `tile_build_is_self` + `is_dead` frame keys
+	# when present (absent keys keep handled:false); the
+	# branch delegates to
+	# `source_building_comp_sense_dead_state`. `solid` reads block_solid (duo true,
 	# `solid = true;`, BaseTurret.java:40) because
 	# `checkSolid()` returns false in BuildingComp
 	# (`public boolean checkSolid(){`, :1734-1736).
 	# `team` reads the live frame team_id, absent folding to
-	# 0 (derelict id 0). `health` is deferred: building
-	# health is not live in the frame. `maxHealth` reads
+	# 0 (derelict id 0). `health` is wired (N2519): the
+	# live building health arrives as the `health` frame
+	# key when present (absent key keeps handled:false);
+	# the branch delegates to
+	# `source_building_comp_sense_health_state`. `maxHealth` reads
 	# max_health (`maxHealth(block.health);`,
 	# BuildingComp.java:142; duo `health = 250;`,
 	# Blocks.java:3321). `efficiency` reads the live frame
@@ -417,9 +423,12 @@ static func source_building_comp_sense_state(frame: Dictionary, sensor: String, 
 	# Blocks.java:3316, graphite `rangeChange = 16f;`,
 	# :3276). `rotation` reads the live frame rotation,
 	# absent folding to 90.0 (`public float rotation = 90;`,
-	# BaseTurret.java:114). `totalItems` is deferred: duo
-	# hasItems (`hasItems = true;`, ItemTurret.java:28) so
-	# the total is live inventory, not in the frame.
+	# BaseTurret.java:114). `totalItems` is wired (N2519):
+	# duo hasItems (`hasItems = true;`, ItemTurret.java:28)
+	# so the total is live inventory, arriving as the
+	# `items_is_null` + `items_total` frame keys when
+	# present (absent keys keep handled:false); the branch
+	# delegates to `source_building_comp_sense_total_items_state`.
 	# `totalLiquids` reads total_liquids when has_liquids,
 	# else 0 (duo hasLiquids false -> liquids null -> 0).
 	# `totalPower` folds to 0 when power or consPower is
@@ -435,8 +444,12 @@ static func source_building_comp_sense_state(frame: Dictionary, sensor: String, 
 	# Block.java:77). `powerCapacity` reads power_capacity
 	# when has_cons_power. `powerNetIn`/`powerNetOut`/
 	# `powerNetStored`/`powerNetCapacity` fold to 0 when
-	# power is absent (duo) and report handled=false when
-	# it is present (the graph is not live in the frame).
+	# power is absent (duo) and, when it is present, read
+	# their own graph frame key when present
+	# (`last_scaled_power_in` / `last_scaled_power_out` /
+	# `last_power_stored` / `last_capacity`, N2519 wiring)
+	# and delegate to the matching leg function (absent
+	# key keeps handled=false).
 	# `enabled` reads the live frame enabled, absent
 	# folding to true (`transient boolean enabled = true;`,
 	# BuildingComp.java:77). `controlled` reads is_player:
@@ -452,8 +465,11 @@ static func source_building_comp_sense_state(frame: Dictionary, sensor: String, 
 	# :993 both return null, so duo is 0). `size` reads
 	# block_size (`public int size = 1;`, Block.java:215).
 	# `cameraX`/`cameraY`/`cameraWidth`/`cameraHeight` are
-	# deferred: they need UnitComp.sense delegation for the
-	# proxy unit, its own later slice. The default (unknown
+	# wired (N2519): the UnitComp.sense delegation for the
+	# proxy unit arrives as the `is_control_block` +
+	# `unit_sense_value` frame keys when present (absent
+	# keys keep handled:false); the branch delegates to
+	# `source_building_comp_sense_camera_state`. The default (unknown
 	# sensor) reports handled false + NaN, the same as
 	# N2283. There is no driver tick line: sense is a logic
 	# read, not a tick write (the N2206/N2208/N2223/N2283
@@ -475,12 +491,20 @@ static func source_building_comp_sense_state(frame: Dictionary, sensor: String, 
 		color_bytes.encode_u32(0, color_bits)
 		var color_value: float = color_bytes.decode_double(0)
 		return {"handled": true, "sense_value": color_value, "sense_value_is_nan": false}
+	if sensor == "dead":
+		if frame.has("tile_build_is_self") and frame.has("is_dead"):
+			return source_building_comp_sense_dead_state(bool(frame.get("tile_build_is_self")), bool(frame.get("is_dead")))
+		return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 	if sensor == "solid":
 		var solid_value: float = 1.0 if block_solid else 0.0
 		return {"handled": true, "sense_value": solid_value, "sense_value_is_nan": false}
 	if sensor == "team":
 		var team_value: float = float(frame.get("team_id", 0))
 		return {"handled": true, "sense_value": team_value, "sense_value_is_nan": false}
+	if sensor == "health":
+		if frame.has("health"):
+			return source_building_comp_sense_health_state(float(frame.get("health")))
+		return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 	if sensor == "maxHealth":
 		var max_health_value: float = max_health
 		return {"handled": true, "sense_value": max_health_value, "sense_value_is_nan": false}
@@ -497,6 +521,10 @@ static func source_building_comp_sense_state(frame: Dictionary, sensor: String, 
 		var observed: Variant = frame.get("rotation", null)
 		var rotation_value: float = 90.0 if observed == null else float(observed)
 		return {"handled": true, "sense_value": rotation_value, "sense_value_is_nan": false}
+	if sensor == "totalItems":
+		if frame.has("items_is_null") and frame.has("items_total"):
+			return source_building_comp_sense_total_items_state(bool(frame.get("items_is_null")), int(frame.get("items_total")))
+		return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 	if sensor == "totalLiquids":
 		var total_liquids_value: float = total_liquids if has_liquids else 0.0
 		return {"handled": true, "sense_value": total_liquids_value, "sense_value_is_nan": false}
@@ -519,6 +547,18 @@ static func source_building_comp_sense_state(frame: Dictionary, sensor: String, 
 		if not has_power:
 			var power_net_value: float = 0.0
 			return {"handled": true, "sense_value": power_net_value, "sense_value_is_nan": false}
+		if sensor == "powerNetIn":
+			if frame.has("last_scaled_power_in"):
+				return source_building_comp_sense_power_net_in_state(not has_power, float(frame.get("last_scaled_power_in")))
+		elif sensor == "powerNetOut":
+			if frame.has("last_scaled_power_out"):
+				return source_building_comp_sense_power_net_out_state(not has_power, float(frame.get("last_scaled_power_out")))
+		elif sensor == "powerNetStored":
+			if frame.has("last_power_stored"):
+				return source_building_comp_sense_power_net_stored_state(not has_power, float(frame.get("last_power_stored")))
+		elif sensor == "powerNetCapacity":
+			if frame.has("last_capacity"):
+				return source_building_comp_sense_power_net_capacity_state(not has_power, float(frame.get("last_capacity")))
 		return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 	if sensor == "enabled":
 		var enabled_value: float = 1.0 if bool(frame.get("enabled", true)) else 0.0
@@ -532,6 +572,10 @@ static func source_building_comp_sense_state(frame: Dictionary, sensor: String, 
 	if sensor == "size":
 		var size_value: float = float(block_size)
 		return {"handled": true, "sense_value": size_value, "sense_value_is_nan": false}
+	if sensor == "cameraX" or sensor == "cameraY" or sensor == "cameraWidth" or sensor == "cameraHeight":
+		if frame.has("is_control_block") and frame.has("unit_sense_value"):
+			return source_building_comp_sense_camera_state(sensor, bool(frame.get("is_control_block")), float(frame.get("unit_sense_value")))
+		return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
 
 static func source_building_comp_sense_dead_state(tile_build_is_self: bool, is_dead: bool) -> Dictionary:

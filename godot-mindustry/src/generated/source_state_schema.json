@@ -238596,14 +238596,14 @@
     "source_building_comp_sense_state_input": {
       "status": "active",
       "owner": "SourceTurretBuildState.source_building_comp_sense_state",
-      "source_slice": "N2284",
+      "source_slice": "N2519",
       "keys": {
         "frame": {
           "type": "Dictionary",
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "case rotation -> rotation;",
-          "rule": "The turret frame carrying the live `team_id` (stamped every tick, absent folds to 0, derelict), `efficiency` (stamped every tick, absent folds to 0.0, `transient float efficiency;`, BuildingComp.java:85), `rotation` (stamped every tick by the aim call, absent folds to 90.0, `public float rotation = 90;`, BaseTurret.java:114), `enabled` (stamped every tick, absent folds to true, `transient boolean enabled = true;`, BuildingComp.java:77) and `power_status` (stamped by the graph update, N2142, absent folds to 1.0).",
+          "rule": "The turret frame carrying the live `team_id` (stamped every tick, absent folds to 0, derelict), `efficiency` (stamped every tick, absent folds to 0.0, `transient float efficiency;`, BuildingComp.java:85), `rotation` (stamped every tick by the aim call, absent folds to 90.0, `public float rotation = 90;`, BaseTurret.java:114), `enabled` (stamped every tick, absent folds to true, `transient boolean enabled = true;`, BuildingComp.java:77) and `power_status` (stamped by the graph update, N2142, absent folds to 1.0). The N2519 wiring keys are read only when present (`frame.has(key)`): `tile_build_is_self` + `is_dead` (dead, `return tile.build == self() && !dead();`, BuildingComp.java:2031), `health` (health, `float health;`, HealthComp.java:11), `items_is_null` + `items_total` (totalItems, `items.total()`, ItemModule.java:174), `last_scaled_power_in` (powerNetIn, PowerGraph.java:45-47), `last_scaled_power_out` (powerNetOut, :49-51), `last_power_stored` (powerNetStored, :73-75), `last_capacity` (powerNetCapacity, :53-54), `is_control_block` + `unit_sense_value` (camera*, UnitComp.java:283-286); an absent key keeps the N2284 handled:false + NaN fallback.",
           "used_by": [
             "SourceTurretBuildState.source_building_comp_sense_state"
           ]
@@ -238613,7 +238613,7 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "public double sense(LAccess sensor){",
-          "rule": "The logic sensor to read, spelled by its LAccess enum name (`x,` LAccess.java:31, `y,` :32, `color(\"to\");` :84, `dead,` :47, `solid,` :46, `team,` :62, `health,` :22, `maxHealth,` :23, `efficiency,` :27, `timescale,` :29, `range,` :48, `rotation,` :30, `totalItems,` :7, `totalLiquids,` :9, `totalPower,` :10, `itemCapacity,` :11, `liquidCapacity,` :12, `powerCapacity,` :13, `powerNetStored,` :14, `powerNetCapacity,` :15, `powerNetIn,` :16, `powerNetOut,` :17, `enabled(\"to\"),` :80, `controlled,` :65, `payloadCount,` :68, `size,` :45, `cameraX,` :37, `cameraY,` :38, `cameraWidth,` :39, `cameraHeight,` :40): the 23 implemented sensors are handled here, the 7 deferred legs report handled=false.",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (`x,` LAccess.java:31, `y,` :32, `color(\"to\");` :84, `dead,` :47, `solid,` :46, `team,` :62, `health,` :22, `maxHealth,` :23, `efficiency,` :27, `timescale,` :29, `range,` :48, `rotation,` :30, `totalItems,` :7, `totalLiquids,` :9, `totalPower,` :10, `itemCapacity,` :11, `liquidCapacity,` :12, `powerCapacity,` :13, `powerNetStored,` :14, `powerNetCapacity,` :15, `powerNetIn,` :16, `powerNetOut,` :17, `enabled(\"to\"),` :80, `controlled,` :65, `payloadCount,` :68, `size,` :45, `cameraX,` :37, `cameraY,` :38, `cameraWidth,` :39, `cameraHeight,` :40): all 30 sensors are handled here when their live input is present; the 8 wired legs (dead / health / totalItems / powerNetIn / powerNetOut / powerNetStored / powerNetCapacity / camera*, N2511-N2519) report handled=false only when their frame key is absent.",
           "used_by": [
             "SourceTurretBuildState.source_building_comp_sense_state"
           ]
@@ -238839,30 +238839,30 @@
           ]
         }
       },
-      "runtime_proof": "/root/C07BuildingCompSenseProof",
-      "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java."
+      "runtime_proof": "/root/C07BuildingCompSenseWiringProof",
+      "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java. N2519 wires the eight already-ported legs (dead / health / totalItems / powerNetIn / powerNetOut / powerNetStored / powerNetCapacity / camera*) into the dispatch via 11 frame keys."
     },
     "source_building_comp_sense_state_result": {
       "status": "active",
       "owner": "SourceTurretBuildState.source_building_comp_sense_state",
-      "source_slice": "N2284",
+      "source_slice": "N2519",
       "keys": {
         "handled": {
           "type": "bool",
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "default -> Float.NaN; //gets converted to null in logic",
-          "rule": "Whether this slice handled the sensor (one of the 23 implemented sensors); false means \"not handled -- deferred leg or unknown sensor\" (the N2208 mass-driver / N2223 repair-turret / N2283 turret sense precedent).",
+          "rule": "Whether the wired dispatch resolved the sensor to a logic-variable write: true when the sensor is one of the 30 sense() cases and its live input is present (the 8 wired legs delegate to their leg function and return its result verbatim), false when a wired leg's frame key is absent or the sensor is unknown (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123).",
           "used_by": [
             "SourceTurretBuildState.source_building_comp_sense_state"
           ]
         },
         "sense_value": {
-          "type": "float",
+          "type": "Variant",
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "case x -> World.conv(x);",
-          "rule": "The sensed value: World.conv(world_x/y) in tiles for \"x\"/\"y\" (:2094-2095), arc toDoubleBits(team color) for \"color\" (:2096), 1 or 0 for \"solid\" (:2098), the live team id for \"team\" (:2099), maxHealth for \"maxHealth\" (:2101), the live efficiency for \"efficiency\" (:2102), timeScale for \"timescale\" (:2103), range()/tilesize for \"range\" (:2104), the live rotation for \"rotation\" (:2105), the live total liquids (or 0) for \"totalLiquids\" (:2108), power.status x capacity-or-1 (or 0) for \"totalPower\" (:2109), item/liquid/power capacity for \"itemCapacity\"/\"liquidCapacity\"/\"powerCapacity\" (:2110-2112), 0 for the powerNet* legs when power is absent (:2113-2116), 1 or 0 for \"enabled\" (:2118), 2 or 0 for \"controlled\" (:2119), the payload count for \"payloadCount\" (:2120), block.size for \"size\" (:2121); null when the sensor is not handled.",
+          "rule": "The numeric value written to the logic variable: the leg function's result verbatim for a wired leg (dead / health / totalItems / powerNet* / camera*), else the dispatch's own case value (`case x -> World.conv(x);`, BuildingComp.java:2094, first case of the switch); null when handled is false.",
           "used_by": [
             "SourceTurretBuildState.source_building_comp_sense_state"
           ]
@@ -238872,14 +238872,14 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
           "java_expr": "default -> Float.NaN; //gets converted to null in logic",
-          "rule": "Whether the sensed value is NaN: true only when the sensor is not handled (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`, converts to null in logic); false for all 23 handled sensors.",
+          "rule": "Whether Java returns Float.NaN for this sensor (`default -> Float.NaN; //gets converted to null in logic`, BuildingComp.java:2123); true exactly when handled is false (absent frame key for a wired leg, or unknown sensor), false otherwise.",
           "used_by": [
             "SourceTurretBuildState.source_building_comp_sense_state"
           ]
         }
       },
-      "runtime_proof": "/root/C07BuildingCompSenseProof",
-      "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java."
+      "runtime_proof": "/root/C07BuildingCompSenseWiringProof",
+      "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java. N2519 wires the eight already-ported legs (dead / health / totalItems / powerNetIn / powerNetOut / powerNetStored / powerNetCapacity / camera*) into the dispatch via 11 frame keys."
     },
     "source_turret_sense_object_state_input": {
       "status": "active",

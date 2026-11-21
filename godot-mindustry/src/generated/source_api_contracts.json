@@ -70246,7 +70246,7 @@
     },
     "SourceTurretBuildState.source_building_comp_sense_state": {
       "status": "active",
-      "source_slice": "N2284",
+      "source_slice": "N2519",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "source_method": "BuildingComp.sense(LAccess)",
       "params": [
@@ -70378,13 +70378,13 @@
         "sense_value_is_nan"
       ],
       "tests": [
-        "test_c07_building_comp_sense_registration",
-        "test_all_c07_building_comp_sense_input_evidence_is_exact",
-        "test_building_comp_sense_state",
-        "test_reference_graph_and_actual_c07_building_comp_sense"
+        "test_c07_building_comp_sense_wiring_registration",
+        "test_all_c07_building_comp_sense_wiring_input_evidence_is_exact",
+        "test_building_comp_sense_wiring_state",
+        "test_reference_graph_and_actual_c07_building_comp_sense_wiring"
       ],
-      "runtime_proof": "/root/C07BuildingCompSenseProof",
-      "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java."
+      "runtime_proof": "/root/C07BuildingCompSenseWiringProof",
+      "rule": "Source-backed BuildingComp super.sense() LAccess delegation from BuildingComp.java:2093-2126 + Turret.java + BaseTurret.java + ItemTurret.java + Blocks.java + Block.java + World.java + Vars.java + LAccess.java + Team.java + GlobalVars.java + Pal.java + arc Color.java. N2519 wires the eight already-ported legs (dead / health / totalItems / powerNetIn / powerNetOut / powerNetStored / powerNetCapacity / camera*) into the dispatch via 11 frame keys; the signature is unchanged (24 params)."
     },
     "SourceTurretBuildState.source_turret_sense_object_state": {
       "status": "active",
