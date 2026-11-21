@@ -76508,6 +76508,40 @@
       ],
       "runtime_proof": "/root/C07DrillBurstDrillDefaultConstructorProof",
       "rule": "Source-backed Drill()/BurstDrill() ctor field defaults from Drill.java + BurstDrill.java + Block.java."
+    },
+    "SourceRadarBuildState.source_radar_default_constructor_state": {
+      "status": "active",
+      "source_slice": "N2404",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "Radar(String name)",
+      "params": [
+        {
+          "name": "radar_defaults",
+          "type": "Dictionary",
+          "schema": "source_radar_default_constructor_state_input.radar_defaults"
+        },
+        {
+          "name": "block_flags",
+          "type": "Variant",
+          "schema": "source_radar_default_constructor_state_input.block_flags"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "update",
+        "solid",
+        "flags",
+        "outline_icon",
+        "radar_defaults"
+      ],
+      "tests": [
+        "test_c07_radar_default_constructor_registration",
+        "test_all_c07_radar_default_constructor_input_evidence_is_exact",
+        "test_radar_default_constructor_state",
+        "test_reference_graph_and_actual_c07_radar_default_constructor"
+      ],
+      "runtime_proof": "/root/C07RadarDefaultConstructorProof",
+      "rule": "Source-backed Radar() ctor field defaults state from Radar.java."
     }
   },
   "policy": {

@@ -183592,6 +183592,86 @@
         "test_reference_graph_and_actual_c07_drill_burst_drill_default_constructor"
       ],
       "runtime_proof": "/root/C07DrillBurstDrillDefaultConstructorProof"
+    },
+    "source_radar_default_constructor_state_result.update": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_default_constructor_state",
+      "godot_symbol": "source_radar_default_constructor_state_result.update",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar(String name)",
+      "java_expr": "update = solid = true;",
+      "rule": "Whether the block updates every tick (Radar.java:30, `update = solid = true;`): Block.update; the ctor enables it for radar. The Block base default is `public boolean update;` (Block.java:102, default false).",
+      "tests": [
+        "test_c07_radar_default_constructor_registration",
+        "test_all_c07_radar_default_constructor_input_evidence_is_exact",
+        "test_radar_default_constructor_state",
+        "test_reference_graph_and_actual_c07_radar_default_constructor"
+      ],
+      "runtime_proof": "/root/C07RadarDefaultConstructorProof"
+    },
+    "source_radar_default_constructor_state_result.solid": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_default_constructor_state",
+      "godot_symbol": "source_radar_default_constructor_state_result.solid",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar(String name)",
+      "java_expr": "update = solid = true;",
+      "rule": "Whether the block is solid (Radar.java:30, `update = solid = true;`): Block.solid; the ctor enables it for radar. The Block base default is `public boolean solid;` (Block.java:112, default false).",
+      "tests": [
+        "test_c07_radar_default_constructor_registration",
+        "test_all_c07_radar_default_constructor_input_evidence_is_exact",
+        "test_radar_default_constructor_state",
+        "test_reference_graph_and_actual_c07_radar_default_constructor"
+      ],
+      "runtime_proof": "/root/C07RadarDefaultConstructorProof"
+    },
+    "source_radar_default_constructor_state_result.flags": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_default_constructor_state",
+      "godot_symbol": "source_radar_default_constructor_state_result.flags",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar(String name)",
+      "java_expr": "flags = EnumSet.of(BlockFlag.hasFogRadius);",
+      "rule": "The block flags, read through (Radar.java:31, `flags = EnumSet.of(BlockFlag.hasFogRadius);`): the block-flag enum value passed in as block_flags; the Block base default it overrides is `public EnumSet<BlockFlag> flags = EnumSet.of();` (Block.java:251).",
+      "tests": [
+        "test_c07_radar_default_constructor_registration",
+        "test_all_c07_radar_default_constructor_input_evidence_is_exact",
+        "test_radar_default_constructor_state",
+        "test_reference_graph_and_actual_c07_radar_default_constructor"
+      ],
+      "runtime_proof": "/root/C07RadarDefaultConstructorProof"
+    },
+    "source_radar_default_constructor_state_result.outline_icon": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_default_constructor_state",
+      "godot_symbol": "source_radar_default_constructor_state_result.outline_icon",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar(String name)",
+      "java_expr": "outlineIcon = true;",
+      "rule": "Whether the block draws an outline icon (Radar.java:32, `outlineIcon = true;`): Block.outlineIcon; the ctor enables it for radar. The Block base default is `public boolean outlineIcon = false;` (Block.java:313).",
+      "tests": [
+        "test_c07_radar_default_constructor_registration",
+        "test_all_c07_radar_default_constructor_input_evidence_is_exact",
+        "test_radar_default_constructor_state",
+        "test_reference_graph_and_actual_c07_radar_default_constructor"
+      ],
+      "runtime_proof": "/root/C07RadarDefaultConstructorProof"
+    },
+    "source_radar_default_constructor_state_result.radar_defaults": {
+      "status": "source-backed",
+      "godot_owner": "SourceRadarBuildState.source_radar_default_constructor_state",
+      "godot_symbol": "source_radar_default_constructor_state_result.radar_defaults",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "java_method": "Radar(String name)",
+      "java_expr": "public Radar(String name){",
+      "rule": "The updated Radar def frame (Radar.java:27, `public Radar(String name){`): the same in/out Dictionary -- unrelated keys preserved, the 4 ctor keys written with the ctor values.",
+      "tests": [
+        "test_c07_radar_default_constructor_registration",
+        "test_all_c07_radar_default_constructor_input_evidence_is_exact",
+        "test_radar_default_constructor_state",
+        "test_reference_graph_and_actual_c07_radar_default_constructor"
+      ],
+      "runtime_proof": "/root/C07RadarDefaultConstructorProof"
     }
   },
   "version": 1

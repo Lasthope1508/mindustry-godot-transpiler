@@ -251588,6 +251588,94 @@
       },
       "runtime_proof": "/root/C07DrillBurstDrillDefaultConstructorProof",
       "rule": "Source-backed Drill()/BurstDrill() ctor field defaults from Drill.java + BurstDrill.java + Block.java."
+    },
+    "source_radar_default_constructor_state_input": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_default_constructor_state",
+      "source_slice": "N2404",
+      "keys": {
+        "radar_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public Radar(String name){",
+          "rule": "The Radar def frame (Radar.java:27, `public Radar(String name){`): the family-convention first arg; the ctor writes its 3 literal field defaults into it, so radar_defaults is an in/out param -- keys already present keep their unrelated values, the 4 ctor keys are overwritten with the ctor values.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_default_constructor_state"
+          ]
+        },
+        "block_flags": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "flags = EnumSet.of(BlockFlag.hasFogRadius);",
+          "rule": "The block flags (Radar.java:31, `flags = EnumSet.of(BlockFlag.hasFogRadius);`): the block-flag enum value (`hasFogRadius`, BlockFlag.java, core/src/mindustry/world/meta/BlockFlag.java) -- EnumSet is NOT ported here: it arrives as an explicit Variant param and passes through to the result flags key; the Block base default it overrides is `public EnumSet<BlockFlag> flags = EnumSet.of();` (Block.java:251).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDefaultConstructorProof",
+      "rule": "Source-backed Radar() ctor field defaults state from Radar.java."
+    },
+    "source_radar_default_constructor_state_result": {
+      "status": "active",
+      "owner": "SourceRadarBuildState.source_radar_default_constructor_state",
+      "source_slice": "N2404",
+      "keys": {
+        "update": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "update = solid = true;",
+          "rule": "Whether the block updates every tick (Radar.java:30, `update = solid = true;`): Block.update; the ctor enables it for radar. The Block base default is `public boolean update;` (Block.java:102, default false).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_default_constructor_state"
+          ]
+        },
+        "solid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "update = solid = true;",
+          "rule": "Whether the block is solid (Radar.java:30, `update = solid = true;`): Block.solid; the ctor enables it for radar. The Block base default is `public boolean solid;` (Block.java:112, default false).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_default_constructor_state"
+          ]
+        },
+        "flags": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "flags = EnumSet.of(BlockFlag.hasFogRadius);",
+          "rule": "The block flags, read through (Radar.java:31, `flags = EnumSet.of(BlockFlag.hasFogRadius);`): the block-flag enum value passed in as block_flags; the Block base default it overrides is `public EnumSet<BlockFlag> flags = EnumSet.of();` (Block.java:251).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_default_constructor_state"
+          ]
+        },
+        "outline_icon": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "outlineIcon = true;",
+          "rule": "Whether the block draws an outline icon (Radar.java:32, `outlineIcon = true;`): Block.outlineIcon; the ctor enables it for radar. The Block base default is `public boolean outlineIcon = false;` (Block.java:313).",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_default_constructor_state"
+          ]
+        },
+        "radar_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+          "java_expr": "public Radar(String name){",
+          "rule": "The updated Radar def frame (Radar.java:27, `public Radar(String name){`): the same in/out Dictionary -- unrelated keys preserved, the 4 ctor keys written with the ctor values.",
+          "used_by": [
+            "SourceRadarBuildState.source_radar_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RadarDefaultConstructorProof",
+      "rule": "Source-backed Radar() ctor field defaults state from Radar.java."
     }
   },
   "version": 1

@@ -217,3 +217,46 @@ static func source_radar_tick_buildings_state(game: Object, seconds: float) -> D
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_radar_default_constructor_state(radar_defaults: Dictionary, block_flags: Variant) -> Dictionary:
+	# Radar(String name) (Radar.java:27-34):
+	# `public Radar(String name){`
+	# `super(name);` -- already the exact_expr of N2185,
+	# the Block super-ctor runs before these assignments;
+	# cited as evidence only, never re-registered.
+	# `update = solid = true;`
+	# `flags = EnumSet.of(BlockFlag.hasFogRadius);`
+	# `outlineIcon = true;`
+	# `fogRadius = 10;` -- N2320/N2321/N2342-owned
+	# (the class default; the radar def overrides it
+	# with fogRadius 34, Blocks.java:1991); cited as
+	# evidence only, never re-registered here. The 3 ctor
+	# assignments above are the only exprs this slice
+	# owns: each writes a literal field default into the
+	# Radar def, so the function writes the same 3
+	# assignments into radar_defaults (in/out) and
+	# returns them. The Block base defaults the ctor
+	# overrides are `public boolean update;`
+	# (Block.java:102, default false), `public boolean
+	# solid;` (Block.java:112, default false), `public
+	# boolean outlineIcon = false;` (Block.java:313) and
+	# `public EnumSet<BlockFlag> flags = EnumSet.of();`
+	# (Block.java:251). `EnumSet.of(BlockFlag.hasFogRadius)`
+	# is the block-flag enum value -- it arrives as the
+	# explicit block_flags Variant param, NOT re-ported
+	# (the N2401 BeamDrill ctor precedent: the param
+	# passes through to the flags key in either shape).
+	# No Draw is ported: these are block-level field
+	# defaults, frame data only (bool literals + one
+	# flags value). There is NO driver tick line: the
+	# ctor is load-time block definition setup, not
+	# per-tick state. One def (radar, Radar.java:17,
+	# `public class Radar extends Block{`).
+	var update := true
+	var solid := true
+	var outline_icon := true
+	radar_defaults["update"] = update
+	radar_defaults["solid"] = solid
+	radar_defaults["flags"] = block_flags
+	radar_defaults["outline_icon"] = outline_icon
+	return {"update": update, "solid": solid, "flags": block_flags, "outline_icon": outline_icon, "radar_defaults": radar_defaults}
