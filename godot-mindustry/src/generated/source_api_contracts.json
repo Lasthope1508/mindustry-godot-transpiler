@@ -73296,6 +73296,36 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretUpdateShootingProof",
       "rule": "Source-backed ContinuousTurretBuild.updateShooting() state from ContinuousTurret.java."
+    },
+    "PortGame.source_payload_ammo_turret_build_get_ammo_content_state": {
+      "status": "active",
+      "source_slice": "N2368",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.getAmmoContent()",
+      "params": [
+        {
+          "name": "ammo_keys",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_get_ammo_content_state_input.ammo_keys"
+        },
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_get_ammo_content_state_input.payload_contents"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ammo_content"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_get_ammo_content_registration",
+        "test_all_c07_payload_ammo_turret_get_ammo_content_input_evidence_is_exact",
+        "test_payload_ammo_turret_get_ammo_content_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_get_ammo_content"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretGetAmmoContentProof",
+      "rule": "Source-backed PayloadTurretBuild.getAmmoContent() state from PayloadAmmoTurret.java."
     }
   },
   "policy": {

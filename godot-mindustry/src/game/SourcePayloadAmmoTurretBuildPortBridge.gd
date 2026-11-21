@@ -84,3 +84,50 @@ static func source_payload_ammo_turret_build_use_ammo_state(ammo_keys: Array, pa
 			used_ammo = ammo_types.get(content, null)
 			break
 	return {"used_ammo": used_ammo, "payload_contents": remaining_contents}
+
+# PayloadTurretBuild.getAmmoContent() (PayloadAmmoTurret.java:148-157):
+# `public UnlockableContent getAmmoContent(){`
+# `if(!payloads.isEmpty()){`
+# `for(var content : ammoKeys){`
+# `if(payloads.contains(content)){`
+# `return content;`
+# `}`
+# `}`
+# `}`
+# `return null;`
+# `}`
+# on `public class PayloadTurretBuild extends TurretBuild{`
+# (PayloadAmmoTurret.java:94) inside
+# `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# override: it returns the first ammo key (in ammoKeys order)
+# whose content is currently held in the payloads seq, but
+# ONLY when the payloads seq is non-empty
+# (`if(!payloads.isEmpty()){` guard) — or null when payloads
+# is empty or no key matches. The guard is the distinguishing
+# line against currentAmmo (N2358) in the same class:
+# currentAmmo scans unconditionally, getAmmoContent scans
+# only inside the non-empty guard — same returned value,
+# different body, NO dedup. Against useAmmo (N2363):
+# getAmmoContent does NOT remove the content
+# (`payloads.remove(content);` is absent) and does NOT return
+# a BulletType (`return ammoTypes.get(content);` is absent) —
+# it returns the content itself. `ammoKeys` comes from
+# `ammoKeys = ammoTypes.keys().toSeq().toArray(UnlockableContent.class);`
+# (PayloadAmmoTurret.java:89) and `payloads` is
+# `public PayloadSeq payloads = new PayloadSeq();`
+# (PayloadAmmoTurret.java:95). The payloads.contains lookup
+# is NOT ported: the payload contents arrive as the explicit
+# payload_contents param and ammoKeys as the explicit
+# ammo_keys param (the N2330 param precedent). Content refs
+# are plain strings here (content names); the result is the
+# matching name or null. NO driver line: a pure accessor the
+# HUD / ammo display caller reads, not a per-tick write.
+static func source_payload_ammo_turret_build_get_ammo_content_state(ammo_keys: Array, payload_contents: Array) -> Dictionary:
+	var ammo_content: Variant = null
+	if not payload_contents.is_empty():
+		for content in ammo_keys:
+			if payload_contents.has(content):
+				ammo_content = content
+				break
+	return {"ammo_content": ammo_content}

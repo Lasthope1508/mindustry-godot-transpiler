@@ -4001,6 +4001,23 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretUpdateShootingProof"
     },
+    "N2368": {
+      "canonical_ledger": "source_slice_ledger.N2368",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.getAmmoContent()",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_get_ammo_content_state",
+      "source_symbols": [
+        "source_payload_ammo_turret_build_get_ammo_content_state_result.ammo_content"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_get_ammo_content_registration",
+        "test_all_c07_payload_ammo_turret_get_ammo_content_input_evidence_is_exact",
+        "test_payload_ammo_turret_get_ammo_content_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_get_ammo_content"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretGetAmmoContentProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
