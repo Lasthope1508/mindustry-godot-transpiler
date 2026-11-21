@@ -4172,6 +4172,26 @@
       ],
       "runtime_proof": "/root/C07TurretDrawProof"
     },
+    "N2381": {
+      "canonical_ledger": "source_slice_ledger.N2381",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.displayBars(Table); PayloadTurretBuild.updateTile(); PayloadTurretBuild.getPayloads()",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_display_bars_state",
+      "source_symbols": [
+        "source_payload_ammo_turret_build_display_bars_state_result.bars",
+        "source_payload_ammo_turret_build_display_bars_state_result.ammo_fraction",
+        "source_payload_ammo_turret_build_update_tile_state_result.total_ammo",
+        "source_payload_ammo_turret_build_get_payloads_state_result.payloads"
+      ],
+      "tests": [
+        "test_c07_payload_turret_display_bars_registration",
+        "test_all_c07_payload_turret_display_bars_input_evidence_is_exact",
+        "test_payload_turret_display_bars_update_tile_get_payloads_state",
+        "test_reference_graph_and_actual_c07_payload_turret_display_bars"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

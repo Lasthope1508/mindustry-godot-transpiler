@@ -74186,6 +74186,92 @@
       ],
       "runtime_proof": "/root/C07TeamsLookupProof",
       "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "PortGame.source_payload_ammo_turret_build_display_bars_state": {
+      "status": "active",
+      "source_slice": "N2381",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.displayBars(Table)",
+      "params": [
+        {
+          "name": "bars",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_display_bars_state_input.bars"
+        },
+        {
+          "name": "total_ammo",
+          "type": "int",
+          "schema": "source_payload_ammo_turret_build_display_bars_state_input.total_ammo"
+        },
+        {
+          "name": "max_ammo",
+          "type": "int",
+          "schema": "source_payload_ammo_turret_build_display_bars_state_input.max_ammo"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "bars",
+        "ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_payload_turret_display_bars_registration",
+        "test_all_c07_payload_turret_display_bars_input_evidence_is_exact",
+        "test_payload_turret_display_bars_update_tile_get_payloads_state",
+        "test_reference_graph_and_actual_c07_payload_turret_display_bars"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
+      "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java."
+    },
+    "PortGame.source_payload_ammo_turret_build_update_tile_state": {
+      "status": "active",
+      "source_slice": "N2381",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_update_tile_state_input.payload_contents"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "total_ammo"
+      ],
+      "tests": [
+        "test_c07_payload_turret_display_bars_registration",
+        "test_all_c07_payload_turret_display_bars_input_evidence_is_exact",
+        "test_payload_turret_display_bars_update_tile_get_payloads_state",
+        "test_reference_graph_and_actual_c07_payload_turret_display_bars"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
+      "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java."
+    },
+    "PortGame.source_payload_ammo_turret_build_get_payloads_state": {
+      "status": "active",
+      "source_slice": "N2381",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.getPayloads()",
+      "params": [
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_get_payloads_state_input.payload_contents"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "payloads"
+      ],
+      "tests": [
+        "test_c07_payload_turret_display_bars_registration",
+        "test_all_c07_payload_turret_display_bars_input_evidence_is_exact",
+        "test_payload_turret_display_bars_update_tile_get_payloads_state",
+        "test_reference_graph_and_actual_c07_payload_turret_display_bars"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
+      "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java."
     }
   },
   "policy": {

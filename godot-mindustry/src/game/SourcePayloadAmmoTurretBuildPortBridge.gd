@@ -235,3 +235,107 @@ static func source_payload_ammo_turret_build_write_read_state(payload_contents: 
 		if ammo_types.has(content):
 			read_payload_contents.append(content)
 	return {"write_payload_contents": write_payload_contents, "payload_contents": read_payload_contents}
+
+# PayloadTurretBuild.displayBars() (PayloadAmmoTurret.java:171-177):
+# `@Override`
+# `public void displayBars(Table bars){`
+# `super.displayBars(bars);`
+# ``
+# `bars.add(new Bar("stat.ammo", Pal.ammo, () -> (float)totalAmmo / maxAmmo)).growX();`
+# `bars.row();`
+# `}`
+# on `public class PayloadTurretBuild extends TurretBuild{`
+# (PayloadAmmoTurret.java:94) inside
+# `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# override: it adds the ammo bar to the table — a Bar named
+# "stat.ammo" whose fraction is the lambda
+# `() -> (float)totalAmmo / maxAmmo` — then opens a new row
+# (`bars.row();`). `super.displayBars(bars);` is
+# callee/context (Block/Building displayBars) — NOT a
+# distinguishing expr. The distinguishing lines are
+# `bars.add(new Bar("stat.ammo", Pal.ammo, () -> (float)totalAmmo / maxAmmo)).growX();`
+# and `bars.row();` (both 0-hit in both ledgers at HEAD
+# 4f53d70e). `totalAmmo` is the TurretBuild frame field
+# (`public int totalAmmo;`, Turret.java:283), synced by
+# updateTile() (`totalAmmo = payloads.total();`,
+# PayloadAmmoTurret.java:166); `maxAmmo` is the TurretBuild
+# field (`public int maxAmmo = 30;`, Turret.java:47) — both
+# arrive as explicit int params. `bars` is the arc Table —
+# a row-based layout, so it arrives as the explicit bars
+# param: an Array of rows, each row an Array of bar-spec
+# dicts; `bars.add(...)` appends the ammo bar spec to the
+# current (last) row and `bars.row();` opens a new empty
+# row after it. `Pal.ammo` / Table / Bar are NOT ported
+# (the N2330 param precedent — N2330's setBars bar spec
+# carries key/text/color/fraction; here the task pins the
+# bar spec to label + fraction only, no Pal.ammo color).
+# The fraction is the lambda value: float(totalAmmo) /
+# float(maxAmmo); maxAmmo 0 never divides by zero — the
+# guard reports 0.0 (a Bar clamps its fraction anyway,
+# Bar.java:31-33). The inputs are never mutated: the rows
+# are deep-duplicated and the result carries fresh arrays.
+# NO driver line: a UI spec, not a per-tick write — the
+# caller wiring waits for its own slice.
+static func source_payload_ammo_turret_build_display_bars_state(bars: Array, total_ammo: int, max_ammo: int) -> Dictionary:
+	var rows: Array = bars.duplicate(true)
+	if rows.is_empty():
+		rows.append([])
+	var ammo_fraction: float = 0.0
+	if max_ammo != 0:
+		ammo_fraction = float(total_ammo) / float(max_ammo)
+	var current_row: Array = rows[rows.size() - 1]
+	current_row.append({"label": "stat.ammo", "fraction": ammo_fraction})
+	rows.append([])
+	return {"bars": rows, "ammo_fraction": ammo_fraction}
+
+# PayloadTurretBuild.updateTile() (PayloadAmmoTurret.java:165-168):
+# `@Override`
+# `public void updateTile(){`
+# `totalAmmo = payloads.total();`
+# `super.updateTile();`
+# `}`
+# on `public class PayloadTurretBuild extends TurretBuild{`
+# (PayloadAmmoTurret.java:94) inside
+# `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# override: it syncs the frame field totalAmmo from the
+# payloads seq (`totalAmmo = payloads.total();`) then calls
+# the TurretBuild super tick (`super.updateTile();` —
+# callee/context, already owned by N1222/N1417/N2103/N2108/
+# N2110/N2153/N2362 — NOT a distinguishing expr). The
+# distinguishing line is `totalAmmo = payloads.total();`
+# (0-hit in both ledgers at HEAD 4f53d70e). `payloads` is
+# `public PayloadSeq payloads = new PayloadSeq();`
+# (PayloadAmmoTurret.java:95) and `PayloadSeq.total()` is
+# the running sum of added amounts (`public int total(){`
+# `return total;` `}`, PayloadSeq.java:22-24) — the
+# payload_contents param holds one entry per payload unit
+# (the N2330 param precedent), so total() is exactly
+# payload_contents.size(). NO driver tick line of its own:
+# updateTile only syncs the frame field — the caller wiring
+# waits for its own slice.
+static func source_payload_ammo_turret_build_update_tile_state(payload_contents: Array) -> Dictionary:
+	var total_ammo: int = payload_contents.size()
+	return {"total_ammo": total_ammo}
+
+# PayloadTurretBuild.getPayloads() (PayloadAmmoTurret.java:143-145):
+# `@Override`
+# `public PayloadSeq getPayloads(){`
+# `return payloads;`
+# `}`
+# on `public class PayloadTurretBuild extends TurretBuild{`
+# (PayloadAmmoTurret.java:94) inside
+# `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# override: it returns the payloads seq itself
+# (`return payloads;`, 0-hit in both ledgers at HEAD
+# 4f53d70e). `payloads` is
+# `public PayloadSeq payloads = new PayloadSeq();`
+# (PayloadAmmoTurret.java:95) — it arrives as the explicit
+# payload_contents param (the N2330 param precedent) and
+# the result returns a copy of it, so the caller's seq is
+# never aliased. NO driver line: a pure accessor the
+# payload / HUD caller reads, not a per-tick write.
+static func source_payload_ammo_turret_build_get_payloads_state(payload_contents: Array) -> Dictionary:
+	return {"payloads": payload_contents.duplicate()}

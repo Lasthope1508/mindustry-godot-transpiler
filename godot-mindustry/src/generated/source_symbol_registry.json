@@ -181160,6 +181160,70 @@
         "test_reference_graph_and_actual_c07_teams_lookup"
       ],
       "runtime_proof": "/root/C07TeamsLookupProof"
+    },
+    "source_payload_ammo_turret_build_display_bars_state_result.bars": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_display_bars_state",
+      "godot_symbol": "source_payload_ammo_turret_build_display_bars_state_result.bars",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.displayBars(Table)",
+      "java_expr": "bars.add(new Bar(\"stat.ammo\", Pal.ammo, () -> (float)totalAmmo / maxAmmo)).growX();",
+      "rule": "The updated table rows (PayloadAmmoTurret.java:174, `bars.add(new Bar(\"stat.ammo\", Pal.ammo, () -> (float)totalAmmo / maxAmmo)).growX();`): the input rows with the ammo bar spec `{\"label\": \"stat.ammo\", \"fraction\": (float)totalAmmo / maxAmmo}` appended to the current (last) row, plus a new empty row opened by `bars.row();` (PayloadAmmoTurret.java:175) -- a fresh deep copy, the input is never mutated.",
+      "tests": [
+        "test_c07_payload_turret_display_bars_registration",
+        "test_all_c07_payload_turret_display_bars_input_evidence_is_exact",
+        "test_payload_turret_display_bars_update_tile_get_payloads_state",
+        "test_reference_graph_and_actual_c07_payload_turret_display_bars"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof"
+    },
+    "source_payload_ammo_turret_build_display_bars_state_result.ammo_fraction": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_display_bars_state",
+      "godot_symbol": "source_payload_ammo_turret_build_display_bars_state_result.ammo_fraction",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.displayBars(Table)",
+      "java_expr": "() -> (float)totalAmmo / maxAmmo",
+      "rule": "The ammo bar fraction (PayloadAmmoTurret.java:174, `() -> (float)totalAmmo / maxAmmo`): float(totalAmmo) / float(maxAmmo); maxAmmo 0 never divides by zero -- the guard reports 0.0 (a Bar clamps its fraction anyway, Bar.java:31-33).",
+      "tests": [
+        "test_c07_payload_turret_display_bars_registration",
+        "test_all_c07_payload_turret_display_bars_input_evidence_is_exact",
+        "test_payload_turret_display_bars_update_tile_get_payloads_state",
+        "test_reference_graph_and_actual_c07_payload_turret_display_bars"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof"
+    },
+    "source_payload_ammo_turret_build_update_tile_state_result.total_ammo": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_update_tile_state",
+      "godot_symbol": "source_payload_ammo_turret_build_update_tile_state_result.total_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.updateTile()",
+      "java_expr": "totalAmmo = payloads.total();",
+      "rule": "The synced frame totalAmmo (PayloadAmmoTurret.java:166, `totalAmmo = payloads.total();`): `PayloadSeq.total()` is the running sum of added amounts (PayloadSeq.java:22-24), so with one entry per payload unit it is exactly payload_contents.size().",
+      "tests": [
+        "test_c07_payload_turret_display_bars_registration",
+        "test_all_c07_payload_turret_display_bars_input_evidence_is_exact",
+        "test_payload_turret_display_bars_update_tile_get_payloads_state",
+        "test_reference_graph_and_actual_c07_payload_turret_display_bars"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof"
+    },
+    "source_payload_ammo_turret_build_get_payloads_state_result.payloads": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_get_payloads_state",
+      "godot_symbol": "source_payload_ammo_turret_build_get_payloads_state_result.payloads",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.getPayloads()",
+      "java_expr": "return payloads;",
+      "rule": "The held payload contents (PayloadAmmoTurret.java:144, `return payloads;`): a copy of the payload_contents input, in order -- the caller's seq is never aliased.",
+      "tests": [
+        "test_c07_payload_turret_display_bars_registration",
+        "test_all_c07_payload_turret_display_bars_input_evidence_is_exact",
+        "test_payload_turret_display_bars_update_tile_get_payloads_state",
+        "test_reference_graph_and_actual_c07_payload_turret_display_bars"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof"
     }
   },
   "version": 1

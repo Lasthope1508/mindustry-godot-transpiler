@@ -246628,6 +246628,150 @@
       },
       "runtime_proof": "/root/C07TeamsLookupProof",
       "rule": "Source-backed Teams.get()/getOrNull()/playerCores()/cores()/isActive()/canInteract()/getActive() state from Teams.java."
+    },
+    "source_payload_ammo_turret_build_display_bars_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_display_bars_state",
+      "source_slice": "N2381",
+      "keys": {
+        "bars": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "bars.add(new Bar(\"stat.ammo\", Pal.ammo, () -> (float)totalAmmo / maxAmmo)).growX();",
+          "rule": "The table's current rows (PayloadAmmoTurret.java:174, `bars.add(new Bar(\"stat.ammo\", Pal.ammo, () -> (float)totalAmmo / maxAmmo)).growX();`): an Array of rows, each row an Array of bar-spec dicts -- Table is row-based, so `bars.add(...)` appends to the current (last) row and `bars.row();` (PayloadAmmoTurret.java:175) opens a new empty row after it; Table itself is NOT ported, its rows arrive as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_display_bars_state"
+          ]
+        },
+        "total_ammo": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "() -> (float)totalAmmo / maxAmmo",
+          "rule": "The frame totalAmmo field (PayloadAmmoTurret.java:174, `() -> (float)totalAmmo / maxAmmo`): the Bar fraction lambda reads it -- the TurretBuild field (`public int totalAmmo;`, Turret.java:283) synced by updateTile() (`totalAmmo = payloads.total();`, PayloadAmmoTurret.java:166); arrives as an explicit int param.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_display_bars_state"
+          ]
+        },
+        "max_ammo": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public int maxAmmo = 30;",
+          "rule": "The TurretBuild maxAmmo field (Turret.java:47, `public int maxAmmo = 30;`): the Bar fraction lambda divides by it (`() -> (float)totalAmmo / maxAmmo`, PayloadAmmoTurret.java:174); arrives as an explicit int param.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_display_bars_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
+      "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_display_bars_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_display_bars_state",
+      "source_slice": "N2381",
+      "keys": {
+        "bars": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "bars.add(new Bar(\"stat.ammo\", Pal.ammo, () -> (float)totalAmmo / maxAmmo)).growX();",
+          "rule": "The updated table rows (PayloadAmmoTurret.java:174, `bars.add(new Bar(\"stat.ammo\", Pal.ammo, () -> (float)totalAmmo / maxAmmo)).growX();`): the input rows with the ammo bar spec `{\"label\": \"stat.ammo\", \"fraction\": (float)totalAmmo / maxAmmo}` appended to the current (last) row, plus a new empty row opened by `bars.row();` (PayloadAmmoTurret.java:175) -- a fresh deep copy, the input is never mutated.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_display_bars_state"
+          ]
+        },
+        "ammo_fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "() -> (float)totalAmmo / maxAmmo",
+          "rule": "The ammo bar fraction (PayloadAmmoTurret.java:174, `() -> (float)totalAmmo / maxAmmo`): float(totalAmmo) / float(maxAmmo); maxAmmo 0 never divides by zero -- the guard reports 0.0 (a Bar clamps its fraction anyway, Bar.java:31-33).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_display_bars_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
+      "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_update_tile_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_update_tile_state",
+      "source_slice": "N2381",
+      "keys": {
+        "payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "totalAmmo = payloads.total();",
+          "rule": "The contents currently held in the payloads seq (PayloadAmmoTurret.java:166, `totalAmmo = payloads.total();`): the `public PayloadSeq payloads = new PayloadSeq();` field (PayloadAmmoTurret.java:95) reduced to its contents, one entry per payload unit -- the payloads.total() call itself is NOT ported, its contents arrive as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
+      "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_update_tile_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_update_tile_state",
+      "source_slice": "N2381",
+      "keys": {
+        "total_ammo": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "totalAmmo = payloads.total();",
+          "rule": "The synced frame totalAmmo (PayloadAmmoTurret.java:166, `totalAmmo = payloads.total();`): `PayloadSeq.total()` is the running sum of added amounts (PayloadSeq.java:22-24), so with one entry per payload unit it is exactly payload_contents.size().",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_update_tile_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
+      "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_get_payloads_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_get_payloads_state",
+      "source_slice": "N2381",
+      "keys": {
+        "payload_contents": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return payloads;",
+          "rule": "The contents currently held in the payloads seq (PayloadAmmoTurret.java:144, `return payloads;`): the `public PayloadSeq payloads = new PayloadSeq();` field (PayloadAmmoTurret.java:95) reduced to its contents -- the payloads seq itself is NOT ported, its contents arrive as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_get_payloads_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
+      "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_get_payloads_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_get_payloads_state",
+      "source_slice": "N2381",
+      "keys": {
+        "payloads": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return payloads;",
+          "rule": "The held payload contents (PayloadAmmoTurret.java:144, `return payloads;`): a copy of the payload_contents input, in order -- the caller's seq is never aliased.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_get_payloads_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
+      "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java."
     }
   },
   "version": 1
