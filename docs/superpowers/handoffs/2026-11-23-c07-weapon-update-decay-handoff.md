@@ -1,4 +1,4 @@
-# Handoff — N2540 Weapon.update() leg 1 (C07) [DONE + PUSHED (slice 27a829fe, docs 4d2b0fc7, GOAL df0858e9)]
+# Handoff — N2540 Weapon.update() leg 1 (C07) [DONE + PUSHED (slice 27a829fe, docs 4d2b0fc7, GOAL df0858e9, status 5bfd0ebd)]
 
 ## Status: DONE + PUSHED (lượt cron 05:15 +07 ngày 2026-11-23; slice 27a829fe, docs 4d2b0fc7, GOAL df0858e9; push xong mới ghi origin/main ở đây sau khi push)
 
