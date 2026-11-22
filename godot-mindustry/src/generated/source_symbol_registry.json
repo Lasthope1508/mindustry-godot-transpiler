@@ -185704,6 +185704,22 @@
         "test_reference_graph_and_actual_c07_logic_check_overlapping_plans"
       ],
       "runtime_proof": "/root/C07LogicCheckOverlappingPlansProof"
+    },
+    "source_wave_spawner_count_spawns_state_result.count": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_count_spawns_state",
+      "godot_symbol": "source_wave_spawner_count_spawns_state_result.count",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_method": "WaveSpawner.countSpawns()",
+      "java_expr": "return spawns.size;",
+      "rule": "The number of spawn tiles (WaveSpawner.java:50, `return spawns.size;`): countSpawns returns the size of the spawns sequence.",
+      "tests": [
+        "test_c07_wave_spawner_count_spawns_registration",
+        "test_all_c07_wave_spawner_count_spawns_input_evidence_is_exact",
+        "test_wave_spawner_count_spawns_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_count_spawns"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerCountSpawnsProof"
     }
   },
   "version": 1

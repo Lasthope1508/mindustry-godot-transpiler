@@ -78195,6 +78195,31 @@
       ],
       "runtime_proof": "/root/C07LogicCheckOverlappingPlansProof",
       "rule": "Source-backed Logic.checkOverlappingPlans() overlapping-plan removal state from Logic.java."
+    },
+    "SourceWaveSpawnerState.source_wave_spawner_count_spawns_state": {
+      "status": "active",
+      "source_slice": "N2442",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "source_method": "WaveSpawner.countSpawns()",
+      "params": [
+        {
+          "name": "spawns",
+          "type": "Array",
+          "schema": "source_wave_spawner_count_spawns_state_input.spawns"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "count"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_count_spawns_registration",
+        "test_all_c07_wave_spawner_count_spawns_input_evidence_is_exact",
+        "test_wave_spawner_count_spawns_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_count_spawns"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerCountSpawnsProof",
+      "rule": "Source-backed WaveSpawner.countSpawns() state from WaveSpawner.java."
     }
   },
   "policy": {

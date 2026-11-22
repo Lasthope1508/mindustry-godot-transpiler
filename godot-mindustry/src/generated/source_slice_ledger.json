@@ -104499,6 +104499,31 @@
         "Tmp.r1 / Tmp.r2 are shared temp rects and are NOT ported: tile.block().bounds(tile.x, tile.y, Tmp.r1) arrives as tile[\"bounds\"] data and b.block.bounds(b.x, b.y, Tmp.r2) arrives as each plan[\"bounds\"] data; the GD func only tests Rect2 overlap on that data.",
         "The live reads of tile.block().bounds() and BlockPlan fields (x, y, block, removed -- Teams.java:492-496) are later slices: checkOverlappingPlans() only reads the frame inputs, it never resolves live block bounds itself."
       ]
+    },
+    "N2442": {
+      "status": "done",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_class": "mindustry.ai.WaveSpawner",
+      "java_method": "WaveSpawner.countSpawns()",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_count_spawns_state",
+      "exact_exprs": [
+        "return spawns.size;"
+      ],
+      "source_symbols": [
+        "source_wave_spawner_count_spawns_state_result.count"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_count_spawns_registration",
+        "test_all_c07_wave_spawner_count_spawns_input_evidence_is_exact",
+        "test_wave_spawner_count_spawns_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_count_spawns"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerCountSpawnsProof",
+      "deferred_exprs": [
+        "WaveSpawner.spawnEnemies() -- not in this slice; countSpawns is independent of spawnEnemies (WaveSpawner.java:62-110), which waits for a later WaveSpawner slice; the runWave func (N2437) records spawn_enemies: true as data until then.",
+        "WaveSpawner.countGroundSpawns()/countFlyerSpawns() (WaveSpawner.java:201-211) -- batch 40 candidates, not registered here.",
+        "WaveSpawner.countSpawns() Windows Godot proof -- debt in GOAL.md section 5: the N2442 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

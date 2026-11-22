@@ -255331,6 +255331,44 @@
       },
       "runtime_proof": "/root/C07LogicCheckOverlappingPlansProof",
       "rule": "Source-backed Logic.checkOverlappingPlans() overlapping-plan removal state from Logic.java."
+    },
+    "source_wave_spawner_count_spawns_state_input": {
+      "status": "active",
+      "owner": "SourceWaveSpawnerState.source_wave_spawner_count_spawns_state",
+      "source_slice": "N2442",
+      "keys": {
+        "spawns": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "private Seq<Tile> spawns = new Seq<>(false);",
+          "rule": "The spawn tiles of this WaveSpawner (WaveSpawner.java:26, `private Seq<Tile> spawns = new Seq<>(false);`): GD takes it as an Array input and does not recompute it from the world.",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_count_spawns_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WaveSpawnerCountSpawnsProof",
+      "rule": "Source-backed WaveSpawner.countSpawns() state from WaveSpawner.java."
+    },
+    "source_wave_spawner_count_spawns_state_result": {
+      "status": "active",
+      "owner": "SourceWaveSpawnerState.source_wave_spawner_count_spawns_state",
+      "source_slice": "N2442",
+      "keys": {
+        "count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "return spawns.size;",
+          "rule": "The number of spawn tiles (WaveSpawner.java:50, `return spawns.size;`): countSpawns returns the size of the spawns sequence.",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_count_spawns_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WaveSpawnerCountSpawnsProof",
+      "rule": "Source-backed WaveSpawner.countSpawns() state from WaveSpawner.java."
     }
   },
   "version": 1
