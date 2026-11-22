@@ -2619,6 +2619,26 @@
       "rule": "Source-backed LaserTurretBuild.activeSoundVolume()/shouldActiveSound() state from LaserTurret.java.",
       "return_type": "Dictionary"
     },
+    "PortGame.source_laser_turret_build_placed_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_placed_state",
+      "status": "active",
+      "source_slice": "N2422",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.placed()",
+      "params": [],
+      "return_keys": [
+        "placed"
+      ],
+      "tests": [
+        "test_c07_laser_turret_placed_registration",
+        "test_all_c07_laser_turret_placed_input_evidence_is_exact",
+        "test_laser_turret_placed_state",
+        "test_reference_graph_and_actual_c07_laser_turret_placed"
+      ],
+      "runtime_proof": "/root/C07LaserTurretPlacedProof",
+      "rule": "Source-backed LaserTurretBuild.placed() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_laser_turret_build_set_stats_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_set_stats_state",
       "status": "active",

@@ -4586,6 +4586,23 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof"
     },
+    "N2422": {
+      "canonical_ledger": "source_slice_ledger.N2422",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.placed()",
+      "godot_owner": "PortGame.source_laser_turret_build_placed_state",
+      "source_symbols": [
+        "source_laser_turret_build_placed_state_result.placed"
+      ],
+      "tests": [
+        "test_c07_laser_turret_placed_registration",
+        "test_all_c07_laser_turret_placed_input_evidence_is_exact",
+        "test_laser_turret_placed_state",
+        "test_reference_graph_and_actual_c07_laser_turret_placed"
+      ],
+      "runtime_proof": "/root/C07LaserTurretPlacedProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

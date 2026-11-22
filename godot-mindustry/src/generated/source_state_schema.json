@@ -254244,6 +254244,25 @@
       },
       "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof",
       "rule": "Source-backed ContinuousTurretBuild.useAmmo()+shouldConsume()+peekAmmo()+activeSoundVolume() state from ContinuousTurret.java."
+    },
+    "source_laser_turret_build_placed_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_placed_state",
+      "source_slice": "N2422",
+      "keys": {
+        "placed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "super.placed();",
+          "rule": "Whether placed() ran (LaserTurret.java:61, `super.placed();`): the super call runs BaseTurretBuild.placed(); the GD function records that placed() ran, returning a frame with `placed: true`.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_placed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretPlacedProof",
+      "rule": "Source-backed LaserTurretBuild.placed() state from LaserTurret.java."
     }
   },
   "version": 1

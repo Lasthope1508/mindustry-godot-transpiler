@@ -486,3 +486,28 @@ static func source_laser_turret_build_active_sound_state(has_bullets: bool) -> D
 	var active_sound_volume: float = 1.0
 	var should_active_sound: bool = has_bullets
 	return {"active_sound_volume": active_sound_volume, "should_active_sound": should_active_sound}
+
+
+# LaserTurretBuild.placed() (LaserTurret.java:59-64):
+# `@Override`
+# `public void placed(){`
+# `super.placed();`
+# `reloadCounter = reload;`
+# `}`
+# on `public class LaserTurretBuild extends PowerTurretBuild{`
+# (LaserTurret.java:44) inside
+# `public class LaserTurret extends PowerTurret{`.
+# Call-site fragment: `super.placed();` is the only free expr --
+# `reloadCounter = reload;` is already owned at N2364
+# (LaserTurretBuild.updateShooting) and is NOT re-registered.
+# The super call runs BaseTurretBuild.placed() (whose own body
+# is not ported here -- only the call site); the GD function
+# records that placed() ran, returning a frame with
+# `placed: true` (the N2318 canPickup precedent: a bare
+# call-site returns a frame). NO driver line: placed() runs
+# once at build placement, not per-tick. Zero params:
+# placed() takes no state (the N1206 zero-param contract
+# precedent -- result schema only, no input schema).
+static func source_laser_turret_build_placed_state() -> Dictionary:
+	# `super.placed();`
+	return {"placed": true}

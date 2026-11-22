@@ -185096,6 +185096,22 @@
         "test_reference_graph_and_actual_c07_continuous_turret_ammo_one_liners"
       ],
       "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof"
+    },
+    "source_laser_turret_build_placed_state_result.placed": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_placed_state",
+      "godot_symbol": "source_laser_turret_build_placed_state_result.placed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.placed()",
+      "java_expr": "super.placed();",
+      "rule": "Whether placed() ran (LaserTurret.java:61, `super.placed();`): the super call runs BaseTurretBuild.placed(); the GD function records that placed() ran, returning a frame with `placed: true`.",
+      "tests": [
+        "test_c07_laser_turret_placed_registration",
+        "test_all_c07_laser_turret_placed_input_evidence_is_exact",
+        "test_laser_turret_placed_state",
+        "test_reference_graph_and_actual_c07_laser_turret_placed"
+      ],
+      "runtime_proof": "/root/C07LaserTurretPlacedProof"
     }
   },
   "version": 1
