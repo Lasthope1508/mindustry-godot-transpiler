@@ -662,6 +662,45 @@ static func source_turret_can_control_state(player_controllable: bool) -> Dictio
 	# canControl().
 	return {"can_control": player_controllable}
 
+static func source_turret_fog_radius_state(range_value: float, has_ammo: bool, peek_ammo_range_change: float, tilesize: int, fog_radius_multiplier: float) -> Dictionary:
+	# TurretBuild.fogRadius() (Turret.java:420-422,
+	# `public float fogRadius(){` /
+	# `return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;`).
+	# `range_value` is the block `range` FIELD
+	# (`public float range = 80f;`, BaseTurret.java:21),
+	# NOT range() (Turret.java:343-347): fogRadius() adds
+	# the peeked ammo rangeChange only when hasAmmo() is
+	# true, so the value equals range() when hasAmmo is
+	# true and peekAmmo is non-null, and equals the field
+	# range when hasAmmo is false. `has_ammo` is a bool
+	# param, NOT computed in the function: hasAmmo()
+	# MUTATES the ammo stack (`ammo.swap(ammo.size - 1, i);`,
+	# Turret.java:703), so it cannot be a pure read (the
+	# N2527/N2528 precedent). `peek_ammo_range_change` is
+	# a float param: the BulletType.rangeChange value
+	# (`public float rangeChange = 0f;`,
+	# BulletType.java:157). `tilesize` is the Vars
+	# constant (`public static final int tilesize = 8;`,
+	# Vars.java:135), an explicit int param, never
+	# hardcoded. `fog_radius_multiplier` is the block
+	# field (`public float fogRadiusMultiplier = 1f;`,
+	# BaseTurret.java:24), an explicit float param, never
+	# hardcoded: the one per-def override is
+	# `fogRadiusMultiplier = 0.4f;` (Blocks.java:5627,
+	# scathe). NOT the block-init fogRadius
+	# (`fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);`,
+	# BaseTurret.java:59 -- a field init at block level,
+	# not the TurretBuild.fogRadius() override). NO driver
+	# tick call site: fogRadius() is a read, not per-tick,
+	# and no caller reads it today (fog-of-war / draw
+	# logic is a later slice). LIVE CONSEQUENCE
+	# (Java-faithful): DORMANT live today -- the driver
+	# tick never calls this function, so live behavior
+	# does not change. When fog-of-war / draw logic
+	# arrives, this is the canonical owner of Turret
+	# fogRadius().
+	return {"fog_radius": (range_value + (peek_ammo_range_change if has_ammo else 0.0)) / float(tilesize) * fog_radius_multiplier}
+
 static func source_turret_can_heal_state(target_healing: bool, has_ammo: bool, ammo_collides_team: bool, ammo_heals: bool) -> Dictionary:
 	# TurretBuild.canHeal() (Turret.java:635-637):
 	# `protected boolean canHeal(){` /

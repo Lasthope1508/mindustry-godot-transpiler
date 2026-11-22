@@ -71365,6 +71365,51 @@
       ],
       "runtime_proof": "/root/C07TurretCanControlProof",
       "rule": "Source-backed Turret canControl() read from Turret.java:376-379 + Turret.java:96-97 + ControlBlock.java:15-17 + Blocks.java."
+    },
+    "SourceTurretBuildState.source_turret_fog_radius_state": {
+      "status": "active",
+      "source_slice": "N2531",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.fogRadius()",
+      "params": [
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_turret_fog_radius_state_input.range_value"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_fog_radius_state_input.has_ammo"
+        },
+        {
+          "name": "peek_ammo_range_change",
+          "type": "float",
+          "schema": "source_turret_fog_radius_state_input.peek_ammo_range_change"
+        },
+        {
+          "name": "tilesize",
+          "type": "int",
+          "schema": "source_turret_fog_radius_state_input.tilesize"
+        },
+        {
+          "name": "fog_radius_multiplier",
+          "type": "float",
+          "schema": "source_turret_fog_radius_state_input.fog_radius_multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fog_radius"
+      ],
+      "tests": [
+        "test_c07_turret_fog_radius_registration",
+        "test_all_c07_turret_fog_radius_input_evidence_is_exact",
+        "test_turret_fog_radius_state",
+        "test_reference_graph_and_actual_c07_turret_fog_radius"
+      ],
+      "runtime_proof": "/root/C07TurretFogRadiusProof",
+      "rule": "Source-backed Turret fogRadius() read from Turret.java:420-422 + BaseTurret.java:21/24 + Vars.java:135 + Blocks.java:5627 + BulletType.java:157."
     }
   },
   "policy": {

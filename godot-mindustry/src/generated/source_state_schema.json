@@ -240832,6 +240832,84 @@
       },
       "runtime_proof": "/root/C07TurretCanControlProof",
       "rule": "Source-backed Turret canControl() read from Turret.java:376-379 + Turret.java:96-97 + ControlBlock.java:15-17 + Blocks.java."
+    },
+    "source_turret_fog_radius_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_fog_radius_state",
+      "source_slice": "N2531",
+      "keys": {
+        "range_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float range = 80f;",
+          "rule": "The block `range` FIELD (`public float range = 80f;`, BaseTurret.java:21 -- the class default; fogRadius() uses the field plus the conditional rangeChange, it does NOT call range(), Turret.java:343-347).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        },
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean hasAmmo(){",
+          "rule": "Whether the turret has ammo (`public boolean hasAmmo(){`, Turret.java:698 -- hasAmmo() MUTATES the ammo stack (`ammo.swap(ammo.size - 1, i);`, Turret.java:703), so it cannot be a pure read; it is an explicit bool param, the N2527/N2528 precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        },
+        "peek_ammo_range_change": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float rangeChange = 0f;",
+          "rule": "The peeked ammo rangeChange (`public float rangeChange = 0f;`, BulletType.java:157 -- the BulletType field; added to range only when has_ammo is true, the N2526 range() param precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        },
+        "tilesize": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_expr": "public static final int tilesize = 8;",
+          "rule": "The tile size in units (`public static final int tilesize = 8;`, Vars.java:135 -- `/** size of tiles in units */`), an explicit int param, never hardcoded.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        },
+        "fog_radius_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float fogRadiusMultiplier = 1f;",
+          "rule": "The block fogRadiusMultiplier field (`public float fogRadiusMultiplier = 1f;`, BaseTurret.java:24 -- the class default; the one per-def override is `fogRadiusMultiplier = 0.4f;`, Blocks.java:5627, scathe -- but the function takes the field as an explicit float param, never hardcoded, the N2526/N2527 param-driven precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretFogRadiusProof",
+      "rule": "Source-backed Turret fogRadius() read from Turret.java:420-422 + BaseTurret.java:21/24 + Vars.java:135 + Blocks.java:5627 + BulletType.java:157."
+    },
+    "source_turret_fog_radius_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_fog_radius_state",
+      "source_slice": "N2531",
+      "keys": {
+        "fog_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float fogRadius(){",
+          "rule": "The Turret fog radius (`public float fogRadius(){` / `return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;`, Turret.java:420-422 -- the TurretBuild override of the Building fogRadius read).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_fog_radius_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretFogRadiusProof",
+      "rule": "Source-backed Turret fogRadius() read from Turret.java:420-422 + BaseTurret.java:21/24 + Vars.java:135 + Blocks.java:5627 + BulletType.java:157."
     }
   },
   "version": 1
