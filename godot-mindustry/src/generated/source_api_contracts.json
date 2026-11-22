@@ -71340,6 +71340,31 @@
       ],
       "runtime_proof": "/root/C07BulletTypeEstimateDpsProof",
       "rule": "Source-backed BulletType estimateDPS() read from BulletType.java:414-435."
+    },
+    "SourceTurretBuildState.source_turret_can_control_state": {
+      "status": "active",
+      "source_slice": "N2530",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.canControl()",
+      "params": [
+        {
+          "name": "player_controllable",
+          "type": "bool",
+          "schema": "source_turret_can_control_state_input.player_controllable"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_control"
+      ],
+      "tests": [
+        "test_c07_turret_can_control_registration",
+        "test_all_c07_turret_can_control_input_evidence_is_exact",
+        "test_turret_can_control_state",
+        "test_reference_graph_and_actual_c07_turret_can_control"
+      ],
+      "runtime_proof": "/root/C07TurretCanControlProof",
+      "rule": "Source-backed Turret canControl() read from Turret.java:376-379 + Turret.java:96-97 + ControlBlock.java:15-17 + Blocks.java."
     }
   },
   "policy": {

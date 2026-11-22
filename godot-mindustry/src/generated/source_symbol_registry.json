@@ -178456,6 +178456,22 @@
         "test_reference_graph_and_actual_c07_bullet_type_estimate_dps"
       ],
       "runtime_proof": "/root/C07BulletTypeEstimateDpsProof"
+    },
+    "source_turret_can_control_state_result.can_control": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_can_control_state",
+      "godot_symbol": "source_turret_can_control_state_result.can_control",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.canControl()",
+      "java_expr": "public boolean canControl(){",
+      "rule": "Whether this turret can be controlled at all (`public boolean canControl(){` / `return playerControllable;`, Turret.java:376-379 -- the Turret override narrowing the ControlBlock default, `default boolean canControl(){` / `return true;`, ControlBlock.java:15-17).",
+      "tests": [
+        "test_c07_turret_can_control_registration",
+        "test_all_c07_turret_can_control_input_evidence_is_exact",
+        "test_turret_can_control_state",
+        "test_reference_graph_and_actual_c07_turret_can_control"
+      ],
+      "runtime_proof": "/root/C07TurretCanControlProof"
     }
   },
   "version": 1

@@ -240794,6 +240794,44 @@
       },
       "runtime_proof": "/root/C07BulletTypeEstimateDpsProof",
       "rule": "Source-backed BulletType estimateDPS() read from BulletType.java:414-435."
+    },
+    "source_turret_can_control_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_can_control_state",
+      "source_slice": "N2530",
+      "keys": {
+        "player_controllable": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean playerControllable = true;",
+          "rule": "Whether this turret can be controlled by players (`/** If true, this turret can be controlled by players. */` / `public boolean playerControllable = true;`, Turret.java:96-97 -- the class default; no per-def override in Blocks.java, grep `playerControllable` = 0 results, so the catalog is uniformly true today -- but the function still takes the field as an explicit bool param, never hardcoded, the N2526/N2527 param-driven precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretCanControlProof",
+      "rule": "Source-backed Turret canControl() read from Turret.java:376-379 + Turret.java:96-97 + ControlBlock.java:15-17 + Blocks.java."
+    },
+    "source_turret_can_control_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_can_control_state",
+      "source_slice": "N2530",
+      "keys": {
+        "can_control": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean canControl(){",
+          "rule": "Whether this turret can be controlled at all (`public boolean canControl(){` / `return playerControllable;`, Turret.java:376-379 -- the Turret override narrowing the ControlBlock default, `default boolean canControl(){` / `return true;`, ControlBlock.java:15-17).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_can_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretCanControlProof",
+      "rule": "Source-backed Turret canControl() read from Turret.java:376-379 + Turret.java:96-97 + ControlBlock.java:15-17 + Blocks.java."
     }
   },
   "version": 1

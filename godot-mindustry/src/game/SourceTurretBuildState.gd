@@ -629,6 +629,39 @@ static func source_turret_estimate_dps_state(frame: Dictionary, has_ammo: bool, 
 	var ammo_dps: float = peek_ammo_dps if has_peek_ammo else 0.0
 	return {"estimate_dps": float(shots) / reload * source_time_defaults.TICK_RATE * ammo_dps * potential_efficiency * time_scale}
 
+static func source_turret_can_control_state(player_controllable: bool) -> Dictionary:
+	# TurretBuild.canControl() (Turret.java:376-379,
+	# `public boolean canControl(){` /
+	# `return playerControllable;`), narrowing the
+	# ControlBlock default (ControlBlock.java:15-17,
+	# `/** @return whether this block can be controlled at all. */` /
+	# `default boolean canControl(){` / `return true;`).
+	# `player_controllable` is the block field
+	# (`/** If true, this turret can be controlled by players. */` /
+	# `public boolean playerControllable = true;`,
+	# Turret.java:96-97), an explicit bool param,
+	# NOT hardcoded: no per-def override exists in
+	# Blocks.java (grep `playerControllable` = 0 results),
+	# so the catalog is uniformly true today, but the
+	# function takes the field as a param to stay faithful
+	# to Java (the N2526/N2527 param-driven precedent).
+	# NOT canControlSelect (`public boolean
+	# canControlSelect(Unit player){`,
+	# BuildingComp.java:677 -- a different method with a
+	# Unit player param, already stubbed as
+	# source_building_can_control_select_state) and NOT
+	# SourceUnitLifecycleState.player_controllable_state
+	# (the Unit-type level, a different function). NO
+	# driver tick call site: canControl() is a read
+	# predicate, not per-tick, and no caller reads it
+	# today (player control / UI is C11). LIVE
+	# CONSEQUENCE (Java-faithful): DORMANT live today --
+	# the driver tick never calls this function, so live
+	# behavior does not change. When C11 player control
+	# arrives, this is the canonical owner of Turret
+	# canControl().
+	return {"can_control": player_controllable}
+
 static func source_turret_can_heal_state(target_healing: bool, has_ammo: bool, ammo_collides_team: bool, ammo_heals: bool) -> Dictionary:
 	# TurretBuild.canHeal() (Turret.java:635-637):
 	# `protected boolean canHeal(){` /
