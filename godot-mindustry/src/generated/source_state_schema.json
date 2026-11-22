@@ -240948,6 +240948,84 @@
       },
       "runtime_proof": "/root/C07TurretDrawrotProof",
       "rule": "Source-backed Turret drawrot() read from Turret.java:359-362 + BaseTurret.java:114 + BuildingComp.java:587-588."
+    },
+    "source_unit_type_estimate_dps_state_input": {
+      "status": "active",
+      "owner": "SourceUnitTypeState.source_unit_type_estimate_dps_state",
+      "source_slice": "N2533",
+      "keys": {
+        "cached_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_expr": "dpsEstimate = -1,",
+          "rule": "The runtime cache (`dpsEstimate = -1,`, UnitType.java:104 -- -1 means \"not computed yet\"; the field doc says \"a VERY ROUGH estimate of unit DPS; initialized in init()\"); the cache check is `dpsEstimate < 0`, so a cached 0.0 IS a hit and a negative cache recomputes, and the computed leg returns the new cache value through the `cached_dps` result key (the pure function never mutates state outside).",
+          "used_by": [
+            "SourceUnitTypeState.source_unit_type_estimate_dps_state"
+          ]
+        },
+        "weapons_dps_sum": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_expr": "dpsEstimate = weapons.sumf(Weapon::dps);",
+          "rule": "The caller-summed `weapons.sumf(Weapon::dps)` (UnitType.java:1136); a float param, NOT computed in this slice, because Weapon.dps() (Weapon.java:188-190, `(bullet.estimateDPS() / reload) * shoot.shots * 60f`) is not ported yet -- that is a later slice.",
+          "used_by": [
+            "SourceUnitTypeState.source_unit_type_estimate_dps_state"
+          ]
+        },
+        "has_kill_shooter_weapon": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_expr": "if(weapons.contains(w -> w.bullet.killShooter)){",
+          "rule": "Whether any weapon bullet kills its shooter (`if(weapons.contains(w -> w.bullet.killShooter)){`, UnitType.java:1139 -- the suicide leg, which scales the DPS down to be insignificant); a bool param: the caller scans the weapons for a bullet with `killShooter` (BulletType.java:105), the function cannot scan weapons from a float param.",
+          "used_by": [
+            "SourceUnitTypeState.source_unit_type_estimate_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitTypeEstimateDpsProof",
+      "rule": "Source-backed UnitType estimateDps() read from UnitType.java:1132-1144."
+    },
+    "source_unit_type_estimate_dps_state_result": {
+      "status": "active",
+      "owner": "SourceUnitTypeState.source_unit_type_estimate_dps_state",
+      "source_slice": "N2533",
+      "keys": {
+        "estimate_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_expr": "public float estimateDps(){",
+          "rule": "The estimated DPS for one target based on weapons (`public float estimateDps(){`, UnitType.java:1132 -- \"calculate estimated DPS for one target based on weapons\"; the cached value on the cache-hit leg, the summed weapons DPS otherwise, divided by 15f on the suicide leg).",
+          "used_by": [
+            "SourceUnitTypeState.source_unit_type_estimate_dps_state"
+          ]
+        },
+        "cached_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_expr": "return dpsEstimate;",
+          "rule": "The cache value Java would store (`return dpsEstimate;`, UnitType.java:1143 -- the computed leg writes `dpsEstimate` (divided by 15f on the suicide leg); the cache-hit leg returns the input cache unchanged).",
+          "used_by": [
+            "SourceUnitTypeState.source_unit_type_estimate_dps_state"
+          ]
+        },
+        "branch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_expr": "public float estimateDps(){",
+          "rule": "Which leg of estimateDps() fired (`public float estimateDps(){`, UnitType.java:1132 -- the three legs of the method): `cached` (cache hit, `dpsEstimate >= 0`), `computed` (fresh sum), or `computed_suicide` (fresh sum divided by 15f). A port-side discriminator, not a Java field; it names the method leg, so it is backed by the method signature.",
+          "used_by": [
+            "SourceUnitTypeState.source_unit_type_estimate_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitTypeEstimateDpsProof",
+      "rule": "Source-backed UnitType estimateDps() read from UnitType.java:1132-1144."
     }
   },
   "version": 1

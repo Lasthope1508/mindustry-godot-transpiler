@@ -71435,6 +71435,43 @@
       ],
       "runtime_proof": "/root/C07TurretDrawrotProof",
       "rule": "Source-backed Turret drawrot() read from Turret.java:359-362 + BaseTurret.java:114 + BuildingComp.java:587-588."
+    },
+    "SourceUnitTypeState.source_unit_type_estimate_dps_state": {
+      "status": "active",
+      "source_slice": "N2533",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.estimateDps()",
+      "params": [
+        {
+          "name": "cached_dps",
+          "type": "float",
+          "schema": "source_unit_type_estimate_dps_state_input.cached_dps"
+        },
+        {
+          "name": "weapons_dps_sum",
+          "type": "float",
+          "schema": "source_unit_type_estimate_dps_state_input.weapons_dps_sum"
+        },
+        {
+          "name": "has_kill_shooter_weapon",
+          "type": "bool",
+          "schema": "source_unit_type_estimate_dps_state_input.has_kill_shooter_weapon"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "estimate_dps",
+        "cached_dps",
+        "branch"
+      ],
+      "tests": [
+        "test_c07_unit_type_estimate_dps_registration",
+        "test_all_c07_unit_type_estimate_dps_input_evidence_is_exact",
+        "test_unit_type_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_unit_type_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07UnitTypeEstimateDpsProof",
+      "rule": "Source-backed UnitType estimateDps() read from UnitType.java:1132-1144."
     }
   },
   "policy": {

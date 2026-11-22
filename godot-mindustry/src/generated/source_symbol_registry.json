@@ -178504,6 +178504,54 @@
         "test_reference_graph_and_actual_c07_turret_drawrot"
       ],
       "runtime_proof": "/root/C07TurretDrawrotProof"
+    },
+    "source_unit_type_estimate_dps_state_result.estimate_dps": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitTypeState.source_unit_type_estimate_dps_state",
+      "godot_symbol": "source_unit_type_estimate_dps_state_result.estimate_dps",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.estimateDps()",
+      "java_expr": "public float estimateDps(){",
+      "rule": "The estimated DPS for one target based on weapons (`public float estimateDps(){`, UnitType.java:1132 -- \"calculate estimated DPS for one target based on weapons\"; the cached value on the cache-hit leg, the summed weapons DPS otherwise, divided by 15f on the suicide leg).",
+      "tests": [
+        "test_c07_unit_type_estimate_dps_registration",
+        "test_all_c07_unit_type_estimate_dps_input_evidence_is_exact",
+        "test_unit_type_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_unit_type_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07UnitTypeEstimateDpsProof"
+    },
+    "source_unit_type_estimate_dps_state_result.cached_dps": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitTypeState.source_unit_type_estimate_dps_state",
+      "godot_symbol": "source_unit_type_estimate_dps_state_result.cached_dps",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.estimateDps()",
+      "java_expr": "return dpsEstimate;",
+      "rule": "The cache value Java would store (`return dpsEstimate;`, UnitType.java:1143 -- the computed leg writes `dpsEstimate` (divided by 15f on the suicide leg); the cache-hit leg returns the input cache unchanged).",
+      "tests": [
+        "test_c07_unit_type_estimate_dps_registration",
+        "test_all_c07_unit_type_estimate_dps_input_evidence_is_exact",
+        "test_unit_type_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_unit_type_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07UnitTypeEstimateDpsProof"
+    },
+    "source_unit_type_estimate_dps_state_result.branch": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitTypeState.source_unit_type_estimate_dps_state",
+      "godot_symbol": "source_unit_type_estimate_dps_state_result.branch",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.estimateDps()",
+      "java_expr": "public float estimateDps(){",
+      "rule": "Which leg of estimateDps() fired (`public float estimateDps(){`, UnitType.java:1132 -- the three legs of the method): `cached` (cache hit, `dpsEstimate >= 0`), `computed` (fresh sum), or `computed_suicide` (fresh sum divided by 15f). A port-side discriminator, not a Java field; it names the method leg, so it is backed by the method signature.",
+      "tests": [
+        "test_c07_unit_type_estimate_dps_registration",
+        "test_all_c07_unit_type_estimate_dps_input_evidence_is_exact",
+        "test_unit_type_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_unit_type_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07UnitTypeEstimateDpsProof"
     }
   },
   "version": 1

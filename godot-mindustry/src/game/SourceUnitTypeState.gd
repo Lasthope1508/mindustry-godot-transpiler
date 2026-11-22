@@ -176,6 +176,59 @@ static func killed_state(unit: Variant) -> Dictionary:
 static func landed_state(unit: Variant) -> Dictionary:
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_TYPE_LANDED_STATE, "source": source_text.SOURCE_UNIT_TYPE_SOURCE, "method": source_text.SOURCE_UNIT_TYPE_LANDED_METHOD, "no_op": true, "unit": unit, "body": source_text.SOURCE_UNIT_TYPE_NO_OP_BODY}
 
+static func source_unit_type_estimate_dps_state(cached_dps: float, weapons_dps_sum: float, has_kill_shooter_weapon: bool) -> Dictionary:
+	# UnitType.estimateDps() (UnitType.java:1132-1144,
+	# `public float estimateDps(){` /
+	# `if(dpsEstimate < 0){` /
+	# `dpsEstimate = weapons.sumf(Weapon::dps);` /
+	# `if(weapons.contains(w -> w.bullet.killShooter)){` /
+	# `dpsEstimate /= 15f;` /
+	# `return dpsEstimate;`).
+	# The cache check is `dpsEstimate < 0` (NOT `>= 0f`):
+	# a cached value of 0.0 IS a hit (0 is not < 0), and a
+	# negative cache (-1, the `dpsEstimate = -1,` init,
+	# UnitType.java:104) recomputes. The suicide leg divides
+	# the SAME field that was just summed (`dpsEstimate /=
+	# 15f;`), so the divided value is what gets cached -- the
+	# pure function returns the divided value through both
+	# `estimate_dps` and `cached_dps` on the
+	# "computed_suicide" branch. `cached_dps` is the runtime
+	# cache (`dpsEstimate = -1,`, UnitType.java:104 -- -1
+	# means "not computed yet"; the field doc says "a VERY
+	# ROUGH estimate of unit DPS; initialized in init()").
+	# `weapons_dps_sum` is the caller-summed
+	# `weapons.sumf(Weapon::dps)` (UnitType.java:1136):
+	# Weapon.dps() (Weapon.java:188-190, `(bullet.
+	# estimateDPS() / reload) * shoot.shots * 60f`) is NOT
+	# ported yet, so the sum arrives as a float param (the
+	# N2529 precedent -- the spawn unit DPS was a param until
+	# this slice). `has_kill_shooter_weapon` is the
+	# caller-side `weapons.contains(w -> w.bullet.
+	# killShooter)` guard (UnitType.java:1139): the caller
+	# scans the weapons for a bullet with `killShooter`
+	# (BulletType.java:105); the function cannot scan weapons
+	# from a float param.
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# estimateDps() is a read/estimate, not per-tick, and no
+	# caller reads the new function today (the N2529 bullet
+	# function still takes `spawn_unit_dps` /
+	# `despawn_unit_dps` as float params; wiring N2529 ->
+	# N2533 is a separate consumer slice; C11 HUD / stats
+	# display reads `estimate_dps` in a later slice) -> live
+	# behavior does NOT change. `estimateDps()` is also called
+	# from `UnitType.init()` (UnitType.java:1129) -- that is a
+	# content-init call site, not a per-tick driver, and this
+	# slice does not wire init().
+	# No gameplay change: one pure function + register +
+	# test + proof only. NO driver tick call site.
+	if cached_dps >= 0.0:
+		return {"estimate_dps": cached_dps, "cached_dps": cached_dps, "branch": "cached"}
+	var dps: float = weapons_dps_sum
+	if has_kill_shooter_weapon:
+		dps /= 15.0
+		return {"estimate_dps": dps, "cached_dps": dps, "branch": "computed_suicide"}
+	return {"estimate_dps": dps, "cached_dps": dps, "branch": "computed"}
+
 static func generated_create_controller_bridge_state(controller_get: Callable, unit: Variant) -> Dictionary:
 	var result: Variant = _generated_call(source_text.SOURCE_UNIT_TYPE_CREATE_CONTROLLER_GENERATED_METHOD, [controller_get, unit])
 	var canonical := create_controller_state(controller_get, unit)

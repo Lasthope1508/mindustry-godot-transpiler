@@ -184,6 +184,25 @@
       ],
       "runtime_proof": "/root/Main.UnitTypeCoreModuleProof"
     },
+    "N2533": {
+      "canonical_ledger": "source_slice_ledger.N2533",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.estimateDps()",
+      "godot_owner": "SourceUnitTypeState.source_unit_type_estimate_dps_state",
+      "source_symbols": [
+        "source_unit_type_estimate_dps_state_result.estimate_dps",
+        "source_unit_type_estimate_dps_state_result.cached_dps",
+        "source_unit_type_estimate_dps_state_result.branch"
+      ],
+      "tests": [
+        "test_c07_unit_type_estimate_dps_registration",
+        "test_all_c07_unit_type_estimate_dps_input_evidence_is_exact",
+        "test_unit_type_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_unit_type_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07UnitTypeEstimateDpsProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",
