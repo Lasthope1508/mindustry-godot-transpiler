@@ -77966,6 +77966,46 @@
       ],
       "runtime_proof": "/root/C07BuildTurretReadPlansProof",
       "rule": "Source-backed BuildTurretBuild read() plans restore from BuildTurret.java."
+    },
+    "PortGame.source_item_turret_init_ammo_filter_state": {
+      "status": "active",
+      "source_slice": "N2431",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurret.init() ConsumeItemFilter.build(Building build, Table table)",
+      "params": [
+        {
+          "name": "items",
+          "type": "Array",
+          "schema": "source_item_turret_init_ammo_filter_state_input.items"
+        },
+        {
+          "name": "is_item_turret_build",
+          "type": "bool",
+          "schema": "source_item_turret_init_ammo_filter_state_input.is_item_turret_build"
+        },
+        {
+          "name": "ammo_empty",
+          "type": "bool",
+          "schema": "source_item_turret_init_ammo_filter_state_input.ammo_empty"
+        },
+        {
+          "name": "peek_item",
+          "type": "Variant",
+          "schema": "source_item_turret_init_ammo_filter_state_input.peek_item"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "req_images"
+      ],
+      "tests": [
+        "test_c07_item_turret_init_ammo_filter_registration",
+        "test_all_c07_item_turret_init_ammo_filter_input_evidence_is_exact",
+        "test_item_turret_init_ammo_filter_state",
+        "test_reference_graph_and_actual_c07_item_turret_init_ammo_filter"
+      ],
+      "runtime_proof": "/root/C07ItemTurretInitAmmoFilterProof",
+      "rule": "Source-backed ItemTurret anonymous ConsumeItemFilter.build() ammo-filter UI state from ItemTurret.java."
     }
   },
   "policy": {
