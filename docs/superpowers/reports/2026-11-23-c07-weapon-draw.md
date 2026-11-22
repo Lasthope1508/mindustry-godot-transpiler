@@ -5,7 +5,7 @@ Ngày: 2026-11-23 ~01:30 +07 (targeted re-run xác minh lượt đóng slice 34.
 ## Trạng thái
 
 - N2537 DONE + PUSHED (origin/main 09a3a961).
-- N2538 DONE + PUSHED (slice 20e10b76, docs 4cca5414, GOAL f4a494dd): port `Weapon.draw()` thành 1 pure function mới `source_weapon_draw_state` (SourceWeaponsCoreState.gd:177 + delegate SourceWeaponsState.gd:185-186, Weapon.java:212-286) cho Weapon family — KHÔNG driver tick (draw code, rendering nằm ngoài game). Hàm nhận 21 tham số và trả đúng 13 key `rotation, real_recoil, weapon_rotation, wx, wy, xscl, z_draw, shadow_drawn, outline_called, has_parts, region_drawn, cell_drawn, heat_drawn`.
+- N2538 DONE + PUSHED (slice 20e10b76, docs 4cca5414, GOAL f4a494dd, status c85ac1ce): port `Weapon.draw()` thành 1 pure function mới `source_weapon_draw_state` (SourceWeaponsCoreState.gd:177 + delegate SourceWeaponsState.gd:185-186, Weapon.java:212-286) cho Weapon family — KHÔNG driver tick (draw code, rendering nằm ngoài game). Hàm nhận 21 tham số và trả đúng 13 key `rotation, real_recoil, weapon_rotation, wx, wy, xscl, z_draw, shadow_drawn, outline_called, has_parts, region_drawn, cell_drawn, heat_drawn`.
 
 ## Làm được lượt này (GREEN + gate xong)
 

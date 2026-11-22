@@ -1,6 +1,6 @@
-# Handoff — N2538 Weapon.draw() (C07) [DONE + PUSHED (slice 20e10b76, docs 4cca5414, GOAL f4a494dd)]
+# Handoff — N2538 Weapon.draw() (C07) [DONE + PUSHED (slice 20e10b76, docs 4cca5414, GOAL f4a494dd, status c85ac1ce)]
 
-## Status: DONE + PUSHED (lượt cron 01:30 +07 ngày 2026-11-23; slice 20e10b76, docs 4cca5414, GOAL f4a494dd; push xong mới ghi origin/main ở đây sau khi push)
+## Status: DONE + PUSHED (lượt cron 01:30 +07 ngày 2026-11-23; slice 20e10b76, docs 4cca5414, GOAL f4a494dd, status c85ac1ce; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2537 DONE + PUSHED ~23:26 +07 ngày 2026-11-22, origin/main == 09a3a961
   (5 commit: slice 2e49bd95 + docs 36afca58 + GOAL 1fab1442 + status e4360200 + hashes 09a3a961).
