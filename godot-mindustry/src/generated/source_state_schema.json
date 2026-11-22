@@ -241084,6 +241084,54 @@
       },
       "runtime_proof": "/root/C07WeaponDpsProof",
       "rule": "Source-backed Weapon dps() read from Weapon.java:188-190."
+    },
+    "source_weapon_shots_per_sec_state_input": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_shots_per_sec_state",
+      "source_slice": "N2535",
+      "keys": {
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float reload = 1;",
+          "rule": "The weapon reload in frames (`public float reload = 1;`, Weapon.java:75 -- \"weapon reload in frames\"); a float param, default 1 (`RELOAD_DEFAULT := 1.0` in SourceWeaponDefaults.gd).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_shots_per_sec_state"
+          ]
+        },
+        "shoot_shots": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "java_expr": "public int shots = 1;",
+          "rule": "The ShootPattern shot count (`public int shots = 1;`, ShootPattern.java:9 -- \"amount of shots per \\\\\"trigger pull\\\\\"\"); an int param, default 1 (`SHOTS_DEFAULT := 1` in SourceShootPatternDefaults.gd); the weapon holds the pattern as `public ShootPattern shoot = new ShootPattern();` (Weapon.java:97).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_shots_per_sec_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponShotsPerSecProof",
+      "rule": "Source-backed Weapon shotsPerSec() read from Weapon.java:192-194."
+    },
+    "source_weapon_shots_per_sec_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_shots_per_sec_state",
+      "source_slice": "N2535",
+      "keys": {
+        "shots_per_sec": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float shotsPerSec(){",
+          "rule": "The shots per second of this weapon (`public float shotsPerSec(){`, Weapon.java:192 -- `shoot.shots * 60f / reload`, in shots per second); recomputed on every call -- shotsPerSec() has NO cache field in Weapon.java, so there is no `cached_shots_per_sec` return key.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_shots_per_sec_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponShotsPerSecProof",
+      "rule": "Source-backed Weapon shotsPerSec() read from Weapon.java:192-194."
     }
   },
   "version": 1

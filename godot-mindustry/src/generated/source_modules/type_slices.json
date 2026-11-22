@@ -220,6 +220,23 @@
       ],
       "runtime_proof": "/root/C07WeaponDpsProof"
     },
+    "N2535": {
+      "canonical_ledger": "source_slice_ledger.N2535",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.shotsPerSec()",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_shots_per_sec_state",
+      "source_symbols": [
+        "source_weapon_shots_per_sec_state_result.shots_per_sec"
+      ],
+      "tests": [
+        "test_c07_weapon_shots_per_sec_registration",
+        "test_all_c07_weapon_shots_per_sec_input_evidence_is_exact",
+        "test_weapon_shots_per_sec_state",
+        "test_reference_graph_and_actual_c07_weapon_shots_per_sec"
+      ],
+      "runtime_proof": "/root/C07WeaponShotsPerSecProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",

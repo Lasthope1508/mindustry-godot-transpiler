@@ -178568,6 +178568,22 @@
         "test_reference_graph_and_actual_c07_weapon_dps"
       ],
       "runtime_proof": "/root/C07WeaponDpsProof"
+    },
+    "source_weapon_shots_per_sec_state_result.shots_per_sec": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_shots_per_sec_state",
+      "godot_symbol": "source_weapon_shots_per_sec_state_result.shots_per_sec",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.shotsPerSec()",
+      "java_expr": "public float shotsPerSec(){",
+      "rule": "The shots per second of this weapon (`public float shotsPerSec(){`, Weapon.java:192 -- `shoot.shots * 60f / reload`, in shots per second); recomputed on every call -- shotsPerSec() has NO cache field in Weapon.java, so there is no `cached_shots_per_sec` return key.",
+      "tests": [
+        "test_c07_weapon_shots_per_sec_registration",
+        "test_all_c07_weapon_shots_per_sec_input_evidence_is_exact",
+        "test_weapon_shots_per_sec_state",
+        "test_reference_graph_and_actual_c07_weapon_shots_per_sec"
+      ],
+      "runtime_proof": "/root/C07WeaponShotsPerSecProof"
     }
   },
   "version": 1

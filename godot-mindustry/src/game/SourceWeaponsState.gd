@@ -176,6 +176,9 @@ static func setup_mounts_state(weapon_states: Array) -> Dictionary:
 static func source_weapon_dps_state(bullet_estimate_dps: float, reload: float, shoot_shots: int) -> Dictionary:
 	return source_weapons_core_state.source_weapon_dps_state(bullet_estimate_dps, reload, shoot_shots)
 
+static func source_weapon_shots_per_sec_state(reload: float, shoot_shots: int) -> Dictionary:
+	return source_weapons_core_state.source_weapon_shots_per_sec_state(reload, shoot_shots)
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	return source_weapons_core_state.set_rotation_state(mount_states, source_rotation)
 

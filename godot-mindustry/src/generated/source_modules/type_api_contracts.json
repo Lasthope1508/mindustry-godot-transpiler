@@ -2728,6 +2728,36 @@
       ],
       "runtime_proof": "/root/C07WeaponDpsProof",
       "rule": "Source-backed Weapon dps() read from Weapon.java:188-190."
+    },
+    "SourceWeaponsCoreState.source_weapon_shots_per_sec_state": {
+      "canonical_contract": "source_api_contracts.SourceWeaponsCoreState.source_weapon_shots_per_sec_state",
+      "status": "active",
+      "source_slice": "N2535",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.shotsPerSec()",
+      "params": [
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_weapon_shots_per_sec_state_input.reload"
+        },
+        {
+          "name": "shoot_shots",
+          "type": "int",
+          "schema": "source_weapon_shots_per_sec_state_input.shoot_shots"
+        }
+      ],
+      "return_keys": [
+        "shots_per_sec"
+      ],
+      "tests": [
+        "test_c07_weapon_shots_per_sec_registration",
+        "test_all_c07_weapon_shots_per_sec_input_evidence_is_exact",
+        "test_weapon_shots_per_sec_state",
+        "test_reference_graph_and_actual_c07_weapon_shots_per_sec"
+      ],
+      "runtime_proof": "/root/C07WeaponShotsPerSecProof",
+      "rule": "Source-backed Weapon shotsPerSec() read from Weapon.java:192-194."
     }
   }
 }

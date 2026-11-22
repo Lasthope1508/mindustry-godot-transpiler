@@ -70,6 +70,40 @@ static func source_weapon_dps_state(bullet_estimate_dps: float, reload: float, s
 	# display formula, not a dps() call).
 	return {"dps": (bullet_estimate_dps / reload) * float(shoot_shots) * 60.0}
 
+static func source_weapon_shots_per_sec_state(reload: float, shoot_shots: int) -> Dictionary:
+	# Weapon.shotsPerSec() (Weapon.java:192-194,
+	# `public float shotsPerSec(){` /
+	# `return shoot.shots * 60f / reload;`).
+	# `reload` is the weapon reload in frames
+	# (`public float reload = 1;`, Weapon.java:75 --
+	# `RELOAD_DEFAULT := 1.0` in SourceWeaponDefaults.gd).
+	# `shoot_shots` is the ShootPattern shot count
+	# (`public int shots = 1;`,
+	# ShootPattern.java:8-9, "amount of shots per
+	# \"trigger pull\"" -- `SHOTS_DEFAULT := 1` in
+	# SourceShootPatternDefaults.gd; the weapon holds
+	# the pattern as
+	# `public ShootPattern shoot = new ShootPattern();`
+	# (Weapon.java:97). shotsPerSec() has NO
+	# cache (no `cachedDps` / `dpsEstimate` field in
+	# Weapon.java -- unlike BulletType `cachedDps` and
+	# UnitType `dpsEstimate`): it recomputes on every
+	# call, so there is no `cached_shots_per_sec`
+	# return key and no `branch` key -- the single
+	# return key is `shots_per_sec`.
+	# shotsPerSec() has NO `reload == 0` guard (only
+	# `addStats()` Weapon.java:180 guards `reload > 0`
+	# for display): the faithful port does not add one
+	# -- Java float / 0 is Infinity, not a throw, and
+	# GDScript float / 0.0 behaves the same.
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# shotsPerSec() is a read/estimate, not per-tick,
+	# and no caller reads the new function today (no
+	# Java caller outside Weapon itself; the C11 HUD /
+	# stats display reads `shots_per_sec` in a later
+	# slice) -> live behavior does NOT change.
+	return {"shots_per_sec": float(shoot_shots) * 60.0 / reload}
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []
 	for index in mount_states.size():
