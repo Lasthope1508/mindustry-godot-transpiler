@@ -78007,6 +78007,46 @@
       ],
       "runtime_proof": "/root/C07ItemTurretInitAmmoFilterProof",
       "rule": "Source-backed ItemTurret anonymous ConsumeItemFilter.build() ammo-filter UI state from ItemTurret.java."
+    },
+    "SourceGameLoopRuntimeState.source_game_loop_is_waiting_wave_state": {
+      "status": "active",
+      "source_slice": "N2436",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "source_method": "Logic.isWaitingWave()",
+      "params": [
+        {
+          "name": "wait_enemies",
+          "type": "bool",
+          "schema": "source_game_loop_is_waiting_wave_state_input.wait_enemies"
+        },
+        {
+          "name": "wave",
+          "type": "int",
+          "schema": "source_game_loop_is_waiting_wave_state_input.wave"
+        },
+        {
+          "name": "win_wave",
+          "type": "int",
+          "schema": "source_game_loop_is_waiting_wave_state_input.win_wave"
+        },
+        {
+          "name": "enemies",
+          "type": "int",
+          "schema": "source_game_loop_is_waiting_wave_state_input.enemies"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "waiting"
+      ],
+      "tests": [
+        "test_c07_logic_is_waiting_wave_registration",
+        "test_all_c07_logic_is_waiting_wave_input_evidence_is_exact",
+        "test_logic_is_waiting_wave_state",
+        "test_reference_graph_and_actual_c07_logic_is_waiting_wave"
+      ],
+      "runtime_proof": "/root/C07LogicIsWaitingWaveProof",
+      "rule": "Source-backed Logic.isWaitingWave() wave-wait predicate state from Logic.java."
     }
   },
   "policy": {

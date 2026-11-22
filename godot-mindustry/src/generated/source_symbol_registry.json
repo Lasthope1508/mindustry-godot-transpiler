@@ -185496,6 +185496,22 @@
         "test_reference_graph_and_actual_c07_turret_shoot_bullet_shake"
       ],
       "runtime_proof": "/root/C07TurretShootBulletShakeProof"
+    },
+    "source_game_loop_is_waiting_wave_state_result.waiting": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_is_waiting_wave_state",
+      "godot_symbol": "source_game_loop_is_waiting_wave_state_result.waiting",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_method": "Logic.isWaitingWave()",
+      "java_expr": "return (state.rules.waitEnemies || (state.wave >= state.rules.winWave && state.rules.winWave > 0)) && state.enemies > 0;",
+      "rule": "Whether the wave timer is paused due to enemies (Logic.java:606, the full return line): (waitEnemies || (wave >= winWave && winWave > 0)) && enemies > 0.",
+      "tests": [
+        "test_c07_logic_is_waiting_wave_registration",
+        "test_all_c07_logic_is_waiting_wave_input_evidence_is_exact",
+        "test_logic_is_waiting_wave_state",
+        "test_reference_graph_and_actual_c07_logic_is_waiting_wave"
+      ],
+      "runtime_proof": "/root/C07LogicIsWaitingWaveProof"
     }
   },
   "version": 1

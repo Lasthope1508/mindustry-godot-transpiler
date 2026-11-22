@@ -22,6 +22,22 @@ static func source_game_loop_paused_state(game: Object) -> Dictionary:
 	result["paused"] = bool(game.get("paused"))
 	return result
 
+# Logic.isWaitingWave() (Logic.java:605-607) — whether the wave timer
+# is paused due to enemies (javadoc :604):
+# return (state.rules.waitEnemies || (state.wave >= state.rules.winWave && state.rules.winWave > 0)) && state.enemies > 0;
+# Pure predicate over the frame inputs; `state.enemies` is read as-is
+# and never counted here (the count leg lives in Logic.update, a
+# later slice). The call-site `if(!isWaitingWave())`
+# (Logic.java:577, inside update()) belongs to the update()
+# driver-tick slice, not this one.
+static func source_game_loop_is_waiting_wave_state(wait_enemies: bool, wave: int, win_wave: int, enemies: int) -> Dictionary:
+	var result := {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_GAME_LOOP_IS_WAITING_WAVE_STATE,
+		"waiting": false,
+	}
+	result["waiting"] = (wait_enemies or (wave >= win_wave and win_wave > 0)) and enemies > 0
+	return result
+
 static func ready(game: Object) -> void:
 	# Vars.headless (Vars.java:208-209) via DisplayServer
 	# (decision 2026-11-17 ~12:56, Option 1): a headless display

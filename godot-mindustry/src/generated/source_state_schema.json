@@ -254951,6 +254951,74 @@
       },
       "runtime_proof": "/root/C07ItemTurretInitAmmoFilterProof",
       "rule": "Source-backed ItemTurret anonymous ConsumeItemFilter.build() ammo-filter UI state from ItemTurret.java."
+    },
+    "source_game_loop_is_waiting_wave_state_input": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_is_waiting_wave_state",
+      "source_slice": "N2436",
+      "keys": {
+        "wait_enemies": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "return (state.rules.waitEnemies || (state.wave >= state.rules.winWave && state.rules.winWave > 0)) && state.enemies > 0;",
+          "rule": "Whether the rules wait for enemies before the next wave (Logic.java:606, `state.rules.waitEnemies`): the first disjunct of isWaitingWave().",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_is_waiting_wave_state"
+          ]
+        },
+        "wave": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "return (state.rules.waitEnemies || (state.wave >= state.rules.winWave && state.rules.winWave > 0)) && state.enemies > 0;",
+          "rule": "The current wave number (Logic.java:606, `state.wave`): compared against winWave in the second disjunct of isWaitingWave().",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_is_waiting_wave_state"
+          ]
+        },
+        "win_wave": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "return (state.rules.waitEnemies || (state.wave >= state.rules.winWave && state.rules.winWave > 0)) && state.enemies > 0;",
+          "rule": "The wave the player must reach to win (Logic.java:606, `state.rules.winWave`): the wave must reach it, and it must be > 0, for the second disjunct of isWaitingWave() to hold.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_is_waiting_wave_state"
+          ]
+        },
+        "enemies": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "return (state.rules.waitEnemies || (state.wave >= state.rules.winWave && state.rules.winWave > 0)) && state.enemies > 0;",
+          "rule": "The number of live enemies (Logic.java:606, `state.enemies`): read as-is from the frame input, never counted here -- the count leg lives in Logic.update(), a later slice.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_is_waiting_wave_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LogicIsWaitingWaveProof",
+      "rule": "Source-backed Logic.isWaitingWave() wave-wait predicate state from Logic.java."
+    },
+    "source_game_loop_is_waiting_wave_state_result": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_is_waiting_wave_state",
+      "source_slice": "N2436",
+      "keys": {
+        "waiting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "return (state.rules.waitEnemies || (state.wave >= state.rules.winWave && state.rules.winWave > 0)) && state.enemies > 0;",
+          "rule": "Whether the wave timer is paused due to enemies (Logic.java:606, the full return line): (waitEnemies || (wave >= winWave && winWave > 0)) && enemies > 0.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_is_waiting_wave_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LogicIsWaitingWaveProof",
+      "rule": "Source-backed Logic.isWaitingWave() wave-wait predicate state from Logic.java."
     }
   },
   "version": 1
