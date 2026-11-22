@@ -46,7 +46,7 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 đợi user giao.
 
 **Chia family giữa hai line (Isabella 2026-11-17):** VM này chỉ làm
-Turret/BurstDrill/Radar/Game; line Windows chỉ làm RepairTower/RepairTurret
+Turret/BurstDrill/Radar/Game + **BuildTurret** (quyết main thread 2026-11-22 ~16:10 +07: BuildTurret extends BaseTurret, BlockGroup.turrets, họ Turret; slice đầu N2423); line Windows chỉ làm RepairTower/RepairTurret
 + PointDefenseTurret (Isabella 2026-11-18 ~16:08 +07, sau 9 slice liên tiếp
 N2239–N2247 của line Windows)
 (chi tiết + lý do xem AGENTS.md). Không làm slice thuộc family của line kia.

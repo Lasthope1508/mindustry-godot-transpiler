@@ -56,7 +56,7 @@ each family lives in ONE GD file, so two lines touching the same family edit
 the same file. After two divergences in one day (remote N2233 RepairTurret
 colliding with local N2233 on SourceRepairTurretBuildState.gd), families are
 split — each line works ONLY its own families:
-- This VM line: Turret, BurstDrill, Radar, Game.
+- This VM line: Turret, BurstDrill, Radar, Game. **BuildTurret → this VM line** (main-thread decision 2026-11-22 ~16:10 +07: BuildTurret extends BaseTurret, BlockGroup.turrets, Turret family; remote never touched it beyond shared PortGame-era N2184/N2201; first slice N2423 BuildTurretBuild.updateTile() plan legs).
 - Windows/other line: RepairTower, RepairTurret, PointDefenseTurret (Isabella 2026-11-18 ~16:08 +07, after 9 straight PointDefenseTurret slices N2239–N2247 from the Windows line).
 Ambient B (N2260, RepairTurret driver tick line) belongs to the Windows line;
 ambient C (N2304, SoundControl mixer, game-level — moved from N2264 after divergence #35,
