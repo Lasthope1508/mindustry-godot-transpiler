@@ -1,11 +1,11 @@
-# Báo cáo — N2532 Turret drawrot(): pure Turret.java drawrot() port cho Turret family (C07) [DONE (slice 4aedbbf6; docs/GOAL/status pending)]
+# Báo cáo — N2532 Turret drawrot(): pure Turret.java drawrot() port cho Turret family (C07) [DONE + PUSHED]
 
 Ngày: 2026-11-22 ~15:45 +07 (targeted re-run xác minh lượt này; proof xanh lượt implement ~14:21 +07, đọc trực tiếp proof .json — tái sinh 08:47:59Z bởi targeted re-run lượt này), gate xong 08:40:58Z (15:40:58 +07), slice commit 4aedbbf6.
 
 ## Trạng thái
 
 - N2531 DONE + PUSHED (origin/main 7155d98b).
-- N2532 DONE (slice 4aedbbf6, docs/GOAL/status pending): port `drawrot()` của `TurretBuild` thành 1 pure function mới `source_turret_drawrot_state` (SourceTurretBuildState.gd:704, sau fog_radius :665-702, trước can_heal) cho Turret family — KHÔNG driver tick call site (drawrot() là read, không phải per-tick; caller duy nhất là draw code DrawTurret/DrawDefault, rendering nằm ngoài game). Hàm nhận 1 tham số (`rotation`) và trả đúng 1 key `drawrot`.
+- N2532 DONE + PUSHED (slice 4aedbbf6, docs 710afe02, GOAL 6c36b912, status pending): port `drawrot()` của `TurretBuild` thành 1 pure function mới `source_turret_drawrot_state` (SourceTurretBuildState.gd:704, sau fog_radius :665-702, trước can_heal) cho Turret family — KHÔNG driver tick call site (drawrot() là read, không phải per-tick; caller duy nhất là draw code DrawTurret/DrawDefault, rendering nằm ngoài game). Hàm nhận 1 tham số (`rotation`) và trả đúng 1 key `drawrot`.
 
 ## Làm được lượt này (GREEN + gate xong)
 

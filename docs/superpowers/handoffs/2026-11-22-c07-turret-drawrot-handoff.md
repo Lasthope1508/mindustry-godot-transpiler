@@ -1,6 +1,6 @@
-# Handoff — N2532 Turret `drawrot()`: pure function cho Turret family (C07) [DONE (slice 4aedbbf6; docs/GOAL/status pending — push xong mới ghi origin/main ở đây sau khi push)]
+# Handoff — N2532 Turret `drawrot()`: pure function cho Turret family (C07) [DONE + PUSHED (slice 4aedbbf6, docs 710afe02, GOAL 6c36b912)]
 
-## Status: DONE (lượt cron 15:45 +07 ngày 2026-11-22; slice 4aedbbf6, docs pending, GOAL pending, status pending)
+## Status: DONE + PUSHED (lượt cron 15:45 +07 ngày 2026-11-22; slice 4aedbbf6, docs 710afe02, GOAL 6c36b912; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2531 DONE + PUSHED ~14:00 +07 ngày 2026-11-22, origin/main == 7155d98b
   (5 commit: slice 34cbcc90 + docs 903bf260 + GOAL b6d497fc + status fadcccac +
