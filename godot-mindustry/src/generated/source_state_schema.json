@@ -240518,6 +240518,104 @@
       },
       "runtime_proof": "/root/C07TurretStatusProof",
       "rule": "Source-backed Turret status() read from Turret.java:369-372 + BuildingComp.java:632-646 + Turret.java:364-366 + ReloadTurret.java:10 + Blocks.java."
+    },
+    "source_turret_estimate_dps_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_estimate_dps_state",
+      "source_slice": "N2528",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "return shoot.shots / reload * 60f * (peekAmmo() == null ? 0f : peekAmmo().estimateDPS()) * potentialEfficiency * timeScale;",
+          "rule": "The turret frame (the port Building state) the tick stamps every tick (`public void updateTile(){`, Turret.java:490 -- the driver tick for every Turret-family build); it carries `potential_efficiency` (stamped every tick by the driver via apply_update_consumption_state, `self_state[\"potential_efficiency\"] = consumption_state[\"potential_efficiency\"]`, SourceBuildingEfficiencyState.gd:178; absent folds to 1.0, the N2527 missing-stamp precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_estimate_dps_state"
+          ]
+        },
+        "has_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(!hasAmmo()) return 0f;",
+          "rule": "Whether the turret has ammo (`if(!hasAmmo()) return 0f;`, Turret.java:330 -- the first leg, BEFORE the formula); a bool param, NOT computed in the function, because hasAmmo() MUTATES the ammo stack (`ammo.swap(ammo.size - 1, i);`, Turret.java:703) and cannot be a pure read. The boolean equivalent (no swap) is `canConsume() && size > 0 && (any entry amount >= ammoPerShot || cheating())` -- the swap only moves a sufficient entry to peek, it never changes the boolean; the live computation is a follow-up.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_estimate_dps_state"
+          ]
+        },
+        "has_peek_ammo": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "(peekAmmo() == null ? 0f : peekAmmo().estimateDPS())",
+          "rule": "Whether the peeked ammo exists (`peekAmmo() == null ? 0f : peekAmmo().estimateDPS()`, Turret.java:331 -- the peek leg); a bool param (the N2526 precedent: `peekAmmo() != null` is the ammo stack non-empty, NOT hasAmmo(), which also folds canConsume(), Turret.java:705-708). When false, the DPS term folds to 0.0.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_estimate_dps_state"
+          ]
+        },
+        "peek_ammo_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float estimateDPS(){",
+          "rule": "The estimated DPS of the peeked ammo (`peekAmmo().estimateDPS()`, Turret.java:331); a float param, NOT computed in this slice, because BulletType.estimateDPS() (BulletType.java:414-435) is a recursive computation over the bullet catalog (fragBullet / spawnBullets recursion, spawnUnit/despawnUnit branches calling UnitType.estimateDps(), `cachedDps` runtime cache) -- that is the N2529 follow-up. Until it lands, callers supply the peek ammo DPS.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_estimate_dps_state"
+          ]
+        },
+        "shots": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "java_expr": "public int shots = 1;",
+          "rule": "The shots per trigger pull (`shoot.shots`, Turret.java:331 -- `public int shots = 1;`, ShootPattern.java:9, the class default; per-def overrides in Blocks.java: salvo 2, ripple 4, smite 2, malign 4, :3402/:3823/:3902/:4064), read from the catalog shoot pattern state (`shoot_state.get(\"shots\", SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)`, SourceWeaponShootPatternState.gd:36) -- NOT hardcoded to 1.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_estimate_dps_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "public float reload = 10f;",
+          "rule": "The per-def reload time in ticks (`public float reload = 10f;`, ReloadTurret.java:10 -- the class default; duo 20f, foreshadow 200f, Blocks.java): the `shoot.shots / reload` rate half of the formula, read from the catalog `block.properties` with the 10.0 default (the tick :2665 precedent). Java has NO divide-by-zero guard for `reload` (every per-def reload > 0) -- parity keeps none.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_estimate_dps_state"
+          ]
+        },
+        "time_scale": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "private transient float timeScale = 1f, timeScaleDuration;",
+          "rule": "The Building time scale (`private transient float timeScale = 1f, timeScaleDuration;`, BuildingComp.java:98 -- the `* timeScale` factor of the formula); it arrives as an explicit float param, not from the frame (the sense precedent -- the driver stamps no time_scale key).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_estimate_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretEstimateDpsProof",
+      "rule": "Source-backed Turret estimateDps() read from Turret.java:329-333 + ShootPattern.java:9 + ReloadTurret.java:10 + BuildingComp.java:98 + BulletType.java:414."
+    },
+    "source_turret_estimate_dps_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_estimate_dps_state",
+      "source_slice": "N2528",
+      "keys": {
+        "estimate_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float estimateDps(){",
+          "rule": "The estimated damage per second (`public float estimateDps(){`, Turret.java:329 -- `shoot.shots / reload * 60f * (peekAmmo() == null ? 0f : peekAmmo().estimateDPS()) * potentialEfficiency * timeScale`, Turret.java:331; 0.0 when the turret has no ammo).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_estimate_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretEstimateDpsProof",
+      "rule": "Source-backed Turret estimateDps() read from Turret.java:329-333 + ShootPattern.java:9 + ReloadTurret.java:10 + BuildingComp.java:98 + BulletType.java:414."
     }
   },
   "version": 1

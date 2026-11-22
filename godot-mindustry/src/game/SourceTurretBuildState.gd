@@ -10,6 +10,7 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_metadata_state := preload("res://src/game/SourceBlockMetadataState.gd")
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_turret_source_text_state := preload("res://src/game/SourceTurretSourceTextState.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
 const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
@@ -570,6 +571,63 @@ static func source_turret_status_state(frame: Dictionary, tick: float, has_ammo:
 	if fmod(tick / 30.0, 1.0) < efficiency:
 		return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_ACTIVE}
 	return {"status": source_building_access_state.SOURCE_BUILDING_STATUS_NO_INPUT}
+
+static func source_turret_estimate_dps_state(frame: Dictionary, has_ammo: bool, has_peek_ammo: bool, peek_ammo_dps: float, shots: int, reload: float, time_scale: float) -> Dictionary:
+	# TurretBuild.estimateDps() (Turret.java:329-333,
+	# `public float estimateDps(){` /
+	# `if(!hasAmmo()) return 0f;` /
+	# `return shoot.shots / reload * 60f * (peekAmmo() == null ? 0f : peekAmmo().estimateDPS()) * potentialEfficiency * timeScale;`).
+	# The legs run in exact Java order: `!has_ammo` returns
+	# 0.0 first; the peek leg (`peekAmmo() == null ? 0f`)
+	# folds `peek_ammo_dps` to 0.0 when `!has_peek_ammo`;
+	# then `float(shots) / reload * TICK_RATE *
+	# peek_ammo_dps * potential_efficiency * time_scale`.
+	# `shots` is the ShootPattern field (`public int shots = 1;`,
+	# ShootPattern.java:9 -- the class default; per-def overrides
+	# in Blocks.java: salvo 2, ripple 4, smite 2, malign 4,
+	# :3402/:3823/:3902/:4064), read from the catalog shoot
+	# pattern state (`shoot_state.get("shots",
+	# SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)`,
+	# SourceWeaponShootPatternState.gd:36) -- NOT hardcoded
+	# to 1. `reload` is the per-def reload time
+	# (`public float reload = 10f;`, ReloadTurret.java:10), read
+	# from the catalog `block.properties` with the 10.0 default
+	# (the tick :2665 precedent) -- NOT hardcoded to duo.
+	# `60f` is the tick rate (`const TICK_RATE := 60.0`,
+	# SourceTimeDefaults.gd:4) -- NOT a literal 60.
+	# `potential_efficiency` is the frame-stamped efficiency
+	# fold (`self_state["potential_efficiency"] =
+	# consumption_state["potential_efficiency"]`,
+	# SourceBuildingEfficiencyState.gd:178; absent folds to
+	# 1.0, the N2527 missing-stamp precedent). `time_scale`
+	# is the BuildingComp transient field
+	# (`private transient float timeScale = 1f, timeScaleDuration;`,
+	# BuildingComp.java:98), an explicit float param, NOT
+	# read from the frame (the sense precedent,
+	# source_building_comp_sense_state). `has_ammo` is a
+	# bool param, NOT computed in the function: hasAmmo()
+	# MUTATES the ammo stack (`ammo.swap(ammo.size - 1, i);`,
+	# Turret.java:703), so it cannot be a pure read (the
+	# N2527 precedent). `peek_ammo_dps` is a float param:
+	# the DPS value itself comes from
+	# BulletType.estimateDPS() (`public float
+	# estimateDPS(){`, BulletType.java:414 -- the recursive
+	# frag/spawn computation with the cachedDps cache),
+	# which is NOT computed in this slice (that is the N2529
+	# follow-up); this slice ports the turret formula with
+	# the param. Java has NO divide-by-zero guard for
+	# `reload` (every per-def reload > 0) -- parity keeps
+	# none. NO driver tick call site: estimateDps() is a
+	# read function, not per-tick, and no caller reads it
+	# today (HUD / stats display is C11). LIVE CONSEQUENCE
+	# (Java-faithful): DORMANT live today -- the driver tick
+	# never calls this function, so live behavior does not
+	# change.
+	var potential_efficiency: float = float(frame.get("potential_efficiency", 1.0))
+	if not has_ammo:
+		return {"estimate_dps": 0.0}
+	var ammo_dps: float = peek_ammo_dps if has_peek_ammo else 0.0
+	return {"estimate_dps": float(shots) / reload * source_time_defaults.TICK_RATE * ammo_dps * potential_efficiency * time_scale}
 
 static func source_turret_can_heal_state(target_healing: bool, has_ammo: bool, ammo_collides_team: bool, ammo_heals: bool) -> Dictionary:
 	# TurretBuild.canHeal() (Turret.java:635-637):

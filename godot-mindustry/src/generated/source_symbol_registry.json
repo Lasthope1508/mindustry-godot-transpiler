@@ -178392,6 +178392,22 @@
         "test_reference_graph_and_actual_c07_turret_status"
       ],
       "runtime_proof": "/root/C07TurretStatusProof"
+    },
+    "source_turret_estimate_dps_state_result.estimate_dps": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_estimate_dps_state",
+      "godot_symbol": "source_turret_estimate_dps_state_result.estimate_dps",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.estimateDps()",
+      "java_expr": "public float estimateDps(){",
+      "rule": "The estimated damage per second (`public float estimateDps(){`, Turret.java:329 -- `shoot.shots / reload * 60f * (peekAmmo() == null ? 0f : peekAmmo().estimateDPS()) * potentialEfficiency * timeScale`, Turret.java:331; 0.0 when the turret has no ammo).",
+      "tests": [
+        "test_c07_turret_estimate_dps_registration",
+        "test_all_c07_turret_estimate_dps_input_evidence_is_exact",
+        "test_turret_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_turret_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07TurretEstimateDpsProof"
     }
   },
   "version": 1
