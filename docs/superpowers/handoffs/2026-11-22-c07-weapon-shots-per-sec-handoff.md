@@ -1,6 +1,6 @@
-# Handoff — N2535 Weapon `shotsPerSec()`: pure function cho Weapon family (C07) [DONE + PUSHED (slice 7f61f2d8, docs e05b904a, GOAL 57052a13)]
+# Handoff — N2535 Weapon `shotsPerSec()`: pure function cho Weapon family (C07) [DONE + PUSHED (slice 7f61f2d8, docs e05b904a, GOAL 57052a13, status 52e4b6e5)]
 
-## Status: DONE + PUSHED (lượt cron 20:30 +07 ngày 2026-11-22; slice 7f61f2d8, docs e05b904a, GOAL 57052a13; push xong mới ghi origin/main ở đây sau khi push)
+## Status: DONE + PUSHED (lượt cron 20:30 +07 ngày 2026-11-22; slice 7f61f2d8, docs e05b904a, GOAL 57052a13, status 52e4b6e5; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2534 DONE + PUSHED ~19:15 +07 ngày 2026-11-22, origin/main == 308b9f00
   (5 commit: slice fb8a6ab5 + docs 0f9f5b9a + GOAL 531604d2 + status e302ca76 + hashes 308b9f00).
