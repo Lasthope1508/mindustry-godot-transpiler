@@ -4603,6 +4603,30 @@
       ],
       "runtime_proof": "/root/C07LaserTurretPlacedProof"
     },
+    "N2423": {
+      "canonical_ledger": "source_slice_ledger.N2423",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "source_symbols": [
+        "source_build_turret_update_tile_plan_state_result.following_cleared",
+        "source_build_turret_update_tile_plan_state_result.found_plan",
+        "source_build_turret_update_tile_plan_state_result.found_btype",
+        "source_build_turret_update_tile_plan_state_result.found_index",
+        "source_build_turret_update_tile_plan_state_result.mimic",
+        "source_build_turret_update_tile_plan_state_result.mimic_early_return",
+        "source_build_turret_update_tile_plan_state_result.team_plans",
+        "source_build_turret_update_tile_plan_state_result.valid_break_branch"
+      ],
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

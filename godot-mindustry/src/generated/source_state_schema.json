@@ -254263,6 +254263,204 @@
       },
       "runtime_proof": "/root/C07LaserTurretPlacedProof",
       "rule": "Source-backed LaserTurretBuild.placed() state from LaserTurret.java."
+    },
+    "source_build_turret_update_tile_plan_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "source_slice": "N2423",
+      "keys": {
+        "has_following": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "if(following != null){",
+          "rule": "Whether a follower is currently set (BuildTurret.java:144, `if(following != null){`): the validate-follower leg only runs with a follower present.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "following_valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "if(!following.isValid() || !following.activelyBuilding()){",
+          "rule": "Whether the current follower is still valid (BuildTurret.java:146, `if(!following.isValid() || !following.activelyBuilding()){`): an invalid follower is forgotten and the plans are cleared.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "controlled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "following = null;",
+          "rule": "Whether the build is player-controlled (BuildTurret.java:217-218, the controlled branch forgets everything: `following = null;`).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "build_plan_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "if(unit.buildPlan() == null){",
+          "rule": "Whether the unit has no build plan at mimic time (BuildTurret.java:174, `if(unit.buildPlan() == null){`): the mimic leg only runs with no plan after the search.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "team_plans": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "for(int i = 0; i < blocks.size; i++){",
+          "rule": "The team plan queue to search (BuildTurret.java:157-158, `Queue<BlockPlan> blocks = team.data().plans;` / `for(int i = 0; i < blocks.size; i++){`): plan Dictionaries with x, y, rotation, block, config.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "valid_place": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "if(Build.validPlace(btype, unit.team(), block.x, block.y, block.rotation) && (state.rules.infiniteResources || team.rules().infiniteResources || team.items().has(btype.requirements, state.rules.buildCostMultiplier))){",
+          "rule": "Caller-supplied Build.validPlace + infiniteResources/items gate (BuildTurret.java:163): whether a queued plan may be built here.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "req_breaking": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "(req.breaking ?",
+          "rule": "Whether the request being validated is a break request (BuildTurret.java:207, `(req.breaking ?`): picks the break leg of the valid ternary.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "req_pos": {
+          "type": "Vector2i",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "team.data().plans.remove(p -> p.x == req.x && p.y == req.y);",
+          "rule": "Position of the request being validated (BuildTurret.java:198): the plan removed from the team queue when another player is breaking the same position.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "player_breaking_same_pos": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "team.data().plans.remove(p -> p.x == req.x && p.y == req.y);",
+          "rule": "Whether another player is breaking the same position as the request (BuildTurret.java:193-200, the isBuilder samePos breaking discard).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "mimic_following_set": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "if(following  != null) return;",
+          "rule": "Whether following is already set when a mimic candidate is considered (BuildTurret.java:177, `if(following  != null) return;`): the Units.nearby callback returns early for later candidates once one became the follower.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof",
+      "rule": "Source-backed BuildTurretBuild.updateTile() plan legs from BuildTurret.java."
+    },
+    "source_build_turret_update_tile_plan_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "source_slice": "N2423",
+      "keys": {
+        "following_cleared": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "following = null;",
+          "rule": "Whether following is cleared (BuildTurret.java:147/:175/:218, `following = null;`): invalid follower, mimic setup, or controlled branch.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "found_plan": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "var block = blocks.get(i);",
+          "rule": "The first queued plan the validPlace gate accepts (BuildTurret.java:159, `var block = blocks.get(i);`), or {} when none is valid.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "found_btype": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "var btype = block.block;",
+          "rule": "The block type of the found plan (BuildTurret.java:161, `var btype = block.block;`), or \"\" when no plan was found.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "found_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "for(int i = 0; i < blocks.size; i++){",
+          "rule": "Index of the found plan in the team queue (BuildTurret.java:158), or -1 when no plan was found.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "mimic": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "if(unit.buildPlan() == null){",
+          "rule": "Whether mimic starts (BuildTurret.java:174, `if(unit.buildPlan() == null){`): still no plan after the search, not controlled.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "mimic_early_return": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "if(following  != null) return;",
+          "rule": "Whether a mimic candidate callback returns early (BuildTurret.java:177, `if(following  != null) return;`): mimic is running and following is already set.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "team_plans": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "team.data().plans.remove(p -> p.x == req.x && p.y == req.y);",
+          "rule": "The team plan queue after the validate leg (BuildTurret.java:198): the req_pos entry is removed when another player is breaking the same position.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        },
+        "valid_break_branch": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "(req.breaking ?",
+          "rule": "Whether the valid ternary takes the break leg (BuildTurret.java:207, `(req.breaking ?`): the request is a break request being validated, not controlled.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof",
+      "rule": "Source-backed BuildTurretBuild.updateTile() plan legs from BuildTurret.java."
     }
   },
   "version": 1

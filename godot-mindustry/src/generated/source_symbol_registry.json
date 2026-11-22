@@ -185112,6 +185112,134 @@
         "test_reference_graph_and_actual_c07_laser_turret_placed"
       ],
       "runtime_proof": "/root/C07LaserTurretPlacedProof"
+    },
+    "source_build_turret_update_tile_plan_state_result.following_cleared": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "godot_symbol": "source_build_turret_update_tile_plan_state_result.following_cleared",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "following = null;",
+      "rule": "Whether following is cleared (BuildTurret.java:147/:175/:218, `following = null;`): invalid follower, mimic setup, or controlled branch.",
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
+    },
+    "source_build_turret_update_tile_plan_state_result.found_plan": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "godot_symbol": "source_build_turret_update_tile_plan_state_result.found_plan",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "var block = blocks.get(i);",
+      "rule": "The first queued plan the validPlace gate accepts (BuildTurret.java:159, `var block = blocks.get(i);`), or {} when none is valid.",
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
+    },
+    "source_build_turret_update_tile_plan_state_result.found_btype": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "godot_symbol": "source_build_turret_update_tile_plan_state_result.found_btype",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "var btype = block.block;",
+      "rule": "The block type of the found plan (BuildTurret.java:161, `var btype = block.block;`), or \"\" when no plan was found.",
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
+    },
+    "source_build_turret_update_tile_plan_state_result.found_index": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "godot_symbol": "source_build_turret_update_tile_plan_state_result.found_index",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "for(int i = 0; i < blocks.size; i++){",
+      "rule": "Index of the found plan in the team queue (BuildTurret.java:158), or -1 when no plan was found.",
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
+    },
+    "source_build_turret_update_tile_plan_state_result.mimic": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "godot_symbol": "source_build_turret_update_tile_plan_state_result.mimic",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "if(unit.buildPlan() == null){",
+      "rule": "Whether mimic starts (BuildTurret.java:174, `if(unit.buildPlan() == null){`): still no plan after the search, not controlled.",
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
+    },
+    "source_build_turret_update_tile_plan_state_result.mimic_early_return": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "godot_symbol": "source_build_turret_update_tile_plan_state_result.mimic_early_return",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "if(following  != null) return;",
+      "rule": "Whether a mimic candidate callback returns early (BuildTurret.java:177, `if(following  != null) return;`): mimic is running and following is already set.",
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
+    },
+    "source_build_turret_update_tile_plan_state_result.team_plans": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "godot_symbol": "source_build_turret_update_tile_plan_state_result.team_plans",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "team.data().plans.remove(p -> p.x == req.x && p.y == req.y);",
+      "rule": "The team plan queue after the validate leg (BuildTurret.java:198): the req_pos entry is removed when another player is breaking the same position.",
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
+    },
+    "source_build_turret_update_tile_plan_state_result.valid_break_branch": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "godot_symbol": "source_build_turret_update_tile_plan_state_result.valid_break_branch",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.updateTile()",
+      "java_expr": "(req.breaking ?",
+      "rule": "Whether the valid ternary takes the break leg (BuildTurret.java:207, `(req.breaking ?`): the request is a break request being validated, not controlled.",
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
     }
   },
   "version": 1

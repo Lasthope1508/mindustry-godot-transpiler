@@ -77699,6 +77699,83 @@
       ],
       "runtime_proof": "/root/C07LaserTurretPlacedProof",
       "rule": "Source-backed LaserTurretBuild.placed() state from LaserTurret.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state": {
+      "status": "active",
+      "source_slice": "N2423",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "has_following",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.has_following"
+        },
+        {
+          "name": "following_valid",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.following_valid"
+        },
+        {
+          "name": "controlled",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.controlled"
+        },
+        {
+          "name": "build_plan_null",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.build_plan_null"
+        },
+        {
+          "name": "team_plans",
+          "type": "Array",
+          "schema": "source_build_turret_update_tile_plan_state_input.team_plans"
+        },
+        {
+          "name": "valid_place",
+          "type": "Callable",
+          "schema": "source_build_turret_update_tile_plan_state_input.valid_place"
+        },
+        {
+          "name": "req_breaking",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.req_breaking"
+        },
+        {
+          "name": "req_pos",
+          "type": "Vector2i",
+          "schema": "source_build_turret_update_tile_plan_state_input.req_pos"
+        },
+        {
+          "name": "player_breaking_same_pos",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.player_breaking_same_pos"
+        },
+        {
+          "name": "mimic_following_set",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.mimic_following_set"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "following_cleared",
+        "found_plan",
+        "found_btype",
+        "found_index",
+        "mimic",
+        "mimic_early_return",
+        "team_plans",
+        "valid_break_branch"
+      ],
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof",
+      "rule": "Source-backed BuildTurretBuild.updateTile() plan legs from BuildTurret.java."
     }
   },
   "policy": {
