@@ -920,3 +920,239 @@ static func source_sound_control_stop_state(has_current: bool, current: String, 
 		commands.append({"track": current, "action": "stop"})
 		return {"silenced": true, "current": null, "fade": 0.0, "stopped": true, "commands": commands}
 	return {"silenced": true, "current": null, "fade": fade, "stopped": false, "commands": commands}
+
+static func source_sound_control_update_state(is_game: bool, has_dialog: bool, has_current: bool, current: String, current_is_playing: bool, timer_tick: bool, was_playing: bool, filter: Variant, is_paused: bool, keep_silent: bool, silenced: bool, is_menu: bool, planet_shown: bool, has_planet_launch_music: bool, planet_launch_music: String, editor_shown: bool, rules_editor: bool, always_play_music: bool, last_played: int, now_millis: int, music_interval: float, chance_roll: bool, fade: float, should_play: bool, music_vol: int, time_delta: float, fin_time: float, fout_time: float, has_last_random_played: bool, last_random_played: String, play_random: Callable, update_loops: Callable) -> Dictionary:
+	# SoundControl.update() (SoundControl.java:128-195):
+	# `public void update(){`
+	# -- the per-frame dispatcher, kept in Java order:
+	# paused/playing derivation, the finished-track
+	# clear, the 30-tick fade-filter poll, the bus
+	# play/stop on the playing transition, setPaused,
+	# then exactly one leg (keepSilent / menu / editor
+	# rules / ingame) and updateLoops() last.
+	# State reads arrive as explicit params (the N2306
+	# precedent -- GDScript typed String params cannot
+	# take null, so has_current / has_planet_launch_music
+	# / has_last_random_played fold the null checks).
+	# Music arrives as its name String (the N2287
+	# precedent); Musics.editor / Musics.menu arrive as
+	# their asset-stem names "editor" / "menu", and the
+	# planet launch track arrives as planet_launch_music.
+	# The delegates update() calls -- setupFilters
+	# (N2349), stop (N2352), play / silence (N2336) --
+	# are pure static funcs in this same file and are
+	# called directly with the params they need
+	# (should_play is the shouldPlay() gate, N2299;
+	# music_vol is Core.settings "musicvol"; time_delta
+	# is Time.delta; fin_time / fout_time are the
+	# SoundControl.java:20 fields, both 120f).
+	# playRandom (N2347) arrives as the play_random
+	# Callable -- the caller owns the boss / dark /
+	# ambient lists and the RNG draw, so update() hands
+	# it the current state at call time and merges the
+	# N2347 result (current / fade /
+	# last_random_played / commands) back in.
+	# updateLoops (N2304, held waiting for B) arrives
+	# as the update_loops Callable -- its body is NOT
+	# ported here, only the call site (:194); the call
+	# is recorded as update_loops_called.
+	# The RNG of this slice is Mathf.chance(musicChance)
+	# (SoundControl.java:187): its OUTCOME arrives as
+	# the explicit chance_roll param (the N2315
+	# chance-roll precedent), so this function never
+	# rolls RNG itself. timer.get(1, 30f)
+	# (SoundControl.java:139) likewise arrives as the
+	# timer_tick outcome. Time.timeSinceMillis
+	# (SoundControl.java:185) is millis() - lastPlayed
+	# (arc Time.java:158-160); now_millis arrives
+	# explicitly and the interval threshold is
+	# `1000 * musicInterval / 60f` with musicInterval
+	# defaulting to `3f * Time.toMinutes` (arc
+	# Time.java:12, toMinutes = 60f * 60f, so 10800f).
+	# Filters.paramWet is the int constant 0 (arc
+	# Filters.java:6). NO audio playback in this slice:
+	# the bus calls (soundBus.play / stop, musicBus.play,
+	# setPaused, fadeFilterParam) are returned as
+	# command state, never executed -- the sound-bus
+	# numeric id (SoundControl.java:160,
+	# `Core.audio.soundBus.id`) is driver-owned, so the
+	# setPaused command names the bus ("sound") instead
+	# of carrying the id; playback belongs to
+	# updateLoops (N2304, held waiting for B).
+	# ALREADY-OWNED lines, NOT re-registered here (the
+	# re-probe §1 list): `current = null;` + `fade = 0f;`
+	# (:134-135, N2336/N2339/N2345/N2352),
+	# `silenced = false;` (:166/:175, N2336),
+	# `if(alwaysPlayMusic()){` + `if(current == null){` +
+	# `playRandom();` (:181-183/:189, N2306) -- update()
+	# only drives them through the delegates and the
+	# explicit params; the writes still happen, as the
+	# code below shows.
+	var out_paused: bool = is_game and has_dialog
+	var out_playing: bool = is_game
+	var out_current = current if has_current else null
+	var out_fade: float = fade
+	var out_silenced: bool = silenced
+	var out_keep_silent: bool = keep_silent
+	var out_was_playing: bool = was_playing
+	var out_last_played: int = last_played
+	var out_last_random_played: String = last_random_played
+	var commands: Array = []
+	# `boolean paused = state.isGame() && Core.scene.hasDialog();`
+	# (SoundControl.java:129).
+	# `boolean playing = state.isGame();`
+	# (SoundControl.java:130).
+	# `if(current != null && !current.isPlaying()){`
+	# (SoundControl.java:133) -- clear a finished track
+	# (`current = null;` + `fade = 0f;`, :134-135, already
+	# owned -- the writes happen here, the lines are not
+	# re-registered).
+	if has_current and not current_is_playing:
+		out_current = null
+		out_fade = 0.0
+	# `if(timer.get(1, 30f)){`
+	# (SoundControl.java:139) -- poll every 30 ticks.
+	if timer_tick:
+		# `Core.audio.soundBus.fadeFilterParam(0, Filters.paramWet, paused ? 1f : 0f, 0.4f);`
+		# (SoundControl.java:140).
+		commands.append({"action": "fade_filter_param", "slot": 0, "param": 0, "value": 1.0 if out_paused else 0.0, "duration": 0.4})
+	# `if(playing != wasPlaying){`
+	# (SoundControl.java:144).
+	if out_playing != out_was_playing:
+		# `wasPlaying = playing;`
+		# (SoundControl.java:145).
+		out_was_playing = out_playing
+		# `if(playing){`
+		# (SoundControl.java:147).
+		if out_playing:
+			# `Core.audio.soundBus.play();`
+			# (SoundControl.java:148).
+			commands.append({"action": "sound_bus_play"})
+			# `setupFilters();`
+			# (SoundControl.java:149) -- the N2349 delegate.
+			var filters: Dictionary = source_sound_control_setup_filters_state(filter)
+			commands.append_array(filters.get("commands", []) as Array)
+		else:
+			# `Core.audio.soundBus.stop();`
+			# (SoundControl.java:152).
+			commands.append({"action": "sound_bus_stop"})
+			# `Core.audio.musicBus.play();`
+			# (SoundControl.java:154) -- play music bus
+			# again, as it was stopped above.
+			commands.append({"action": "music_bus_play"})
+			# `Core.audio.soundBus.play();`
+			# (SoundControl.java:156).
+			commands.append({"action": "sound_bus_play"})
+	# `Core.audio.setPaused(Core.audio.soundBus.id, state.isPaused());`
+	# (SoundControl.java:160).
+	commands.append({"action": "set_paused", "bus": "sound", "paused": is_paused})
+	# `if(keepSilent){`
+	# (SoundControl.java:162).
+	if out_keep_silent:
+		# `keepSilent = false;`
+		# (SoundControl.java:163).
+		out_keep_silent = false
+		# `stop();`
+		# (SoundControl.java:164) -- the N2352 delegate.
+		var stopped: Dictionary = source_sound_control_stop_state(out_current != null, out_current if out_current != null else "", out_fade)
+		out_silenced = bool(stopped.get("silenced", out_silenced))
+		out_current = stopped.get("current", out_current)
+		out_fade = float(stopped.get("fade", out_fade))
+		commands.append_array(stopped.get("commands", []) as Array)
+	# `}else if(state.isMenu()){`
+	# (SoundControl.java:165).
+	elif is_menu:
+		# `silenced = false;` (:166, already owned by
+		# N2336 -- the write happens here).
+		out_silenced = false
+		# `if(ui.planet.isShown()){`
+		# (SoundControl.java:167).
+		if planet_shown:
+			# `play(ui.planet.state.planet.launchMusic);`
+			# (SoundControl.java:168) -- the N2336 delegate.
+			var played: Dictionary = source_sound_control_play_state(has_planet_launch_music, planet_launch_music, out_current != null, out_current if out_current != null else "", out_fade, out_silenced, should_play, music_vol, time_delta, fin_time, fout_time)
+			out_current = played.get("current", out_current)
+			out_fade = float(played.get("fade", out_fade))
+			out_silenced = bool(played.get("silenced", out_silenced))
+			commands.append_array(played.get("commands", []) as Array)
+		# `}else if(ui.editor.isShown()){`
+		# (SoundControl.java:169).
+		elif editor_shown:
+			# `play(Musics.editor);`
+			# (SoundControl.java:170) -- the N2336 delegate.
+			var played: Dictionary = source_sound_control_play_state(true, "editor", out_current != null, out_current if out_current != null else "", out_fade, out_silenced, should_play, music_vol, time_delta, fin_time, fout_time)
+			out_current = played.get("current", out_current)
+			out_fade = float(played.get("fade", out_fade))
+			out_silenced = bool(played.get("silenced", out_silenced))
+			commands.append_array(played.get("commands", []) as Array)
+		else:
+			# `play(Musics.menu);`
+			# (SoundControl.java:172) -- the N2336 delegate.
+			var played: Dictionary = source_sound_control_play_state(true, "menu", out_current != null, out_current if out_current != null else "", out_fade, out_silenced, should_play, music_vol, time_delta, fin_time, fout_time)
+			out_current = played.get("current", out_current)
+			out_fade = float(played.get("fade", out_fade))
+			out_silenced = bool(played.get("silenced", out_silenced))
+			commands.append_array(played.get("commands", []) as Array)
+	# `}else if(state.rules.editor){`
+	# (SoundControl.java:174).
+	elif rules_editor:
+		# `silenced = false;` (:175, already owned by
+		# N2336 -- the write happens here).
+		out_silenced = false
+		# `play(Musics.editor);`
+		# (SoundControl.java:176) -- the N2336 delegate.
+		var played: Dictionary = source_sound_control_play_state(true, "editor", out_current != null, out_current if out_current != null else "", out_fade, out_silenced, should_play, music_vol, time_delta, fin_time, fout_time)
+		out_current = played.get("current", out_current)
+		out_fade = float(played.get("fade", out_fade))
+		out_silenced = bool(played.get("silenced", out_silenced))
+		commands.append_array(played.get("commands", []) as Array)
+	else:
+		# `silence();`
+		# (SoundControl.java:179) -- fades out the last
+		# track to make way for ingame music; the N2336
+		# delegate (silence IS play(null)).
+		var quiet: Dictionary = source_sound_control_silence_state(out_current != null, out_current if out_current != null else "", out_fade, out_silenced, should_play, music_vol, time_delta, fin_time, fout_time)
+		out_current = quiet.get("current", out_current)
+		out_fade = float(quiet.get("fade", out_fade))
+		out_silenced = bool(quiet.get("silenced", out_silenced))
+		commands.append_array(quiet.get("commands", []) as Array)
+		# `if(alwaysPlayMusic()){`
+		# (SoundControl.java:181, N2306 -- the gate
+		# arrives as always_play_music, not re-ported).
+		if always_play_music:
+			# `if(current == null){`
+			# (SoundControl.java:182, N2306 -- the null
+			# test reads the post-silence current).
+			if out_current == null:
+				# `playRandom();`
+				# (SoundControl.java:183) -- the N2347
+				# delegate, via the caller-owned Callable.
+				var picked: Dictionary = play_random.call(out_current != null, out_current if out_current != null else "", out_fade, has_last_random_played, out_last_random_played)
+				out_current = picked.get("current", out_current)
+				out_fade = float(picked.get("fade", out_fade))
+				out_last_random_played = String(picked.get("last_random_played", out_last_random_played))
+				commands.append_array(picked.get("commands", []) as Array)
+		# `}else if(Time.timeSinceMillis(lastPlayed) > 1000 * musicInterval / 60f){`
+		# (SoundControl.java:185) -- chance to play a
+		# track per interval.
+		elif float(now_millis - out_last_played) > 1000.0 * music_interval / 60.0:
+			# `if(Mathf.chance(musicChance)){`
+			# (SoundControl.java:187) -- the RNG outcome
+			# arrives as chance_roll (the N2315 precedent).
+			if chance_roll:
+				# `lastPlayed = Time.millis();`
+				# (SoundControl.java:188).
+				out_last_played = now_millis
+				# `playRandom();`
+				# (SoundControl.java:189) -- the N2347
+				# delegate, via the caller-owned Callable.
+				var picked: Dictionary = play_random.call(out_current != null, out_current if out_current != null else "", out_fade, has_last_random_played, out_last_random_played)
+				out_current = picked.get("current", out_current)
+				out_fade = float(picked.get("fade", out_fade))
+				out_last_random_played = String(picked.get("last_random_played", out_last_random_played))
+				commands.append_array(picked.get("commands", []) as Array)
+	# `updateLoops();`
+	# (SoundControl.java:194) -- the N2304 mixer, held
+	# waiting for B: only the call site is ported here.
+	update_loops.call()
+	return {"paused": out_paused, "playing": out_playing, "was_playing": out_was_playing, "current": out_current, "fade": out_fade, "silenced": out_silenced, "keep_silent": out_keep_silent, "last_played": out_last_played, "last_random_played": out_last_random_played, "commands": commands, "update_loops_called": true}

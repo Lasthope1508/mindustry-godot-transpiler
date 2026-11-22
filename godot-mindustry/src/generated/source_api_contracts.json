@@ -76831,6 +76831,196 @@
       ],
       "runtime_proof": "/root/C07TurretBulletEntryProof",
       "rule": "Source-backed TurretBuild.BulletEntry() ctor record state from Turret.java."
+    },
+    "SourceSoundControlState.source_sound_control_update_state": {
+      "status": "active",
+      "source_slice": "N2411",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl.update()",
+      "params": [
+        {
+          "name": "is_game",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.is_game"
+        },
+        {
+          "name": "has_dialog",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.has_dialog"
+        },
+        {
+          "name": "has_current",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.has_current"
+        },
+        {
+          "name": "current",
+          "type": "String",
+          "schema": "source_sound_control_update_state_input.current"
+        },
+        {
+          "name": "current_is_playing",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.current_is_playing"
+        },
+        {
+          "name": "timer_tick",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.timer_tick"
+        },
+        {
+          "name": "was_playing",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.was_playing"
+        },
+        {
+          "name": "filter",
+          "type": "Variant",
+          "schema": "source_sound_control_update_state_input.filter"
+        },
+        {
+          "name": "is_paused",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.is_paused"
+        },
+        {
+          "name": "keep_silent",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.keep_silent"
+        },
+        {
+          "name": "silenced",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.silenced"
+        },
+        {
+          "name": "is_menu",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.is_menu"
+        },
+        {
+          "name": "planet_shown",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.planet_shown"
+        },
+        {
+          "name": "has_planet_launch_music",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.has_planet_launch_music"
+        },
+        {
+          "name": "planet_launch_music",
+          "type": "String",
+          "schema": "source_sound_control_update_state_input.planet_launch_music"
+        },
+        {
+          "name": "editor_shown",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.editor_shown"
+        },
+        {
+          "name": "rules_editor",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.rules_editor"
+        },
+        {
+          "name": "always_play_music",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.always_play_music"
+        },
+        {
+          "name": "last_played",
+          "type": "int",
+          "schema": "source_sound_control_update_state_input.last_played"
+        },
+        {
+          "name": "now_millis",
+          "type": "int",
+          "schema": "source_sound_control_update_state_input.now_millis"
+        },
+        {
+          "name": "music_interval",
+          "type": "float",
+          "schema": "source_sound_control_update_state_input.music_interval"
+        },
+        {
+          "name": "chance_roll",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.chance_roll"
+        },
+        {
+          "name": "fade",
+          "type": "float",
+          "schema": "source_sound_control_update_state_input.fade"
+        },
+        {
+          "name": "should_play",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.should_play"
+        },
+        {
+          "name": "music_vol",
+          "type": "int",
+          "schema": "source_sound_control_update_state_input.music_vol"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_sound_control_update_state_input.time_delta"
+        },
+        {
+          "name": "fin_time",
+          "type": "float",
+          "schema": "source_sound_control_update_state_input.fin_time"
+        },
+        {
+          "name": "fout_time",
+          "type": "float",
+          "schema": "source_sound_control_update_state_input.fout_time"
+        },
+        {
+          "name": "has_last_random_played",
+          "type": "bool",
+          "schema": "source_sound_control_update_state_input.has_last_random_played"
+        },
+        {
+          "name": "last_random_played",
+          "type": "String",
+          "schema": "source_sound_control_update_state_input.last_random_played"
+        },
+        {
+          "name": "play_random",
+          "type": "Callable",
+          "schema": "source_sound_control_update_state_input.play_random"
+        },
+        {
+          "name": "update_loops",
+          "type": "Callable",
+          "schema": "source_sound_control_update_state_input.update_loops"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "paused",
+        "playing",
+        "was_playing",
+        "current",
+        "fade",
+        "silenced",
+        "keep_silent",
+        "last_played",
+        "last_random_played",
+        "commands",
+        "update_loops_called"
+      ],
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof",
+      "rule": "Source-backed SoundControl update state from SoundControl.java."
     }
   },
   "policy": {

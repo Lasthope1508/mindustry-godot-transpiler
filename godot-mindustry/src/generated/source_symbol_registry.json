@@ -184232,6 +184232,182 @@
         "test_reference_graph_and_actual_c07_turret_bullet_entry"
       ],
       "runtime_proof": "/root/C07TurretBulletEntryProof"
+    },
+    "source_sound_control_update_state_result.paused": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.paused",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "boolean paused = state.isGame() && Core.scene.hasDialog();",
+      "rule": "Whether playback is paused this frame (SoundControl.java:129, `boolean paused = state.isGame() && Core.scene.hasDialog();`): is_game AND has_dialog; drives the fade-filter value (1 when paused, 0 otherwise).",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_sound_control_update_state_result.playing": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.playing",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "boolean playing = state.isGame();",
+      "rule": "Whether music is playing this frame (SoundControl.java:130, `boolean playing = state.isGame();`): the bus play/stop leg fires only on a transition against was_playing.",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_sound_control_update_state_result.was_playing": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.was_playing",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "wasPlaying = playing;",
+      "rule": "Whether music was playing after this frame (SoundControl.java:145, `wasPlaying = playing;`): the field, updated on every playing transition.",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_sound_control_update_state_result.current": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.current",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "current = null;",
+      "rule": "The track playing after this call (SoundControl.java:134, `current = null;` in the finished-track clear): null when the track finished or was stopped, the new track when a leg started one.",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_sound_control_update_state_result.fade": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.fade",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "fade = 0f;",
+      "rule": "The fade level after this call (SoundControl.java:135, `fade = 0f;` in the finished-track clear): 0 when the track finished, stepped by the play / silence / playRandom delegates otherwise.",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_sound_control_update_state_result.silenced": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.silenced",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "silenced = false;",
+      "rule": "Whether playback is silenced after this call (SoundControl.java:166/:175, `silenced = false;` in the menu / editor legs): false when a leg selects music, true when the stop delegate ran.",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_sound_control_update_state_result.keep_silent": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.keep_silent",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "keepSilent = false;",
+      "rule": "Whether the keepSilent flag is still set (SoundControl.java:163, `keepSilent = false;`): always false after this call -- the leg clears it and calls stop().",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_sound_control_update_state_result.last_played": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.last_played",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "lastPlayed = Time.millis();",
+      "rule": "When the last ingame track was started, in millis (SoundControl.java:188, `lastPlayed = Time.millis();`): now_millis when the interval leg fired playRandom, unchanged otherwise.",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_sound_control_update_state_result.last_random_played": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.last_random_played",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "lastRandomPlayed = music;",
+      "rule": "The last random track after this call (SoundControl.java:359, `lastRandomPlayed = music;` in playOnce, reached through the playRandom delegate): the picked track when playRandom fired, unchanged otherwise.",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_sound_control_update_state_result.commands": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.commands",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "Core.audio.soundBus.play();",
+      "rule": "The playback commands this call issues, in Java order (SoundControl.java:140 fadeFilterParam / :148 soundBus.play / :149 setupFilters / :152 soundBus.stop / :154 musicBus.play / :156 soundBus.play / :160 setPaused, plus the delegate commands from stop / play / silence / playRandom): one Dictionary per call (`action`, plus `slot`/`param`/`value`/`duration` for the filter, `bus`/`paused` for setPaused, `track` for track commands). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_sound_control_update_state_result.update_loops_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_update_state",
+      "godot_symbol": "source_sound_control_update_state_result.update_loops_called",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl.update()",
+      "java_expr": "updateLoops();",
+      "rule": "Whether updateLoops() was called (SoundControl.java:194, `updateLoops();`): always true -- the call is unconditional, last in the method.",
+      "tests": [
+        "test_c07_sound_control_update_registration",
+        "test_all_c07_sound_control_update_input_evidence_is_exact",
+        "test_sound_control_update_state",
+        "test_reference_graph_and_actual_c07_sound_control_update"
+      ],
+      "runtime_proof": "/root/C07SoundControlUpdateProof"
     }
   },
   "version": 1

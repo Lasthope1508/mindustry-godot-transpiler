@@ -252414,6 +252414,454 @@
       },
       "runtime_proof": "/root/C07TurretBulletEntryProof",
       "rule": "Source-backed TurretBuild.BulletEntry() ctor record state from Turret.java."
+    },
+    "source_sound_control_update_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_update_state",
+      "source_slice": "N2411",
+      "keys": {
+        "is_game": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "boolean playing = state.isGame();",
+          "rule": "Whether the game state is in-game (SoundControl.java:130, `boolean playing = state.isGame();`): drives both the playing flag and the paused derivation; arrives as an explicit bool param -- the state lookup stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "has_dialog": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "boolean paused = state.isGame() && Core.scene.hasDialog();",
+          "rule": "Whether a dialog is shown (SoundControl.java:129, `boolean paused = state.isGame() && Core.scene.hasDialog();`): paused is is_game AND has_dialog; arrives as an explicit bool param -- the Core.scene lookup stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "has_current": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(current != null && !current.isPlaying()){",
+          "rule": "Whether a track is currently playing (SoundControl.java:133, `if(current != null && !current.isPlaying()){`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected @Nullable Music current;",
+          "rule": "The currently playing track (SoundControl.java:34, `protected @Nullable Music current;`): arrives as an explicit String param, its name (the N2287 precedent); an unset current is passed as \"\" with has_current false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "current_is_playing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(current != null && !current.isPlaying()){",
+          "rule": "Whether the current track is still playing (SoundControl.java:133, `!current.isPlaying()`): a finished track is cleared with fade zeroed; arrives as an explicit bool param -- the Music.isPlaying() call stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "timer_tick": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(timer.get(1, 30f)){",
+          "rule": "Whether the 30-tick fade-filter poll fires (SoundControl.java:139, `if(timer.get(1, 30f)){`): arrives as an explicit bool param -- the Timer lives with the caller; only its outcome is read here.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "was_playing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected boolean wasPlaying;",
+          "rule": "Whether music was playing on the previous frame (SoundControl.java:38, `protected boolean wasPlaying;`): arrives as an explicit bool param and is carried out again -- the bus play/stop leg fires only on a transition.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "filter": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected AudioFilter filter = new BiquadFilter(){{",
+          "rule": "The SoundControl filter (SoundControl.java:39, `protected AudioFilter filter = new BiquadFilter(){{ set(0, 500, 1); }};`): arrives as an explicit opaque Variant param -- the driver owns the live filter object (the N2287 precedent); passed through to the setupFilters delegate (N2349) when the bus starts.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "is_paused": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Core.audio.setPaused(Core.audio.soundBus.id, state.isPaused());",
+          "rule": "Whether the game is paused (SoundControl.java:160, `state.isPaused()`): carried into the setPaused command; arrives as an explicit bool param -- the state lookup stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "keep_silent": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected boolean silenced, keepSilent;",
+          "rule": "Whether the keepSilent flag is set (SoundControl.java:36, `protected boolean silenced, keepSilent;`): arrives as an explicit bool param and is carried out again -- the keepSilent leg clears it and calls stop().",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "silenced": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected boolean silenced, keepSilent;",
+          "rule": "Whether playback is silenced (SoundControl.java:36, `protected boolean silenced, keepSilent;`): arrives as an explicit bool param and is carried out again -- written false by the menu / editor legs, true by the stop delegate.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "is_menu": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "}else if(state.isMenu()){",
+          "rule": "Whether the game state is the menu (SoundControl.java:165, `}else if(state.isMenu()){`): selects the menu leg (planet / editor / menu music); arrives as an explicit bool param -- the state lookup stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "planet_shown": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(ui.planet.isShown()){",
+          "rule": "Whether the planet screen is shown (SoundControl.java:167, `if(ui.planet.isShown()){`): selects the planet launch music in the menu leg; arrives as an explicit bool param -- the UI lookup stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "has_planet_launch_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "play(ui.planet.state.planet.launchMusic);",
+          "rule": "Whether the current planet has launch music (SoundControl.java:168, `play(ui.planet.state.planet.launchMusic);`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "planet_launch_music": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "play(ui.planet.state.planet.launchMusic);",
+          "rule": "The planet launch track (SoundControl.java:168, `play(ui.planet.state.planet.launchMusic);`): arrives as an explicit String param, its name (the N2287 precedent); only read when the planet screen is shown.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "editor_shown": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "}else if(ui.editor.isShown()){",
+          "rule": "Whether the editor screen is shown (SoundControl.java:169, `}else if(ui.editor.isShown()){`): selects the editor music in the menu leg; arrives as an explicit bool param -- the UI lookup stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "rules_editor": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "}else if(state.rules.editor){",
+          "rule": "Whether the current rules are the editor rules (SoundControl.java:174, `}else if(state.rules.editor){`): selects the editor leg; arrives as an explicit bool param -- the state lookup stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "always_play_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(alwaysPlayMusic()){",
+          "rule": "The alwaysPlayMusic() gate (SoundControl.java:181, `if(alwaysPlayMusic()){`): arrives as an explicit bool param -- the gate itself is N2306 and is NOT re-ported here; true reads the playRandom leg in the ingame branch.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "last_played": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected long lastPlayed;",
+          "rule": "When the last ingame track was started, in millis (SoundControl.java:33, `protected long lastPlayed;`): arrives as an explicit int param and is carried out again -- the interval leg writes it to now_millis when it fires.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "now_millis": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "lastPlayed = Time.millis();",
+          "rule": "The current time in millis (SoundControl.java:188, `lastPlayed = Time.millis();`): arrives as an explicit int param -- Time.millis() stays with the caller; used for the interval check and the lastPlayed write.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "music_interval": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;",
+          "rule": "The music interval field (SoundControl.java:20, `musicInterval = 3f * Time.toMinutes`, Time.toMinutes = 60f * 60f so 10800f): arrives as an explicit float param; the interval threshold is `1000 * musicInterval / 60f` millis.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "chance_roll": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(Mathf.chance(musicChance)){",
+          "rule": "Whether the per-interval chance roll hit (SoundControl.java:187, `if(Mathf.chance(musicChance)){`): arrives as an explicit bool param -- the RNG OUTCOME (the N2315 chance-roll precedent), so this function never rolls RNG itself.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected float fade;",
+          "rule": "The fade level (SoundControl.java:35, `protected float fade;`): arrives as an explicit float param and is carried out again -- zeroed by the finished-track clear, stepped by the play / silence delegates.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "should_play": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(!shouldPlay()){",
+          "rule": "The shouldPlay() gate (SoundControl.java:304, `if(!shouldPlay()){` in play()): arrives as an explicit bool param -- the gate itself is N2299 (`return Core.settings.getInt(\"musicvol\") > 0;`) and is NOT re-ported here; passed through to the play / silence delegates.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "music_vol": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current.setVolume(fade * Core.settings.getInt(\"musicvol\") / 100f);",
+          "rule": "The music volume setting (SoundControl.java:313, `Core.settings.getInt(\"musicvol\")` in play()): arrives as an explicit int param; passed through to the play / silence delegates.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "fade = Mathf.clamp(fade + Time.delta /finTime);",
+          "rule": "The frame delta (SoundControl.java:330, `Time.delta` in play()): arrives as an explicit float param; passed through to the play / silence delegates for the fade steps.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "fin_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;",
+          "rule": "The fade-in time field (SoundControl.java:20, `finTime = 120f`): arrives as an explicit float param; passed through to the play / silence delegates.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "fout_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;",
+          "rule": "The fade-out time field (SoundControl.java:20, `foutTime = 120f`): arrives as an explicit float param; passed through to the play / silence delegates.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "has_last_random_played": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Music lastRandomPlayed;",
+          "rule": "Whether a last random track is saved (SoundControl.java:31, `protected Music lastRandomPlayed;`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent); passed to the playRandom delegate.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "last_random_played": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Music lastRandomPlayed;",
+          "rule": "The last random track played (SoundControl.java:31, `protected Music lastRandomPlayed;`): arrives as an explicit String param, its name (the N2287 precedent); passed to the playRandom delegate.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "play_random": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "playRandom();",
+          "rule": "The playRandom() delegate (SoundControl.java:183/:189, `playRandom();`): arrives as a Callable (has_current, current, fade, has_last_random_played, last_random_played) returning the N2347 result Dictionary -- the caller owns the boss / dark / ambient lists and the RNG draw, so the random pick stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "update_loops": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "updateLoops();",
+          "rule": "The updateLoops() call (SoundControl.java:194, `updateLoops();`): arrives as a zero-arg Callable -- the mixer body is N2304 (held waiting for B) and is NOT ported here, only the call site; the call is recorded as update_loops_called.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlUpdateProof",
+      "rule": "Source-backed SoundControl update state from SoundControl.java."
+    },
+    "source_sound_control_update_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_update_state",
+      "source_slice": "N2411",
+      "keys": {
+        "paused": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "boolean paused = state.isGame() && Core.scene.hasDialog();",
+          "rule": "Whether playback is paused this frame (SoundControl.java:129, `boolean paused = state.isGame() && Core.scene.hasDialog();`): is_game AND has_dialog; drives the fade-filter value (1 when paused, 0 otherwise).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "playing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "boolean playing = state.isGame();",
+          "rule": "Whether music is playing this frame (SoundControl.java:130, `boolean playing = state.isGame();`): the bus play/stop leg fires only on a transition against was_playing.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "was_playing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "wasPlaying = playing;",
+          "rule": "Whether music was playing after this frame (SoundControl.java:145, `wasPlaying = playing;`): the field, updated on every playing transition.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "current = null;",
+          "rule": "The track playing after this call (SoundControl.java:134, `current = null;` in the finished-track clear): null when the track finished or was stopped, the new track when a leg started one.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "fade = 0f;",
+          "rule": "The fade level after this call (SoundControl.java:135, `fade = 0f;` in the finished-track clear): 0 when the track finished, stepped by the play / silence / playRandom delegates otherwise.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "silenced": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "silenced = false;",
+          "rule": "Whether playback is silenced after this call (SoundControl.java:166/:175, `silenced = false;` in the menu / editor legs): false when a leg selects music, true when the stop delegate ran.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "keep_silent": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "keepSilent = false;",
+          "rule": "Whether the keepSilent flag is still set (SoundControl.java:163, `keepSilent = false;`): always false after this call -- the leg clears it and calls stop().",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "last_played": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "lastPlayed = Time.millis();",
+          "rule": "When the last ingame track was started, in millis (SoundControl.java:188, `lastPlayed = Time.millis();`): now_millis when the interval leg fired playRandom, unchanged otherwise.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "last_random_played": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "lastRandomPlayed = music;",
+          "rule": "The last random track after this call (SoundControl.java:359, `lastRandomPlayed = music;` in playOnce, reached through the playRandom delegate): the picked track when playRandom fired, unchanged otherwise.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "commands": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Core.audio.soundBus.play();",
+          "rule": "The playback commands this call issues, in Java order (SoundControl.java:140 fadeFilterParam / :148 soundBus.play / :149 setupFilters / :152 soundBus.stop / :154 musicBus.play / :156 soundBus.play / :160 setPaused, plus the delegate commands from stop / play / silence / playRandom): one Dictionary per call (`action`, plus `slot`/`param`/`value`/`duration` for the filter, `bus`/`paused` for setPaused, `track` for track commands). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        },
+        "update_loops_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "updateLoops();",
+          "rule": "Whether updateLoops() was called (SoundControl.java:194, `updateLoops();`): always true -- the call is unconditional, last in the method.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_update_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlUpdateProof",
+      "rule": "Source-backed SoundControl update state from SoundControl.java."
     }
   },
   "version": 1
