@@ -1,6 +1,6 @@
 # Handoff — N2528 Turret `estimateDps()`: pure function cho Turret family (C07) [DONE]
 
-## Status: DONE + PUSHED (gate xanh theo mẫu Godot-absent, xác minh độc lập lượt cron 08:45 +07 ngày 2026-11-22; slice 901a3e8a, docs b7ad33d4, GOAL 9c85e4e9, status TBD)
+## Status: DONE + PUSHED (gate xanh theo mẫu Godot-absent, xác minh độc lập lượt cron 08:45 +07 ngày 2026-11-22; slice 901a3e8a, docs b7ad33d4, GOAL 9c85e4e9, status 9ff5171a)
 
 - N2527 DONE + PUSHED ~06:45 +07 ngày 2026-11-22, origin/main == HEAD == 92ad2be6
   (5 commit: slice bd0ea3c8 + docs ef5272e3 + GOAL d19606df + status 07cbccf9 + hashes 92ad2be6).

@@ -5,7 +5,7 @@ Ngày: 2026-11-22 ~08:46 +07 (proof xanh, đọc trực tiếp proof .json mtime
 ## Trạng thái
 
 - N2527 DONE + PUSHED (origin/main 92ad2be6).
-- N2528 DONE + PUSHED (slice 901a3e8a, docs b7ad33d4, GOAL 9c85e4e9, status TBD, hashes TBD): port `estimateDps()` của `TurretBuild` thành 1 pure function mới `source_turret_estimate_dps_state` (SourceTurretBuildState.gd:575) cho Turret family — KHÔNG driver tick call site (estimateDps() là read function, không phải per-tick; không caller nào đọc nó hôm nay, HUD / stats display là C11). Hàm nhận 7 tham số (frame, has_ammo, has_peek_ammo, peek_ammo_dps, shots, reload, time_scale), trả đúng 1 key `estimate_dps`.
+- N2528 DONE + PUSHED (slice 901a3e8a, docs b7ad33d4, GOAL 9c85e4e9, status 9ff5171a, hashes TBD): port `estimateDps()` của `TurretBuild` thành 1 pure function mới `source_turret_estimate_dps_state` (SourceTurretBuildState.gd:575) cho Turret family — KHÔNG driver tick call site (estimateDps() là read function, không phải per-tick; không caller nào đọc nó hôm nay, HUD / stats display là C11). Hàm nhận 7 tham số (frame, has_ammo, has_peek_ammo, peek_ammo_dps, shots, reload, time_scale), trả đúng 1 key `estimate_dps`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
