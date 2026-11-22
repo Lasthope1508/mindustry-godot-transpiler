@@ -185448,6 +185448,22 @@
         "test_reference_graph_and_actual_c07_turret_shoot_bullet_legs"
       ],
       "runtime_proof": "/root/C07TurretShootBulletLegsProof"
+    },
+    "source_build_turret_read_plans_state_result.plans_to_add": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_read_plans_state",
+      "godot_symbol": "source_build_turret_read_plans_state_result.plans_to_add",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.read(Reads, byte)",
+      "java_expr": "unit.plans().add(req);",
+      "rule": "The plans to add back to the unit plan queue, in Java order (BuildTurret.java:275, `unit.plans().add(req);`): every req from the loop, duplicates kept.",
+      "tests": [
+        "test_c07_build_turret_read_plans_registration",
+        "test_all_c07_build_turret_read_plans_input_evidence_is_exact",
+        "test_build_turret_read_plans_state",
+        "test_reference_graph_and_actual_c07_build_turret_read_plans"
+      ],
+      "runtime_proof": "/root/C07BuildTurretReadPlansProof"
     }
   },
   "version": 1

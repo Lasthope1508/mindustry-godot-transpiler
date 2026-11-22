@@ -77936,6 +77936,36 @@
       ],
       "runtime_proof": "/root/C07TurretShootBulletLegsProof",
       "rule": "Source-backed TurretBuild.shoot()/bullet() leftover legs from Turret.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_read_plans_state": {
+      "status": "active",
+      "source_slice": "N2429",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.read(Reads, byte)",
+      "params": [
+        {
+          "name": "reqs_null",
+          "type": "bool",
+          "schema": "source_build_turret_read_plans_state_input.reqs_null"
+        },
+        {
+          "name": "reqs",
+          "type": "Array",
+          "schema": "source_build_turret_read_plans_state_input.reqs"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "plans_to_add"
+      ],
+      "tests": [
+        "test_c07_build_turret_read_plans_registration",
+        "test_all_c07_build_turret_read_plans_input_evidence_is_exact",
+        "test_build_turret_read_plans_state",
+        "test_reference_graph_and_actual_c07_build_turret_read_plans"
+      ],
+      "runtime_proof": "/root/C07BuildTurretReadPlansProof",
+      "rule": "Source-backed BuildTurretBuild read() plans restore from BuildTurret.java."
     }
   },
   "policy": {

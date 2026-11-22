@@ -7938,6 +7938,37 @@
       "rule": "Source-backed BuildTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBuildTurretBuildState.source_build_turret_read_plans_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_read_plans_state",
+      "status": "active",
+      "source_slice": "N2429",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.read(Reads, byte)",
+      "params": [
+        {
+          "name": "reqs_null",
+          "type": "bool",
+          "schema": "source_build_turret_read_plans_state_input.reqs_null"
+        },
+        {
+          "name": "reqs",
+          "type": "Array",
+          "schema": "source_build_turret_read_plans_state_input.reqs"
+        }
+      ],
+      "return_keys": [
+        "plans_to_add"
+      ],
+      "tests": [
+        "test_c07_build_turret_read_plans_registration",
+        "test_all_c07_build_turret_read_plans_input_evidence_is_exact",
+        "test_build_turret_read_plans_state",
+        "test_reference_graph_and_actual_c07_build_turret_read_plans"
+      ],
+      "runtime_proof": "/root/C07BuildTurretReadPlansProof",
+      "rule": "Source-backed BuildTurretBuild read() plans restore from BuildTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildTurretBuildState.source_build_turret_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_should_consume_state",
       "status": "active",

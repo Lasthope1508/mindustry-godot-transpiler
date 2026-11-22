@@ -268,6 +268,18 @@ static func source_build_turret_init_unit_type_state(rotate_speed: float) -> Dic
 	# NOT this slice: `if(elevation < 0) elevation = size / 2f;` (:53, already owned), `itemCapacity = 0;` (:62, already owned), `buildBeamOffset = BuildTurret.this.buildBeamOffset;` / `buildRange = BuildTurret.this.range;` / `buildSpeed = BuildTurret.this.buildSpeed;` / `constructor = BlockUnitUnit::create;` (:64-67, already owned at N2184), the opener :56 and the `}};` closer :68 (generic). The builder unit never moves, never takes hits and never shows in the unit list: hidden + internal, speed 0, hitSize 0, health 1 -- it exists only to carry the build plan.
 	return {"hidden": true, "internal": true, "speed": 0.0, "hit_size": 0.0, "health": 1, "rotate_speed": rotate_speed}
 
+static func source_build_turret_read_plans_state(reqs_null: bool, reqs: Array) -> Dictionary:
+	# BuildTurretBuild.read() (BuildTurret.java:266-278, `public void read(Reads read, byte revision){`) restores the builder unit's plans after `TypeIO.readPlans(read)` (:272, owned at N2184): when the read plans are null nothing is restored; otherwise each plan is added back to the unit plan queue in order (`unit.plans().add(req);`, :275). The rotation / clear / readPlans legs (:269-272) are owned at N2184 -- this slice is ONLY the null-guard + restore loop. The 3 exact exprs of N2429 (verbatim, one per line):
+	# - `if(reqs != null){`
+	# - `for(var req : reqs){`
+	# - `unit.plans().add(req);`
+	# NOT this slice: `super.read(read, revision);` (:268, generic), `rotation = read.f();` (:269, N2184), `unit.rotation(rotation);` (:270, N2184), `unit.plans().clear();` (:271, N2184 -- do not confuse with :275 `unit.plans().add(req);`), `var reqs = TypeIO.readPlans(read);` (:272, N2184). read() runs once per load, not per-tick, so this is a pure function over the caller-side reqs Array + reqs_null bool (TypeIO.readPlans already ran at N2184).
+	var plans_to_add: Array = []
+	if not reqs_null:
+		for req in reqs:
+			plans_to_add.append(req)
+	return {"plans_to_add": plans_to_add}
+
 @warning_ignore("unused_parameter")
 static func source_build_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the build-turret tick wiring every

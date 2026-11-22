@@ -254825,6 +254825,54 @@
       },
       "runtime_proof": "/root/C07TurretShootBulletLegsProof",
       "rule": "Source-backed TurretBuild.shoot()/bullet() leftover legs from Turret.java."
+    },
+    "source_build_turret_read_plans_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_read_plans_state",
+      "source_slice": "N2429",
+      "keys": {
+        "reqs_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "if(reqs != null){",
+          "rule": "Whether the read plans are null (BuildTurret.java:273, `if(reqs != null){`): TypeIO.readPlans returns null when no plans were written, so nothing is restored.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_read_plans_state"
+          ]
+        },
+        "reqs": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "for(var req : reqs){",
+          "rule": "The plans read back by TypeIO.readPlans (BuildTurret.java:272, `var reqs = TypeIO.readPlans(read);`, owned at N2184) iterated by the restore loop (BuildTurret.java:274, `for(var req : reqs){`): plan Dictionaries with x, y, rotation, block, config (the N2423 plan-Dictionary precedent).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_read_plans_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretReadPlansProof",
+      "rule": "Source-backed BuildTurretBuild read() plans restore from BuildTurret.java."
+    },
+    "source_build_turret_read_plans_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_read_plans_state",
+      "source_slice": "N2429",
+      "keys": {
+        "plans_to_add": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "unit.plans().add(req);",
+          "rule": "The plans to add back to the unit plan queue, in Java order (BuildTurret.java:275, `unit.plans().add(req);`): every req from the loop, duplicates kept.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_read_plans_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretReadPlansProof",
+      "rule": "Source-backed BuildTurretBuild read() plans restore from BuildTurret.java."
     }
   },
   "version": 1
