@@ -77179,6 +77179,124 @@
       ],
       "runtime_proof": "/root/C07TeamsCountPayloadBranchProof",
       "rule": "Source-backed Teams.count() payload branch state from Teams.java."
+    },
+    "SourceSoundControlState.source_sound_control_default_constructor_state": {
+      "status": "active",
+      "source_slice": "N2414",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "source_method": "SoundControl()",
+      "params": [
+        {
+          "name": "reload_handler",
+          "type": "Callable",
+          "schema": "source_sound_control_default_constructor_state_input.reload_handler"
+        },
+        {
+          "name": "wave_delay_ticks",
+          "type": "float",
+          "schema": "source_sound_control_default_constructor_state_input.wave_delay_ticks"
+        },
+        {
+          "name": "wave_is_boss",
+          "type": "bool",
+          "schema": "source_sound_control_default_constructor_state_input.wave_is_boss"
+        },
+        {
+          "name": "wave_chance_roll",
+          "type": "bool",
+          "schema": "source_sound_control_default_constructor_state_input.wave_chance_roll"
+        },
+        {
+          "name": "music_wave_chance",
+          "type": "float",
+          "schema": "source_sound_control_default_constructor_state_input.music_wave_chance"
+        },
+        {
+          "name": "play_boss_once",
+          "type": "Callable",
+          "schema": "source_sound_control_default_constructor_state_input.play_boss_once"
+        },
+        {
+          "name": "play_random",
+          "type": "Callable",
+          "schema": "source_sound_control_default_constructor_state_input.play_random"
+        },
+        {
+          "name": "filter",
+          "type": "Variant",
+          "schema": "source_sound_control_default_constructor_state_input.filter"
+        },
+        {
+          "name": "has_current",
+          "type": "bool",
+          "schema": "source_sound_control_default_constructor_state_input.has_current"
+        },
+        {
+          "name": "current",
+          "type": "String",
+          "schema": "source_sound_control_default_constructor_state_input.current"
+        },
+        {
+          "name": "fade",
+          "type": "float",
+          "schema": "source_sound_control_default_constructor_state_input.fade"
+        },
+        {
+          "name": "has_last_random_played",
+          "type": "bool",
+          "schema": "source_sound_control_default_constructor_state_input.has_last_random_played"
+        },
+        {
+          "name": "last_random_played",
+          "type": "String",
+          "schema": "source_sound_control_default_constructor_state_input.last_random_played"
+        },
+        {
+          "name": "should_play",
+          "type": "bool",
+          "schema": "source_sound_control_default_constructor_state_input.should_play"
+        },
+        {
+          "name": "has_boss_music",
+          "type": "bool",
+          "schema": "source_sound_control_default_constructor_state_input.has_boss_music"
+        },
+        {
+          "name": "boss_music",
+          "type": "String",
+          "schema": "source_sound_control_default_constructor_state_input.boss_music"
+        },
+        {
+          "name": "now_millis",
+          "type": "int",
+          "schema": "source_sound_control_default_constructor_state_input.now_millis"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "client_load_event",
+        "client_load_subscribed",
+        "reload_called",
+        "wave_event",
+        "wave_subscribed",
+        "wave_delay_ticks",
+        "music_wave_chance",
+        "wave_action",
+        "wave_music",
+        "reset_event",
+        "reset_subscribed",
+        "last_played",
+        "setup_filters_called",
+        "commands"
+      ],
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof",
+      "rule": "Source-backed SoundControl default constructor state from SoundControl.java."
     }
   },
   "policy": {

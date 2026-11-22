@@ -253154,6 +253154,334 @@
       },
       "runtime_proof": "/root/C07TeamsCountPayloadBranchProof",
       "rule": "Source-backed Teams.count() payload branch state from Teams.java."
+    },
+    "source_sound_control_default_constructor_state_input": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "source_slice": "N2414",
+      "keys": {
+        "reload_handler": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Events.on(ClientLoadEvent.class, e -> reload());",
+          "rule": "The ClientLoadEvent handler (SoundControl.java:46, `Events.on(ClientLoadEvent.class, e -> reload());`): arrives as a zero-arg Callable -- reload() itself is N2339 and is NOT re-ported here; the ctor registers the handler and the model fires it once, recording reload_called.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "wave_delay_ticks": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Events.on(WaveEvent.class, e -> Time.run(Mathf.random(8f, 15f) * 60f, () -> {",
+          "rule": "The Time.run delay for the WaveEvent leg (SoundControl.java:49, `Time.run(Mathf.random(8f, 15f) * 60f, () -> {`): 480-900 ticks (8-15s at 60fps); arrives as an explicit float param -- the RNG draw stays with the caller (the N2315 chance-roll precedent).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "wave_is_boss": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "boolean boss = state.rules.spawns.contains(group -> group.getSpawned(state.wave - 2) > 0 && group.effect == StatusEffects.boss);",
+          "rule": "Whether a boss spawned in the wave (SoundControl.java:50, `boolean boss = state.rules.spawns.contains(...)`): arrives as an explicit bool param -- the spawns lookup and `state.wave - 2` stay with the caller; selects the playOnce boss leg.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "wave_chance_roll": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "}else if(Mathf.chance(musicWaveChance)){",
+          "rule": "Whether the per-wave chance roll hit (SoundControl.java:54, `}else if(Mathf.chance(musicWaveChance)){`): arrives as an explicit bool param -- the RNG OUTCOME (the N2315 chance-roll precedent), so this function never rolls RNG itself; selects the playRandom leg when there is no boss.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "music_wave_chance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;",
+          "rule": "The musicWaveChance field (SoundControl.java:20, `musicWaveChance = 0.46f`): arrives as an explicit float param; the field itself is NOT re-registered -- only the chance-roll outcome drives the leg.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "play_boss_once": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "playOnce(getBossMusic().random(lastRandomPlayed));",
+          "rule": "The playOnce boss leg (SoundControl.java:53, `playOnce(getBossMusic().random(lastRandomPlayed));`): arrives as a Callable with the N2345 playOnce signature (has_music, music, has_current, current, fade, has_last_random_played, last_random_played, should_play) -- the caller owns the boss-music pick, so the random draw stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "play_random": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "playRandom();",
+          "rule": "The playRandom leg (SoundControl.java:55, `playRandom();`): arrives as a Callable with the N2347 playRandom signature (has_current, current, fade, has_last_random_played, last_random_played) -- the caller owns the boss / dark / ambient lists and the RNG draw, so the random pick stays with the caller.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "filter": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected AudioFilter filter = new BiquadFilter(){{",
+          "rule": "The SoundControl filter (SoundControl.java:39, `protected AudioFilter filter = new BiquadFilter(){{ set(0, 500, 1); }};`): arrives as an explicit opaque Variant param -- the driver owns the live filter object (the N2287 precedent); passed through to the setupFilters delegate (N2349).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "has_current": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(current != null && !current.isPlaying()){",
+          "rule": "Whether a track is currently playing (SoundControl.java:133, `if(current != null && !current.isPlaying()){`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent); passed to the music delegates.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "current": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected @Nullable Music current;",
+          "rule": "The currently playing track (SoundControl.java:34, `protected @Nullable Music current;`): arrives as an explicit String param, its name (the N2287 precedent); an unset current is passed as \"\" with has_current false and is never read.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "fade": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected float fade;",
+          "rule": "The fade level (SoundControl.java:35, `protected float fade;`): arrives as an explicit float param; passed to the music delegates.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "has_last_random_played": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Music lastRandomPlayed;",
+          "rule": "Whether a last random track is saved (SoundControl.java:31, `protected Music lastRandomPlayed;`): arrives as an explicit bool param -- the null check is folded into this param (the N2306 precedent); passed to the music delegates.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "last_random_played": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "protected Music lastRandomPlayed;",
+          "rule": "The last random track played (SoundControl.java:31, `protected Music lastRandomPlayed;`): arrives as an explicit String param, its name (the N2287 precedent); passed to the music delegates.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "should_play": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(!shouldPlay()){",
+          "rule": "The shouldPlay() gate (SoundControl.java:304, `if(!shouldPlay()){` in play()): arrives as an explicit bool param -- the gate itself is N2299 (`return Core.settings.getInt(\"musicvol\") > 0;`) and is NOT re-ported here; passed to the playOnce delegate.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "has_boss_music": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "playOnce(getBossMusic().random(lastRandomPlayed));",
+          "rule": "Whether a boss track was picked (SoundControl.java:53, `playOnce(getBossMusic().random(lastRandomPlayed));`): arrives as an explicit bool param -- the null check on the picked track is folded into this param (the N2306 precedent); only read when the wave is a boss wave.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "boss_music": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "playOnce(getBossMusic().random(lastRandomPlayed));",
+          "rule": "The picked boss track (SoundControl.java:53, `playOnce(getBossMusic().random(lastRandomPlayed));`): arrives as an explicit String param, its name (the N2287 precedent); only read when the wave is a boss wave.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "now_millis": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "lastPlayed = Time.millis();",
+          "rule": "The current time in millis (SoundControl.java:61, `lastPlayed = Time.millis();` in the ResetEvent leg): arrives as an explicit int param -- Time.millis() stays with the caller; the reset leg writes it to last_played.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof",
+      "rule": "Source-backed SoundControl default constructor state from SoundControl.java."
+    },
+    "source_sound_control_default_constructor_state_result": {
+      "status": "active",
+      "owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "source_slice": "N2414",
+      "keys": {
+        "client_load_event": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Events.on(ClientLoadEvent.class, e -> reload());",
+          "rule": "The event the first subscription listens to (SoundControl.java:46, `Events.on(ClientLoadEvent.class, e -> reload());`): the literal \"ClientLoadEvent\" -- the subscription is registered, never fired by the ctor itself.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "client_load_subscribed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Events.on(ClientLoadEvent.class, e -> reload());",
+          "rule": "Whether the ClientLoadEvent subscription is registered (SoundControl.java:46): always true -- the ctor unconditionally registers it.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "reload_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Events.on(ClientLoadEvent.class, e -> reload());",
+          "rule": "Whether the reload handler fired in the model (SoundControl.java:46): always true -- the model fires each registered handler once.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "wave_event": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Events.on(WaveEvent.class, e -> Time.run(Mathf.random(8f, 15f) * 60f, () -> {",
+          "rule": "The event the second subscription listens to (SoundControl.java:49, `Events.on(WaveEvent.class, e -> Time.run(...`): the literal \"WaveEvent\".",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "wave_subscribed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Events.on(WaveEvent.class, e -> Time.run(Mathf.random(8f, 15f) * 60f, () -> {",
+          "rule": "Whether the WaveEvent subscription is registered (SoundControl.java:49): always true -- the ctor unconditionally registers it.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "wave_delay_ticks": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Events.on(WaveEvent.class, e -> Time.run(Mathf.random(8f, 15f) * 60f, () -> {",
+          "rule": "The Time.run delay carried in the wave subscription (SoundControl.java:49, `Mathf.random(8f, 15f) * 60f`): the wave_delay_ticks param, carried out again -- 480-900 ticks.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "music_wave_chance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;",
+          "rule": "The musicWaveChance field carried in the wave subscription (SoundControl.java:20, `musicWaveChance = 0.46f`): the param, carried out again.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "wave_action": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "if(boss){",
+          "rule": "Which wave leg fired (SoundControl.java:52, `if(boss){` / :54 `}else if(Mathf.chance(musicWaveChance)){`): \"play_boss_once\" when the wave is a boss wave, \"play_random\" when it is not and the chance roll hit, \"none\" otherwise.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "wave_music": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "playOnce(getBossMusic().random(lastRandomPlayed));",
+          "rule": "The track the wave leg started (SoundControl.java:53, `playOnce(getBossMusic().random(lastRandomPlayed));`): the picked boss track when the boss leg fired, the playRandom pick when the random leg fired, \"\" when no leg fired.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "reset_event": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Events.on(ResetEvent.class, e -> {",
+          "rule": "The event the third subscription listens to (SoundControl.java:60, `Events.on(ResetEvent.class, e -> {`): the literal \"ResetEvent\".",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "reset_subscribed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Events.on(ResetEvent.class, e -> {",
+          "rule": "Whether the ResetEvent subscription is registered (SoundControl.java:60): always true -- the ctor unconditionally registers it.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "last_played": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "lastPlayed = Time.millis();",
+          "rule": "When the last track was started, in millis (SoundControl.java:61, `lastPlayed = Time.millis();` in the ResetEvent leg): now_millis when the reset leg fired in the model.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "setup_filters_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "setupFilters();",
+          "rule": "Whether setupFilters() ran (SoundControl.java:58, `setupFilters();`): always true -- the ctor calls it once, directly through the N2349 delegate.",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        },
+        "commands": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/audio/SoundControl.java",
+          "java_expr": "Core.audio.soundBus.stop();",
+          "rule": "The playback commands this call issues, in ctor order (SoundControl.java:58 setupFilters / :64 soundBus.stop / :65 soundBus.play, plus the delegate commands from playOnce / playRandom): the setupFilters commands first (they run at construction time), then the fired wave-leg commands, then the reset-leg sound_bus_stop / sound_bus_play. One Dictionary per call (`action`, plus `slot`/`param`/`value` for the filter, `track` for track commands). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+          "used_by": [
+            "SourceSoundControlState.source_sound_control_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof",
+      "rule": "Source-backed SoundControl default constructor state from SoundControl.java."
     }
   },
   "version": 1

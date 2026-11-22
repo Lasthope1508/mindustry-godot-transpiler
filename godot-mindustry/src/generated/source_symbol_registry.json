@@ -184520,6 +184520,230 @@
         "test_reference_graph_and_actual_c07_teams_count_payload_branch"
       ],
       "runtime_proof": "/root/C07TeamsCountPayloadBranchProof"
+    },
+    "source_sound_control_default_constructor_state_result.client_load_event": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.client_load_event",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "Events.on(ClientLoadEvent.class, e -> reload());",
+      "rule": "The event the first subscription listens to (SoundControl.java:46, `Events.on(ClientLoadEvent.class, e -> reload());`): the literal \"ClientLoadEvent\" -- the subscription is registered, never fired by the ctor itself.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.client_load_subscribed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.client_load_subscribed",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "Events.on(ClientLoadEvent.class, e -> reload());",
+      "rule": "Whether the ClientLoadEvent subscription is registered (SoundControl.java:46): always true -- the ctor unconditionally registers it.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.reload_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.reload_called",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "Events.on(ClientLoadEvent.class, e -> reload());",
+      "rule": "Whether the reload handler fired in the model (SoundControl.java:46): always true -- the model fires each registered handler once.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.wave_event": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.wave_event",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "Events.on(WaveEvent.class, e -> Time.run(Mathf.random(8f, 15f) * 60f, () -> {",
+      "rule": "The event the second subscription listens to (SoundControl.java:49, `Events.on(WaveEvent.class, e -> Time.run(...`): the literal \"WaveEvent\".",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.wave_subscribed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.wave_subscribed",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "Events.on(WaveEvent.class, e -> Time.run(Mathf.random(8f, 15f) * 60f, () -> {",
+      "rule": "Whether the WaveEvent subscription is registered (SoundControl.java:49): always true -- the ctor unconditionally registers it.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.wave_delay_ticks": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.wave_delay_ticks",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "Events.on(WaveEvent.class, e -> Time.run(Mathf.random(8f, 15f) * 60f, () -> {",
+      "rule": "The Time.run delay carried in the wave subscription (SoundControl.java:49, `Mathf.random(8f, 15f) * 60f`): the wave_delay_ticks param, carried out again -- 480-900 ticks.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.music_wave_chance": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.music_wave_chance",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "public float finTime = 120f, foutTime = 120f, musicInterval = 3f * Time.toMinutes, musicChance = 0.8f, musicWaveChance = 0.46f;",
+      "rule": "The musicWaveChance field carried in the wave subscription (SoundControl.java:20, `musicWaveChance = 0.46f`): the param, carried out again.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.wave_action": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.wave_action",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "if(boss){",
+      "rule": "Which wave leg fired (SoundControl.java:52, `if(boss){` / :54 `}else if(Mathf.chance(musicWaveChance)){`): \"play_boss_once\" when the wave is a boss wave, \"play_random\" when it is not and the chance roll hit, \"none\" otherwise.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.wave_music": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.wave_music",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "playOnce(getBossMusic().random(lastRandomPlayed));",
+      "rule": "The track the wave leg started (SoundControl.java:53, `playOnce(getBossMusic().random(lastRandomPlayed));`): the picked boss track when the boss leg fired, the playRandom pick when the random leg fired, \"\" when no leg fired.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.reset_event": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.reset_event",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "Events.on(ResetEvent.class, e -> {",
+      "rule": "The event the third subscription listens to (SoundControl.java:60, `Events.on(ResetEvent.class, e -> {`): the literal \"ResetEvent\".",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.reset_subscribed": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.reset_subscribed",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "Events.on(ResetEvent.class, e -> {",
+      "rule": "Whether the ResetEvent subscription is registered (SoundControl.java:60): always true -- the ctor unconditionally registers it.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.last_played": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.last_played",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "lastPlayed = Time.millis();",
+      "rule": "When the last track was started, in millis (SoundControl.java:61, `lastPlayed = Time.millis();` in the ResetEvent leg): now_millis when the reset leg fired in the model.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.setup_filters_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.setup_filters_called",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "setupFilters();",
+      "rule": "Whether setupFilters() ran (SoundControl.java:58, `setupFilters();`): always true -- the ctor calls it once, directly through the N2349 delegate.",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_sound_control_default_constructor_state_result.commands": {
+      "status": "source-backed",
+      "godot_owner": "SourceSoundControlState.source_sound_control_default_constructor_state",
+      "godot_symbol": "source_sound_control_default_constructor_state_result.commands",
+      "java_source": "core/src/mindustry/audio/SoundControl.java",
+      "java_method": "SoundControl()",
+      "java_expr": "Core.audio.soundBus.stop();",
+      "rule": "The playback commands this call issues, in ctor order (SoundControl.java:58 setupFilters / :64 soundBus.stop / :65 soundBus.play, plus the delegate commands from playOnce / playRandom): the setupFilters commands first (they run at construction time), then the fired wave-leg commands, then the reset-leg sound_bus_stop / sound_bus_play. One Dictionary per call (`action`, plus `slot`/`param`/`value` for the filter, `track` for track commands). The driver applies them -- this slice NEVER plays audio itself; playback belongs to updateLoops (N2304, held waiting for B).",
+      "tests": [
+        "test_c07_sound_control_default_constructor_registration",
+        "test_all_c07_sound_control_default_constructor_input_evidence_is_exact",
+        "test_sound_control_default_constructor_state",
+        "test_reference_graph_and_actual_c07_sound_control_default_constructor"
+      ],
+      "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
     }
   },
   "version": 1

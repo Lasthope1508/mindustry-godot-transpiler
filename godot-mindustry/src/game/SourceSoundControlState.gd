@@ -1156,3 +1156,123 @@ static func source_sound_control_update_state(is_game: bool, has_dialog: bool, h
 	# waiting for B: only the call site is ported here.
 	update_loops.call()
 	return {"paused": out_paused, "playing": out_playing, "was_playing": out_was_playing, "current": out_current, "fade": out_fade, "silenced": out_silenced, "keep_silent": out_keep_silent, "last_played": out_last_played, "last_random_played": out_last_random_played, "commands": commands, "update_loops_called": true}
+
+static func source_sound_control_default_constructor_state(reload_handler: Callable, wave_delay_ticks: float, wave_is_boss: bool, wave_chance_roll: bool, music_wave_chance: float, play_boss_once: Callable, play_random: Callable, filter: Variant, has_current: bool, current: String, fade: float, has_last_random_played: bool, last_random_played: String, should_play: bool, has_boss_music: bool, boss_music: String, now_millis: int) -> Dictionary:
+	# SoundControl() (SoundControl.java:45-68): the ctor
+	# registers three event subscriptions and calls
+	# setupFilters() once, kept in Java order. The ctor
+	# itself never plays audio and never calls the engine:
+	# the three subscriptions arrive as explicit Callables
+	# (the N2377 drawer-Callable + N2411 driver-tick
+	# precedent), and every game-state read arrives as an
+	# explicit param. This pure function models construct
+	# + one firing of each subscription: the setupFilters
+	# call runs at construction time, then each handler
+	# is evaluated once with its explicit inputs.
+	# SCOPE CORRECTION (re-probed at base 1571952f): the
+	# draft (batch 30 §1) listed 12 lines as 0-hit, probed
+	# BEFORE N2411 merged. N2411 (SoundControl.update(),
+	# SoundControl.java:128-195) already owns
+	# `setupFilters();` (:149), `lastPlayed =
+	# Time.millis();` (:188), `Core.audio.soundBus.stop();`
+	# (:152) and `Core.audio.soundBus.play();` (:148/:156)
+	# -- the same lines repeat in update() -- so this
+	# slice owns only the 8 lines below and drives the
+	# other four through the N2349 delegate and the
+	# reset-leg commands, never re-registering them.
+	# `playOnce(getBossMusic().random(lastRandomPlayed));`
+	# (:53) is N2326/N2347-owned and `playRandom();`
+	# (:55) is N2306-owned; the ctor only drives them
+	# through the play_boss_once / play_random Callables.
+	# `musicWaveChance` is the field (SoundControl.java:20,
+	# `musicWaveChance = 0.46f`); it arrives as an explicit
+	# param, never re-registered as a field. The wave
+	# delay `Mathf.random(8f, 15f) * 60f` (SoundControl.java:49)
+	# is a ticks delay for Time.run (480-900 ticks, 8-15s
+	# at 60fps); the RNG draw arrives as the explicit
+	# wave_delay_ticks param (the N2315 chance-roll
+	# precedent), so this function never rolls RNG itself.
+	# The boss check `state.rules.spawns.contains(group ->
+	# group.getSpawned(state.wave - 2) > 0 && group.effect
+	# == StatusEffects.boss)` (SoundControl.java:50) reads
+	# live game state, so its OUTCOME arrives as the
+	# explicit wave_is_boss param; `state.wave - 2` and
+	# the spawn lookup stay with the caller.
+	# NO audio playback in this slice: the bus calls
+	# (soundBus.stop / play) and the playback calls are
+	# returned as command state, never executed -- the
+	# sound-bus numeric id is driver-owned; playback
+	# belongs to updateLoops (N2304, held waiting for B).
+	var commands: Array = []
+	# `Events.on(ClientLoadEvent.class, e -> reload());`
+	# (SoundControl.java:46) -- reload() (N2339) arrives
+	# as the zero-arg reload_handler Callable; the ctor
+	# registers it, the model fires it once and records
+	# the call.
+	reload_handler.call()
+	# `Events.on(WaveEvent.class, e -> Time.run(Mathf.random(8f, 15f) * 60f, () -> {`
+	# (SoundControl.java:49) -- the wave handler is
+	# registered with its delay; the leg below is the
+	# body that runs once the delay elapses.
+	# `boolean boss = state.rules.spawns.contains(group -> group.getSpawned(state.wave - 2) > 0 && group.effect == StatusEffects.boss);`
+	# (SoundControl.java:50) -- arrives as wave_is_boss.
+	var wave_action := "none"
+	var wave_music := ""
+	# `if(boss){`
+	# (SoundControl.java:52).
+	if wave_is_boss:
+		# `playOnce(getBossMusic().random(lastRandomPlayed));`
+		# (SoundControl.java:53) -- the N2345 delegate via
+		# the play_boss_once Callable; the picked boss
+		# track (getBossMusic().random(lastRandomPlayed))
+		# arrives as the explicit boss_music param, with
+		# has_boss_music folding the null check (the N2306
+		# precedent). The N2345 result merges back in.
+		var boss_picked: Dictionary = play_boss_once.call(has_boss_music, boss_music, has_current, current, fade, has_last_random_played, last_random_played, should_play)
+		wave_action = "play_boss_once"
+		var boss_current = boss_picked.get("current", boss_music)
+		wave_music = boss_music if boss_current == null else String(boss_current)
+		commands.append_array(boss_picked.get("commands", []) as Array)
+	# `}else if(Mathf.chance(musicWaveChance)){`
+	# (SoundControl.java:54) -- the RNG outcome arrives
+	# as the explicit wave_chance_roll param (the N2315
+	# precedent); music_wave_chance is the field value.
+	elif wave_chance_roll:
+		# `playRandom();`
+		# (SoundControl.java:55) -- the N2347 delegate via
+		# the play_random Callable. The N2347 result merges
+		# back in.
+		var random_picked: Dictionary = play_random.call(has_current, current, fade, has_last_random_played, last_random_played)
+		wave_action = "play_random"
+		var random_current = random_picked.get("current", "")
+		wave_music = "" if random_current == null else String(random_current)
+		commands.append_array(random_picked.get("commands", []) as Array)
+	# `}));`
+	# (SoundControl.java:56) -- closes the Time.run lambda
+	# and the WaveEvent subscription.
+	# `setupFilters();`
+	# (SoundControl.java:58) -- the N2349 delegate, called
+	# directly (same call as N2411 update() :149). Runs at
+	# construction time, so its commands come first.
+	var filters: Dictionary = source_sound_control_setup_filters_state(filter)
+	var setup_commands: Array = filters.get("commands", []) as Array
+	commands = setup_commands + commands
+	# `Events.on(ResetEvent.class, e -> {`
+	# (SoundControl.java:60) -- the reset handler is
+	# registered; the leg below is its body, evaluated
+	# once with the explicit now_millis.
+	# `lastPlayed = Time.millis();`
+	# (SoundControl.java:61, already owned by N2411 -- the
+	# write happens here, the line is not re-registered).
+	# `Core.audio.soundBus.stop();`
+	# (SoundControl.java:64, already owned by N2411 -- the
+	# command is recorded here, never executed).
+	# `Core.audio.soundBus.play();`
+	# (SoundControl.java:65, already owned by N2411 -- the
+	# command is recorded here, never executed).
+	commands.append({"action": "sound_bus_stop"})
+	commands.append({"action": "sound_bus_play"})
+	# `});`
+	# (SoundControl.java:66) -- closes the ResetEvent
+	# subscription.
+	return {"client_load_event": "ClientLoadEvent", "client_load_subscribed": true, "reload_called": true, "wave_event": "WaveEvent", "wave_subscribed": true, "wave_delay_ticks": wave_delay_ticks, "music_wave_chance": music_wave_chance, "wave_action": wave_action, "wave_music": wave_music, "reset_event": "ResetEvent", "reset_subscribed": true, "last_played": now_millis, "setup_filters_called": true, "commands": commands}
