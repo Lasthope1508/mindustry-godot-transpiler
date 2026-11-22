@@ -104,10 +104,11 @@ static func source_beam_drill_power_status_row_state(frame: Dictionary, has_powe
 	# plasma hydrogen booster and large hydrogen + nitrogen
 	# booster liquid rows wait for their own slices, so the
 	# folded efficiency is the min over the *modeled*
-	# consumers (power only). (2) No shouldConsume gate --
-	# BeamDrillBuild.shouldConsume() (BeamDrill.java:270-271,
-	# `return items.total() < itemCapacity && facingAmount > 0 && enabled;`) needs items/facing state the tick
-	# does not track yet; the machinery runs with
+	# consumers (power only). (2) No shouldConsume tick wiring --
+	# the pure predicate is ported at N2417
+	# (source_beam_drill_should_consume_state); the tick does
+	# not call it yet (it needs items/facing state the tick
+	# does not track), so the machinery runs with
 	# should_consume=true when enabled. (3) No updateTile
 	# advance -- warmup / multiplier / lastDrillSpeed / time
 	# / dump (BeamDrill.java:237-263) wait for their own
@@ -174,10 +175,11 @@ static func source_beam_drill_tick_buildings_state(game: Object, seconds: float)
 		# no power consumer is untouched: the tick models no other
 		# consumers yet (the plasma hydrogen booster and large
 		# hydrogen + nitrogen booster liquid rows wait for their
-		# own slices), and there is no shouldConsume gate yet
-		# (BeamDrill.java:270-271 needs items/facing state the
-		# tick does not track), so the machinery runs with
-		# should_consume=true when enabled.
+		# own slices), and the tick does not call the N2417
+		# shouldConsume predicate yet (BeamDrill.java:269-272
+		# needs items/facing state the tick does not track),
+		# so the machinery runs with should_consume=true when
+		# enabled.
 		# productionValid is the canonical true default
 		# (SourceBuildingAccessState.production_valid_state()).
 		var has_power_consumer: bool = bool(block.properties.has("consumePower"))
@@ -1524,3 +1526,44 @@ static func source_beam_drill_default_constructor_state(frame: Dictionary, block
 	var ignore_line_rotation: bool = true
 	var ambient_sound_volume: float = 0.05
 	return {"name": block_name, "draw_arrow": draw_arrow, "region_rotated_1": region_rotated_1, "ignore_line_rotation": ignore_line_rotation, "ambient_sound_volume": ambient_sound_volume, "ambient_sound": ambient_sound, "flags": block_flags}
+
+@warning_ignore("unused_parameter")
+static func source_beam_drill_outputs_items_state(frame: Dictionary) -> Dictionary:
+	# BeamDrill.outputsItems() (BeamDrill.java:98-100):
+	# @Override
+	# public boolean outputsItems(){
+	# return true;
+	# }
+	# The override is unconditional: a beam drill always outputs items, whatever the frame holds -- it overrides the base Block.outputsItems() (Block.java:601-603, `public boolean outputsItems(){` / `return hasItems;`), which reads the hasItems flag the ctor sets true. frame carries no live keys for this block-level read -- it is the canonical first param of this family file (the N2318 canPickup accessor precedent). There is NO driver tick line: outputsItems() is a load-time block predicate, not a per-tick write.
+	return {"outputs_items": true}
+
+@warning_ignore("unused_parameter")
+static func source_beam_drill_rotated_output_state(frame: Dictionary, x: int, y: int) -> Dictionary:
+	# BeamDrill.rotatedOutput(int, int) (BeamDrill.java:103-105):
+	# @Override
+	# public boolean rotatedOutput(int x, int y){
+	# return false;
+	# }
+	# The override is unconditional: a beam drill never has a rotated output, whatever tile (x, y) is asked about -- it overrides the base Block.rotatedOutput(int, int) (Block.java:615-617, `public boolean rotatedOutput(int x, int y){` / `return rotate;`), which reads the rotate flag. x and y arrive as explicit params and are unused by the override (the N2318 accessor precedent: unconditional overrides keep their params). frame carries no live keys -- the canonical first param of this family file. There is NO driver tick line: rotatedOutput() is a load-time placement predicate, not a per-tick write.
+	return {"rotated_output": false}
+
+static func source_beam_drill_icons_state(region: Variant, top_region: Variant) -> Dictionary:
+	# BeamDrill.icons() (BeamDrill.java:108-110):
+	# @Override
+	# public TextureRegion[] icons(){
+	# return new TextureRegion[]{region, topRegion};
+	# }
+	# This slice pins ONLY the override's two-element return array, region first. region is the inherited block region (Block.java:427): `public TextureRegion region;` -- the block's own region, the block name. topRegion is the BeamDrill field (BeamDrill.java:36): `public @Load("@-top") TextureRegion topRegion;` -- loaded as name + "-top". The Block.icons() base (`protected TextureRegion[] icons(){`, Block.java:976-980, the variants/teamRegion fold) is NOT this slice: BeamDrill overrides it. The getGeneratedIcons cache (`public TextureRegion[] getGeneratedIcons(){`, Block.java:986, `return generatedIcons == null ? (generatedIcons = icons()) : generatedIcons;`, Block.java:987) is likewise deferred -- only the override's return array is pinned (the N2312 BurstDrill.icons() precedent -- the twin of this slice: the same return line, a different class; each class owns its own icons()).
+	# Per-def region ids: plasma-bore ("plasma-bore", Blocks.java:3038) -> ["plasma-bore", "plasma-bore-top"]; large-plasma-bore ("large-plasma-bore", Blocks.java:3052) -> ["large-plasma-bore", "large-plasma-bore-top"].
+	# There is no driver tick line: icons() is a load-time region accessor, not a per-tick write (the N2217 read/write + N2224 setStats lifecycle precedent).
+	var icons: Array = [region, top_region]
+	return {"icons": icons}
+
+static func source_beam_drill_should_consume_state(items_total: int, item_capacity: int, facing_amount: int, enabled: bool) -> Dictionary:
+	# BeamDrillBuild.shouldConsume() (BeamDrill.java:269-272):
+	# @Override
+	# public boolean shouldConsume(){
+	# return items.total() < itemCapacity && facingAmount > 0 && enabled;
+	# }
+	# The gate is the three-way conjunction: the item store has room (`items.total()`, the ItemModule total, under `itemCapacity`, the block capacity -- Block.java:75, `public int itemCapacity = 10;`, large-plasma-bore overrides it to 20, Blocks.java:3062), at least one facing tile is drilled (`facingAmount`, the BeamDrillBuild field, BeamDrill.java:228, `public int facingAmount;`, set by updateFacing, N2379), and the build is enabled (`enabled`, BuildingComp.java:77, `transient boolean enabled = true;`). items.total() / facingAmount / enabled / itemCapacity arrive as explicit params -- no live engine call (the N2398 updateTile precedent: the capacity gate there reads the same items_total / item_capacity params). The return line is evidence-only in N2155 (the power-status row); N2417 is the first GD func of its own. There is NO driver tick line here: this slice ports only the pure predicate -- the tick driver still runs should_consume=true when enabled and waits for a wiring slice to call it (see the DEFERRED entry carried in the N2417 register script).
+	return {"should_consume": items_total < item_capacity and facing_amount > 0 and enabled}

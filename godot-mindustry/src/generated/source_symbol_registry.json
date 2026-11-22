@@ -184776,6 +184776,70 @@
         "test_reference_graph_and_actual_c07_payload_ammo_turret_default_constructor"
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof"
+    },
+    "source_beam_drill_outputs_items_state_result.outputs_items": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state",
+      "godot_symbol": "source_beam_drill_outputs_items_state_result.outputs_items",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.outputsItems()",
+      "java_expr": "return true;",
+      "rule": "Whether the beam drill outputs items: outputsItems() (BeamDrill.java:98-100), `return true;` -- always true, whatever the frame holds; the override flips the base Block.outputsItems() (Block.java:601-603, `return hasItems;`).",
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof"
+    },
+    "source_beam_drill_rotated_output_state_result.rotated_output": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_rotated_output_state",
+      "godot_symbol": "source_beam_drill_rotated_output_state_result.rotated_output",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.rotatedOutput(int, int)",
+      "java_expr": "return false;",
+      "rule": "Whether the beam drill has a rotated output at (x, y): rotatedOutput() (BeamDrill.java:103-105), `return false;` -- always false, whatever tile is asked about; the override flips the base Block.rotatedOutput(int, int) (Block.java:615-617, `return rotate;`).",
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof"
+    },
+    "source_beam_drill_icons_state_result.icons": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_icons_state",
+      "godot_symbol": "source_beam_drill_icons_state_result.icons",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.icons()",
+      "java_expr": "return new TextureRegion[]{region, topRegion};",
+      "rule": "The icons() return array: [region, topRegion], region first, exactly 2 elements (BeamDrill.java:109, `return new TextureRegion[]{region, topRegion};`); plasma-bore [\"plasma-bore\", \"plasma-bore-top\"] (Blocks.java:3038) and large-plasma-bore [\"large-plasma-bore\", \"large-plasma-bore-top\"] (Blocks.java:3052). The Block.icons() base (Block.java:976-980, variants/teamRegion fold) and the getGeneratedIcons cache (Block.java:986-988) are deferred (the N2312 precedent) -- only the override return array is pinned.",
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof"
+    },
+    "source_beam_drill_should_consume_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_should_consume_state",
+      "godot_symbol": "source_beam_drill_should_consume_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrillBuild.shouldConsume()",
+      "java_expr": "return items.total() < itemCapacity && facingAmount > 0 && enabled;",
+      "rule": "Whether the beam drill should consume: shouldConsume() (BeamDrill.java:269-272), `return items.total() < itemCapacity && facingAmount > 0 && enabled;` -- the three-way conjunction: item-store room, at least one facing tile, and enabled. The return line is evidence-only in N2155 (the power-status row); N2417 is the first GD func of its own.",
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof"
     }
   },
   "version": 1

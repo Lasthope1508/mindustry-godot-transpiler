@@ -77328,6 +77328,136 @@
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof",
       "rule": "Source-backed PayloadAmmoTurret() ctor field default state from PayloadAmmoTurret.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state": {
+      "status": "active",
+      "source_slice": "N2417",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.outputsItems()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_outputs_items_state_input.frame"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "outputs_items"
+      ],
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.outputsItems() state from BeamDrill.java + Block.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_rotated_output_state": {
+      "status": "active",
+      "source_slice": "N2417",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.rotatedOutput(int, int)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_rotated_output_state_input.frame"
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_beam_drill_rotated_output_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_beam_drill_rotated_output_state_input.y"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotated_output"
+      ],
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.rotatedOutput(int, int) state from BeamDrill.java + Block.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_icons_state": {
+      "status": "active",
+      "source_slice": "N2417",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.icons()",
+      "params": [
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_beam_drill_icons_state_input.region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_beam_drill_icons_state_input.top_region"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "icons"
+      ],
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.icons() state from BeamDrill.java + Block.java."
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_should_consume_state": {
+      "status": "active",
+      "source_slice": "N2417",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "items_total",
+          "type": "int",
+          "schema": "source_beam_drill_should_consume_state_input.items_total"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_beam_drill_should_consume_state_input.item_capacity"
+        },
+        {
+          "name": "facing_amount",
+          "type": "int",
+          "schema": "source_beam_drill_should_consume_state_input.facing_amount"
+        },
+        {
+          "name": "enabled",
+          "type": "bool",
+          "schema": "source_beam_drill_should_consume_state_input.enabled"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrillBuild.shouldConsume() state from BeamDrill.java + Block.java."
     }
   },
   "policy": {

@@ -1572,6 +1572,26 @@
       ],
       "runtime_proof": "/root/C07DrillBurstDrillDefaultConstructorProof"
     },
+    "N2417": {
+      "canonical_ledger": "source_slice_ledger.N2417",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.outputsItems()/BeamDrill.rotatedOutput(int, int)/BeamDrill.icons()/BeamDrillBuild.shouldConsume()",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state",
+      "source_symbols": [
+        "source_beam_drill_outputs_items_state_result.outputs_items",
+        "source_beam_drill_rotated_output_state_result.rotated_output",
+        "source_beam_drill_icons_state_result.icons",
+        "source_beam_drill_should_consume_state_result.should_consume"
+      ],
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

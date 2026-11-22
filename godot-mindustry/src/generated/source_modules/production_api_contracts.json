@@ -1036,6 +1036,32 @@
       "rule": "Source-backed BeamDrillBuild.draw() state from BeamDrill.java.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_outputs_items_state",
+      "status": "active",
+      "source_slice": "N2417",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.outputsItems()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_outputs_items_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "outputs_items"
+      ],
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.outputsItems() state from BeamDrill.java + Block.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_power_status_row_state",
       "status": "active",

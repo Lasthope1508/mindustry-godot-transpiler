@@ -253540,6 +253540,218 @@
       },
       "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof",
       "rule": "Source-backed PayloadAmmoTurret() ctor field default state from PayloadAmmoTurret.java."
+    },
+    "source_beam_drill_outputs_items_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state",
+      "source_slice": "N2417",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public boolean outputsItems(){",
+          "rule": "The beam-drill frame (BeamDrill.outputsItems, BeamDrill.java:98): the family-convention first arg (every BeamDrill pure function takes it); the override takes no state, so the frame is unused (the N2318 canPickup accessor precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.outputsItems() state from BeamDrill.java + Block.java."
+    },
+    "source_beam_drill_outputs_items_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state",
+      "source_slice": "N2417",
+      "keys": {
+        "outputs_items": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return true;",
+          "rule": "Whether the beam drill outputs items: outputsItems() (BeamDrill.java:98-100), `return true;` -- always true, whatever the frame holds; the override flips the base Block.outputsItems() (Block.java:601-603, `return hasItems;`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.outputsItems() state from BeamDrill.java + Block.java."
+    },
+    "source_beam_drill_rotated_output_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_rotated_output_state",
+      "source_slice": "N2417",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public boolean rotatedOutput(int x, int y){",
+          "rule": "The beam-drill frame (BeamDrill.rotatedOutput, BeamDrill.java:103): the family-convention first arg; the override takes no state, so the frame is unused (the N2318 accessor precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_rotated_output_state"
+          ]
+        },
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public boolean rotatedOutput(int x, int y){",
+          "rule": "The tile x asked about (BeamDrill.java:103, `rotatedOutput(int x, int y)`): an explicit param, unused by the override -- the override is unconditional (the N2318 accessor precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_rotated_output_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public boolean rotatedOutput(int x, int y){",
+          "rule": "The tile y asked about (BeamDrill.java:103, `rotatedOutput(int x, int y)`): an explicit param, unused by the override -- the override is unconditional (the N2318 accessor precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_rotated_output_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.rotatedOutput(int, int) state from BeamDrill.java + Block.java."
+    },
+    "source_beam_drill_rotated_output_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_rotated_output_state",
+      "source_slice": "N2417",
+      "keys": {
+        "rotated_output": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return false;",
+          "rule": "Whether the beam drill has a rotated output at (x, y): rotatedOutput() (BeamDrill.java:103-105), `return false;` -- always false, whatever tile is asked about; the override flips the base Block.rotatedOutput(int, int) (Block.java:615-617, `return rotate;`).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_rotated_output_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.rotatedOutput(int, int) state from BeamDrill.java + Block.java."
+    },
+    "source_beam_drill_icons_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_icons_state",
+      "source_slice": "N2417",
+      "keys": {
+        "region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public TextureRegion region;",
+          "rule": "The inherited block region (Block.java:427, `public TextureRegion region;`); passed explicitly because it is per-def static state, not a live frame key (the N2212 acquire / N2220 draw-place per-def-param precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_icons_state"
+          ]
+        },
+        "top_region": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(\"@-top\") TextureRegion topRegion;",
+          "rule": "The BeamDrill top region (BeamDrill.java:36, `public @Load(\"@-top\") TextureRegion topRegion;`, loaded as name + \"-top\"); passed explicitly because it is per-def static state, not a live frame key (the N2312 BurstDrill.icons twin precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_icons_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.icons() state from BeamDrill.java + Block.java."
+    },
+    "source_beam_drill_icons_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_icons_state",
+      "source_slice": "N2417",
+      "keys": {
+        "icons": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return new TextureRegion[]{region, topRegion};",
+          "rule": "The icons() return array: [region, topRegion], region first, exactly 2 elements (BeamDrill.java:109, `return new TextureRegion[]{region, topRegion};`); plasma-bore [\"plasma-bore\", \"plasma-bore-top\"] (Blocks.java:3038) and large-plasma-bore [\"large-plasma-bore\", \"large-plasma-bore-top\"] (Blocks.java:3052). The Block.icons() base (Block.java:976-980, variants/teamRegion fold) and the getGeneratedIcons cache (Block.java:986-988) are deferred (the N2312 precedent) -- only the override return array is pinned.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_icons_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.icons() state from BeamDrill.java + Block.java."
+    },
+    "source_beam_drill_should_consume_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_should_consume_state",
+      "source_slice": "N2417",
+      "keys": {
+        "items_total": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return items.total() < itemCapacity && facingAmount > 0 && enabled;",
+          "rule": "The current item count (BeamDrill.java:271, `items.total()` inside the shouldConsume gate): the ItemModule total; the gate needs room under itemCapacity (the N2398 updateTile capacity-gate precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_should_consume_state"
+          ]
+        },
+        "item_capacity": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return items.total() < itemCapacity && facingAmount > 0 && enabled;",
+          "rule": "The block item capacity (BeamDrill.java:271, `itemCapacity` inside the shouldConsume gate): the ItemModule cap (Block.java:75, `public int itemCapacity = 10;`, large-plasma-bore overrides it to 20, Blocks.java:3062).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_should_consume_state"
+          ]
+        },
+        "facing_amount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return items.total() < itemCapacity && facingAmount > 0 && enabled;",
+          "rule": "The facing tile count (BeamDrill.java:271, `facingAmount` inside the shouldConsume gate): the BeamDrillBuild field (`public int facingAmount;`, BeamDrill.java:228), set by updateFacing (N2379); the gate needs at least one facing tile drilled.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_should_consume_state"
+          ]
+        },
+        "enabled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "transient boolean enabled = true;",
+          "rule": "Whether the build is enabled (BeamDrill.java:271, `enabled` inside the shouldConsume gate): the Building field (`transient boolean enabled = true;`, BuildingComp.java:77) -- the gate needs the build enabled.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrillBuild.shouldConsume() state from BeamDrill.java + Block.java."
+    },
+    "source_beam_drill_should_consume_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_should_consume_state",
+      "source_slice": "N2417",
+      "keys": {
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return items.total() < itemCapacity && facingAmount > 0 && enabled;",
+          "rule": "Whether the beam drill should consume: shouldConsume() (BeamDrill.java:269-272), `return items.total() < itemCapacity && facingAmount > 0 && enabled;` -- the three-way conjunction: item-store room, at least one facing tile, and enabled. The return line is evidence-only in N2155 (the power-status row); N2417 is the first GD func of its own.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_should_consume_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrillBuild.shouldConsume() state from BeamDrill.java + Block.java."
     }
   },
   "version": 1

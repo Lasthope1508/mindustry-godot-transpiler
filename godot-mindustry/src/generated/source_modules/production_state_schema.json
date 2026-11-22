@@ -786,6 +786,21 @@
         }
       }
     },
+    "source_beam_drill_outputs_items_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_outputs_items_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public boolean outputsItems(){",
+          "rule": "The beam-drill frame (BeamDrill.outputsItems, BeamDrill.java:98): the family-convention first arg (every BeamDrill pure function takes it); the override takes no state, so the frame is unused (the N2318 canPickup accessor precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_power_status_row_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_power_status_row_state_input",
       "keys": {
