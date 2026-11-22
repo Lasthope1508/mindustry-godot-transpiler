@@ -5,7 +5,7 @@ Ngày: 2026-11-22 ~12:15 +07 (proof xanh, đọc trực tiếp proof .json mtime
 ## Trạng thái
 
 - N2529 DONE + PUSHED (origin/main 50bde34b).
-- N2530 DONE + PUSHED (slice 611231fe, docs 1d874d53, GOAL d1b8433a, status TBD): port `canControl()` của `TurretBuild` thành 1 pure function mới `source_turret_can_control_state` (SourceTurretBuildState.gd:632) cho Turret family — KHÔNG driver tick call site (canControl() là read predicate, không phải per-tick; không caller nào đọc nó hôm nay, player control / UI là C11). Hàm nhận 1 tham số duy nhất `player_controllable: bool`, trả đúng 1 key `can_control`.
+- N2530 DONE + PUSHED (slice 611231fe, docs 1d874d53, GOAL d1b8433a, status 9eb0cce7): port `canControl()` của `TurretBuild` thành 1 pure function mới `source_turret_can_control_state` (SourceTurretBuildState.gd:632) cho Turret family — KHÔNG driver tick call site (canControl() là read predicate, không phải per-tick; không caller nào đọc nó hôm nay, player control / UI là C11). Hàm nhận 1 tham số duy nhất `player_controllable: bool`, trả đúng 1 key `can_control`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
