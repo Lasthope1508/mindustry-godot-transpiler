@@ -184872,6 +184872,22 @@
         "test_reference_graph_and_actual_c07_laser_turret_active_sound_volume"
       ],
       "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof"
+    },
+    "source_item_turret_efficiency_state_result.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_item_turret_efficiency_state",
+      "godot_symbol": "source_item_turret_efficiency_state_result.efficiency",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurret.init() ConsumeItemFilter.efficiency(Building build)",
+      "java_expr": "return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;",
+      "rule": "The consumer efficiency (ItemTurret.java:86, `return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;`): 1.0 exactly when the build is an ItemTurretBuild with ammo and the peeked entry holds at least ammoPerShot -- or the build is cheating -- else 0.0 -- valid when it can shoot.",
+      "tests": [
+        "test_c07_item_turret_efficiency_registration",
+        "test_all_c07_item_turret_efficiency_input_evidence_is_exact",
+        "test_item_turret_efficiency_state",
+        "test_reference_graph_and_actual_c07_item_turret_efficiency"
+      ],
+      "runtime_proof": "/root/C07ItemTurretEfficiencyProof"
     }
   },
   "version": 1

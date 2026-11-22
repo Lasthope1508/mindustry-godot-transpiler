@@ -76,3 +76,31 @@ func source_item_turret_build_read_state(revision: int, max_ammo: int, read_entr
 
 func generated_item_turret_build_read_bridge_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:
 	return source_item_turret_build_state.generated_read_bridge_state(revision, max_ammo, read_entries)
+
+# Anonymous ConsumeItemFilter.efficiency(Building build)
+# inside ItemTurret.init() (ItemTurret.java:83-88).
+# `public float efficiency(Building build){`
+# `//valid when it can shoot`
+# `return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;`
+# One efficiency slice (batch 31 slot 3): the 1
+# distinguishing return expr only. N1177 owns
+# ItemTurret.init() but NOT this efficiency leg; N1467
+# owns the base ConsumeItemFilter.efficiency() body
+# (`return build.consumeTriggerValid() ||
+# getConsumed(build) != null ? 1f : 0f;`); the PAT twin
+# (`return build instanceof PayloadTurretBuild it &&
+# it.payloads.any() ? 1f : 0f;`) is N2396-owned --
+# none is re-registered here. `it.ammo.peek().amount`
+# is the peeked ItemEntry amount (ItemTurret.java:226,
+# `public class ItemEntry extends AmmoEntry{`),
+# `ammoPerShot` is the Turret field (Turret.java:49,
+# `public int ammoPerShot = 1;`), `it.cheating()` is
+# the BuildingComp call-site -- all arrive as explicit
+# params, no live engine is called. Valid when it can
+# shoot: 1.0 exactly when the build is an
+# ItemTurretBuild with ammo and the peeked entry holds
+# at least ammoPerShot -- or the build is cheating --
+# else 0.0.
+static func source_item_turret_efficiency_state(is_item_turret_build: bool, ammo_size: int, peek_amount: int, ammo_per_shot: int, cheating: bool) -> Dictionary:
+	var efficiency: float = 1.0 if is_item_turret_build and ammo_size > 0 and (peek_amount >= ammo_per_shot or cheating) else 0.0
+	return {"efficiency": efficiency}

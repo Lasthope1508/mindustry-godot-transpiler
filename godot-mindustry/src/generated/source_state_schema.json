@@ -253800,6 +253800,84 @@
       },
       "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof",
       "rule": "Source-backed LaserTurretBuild.activeSoundVolume()/shouldActiveSound() state from LaserTurret.java."
+    },
+    "source_item_turret_efficiency_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_item_turret_efficiency_state",
+      "source_slice": "N2419",
+      "keys": {
+        "is_item_turret_build": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_expr": "return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;",
+          "rule": "Whether the build is an ItemTurretBuild (ItemTurret.java:86, `return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;`): the `build instanceof ItemTurretBuild it` pattern guard, passed as an explicit bool param.",
+          "used_by": [
+            "PortGame.source_item_turret_efficiency_state"
+          ]
+        },
+        "ammo_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_expr": "return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;",
+          "rule": "The ammo seq size (ItemTurret.java:86, `return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;`): `it.ammo.size > 0` -- the build holds ammo only when the seq is non-empty, passed as an explicit int param; the peeked amount is only read when this is positive.",
+          "used_by": [
+            "PortGame.source_item_turret_efficiency_state"
+          ]
+        },
+        "peek_amount": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_expr": "return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;",
+          "rule": "The peeked entry amount (ItemTurret.java:86, `return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;`): `it.ammo.peek().amount` -- the ItemEntry amount (ItemTurret.java:226, `public class ItemEntry extends AmmoEntry{`), passed as an explicit int param.",
+          "used_by": [
+            "PortGame.source_item_turret_efficiency_state"
+          ]
+        },
+        "ammo_per_shot": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_expr": "return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;",
+          "rule": "The ammo per shot (ItemTurret.java:86, `return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;`): `ammoPerShot` -- the Turret field (Turret.java:49, `public int ammoPerShot = 1;`), passed as an explicit int param.",
+          "used_by": [
+            "PortGame.source_item_turret_efficiency_state"
+          ]
+        },
+        "cheating": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_expr": "return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;",
+          "rule": "Whether the build is cheating (ItemTurret.java:86, `return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;`): `it.cheating()` -- the BuildingComp call-site, passed as an explicit bool param, NOT re-ported here.",
+          "used_by": [
+            "PortGame.source_item_turret_efficiency_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemTurretEfficiencyProof",
+      "rule": "Source-backed ItemTurret anonymous ConsumeItemFilter.efficiency() state from ItemTurret.java."
+    },
+    "source_item_turret_efficiency_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_item_turret_efficiency_state",
+      "source_slice": "N2419",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_expr": "return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;",
+          "rule": "The consumer efficiency (ItemTurret.java:86, `return build instanceof ItemTurretBuild it && it.ammo.size > 0 && (it.ammo.peek().amount >= ammoPerShot || it.cheating()) ? 1f : 0f;`): 1.0 exactly when the build is an ItemTurretBuild with ammo and the peeked entry holds at least ammoPerShot -- or the build is cheating -- else 0.0 -- valid when it can shoot.",
+          "used_by": [
+            "PortGame.source_item_turret_efficiency_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ItemTurretEfficiencyProof",
+      "rule": "Source-backed ItemTurret anonymous ConsumeItemFilter.efficiency() state from ItemTurret.java."
     }
   },
   "version": 1

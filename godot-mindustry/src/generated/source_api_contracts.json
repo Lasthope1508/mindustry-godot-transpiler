@@ -77484,6 +77484,51 @@
       ],
       "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof",
       "rule": "Source-backed LaserTurretBuild.activeSoundVolume()/shouldActiveSound() state from LaserTurret.java."
+    },
+    "PortGame.source_item_turret_efficiency_state": {
+      "status": "active",
+      "source_slice": "N2419",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurret.init() ConsumeItemFilter.efficiency(Building build)",
+      "params": [
+        {
+          "name": "is_item_turret_build",
+          "type": "bool",
+          "schema": "source_item_turret_efficiency_state_input.is_item_turret_build"
+        },
+        {
+          "name": "ammo_size",
+          "type": "int",
+          "schema": "source_item_turret_efficiency_state_input.ammo_size"
+        },
+        {
+          "name": "peek_amount",
+          "type": "int",
+          "schema": "source_item_turret_efficiency_state_input.peek_amount"
+        },
+        {
+          "name": "ammo_per_shot",
+          "type": "int",
+          "schema": "source_item_turret_efficiency_state_input.ammo_per_shot"
+        },
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_item_turret_efficiency_state_input.cheating"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "efficiency"
+      ],
+      "tests": [
+        "test_c07_item_turret_efficiency_registration",
+        "test_all_c07_item_turret_efficiency_input_evidence_is_exact",
+        "test_item_turret_efficiency_state",
+        "test_reference_graph_and_actual_c07_item_turret_efficiency"
+      ],
+      "runtime_proof": "/root/C07ItemTurretEfficiencyProof",
+      "rule": "Source-backed ItemTurret anonymous ConsumeItemFilter.efficiency() state from ItemTurret.java."
     }
   },
   "policy": {
