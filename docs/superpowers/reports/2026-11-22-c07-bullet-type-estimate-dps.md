@@ -5,7 +5,7 @@ Ngày: 2026-11-22 ~10:45 +07 (proof xanh, đọc trực tiếp proof .json mtime
 ## Trạng thái
 
 - N2528 DONE + PUSHED (origin/main bbb68083).
-- N2529 DONE + PUSHED (slice a1edad54, docs 55c03447, GOAL 3acf931d, status TBD): port `estimateDPS()` của `BulletType` thành 1 pure function mới `source_bullet_type_estimate_dps_state` (SourceBulletTypeDamageState.gd:74) cho bullet shard — KHÔNG driver tick call site (estimateDPS() là read/estimate, không phải per-tick; không caller nào đọc nó hôm nay, N2528 vẫn nhận `peek_ammo_dps` làm param; HUD / stats display là C11). Hàm nhận 13 tham số, trả đúng 3 key `estimate_dps` / `cached_dps` / `branch`.
+- N2529 DONE + PUSHED (slice a1edad54, docs 55c03447, GOAL 3acf931d, status 59cdb8b8): port `estimateDPS()` của `BulletType` thành 1 pure function mới `source_bullet_type_estimate_dps_state` (SourceBulletTypeDamageState.gd:74) cho bullet shard — KHÔNG driver tick call site (estimateDPS() là read/estimate, không phải per-tick; không caller nào đọc nó hôm nay, N2528 vẫn nhận `peek_ammo_dps` làm param; HUD / stats display là C11). Hàm nhận 13 tham số, trả đúng 3 key `estimate_dps` / `cached_dps` / `branch`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
