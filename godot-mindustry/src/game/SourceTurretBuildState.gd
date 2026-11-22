@@ -1279,6 +1279,16 @@ static func source_turret_on_destroyed_state(frame: Dictionary, has_sound_loop: 
 # `b -> buildings && buildingFilter.get(b), unitSort);`
 # `}`
 # `}`
+# N2425 owns the ammo binding and the bestTarget call opener quoted
+# above (`var ammo = peekAmmo();` at :643 and
+# `return Units.bestTarget(team, x, y, range,` at :645): the binding
+# arrives as the three ammo flags (ammo_is_null /
+# ammo_target_blocks / ammo_target_missiles), which the driver
+# derives from the peekAmmo() result (N2329 owns peekAmmo); the
+# call itself is the unit loop (units first, bestEnemy) plus the
+# building fallback (findEnemyTile) implemented below. No new
+# owner/contract/schema: the function, contract and schemas stay
+# N2316's; N2425 only registers the two remaining lines.
 # on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
 # (Turret.java:277). Units.bestTarget (Units.java:284-294,
 # `public static Teamc bestTarget(Team team, float x, float y, float range, Boolf<Unit> unitPred, Boolf<Building> tilePred, Sortf sort){`)

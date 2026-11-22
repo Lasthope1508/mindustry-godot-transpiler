@@ -9815,6 +9815,82 @@
       "rule": "Source-backed TurretBuild.estimateDps() state from Turret.java + ReloadTurret.java + ShootPattern.java + BulletType.java + BuildingComp.java + RtsAI.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_find_enemy_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_find_enemy_state",
+      "status": "active",
+      "source_slice": "N2316",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.findEnemy(float)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_find_enemy_state_input.frame"
+        },
+        {
+          "name": "team_is_derelict",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.team_is_derelict"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_turret_find_enemy_state_input.range"
+        },
+        {
+          "name": "target_air",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.target_air"
+        },
+        {
+          "name": "target_ground",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.target_ground"
+        },
+        {
+          "name": "target_blocks",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.target_blocks"
+        },
+        {
+          "name": "ammo_is_null",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.ammo_is_null"
+        },
+        {
+          "name": "ammo_target_blocks",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.ammo_target_blocks"
+        },
+        {
+          "name": "ammo_target_missiles",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.ammo_target_missiles"
+        },
+        {
+          "name": "unit_candidates",
+          "type": "Array",
+          "schema": "source_turret_find_enemy_state_input.unit_candidates"
+        },
+        {
+          "name": "building_candidates",
+          "type": "Array",
+          "schema": "source_turret_find_enemy_state_input.building_candidates"
+        }
+      ],
+      "return_keys": [
+        "target"
+      ],
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof",
+      "rule": "Source-backed TurretBuild findTarget/findEnemy/validateTarget/canHeal state from Turret.java + Units.java + UnitSorts.java + BlockIndexer.java + BulletType.java + Mathf.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_find_target_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_find_target_state",
       "status": "active",

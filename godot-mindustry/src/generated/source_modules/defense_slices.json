@@ -4627,6 +4627,23 @@
       ],
       "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
     },
+    "N2425": {
+      "canonical_ledger": "source_slice_ledger.N2425",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.findEnemy(float)",
+      "godot_owner": "SourceTurretBuildState.source_turret_find_enemy_state",
+      "source_symbols": [
+        "source_turret_find_enemy_state_result.target"
+      ],
+      "tests": [
+        "test_c07_turret_find_enemy_registration",
+        "test_all_c07_turret_find_enemy_input_evidence_is_exact",
+        "test_turret_find_enemy_state",
+        "test_reference_graph_and_actual_c07_turret_find_enemy"
+      ],
+      "runtime_proof": "/root/C07TurretFindEnemyProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
