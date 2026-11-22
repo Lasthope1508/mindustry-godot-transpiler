@@ -5,7 +5,7 @@ Ngày: 2026-11-23 ~03:15 +07 (targeted re-run xác minh lượt đóng slice 17.
 ## Trạng thái
 
 - N2538 DONE + PUSHED (origin/main 0cc82b4c).
-- N2539 DONE + PUSHED (slice 19b5a529, docs TBD, GOAL TBD, status TBD): port `Weapon.range()` thành 1 pure function mới `source_weapon_range_state` (SourceWeaponsCoreState.gd:263 + delegate SourceWeaponsState.gd:188-189, Weapon.java:288-290) cho Weapon family — KHÔNG driver tick (catalog read). Hàm nhận 1 tham số (`bullet_range`) và trả đúng 1 key `range`.
+- N2539 DONE + PUSHED (slice 19b5a529, docs 52c1fb98, GOAL b9692e87): port `Weapon.range()` thành 1 pure function mới `source_weapon_range_state` (SourceWeaponsCoreState.gd:263 + delegate SourceWeaponsState.gd:188-189, Weapon.java:288-290) cho Weapon family — KHÔNG driver tick (catalog read). Hàm nhận 1 tham số (`bullet_range`) và trả đúng 1 key `range`.
 
 ## Làm được lượt này (GREEN + gate xong)
 

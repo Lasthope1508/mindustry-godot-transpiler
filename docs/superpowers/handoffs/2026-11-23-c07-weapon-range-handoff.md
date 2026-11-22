@@ -1,6 +1,6 @@
-# Handoff — N2539 Weapon.range() (C07) [DONE + PUSHED (slice 19b5a529, docs TBD, GOAL TBD, status TBD)]
+# Handoff — N2539 Weapon.range() (C07) [DONE + PUSHED (slice 19b5a529, docs 52c1fb98, GOAL b9692e87)]
 
-## Status: DONE + PUSHED (lượt cron 03:15 +07 ngày 2026-11-23; slice 19b5a529, docs TBD, GOAL TBD, status TBD; push xong mới ghi origin/main ở đây sau khi push)
+## Status: DONE + PUSHED (lượt cron 03:15 +07 ngày 2026-11-23; slice 19b5a529, docs 52c1fb98, GOAL b9692e87; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2538 DONE + PUSHED ~01:30 +07 ngày 2026-11-23, origin/main == 0cc82b4c
   (5 commit: slice 20e10b76 + docs 4cca5414 + GOAL f4a494dd + status c85ac1ce + hashes 0cc82b4c).
