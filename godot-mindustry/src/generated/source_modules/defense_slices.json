@@ -4531,6 +4531,24 @@
       ],
       "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof"
     },
+    "N2418": {
+      "canonical_ledger": "source_slice_ledger.N2418",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.activeSoundVolume(); LaserTurretBuild.shouldActiveSound()",
+      "godot_owner": "PortGame.source_laser_turret_build_active_sound_state",
+      "source_symbols": [
+        "source_laser_turret_build_active_sound_state_result.active_sound_volume",
+        "source_laser_turret_build_active_sound_state_result.should_active_sound"
+      ],
+      "tests": [
+        "test_c07_laser_turret_active_sound_volume_registration",
+        "test_all_c07_laser_turret_active_sound_volume_input_evidence_is_exact",
+        "test_laser_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_laser_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

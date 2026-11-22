@@ -184840,6 +184840,38 @@
         "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
       ],
       "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof"
+    },
+    "source_laser_turret_build_active_sound_state_result.active_sound_volume": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_active_sound_state",
+      "godot_symbol": "source_laser_turret_build_active_sound_state_result.active_sound_volume",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.activeSoundVolume(); LaserTurretBuild.shouldActiveSound()",
+      "java_expr": "return 1f;",
+      "rule": "The active-sound volume (LaserTurret.java:148, `return 1f;`): a constant 1f -- the laser loop always plays at full volume while it sounds.",
+      "tests": [
+        "test_c07_laser_turret_active_sound_volume_registration",
+        "test_all_c07_laser_turret_active_sound_volume_input_evidence_is_exact",
+        "test_laser_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_laser_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof"
+    },
+    "source_laser_turret_build_active_sound_state_result.should_active_sound": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_laser_turret_build_active_sound_state",
+      "godot_symbol": "source_laser_turret_build_active_sound_state_result.should_active_sound",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "java_method": "LaserTurretBuild.activeSoundVolume(); LaserTurretBuild.shouldActiveSound()",
+      "java_expr": "return bullets.any();",
+      "rule": "Whether the active loop sound should play (LaserTurret.java:153, `return bullets.any();`): true while a bullet is around, false otherwise.",
+      "tests": [
+        "test_c07_laser_turret_active_sound_volume_registration",
+        "test_all_c07_laser_turret_active_sound_volume_input_evidence_is_exact",
+        "test_laser_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_laser_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof"
     }
   },
   "version": 1

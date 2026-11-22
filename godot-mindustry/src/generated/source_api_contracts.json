@@ -77458,6 +77458,32 @@
       ],
       "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
       "rule": "Source-backed BeamDrill BeamDrillBuild.shouldConsume() state from BeamDrill.java + Block.java."
+    },
+    "PortGame.source_laser_turret_build_active_sound_state": {
+      "status": "active",
+      "source_slice": "N2418",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.activeSoundVolume(); LaserTurretBuild.shouldActiveSound()",
+      "params": [
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_laser_turret_build_active_sound_state_input.has_bullets"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "active_sound_volume",
+        "should_active_sound"
+      ],
+      "tests": [
+        "test_c07_laser_turret_active_sound_volume_registration",
+        "test_all_c07_laser_turret_active_sound_volume_input_evidence_is_exact",
+        "test_laser_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_laser_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof",
+      "rule": "Source-backed LaserTurretBuild.activeSoundVolume()/shouldActiveSound() state from LaserTurret.java."
     }
   },
   "policy": {

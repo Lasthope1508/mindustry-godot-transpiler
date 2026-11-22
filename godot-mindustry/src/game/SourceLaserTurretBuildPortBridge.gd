@@ -447,3 +447,42 @@ static func source_laser_turret_build_init_state(coolant: Variant, found_consume
 static func source_laser_turret_build_progress_state(reload_counter: float, reload: float) -> Dictionary:
 	var progress: float = 1.0 - clampf(reload_counter / reload, 0.0, 1.0)
 	return {"progress": progress}
+
+
+# LaserTurretBuild.activeSoundVolume() (LaserTurret.java:147-149):
+# `@Override`
+# `public float activeSoundVolume(){`
+# `return 1f;`
+# `}`
+# and LaserTurretBuild.shouldActiveSound()
+# (LaserTurret.java:152-154):
+# `@Override`
+# `public boolean shouldActiveSound(){`
+# `return bullets.any();`
+# `}`
+# on `public class LaserTurretBuild extends PowerTurretBuild{`
+# (LaserTurret.java:44) inside
+# `public class LaserTurret extends PowerTurret{`.
+# MERGED slice (the N2346/N2389 precedent): ONE pure
+# function, ONE owner, covering BOTH methods -- the volume
+# is a constant 1f and the sound gate is bullets.any();
+# both are read by the same updateTile soundLoop call
+# (`soundLoop.update(x, y, shouldActiveSound(),
+# activeSoundVolume());`, Turret.java:499, the N2346
+# precedent) and both take the same bullets-any() state.
+# bullets is `public Seq<BulletEntry> bullets = new Seq<>();`
+# (LaserTurret.java:45): the seq itself is NOT ported --
+# its emptiness arrives as the explicit has_bullets param
+# (the N2330 param precedent). The twin-class overrides
+# own their own bodies and are NOT touched here --
+# TurretBuild base (N2346, shootWarmup-driven),
+# ContinuousTurretBuild (N2389, same bullets.any() body,
+# different class). NO audio playback in this slice
+# (playback belongs to the updateTile tick, which reads
+# both -- soundLoop itself is NOT ported here). NO driver
+# line: pure read accessors the tick reads, not per-tick
+# writes.
+static func source_laser_turret_build_active_sound_state(has_bullets: bool) -> Dictionary:
+	var active_sound_volume: float = 1.0
+	var should_active_sound: bool = has_bullets
+	return {"active_sound_volume": active_sound_volume, "should_active_sound": should_active_sound}

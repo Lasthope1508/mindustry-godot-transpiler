@@ -2512,6 +2512,33 @@
       "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
       "rule": "Public runtime contract for ItemTurret.setStats() stat call sequence and ammo capacity formula."
     },
+    "PortGame.source_laser_turret_build_active_sound_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_active_sound_state",
+      "status": "active",
+      "source_slice": "N2418",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.activeSoundVolume(); LaserTurretBuild.shouldActiveSound()",
+      "params": [
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_laser_turret_build_active_sound_state_input.has_bullets"
+        }
+      ],
+      "return_keys": [
+        "active_sound_volume",
+        "should_active_sound"
+      ],
+      "tests": [
+        "test_c07_laser_turret_active_sound_volume_registration",
+        "test_all_c07_laser_turret_active_sound_volume_input_evidence_is_exact",
+        "test_laser_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_laser_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof",
+      "rule": "Source-backed LaserTurretBuild.activeSoundVolume()/shouldActiveSound() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_laser_turret_build_set_stats_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_set_stats_state",
       "status": "active",

@@ -253752,6 +253752,54 @@
       },
       "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
       "rule": "Source-backed BeamDrill BeamDrillBuild.shouldConsume() state from BeamDrill.java + Block.java."
+    },
+    "source_laser_turret_build_active_sound_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_active_sound_state",
+      "source_slice": "N2418",
+      "keys": {
+        "has_bullets": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "return bullets.any();",
+          "rule": "Whether the bullets seq is non-empty, bullets.any() (LaserTurret.java:153): the seq itself is NOT ported -- its emptiness arrives as an explicit param (the N2330 param precedent).",
+          "used_by": [
+            "PortGame.source_laser_turret_build_active_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof",
+      "rule": "Source-backed LaserTurretBuild.activeSoundVolume()/shouldActiveSound() state from LaserTurret.java."
+    },
+    "source_laser_turret_build_active_sound_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_laser_turret_build_active_sound_state",
+      "source_slice": "N2418",
+      "keys": {
+        "active_sound_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "return 1f;",
+          "rule": "The active-sound volume (LaserTurret.java:148, `return 1f;`): a constant 1f -- the laser loop always plays at full volume while it sounds.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_active_sound_state"
+          ]
+        },
+        "should_active_sound": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+          "java_expr": "return bullets.any();",
+          "rule": "Whether the active loop sound should play (LaserTurret.java:153, `return bullets.any();`): true while a bullet is around, false otherwise.",
+          "used_by": [
+            "PortGame.source_laser_turret_build_active_sound_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof",
+      "rule": "Source-backed LaserTurretBuild.activeSoundVolume()/shouldActiveSound() state from LaserTurret.java."
     }
   },
   "version": 1
