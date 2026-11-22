@@ -1,11 +1,11 @@
 # Báo cáo — N2535 Weapon shotsPerSec(): pure Weapon.java shotsPerSec() port cho Weapon family (C07) [DONE + PUSHED]
 
-Ngày: 2026-11-22 ~20:32 +07 (targeted re-run xác minh lượt đóng slice 17.70s; proof xanh lượt implement ~19:30 +07, đọc trực tiếp proof .json — tái sinh 12:51Z bởi neighbours run), gate xong 13:22:44Z (20:22:44 +07), slice commit TBA.
+Ngày: 2026-11-22 ~20:32 +07 (targeted re-run xác minh lượt đóng slice 17.70s; proof xanh lượt implement ~19:30 +07, đọc trực tiếp proof .json — tái sinh 12:51Z bởi neighbours run), gate xong 13:22:44Z (20:22:44 +07), slice commit 7f61f2d8.
 
 ## Trạng thái
 
 - N2534 DONE + PUSHED (origin/main 308b9f00).
-- N2535 DONE + PUSHED (slice TBA, docs TBA, GOAL TBA, status TBA): port `shotsPerSec()` của `Weapon` thành 1 pure function mới `source_weapon_shots_per_sec_state` (SourceWeaponsCoreState.gd:73, sau `source_weapon_dps_state`, trước `set_rotation_state`) + 1 delegate cùng tên trong SourceWeaponsState.gd:179-180 (tiền lệ facade `setup_mounts_state`) cho Weapon family — KHÔNG driver tick call site (shotsPerSec() là read/estimate, không phải per-tick). Hàm nhận 2 tham số (`reload`, `shoot_shots`) và trả đúng 1 key `shots_per_sec`.
+- N2535 DONE + PUSHED (slice 7f61f2d8, docs e05b904a, GOAL 57052a13): port `shotsPerSec()` của `Weapon` thành 1 pure function mới `source_weapon_shots_per_sec_state` (SourceWeaponsCoreState.gd:73, sau `source_weapon_dps_state`, trước `set_rotation_state`) + 1 delegate cùng tên trong SourceWeaponsState.gd:179-180 (tiền lệ facade `setup_mounts_state`) cho Weapon family — KHÔNG driver tick call site (shotsPerSec() là read/estimate, không phải per-tick). Hàm nhận 2 tham số (`reload`, `shoot_shots`) và trả đúng 1 key `shots_per_sec`.
 
 ## Làm được lượt này (GREEN + gate xong)
 

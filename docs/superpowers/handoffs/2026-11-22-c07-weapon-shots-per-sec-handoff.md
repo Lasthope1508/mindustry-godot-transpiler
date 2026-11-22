@@ -1,10 +1,10 @@
-# Handoff — N2535 Weapon `shotsPerSec()`: pure function cho Weapon family (C07) [DONE + PUSHED (slice TBA, docs TBA, GOAL TBA, status TBA)]
+# Handoff — N2535 Weapon `shotsPerSec()`: pure function cho Weapon family (C07) [DONE + PUSHED (slice 7f61f2d8, docs e05b904a, GOAL 57052a13)]
 
-## Status: DONE + PUSHED (lượt cron 20:30 +07 ngày 2026-11-22; slice TBA, docs TBA, GOAL TBA, status TBA; push xong mới ghi origin/main ở đây sau khi push)
+## Status: DONE + PUSHED (lượt cron 20:30 +07 ngày 2026-11-22; slice 7f61f2d8, docs e05b904a, GOAL 57052a13; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2534 DONE + PUSHED ~19:15 +07 ngày 2026-11-22, origin/main == 308b9f00
   (5 commit: slice fb8a6ab5 + docs 0f9f5b9a + GOAL 531604d2 + status e302ca76 + hashes 308b9f00).
-- N2535 DONE (slice TBA): targeted 4/4 (23 subtests, 17.70s, xác minh
+- N2535 DONE (slice 7f61f2d8): targeted 4/4 (23 subtests, 17.70s, xác minh
   lại bởi lượt đóng slice, godot-bin trên PATH, port 7777
   free; lượt implement GREEN 4/4 theo
   hidden_files/n2535-red-green-1930.md); register `--verify` 8/8;
@@ -77,7 +77,7 @@
   sps_reload_60 (60.0 / 1 → 1.0) / sps_fractional (1.5 / 2 → 80.0)
   / sps_large (0.5 / 2 → 240.0).
 
-## Files của slice (đã commit TBA)
+## Files của slice (đã commit 7f61f2d8)
 
 - `godot-mindustry/src/game/SourceWeaponsCoreState.gd` (M — hàm canonical mới)
 - `godot-mindustry/src/game/SourceWeaponsState.gd` (M — delegate facade 1 dòng)
