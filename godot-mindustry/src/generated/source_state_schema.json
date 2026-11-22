@@ -254509,6 +254509,94 @@
       },
       "runtime_proof": "/root/C07DrillInitProof",
       "rule": "Source-backed Drill init() defaulting state from Drill.java."
+    },
+    "source_build_turret_init_unit_type_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "source_slice": "N2426",
+      "keys": {
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "rotateSpeed = BuildTurret.this.rotateSpeed;",
+          "rule": "The block rotate speed (BuildTurret.java:63, `rotateSpeed = BuildTurret.this.rotateSpeed;`): the BuildTurret field -- constructor default `rotateSpeed = 10f;` (BuildTurret.java:45) -- passed explicitly because the init line reads the live block field.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof",
+      "rule": "Source-backed BuildTurret init() UnitType fields from BuildTurret.java."
+    },
+    "source_build_turret_init_unit_type_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "source_slice": "N2426",
+      "keys": {
+        "hidden": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "hidden = true;",
+          "rule": "Whether the builder unit type is hidden (BuildTurret.java:57, `hidden = true;`): the turret-unit never shows in the unit list.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state"
+          ]
+        },
+        "internal": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "internal = true;",
+          "rule": "Whether the builder unit type is internal (BuildTurret.java:58, `internal = true;`): the turret-unit is an internal helper unit.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state"
+          ]
+        },
+        "speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "speed = 0f;",
+          "rule": "The builder unit speed (BuildTurret.java:59, `speed = 0f;`): the turret-unit never moves.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state"
+          ]
+        },
+        "hit_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "hitSize = 0f;",
+          "rule": "The builder unit hit size (BuildTurret.java:60, `hitSize = 0f;`): the turret-unit never takes hits.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state"
+          ]
+        },
+        "health": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "health = 1;",
+          "rule": "The builder unit health (BuildTurret.java:61, `health = 1;`): the turret-unit exists only to carry the build plan.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "rotateSpeed = BuildTurret.this.rotateSpeed;",
+          "rule": "The builder unit rotate speed (BuildTurret.java:63, `rotateSpeed = BuildTurret.this.rotateSpeed;`): copied from the block field.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof",
+      "rule": "Source-backed BuildTurret init() UnitType fields from BuildTurret.java."
     }
   },
   "version": 1

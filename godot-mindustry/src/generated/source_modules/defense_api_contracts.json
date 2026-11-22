@@ -7875,6 +7875,37 @@
       "rule": "Source-backed BaseTurret() ctor field defaults state from BaseTurret.java.",
       "return_type": "Dictionary"
     },
+    "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "status": "active",
+      "source_slice": "N2426",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurret.init()",
+      "params": [
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_build_turret_init_unit_type_state_input.rotate_speed"
+        }
+      ],
+      "return_keys": [
+        "hidden",
+        "internal",
+        "speed",
+        "hit_size",
+        "health",
+        "rotate_speed"
+      ],
+      "tests": [
+        "test_c07_build_turret_init_unit_type_registration",
+        "test_all_c07_build_turret_init_unit_type_input_evidence_is_exact",
+        "test_build_turret_init_unit_type_state",
+        "test_reference_graph_and_actual_c07_build_turret_init_unit_type"
+      ],
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof",
+      "rule": "Source-backed BuildTurret init() UnitType fields from BuildTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildTurretBuildState.source_build_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_power_status_row_state",
       "status": "active",

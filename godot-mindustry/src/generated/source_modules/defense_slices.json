@@ -4644,6 +4644,28 @@
       ],
       "runtime_proof": "/root/C07TurretFindEnemyProof"
     },
+    "N2426": {
+      "canonical_ledger": "source_slice_ledger.N2426",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurret.init()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "source_symbols": [
+        "source_build_turret_init_unit_type_state_result.hidden",
+        "source_build_turret_init_unit_type_state_result.internal",
+        "source_build_turret_init_unit_type_state_result.speed",
+        "source_build_turret_init_unit_type_state_result.hit_size",
+        "source_build_turret_init_unit_type_state_result.health",
+        "source_build_turret_init_unit_type_state_result.rotate_speed"
+      ],
+      "tests": [
+        "test_c07_build_turret_init_unit_type_registration",
+        "test_all_c07_build_turret_init_unit_type_input_evidence_is_exact",
+        "test_build_turret_init_unit_type_state",
+        "test_reference_graph_and_actual_c07_build_turret_init_unit_type"
+      ],
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

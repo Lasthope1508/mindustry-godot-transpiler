@@ -257,6 +257,17 @@ static func source_build_turret_update_tile_plan_state(has_following: bool, foll
 	var valid_break_branch: bool = not build_plan_null and not controlled and req_breaking
 	return {"following_cleared": following_cleared, "found_plan": found_plan, "found_btype": found_btype, "found_index": found_index, "mimic": mimic, "mimic_early_return": mimic_early_return, "team_plans": remaining_plans, "valid_break_branch": valid_break_branch}
 
+static func source_build_turret_init_unit_type_state(rotate_speed: float) -> Dictionary:
+	# BuildTurret.init() (BuildTurret.java:50-69, `public void init(){`) builds the builder unit type once at block init: `unitType = new UnitType("turret-unit-" + name){{` (:56) -- an anonymous UnitType whose fields are the hidden builder-unit constants below. init() runs once, not per-tick, so this is a pure function over the block's rotateSpeed, which the caller passes explicitly: the constructor default is `rotateSpeed = 10f;` (BuildTurret.java:45), but the init line reads the live block field, so the value is a param, not a constant. The 6 exact exprs of N2426 (verbatim, one per line):
+	# - `hidden = true;`
+	# - `internal = true;`
+	# - `speed = 0f;`
+	# - `hitSize = 0f;`
+	# - `health = 1;`
+	# - `rotateSpeed = BuildTurret.this.rotateSpeed;`
+	# NOT this slice: `if(elevation < 0) elevation = size / 2f;` (:53, already owned), `itemCapacity = 0;` (:62, already owned), `buildBeamOffset = BuildTurret.this.buildBeamOffset;` / `buildRange = BuildTurret.this.range;` / `buildSpeed = BuildTurret.this.buildSpeed;` / `constructor = BlockUnitUnit::create;` (:64-67, already owned at N2184), the opener :56 and the `}};` closer :68 (generic). The builder unit never moves, never takes hits and never shows in the unit list: hidden + internal, speed 0, hitSize 0, health 1 -- it exists only to carry the build plan.
+	return {"hidden": true, "internal": true, "speed": 0.0, "hit_size": 0.0, "health": 1, "rotate_speed": rotate_speed}
+
 @warning_ignore("unused_parameter")
 static func source_build_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the build-turret tick wiring every

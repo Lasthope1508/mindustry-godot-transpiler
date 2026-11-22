@@ -185256,6 +185256,102 @@
         "test_reference_graph_and_actual_c07_drill_init"
       ],
       "runtime_proof": "/root/C07DrillInitProof"
+    },
+    "source_build_turret_init_unit_type_state_result.hidden": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "godot_symbol": "source_build_turret_init_unit_type_state_result.hidden",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurret.init()",
+      "java_expr": "hidden = true;",
+      "rule": "Whether the builder unit type is hidden (BuildTurret.java:57, `hidden = true;`): the turret-unit never shows in the unit list.",
+      "tests": [
+        "test_c07_build_turret_init_unit_type_registration",
+        "test_all_c07_build_turret_init_unit_type_input_evidence_is_exact",
+        "test_build_turret_init_unit_type_state",
+        "test_reference_graph_and_actual_c07_build_turret_init_unit_type"
+      ],
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof"
+    },
+    "source_build_turret_init_unit_type_state_result.internal": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "godot_symbol": "source_build_turret_init_unit_type_state_result.internal",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurret.init()",
+      "java_expr": "internal = true;",
+      "rule": "Whether the builder unit type is internal (BuildTurret.java:58, `internal = true;`): the turret-unit is an internal helper unit.",
+      "tests": [
+        "test_c07_build_turret_init_unit_type_registration",
+        "test_all_c07_build_turret_init_unit_type_input_evidence_is_exact",
+        "test_build_turret_init_unit_type_state",
+        "test_reference_graph_and_actual_c07_build_turret_init_unit_type"
+      ],
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof"
+    },
+    "source_build_turret_init_unit_type_state_result.speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "godot_symbol": "source_build_turret_init_unit_type_state_result.speed",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurret.init()",
+      "java_expr": "speed = 0f;",
+      "rule": "The builder unit speed (BuildTurret.java:59, `speed = 0f;`): the turret-unit never moves.",
+      "tests": [
+        "test_c07_build_turret_init_unit_type_registration",
+        "test_all_c07_build_turret_init_unit_type_input_evidence_is_exact",
+        "test_build_turret_init_unit_type_state",
+        "test_reference_graph_and_actual_c07_build_turret_init_unit_type"
+      ],
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof"
+    },
+    "source_build_turret_init_unit_type_state_result.hit_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "godot_symbol": "source_build_turret_init_unit_type_state_result.hit_size",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurret.init()",
+      "java_expr": "hitSize = 0f;",
+      "rule": "The builder unit hit size (BuildTurret.java:60, `hitSize = 0f;`): the turret-unit never takes hits.",
+      "tests": [
+        "test_c07_build_turret_init_unit_type_registration",
+        "test_all_c07_build_turret_init_unit_type_input_evidence_is_exact",
+        "test_build_turret_init_unit_type_state",
+        "test_reference_graph_and_actual_c07_build_turret_init_unit_type"
+      ],
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof"
+    },
+    "source_build_turret_init_unit_type_state_result.health": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "godot_symbol": "source_build_turret_init_unit_type_state_result.health",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurret.init()",
+      "java_expr": "health = 1;",
+      "rule": "The builder unit health (BuildTurret.java:61, `health = 1;`): the turret-unit exists only to carry the build plan.",
+      "tests": [
+        "test_c07_build_turret_init_unit_type_registration",
+        "test_all_c07_build_turret_init_unit_type_input_evidence_is_exact",
+        "test_build_turret_init_unit_type_state",
+        "test_reference_graph_and_actual_c07_build_turret_init_unit_type"
+      ],
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof"
+    },
+    "source_build_turret_init_unit_type_state_result.rotate_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "godot_symbol": "source_build_turret_init_unit_type_state_result.rotate_speed",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurret.init()",
+      "java_expr": "rotateSpeed = BuildTurret.this.rotateSpeed;",
+      "rule": "The builder unit rotate speed (BuildTurret.java:63, `rotateSpeed = BuildTurret.this.rotateSpeed;`): copied from the block field.",
+      "tests": [
+        "test_c07_build_turret_init_unit_type_registration",
+        "test_all_c07_build_turret_init_unit_type_input_evidence_is_exact",
+        "test_build_turret_init_unit_type_state",
+        "test_reference_graph_and_actual_c07_build_turret_init_unit_type"
+      ],
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof"
     }
   },
   "version": 1
