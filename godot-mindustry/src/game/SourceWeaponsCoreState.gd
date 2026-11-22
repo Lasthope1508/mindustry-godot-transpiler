@@ -284,6 +284,85 @@ static func source_weapon_range_state(bullet_range: float) -> Dictionary:
 	# later) -> live behavior does NOT change.
 	return {"range": bullet_range}
 
+static func source_weapon_update_decay_state(mount_reload: float, mount_recoil: float, mount_recoils: Array, mount_smooth_reload: float, mount_charge: float, mount_charging: bool, mount_shoot: bool, mount_warmup: float, has_continuous_bullet: bool, recoils: int, recoil_time: float, weapon_reload: float, smooth_reload_speed: float, first_shot_delay: float, shoot_warmup_speed: float, linear_warmup: bool, continuous: bool, can: bool, source_delta: float, reload_multiplier: float) -> Dictionary:
+	# Weapon.update() leg 1 (Weapon.java:293-306,
+	# `boolean can = unit.canShoot();` /
+	# `float lastReload = mount.reload;` /
+	# `mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);` /
+	# `mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime);` /
+	# `if(recoils > 0){` /
+	# `if(mount.recoils == null) mount.recoils = new float[recoils];` /
+	# `for(int i = 0; i < recoils; i++){` /
+	# `mount.recoils[i] = Mathf.approachDelta(mount.recoils[i], 0, unit.reloadMultiplier / recoilTime);` /
+	# `}` /
+	# `}` /
+	# `mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed);` /
+	# `mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;` /
+	# `float warmupTarget = (can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f;` /
+	# `if(linearWarmup){` /
+	# `mount.warmup = Mathf.approachDelta(mount.warmup, warmupTarget, shootWarmupSpeed);` /
+	# `}else{` /
+	# `mount.warmup = Mathf.lerpDelta(mount.warmup, warmupTarget, shootWarmupSpeed);` /
+	# `}`).
+	# `mount_reload` / `mount_recoil` / `mount_recoils` /
+	# `mount_smooth_reload` / `mount_charge` /
+	# `mount_charging` / `mount_shoot` / `mount_warmup` /
+	# `has_continuous_bullet` are WeaponMount fields
+	# (`public float reload;` / `public float recoil;` /
+	# `public @Nullable float[] recoils;` /
+	# `public float smoothReload;` / `public float charge;` /
+	# `public boolean charging;` /
+	# `public boolean shoot = false;` /
+	# `public float warmup;` /
+	# `public @Nullable Bullet bullet;`,
+	# WeaponMount.java:12/16/18/30/28/26/34/24/47). An empty
+	# `mount_recoils` Array is the GDScript representation
+	# of Java `mount.recoils == null`.
+	# `recoils` is the weapon barrel-recoil count
+	# (`public int recoils = -1;`, Weapon.java:83);
+	# `recoil_time` is the return time in ticks
+	# (`public float recoilTime = -1f;`, Weapon.java:85 --
+	# passed through unchanged, NOT clamped or defaulted);
+	# `weapon_reload` is the weapon reload in frames
+	# (`public float reload = 1;`, Weapon.java:75);
+	# `smooth_reload_speed` / `shoot_warmup_speed` are the
+	# lerp speeds (`public float shootWarmupSpeed = 0.1f,
+	# smoothReloadSpeed = 0.15f;`, Weapon.java:111);
+	# `first_shot_delay` is the shoot-pattern delay
+	# (`public float firstShotDelay = 0;`,
+	# ShootPattern.java:11); `linear_warmup` is the warmup
+	# curve flag (`public boolean linearWarmup = false;`,
+	# Weapon.java:113); `continuous` is the continuous
+	# weapon flag (`public boolean continuous;`,
+	# Weapon.java:53). `can` is the `unit.canShoot()`
+	# frame bool, taken as an input (canShoot() itself is
+	# NOT re-ported here). `source_delta` is `Time.delta`,
+	# `reload_multiplier` is `unit.reloadMultiplier`.
+	# ORDER TRAP: `smoothReload` lerps toward the UPDATED
+	# reload (`reload' / reload`, :302 runs after :294),
+	# not the input reload. `lastReload` (:294) is NOT
+	# returned by this leg -- the side-flip leg
+	# (Weapon.java:427-432) captures the pre-decay reload
+	# in a later slice. `charge` else-branch returns
+	# exactly 0 (the old charge is NOT kept).
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# update() has no driver in the port yet, and no caller
+	# reads the new function today -> live behavior does
+	# NOT change.
+	var reload: float = maxf(mount_reload - source_delta * reload_multiplier, 0.0)
+	var recoil: float = source_math_state.source_approach_delta(mount_recoil, 0.0, reload_multiplier / recoil_time, source_delta)
+	var out_recoils: Array = mount_recoils.duplicate()
+	if recoils > 0:
+		while out_recoils.size() < recoils:
+			out_recoils.append(0.0)
+		for i in recoils:
+			out_recoils[i] = source_math_state.source_approach_delta(float(out_recoils[i]), 0.0, reload_multiplier / recoil_time, source_delta)
+	var smooth_reload: float = source_math_state.source_lerp_delta(mount_smooth_reload, reload / weapon_reload, smooth_reload_speed, source_delta)
+	var charge: float = source_math_state.source_approach_delta(mount_charge, 1.0, 1.0 / first_shot_delay, source_delta) if mount_charging and first_shot_delay > 0.0 else 0.0
+	var warmup_target: float = 1.0 if (can and mount_shoot) or (continuous and has_continuous_bullet) or mount_charging else 0.0
+	var warmup: float = source_math_state.source_approach_delta(mount_warmup, warmup_target, shoot_warmup_speed, source_delta) if linear_warmup else source_math_state.source_lerp_delta(mount_warmup, warmup_target, shoot_warmup_speed, source_delta)
+	return {"reload": reload, "recoil": recoil, "recoils": out_recoils, "smooth_reload": smooth_reload, "charge": charge, "warmup": warmup}
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []
 	for index in mount_states.size():

@@ -321,6 +321,28 @@
       ],
       "runtime_proof": "/root/C07WeaponRangeProof"
     },
+    "N2540": {
+      "canonical_ledger": "source_slice_ledger.N2540",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_decay_state",
+      "source_symbols": [
+        "source_weapon_update_decay_state_result.reload",
+        "source_weapon_update_decay_state_result.recoil",
+        "source_weapon_update_decay_state_result.recoils",
+        "source_weapon_update_decay_state_result.smooth_reload",
+        "source_weapon_update_decay_state_result.charge",
+        "source_weapon_update_decay_state_result.warmup"
+      ],
+      "tests": [
+        "test_c07_weapon_update_decay_registration",
+        "test_all_c07_weapon_update_decay_input_evidence_is_exact",
+        "test_weapon_update_decay_state",
+        "test_reference_graph_and_actual_c07_weapon_update_decay"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateDecayProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",

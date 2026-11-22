@@ -178904,6 +178904,102 @@
         "test_reference_graph_and_actual_c07_weapon_range"
       ],
       "runtime_proof": "/root/C07WeaponRangeProof"
+    },
+    "source_weapon_update_decay_state_result.reload": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_decay_state",
+      "godot_symbol": "source_weapon_update_decay_state_result.reload",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);",
+      "rule": "The decayed mount reload (`mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);`, Weapon.java:294 -- reload decayed by delta * reloadMultiplier, clamped at 0).",
+      "tests": [
+        "test_c07_weapon_update_decay_registration",
+        "test_all_c07_weapon_update_decay_input_evidence_is_exact",
+        "test_weapon_update_decay_state",
+        "test_reference_graph_and_actual_c07_weapon_update_decay"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateDecayProof"
+    },
+    "source_weapon_update_decay_state_result.recoil": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_decay_state",
+      "godot_symbol": "source_weapon_update_decay_state_result.recoil",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime);",
+      "rule": "The approached mount recoil (`mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime);`, Weapon.java:296 -- recoil approached toward 0).",
+      "tests": [
+        "test_c07_weapon_update_decay_registration",
+        "test_all_c07_weapon_update_decay_input_evidence_is_exact",
+        "test_weapon_update_decay_state",
+        "test_reference_graph_and_actual_c07_weapon_update_decay"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateDecayProof"
+    },
+    "source_weapon_update_decay_state_result.recoils": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_decay_state",
+      "godot_symbol": "source_weapon_update_decay_state_result.recoils",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mount.recoils[i] = Mathf.approachDelta(mount.recoils[i], 0, unit.reloadMultiplier / recoilTime);",
+      "rule": "The decayed per-barrel recoils (`mount.recoils[i] = Mathf.approachDelta(mount.recoils[i], 0, unit.reloadMultiplier / recoilTime);`, Weapon.java:300 -- each barrel recoil approached toward 0; null input is allocated as zeros first, Weapon.java:298).",
+      "tests": [
+        "test_c07_weapon_update_decay_registration",
+        "test_all_c07_weapon_update_decay_input_evidence_is_exact",
+        "test_weapon_update_decay_state",
+        "test_reference_graph_and_actual_c07_weapon_update_decay"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateDecayProof"
+    },
+    "source_weapon_update_decay_state_result.smooth_reload": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_decay_state",
+      "godot_symbol": "source_weapon_update_decay_state_result.smooth_reload",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed);",
+      "rule": "The lerped smooth reload (`mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed);`, Weapon.java:303 -- lerps toward the UPDATED reload over weapon reload).",
+      "tests": [
+        "test_c07_weapon_update_decay_registration",
+        "test_all_c07_weapon_update_decay_input_evidence_is_exact",
+        "test_weapon_update_decay_state",
+        "test_reference_graph_and_actual_c07_weapon_update_decay"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateDecayProof"
+    },
+    "source_weapon_update_decay_state_result.charge": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_decay_state",
+      "godot_symbol": "source_weapon_update_decay_state_result.charge",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;",
+      "rule": "The gated mount charge (`mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;`, Weapon.java:304 -- approaches 1 while charging with a positive firstShotDelay, else exactly 0).",
+      "tests": [
+        "test_c07_weapon_update_decay_registration",
+        "test_all_c07_weapon_update_decay_input_evidence_is_exact",
+        "test_weapon_update_decay_state",
+        "test_reference_graph_and_actual_c07_weapon_update_decay"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateDecayProof"
+    },
+    "source_weapon_update_decay_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_decay_state",
+      "godot_symbol": "source_weapon_update_decay_state_result.warmup",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mount.warmup = Mathf.approachDelta(mount.warmup, warmupTarget, shootWarmupSpeed);",
+      "rule": "The warmed-up mount warmup (`mount.warmup = Mathf.approachDelta(mount.warmup, warmupTarget, shootWarmupSpeed);`, Weapon.java:308 -- linearWarmup leg; the lerp leg is `mount.warmup = Mathf.lerpDelta(mount.warmup, warmupTarget, shootWarmupSpeed);`, Weapon.java:310; warmupTarget is the 3-leg OR of Weapon.java:306).",
+      "tests": [
+        "test_c07_weapon_update_decay_registration",
+        "test_all_c07_weapon_update_decay_input_evidence_is_exact",
+        "test_weapon_update_decay_state",
+        "test_reference_graph_and_actual_c07_weapon_update_decay"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateDecayProof"
     }
   },
   "version": 1

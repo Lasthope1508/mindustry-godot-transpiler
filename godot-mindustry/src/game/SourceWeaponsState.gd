@@ -188,6 +188,9 @@ static func source_weapon_draw_state(z: float, unit_rotation: float, unit_x: flo
 static func source_weapon_range_state(bullet_range: float) -> Dictionary:
 	return source_weapons_core_state.source_weapon_range_state(bullet_range)
 
+static func source_weapon_update_decay_state(mount_reload: float, mount_recoil: float, mount_recoils: Array, mount_smooth_reload: float, mount_charge: float, mount_charging: bool, mount_shoot: bool, mount_warmup: float, has_continuous_bullet: bool, recoils: int, recoil_time: float, weapon_reload: float, smooth_reload_speed: float, first_shot_delay: float, shoot_warmup_speed: float, linear_warmup: bool, continuous: bool, can: bool, source_delta: float, reload_multiplier: float) -> Dictionary:
+	return source_weapons_core_state.source_weapon_update_decay_state(mount_reload, mount_recoil, mount_recoils, mount_smooth_reload, mount_charge, mount_charging, mount_shoot, mount_warmup, has_continuous_bullet, recoils, recoil_time, weapon_reload, smooth_reload_speed, first_shot_delay, shoot_warmup_speed, linear_warmup, continuous, can, source_delta, reload_multiplier)
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	return source_weapons_core_state.set_rotation_state(mount_states, source_rotation)
 

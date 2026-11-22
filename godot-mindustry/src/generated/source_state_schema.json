@@ -241764,6 +241764,284 @@
       },
       "runtime_proof": "/root/C07WeaponRangeProof",
       "rule": "Source-backed Weapon range() read from Weapon.java:288-290."
+    },
+    "source_weapon_update_decay_state_input": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_update_decay_state",
+      "source_slice": "N2540",
+      "keys": {
+        "mount_reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float reload;",
+          "rule": "The mount reload in frames (`public float reload;`, WeaponMount.java:12 -- reload in frames; 0 means ready to fire; the pre-decay value, decayed by `mount.reload - Time.delta * unit.reloadMultiplier` clamped at 0, Weapon.java:294).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "mount_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float recoil;",
+          "rule": "The mount recoil (`public float recoil;`, WeaponMount.java:16 -- weapon recoil; approached toward 0 by `unit.reloadMultiplier / recoilTime`, Weapon.java:296).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "mount_recoils": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public @Nullable float[] recoils;",
+          "rule": "The mount per-barrel recoils (`public @Nullable float[] recoils;`, WeaponMount.java:18 -- weapon barrel recoil; an empty Array is the GDScript representation of Java null, allocated as zeros of length `recoils` then decayed element-wise, Weapon.java:297-302; `recoils <= 0` leaves the input array untouched).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "mount_smooth_reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float smoothReload;",
+          "rule": "The mount smooth reload (`public float smoothReload;`, WeaponMount.java:30 -- lerps to reload time; lerped toward the UPDATED reload `reload' / reload`, Weapon.java:303).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "mount_charge": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float charge;",
+          "rule": "The mount charge (`public float charge;`, WeaponMount.java:28 -- counts up to 1 when charging, 0 when not; approached toward 1 while charging with a positive firstShotDelay, else exactly 0, Weapon.java:304).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "mount_charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public boolean charging;",
+          "rule": "Whether the mount is actively charging (`public boolean charging;`, WeaponMount.java:26 -- is the weapon actively charging; gates the charge approach and is one leg of warmupTarget, Weapon.java:304-306).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "mount_shoot": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public boolean shoot = false;",
+          "rule": "Whether the mount shoots right now (`public boolean shoot = false;`, WeaponMount.java:34 -- whether to shoot right now; with `can` it is the first leg of warmupTarget, Weapon.java:306).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "mount_warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float warmup;",
+          "rule": "The mount warmup (`public float warmup;`, WeaponMount.java:24 -- lerps to 1 when shooting, 0 when not; approached (linearWarmup) or lerped toward warmupTarget, Weapon.java:307-310).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "has_continuous_bullet": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public @Nullable Bullet bullet;",
+          "rule": "Whether the mount has a continuous bullet (`public @Nullable Bullet bullet;`, WeaponMount.java:47 -- current bullet for continuous weapons; `mount.bullet != null` with `continuous` is the second leg of warmupTarget, Weapon.java:306).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "recoils": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public int recoils = -1;",
+          "rule": "The weapon barrel-recoil count (`public int recoils = -1;`, Weapon.java:83 -- number of additional counters for recoil; the per-barrel decay block runs only when `recoils > 0`, Weapon.java:297).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "recoil_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float recoilTime = -1f;",
+          "rule": "The weapon recoil return time in ticks (`public float recoilTime = -1f;`, Weapon.java:85 -- time taken for weapon to return to starting position in ticks, uses reload time by default; passed through unchanged, NOT clamped or defaulted, Weapon.java:296/300).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "weapon_reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float reload = 1;",
+          "rule": "The weapon reload in frames (`public float reload = 1;`, Weapon.java:75 -- weapon reload in frames; the denominator of the smoothReload target `mount.reload / reload`, Weapon.java:303).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "smooth_reload_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float shootWarmupSpeed = 0.1f, smoothReloadSpeed = 0.15f;",
+          "rule": "The smooth reload lerp speed (`public float shootWarmupSpeed = 0.1f, smoothReloadSpeed = 0.15f;`, Weapon.java:111 -- lerp speed for shoot warmup, only used for parts; smoothReloadSpeed is the smoothReload lerpDelta progress, Weapon.java:303).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "first_shot_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "java_expr": "public float firstShotDelay = 0;",
+          "rule": "The shoot-pattern first-shot delay (`public float firstShotDelay = 0;`, ShootPattern.java:11 -- the delay before the first shot; the charge approach speed is `1 / shoot.firstShotDelay` and only applies while it is positive, Weapon.java:304).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "shoot_warmup_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float shootWarmupSpeed = 0.1f, smoothReloadSpeed = 0.15f;",
+          "rule": "The shoot warmup speed (`public float shootWarmupSpeed = 0.1f, smoothReloadSpeed = 0.15f;`, Weapon.java:111 -- lerp speed for shoot warmup, only used for parts; the warmup approachDelta / lerpDelta progress, Weapon.java:308/310).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "linear_warmup": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean linearWarmup = false;",
+          "rule": "Whether shoot warmup is linear (`public boolean linearWarmup = false;`, Weapon.java:113 -- if true, shoot warmup is linear instead of a curve; selects approachDelta over lerpDelta for warmup, Weapon.java:307-310).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "continuous": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean continuous;",
+          "rule": "Whether the weapon is continuous (`public boolean continuous;`, Weapon.java:53 -- with `mount.bullet != null` it is the second leg of warmupTarget, Weapon.java:306).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "can": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "boolean can = unit.canShoot();",
+          "rule": "The unit canShoot() frame bool (`boolean can = unit.canShoot();`, Weapon.java:293 -- taken as a bool input; canShoot() itself is NOT re-ported here; with `mount.shoot` it is the first leg of warmupTarget, Weapon.java:306).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);",
+          "rule": "The frame delta (`Time.delta`, Weapon.java:294 -- the reload decay step and the approachDelta / lerpDelta time base).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "reload_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);",
+          "rule": "The unit reload multiplier (`unit.reloadMultiplier`, Weapon.java:294 -- scales the reload decay and the recoil approach speed).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponUpdateDecayProof",
+      "rule": "Source-backed Weapon update() leg 1 decay from Weapon.java:293-306."
+    },
+    "source_weapon_update_decay_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_update_decay_state",
+      "source_slice": "N2540",
+      "keys": {
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);",
+          "rule": "The decayed mount reload (`mount.reload = Math.max(mount.reload - Time.delta * unit.reloadMultiplier, 0);`, Weapon.java:294 -- reload decayed by delta * reloadMultiplier, clamped at 0).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime);",
+          "rule": "The approached mount recoil (`mount.recoil = Mathf.approachDelta(mount.recoil, 0, unit.reloadMultiplier / recoilTime);`, Weapon.java:296 -- recoil approached toward 0).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "recoils": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.recoils[i] = Mathf.approachDelta(mount.recoils[i], 0, unit.reloadMultiplier / recoilTime);",
+          "rule": "The decayed per-barrel recoils (`mount.recoils[i] = Mathf.approachDelta(mount.recoils[i], 0, unit.reloadMultiplier / recoilTime);`, Weapon.java:300 -- each barrel recoil approached toward 0; null input is allocated as zeros first, Weapon.java:298).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "smooth_reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed);",
+          "rule": "The lerped smooth reload (`mount.smoothReload = Mathf.lerpDelta(mount.smoothReload, mount.reload / reload, smoothReloadSpeed);`, Weapon.java:303 -- lerps toward the UPDATED reload over weapon reload).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "charge": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;",
+          "rule": "The gated mount charge (`mount.charge = mount.charging && shoot.firstShotDelay > 0 ? Mathf.approachDelta(mount.charge, 1, 1 / shoot.firstShotDelay) : 0;`, Weapon.java:304 -- approaches 1 while charging with a positive firstShotDelay, else exactly 0).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.warmup = Mathf.approachDelta(mount.warmup, warmupTarget, shootWarmupSpeed);",
+          "rule": "The warmed-up mount warmup (`mount.warmup = Mathf.approachDelta(mount.warmup, warmupTarget, shootWarmupSpeed);`, Weapon.java:308 -- linearWarmup leg; the lerp leg is `mount.warmup = Mathf.lerpDelta(mount.warmup, warmupTarget, shootWarmupSpeed);`, Weapon.java:310; warmupTarget is the 3-leg OR of Weapon.java:306).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_decay_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponUpdateDecayProof",
+      "rule": "Source-backed Weapon update() leg 1 decay from Weapon.java:293-306."
     }
   },
   "version": 1

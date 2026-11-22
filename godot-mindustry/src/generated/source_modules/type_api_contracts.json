@@ -3041,6 +3041,132 @@
       "runtime_proof": "/root/C07WeaponShotsPerSecProof",
       "rule": "Source-backed Weapon shotsPerSec() read from Weapon.java:192-194.",
       "return_type": "Dictionary"
+    },
+    "SourceWeaponsCoreState.source_weapon_update_decay_state": {
+      "canonical_contract": "source_api_contracts.SourceWeaponsCoreState.source_weapon_update_decay_state",
+      "status": "active",
+      "source_slice": "N2540",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update()",
+      "params": [
+        {
+          "name": "mount_reload",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.mount_reload"
+        },
+        {
+          "name": "mount_recoil",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.mount_recoil"
+        },
+        {
+          "name": "mount_recoils",
+          "type": "Array",
+          "schema": "source_weapon_update_decay_state_input.mount_recoils"
+        },
+        {
+          "name": "mount_smooth_reload",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.mount_smooth_reload"
+        },
+        {
+          "name": "mount_charge",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.mount_charge"
+        },
+        {
+          "name": "mount_charging",
+          "type": "bool",
+          "schema": "source_weapon_update_decay_state_input.mount_charging"
+        },
+        {
+          "name": "mount_shoot",
+          "type": "bool",
+          "schema": "source_weapon_update_decay_state_input.mount_shoot"
+        },
+        {
+          "name": "mount_warmup",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.mount_warmup"
+        },
+        {
+          "name": "has_continuous_bullet",
+          "type": "bool",
+          "schema": "source_weapon_update_decay_state_input.has_continuous_bullet"
+        },
+        {
+          "name": "recoils",
+          "type": "int",
+          "schema": "source_weapon_update_decay_state_input.recoils"
+        },
+        {
+          "name": "recoil_time",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.recoil_time"
+        },
+        {
+          "name": "weapon_reload",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.weapon_reload"
+        },
+        {
+          "name": "smooth_reload_speed",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.smooth_reload_speed"
+        },
+        {
+          "name": "first_shot_delay",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.first_shot_delay"
+        },
+        {
+          "name": "shoot_warmup_speed",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.shoot_warmup_speed"
+        },
+        {
+          "name": "linear_warmup",
+          "type": "bool",
+          "schema": "source_weapon_update_decay_state_input.linear_warmup"
+        },
+        {
+          "name": "continuous",
+          "type": "bool",
+          "schema": "source_weapon_update_decay_state_input.continuous"
+        },
+        {
+          "name": "can",
+          "type": "bool",
+          "schema": "source_weapon_update_decay_state_input.can"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.source_delta"
+        },
+        {
+          "name": "reload_multiplier",
+          "type": "float",
+          "schema": "source_weapon_update_decay_state_input.reload_multiplier"
+        }
+      ],
+      "return_keys": [
+        "reload",
+        "recoil",
+        "recoils",
+        "smooth_reload",
+        "charge",
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_weapon_update_decay_registration",
+        "test_all_c07_weapon_update_decay_input_evidence_is_exact",
+        "test_weapon_update_decay_state",
+        "test_reference_graph_and_actual_c07_weapon_update_decay"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateDecayProof",
+      "rule": "Source-backed Weapon update() leg 1 decay from Weapon.java:293-306.",
+      "return_type": "Dictionary"
     }
   }
 }
