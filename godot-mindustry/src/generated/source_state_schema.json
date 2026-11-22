@@ -240616,6 +240616,184 @@
       },
       "runtime_proof": "/root/C07TurretEstimateDpsProof",
       "rule": "Source-backed Turret estimateDps() read from Turret.java:329-333 + ShootPattern.java:9 + ReloadTurret.java:10 + BuildingComp.java:98 + BulletType.java:414."
+    },
+    "source_bullet_type_estimate_dps_state_input": {
+      "status": "active",
+      "owner": "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state",
+      "source_slice": "N2529",
+      "keys": {
+        "damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float damage = 1f;",
+          "rule": "The base damage per hit (`public float damage = 1f;`, BulletType.java:41 -- the class default; per-def overrides in Blocks.java), the `damage` term of the sum.",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "splash_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float splashDamage = 0f;",
+          "rule": "The splash damage (`public float splashDamage = 0f;`, BulletType.java:109 -- the class default), folded into the sum at 0.75x (`splashDamage*0.75f`, BulletType.java:424).",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "pierce": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public boolean pierce;",
+          "rule": "Whether the bullet pierces units (`public boolean pierce;`, BulletType.java:53 -- false by default); when false the pierce multiplier is 1.",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "pierce_cap": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public int pierceCap = -1;",
+          "rule": "The maximum number of pierced objects (`public int pierceCap = -1;`, BulletType.java:57 -- -1 means uncapped, which doubles the sum; otherwise clamped to 1..2, `Mathf.clamp(pierceCap, 1, 2)`, BulletType.java:424).",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "cached_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "protected float cachedDps = -1;",
+          "rule": "The runtime cache (`protected float cachedDps = -1;`, BulletType.java:377 -- -1 means \"not computed yet\"); `cachedDps >= 0f` is the cache-hit leg that returns first, and the computed leg returns the new cache value through the `cached_dps` result key (the pure function never mutates state outside).",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "has_spawn_unit": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "if(spawnUnit != null){",
+          "rule": "Whether the bullet spawns a unit on hit (`if(spawnUnit != null){`, BulletType.java:417 -- the spawnUnit leg, BEFORE the computed sum).",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "spawn_unit_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "return spawnUnit.estimateDps();",
+          "rule": "The spawned unit DPS (`return spawnUnit.estimateDps();`, BulletType.java:418); a float param, NOT computed in this slice, because UnitType.estimateDps() (UnitType.java:1132-1144) is not ported yet -- that is a later slice. The spawnUnit leg returns this value WITHOUT writing the cache.",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "has_despawn_unit": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "if(despawnUnit != null){",
+          "rule": "Whether the bullet spawns a unit on despawn (`if(despawnUnit != null){`, BulletType.java:420 -- the despawnUnit leg, AFTER the spawnUnit leg).",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "despawn_unit_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "return despawnUnit.estimateDps();",
+          "rule": "The despawned unit DPS (`return despawnUnit.estimateDps();`, BulletType.java:421); a float param, NOT computed in this slice, because UnitType.estimateDps() (UnitType.java:1132-1144) is not ported yet. The despawnUnit leg returns this value WITHOUT writing the cache.",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "has_frag_bullet": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "if(fragBullet != null && fragBullet != this){",
+          "rule": "Whether a frag bullet exists and is not the bullet itself (`if(fragBullet != null && fragBullet != this){`, BulletType.java:425 -- the `fragBullet != this` guard); a bool param: the caller passes false when the frag bullet is the bullet itself (self-frag), the function cannot tell identity from a float param. When false, the frag term is skipped.",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "frag_bullet_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "sum += fragBullet.estimateDPS() * fragBullets / 2f;",
+          "rule": "The frag bullet DPS (`sum += fragBullet.estimateDPS() * fragBullets / 2f;`, BulletType.java:426 -- the recursive frag computation); a float param, NOT computed in this slice: the caller supplies the frag bullet DPS (the recursion over the bullet catalog is the caller's value).",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "frag_bullets": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public int fragBullets = 9;",
+          "rule": "The number of frag bullets (`public int fragBullets = 9;`, BulletType.java:212 -- the class default); the frag term is `frag_bullet_dps * frag_bullets / 2f`.",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "spawn_bullets_dps_sum": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "sum += other.estimateDPS();",
+          "rule": "The caller-summed `estimateDPS()` of every `spawnBullets` entry (`for(var other : spawnBullets){ sum += other.estimateDPS(); }`, BulletType.java:429-431 -- the recursion over the bullet catalog); a float param, NOT recomputed in the function: the caller sums the spawn bullets first.",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BulletTypeEstimateDpsProof",
+      "rule": "Source-backed BulletType estimateDPS() read from BulletType.java:414-435."
+    },
+    "source_bullet_type_estimate_dps_state_result": {
+      "status": "active",
+      "owner": "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state",
+      "source_slice": "N2529",
+      "keys": {
+        "estimate_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float estimateDPS(){",
+          "rule": "The estimated damage per shot (`public float estimateDPS(){`, BulletType.java:414 -- `@return estimated damage per shot. this can be very inaccurate.`; the cached value on the cache-hit leg, the unit DPS on the spawn/despawn legs, the computed sum otherwise).",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "cached_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "return cachedDps = sum;",
+          "rule": "The cache value Java would store (`return cachedDps = sum;`, BulletType.java:433 -- the computed leg writes the cache; the cache-hit leg returns the input cache unchanged; the spawnUnit / despawnUnit legs return the input cache unchanged, because Java returns before the cache-write line).",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        },
+        "branch": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float estimateDPS(){",
+          "rule": "Which leg of estimateDPS() fired (`public float estimateDPS(){`, BulletType.java:414 -- the four legs of the method): `cached` (cache hit), `spawn_unit`, `despawn_unit`, or `computed`. A port-side discriminator, not a Java field; it names the method leg, so it is backed by the method signature.",
+          "used_by": [
+            "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BulletTypeEstimateDpsProof",
+      "rule": "Source-backed BulletType estimateDPS() read from BulletType.java:414-435."
     }
   },
   "version": 1

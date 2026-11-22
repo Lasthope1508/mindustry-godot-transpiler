@@ -4027,6 +4027,93 @@
       ],
       "runtime_proof": "/root/Main.source_bullet_world_speed",
       "rule": "Public runtime contract for converting BulletType.speed units per tick into Godot world units per second."
+    },
+    "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state": {
+      "canonical_contract": "source_api_contracts.SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state",
+      "status": "active",
+      "source_slice": "N2529",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "BulletType.estimateDPS()",
+      "params": [
+        {
+          "name": "damage",
+          "type": "float",
+          "schema": "source_bullet_type_estimate_dps_state_input.damage"
+        },
+        {
+          "name": "splash_damage",
+          "type": "float",
+          "schema": "source_bullet_type_estimate_dps_state_input.splash_damage"
+        },
+        {
+          "name": "pierce",
+          "type": "bool",
+          "schema": "source_bullet_type_estimate_dps_state_input.pierce"
+        },
+        {
+          "name": "pierce_cap",
+          "type": "int",
+          "schema": "source_bullet_type_estimate_dps_state_input.pierce_cap"
+        },
+        {
+          "name": "cached_dps",
+          "type": "float",
+          "schema": "source_bullet_type_estimate_dps_state_input.cached_dps"
+        },
+        {
+          "name": "has_spawn_unit",
+          "type": "bool",
+          "schema": "source_bullet_type_estimate_dps_state_input.has_spawn_unit"
+        },
+        {
+          "name": "spawn_unit_dps",
+          "type": "float",
+          "schema": "source_bullet_type_estimate_dps_state_input.spawn_unit_dps"
+        },
+        {
+          "name": "has_despawn_unit",
+          "type": "bool",
+          "schema": "source_bullet_type_estimate_dps_state_input.has_despawn_unit"
+        },
+        {
+          "name": "despawn_unit_dps",
+          "type": "float",
+          "schema": "source_bullet_type_estimate_dps_state_input.despawn_unit_dps"
+        },
+        {
+          "name": "has_frag_bullet",
+          "type": "bool",
+          "schema": "source_bullet_type_estimate_dps_state_input.has_frag_bullet"
+        },
+        {
+          "name": "frag_bullet_dps",
+          "type": "float",
+          "schema": "source_bullet_type_estimate_dps_state_input.frag_bullet_dps"
+        },
+        {
+          "name": "frag_bullets",
+          "type": "int",
+          "schema": "source_bullet_type_estimate_dps_state_input.frag_bullets"
+        },
+        {
+          "name": "spawn_bullets_dps_sum",
+          "type": "float",
+          "schema": "source_bullet_type_estimate_dps_state_input.spawn_bullets_dps_sum"
+        }
+      ],
+      "return_keys": [
+        "estimate_dps",
+        "cached_dps",
+        "branch"
+      ],
+      "tests": [
+        "test_c07_bullet_type_estimate_dps_registration",
+        "test_all_c07_bullet_type_estimate_dps_input_evidence_is_exact",
+        "test_bullet_type_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_bullet_type_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BulletTypeEstimateDpsProof",
+      "rule": "Source-backed BulletType estimateDPS() read from BulletType.java:414-435."
     }
   }
 }

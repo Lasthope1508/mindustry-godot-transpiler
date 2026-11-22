@@ -1,6 +1,25 @@
 {
   "version": 1,
   "slices": {
+    "N2529": {
+      "canonical_ledger": "source_slice_ledger.N2529",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "BulletType.estimateDPS()",
+      "godot_owner": "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state",
+      "source_symbols": [
+        "source_bullet_type_estimate_dps_state_result.estimate_dps",
+        "source_bullet_type_estimate_dps_state_result.cached_dps",
+        "source_bullet_type_estimate_dps_state_result.branch"
+      ],
+      "tests": [
+        "test_c07_bullet_type_estimate_dps_registration",
+        "test_all_c07_bullet_type_estimate_dps_input_evidence_is_exact",
+        "test_bullet_type_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_bullet_type_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BulletTypeEstimateDpsProof"
+    },
     "N399": {
       "canonical_ledger": "source_slice_ledger.N399",
       "status": "done",

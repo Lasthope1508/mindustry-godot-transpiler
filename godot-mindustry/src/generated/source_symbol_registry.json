@@ -178408,6 +178408,54 @@
         "test_reference_graph_and_actual_c07_turret_estimate_dps"
       ],
       "runtime_proof": "/root/C07TurretEstimateDpsProof"
+    },
+    "source_bullet_type_estimate_dps_state_result.estimate_dps": {
+      "status": "source-backed",
+      "godot_owner": "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state",
+      "godot_symbol": "source_bullet_type_estimate_dps_state_result.estimate_dps",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "BulletType.estimateDPS()",
+      "java_expr": "public float estimateDPS(){",
+      "rule": "The estimated damage per shot (`public float estimateDPS(){`, BulletType.java:414 -- `@return estimated damage per shot. this can be very inaccurate.`; the cached value on the cache-hit leg, the unit DPS on the spawn/despawn legs, the computed sum otherwise).",
+      "tests": [
+        "test_c07_bullet_type_estimate_dps_registration",
+        "test_all_c07_bullet_type_estimate_dps_input_evidence_is_exact",
+        "test_bullet_type_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_bullet_type_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BulletTypeEstimateDpsProof"
+    },
+    "source_bullet_type_estimate_dps_state_result.cached_dps": {
+      "status": "source-backed",
+      "godot_owner": "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state",
+      "godot_symbol": "source_bullet_type_estimate_dps_state_result.cached_dps",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "BulletType.estimateDPS()",
+      "java_expr": "return cachedDps = sum;",
+      "rule": "The cache value Java would store (`return cachedDps = sum;`, BulletType.java:433 -- the computed leg writes the cache; the cache-hit leg returns the input cache unchanged; the spawnUnit / despawnUnit legs return the input cache unchanged, because Java returns before the cache-write line).",
+      "tests": [
+        "test_c07_bullet_type_estimate_dps_registration",
+        "test_all_c07_bullet_type_estimate_dps_input_evidence_is_exact",
+        "test_bullet_type_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_bullet_type_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BulletTypeEstimateDpsProof"
+    },
+    "source_bullet_type_estimate_dps_state_result.branch": {
+      "status": "source-backed",
+      "godot_owner": "SourceBulletTypeDamageState.source_bullet_type_estimate_dps_state",
+      "godot_symbol": "source_bullet_type_estimate_dps_state_result.branch",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "BulletType.estimateDPS()",
+      "java_expr": "public float estimateDPS(){",
+      "rule": "Which leg of estimateDPS() fired (`public float estimateDPS(){`, BulletType.java:414 -- the four legs of the method): `cached` (cache hit), `spawn_unit`, `despawn_unit`, or `computed`. A port-side discriminator, not a Java field; it names the method leg, so it is backed by the method signature.",
+      "tests": [
+        "test_c07_bullet_type_estimate_dps_registration",
+        "test_all_c07_bullet_type_estimate_dps_input_evidence_is_exact",
+        "test_bullet_type_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_bullet_type_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BulletTypeEstimateDpsProof"
     }
   },
   "version": 1
