@@ -1,11 +1,11 @@
-# Báo cáo — N2528 Turret estimateDps(): pure Turret.java estimateDps() port cho Turret family (C07) [DONE]
+# Báo cáo — N2528 Turret estimateDps(): pure Turret.java estimateDps() port cho Turret family (C07) [DONE + PUSHED]
 
-Ngày: 2026-11-22 ~08:46 +07 (proof xanh, đọc trực tiếp proof .json mtime 01:46:40Z; targeted 4/4 xác minh bởi main thread lượt này), gate xong 01:40:24Z (08:40:24 +07), push TBD.
+Ngày: 2026-11-22 ~08:46 +07 (proof xanh, đọc trực tiếp proof .json mtime 01:46:40Z; targeted 4/4 xác minh bởi main thread lượt này), gate xong 01:40:24Z (08:40:24 +07), push ~08:55 +07.
 
 ## Trạng thái
 
 - N2527 DONE + PUSHED (origin/main 92ad2be6).
-- N2528 DONE (slice TBD, docs TBD, GOAL TBD, status TBD, hashes TBD): port `estimateDps()` của `TurretBuild` thành 1 pure function mới `source_turret_estimate_dps_state` (SourceTurretBuildState.gd:575) cho Turret family — KHÔNG driver tick call site (estimateDps() là read function, không phải per-tick; không caller nào đọc nó hôm nay, HUD / stats display là C11). Hàm nhận 7 tham số (frame, has_ammo, has_peek_ammo, peek_ammo_dps, shots, reload, time_scale), trả đúng 1 key `estimate_dps`.
+- N2528 DONE + PUSHED (slice 901a3e8a, docs b7ad33d4, GOAL 9c85e4e9, status TBD, hashes TBD): port `estimateDps()` của `TurretBuild` thành 1 pure function mới `source_turret_estimate_dps_state` (SourceTurretBuildState.gd:575) cho Turret family — KHÔNG driver tick call site (estimateDps() là read function, không phải per-tick; không caller nào đọc nó hôm nay, HUD / stats display là C11). Hàm nhận 7 tham số (frame, has_ammo, has_peek_ammo, peek_ammo_dps, shots, reload, time_scale), trả đúng 1 key `estimate_dps`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
