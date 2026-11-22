@@ -229,6 +229,39 @@ static func source_unit_type_estimate_dps_state(cached_dps: float, weapons_dps_s
 		return {"estimate_dps": dps, "cached_dps": dps, "branch": "computed_suicide"}
 	return {"estimate_dps": dps, "cached_dps": dps, "branch": "computed"}
 
+static func source_unit_type_weapons_dps_sum_state(weapons_dps: Array) -> Dictionary:
+	# The sum leg of UnitType.estimateDps() (UnitType.java:1136,
+	# `public float estimateDps(){` /
+	# `dpsEstimate = weapons.sumf(Weapon::dps);` /
+	# `return dpsEstimate;`).
+	# `weapons` is `public Seq<Weapon> weapons = new Seq<>();`
+	# (UnitType.java:288). `weapons_dps` is the caller-computed
+	# per-weapon dps Array, one float per weapon, each value
+	# from `source_weapon_dps_state` (N2534, Weapon.dps(),
+	# Weapon.java:188-190, `(bullet.estimateDPS() / reload) *
+	# shoot.shots * 60f`): this function does NOT call
+	# Weapon.dps() directly -- calling it here would force all
+	# 13 bullet params into the UnitType signature (the
+	# N2528/N2529/N2533 param-driven precedent). The total
+	# starts at 0.0, so an empty weapons Seq sums to 0.0 (arc
+	# Seq.sumf starts from 0). The single return key is
+	# `weapons_dps_sum` (the N2526 precedent -- every return
+	# key is a symbol).
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# The sum is a read/estimate, not per-tick, and no caller
+	# reads the new function today (N2533 still takes
+	# `weapons_dps_sum` as a float param; the consumer that
+	# calls this sum and passes it into
+	# `source_unit_type_estimate_dps_state` is a later slice;
+	# C11 HUD / stats display reads `weapons_dps_sum` in a
+	# later slice) -> live behavior does NOT change.
+	# No gameplay change: one pure function + register +
+	# test + proof only. NO driver tick call site.
+	var total: float = 0.0
+	for value in weapons_dps:
+		total += float(value)
+	return {"weapons_dps_sum": total}
+
 static func generated_create_controller_bridge_state(controller_get: Callable, unit: Variant) -> Dictionary:
 	var result: Variant = _generated_call(source_text.SOURCE_UNIT_TYPE_CREATE_CONTROLLER_GENERATED_METHOD, [controller_get, unit])
 	var canonical := create_controller_state(controller_get, unit)

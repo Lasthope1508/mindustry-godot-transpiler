@@ -178584,6 +178584,22 @@
         "test_reference_graph_and_actual_c07_weapon_shots_per_sec"
       ],
       "runtime_proof": "/root/C07WeaponShotsPerSecProof"
+    },
+    "source_unit_type_weapons_dps_sum_state_result.weapons_dps_sum": {
+      "status": "source-backed",
+      "godot_owner": "SourceUnitTypeState.source_unit_type_weapons_dps_sum_state",
+      "godot_symbol": "source_unit_type_weapons_dps_sum_state_result.weapons_dps_sum",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.estimateDps()",
+      "java_expr": "dpsEstimate = weapons.sumf(Weapon::dps);",
+      "rule": "The summed weapons DPS (`dpsEstimate = weapons.sumf(Weapon::dps);`, UnitType.java:1136 -- \"calculate estimated DPS for one target based on weapons\", the value estimateDps() caches into `dpsEstimate` before the suicide leg; an empty weapons Seq sums to 0.0).",
+      "tests": [
+        "test_c07_unit_type_weapons_dps_sum_registration",
+        "test_all_c07_unit_type_weapons_dps_sum_input_evidence_is_exact",
+        "test_unit_type_weapons_dps_sum_state",
+        "test_reference_graph_and_actual_c07_unit_type_weapons_dps_sum"
+      ],
+      "runtime_proof": "/root/C07UnitTypeWeaponsDpsSumProof"
     }
   },
   "version": 1

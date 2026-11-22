@@ -241132,6 +241132,44 @@
       },
       "runtime_proof": "/root/C07WeaponShotsPerSecProof",
       "rule": "Source-backed Weapon shotsPerSec() read from Weapon.java:192-194."
+    },
+    "source_unit_type_weapons_dps_sum_state_input": {
+      "status": "active",
+      "owner": "SourceUnitTypeState.source_unit_type_weapons_dps_sum_state",
+      "source_slice": "N2536",
+      "keys": {
+        "weapons_dps": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_expr": "dpsEstimate = weapons.sumf(Weapon::dps);",
+          "rule": "The per-weapon dps values to sum (`dpsEstimate = weapons.sumf(Weapon::dps);`, UnitType.java:1136 -- one float per weapon in `public Seq<Weapon> weapons = new Seq<>();`, UnitType.java:288; each value is the caller-computed `source_weapon_dps_state` dps, N2534, Weapon.dps() Weapon.java:188-190); an Array param, NOT computed in this slice, because the per-weapon Weapon.dps() call is the caller's job.",
+          "used_by": [
+            "SourceUnitTypeState.source_unit_type_weapons_dps_sum_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitTypeWeaponsDpsSumProof",
+      "rule": "Source-backed UnitType weapons.sumf(Weapon::dps) read from UnitType.java:1136."
+    },
+    "source_unit_type_weapons_dps_sum_state_result": {
+      "status": "active",
+      "owner": "SourceUnitTypeState.source_unit_type_weapons_dps_sum_state",
+      "source_slice": "N2536",
+      "keys": {
+        "weapons_dps_sum": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/UnitType.java",
+          "java_expr": "dpsEstimate = weapons.sumf(Weapon::dps);",
+          "rule": "The summed weapons DPS (`dpsEstimate = weapons.sumf(Weapon::dps);`, UnitType.java:1136 -- \"calculate estimated DPS for one target based on weapons\", the value estimateDps() caches into `dpsEstimate` before the suicide leg; an empty weapons Seq sums to 0.0).",
+          "used_by": [
+            "SourceUnitTypeState.source_unit_type_weapons_dps_sum_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07UnitTypeWeaponsDpsSumProof",
+      "rule": "Source-backed UnitType weapons.sumf(Weapon::dps) read from UnitType.java:1136."
     }
   },
   "version": 1

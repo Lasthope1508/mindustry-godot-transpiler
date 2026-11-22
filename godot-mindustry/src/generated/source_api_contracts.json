@@ -71537,6 +71537,31 @@
       ],
       "runtime_proof": "/root/C07WeaponShotsPerSecProof",
       "rule": "Source-backed Weapon shotsPerSec() read from Weapon.java:192-194."
+    },
+    "SourceUnitTypeState.source_unit_type_weapons_dps_sum_state": {
+      "status": "active",
+      "source_slice": "N2536",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.estimateDps()",
+      "params": [
+        {
+          "name": "weapons_dps",
+          "type": "Array",
+          "schema": "source_unit_type_weapons_dps_sum_state_input.weapons_dps"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "weapons_dps_sum"
+      ],
+      "tests": [
+        "test_c07_unit_type_weapons_dps_sum_registration",
+        "test_all_c07_unit_type_weapons_dps_sum_input_evidence_is_exact",
+        "test_unit_type_weapons_dps_sum_state",
+        "test_reference_graph_and_actual_c07_unit_type_weapons_dps_sum"
+      ],
+      "runtime_proof": "/root/C07UnitTypeWeaponsDpsSumProof",
+      "rule": "Source-backed UnitType weapons.sumf(Weapon::dps) read from UnitType.java:1136."
     }
   },
   "policy": {

@@ -2694,6 +2694,31 @@
       "runtime_proof": "/root/C07UnitTypeEstimateDpsProof",
       "rule": "Source-backed UnitType estimateDps() read from UnitType.java:1132-1144."
     },
+    "SourceUnitTypeState.source_unit_type_weapons_dps_sum_state": {
+      "canonical_contract": "source_api_contracts.SourceUnitTypeState.source_unit_type_weapons_dps_sum_state",
+      "status": "active",
+      "source_slice": "N2536",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.estimateDps()",
+      "params": [
+        {
+          "name": "weapons_dps",
+          "type": "Array",
+          "schema": "source_unit_type_weapons_dps_sum_state_input.weapons_dps"
+        }
+      ],
+      "return_keys": [
+        "weapons_dps_sum"
+      ],
+      "tests": [
+        "test_c07_unit_type_weapons_dps_sum_registration",
+        "test_all_c07_unit_type_weapons_dps_sum_input_evidence_is_exact",
+        "test_unit_type_weapons_dps_sum_state",
+        "test_reference_graph_and_actual_c07_unit_type_weapons_dps_sum"
+      ],
+      "runtime_proof": "/root/C07UnitTypeWeaponsDpsSumProof",
+      "rule": "Source-backed UnitType weapons.sumf(Weapon::dps) read from UnitType.java:1136."
+    },
     "SourceWeaponsCoreState.source_weapon_dps_state": {
       "canonical_contract": "source_api_contracts.SourceWeaponsCoreState.source_weapon_dps_state",
       "status": "active",
