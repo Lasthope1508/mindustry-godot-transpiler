@@ -255019,6 +255019,104 @@
       },
       "runtime_proof": "/root/C07LogicIsWaitingWaveProof",
       "rule": "Source-backed Logic.isWaitingWave() wave-wait predicate state from Logic.java."
+    },
+    "source_game_wave_run_state_input": {
+      "status": "active",
+      "owner": "SourceGameWaveState.source_game_wave_run_state",
+      "source_slice": "N2437",
+      "keys": {
+        "wave": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.wave++;",
+          "rule": "The current wave counter (Logic.java:321, `state.wave++;`): runWave increments it, so wave is an in param -- the value before this wave runs.",
+          "used_by": [
+            "SourceGameWaveState.source_game_wave_run_state"
+          ]
+        },
+        "wave_spacing": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.wavetime = state.rules.waveSpacing * (state.isCampaign() ? state.getPlanet().campaignRules.difficulty.waveTimeMultiplier : 1f);",
+          "rule": "The base wave spacing in seconds (Logic.java:322, the wavetime assignment): state.rules.waveSpacing, the first factor of the wavetime formula.",
+          "used_by": [
+            "SourceGameWaveState.source_game_wave_run_state"
+          ]
+        },
+        "is_campaign": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.wavetime = state.rules.waveSpacing * (state.isCampaign() ? state.getPlanet().campaignRules.difficulty.waveTimeMultiplier : 1f);",
+          "rule": "Whether the game is a campaign game (Logic.java:322, the wavetime assignment): state.isCampaign() selects the difficulty multiplier when true, 1f otherwise.",
+          "used_by": [
+            "SourceGameWaveState.source_game_wave_run_state"
+          ]
+        },
+        "wave_time_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.wavetime = state.rules.waveSpacing * (state.isCampaign() ? state.getPlanet().campaignRules.difficulty.waveTimeMultiplier : 1f);",
+          "rule": "The campaign difficulty wave-time multiplier (Logic.java:322, the wavetime assignment): state.getPlanet().campaignRules.difficulty.waveTimeMultiplier, applied only when is_campaign is true.",
+          "used_by": [
+            "SourceGameWaveState.source_game_wave_run_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LogicRunWaveProof",
+      "rule": "Source-backed Logic.runWave() state from Logic.java."
+    },
+    "source_game_wave_run_state_result": {
+      "status": "active",
+      "owner": "SourceGameWaveState.source_game_wave_run_state",
+      "source_slice": "N2437",
+      "keys": {
+        "wave": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.wave++;",
+          "rule": "The wave counter after this run (Logic.java:321, `state.wave++;`): the input wave incremented by one.",
+          "used_by": [
+            "SourceGameWaveState.source_game_wave_run_state"
+          ]
+        },
+        "wavetime": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.wavetime = state.rules.waveSpacing * (state.isCampaign() ? state.getPlanet().campaignRules.difficulty.waveTimeMultiplier : 1f);",
+          "rule": "The wave timer after this run (Logic.java:322, the wavetime assignment): waveSpacing * (isCampaign ? waveTimeMultiplier : 1f) -- pure math with explicit inputs; distinct from the play() formula (Logic.java:272) which adds initialWaveSpacing and `* 2`.",
+          "used_by": [
+            "SourceGameWaveState.source_game_wave_run_state"
+          ]
+        },
+        "spawn_enemies": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "spawner.spawnEnemies();",
+          "rule": "Whether the spawner was asked to spawn this wave's enemies (Logic.java:320, `spawner.spawnEnemies();`): WaveSpawner is not ported on either line, so the call-site is recorded as data -- true -- until a WaveSpawner slice lands.",
+          "used_by": [
+            "SourceGameWaveState.source_game_wave_run_state"
+          ]
+        },
+        "fired_event": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "Events.fire(new WaveEvent());",
+          "rule": "The event this run fires (Logic.java:324, `Events.fire(new WaveEvent());`): no event bus exists in the port, so the fire is recorded as data -- the string \"WaveEvent\" -- until an event bus is designed.",
+          "used_by": [
+            "SourceGameWaveState.source_game_wave_run_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LogicRunWaveProof",
+      "rule": "Source-backed Logic.runWave() state from Logic.java."
     }
   },
   "version": 1

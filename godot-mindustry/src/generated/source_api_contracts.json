@@ -78047,6 +78047,49 @@
       ],
       "runtime_proof": "/root/C07LogicIsWaitingWaveProof",
       "rule": "Source-backed Logic.isWaitingWave() wave-wait predicate state from Logic.java."
+    },
+    "SourceGameWaveState.source_game_wave_run_state": {
+      "status": "active",
+      "source_slice": "N2437",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "source_method": "Logic.runWave()",
+      "params": [
+        {
+          "name": "wave",
+          "type": "int",
+          "schema": "source_game_wave_run_state_input.wave"
+        },
+        {
+          "name": "wave_spacing",
+          "type": "float",
+          "schema": "source_game_wave_run_state_input.wave_spacing"
+        },
+        {
+          "name": "is_campaign",
+          "type": "bool",
+          "schema": "source_game_wave_run_state_input.is_campaign"
+        },
+        {
+          "name": "wave_time_multiplier",
+          "type": "float",
+          "schema": "source_game_wave_run_state_input.wave_time_multiplier"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "wave",
+        "wavetime",
+        "spawn_enemies",
+        "fired_event"
+      ],
+      "tests": [
+        "test_c07_logic_run_wave_registration",
+        "test_all_c07_logic_run_wave_input_evidence_is_exact",
+        "test_logic_run_wave_state",
+        "test_reference_graph_and_actual_c07_logic_run_wave"
+      ],
+      "runtime_proof": "/root/C07LogicRunWaveProof",
+      "rule": "Source-backed Logic.runWave() state from Logic.java."
     }
   },
   "policy": {

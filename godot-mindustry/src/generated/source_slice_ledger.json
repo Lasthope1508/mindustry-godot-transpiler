@@ -104361,6 +104361,38 @@
         "The isWaitingWave() call-site `if(!isWaitingWave()){` (Logic.java:577, inside update()) is a later slice: it belongs to the update() driver-tick slice, not to the predicate slice N2436.",
         "The `state.enemies` count leg in Logic.update() is a later slice: isWaitingWave() only reads the frame value, it never counts enemies itself."
       ]
+    },
+    "N2437": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_class": "mindustry.core.Logic",
+      "java_method": "Logic.runWave()",
+      "godot_owner": "SourceGameWaveState.source_game_wave_run_state",
+      "exact_exprs": [
+        "spawner.spawnEnemies();",
+        "state.wave++;",
+        "state.wavetime = state.rules.waveSpacing * (state.isCampaign() ? state.getPlanet().campaignRules.difficulty.waveTimeMultiplier : 1f);",
+        "Events.fire(new WaveEvent());"
+      ],
+      "source_symbols": [
+        "source_game_wave_run_state_result.wave",
+        "source_game_wave_run_state_result.wavetime",
+        "source_game_wave_run_state_result.spawn_enemies",
+        "source_game_wave_run_state_result.fired_event"
+      ],
+      "tests": [
+        "test_c07_logic_run_wave_registration",
+        "test_all_c07_logic_run_wave_input_evidence_is_exact",
+        "test_logic_run_wave_state",
+        "test_reference_graph_and_actual_c07_logic_run_wave"
+      ],
+      "runtime_proof": "/root/C07LogicRunWaveProof",
+      "deferred_exprs": [
+        "WaveSpawner.spawnEnemies() call-site -- waits for a WaveSpawner slice (WaveSpawner.java unscanned, method WaveSpawner 0-hit both ledgers); the runWave func records spawn_enemies: true as data until then.",
+        "Events.fire(new WaveEvent()) -- no event bus in the port (method Events.on 0-hit both ledgers); the runWave func records fired_event: \"WaveEvent\" as data; event-bus design is a separate main-thread decision.",
+        "Logic.skipWave() -- calls runWave(); becomes a 1-expr slice after N2437 lands (same new file SourceGameWaveState.gd).",
+        "Logic.runWave() Windows Godot proof -- debt in GOAL.md section 5: the N2437 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1
