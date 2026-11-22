@@ -5,7 +5,7 @@ Ngày: 2026-11-22 ~14:05 +07 (targeted re-run xác minh lượt này; proof xanh
 ## Trạng thái
 
 - N2530 DONE + PUSHED (origin/main eafdfdb4).
-- N2531 DONE + PUSHED (slice 34cbcc90, docs 903bf260, GOAL b6d497fc): port `fogRadius()` của `TurretBuild` thành 1 pure function mới `source_turret_fog_radius_state` (SourceTurretBuildState.gd, sau can_control :632, trước can_heal) cho Turret family — KHÔNG driver tick call site (fogRadius() là read, không phải per-tick; không caller nào đọc nó hôm nay, fog-of-war / draw logic là slice sau). Hàm nhận 5 tham số (`range_value`, `has_ammo`, `peek_ammo_range_change`, `tilesize`, `fog_radius_multiplier`) và trả đúng 1 key `fog_radius`.
+- N2531 DONE + PUSHED (slice 34cbcc90, docs 903bf260, GOAL b6d497fc, status fadcccac): port `fogRadius()` của `TurretBuild` thành 1 pure function mới `source_turret_fog_radius_state` (SourceTurretBuildState.gd, sau can_control :632, trước can_heal) cho Turret family — KHÔNG driver tick call site (fogRadius() là read, không phải per-tick; không caller nào đọc nó hôm nay, fog-of-war / draw logic là slice sau). Hàm nhận 5 tham số (`range_value`, `has_ammo`, `peek_ammo_range_change`, `tilesize`, `fog_radius_multiplier`) và trả đúng 1 key `fog_radius`.
 
 ## Làm được lượt này (GREEN + gate xong)
 

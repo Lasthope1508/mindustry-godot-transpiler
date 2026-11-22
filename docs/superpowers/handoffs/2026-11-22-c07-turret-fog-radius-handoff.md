@@ -1,6 +1,6 @@
-# Handoff — N2531 Turret `fogRadius()`: pure function cho Turret family (C07) [DONE + PUSHED (slice 34cbcc90, docs 903bf260, GOAL b6d497fc)]
+# Handoff — N2531 Turret `fogRadius()`: pure function cho Turret family (C07) [DONE + PUSHED (slice 34cbcc90, docs 903bf260, GOAL b6d497fc, status fadcccac)]
 
-## Status: DONE + PUSHED (lượt cron 14:00 +07 ngày 2026-11-22; slice 34cbcc90, docs 903bf260, GOAL b6d497fc; push xong mới ghi origin/main ở đây sau khi push)
+## Status: DONE + PUSHED (lượt cron 14:00 +07 ngày 2026-11-22; slice 34cbcc90, docs 903bf260, GOAL b6d497fc, status fadcccac; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2530 DONE + PUSHED ~12:15 +07 ngày 2026-11-22, origin/main == eafdfdb4
   (5 commit: slice 611231fe + docs 1d874d53 + GOAL d1b8433a + status 9eb0cce7 +
