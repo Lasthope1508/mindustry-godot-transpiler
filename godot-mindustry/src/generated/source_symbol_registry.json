@@ -183880,6 +183880,198 @@
         "test_reference_graph_and_actual_c07_continuous_turret_default_constructor"
       ],
       "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.fire_result": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.fire_result",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "result = fire;",
+      "rule": "The chosen fire, or null: the nearest valid fire found by the scan (LiquidTurret.java:105, `result = fire;`); the driver (N1200 shell) assigns it to target when result_found is true.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.mindst": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.mindst",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "mindst = dst;",
+      "rule": "The smallest squared distance seen (LiquidTurret.java:106, `mindst = dst;`): starts 0f and tracks the winning fire's dst -- the first valid candidate is accepted while result is null, then only a strictly nearer fire replaces it.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.result_found": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.result_found",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "if(result != null){",
+      "rule": "Whether the scan found a fire (LiquidTurret.java:111, `if(result != null){`): true exactly when fire_result is not null; the `target = result;` + `return;` body of that if stays N1200-owned.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.tile_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.tile_x",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "int tx = World.toTile(x), ty = World.toTile(y);",
+      "rule": "The scan origin tile x (LiquidTurret.java:94, `int tx = World.toTile(x), ty = World.toTile(y);`): World.toTile(build_x), Java Math.round semantics.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.tile_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.tile_y",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "int tx = World.toTile(x), ty = World.toTile(y);",
+      "rule": "The scan origin tile y (LiquidTurret.java:94, `int tx = World.toTile(x), ty = World.toTile(y);`): World.toTile(build_y), Java Math.round semantics.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.scan_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.scan_radius",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "int tr = (int)(range / tilesize);",
+      "rule": "The scan radius in tiles (LiquidTurret.java:97, `int tr = (int)(range / tilesize);`): the loop runs offsets -tr..tr on both axes.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.build_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.build_x",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "int tx = World.toTile(x), ty = World.toTile(y);",
+      "rule": "The build world x, read through (LiquidTurret.java:94, `int tx = World.toTile(x), ty = World.toTile(y);`): the explicit build_x param, echoed so the proof can pin the scan origin.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.build_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.build_y",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "int tx = World.toTile(x), ty = World.toTile(y);",
+      "rule": "The build world y, read through (LiquidTurret.java:94, `int tx = World.toTile(x), ty = World.toTile(y);`): the explicit build_y param, echoed so the proof can pin the scan origin.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.scan_range": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.scan_range",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "int tr = (int)(range / tilesize);",
+      "rule": "The targeting range, read through (LiquidTurret.java:97, `int tr = (int)(range / tilesize);`): the explicit scan_range param, echoed so the proof can pin the scan radius.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.tilesize": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.tilesize",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "int tr = (int)(range / tilesize);",
+      "rule": "The tile size, read through (LiquidTurret.java:97, `int tr = (int)(range / tilesize);`): the explicit tilesize param, echoed so the proof can pin the scan origin.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.team": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.team",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "if(other != null && fire != null && other.build != this && Fires.has(other.x, other.y) && dst <= range * range && (result == null || dst < mindst) && (other.build == null || other.team() == team)){",
+      "rule": "The build team, read through (LiquidTurret.java:104, the scan condition): the explicit team param, echoed so the proof can pin the team filter.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_liquid_turret_find_target_scan_state_result.self_build": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "godot_symbol": "source_liquid_turret_find_target_scan_state_result.self_build",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "if(other != null && fire != null && other.build != this && Fires.has(other.x, other.y) && dst <= range * range && (result == null || dst < mindst) && (other.build == null || other.team() == team)){",
+      "rule": "This build, read through (LiquidTurret.java:104, the scan condition): the explicit self_build param, echoed so the proof can pin the identity filter.",
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
     }
   },
   "version": 1

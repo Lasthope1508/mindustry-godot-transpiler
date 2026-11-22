@@ -4446,6 +4446,34 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof"
     },
+    "N2408": {
+      "canonical_ledger": "source_slice_ledger.N2408",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "source_symbols": [
+        "source_liquid_turret_find_target_scan_state_result.fire_result",
+        "source_liquid_turret_find_target_scan_state_result.mindst",
+        "source_liquid_turret_find_target_scan_state_result.result_found",
+        "source_liquid_turret_find_target_scan_state_result.tile_x",
+        "source_liquid_turret_find_target_scan_state_result.tile_y",
+        "source_liquid_turret_find_target_scan_state_result.scan_radius",
+        "source_liquid_turret_find_target_scan_state_result.build_x",
+        "source_liquid_turret_find_target_scan_state_result.build_y",
+        "source_liquid_turret_find_target_scan_state_result.scan_range",
+        "source_liquid_turret_find_target_scan_state_result.tilesize",
+        "source_liquid_turret_find_target_scan_state_result.team",
+        "source_liquid_turret_find_target_scan_state_result.self_build"
+      ],
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

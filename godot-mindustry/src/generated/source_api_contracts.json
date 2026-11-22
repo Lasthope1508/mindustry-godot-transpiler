@@ -76652,6 +76652,87 @@
       ],
       "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof",
       "rule": "Source-backed ContinuousTurret() ctor field defaults state from ContinuousTurret.java."
+    },
+    "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state": {
+      "status": "active",
+      "source_slice": "N2408",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurretBuild.findTarget()",
+      "params": [
+        {
+          "name": "build_x",
+          "type": "float",
+          "schema": "source_liquid_turret_find_target_scan_state_input.build_x"
+        },
+        {
+          "name": "build_y",
+          "type": "float",
+          "schema": "source_liquid_turret_find_target_scan_state_input.build_y"
+        },
+        {
+          "name": "scan_range",
+          "type": "float",
+          "schema": "source_liquid_turret_find_target_scan_state_input.scan_range"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_liquid_turret_find_target_scan_state_input.tilesize"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "schema": "source_liquid_turret_find_target_scan_state_input.team"
+        },
+        {
+          "name": "self_build",
+          "type": "Variant",
+          "schema": "source_liquid_turret_find_target_scan_state_input.self_build"
+        },
+        {
+          "name": "world_tile",
+          "type": "Callable",
+          "schema": "source_liquid_turret_find_target_scan_state_input.world_tile"
+        },
+        {
+          "name": "fires_get",
+          "type": "Callable",
+          "schema": "source_liquid_turret_find_target_scan_state_input.fires_get"
+        },
+        {
+          "name": "fires_has",
+          "type": "Callable",
+          "schema": "source_liquid_turret_find_target_scan_state_input.fires_has"
+        },
+        {
+          "name": "dst2",
+          "type": "Callable",
+          "schema": "source_liquid_turret_find_target_scan_state_input.dst2"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "fire_result",
+        "mindst",
+        "result_found",
+        "tile_x",
+        "tile_y",
+        "scan_radius",
+        "build_x",
+        "build_y",
+        "scan_range",
+        "tilesize",
+        "team",
+        "self_build"
+      ],
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof",
+      "rule": "Source-backed LiquidTurretBuild.findTarget() extinguish-scan loop state from LiquidTurret.java."
     }
   },
   "policy": {

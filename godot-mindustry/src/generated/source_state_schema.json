@@ -251940,6 +251940,244 @@
       },
       "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof",
       "rule": "Source-backed ContinuousTurret() ctor field defaults state from ContinuousTurret.java."
+    },
+    "source_liquid_turret_find_target_scan_state_input": {
+      "status": "active",
+      "owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "source_slice": "N2408",
+      "keys": {
+        "build_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tx = World.toTile(x), ty = World.toTile(y);",
+          "rule": "The build world x in pixels (LiquidTurret.java:94, `int tx = World.toTile(x), ty = World.toTile(y);`): World.toTile(x) rounds x / tilesize (World.java:174-176, Math.round) -- the GD function computes tx with Java Math.round semantics, int(floor(v / tilesize + 0.5)).",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "build_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tx = World.toTile(x), ty = World.toTile(y);",
+          "rule": "The build world y in pixels (LiquidTurret.java:94, `int tx = World.toTile(x), ty = World.toTile(y);`): World.toTile(y) rounds y / tilesize (World.java:174-176, Math.round) -- the GD function computes ty with Java Math.round semantics, int(floor(v / tilesize + 0.5)).",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "scan_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tr = (int)(range / tilesize);",
+          "rule": "The targeting range in world pixels (LiquidTurret.java:97, `int tr = (int)(range / tilesize);`): TurretBuild.range(); the GD param is named scan_range because `range` shadows GDScript's builtin range() used by the scan loop; the scan compares squared distances against scan_range * scan_range.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tr = (int)(range / tilesize);",
+          "rule": "The tile size in world pixels (LiquidTurret.java:97, `int tr = (int)(range / tilesize);`): Vars.tilesize (8), always positive; it converts the build coords to tile coords and the range to the scan radius tr.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "team": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "if(other != null && fire != null && other.build != this && Fires.has(other.x, other.y) && dst <= range * range && (result == null || dst < mindst) && (other.build == null || other.team() == team)){",
+          "rule": "The build team (LiquidTurret.java:104, the `(other.build == null || other.team() == team)` leg of the scan condition): a fire on a built tile counts only when that build is on this team; the team arrives as an explicit Variant param, never hard-coded.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "self_build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "if(other != null && fire != null && other.build != this && Fires.has(other.x, other.y) && dst <= range * range && (result == null || dst < mindst) && (other.build == null || other.team() == team)){",
+          "rule": "This build (LiquidTurret.java:104, the `other.build != this` leg of the scan condition): the live build object; a fire on the turret's own tile is excluded -- it arrives as an explicit Variant param so the pure function compares tile builds by identity.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "world_tile": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "Tile other = world.tile(x + tx, y + ty);",
+          "rule": "The world tile lookup (LiquidTurret.java:100, `Tile other = world.tile(x + tx, y + ty);`): world.tile returns tiles.get, null out of bounds (World.java:122) -- it arrives as a Callable (tile_x, tile_y) returning a tile Dictionary {\"build\": Variant, \"build_team\": Variant} or null; the live world query stays on the driver side.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "fires_get": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "var fire = Fires.get(x + tx, y + ty);",
+          "rule": "The fire lookup (LiquidTurret.java:101, `var fire = Fires.get(x + tx, y + ty);`): Fires.get returns the fire at the tile or null (also null out of bounds) -- it arrives as a Callable (tile_x, tile_y) returning a fire Dictionary or null; the live Fires query stays on the driver side.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "fires_has": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "if(other != null && fire != null && other.build != this && Fires.has(other.x, other.y) && dst <= range * range && (result == null || dst < mindst) && (other.build == null || other.team() == team)){",
+          "rule": "The Fires.has check (LiquidTurret.java:104, the `Fires.has(other.x, other.y)` leg of the scan condition): Fires.has is stricter than `fire != null` -- the fire must be added, unfinished, and on exactly that tile -- so it stays its own Callable (tile_x, tile_y) returning a bool; the live Fires query stays on the driver side.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "dst2": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "float dst = fire == null ? 0 : dst2(fire);",
+          "rule": "The squared-distance hook (LiquidTurret.java:102, `float dst = fire == null ? 0 : dst2(fire);`): the squared distance from this build to the fire (0 when there is no fire) -- it arrives as a Callable (fire) returning a float; the live position read stays on the driver side.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof",
+      "rule": "Source-backed LiquidTurretBuild.findTarget() extinguish-scan loop state from LiquidTurret.java."
+    },
+    "source_liquid_turret_find_target_scan_state_result": {
+      "status": "active",
+      "owner": "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "source_slice": "N2408",
+      "keys": {
+        "fire_result": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "result = fire;",
+          "rule": "The chosen fire, or null: the nearest valid fire found by the scan (LiquidTurret.java:105, `result = fire;`); the driver (N1200 shell) assigns it to target when result_found is true.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "mindst": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "mindst = dst;",
+          "rule": "The smallest squared distance seen (LiquidTurret.java:106, `mindst = dst;`): starts 0f and tracks the winning fire's dst -- the first valid candidate is accepted while result is null, then only a strictly nearer fire replaces it.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "result_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "if(result != null){",
+          "rule": "Whether the scan found a fire (LiquidTurret.java:111, `if(result != null){`): true exactly when fire_result is not null; the `target = result;` + `return;` body of that if stays N1200-owned.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "tile_x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tx = World.toTile(x), ty = World.toTile(y);",
+          "rule": "The scan origin tile x (LiquidTurret.java:94, `int tx = World.toTile(x), ty = World.toTile(y);`): World.toTile(build_x), Java Math.round semantics.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "tile_y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tx = World.toTile(x), ty = World.toTile(y);",
+          "rule": "The scan origin tile y (LiquidTurret.java:94, `int tx = World.toTile(x), ty = World.toTile(y);`): World.toTile(build_y), Java Math.round semantics.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "scan_radius": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tr = (int)(range / tilesize);",
+          "rule": "The scan radius in tiles (LiquidTurret.java:97, `int tr = (int)(range / tilesize);`): the loop runs offsets -tr..tr on both axes.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "build_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tx = World.toTile(x), ty = World.toTile(y);",
+          "rule": "The build world x, read through (LiquidTurret.java:94, `int tx = World.toTile(x), ty = World.toTile(y);`): the explicit build_x param, echoed so the proof can pin the scan origin.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "build_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tx = World.toTile(x), ty = World.toTile(y);",
+          "rule": "The build world y, read through (LiquidTurret.java:94, `int tx = World.toTile(x), ty = World.toTile(y);`): the explicit build_y param, echoed so the proof can pin the scan origin.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "scan_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tr = (int)(range / tilesize);",
+          "rule": "The targeting range, read through (LiquidTurret.java:97, `int tr = (int)(range / tilesize);`): the explicit scan_range param, echoed so the proof can pin the scan radius.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "tilesize": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "int tr = (int)(range / tilesize);",
+          "rule": "The tile size, read through (LiquidTurret.java:97, `int tr = (int)(range / tilesize);`): the explicit tilesize param, echoed so the proof can pin the scan origin.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "team": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "if(other != null && fire != null && other.build != this && Fires.has(other.x, other.y) && dst <= range * range && (result == null || dst < mindst) && (other.build == null || other.team() == team)){",
+          "rule": "The build team, read through (LiquidTurret.java:104, the scan condition): the explicit team param, echoed so the proof can pin the team filter.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        },
+        "self_build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_expr": "if(other != null && fire != null && other.build != this && Fires.has(other.x, other.y) && dst <= range * range && (result == null || dst < mindst) && (other.build == null || other.team() == team)){",
+          "rule": "This build, read through (LiquidTurret.java:104, the scan condition): the explicit self_build param, echoed so the proof can pin the identity filter.",
+          "used_by": [
+            "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof",
+      "rule": "Source-backed LiquidTurretBuild.findTarget() extinguish-scan loop state from LiquidTurret.java."
     }
   },
   "version": 1

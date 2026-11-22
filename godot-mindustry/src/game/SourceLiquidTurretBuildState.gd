@@ -318,3 +318,70 @@ static func source_liquid_turret_default_constructor_state(liquid_turret_default
 	liquid_turret_defaults["smoke_effect"] = smoke_effect_value
 	liquid_turret_defaults["shoot_effect"] = shoot_effect_value
 	return {"loop_sound": loop_sound_value, "shoot_sound": shoot_sound_value, "smoke_effect": smoke_effect_value, "shoot_effect": shoot_effect_value, "liquid_turret_defaults": liquid_turret_defaults}
+
+static func source_liquid_turret_find_target_scan_state(build_x: float, build_y: float, scan_range: float, tilesize: float, team: Variant, self_build: Variant, world_tile: Callable, fires_get: Callable, fires_has: Callable, dst2: Callable) -> Dictionary:
+	# LiquidTurretBuild.findTarget() extinguish-scan loop (LiquidTurret.java:91-117):
+	# `int tx = World.toTile(x), ty = World.toTile(y);`
+	# `float mindst = 0f;`
+	# `int tr = (int)(range / tilesize);`
+	# `for(int x = -tr; x <= tr; x++){`
+	# `for(int y = -tr; y <= tr; y++){`
+	# `Tile other = world.tile(x + tx, y + ty);`
+	# `var fire = Fires.get(x + tx, y + ty);`
+	# `float dst = fire == null ? 0 : dst2(fire);`
+	# `if(other != null && fire != null && other.build != this && Fires.has(other.x, other.y) && dst <= range * range && (result == null || dst < mindst) && (other.build == null || other.team() == team)){`
+	# `result = fire;`
+	# `mindst = dst;`
+	# `if(result != null){`
+	# Only the 12 loop exprs above are owned here. The shell
+	# is N1200-owned (`protected void findTarget(){`,
+	# `if(extinguish && liquids.current().canExtinguish()){`,
+	# `Fire result = null;`, `target = result;`, `return;`,
+	# `super.findTarget();` -- plus the class decl and
+	# @Override) and is never re-registered; the
+	# `if(result != null){` tail (`target = result;` +
+	# `return;`) also stays N1200-owned -- this slice only
+	# computes the scan result and reports result_found.
+	# The signature line also hits local N2316
+	# (TurretBuild.findTarget) and is not registered here.
+	# `range` is named `scan_range` in GD because `range`
+	# shadows GDScript's builtin `range()` used by the
+	# loop. `tilesize` is Vars.tilesize (8), always
+	# positive. World.toTile is Math.round(coord /
+	# tilesize) (World.java:174-176), implemented here as
+	# int(floor(v / tilesize + 0.5)) -- Java Math.round
+	# semantics, not GDScript roundi() (they differ on
+	# negative halves). World lookups arrive as Callables
+	# (the N2395/N2316 precedent): world_tile takes
+	# (tile_x, tile_y) and returns a tile Dictionary
+	# {"build": Variant, "build_team": Variant} or null
+	# out of bounds (World.tile returns tiles.get, null
+	# OOB); fires_get takes (tile_x, tile_y) and returns
+	# a fire Dictionary or null (Fires.get returns null
+	# OOB); fires_has takes (tile_x, tile_y) and reports
+	# Fires.has (stricter than fire != null: the fire must
+	# be added, unfinished, and on exactly that tile);
+	# dst2 takes a fire and returns the squared distance
+	# from this build to it. The tile "build" is the live
+	# build object (or null); "build_team" is that
+	# build's team (null when there is no build). The
+	# scan never writes the frame and never assigns the
+	# target -- the driver (N1200 shell) consumes
+	# fire_result when result_found is true.
+	var tx: int = int(floor(build_x / tilesize + 0.5))
+	var ty: int = int(floor(build_y / tilesize + 0.5))
+	var mindst: float = 0.0
+	var tr: int = int(scan_range / tilesize)
+	var result: Variant = null
+	for ox in range(-tr, tr + 1):
+		for oy in range(-tr, tr + 1):
+			var other: Variant = world_tile.call(tx + ox, ty + oy)
+			var fire: Variant = fires_get.call(tx + ox, ty + oy)
+			var dst: float = 0.0
+			if fire != null:
+				dst = float(dst2.call(fire))
+			if other != null and fire != null and other.get("build") != self_build and fires_has.call(tx + ox, ty + oy) == true and dst <= scan_range * scan_range and (result == null or dst < mindst) and (other.get("build") == null or other.get("build_team") == team):
+				result = fire
+				mindst = dst
+	var result_found: bool = result != null
+	return {"fire_result": result, "mindst": mindst, "result_found": result_found, "tile_x": tx, "tile_y": ty, "scan_radius": tr, "build_x": build_x, "build_y": build_y, "scan_range": scan_range, "tilesize": tilesize, "team": team, "self_build": self_build}
