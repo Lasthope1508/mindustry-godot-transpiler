@@ -5,7 +5,7 @@ Ngày: 2026-11-22 ~23:20 +07 (targeted re-run xác minh lượt đóng slice 16.
 ## Trạng thái
 
 - N2536 DONE + PUSHED (origin/main 6ea3acea).
-- N2537 DONE (slice 2e49bd95): port `Weapon.drawOutline()` thành 1 pure function mới `source_weapon_draw_outline_state` (SourceWeaponsCoreState.gd:108 + delegate SourceWeaponsState.gd:182-183, Weapon.java:196-213) cho Weapon family — KHÔNG driver tick (draw code, rendering nằm ngoài game). Hàm nhận 13 tham số (outline_found, unit_rotation, unit_x, unit_y, mount_recoil, mount_rotation, rotate, base_rotation, recoil, recoil_pow, weapon_x, weapon_y, flip_sprite — đúng thứ tự Java dùng) và trả đúng 5 key `visible, outline_x, outline_y, weapon_rotation, xscl`.
+- N2537 DONE + PUSHED (slice 2e49bd95, docs 36afca58, GOAL 1fab1442): port `Weapon.drawOutline()` thành 1 pure function mới `source_weapon_draw_outline_state` (SourceWeaponsCoreState.gd:108 + delegate SourceWeaponsState.gd:182-183, Weapon.java:196-213) cho Weapon family — KHÔNG driver tick (draw code, rendering nằm ngoài game). Hàm nhận 13 tham số (outline_found, unit_rotation, unit_x, unit_y, mount_recoil, mount_rotation, rotate, base_rotation, recoil, recoil_pow, weapon_x, weapon_y, flip_sprite — đúng thứ tự Java dùng) và trả đúng 5 key `visible, outline_x, outline_y, weapon_rotation, xscl`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
