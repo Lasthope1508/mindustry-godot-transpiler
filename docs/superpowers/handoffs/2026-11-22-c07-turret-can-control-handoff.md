@@ -1,6 +1,6 @@
 # Handoff — N2530 Turret `canControl()`: pure function cho Turret family (C07) [SCOPED]
 
-## Status: DONE + PUSHED (lượt cron 12:15 +07 ngày 2026-11-22; slice 611231fe, docs TBD, GOAL TBD, status TBD)
+## Status: DONE + PUSHED (lượt cron 12:15 +07 ngày 2026-11-22; slice 611231fe, docs 1d874d53, GOAL d1b8433a, status TBD)
 
 - N2529 DONE + PUSHED ~10:45 +07 ngày 2026-11-22, origin/main == 50bde34b
   (5 commit: slice a1edad54 + docs 55c03447 + GOAL 3acf931d + status 59cdb8b8 +
