@@ -23,6 +23,53 @@ static func setup_mounts_state(weapon_states: Array) -> Dictionary:
 		"mounts": mounts,
 	}
 
+static func source_weapon_dps_state(bullet_estimate_dps: float, reload: float, shoot_shots: int) -> Dictionary:
+	# Weapon.dps() (Weapon.java:188-190,
+	# `public float dps(){` /
+	# `return (bullet.estimateDPS() / reload) * shoot.shots * 60f;`).
+	# `bullet_estimate_dps` is the caller-computed
+	# `bullet.estimateDPS()` (N2529,
+	# `source_bullet_type_estimate_dps_state`, 13 params):
+	# a float param, NOT called directly here -- calling
+	# N2529 from inside this function would force all 13
+	# bullet params into the Weapon signature (the
+	# N2528/N2529/N2533 param-driven precedent: N2528 took
+	# `peek_ammo_dps`, N2529 took `spawn_unit_dps` /
+	# `despawn_unit_dps`, N2533 took `weapons_dps_sum`).
+	# `reload` is the weapon reload in frames
+	# (`public float reload = 1;`, Weapon.java:75 --
+	# `RELOAD_DEFAULT := 1.0` in SourceWeaponDefaults.gd).
+	# `shoot_shots` is the ShootPattern shot count
+	# (`public int shots = 1;`,
+	# ShootPattern.java:8-9, "amount of shots per
+	# \"trigger pull\"" -- `SHOTS_DEFAULT := 1` in
+	# SourceShootPatternDefaults.gd; the weapon holds
+	# the pattern as
+	# `public ShootPattern shoot = new ShootPattern();`
+	# (Weapon.java:97). dps() has NO
+	# cache (no `cachedDps` / `dpsEstimate` field in
+	# Weapon.java -- unlike BulletType `cachedDps` and
+	# UnitType `dpsEstimate`): it recomputes on every
+	# call, so there is no `cached_dps` return key and no
+	# `branch` key -- the single return key is `dps`.
+	# dps() has NO `reload == 0` guard (only `addStats()`
+	# Weapon.java:180 guards `reload > 0` for display):
+	# the faithful port does not add one -- Java float /
+	# 0 is Infinity, not a throw, and GDScript float /
+	# 0.0 behaves the same.
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# dps() is a read/estimate, not per-tick, and no
+	# caller reads the new function today (N2533 still
+	# takes `weapons_dps_sum` as a float param; wiring
+	# N2533 -> N2534 is a separate consumer slice; C11
+	# HUD / stats display reads `dps` in a later slice)
+	# -> live behavior does NOT change. The only callers
+	# in Java today are `UnitType.estimateDps()` via
+	# `weapons.sumf(Weapon::dps)` (UnitType.java:1136)
+	# and `addStats()` (Weapon.java:180-182, an inline
+	# display formula, not a dps() call).
+	return {"dps": (bullet_estimate_dps / reload) * float(shoot_shots) * 60.0}
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []
 	for index in mount_states.size():

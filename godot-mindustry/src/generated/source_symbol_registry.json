@@ -178552,6 +178552,22 @@
         "test_reference_graph_and_actual_c07_unit_type_estimate_dps"
       ],
       "runtime_proof": "/root/C07UnitTypeEstimateDpsProof"
+    },
+    "source_weapon_dps_state_result.dps": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_dps_state",
+      "godot_symbol": "source_weapon_dps_state_result.dps",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.dps()",
+      "java_expr": "public float dps(){",
+      "rule": "The estimated DPS of this weapon (`public float dps(){`, Weapon.java:188 -- `(bullet.estimateDPS() / reload) * shoot.shots * 60f`, in damage per second); recomputed on every call -- dps() has NO cache field in Weapon.java, so there is no `cached_dps` return key.",
+      "tests": [
+        "test_c07_weapon_dps_registration",
+        "test_all_c07_weapon_dps_input_evidence_is_exact",
+        "test_weapon_dps_state",
+        "test_reference_graph_and_actual_c07_weapon_dps"
+      ],
+      "runtime_proof": "/root/C07WeaponDpsProof"
     }
   },
   "version": 1

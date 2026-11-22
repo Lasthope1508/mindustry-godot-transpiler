@@ -173,6 +173,9 @@ const SOURCE_WEAPON_EXTRA_VELOCITY_DEFAULT := source_weapon_defaults.EXTRA_VELOC
 static func setup_mounts_state(weapon_states: Array) -> Dictionary:
 	return source_weapons_core_state.setup_mounts_state(weapon_states)
 
+static func source_weapon_dps_state(bullet_estimate_dps: float, reload: float, shoot_shots: int) -> Dictionary:
+	return source_weapons_core_state.source_weapon_dps_state(bullet_estimate_dps, reload, shoot_shots)
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	return source_weapons_core_state.set_rotation_state(mount_states, source_rotation)
 

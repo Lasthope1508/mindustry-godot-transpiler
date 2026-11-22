@@ -71472,6 +71472,41 @@
       ],
       "runtime_proof": "/root/C07UnitTypeEstimateDpsProof",
       "rule": "Source-backed UnitType estimateDps() read from UnitType.java:1132-1144."
+    },
+    "SourceWeaponsCoreState.source_weapon_dps_state": {
+      "status": "active",
+      "source_slice": "N2534",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.dps()",
+      "params": [
+        {
+          "name": "bullet_estimate_dps",
+          "type": "float",
+          "schema": "source_weapon_dps_state_input.bullet_estimate_dps"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_weapon_dps_state_input.reload"
+        },
+        {
+          "name": "shoot_shots",
+          "type": "int",
+          "schema": "source_weapon_dps_state_input.shoot_shots"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "dps"
+      ],
+      "tests": [
+        "test_c07_weapon_dps_registration",
+        "test_all_c07_weapon_dps_input_evidence_is_exact",
+        "test_weapon_dps_state",
+        "test_reference_graph_and_actual_c07_weapon_dps"
+      ],
+      "runtime_proof": "/root/C07WeaponDpsProof",
+      "rule": "Source-backed Weapon dps() read from Weapon.java:188-190."
     }
   },
   "policy": {

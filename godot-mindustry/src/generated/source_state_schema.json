@@ -241026,6 +241026,64 @@
       },
       "runtime_proof": "/root/C07UnitTypeEstimateDpsProof",
       "rule": "Source-backed UnitType estimateDps() read from UnitType.java:1132-1144."
+    },
+    "source_weapon_dps_state_input": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_dps_state",
+      "source_slice": "N2534",
+      "keys": {
+        "bullet_estimate_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "return (bullet.estimateDPS() / reload) * shoot.shots * 60f;",
+          "rule": "The caller-computed `bullet.estimateDPS()` (Weapon.java:189 -- the first factor of dps()); a float param, NOT computed in this slice, because calling N2529 (`source_bullet_type_estimate_dps_state`, 13 params) directly would force all 13 bullet params into the Weapon signature (the N2528/N2529/N2533 param-driven precedent).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_dps_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float reload = 1;",
+          "rule": "The weapon reload in frames (`public float reload = 1;`, Weapon.java:75 -- \"weapon reload in frames\"); a float param, default 1 (`RELOAD_DEFAULT := 1.0` in SourceWeaponDefaults.gd).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_dps_state"
+          ]
+        },
+        "shoot_shots": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "java_expr": "public int shots = 1;",
+          "rule": "The ShootPattern shot count (`public int shots = 1;`, ShootPattern.java:9 -- \"amount of shots per \\\"trigger pull\\\"\"); an int param, default 1 (`SHOTS_DEFAULT := 1` in SourceShootPatternDefaults.gd); the weapon holds the pattern as `public ShootPattern shoot = new ShootPattern();` (Weapon.java:97).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponDpsProof",
+      "rule": "Source-backed Weapon dps() read from Weapon.java:188-190."
+    },
+    "source_weapon_dps_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_dps_state",
+      "source_slice": "N2534",
+      "keys": {
+        "dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float dps(){",
+          "rule": "The estimated DPS of this weapon (`public float dps(){`, Weapon.java:188 -- `(bullet.estimateDPS() / reload) * shoot.shots * 60f`, in damage per second); recomputed on every call -- dps() has NO cache field in Weapon.java, so there is no `cached_dps` return key.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponDpsProof",
+      "rule": "Source-backed Weapon dps() read from Weapon.java:188-190."
     }
   },
   "version": 1
