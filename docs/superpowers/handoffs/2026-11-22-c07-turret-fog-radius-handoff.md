@@ -1,6 +1,6 @@
-# Handoff — N2531 Turret `fogRadius()`: pure function cho Turret family (C07) [GATE XONG, slice đã commit 34cbcc90, chờ docs + push]
+# Handoff — N2531 Turret `fogRadius()`: pure function cho Turret family (C07) [DONE + PUSHED (slice 34cbcc90, docs 903bf260, GOAL b6d497fc)]
 
-## Status: GATE XONG + SLICE COMMITTED (lượt cron 14:00 +07 ngày 2026-11-22, main thread xác minh độc lập; CHƯA push — còn docs + GOAL + status + hashes commit rồi mới push mẫu 5 commit)
+## Status: DONE + PUSHED (lượt cron 14:00 +07 ngày 2026-11-22; slice 34cbcc90, docs 903bf260, GOAL b6d497fc; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2530 DONE + PUSHED ~12:15 +07 ngày 2026-11-22, origin/main == eafdfdb4
   (5 commit: slice 611231fe + docs 1d874d53 + GOAL d1b8433a + status 9eb0cce7 +
@@ -98,7 +98,7 @@
   deferred pool 487 → 489 (+2: 1 ghi fogRadius() DONE + 1 nợ Windows).
   7 file modified (SourceTurretBuildState.gd + 6 SSOT JSON), 758 insertions.
 - Spec Done +1 + row N2531; GOAL §5 thêm dòng nợ Windows sau dòng N2530 —
-  CHƯA làm, main thread làm lúc commit/push mẫu 5 commit.
+  XONG (docs commit 903bf260 + GOAL commit b6d497fc).
 
 ## Quy trình lượt implement (theo AGENTS.md + mẫu N2528/N2529/N2530)
 
