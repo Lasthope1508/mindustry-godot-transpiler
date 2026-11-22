@@ -701,6 +701,45 @@ static func source_turret_fog_radius_state(range_value: float, has_ammo: bool, p
 	# fogRadius().
 	return {"fog_radius": (range_value + (peek_ammo_range_change if has_ammo else 0.0)) / float(tilesize) * fog_radius_multiplier}
 
+static func source_turret_drawrot_state(rotation: float) -> Dictionary:
+	# TurretBuild.drawrot() (Turret.java:359-362,
+	# `public float drawrot(){` /
+	# `return rotation - 90;`).
+	# `rotation` is the aim rotation in degrees, the
+	# BaseTurretBuild field (`public float rotation = 90;`,
+	# BaseTurret.java:114), an explicit float param, NOT
+	# read from the frame (the N2528/N2529/N2530/N2531
+	# param-driven precedent). It SHADOWS the Building
+	# quadrant rotation (0-3) -- Turret.java:543-544
+	# comment `//sync underlying rotation; 0-3 rotation is
+	# a shadowed field` + `((Building)this).rotation =
+	# Mathf.mod(Mathf.round(rotation / 90f), 4);`. The
+	# function overrides the BuildingComp base
+	# (`public float drawrot(){` /
+	# `return block.rotate && block.rotateDraw ? rotation * 90 : 0f;`,
+	# BuildingComp.java:587-588), which uses quadrants *
+	# 90; the Turret override ignores block.rotate /
+	# block.rotateDraw and returns aim rotation - 90. NOT
+	# the PointDefense draw state
+	# (SourcePointDefenseTurretBuildState.gd:678, key
+	# `draw_rotation` inside
+	# source_point_defense_turret_draw_state -- the port of
+	# PointDefenseBuild.draw(), a different function for a
+	# different method, same quantity, different key, no
+	# clash). Java has NO clamp/wrap guard in drawrot()
+	# (Turret.java:584 only guards inside updateTile, not
+	# in drawrot), so negative and >360 rotations pass
+	# through unchanged. NO driver tick call site:
+	# drawrot() is a read, not per-tick, and its only
+	# callers are draw code (DrawTurret.java / DrawDefault
+	# -- rendering, outside the game boundary). LIVE
+	# CONSEQUENCE (Java-faithful): DORMANT live today --
+	# the driver tick never calls this function, so live
+	# behavior does not change. When the Turret draw slice
+	# arrives, this is the canonical owner of Turret
+	# drawrot().
+	return {"drawrot": rotation - 90.0}
+
 static func source_turret_can_heal_state(target_healing: bool, has_ammo: bool, ammo_collides_team: bool, ammo_heals: bool) -> Dictionary:
 	# TurretBuild.canHeal() (Turret.java:635-637):
 	# `protected boolean canHeal(){` /

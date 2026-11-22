@@ -8522,6 +8522,32 @@
       "rule": "Source-backed Turret updateCooling() coolant fold from ReloadTurret.java:28-38 + Turret.java:550/:727 + BaseTurret.java:32 + BuildingComp.java:1927-1929 + Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_drawrot_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_drawrot_state",
+      "status": "active",
+      "source_slice": "N2532",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.drawrot()",
+      "params": [
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_turret_drawrot_state_input.rotation"
+        }
+      ],
+      "return_keys": [
+        "drawrot"
+      ],
+      "tests": [
+        "test_c07_turret_drawrot_registration",
+        "test_all_c07_turret_drawrot_input_evidence_is_exact",
+        "test_turret_drawrot_state",
+        "test_reference_graph_and_actual_c07_turret_drawrot"
+      ],
+      "runtime_proof": "/root/C07TurretDrawrotProof",
+      "rule": "Source-backed Turret drawrot() read from Turret.java:359-362 + BaseTurret.java:114 + BuildingComp.java:587-588.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_efficiency_multiplier_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_efficiency_multiplier_state",
       "status": "active",

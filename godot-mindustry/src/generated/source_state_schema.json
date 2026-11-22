@@ -240910,6 +240910,44 @@
       },
       "runtime_proof": "/root/C07TurretFogRadiusProof",
       "rule": "Source-backed Turret fogRadius() read from Turret.java:420-422 + BaseTurret.java:21/24 + Vars.java:135 + Blocks.java:5627 + BulletType.java:157."
+    },
+    "source_turret_drawrot_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_drawrot_state",
+      "source_slice": "N2532",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "public float rotation = 90;",
+          "rule": "The aim rotation in degrees (`public float rotation = 90;`, BaseTurret.java:114 -- the BaseTurretBuild field, default 90; it SHADOWS the Building quadrant rotation (0-3), Turret.java:543-544 comment `//sync underlying rotation; 0-3 rotation is a shadowed field`). An explicit float param, NOT read from the frame (the N2528/N2529/N2530/N2531 param-driven precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_drawrot_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretDrawrotProof",
+      "rule": "Source-backed Turret drawrot() read from Turret.java:359-362 + BaseTurret.java:114 + BuildingComp.java:587-588."
+    },
+    "source_turret_drawrot_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_drawrot_state",
+      "source_slice": "N2532",
+      "keys": {
+        "drawrot": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float drawrot(){",
+          "rule": "The Turret draw rotation (`public float drawrot(){` / `return rotation - 90;`, Turret.java:359-362 -- the TurretBuild override of the BuildingComp base drawrot (`return block.rotate && block.rotateDraw ? rotation * 90 : 0f;`, BuildingComp.java:587-588), which uses quadrants * 90).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_drawrot_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretDrawrotProof",
+      "rule": "Source-backed Turret drawrot() read from Turret.java:359-362 + BaseTurret.java:114 + BuildingComp.java:587-588."
     }
   },
   "version": 1
