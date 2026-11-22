@@ -260,6 +260,30 @@ static func source_weapon_draw_state(z: float, unit_rotation: float, unit_x: flo
 	var heat_drawn: bool = heat_region_found and mount_heat > 0.0
 	return {"rotation": rotation, "real_recoil": real_recoil, "weapon_rotation": weapon_rotation, "wx": wx, "wy": wy, "xscl": xscl, "z_draw": z_draw, "shadow_drawn": shadow_drawn, "outline_called": outline_called, "has_parts": has_parts, "region_drawn": region_drawn, "cell_drawn": cell_drawn, "heat_drawn": heat_drawn}
 
+static func source_weapon_range_state(bullet_range: float) -> Dictionary:
+	# Weapon.range() (Weapon.java:288-290,
+	# `public float range(){` /
+	# `return bullet.range;` /
+	# `}`). `bullet` is the weapon bullet type
+	# (`public BulletType bullet = Bullets.placeholder;`,
+	# Weapon.java:33); `bullet.range` is the BulletType range
+	# field (`public float range = 0f;`, BulletType.java:161),
+	# computed by calculateRange() at init
+	# (BulletType.java:854) and afterPatch
+	# (BulletType.java:402) -- calculateRange()
+	# (BulletType.java:433-439) is already ported
+	# (SourceBulletTypeInitRangeState.gd), so this slice takes
+	# the catalog `bullet.range` as its one input and returns
+	# it unchanged (the N2533 param-driven precedent: dps()
+	# took `bullet_estimate_dps` as a float param).
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# range() is a catalog read, not per-tick, and no caller
+	# reads the new function today (UnitType.init range /
+	# maxRange, UnitType.java:971-989, and Weapon.update
+	# shootLength, Weapon.java:391, are consumer slices
+	# later) -> live behavior does NOT change.
+	return {"range": bullet_range}
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []
 	for index in mount_states.size():

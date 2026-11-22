@@ -241726,6 +241726,44 @@
       },
       "runtime_proof": "/root/C07WeaponDrawProof",
       "rule": "Source-backed Weapon draw() read from Weapon.java:214-286."
+    },
+    "source_weapon_range_state_input": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_range_state",
+      "source_slice": "N2539",
+      "keys": {
+        "bullet_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+          "java_expr": "public float range = 0f;",
+          "rule": "The catalog BulletType range (`public float range = 0f;`, BulletType.java:161 -- the maximum distance the bullet type can travel, computed by calculateRange() at init (BulletType.java:854) and afterPatch (BulletType.java:402); calculateRange() itself is already ported, so this slice takes the computed catalog value as its one input; the proof passes 0.0 for the field default and 150.0 for Bullets.placeholder post-init (BasicBulletType(2.5f, 9, \"ohno\") with lifetime 60f: speed * lifetime = 2.5 * 60 = 150, drag 0f, maxRange -1f)).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponRangeProof",
+      "rule": "Source-backed Weapon range() read from Weapon.java:288-290."
+    },
+    "source_weapon_range_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_range_state",
+      "source_slice": "N2539",
+      "keys": {
+        "range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "return bullet.range;",
+          "rule": "The weapon range (`return bullet.range;`, Weapon.java:289 -- the range() read returns the bullet type range unchanged).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_range_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponRangeProof",
+      "rule": "Source-backed Weapon range() read from Weapon.java:288-290."
     }
   },
   "version": 1

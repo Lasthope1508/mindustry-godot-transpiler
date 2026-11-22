@@ -178888,6 +178888,22 @@
         "test_reference_graph_and_actual_c07_weapon_draw"
       ],
       "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_range_state_result.range": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_range_state",
+      "godot_symbol": "source_weapon_range_state_result.range",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.range()",
+      "java_expr": "return bullet.range;",
+      "rule": "The weapon range (`return bullet.range;`, Weapon.java:289 -- the range() read returns the bullet type range unchanged).",
+      "tests": [
+        "test_c07_weapon_range_registration",
+        "test_all_c07_weapon_range_input_evidence_is_exact",
+        "test_weapon_range_state",
+        "test_reference_graph_and_actual_c07_weapon_range"
+      ],
+      "runtime_proof": "/root/C07WeaponRangeProof"
     }
   },
   "version": 1

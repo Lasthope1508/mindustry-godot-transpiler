@@ -185,6 +185,9 @@ static func source_weapon_draw_outline_state(outline_found: bool, unit_rotation:
 static func source_weapon_draw_state(z: float, unit_rotation: float, unit_x: float, unit_y: float, mount_recoil: float, mount_rotation: float, rotate: bool, base_rotation: float, recoil: float, recoil_pow: float, weapon_x: float, weapon_y: float, flip_sprite: bool, shadow: float, top: bool, region_found: bool, cell_region_found: bool, heat_region_found: bool, mount_heat: float, layer_offset: float, parts_count: int) -> Dictionary:
 	return source_weapons_core_state.source_weapon_draw_state(z, unit_rotation, unit_x, unit_y, mount_recoil, mount_rotation, rotate, base_rotation, recoil, recoil_pow, weapon_x, weapon_y, flip_sprite, shadow, top, region_found, cell_region_found, heat_region_found, mount_heat, layer_offset, parts_count)
 
+static func source_weapon_range_state(bullet_range: float) -> Dictionary:
+	return source_weapons_core_state.source_weapon_range_state(bullet_range)
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	return source_weapons_core_state.set_rotation_state(mount_states, source_rotation)
 

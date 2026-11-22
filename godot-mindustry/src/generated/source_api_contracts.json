@@ -71788,6 +71788,31 @@
       ],
       "runtime_proof": "/root/C07WeaponDrawProof",
       "rule": "Source-backed Weapon draw() read from Weapon.java:214-286."
+    },
+    "SourceWeaponsCoreState.source_weapon_range_state": {
+      "status": "active",
+      "source_slice": "N2539",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.range()",
+      "params": [
+        {
+          "name": "bullet_range",
+          "type": "float",
+          "schema": "source_weapon_range_state_input.bullet_range"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "range"
+      ],
+      "tests": [
+        "test_c07_weapon_range_registration",
+        "test_all_c07_weapon_range_input_evidence_is_exact",
+        "test_weapon_range_state",
+        "test_reference_graph_and_actual_c07_weapon_range"
+      ],
+      "runtime_proof": "/root/C07WeaponRangeProof",
+      "rule": "Source-backed Weapon range() read from Weapon.java:288-290."
     }
   },
   "policy": {
