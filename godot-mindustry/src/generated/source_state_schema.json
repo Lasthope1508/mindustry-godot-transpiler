@@ -253482,6 +253482,64 @@
       },
       "runtime_proof": "/root/C07SoundControlDefaultConstructorProof",
       "rule": "Source-backed SoundControl default constructor state from SoundControl.java."
+    },
+    "source_payload_ammo_turret_default_constructor_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_default_constructor_state",
+      "source_slice": "N2416",
+      "keys": {
+        "payload_ammo_turret_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "public PayloadAmmoTurret(String name){",
+          "rule": "The PayloadAmmoTurret def frame (PayloadAmmoTurret.java:26, `public PayloadAmmoTurret(String name){`): the family-convention first arg; the ctor writes its 1 field default into it, so payload_ammo_turret_defaults is an in/out param -- keys already present keep their unrelated values, the ctor key is overwritten with the ctor value.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_default_constructor_state"
+          ]
+        },
+        "max_ammo": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "maxAmmo = 3;",
+          "rule": "The max ammo (PayloadAmmoTurret.java:29, `maxAmmo = 3;`): Turret.maxAmmo; the int literal arrives as an explicit int param and passes through to the result max_ammo key; the Turret base default it overrides is `public int maxAmmo = 30;` (Turret.java:47).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof",
+      "rule": "Source-backed PayloadAmmoTurret() ctor field default state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_default_constructor_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_default_constructor_state",
+      "source_slice": "N2416",
+      "keys": {
+        "max_ammo": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "maxAmmo = 3;",
+          "rule": "The max ammo, read through (PayloadAmmoTurret.java:29, `maxAmmo = 3;`): the int passed in as max_ammo; the payload ammo turret holds at most 3 payload ammo at once.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_default_constructor_state"
+          ]
+        },
+        "payload_ammo_turret_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "public PayloadAmmoTurret(String name){",
+          "rule": "The updated PayloadAmmoTurret def frame (PayloadAmmoTurret.java:26, `public PayloadAmmoTurret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the ctor key written with the ctor value.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof",
+      "rule": "Source-backed PayloadAmmoTurret() ctor field default state from PayloadAmmoTurret.java."
     }
   },
   "version": 1

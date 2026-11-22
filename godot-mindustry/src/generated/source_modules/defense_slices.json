@@ -4513,6 +4513,24 @@
       ],
       "runtime_proof": "/root/C07ContinuousLiquidTurretDefaultConstructorProof"
     },
+    "N2416": {
+      "canonical_ledger": "source_slice_ledger.N2416",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurret(String name)",
+      "godot_owner": "PortGame.source_payload_ammo_turret_default_constructor_state",
+      "source_symbols": [
+        "source_payload_ammo_turret_default_constructor_state_result.max_ammo",
+        "source_payload_ammo_turret_default_constructor_state_result.payload_ammo_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_default_constructor_registration",
+        "test_all_c07_payload_ammo_turret_default_constructor_input_evidence_is_exact",
+        "test_payload_ammo_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

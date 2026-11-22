@@ -77297,6 +77297,37 @@
       ],
       "runtime_proof": "/root/C07SoundControlDefaultConstructorProof",
       "rule": "Source-backed SoundControl default constructor state from SoundControl.java."
+    },
+    "PortGame.source_payload_ammo_turret_default_constructor_state": {
+      "status": "active",
+      "source_slice": "N2416",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurret(String name)",
+      "params": [
+        {
+          "name": "payload_ammo_turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_payload_ammo_turret_default_constructor_state_input.payload_ammo_turret_defaults"
+        },
+        {
+          "name": "max_ammo",
+          "type": "int",
+          "schema": "source_payload_ammo_turret_default_constructor_state_input.max_ammo"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "max_ammo",
+        "payload_ammo_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_default_constructor_registration",
+        "test_all_c07_payload_ammo_turret_default_constructor_input_evidence_is_exact",
+        "test_payload_ammo_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof",
+      "rule": "Source-backed PayloadAmmoTurret() ctor field default state from PayloadAmmoTurret.java."
     }
   },
   "policy": {

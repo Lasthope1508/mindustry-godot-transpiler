@@ -577,3 +577,19 @@ static func source_payload_ammo_turret_init_state(content_blocks: Array, content
 			display_contents.append({"content": content, "ui_icon": str(ui_icon.call(content)) if ui_icon.is_valid() else "", "visible": is_payload_turret_build and payloads_any and current_ammo == content})
 	var efficiency: float = 1.0 if is_payload_turret_build and payloads_any else 0.0
 	return {"display_contents": display_contents, "efficiency": efficiency}
+
+# PayloadAmmoTurret(String name)
+# (PayloadAmmoTurret.java:26-33). One ctor slice (batch 30
+# slot 3): the 1 distinguishing field default only.
+# `maxAmmo = 3;` (PayloadAmmoTurret.java:29) overrides the
+# Turret base default `public int maxAmmo = 30;`
+# (Turret.java:47): the payload ammo turret holds at most 3
+# payload ammo at once. `super(name);` is N2185-owned and
+# `acceptsPayload = true;` is N2168-owned -- neither is
+# re-registered here. The value is an int literal, so it
+# arrives as an explicit int param and passes through (the
+# N2413 ctor precedent). The default is frame data only; no
+# Draw is ported.
+static func source_payload_ammo_turret_default_constructor_state(payload_ammo_turret_defaults: Dictionary, max_ammo: int) -> Dictionary:
+	payload_ammo_turret_defaults["max_ammo"] = max_ammo
+	return {"max_ammo": max_ammo, "payload_ammo_turret_defaults": payload_ammo_turret_defaults}

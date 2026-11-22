@@ -184744,6 +184744,38 @@
         "test_reference_graph_and_actual_c07_sound_control_default_constructor"
       ],
       "runtime_proof": "/root/C07SoundControlDefaultConstructorProof"
+    },
+    "source_payload_ammo_turret_default_constructor_state_result.max_ammo": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_default_constructor_state",
+      "godot_symbol": "source_payload_ammo_turret_default_constructor_state_result.max_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurret(String name)",
+      "java_expr": "maxAmmo = 3;",
+      "rule": "The max ammo, read through (PayloadAmmoTurret.java:29, `maxAmmo = 3;`): the int passed in as max_ammo; the payload ammo turret holds at most 3 payload ammo at once.",
+      "tests": [
+        "test_c07_payload_ammo_turret_default_constructor_registration",
+        "test_all_c07_payload_ammo_turret_default_constructor_input_evidence_is_exact",
+        "test_payload_ammo_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof"
+    },
+    "source_payload_ammo_turret_default_constructor_state_result.payload_ammo_turret_defaults": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_default_constructor_state",
+      "godot_symbol": "source_payload_ammo_turret_default_constructor_state_result.payload_ammo_turret_defaults",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadAmmoTurret(String name)",
+      "java_expr": "public PayloadAmmoTurret(String name){",
+      "rule": "The updated PayloadAmmoTurret def frame (PayloadAmmoTurret.java:26, `public PayloadAmmoTurret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the ctor key written with the ctor value.",
+      "tests": [
+        "test_c07_payload_ammo_turret_default_constructor_registration",
+        "test_all_c07_payload_ammo_turret_default_constructor_input_evidence_is_exact",
+        "test_payload_ammo_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof"
     }
   },
   "version": 1
