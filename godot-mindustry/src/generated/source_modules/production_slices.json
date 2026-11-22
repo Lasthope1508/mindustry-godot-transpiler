@@ -1592,6 +1592,31 @@
       ],
       "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof"
     },
+    "N2420": {
+      "canonical_ledger": "source_slice_ledger.N2420",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "PortGame.source_drill_update_tile_effects_state",
+      "source_symbols": [
+        "source_drill_update_tile_effects_state_result.update_effect",
+        "source_drill_update_tile_effects_state_result.update_effect_x",
+        "source_drill_update_tile_effects_state_result.update_effect_y",
+        "source_drill_update_tile_effects_state_result.update_effect_called",
+        "source_drill_update_tile_effects_state_result.drill_effect",
+        "source_drill_update_tile_effects_state_result.drill_effect_x",
+        "source_drill_update_tile_effects_state_result.drill_effect_y",
+        "source_drill_update_tile_effects_state_result.drill_effect_color",
+        "source_drill_update_tile_effects_state_result.drill_effect_called"
+      ],
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

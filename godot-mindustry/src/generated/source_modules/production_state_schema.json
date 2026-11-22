@@ -3561,6 +3561,191 @@
         }
       }
     },
+    "source_drill_update_tile_effects_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_update_tile_effects_state_input",
+      "keys": {
+        "update_effect_chance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(Mathf.chanceDelta(updateEffectChance * warmup))",
+          "rule": "The update effect chance (Drill.java:307, `if(Mathf.chanceDelta(updateEffectChance * warmup))`): the Drill field (`public float updateEffectChance = 0.02f;`, Drill.java:63) -- the chanceDelta threshold factor, passed explicitly because the roll comparison happens in the pure function.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(Mathf.chanceDelta(updateEffectChance * warmup))",
+          "rule": "The drill warmup before this tick (Drill.java:307, `if(Mathf.chanceDelta(updateEffectChance * warmup))`): the DrillBuild warmup (approached by N692/N703, NOT re-ported here) -- scales both chanceDelta thresholds, passed explicitly.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "update_effect_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return rand.nextFloat() < d * Time.delta;",
+          "rule": "The update effect chance roll (Mathf.java:236-238, `return rand.nextFloat() < d * Time.delta;` inside `Mathf.chanceDelta`): a uniform float in [0, 1) standing in for `rand.nextFloat()` -- the update effect fires exactly when this roll is below updateEffectChance * warmup * source_delta.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return rand.nextFloat() < d * Time.delta;",
+          "rule": "Time.delta (Mathf.java:237, `return rand.nextFloat() < d * Time.delta;` inside `Mathf.chanceDelta`): the frame delta chanceDelta scales the chance by -- passed explicitly as source_delta (the file-wide convention), NOT read from the engine.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The block size (Drill.java:308, `updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));`): the Block.size in tiles -- the Mathf.range amount for the update effect offsets is size * 2f, passed explicitly.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The build x position (Drill.java:308, `updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));`): the Building x in world units -- the base the range offsets add to, passed explicitly.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The build y position (Drill.java:308, `updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));`): the Building y in world units -- the base the range offsets add to, passed explicitly.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "was_visible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "Whether the build was visible (Drill.java:323, `if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(...`): the BuildingComp wasVisible flag -- the drill effect fires only when it is true, passed explicitly.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "drill_effect_chance": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The drill effect chance (Drill.java:323, `if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(...`): the Drill field (`public float drillEffectChance = 0.02f;`, Drill.java:57) -- the chanceDelta threshold factor for the drill effect, passed explicitly.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "drill_effect_roll": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return rand.nextFloat() < d * Time.delta;",
+          "rule": "The drill effect chance roll (Mathf.java:236-238, `return rand.nextFloat() < d * Time.delta;` inside `Mathf.chanceDelta`): a uniform float in [0, 1) standing in for `rand.nextFloat()` -- the drill effect fires exactly when wasVisible and this roll is below drillEffectChance * warmup * source_delta.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "drill_effect_rnd": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The drill effect random radius (Drill.java:323, `... drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);`): the Drill field (`public float drillEffectRnd = -1f;`, Drill.java:55) -- arrives already resolved (Drill.java:96 `if(drillEffectRnd < 0) drillEffectRnd = size;` is NOT this slice), passed explicitly.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "dominant_item_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The dominant item color (Drill.java:323, `... drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);`): `dominantItem.color` -- the third drillEffect.at argument, passed explicitly as a Variant (a GDScript Color in the proof).",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "update_effect_range_roll_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return random(-range, range);",
+          "rule": "The update effect x range roll (Mathf.java:220-222, `return random(-range, range);` inside `Mathf.range`): a uniform float in [0, 1) standing in for `rand.nextFloat()` in random(start, end) (`start + roll * (end - start)`, Mathf.java:285-287) -- maps to (2 * roll - 1) * size * 2f for the x offset.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "update_effect_range_roll_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return random(-range, range);",
+          "rule": "The update effect y range roll (Mathf.java:220-222, `return random(-range, range);` inside `Mathf.range`): a uniform float in [0, 1) -- maps to (2 * roll - 1) * size * 2f for the y offset.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "drill_effect_range_roll_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return random(-range, range);",
+          "rule": "The drill effect x range roll (Mathf.java:220-222, `return random(-range, range);` inside `Mathf.range`): a uniform float in [0, 1) -- maps to (2 * roll - 1) * drillEffectRnd for the x offset.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "drill_effect_range_roll_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_expr": "return random(-range, range);",
+          "rule": "The drill effect y range roll (Mathf.java:220-222, `return random(-range, range);` inside `Mathf.range`): a uniform float in [0, 1) -- maps to (2 * roll - 1) * drillEffectRnd for the y offset.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "update_effect_at": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+          "rule": "The updateEffect.at delegate (Drill.java:308, `updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));`): the Effect engine API (`updateEffect`, Drill.java:61, `public Effect updateEffect = Fx.pulverizeSmall;`) -- NOT re-ported here: it arrives as an explicit Callable param (the N2398 precedent: guarded with is_valid(), invoked with .call(x, y)); an invalid callable is reported via update_effect_called false.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        },
+        "drill_effect_at": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+          "rule": "The drillEffect.at delegate (Drill.java:323, `... drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);`): the Effect engine API (`drillEffect`, Drill.java:53, `public Effect drillEffect = Fx.mine;`) -- NOT re-ported here: it arrives as an explicit Callable param (the N2398 precedent: guarded with is_valid(), invoked with .call(x, y, color)); an invalid callable is reported via drill_effect_called false.",
+          "used_by": [
+            "port_game.source_drill_update_tile_effects_state"
+          ]
+        }
+      }
+    },
     "source_drill_warmup_speed_input": {
       "canonical_schema": "source_state_schema.source_drill_warmup_speed_input",
       "keys": {

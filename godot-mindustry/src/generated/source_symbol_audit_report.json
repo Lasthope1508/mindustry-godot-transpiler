@@ -23,10 +23,10 @@
       "port_game.source_building_each_edge_state": "port_game.source_building_navigation_state"
     }
   },
-  "totalSourceFunctions": 1335,
-  "discoveredSourceOwnerCount": 1333,
-  "canonicalDiscoveredOwnerCount": 1318,
-  "registeredSourceOwnerCount": 1310,
+  "totalSourceFunctions": 1336,
+  "discoveredSourceOwnerCount": 1334,
+  "canonicalDiscoveredOwnerCount": 1319,
+  "registeredSourceOwnerCount": 1311,
   "exemptSourceOwnerCount": 8,
   "legacyUnregisteredOwnerCount": 0,
   "canonicalAliasFunctionCount": 17,
@@ -842,6 +842,7 @@
     "port_game.source_drill_progress_fraction",
     "port_game.source_drill_runtime_state",
     "port_game.source_drill_time_drilled_delta",
+    "port_game.source_drill_update_tile_effects_state",
     "port_game.source_drill_warmup_speed",
     "port_game.source_drill_warmup_state",
     "port_game.source_dump_accumulate_attempt_state",
@@ -6344,6 +6345,12 @@
       "function": "source_drill_progress_fraction",
       "gdscript_path": "src/game/SourceDrillRuntimePortBridge.gd",
       "canonical_owner": "port_game.source_drill_progress_fraction"
+    },
+    {
+      "owner": "port_game.source_drill_update_tile_effects_state",
+      "function": "source_drill_update_tile_effects_state",
+      "gdscript_path": "src/game/SourceDrillRuntimePortBridge.gd",
+      "canonical_owner": "port_game.source_drill_update_tile_effects_state"
     },
     {
       "owner": "port_game.source_factory_simulation_runtime_state",

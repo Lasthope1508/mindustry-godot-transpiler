@@ -5676,6 +5676,141 @@
       ],
       "runtime_proof": "/root/C07DrillShouldConsumeProof"
     },
+    "source_drill_update_tile_effects_state_result.drill_effect": {
+      "canonical_symbol": "source_symbol_registry.source_drill_update_tile_effects_state_result.drill_effect",
+      "status": "source-backed",
+      "java_expr": "if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+      "godot_symbol": "source_drill_update_tile_effects_state_result.drill_effect",
+      "godot_owner": "PortGame.source_drill_update_tile_effects_state",
+      "rule": "Whether the drill effect fires this tick (Drill.java:323, `if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(...`): true exactly when wasVisible and the drill effect roll is below drillEffectChance * warmup * source_delta.",
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
+    "source_drill_update_tile_effects_state_result.drill_effect_called": {
+      "canonical_symbol": "source_symbol_registry.source_drill_update_tile_effects_state_result.drill_effect_called",
+      "status": "source-backed",
+      "java_expr": "if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+      "godot_symbol": "source_drill_update_tile_effects_state_result.drill_effect_called",
+      "godot_owner": "PortGame.source_drill_update_tile_effects_state",
+      "rule": "Whether the drillEffect.at delegate was invoked (Drill.java:323, `... drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);`): true when the drill effect fires and the drill_effect_at Callable is valid, false otherwise (the N2398 _called precedent).",
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
+    "source_drill_update_tile_effects_state_result.drill_effect_color": {
+      "canonical_symbol": "source_symbol_registry.source_drill_update_tile_effects_state_result.drill_effect_color",
+      "status": "source-backed",
+      "java_expr": "if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+      "godot_symbol": "source_drill_update_tile_effects_state_result.drill_effect_color",
+      "godot_owner": "PortGame.source_drill_update_tile_effects_state",
+      "rule": "The drill effect color (Drill.java:323, `... drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);`): dominantItem.color, passed through to the drillEffect.at call and the result.",
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
+    "source_drill_update_tile_effects_state_result.drill_effect_x": {
+      "canonical_symbol": "source_symbol_registry.source_drill_update_tile_effects_state_result.drill_effect_x",
+      "status": "source-backed",
+      "java_expr": "if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+      "godot_symbol": "source_drill_update_tile_effects_state_result.drill_effect_x",
+      "godot_owner": "PortGame.source_drill_update_tile_effects_state",
+      "rule": "The drill effect x position (Drill.java:323, `... drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);`): x + (2 * roll - 1) * drillEffectRnd.",
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
+    "source_drill_update_tile_effects_state_result.drill_effect_y": {
+      "canonical_symbol": "source_symbol_registry.source_drill_update_tile_effects_state_result.drill_effect_y",
+      "status": "source-backed",
+      "java_expr": "if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);",
+      "godot_symbol": "source_drill_update_tile_effects_state_result.drill_effect_y",
+      "godot_owner": "PortGame.source_drill_update_tile_effects_state",
+      "rule": "The drill effect y position (Drill.java:323, `... drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);`): y + (2 * roll - 1) * drillEffectRnd.",
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
+    "source_drill_update_tile_effects_state_result.update_effect": {
+      "canonical_symbol": "source_symbol_registry.source_drill_update_tile_effects_state_result.update_effect",
+      "status": "source-backed",
+      "java_expr": "if(Mathf.chanceDelta(updateEffectChance * warmup))",
+      "godot_symbol": "source_drill_update_tile_effects_state_result.update_effect",
+      "godot_owner": "PortGame.source_drill_update_tile_effects_state",
+      "rule": "Whether the update effect fires this tick (Drill.java:307, `if(Mathf.chanceDelta(updateEffectChance * warmup))`): true exactly when the update effect roll is below updateEffectChance * warmup * source_delta.",
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
+    "source_drill_update_tile_effects_state_result.update_effect_called": {
+      "canonical_symbol": "source_symbol_registry.source_drill_update_tile_effects_state_result.update_effect_called",
+      "status": "source-backed",
+      "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+      "godot_symbol": "source_drill_update_tile_effects_state_result.update_effect_called",
+      "godot_owner": "PortGame.source_drill_update_tile_effects_state",
+      "rule": "Whether the updateEffect.at delegate was invoked (Drill.java:308, `updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));`): true when the update effect fires and the update_effect_at Callable is valid, false otherwise (the N2398 _called precedent).",
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
+    "source_drill_update_tile_effects_state_result.update_effect_x": {
+      "canonical_symbol": "source_symbol_registry.source_drill_update_tile_effects_state_result.update_effect_x",
+      "status": "source-backed",
+      "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+      "godot_symbol": "source_drill_update_tile_effects_state_result.update_effect_x",
+      "godot_owner": "PortGame.source_drill_update_tile_effects_state",
+      "rule": "The update effect x position (Drill.java:308, `updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));`): x + (2 * roll - 1) * size * 2f.",
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
+    "source_drill_update_tile_effects_state_result.update_effect_y": {
+      "canonical_symbol": "source_symbol_registry.source_drill_update_tile_effects_state_result.update_effect_y",
+      "status": "source-backed",
+      "java_expr": "updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));",
+      "godot_symbol": "source_drill_update_tile_effects_state_result.update_effect_y",
+      "godot_owner": "PortGame.source_drill_update_tile_effects_state",
+      "rule": "The update effect y position (Drill.java:308, `updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));`): y + (2 * roll - 1) * size * 2f.",
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
     "source_drill_version_state_result.version": {
       "canonical_symbol": "source_symbol_registry.source_drill_version_state_result.version",
       "status": "source-backed",

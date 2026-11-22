@@ -77,3 +77,36 @@ func source_drill_output_batch(progress: float, delay: float, dominant_items: in
 
 func source_drill_progress_fraction(progress: float, delay: float, has_dominant_item: bool) -> float:
 	return source_drill_production_runtime_state_script.progress_fraction(progress, delay, has_dominant_item)
+
+func source_drill_update_tile_effects_state(update_effect_chance: float, warmup: float, update_effect_roll: float, source_delta: float, size: float, x: float, y: float, was_visible: bool, drill_effect_chance: float, drill_effect_roll: float, drill_effect_rnd: float, dominant_item_color: Variant, update_effect_range_roll_x: float, update_effect_range_roll_y: float, drill_effect_range_roll_x: float, drill_effect_range_roll_y: float, update_effect_at: Callable, drill_effect_at: Callable) -> Dictionary:
+	# DrillBuild.updateTile() effect legs (Drill.java:307-308, :323):
+	# `if(Mathf.chanceDelta(updateEffectChance * warmup))`
+	# `updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));`
+	# `if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);`
+	# Mathf.chanceDelta(d) is `rand.nextFloat() < d * Time.delta` (arc Mathf.java:236-238), so
+	# each chance roll arrives as an explicit float param in [0, 1) and is compared against
+	# chance * warmup * source_delta here. Mathf.range(r) is `random(-range, range)`
+	# (Mathf.java:220-222), and random(start, end) is `start + roll * (end - start)`
+	# (Mathf.java:285-287), so each range call arrives as an explicit float roll in [0, 1)
+	# and maps to (2 * roll - 1) * amount here. updateEffect.at / drillEffect.at arrive as
+	# explicit Callables (the N2398 precedent) and are guarded with is_valid(); a fired
+	# effect whose Callable is invalid still reads through as true with *_called false.
+	# NOT this slice: the items/efficiency gate (N693), `progress %= delay` (N696),
+	# `offload(dominantItem)` (N2022). `drillEffectRnd` arrives already resolved (Drill.java:96
+	# `if(drillEffectRnd < 0) drillEffectRnd = size;` is NOT this slice); the Drill field
+	# defaults are updateEffectChance 0.02f / drillEffectChance 0.02f (Drill.java:57, :63).
+	var update_effect := update_effect_roll < update_effect_chance * warmup * source_delta
+	var update_effect_x := x + (2.0 * update_effect_range_roll_x - 1.0) * size * 2.0
+	var update_effect_y := y + (2.0 * update_effect_range_roll_y - 1.0) * size * 2.0
+	var update_effect_called := false
+	if update_effect and update_effect_at.is_valid():
+		update_effect_at.call(update_effect_x, update_effect_y)
+		update_effect_called = true
+	var drill_effect := was_visible and drill_effect_roll < drill_effect_chance * warmup * source_delta
+	var drill_effect_x := x + (2.0 * drill_effect_range_roll_x - 1.0) * drill_effect_rnd
+	var drill_effect_y := y + (2.0 * drill_effect_range_roll_y - 1.0) * drill_effect_rnd
+	var drill_effect_called := false
+	if drill_effect and drill_effect_at.is_valid():
+		drill_effect_at.call(drill_effect_x, drill_effect_y, dominant_item_color)
+		drill_effect_called = true
+	return {"update_effect": update_effect, "update_effect_x": update_effect_x, "update_effect_y": update_effect_y, "update_effect_called": update_effect_called, "drill_effect": drill_effect, "drill_effect_x": drill_effect_x, "drill_effect_y": drill_effect_y, "drill_effect_color": dominant_item_color, "drill_effect_called": drill_effect_called}
