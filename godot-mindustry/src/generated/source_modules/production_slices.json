@@ -1617,6 +1617,23 @@
       ],
       "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
     },
+    "N2424": {
+      "canonical_ledger": "source_slice_ledger.N2424",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.init()",
+      "godot_owner": "PortGame.source_drill_init_state",
+      "source_symbols": [
+        "source_drill_init_state_result.drill_effect_rnd"
+      ],
+      "tests": [
+        "test_c07_drill_init_registration",
+        "test_all_c07_drill_init_input_evidence_is_exact",
+        "test_drill_init_state",
+        "test_reference_graph_and_actual_c07_drill_init"
+      ],
+      "runtime_proof": "/root/C07DrillInitProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",

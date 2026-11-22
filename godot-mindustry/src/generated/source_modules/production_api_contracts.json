@@ -94,6 +94,37 @@
       "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
       "rule": "Public runtime contract for DrillBuild inactive branch warmup decay and lastDrillSpeed reset."
     },
+    "PortGame.source_drill_init_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_init_state",
+      "status": "active",
+      "source_slice": "N2424",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.init()",
+      "params": [
+        {
+          "name": "drill_effect_rnd",
+          "type": "float",
+          "schema": "source_drill_init_state_input.drill_effect_rnd"
+        },
+        {
+          "name": "size",
+          "type": "float",
+          "schema": "source_drill_init_state_input.size"
+        }
+      ],
+      "return_keys": [
+        "drill_effect_rnd"
+      ],
+      "tests": [
+        "test_c07_drill_init_registration",
+        "test_all_c07_drill_init_input_evidence_is_exact",
+        "test_drill_init_state",
+        "test_reference_graph_and_actual_c07_drill_init"
+      ],
+      "runtime_proof": "/root/C07DrillInitProof",
+      "rule": "Source-backed Drill init() defaulting state from Drill.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_drill_last_speed": {
       "canonical_contract": "source_api_contracts.PortGame.source_drill_last_speed",
       "status": "active",

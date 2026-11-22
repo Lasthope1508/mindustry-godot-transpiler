@@ -110,3 +110,15 @@ func source_drill_update_tile_effects_state(update_effect_chance: float, warmup:
 		drill_effect_at.call(drill_effect_x, drill_effect_y, dominant_item_color)
 		drill_effect_called = true
 	return {"update_effect": update_effect, "update_effect_x": update_effect_x, "update_effect_y": update_effect_y, "update_effect_called": update_effect_called, "drill_effect": drill_effect, "drill_effect_x": drill_effect_x, "drill_effect_y": drill_effect_y, "drill_effect_color": dominant_item_color, "drill_effect_called": drill_effect_called}
+
+func source_drill_init_state(drill_effect_rnd: float, size: float) -> Dictionary:
+	# Drill.init() (Drill.java:91-97) -- this slice is ONLY the
+	# `if(drillEffectRnd < 0) drillEffectRnd = size;` line (:96).
+	# NOT this slice: `super.init();` (:92) and the blockedItems
+	# guard (:93-95), both already owned. The Drill field default
+	# is `public float drillEffectRnd = -1f;` (Drill.java:55,
+	# "Block size by default"): a negative value means "use the
+	# block size", so the resolved radius is size when the field
+	# is negative, the field itself otherwise.
+	var resolved_drill_effect_rnd := size if drill_effect_rnd < 0.0 else drill_effect_rnd
+	return {"drill_effect_rnd": resolved_drill_effect_rnd}

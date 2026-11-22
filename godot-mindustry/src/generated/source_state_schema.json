@@ -254461,6 +254461,54 @@
       },
       "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof",
       "rule": "Source-backed BuildTurretBuild.updateTile() plan legs from BuildTurret.java."
+    },
+    "source_drill_init_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_drill_init_state",
+      "source_slice": "N2424",
+      "keys": {
+        "drill_effect_rnd": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(drillEffectRnd < 0) drillEffectRnd = size;",
+          "rule": "The drill effect random radius before init (Drill.java:96, `if(drillEffectRnd < 0) drillEffectRnd = size;`): the Drill field (`public float drillEffectRnd = -1f;`, Drill.java:55, \"Block size by default\") -- a negative value means \"use the block size\", passed explicitly.",
+          "used_by": [
+            "PortGame.source_drill_init_state"
+          ]
+        },
+        "size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(drillEffectRnd < 0) drillEffectRnd = size;",
+          "rule": "The block size (Drill.java:96, `if(drillEffectRnd < 0) drillEffectRnd = size;`): the Block.size in tiles -- the value a negative drillEffectRnd resolves to, passed explicitly.",
+          "used_by": [
+            "PortGame.source_drill_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DrillInitProof",
+      "rule": "Source-backed Drill init() defaulting state from Drill.java."
+    },
+    "source_drill_init_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_drill_init_state",
+      "source_slice": "N2424",
+      "keys": {
+        "drill_effect_rnd": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(drillEffectRnd < 0) drillEffectRnd = size;",
+          "rule": "The resolved drill effect random radius (Drill.java:96, `if(drillEffectRnd < 0) drillEffectRnd = size;`): size when drill_effect_rnd is negative, drill_effect_rnd itself otherwise.",
+          "used_by": [
+            "PortGame.source_drill_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07DrillInitProof",
+      "rule": "Source-backed Drill init() defaulting state from Drill.java."
     }
   },
   "version": 1

@@ -185240,6 +185240,22 @@
         "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
       ],
       "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof"
+    },
+    "source_drill_init_state_result.drill_effect_rnd": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_drill_init_state",
+      "godot_symbol": "source_drill_init_state_result.drill_effect_rnd",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.init()",
+      "java_expr": "if(drillEffectRnd < 0) drillEffectRnd = size;",
+      "rule": "The resolved drill effect random radius (Drill.java:96, `if(drillEffectRnd < 0) drillEffectRnd = size;`): size when drill_effect_rnd is negative, drill_effect_rnd itself otherwise.",
+      "tests": [
+        "test_c07_drill_init_registration",
+        "test_all_c07_drill_init_input_evidence_is_exact",
+        "test_drill_init_state",
+        "test_reference_graph_and_actual_c07_drill_init"
+      ],
+      "runtime_proof": "/root/C07DrillInitProof"
     }
   },
   "version": 1

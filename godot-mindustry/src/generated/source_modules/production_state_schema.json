@@ -2815,6 +2815,31 @@
         }
       }
     },
+    "source_drill_init_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_init_state_input",
+      "keys": {
+        "drill_effect_rnd": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(drillEffectRnd < 0) drillEffectRnd = size;",
+          "rule": "The drill effect random radius before init (Drill.java:96, `if(drillEffectRnd < 0) drillEffectRnd = size;`): the Drill field (`public float drillEffectRnd = -1f;`, Drill.java:55, \"Block size by default\") -- a negative value means \"use the block size\", passed explicitly.",
+          "used_by": [
+            "port_game.source_drill_init_state"
+          ]
+        },
+        "size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "java_expr": "if(drillEffectRnd < 0) drillEffectRnd = size;",
+          "rule": "The block size (Drill.java:96, `if(drillEffectRnd < 0) drillEffectRnd = size;`): the Block.size in tiles -- the value a negative drillEffectRnd resolves to, passed explicitly.",
+          "used_by": [
+            "port_game.source_drill_init_state"
+          ]
+        }
+      }
+    },
     "source_drill_last_speed_input": {
       "canonical_schema": "source_state_schema.source_drill_last_speed_input",
       "keys": {
