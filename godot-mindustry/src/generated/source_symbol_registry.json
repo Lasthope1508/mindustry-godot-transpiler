@@ -184072,6 +184072,86 @@
         "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
       ],
       "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
+    },
+    "source_teams_block_plan_state_result.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_block_plan_state",
+      "godot_symbol": "source_teams_block_plan_state_result.x",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "BlockPlan(int x, int y, short rotation, Block block, Object config)",
+      "java_expr": "this.x = (short)x;",
+      "rule": "The stored plan tile x (Teams.java:498, `this.x = (short)x;`): the int ctor arg narrowed to 16-bit signed.",
+      "tests": [
+        "test_c07_teams_block_plan_registration",
+        "test_all_c07_teams_block_plan_input_evidence_is_exact",
+        "test_teams_block_plan_state",
+        "test_reference_graph_and_actual_c07_teams_block_plan"
+      ],
+      "runtime_proof": "/root/C07TeamsBlockPlanProof"
+    },
+    "source_teams_block_plan_state_result.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_block_plan_state",
+      "godot_symbol": "source_teams_block_plan_state_result.y",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "BlockPlan(int x, int y, short rotation, Block block, Object config)",
+      "java_expr": "this.y = (short)y;",
+      "rule": "The stored plan tile y (Teams.java:499, `this.y = (short)y;`): the int ctor arg narrowed to 16-bit signed.",
+      "tests": [
+        "test_c07_teams_block_plan_registration",
+        "test_all_c07_teams_block_plan_input_evidence_is_exact",
+        "test_teams_block_plan_state",
+        "test_reference_graph_and_actual_c07_teams_block_plan"
+      ],
+      "runtime_proof": "/root/C07TeamsBlockPlanProof"
+    },
+    "source_teams_block_plan_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_block_plan_state",
+      "godot_symbol": "source_teams_block_plan_state_result.rotation",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "BlockPlan(int x, int y, short rotation, Block block, Object config)",
+      "java_expr": "this.rotation = rotation;",
+      "rule": "The stored plan rotation (Teams.java:500, `this.rotation = rotation;`): evidence only, owned N1770 -- passes through verbatim.",
+      "tests": [
+        "test_c07_teams_block_plan_registration",
+        "test_all_c07_teams_block_plan_input_evidence_is_exact",
+        "test_teams_block_plan_state",
+        "test_reference_graph_and_actual_c07_teams_block_plan"
+      ],
+      "runtime_proof": "/root/C07TeamsBlockPlanProof"
+    },
+    "source_teams_block_plan_state_result.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_block_plan_state",
+      "godot_symbol": "source_teams_block_plan_state_result.block",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "BlockPlan(int x, int y, short rotation, Block block, Object config)",
+      "java_expr": "this.block = block;",
+      "rule": "The stored planned block (Teams.java:501, `this.block = block;`): evidence only, owned N1771 -- Block is not ported, stored as a Variant.",
+      "tests": [
+        "test_c07_teams_block_plan_registration",
+        "test_all_c07_teams_block_plan_input_evidence_is_exact",
+        "test_teams_block_plan_state",
+        "test_reference_graph_and_actual_c07_teams_block_plan"
+      ],
+      "runtime_proof": "/root/C07TeamsBlockPlanProof"
+    },
+    "source_teams_block_plan_state_result.config": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_block_plan_state",
+      "godot_symbol": "source_teams_block_plan_state_result.config",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "BlockPlan(int x, int y, short rotation, Block block, Object config)",
+      "java_expr": "this.config = config;",
+      "rule": "The stored plan config (Teams.java:502, `this.config = config;`): the Object config stored verbatim as a Variant.",
+      "tests": [
+        "test_c07_teams_block_plan_registration",
+        "test_all_c07_teams_block_plan_input_evidence_is_exact",
+        "test_teams_block_plan_state",
+        "test_reference_graph_and_actual_c07_teams_block_plan"
+      ],
+      "runtime_proof": "/root/C07TeamsBlockPlanProof"
     }
   },
   "version": 1

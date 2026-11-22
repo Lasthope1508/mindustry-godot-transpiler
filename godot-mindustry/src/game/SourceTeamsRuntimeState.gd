@@ -1378,3 +1378,31 @@ static func source_teams_destroy_payload_state(build: Variant, has_unit_payload:
 			kill_unit.call(unit)
 			killed_units.append(unit)
 	return {"destroyed_payload": destroyed_payload, "dumped_payloads": dumped_payloads, "killed_units": killed_units}
+
+
+static func source_teams_block_plan_state(x: int, y: int, rotation: int, block: Variant, config: Variant) -> Dictionary:
+	# Teams.BlockPlan ctor (Teams.java:497-503):
+	# `public BlockPlan(int x, int y, short rotation, Block block, Object config){`
+	# `this.x = (short)x;`
+	# `this.y = (short)y;`
+	# `this.rotation = rotation;` -- owned N1770, evidence only
+	# `this.block = block;` -- owned N1771, evidence only
+	# `this.config = config;`
+	# `}`
+	# BlockPlan is a static nested data class
+	# (Teams.java:492-496): final short x, y, rotation;
+	# final Block block; final Object config; mutable
+	# boolean removed. The ctor never touches removed, so
+	# the returned record has no "removed" key. Block is
+	# not ported: it arrives as the block Variant. Object
+	# config arrives as the config Variant. The (short)
+	# casts narrow x/y to 16-bit signed (GDScript has no
+	# short), the same narrowing SourceBlockGeometry packs
+	# tile coords with.
+	var sx: int = int(x) & 0xffff
+	if sx >= 0x8000:
+		sx -= 0x10000
+	var sy: int = int(y) & 0xffff
+	if sy >= 0x8000:
+		sy -= 0x10000
+	return {"x": sx, "y": sy, "rotation": rotation, "block": block, "config": config}

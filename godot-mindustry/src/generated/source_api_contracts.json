@@ -76733,6 +76733,55 @@
       ],
       "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof",
       "rule": "Source-backed LiquidTurretBuild.findTarget() extinguish-scan loop state from LiquidTurret.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_block_plan_state": {
+      "status": "active",
+      "source_slice": "N2409",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "BlockPlan(int x, int y, short rotation, Block block, Object config)",
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_teams_block_plan_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_teams_block_plan_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_teams_block_plan_state_input.rotation"
+        },
+        {
+          "name": "block",
+          "type": "Variant",
+          "schema": "source_teams_block_plan_state_input.block"
+        },
+        {
+          "name": "config",
+          "type": "Variant",
+          "schema": "source_teams_block_plan_state_input.config"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "x",
+        "y",
+        "rotation",
+        "block",
+        "config"
+      ],
+      "tests": [
+        "test_c07_teams_block_plan_registration",
+        "test_all_c07_teams_block_plan_input_evidence_is_exact",
+        "test_teams_block_plan_state",
+        "test_reference_graph_and_actual_c07_teams_block_plan"
+      ],
+      "runtime_proof": "/root/C07TeamsBlockPlanProof",
+      "rule": "Source-backed Teams BlockPlan ctor state from Teams.java."
     }
   },
   "policy": {

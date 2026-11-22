@@ -252178,6 +252178,124 @@
       },
       "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof",
       "rule": "Source-backed LiquidTurretBuild.findTarget() extinguish-scan loop state from LiquidTurret.java."
+    },
+    "source_teams_block_plan_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_block_plan_state",
+      "source_slice": "N2409",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "this.x = (short)x;",
+          "rule": "The plan tile x (Teams.java:498, `this.x = (short)x;`): the ctor int is narrowed to a 16-bit signed short on store -- the GD function applies the same narrowing (GDScript has no short).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "this.y = (short)y;",
+          "rule": "The plan tile y (Teams.java:499, `this.y = (short)y;`): same (short) narrowing as x.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "this.rotation = rotation;",
+          "rule": "The plan rotation (Teams.java:500, `this.rotation = rotation;`): evidence only, owned N1770 (Building.init) -- the value passes through the GD function, only the expr ownership is already held.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_state"
+          ]
+        },
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "this.block = block;",
+          "rule": "The planned block (Teams.java:501, `this.block = block;`): evidence only, owned N1771 (Building.create) -- Block is not ported, so it arrives as a Variant and passes through.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_state"
+          ]
+        },
+        "config": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "this.config = config;",
+          "rule": "The plan config (Teams.java:502, `this.config = config;`): Object config arrives as a Variant and is stored verbatim.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsBlockPlanProof",
+      "rule": "Source-backed Teams BlockPlan ctor state from Teams.java."
+    },
+    "source_teams_block_plan_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_block_plan_state",
+      "source_slice": "N2409",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "this.x = (short)x;",
+          "rule": "The stored plan tile x (Teams.java:498, `this.x = (short)x;`): the int ctor arg narrowed to 16-bit signed.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "this.y = (short)y;",
+          "rule": "The stored plan tile y (Teams.java:499, `this.y = (short)y;`): the int ctor arg narrowed to 16-bit signed.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "this.rotation = rotation;",
+          "rule": "The stored plan rotation (Teams.java:500, `this.rotation = rotation;`): evidence only, owned N1770 -- passes through verbatim.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_state"
+          ]
+        },
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "this.block = block;",
+          "rule": "The stored planned block (Teams.java:501, `this.block = block;`): evidence only, owned N1771 -- Block is not ported, stored as a Variant.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_state"
+          ]
+        },
+        "config": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "this.config = config;",
+          "rule": "The stored plan config (Teams.java:502, `this.config = config;`): the Object config stored verbatim as a Variant.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsBlockPlanProof",
+      "rule": "Source-backed Teams BlockPlan ctor state from Teams.java."
     }
   },
   "version": 1
