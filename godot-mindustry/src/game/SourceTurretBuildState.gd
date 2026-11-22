@@ -1673,3 +1673,43 @@ static func source_turret_tick_buildings_state(game: Object, seconds: float) -> 
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+
+# TurretBuild.BulletEntry ctor (Turret.java:867-873, `public
+# BulletEntry(Bullet bullet, float x, float y, float rotation, float
+# life){`): the inner record's only ctor. BulletEntry is a plain
+# data holder (Turret.java:864-866, `public static class
+# BulletEntry{` / `public Bullet bullet;` / `public float x, y,
+# rotation, life;`) -- no Build, no frame, so the port is a pure
+# function: the 5 ctor params arrive as explicit params (the N2188
+# precedent) and the function returns the record as a Dictionary.
+# The 2 ctor assignments below are the only exprs this slice
+# owns: each writes one ctor param into the new record field.
+# `this.bullet = bullet;`
+# `this.life = life;`
+# `this.x = x;` -- already the exact_expr of N1115 (the
+# `void set(float x, float y){` slice); cited as evidence
+# only, never re-registered.
+# `this.y = y;` -- also N1115-owned; evidence only.
+# `this.rotation = rotation;` -- already the exact_expr
+# of N1770 (the `public Building init(...)` slice);
+# evidence only. The inline `bullet_entry` dicts in the
+# ContinuousTurret/LaserTurret bridges (e.g.
+# SourceContinuousTurretBuildPortBridge.gd:293,
+# `{"bullet": bullet, "x": offset_x, "y": offset_y,
+# "rotation": angle_offset, "life": 0.0}`) are call-site
+# literals, not this ctor -- no dedup. The record is
+# returned as-is; the callers store entries in a seq
+# (ContinuousTurret.java:39 / LaserTurret.java:45,
+# `public Seq<BulletEntry> bullets = new Seq<>();`) and
+# construct them at ContinuousTurret.java:156 /
+# LaserTurret.java:142 (`bullets.add(new
+# BulletEntry(bullet, offsetX, offsetY, angleOffset,
+# ...));`) -- those call sites are not ported here.
+static func source_turret_bullet_entry_state(bullet: Variant, x: float, y: float, rotation: float, life: float) -> Dictionary:
+	var bullet_value: Variant = bullet
+	var x_value: float = x
+	var y_value: float = y
+	var rotation_value: float = rotation
+	var life_value: float = life
+	return {"bullet": bullet_value, "x": x_value, "y": y_value, "rotation": rotation_value, "life": life_value}

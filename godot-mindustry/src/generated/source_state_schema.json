@@ -252296,6 +252296,124 @@
       },
       "runtime_proof": "/root/C07TeamsBlockPlanProof",
       "rule": "Source-backed Teams BlockPlan ctor state from Teams.java."
+    },
+    "source_turret_bullet_entry_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_bullet_entry_state",
+      "source_slice": "N2410",
+      "keys": {
+        "bullet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BulletEntry(Bullet bullet, float x, float y, float rotation, float life){",
+          "rule": "The bullet the entry wraps (Turret.java:867, `public BulletEntry(Bullet bullet, float x, float y, float rotation, float life){`): the ctor's first param; a Bullet object is an opaque ref in GDScript, so it arrives as Variant and passes through unchanged.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_bullet_entry_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BulletEntry(Bullet bullet, float x, float y, float rotation, float life){",
+          "rule": "The x position of the bullet entry (Turret.java:867, ctor signature): the ctor's second param; the assignment `this.x = x;` is already the exact_expr of N1115 -- cited as evidence only, never re-registered here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_bullet_entry_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BulletEntry(Bullet bullet, float x, float y, float rotation, float life){",
+          "rule": "The y position of the bullet entry (Turret.java:867, ctor signature): the ctor's third param; the assignment `this.y = y;` is already the exact_expr of N1115 -- cited as evidence only, never re-registered here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_bullet_entry_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BulletEntry(Bullet bullet, float x, float y, float rotation, float life){",
+          "rule": "The rotation of the bullet entry (Turret.java:867, ctor signature): the ctor's fourth param; the assignment `this.rotation = rotation;` is already the exact_expr of N1770 -- cited as evidence only, never re-registered here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_bullet_entry_state"
+          ]
+        },
+        "life": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BulletEntry(Bullet bullet, float x, float y, float rotation, float life){",
+          "rule": "The life of the bullet entry (Turret.java:867, ctor signature): the ctor's fifth param; the ctor assigns it with `this.life = life;` (Turret.java:872), owned by this slice.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_bullet_entry_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretBulletEntryProof",
+      "rule": "Source-backed TurretBuild.BulletEntry() ctor record state from Turret.java."
+    },
+    "source_turret_bullet_entry_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_bullet_entry_state",
+      "source_slice": "N2410",
+      "keys": {
+        "bullet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "this.bullet = bullet;",
+          "rule": "The wrapped bullet (Turret.java:868, `this.bullet = bullet;`): BulletEntry.bullet; the ctor stores the Bullet ref unchanged -- the record keeps the same object the caller passed in.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_bullet_entry_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BulletEntry(Bullet bullet, float x, float y, float rotation, float life){",
+          "rule": "The x position of the record (Turret.java:867, ctor signature): BulletEntry.x; the ctor assigns it with `this.x = x;` (Turret.java:869), already the exact_expr of N1115 -- cited as evidence only, never re-registered here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_bullet_entry_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BulletEntry(Bullet bullet, float x, float y, float rotation, float life){",
+          "rule": "The y position of the record (Turret.java:867, ctor signature): BulletEntry.y; the ctor assigns it with `this.y = y;` (Turret.java:870), already the exact_expr of N1115 -- cited as evidence only, never re-registered here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_bullet_entry_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public BulletEntry(Bullet bullet, float x, float y, float rotation, float life){",
+          "rule": "The rotation of the record (Turret.java:867, ctor signature): BulletEntry.rotation; the ctor assigns it with `this.rotation = rotation;` (Turret.java:871), already the exact_expr of N1770 -- cited as evidence only, never re-registered here.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_bullet_entry_state"
+          ]
+        },
+        "life": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "this.life = life;",
+          "rule": "The life of the record (Turret.java:872, `this.life = life;`): BulletEntry.life; the ctor stores the life value unchanged -- continuous drivers pass 0f, laser drivers pass shootDuration.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_bullet_entry_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretBulletEntryProof",
+      "rule": "Source-backed TurretBuild.BulletEntry() ctor record state from Turret.java."
     }
   },
   "version": 1

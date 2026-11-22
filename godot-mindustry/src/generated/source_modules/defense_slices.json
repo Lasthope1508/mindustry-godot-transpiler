@@ -4474,6 +4474,27 @@
       ],
       "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof"
     },
+    "N2410": {
+      "canonical_ledger": "source_slice_ledger.N2410",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "BulletEntry(Bullet, float, float, float, float)",
+      "godot_owner": "SourceTurretBuildState.source_turret_bullet_entry_state",
+      "source_symbols": [
+        "source_turret_bullet_entry_state_result.bullet",
+        "source_turret_bullet_entry_state_result.x",
+        "source_turret_bullet_entry_state_result.y",
+        "source_turret_bullet_entry_state_result.rotation",
+        "source_turret_bullet_entry_state_result.life"
+      ],
+      "tests": [
+        "test_c07_turret_bullet_entry_registration",
+        "test_all_c07_turret_bullet_entry_input_evidence_is_exact",
+        "test_turret_bullet_entry_state",
+        "test_reference_graph_and_actual_c07_turret_bullet_entry"
+      ],
+      "runtime_proof": "/root/C07TurretBulletEntryProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
