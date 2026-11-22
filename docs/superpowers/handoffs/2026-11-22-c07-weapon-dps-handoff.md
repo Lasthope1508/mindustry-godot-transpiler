@@ -1,6 +1,6 @@
-# Handoff — N2534 Weapon `dps()`: pure function cho Weapon family (C07) [DONE (slice fb8a6ab5; docs/GOAL/status pending — push xong mới ghi origin/main ở đây sau khi push)]
+# Handoff — N2534 Weapon `dps()`: pure function cho Weapon family (C07) [DONE + PUSHED (slice fb8a6ab5, docs 0f9f5b9a, GOAL 531604d2)]
 
-## Status: DONE (lượt cron 19:15 +07 ngày 2026-11-22; slice fb8a6ab5, docs pending, GOAL pending, status pending)
+## Status: DONE + PUSHED (lượt cron 19:15 +07 ngày 2026-11-22; slice fb8a6ab5, docs 0f9f5b9a, GOAL 531604d2; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2533 DONE + PUSHED ~17:20 +07 ngày 2026-11-22, origin/main == 8e1e3a98
   (5 commit: slice 33a284de + docs 2af6eca0 + GOAL c10e80c8 + status e7822e30 + hashes 8e1e3a98).
