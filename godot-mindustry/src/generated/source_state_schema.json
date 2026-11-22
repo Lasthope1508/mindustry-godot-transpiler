@@ -254597,6 +254597,234 @@
       },
       "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof",
       "rule": "Source-backed BuildTurret init() UnitType fields from BuildTurret.java."
+    },
+    "source_turret_shoot_bullet_legs_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_shoot_bullet_legs_state",
+      "source_slice": "N2428",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "protected void shoot(BulletType type){",
+          "rule": "The turret frame (accepted for the family call shape; it carries the live barrel_counter key -- the barrel counter is live build state (Turret.java:301, `public int totalShots, barrelCounter;`), so the delayed action reads/writes it there when it runs, the N2397 frame precedent).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(delay > 0f){",
+          "rule": "The pattern delay for this shot (Turret.java:758, `if(delay > 0f){`): the ShootPattern lambda param -- above zero the bullet is queued through Time.run, at zero it fires at once.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "bullet": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "bullet(type, xOffset, yOffset, angle, mover);",
+          "rule": "The bullet() call (Turret.java:763, `bullet(type, xOffset, yOffset, angle, mover);`): bullet() (body N2269-remote) is a call-site, so it arrives as a Callable param (type, x_offset, y_offset, angle, mover) and the call is recorded, never re-ported.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "time_run": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Time.run(delay, () -> {",
+          "rule": "The delayed-run hook (Turret.java:759, `Time.run(delay, () -> {`): Time.run is not ported -- it arrives as a Callable param (delay, action) recording the delay + the barrel save/restore action; the bullet only fires when the recorded action executes.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "bullet_type": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){",
+          "rule": "The bullet type (Turret.java:776, `protected void bullet(BulletType type, ...){`): the BulletType the queued shot fires, passed through to the bullet Callable.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "x_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){",
+          "rule": "The shot x offset (Turret.java:776, `protected void bullet(BulletType type, float xOffset, ...){`): the ShootPattern lambda param -- also the sign source for the ammo-eject effect rotation (`rotation * Mathf.sign(xOffset)`, :799).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "y_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){",
+          "rule": "The shot y offset (Turret.java:776, `protected void bullet(BulletType type, float xOffset, float yOffset, ...){`): the ShootPattern lambda param, passed through to the bullet Callable.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "angle_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){",
+          "rule": "The shot angle offset (Turret.java:776, `protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, ...){`): the ShootPattern lambda param, passed through to the bullet Callable.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "mover": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){",
+          "rule": "The bullet mover (Turret.java:776, `protected void bullet(BulletType type, ..., Mover mover){`): the ShootPattern lambda param, passed through to the bullet Callable.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "x - Angles.trnsx(rotation, ammoEjectBack),",
+          "rule": "The build x position (Turret.java:797, `x - Angles.trnsx(rotation, ammoEjectBack),`): BuildingComp x, the ammo-eject effect origin before the pull-back along the aim angle.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "y - Angles.trnsy(rotation, ammoEjectBack),",
+          "rule": "The build y position (Turret.java:798, `y - Angles.trnsy(rotation, ammoEjectBack),`): BuildingComp y, the ammo-eject effect origin before the pull-back along the aim angle.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "rotation * Mathf.sign(xOffset)",
+          "rule": "The aim rotation (Turret.java:799, `rotation * Mathf.sign(xOffset)`): BaseTurretBuild rotation, the ammo-eject effect angle before the shot-side sign.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "ammo_eject_back": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float ammoEjectBack = 1f;",
+          "rule": "The ammo eject pull-back (Turret.java, `public float ammoEjectBack = 1f;`): how far behind the turret the ammo-eject effect spawns, along the aim angle.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "shake": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float shake = 0f;",
+          "rule": "The shake amount (Turret.java, `public float shake = 0f;`): the Turret field -- the guard opens only above zero.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "ammo_use_effect": {
+          "type": "Callable",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "ammoUseEffect.at(",
+          "rule": "The ammo-eject effect call (Turret.java:796, `ammoUseEffect.at(`): Effect.at is an engine call, so it arrives as a Callable param (x, y, rotation) and the call is recorded, never re-ported.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretShootBulletLegsProof",
+      "rule": "Source-backed TurretBuild.shoot()/bullet() leftover legs from Turret.java."
+    },
+    "source_turret_shoot_bullet_legs_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_shoot_bullet_legs_state",
+      "source_slice": "N2428",
+      "keys": {
+        "barrel": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "int barrel = barrelCounter;",
+          "rule": "The captured barrel (Turret.java:756, `int barrel = barrelCounter;`): the barrelCounter value at shoot() time -- the Time.run lambda closes over this local, so a later shot cannot change which barrel this bullet uses.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "delayed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(delay > 0f){",
+          "rule": "Whether the shot was delayed (Turret.java:758, `if(delay > 0f){`): true exactly when the bullet went through Time.run instead of firing at once.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "ammo_use_effect_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "x - Angles.trnsx(rotation, ammoEjectBack),",
+          "rule": "The ammo-eject effect x (Turret.java:797, `x - Angles.trnsx(rotation, ammoEjectBack),`): x minus the pull-back along the aim angle (2-arg trnsx = len * cos, Angles.java:66-70).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "ammo_use_effect_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "y - Angles.trnsy(rotation, ammoEjectBack),",
+          "rule": "The ammo-eject effect y (Turret.java:798, `y - Angles.trnsy(rotation, ammoEjectBack),`): y minus the pull-back along the aim angle (2-arg trnsy = len * sin, Angles.java:66-70).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "ammo_use_effect_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "rotation * Mathf.sign(xOffset)",
+          "rule": "The ammo-eject effect rotation (Turret.java:799, `rotation * Mathf.sign(xOffset)`): the aim rotation times the sign of the shot x offset -- left shots eject mirrored.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "shake_applies": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "if(shake > 0){",
+          "rule": "Whether the shake guard opens (Turret.java:802, `if(shake > 0){`): true exactly when shake is above zero -- opener only, the Effect.shake body is deferred.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretShootBulletLegsProof",
+      "rule": "Source-backed TurretBuild.shoot()/bullet() leftover legs from Turret.java."
     }
   },
   "version": 1

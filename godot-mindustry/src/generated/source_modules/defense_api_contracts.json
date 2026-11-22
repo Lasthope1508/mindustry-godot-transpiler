@@ -10493,6 +10493,107 @@
       "rule": "Source-backed TurretBuild.sense() state from Turret.java + ReloadTurret.java + BuildingComp.java + Vars.java + LAccess.java + World.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_shoot_bullet_legs_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_shoot_bullet_legs_state",
+      "status": "active",
+      "source_slice": "N2428",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.shoot()/TurretBuild.bullet()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_shoot_bullet_legs_state_input.frame"
+        },
+        {
+          "name": "delay",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.delay"
+        },
+        {
+          "name": "bullet",
+          "type": "Callable",
+          "schema": "source_turret_shoot_bullet_legs_state_input.bullet"
+        },
+        {
+          "name": "time_run",
+          "type": "Callable",
+          "schema": "source_turret_shoot_bullet_legs_state_input.time_run"
+        },
+        {
+          "name": "bullet_type",
+          "type": "Variant",
+          "schema": "source_turret_shoot_bullet_legs_state_input.bullet_type"
+        },
+        {
+          "name": "x_offset",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.x_offset"
+        },
+        {
+          "name": "y_offset",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.y_offset"
+        },
+        {
+          "name": "angle_offset",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.angle_offset"
+        },
+        {
+          "name": "mover",
+          "type": "Variant",
+          "schema": "source_turret_shoot_bullet_legs_state_input.mover"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.rotation"
+        },
+        {
+          "name": "ammo_eject_back",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.ammo_eject_back"
+        },
+        {
+          "name": "shake",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.shake"
+        },
+        {
+          "name": "ammo_use_effect",
+          "type": "Callable",
+          "schema": "source_turret_shoot_bullet_legs_state_input.ammo_use_effect"
+        }
+      ],
+      "return_keys": [
+        "barrel",
+        "delayed",
+        "ammo_use_effect_x",
+        "ammo_use_effect_y",
+        "ammo_use_effect_rotation",
+        "shake_applies"
+      ],
+      "tests": [
+        "test_c07_turret_shoot_bullet_legs_registration",
+        "test_all_c07_turret_shoot_bullet_legs_input_evidence_is_exact",
+        "test_turret_shoot_bullet_legs_state",
+        "test_reference_graph_and_actual_c07_turret_shoot_bullet_legs"
+      ],
+      "runtime_proof": "/root/C07TurretShootBulletLegsProof",
+      "rule": "Source-backed TurretBuild.shoot()/bullet() leftover legs from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_should_consume_state",
       "status": "active",

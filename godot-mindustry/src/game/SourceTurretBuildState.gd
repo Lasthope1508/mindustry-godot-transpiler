@@ -1723,3 +1723,81 @@ static func source_turret_bullet_entry_state(bullet: Variant, x: float, y: float
 	var rotation_value: float = rotation
 	var life_value: float = life
 	return {"bullet": bullet_value, "x": x_value, "y": y_value, "rotation": rotation_value, "life": life_value}
+
+
+# TurretBuild.shoot()/bullet() leftover legs (Turret.java:741-809,
+# `protected void shoot(BulletType type){` / `protected void
+# bullet(BulletType type, float xOffset, float yOffset, float
+# angleOffset, Mover mover){`): the 6 legs remote N2269/N2252 did
+# not register -- the barrel capture in the ShootPattern lambda,
+# the delayed barrel save/restore around the queued bullet call,
+# the ammo-eject effect call, and the shake guard opener. One
+# owner + one GD func + one contract (the N2421 design). The
+# barrel counter is live build state, so it arrives in the frame
+# Dictionary (the N2397 frame precedent) and the delayed action
+# reads/writes it there when it runs; the bullet() call and the
+# Time.run hook arrive as Callables (the N2395 precedent). The
+# 2-arg Angles.trnsx/trnsy overloads (Angles.java:66-70,
+# `trnsx(angle, len) = len * cosDeg(angle)`) are the scalar
+# cos/sin forms -- NOT the 3-arg rotate overloads (the N2366
+# precedent covers the 3-arg form). Mathf.sign(xOffset) is
+# signf(x_offset).
+# `int barrel = barrelCounter;`
+# `int prev = barrelCounter;`
+# `barrelCounter = barrel;`
+# `barrelCounter = prev;`
+# `ammoUseEffect.at(`
+# `if(shake > 0){`
+# NOT re-registered here: the ammo-eject arg lines (:797-799,
+# `x - Angles.trnsx(rotation, ammoEjectBack),` /
+# `y - Angles.trnsy(rotation, ammoEjectBack),` /
+# `rotation * Mathf.sign(xOffset)`) are implemented as the
+# effect position/rotation computation, not separate exprs --
+# they are the arguments of the one registered
+# `ammoUseEffect.at(` call (the N816 multi-line-call
+# precedent). `bullet(type, xOffset, yOffset, angle, mover);`
+# (:763/:767) is a call-site of the bullet Callable, owned by
+# remote N2269 -- it arrives as the bullet Callable param and
+# is never re-ported. `Effect.shake(shake, shake, this);`
+# (:803), the body of the shake guard, is NOT registered: the
+# same text is already owned at N774 (UnitComp.destroy) and
+# N2294 (BurstDrillBuild.updateTile) in other methods, so the
+# TurretBuild.bullet() occurrence stays for a later slice
+# (deferred). The rest of shoot()/bullet() (geometry :743-745,
+# charge :748-749, queuedBullets :755/:777, handleBullet/create
+# :790, shoot/smoke/sound effects :792-794, recoil/heat
+# :806-810) stays with remote N2269/N2252 / future slices.
+static func source_turret_shoot_bullet_legs_state(frame: Dictionary, delay: float, bullet: Callable, time_run: Callable, bullet_type: Variant, x_offset: float, y_offset: float, angle_offset: float, mover: Variant, x: float, y: float, rotation: float, ammo_eject_back: float, shake: float, ammo_use_effect: Callable) -> Dictionary:
+	# `int barrel = barrelCounter;` (Turret.java:756): capture
+	# the barrel counter now -- the Time.run lambda below
+	# closes over this local, so a later shot advancing the
+	# counter cannot change which barrel this bullet uses.
+	var barrel: int = int(frame.get("barrel_counter", 0))
+	if delay > 0.0:
+		# `Time.run(delay, () -> {` (Turret.java:759): the
+		# bullet is queued, not fired -- the action records
+		# the delay and runs only when executed.
+		var action := func() -> void:
+			# `int prev = barrelCounter;` (Turret.java:761)
+			var prev: int = int(frame.get("barrel_counter", 0))
+			# `barrelCounter = barrel;` (Turret.java:762):
+			# restore the barrel this bullet was queued with.
+			frame["barrel_counter"] = barrel
+			bullet.call(bullet_type, x_offset, y_offset, angle_offset, mover)
+			# `barrelCounter = prev;` (Turret.java:764):
+			# hand the counter back to whatever it was.
+			frame["barrel_counter"] = prev
+		time_run.call(delay, action)
+	else:
+		bullet.call(bullet_type, x_offset, y_offset, angle_offset, mover)
+	# `ammoUseEffect.at(` (Turret.java:796): the ammo-eject
+	# effect at the turret pos pulled back along the aim
+	# angle, rotated by the shot side.
+	var effect_x: float = x - ammo_eject_back * cos(deg_to_rad(rotation))
+	var effect_y: float = y - ammo_eject_back * sin(deg_to_rad(rotation))
+	var effect_rotation: float = rotation * signf(x_offset)
+	ammo_use_effect.call(effect_x, effect_y, effect_rotation)
+	# `if(shake > 0){` (Turret.java:802): the shake guard
+	# opener only -- the Effect.shake body is deferred.
+	var shake_applies: bool = shake > 0.0
+	return {"barrel": barrel, "delayed": delay > 0.0, "ammo_use_effect_x": effect_x, "ammo_use_effect_y": effect_y, "ammo_use_effect_rotation": effect_rotation, "shake_applies": shake_applies}
