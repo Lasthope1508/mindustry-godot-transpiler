@@ -1654,6 +1654,26 @@
       ],
       "runtime_proof": "/root/C07DrillCountOreSortOpenerProof"
     },
+    "N2434": {
+      "canonical_ledger": "source_slice_ledger.N2434",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "Drill.setStats()",
+      "godot_owner": "SourceBurstDrillBuildState.source_drill_set_stats_state",
+      "source_symbols": [
+        "source_drill_set_stats_state_result.drill_tier_row",
+        "source_drill_set_stats_state_result.drill_speed_row",
+        "source_drill_set_stats_state_result.booster_row_removed",
+        "source_drill_set_stats_state_result.booster_row"
+      ],
+      "tests": [
+        "test_c07_drill_set_stats_booster_amount_registration",
+        "test_all_c07_drill_set_stats_booster_amount_input_evidence_is_exact",
+        "test_drill_set_stats_booster_amount_state",
+        "test_reference_graph_and_actual_c07_drill_set_stats_booster_amount"
+      ],
+      "runtime_proof": "/root/C07DrillSetStatsBoosterAmountProof"
+    },
     "N690": {
       "canonical_ledger": "source_slice_ledger.N690",
       "status": "done",
