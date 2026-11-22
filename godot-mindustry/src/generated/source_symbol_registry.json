@@ -185440,7 +185440,7 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "TurretBuild.shoot()/TurretBuild.bullet()",
       "java_expr": "if(shake > 0){",
-      "rule": "Whether the shake guard opens (Turret.java:802, `if(shake > 0){`): true exactly when shake is above zero -- opener only, the Effect.shake body is deferred.",
+      "rule": "Whether the shake guard opens (Turret.java:802, `if(shake > 0){`): true exactly when shake is above zero -- opener only; the Effect.shake body is registered at N2435.",
       "tests": [
         "test_c07_turret_shoot_bullet_legs_registration",
         "test_all_c07_turret_shoot_bullet_legs_input_evidence_is_exact",
@@ -185480,6 +185480,22 @@
         "test_reference_graph_and_actual_c07_item_turret_init_ammo_filter"
       ],
       "runtime_proof": "/root/C07ItemTurretInitAmmoFilterProof"
+    },
+    "source_turret_shoot_bullet_legs_state_result.shake_effect": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_shoot_bullet_legs_state",
+      "godot_symbol": "source_turret_shoot_bullet_legs_state_result.shake_effect",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.shoot()/TurretBuild.bullet()",
+      "java_expr": "Effect.shake(shake, shake, this);",
+      "rule": "The shake effect (Turret.java:803, `Effect.shake(shake, shake, this);`): Effect.shake(intensity, duration, Position) fires a camera shake of the given intensity for the given duration at the build (Effect.java:210) -- both args are the same `shake` value, so the recorded call is {\"intensity\": shake, \"duration\": shake, \"x\": x, \"y\": y} when the guard opens and {} when it does not.",
+      "tests": [
+        "test_c07_turret_shoot_bullet_shake_registration",
+        "test_all_c07_turret_shoot_bullet_shake_input_evidence_is_exact",
+        "test_turret_shoot_bullet_shake_state",
+        "test_reference_graph_and_actual_c07_turret_shoot_bullet_shake"
+      ],
+      "runtime_proof": "/root/C07TurretShootBulletShakeProof"
     }
   },
   "version": 1

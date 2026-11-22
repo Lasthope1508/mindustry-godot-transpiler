@@ -4741,6 +4741,23 @@
       ],
       "runtime_proof": "/root/C07TurretTargetPositionOffsetProof"
     },
+    "N2435": {
+      "canonical_ledger": "source_slice_ledger.N2435",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.shoot()/TurretBuild.bullet()",
+      "godot_owner": "SourceTurretBuildState.source_turret_shoot_bullet_legs_state",
+      "source_symbols": [
+        "source_turret_shoot_bullet_legs_state_result.shake_effect"
+      ],
+      "tests": [
+        "test_c07_turret_shoot_bullet_shake_registration",
+        "test_all_c07_turret_shoot_bullet_shake_input_evidence_is_exact",
+        "test_turret_shoot_bullet_shake_state",
+        "test_reference_graph_and_actual_c07_turret_shoot_bullet_shake"
+      ],
+      "runtime_proof": "/root/C07TurretShootBulletShakeProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

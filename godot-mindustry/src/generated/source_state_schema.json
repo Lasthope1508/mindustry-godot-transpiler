@@ -254817,7 +254817,17 @@
           "status": "source-backed",
           "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
           "java_expr": "if(shake > 0){",
-          "rule": "Whether the shake guard opens (Turret.java:802, `if(shake > 0){`): true exactly when shake is above zero -- opener only, the Effect.shake body is deferred.",
+          "rule": "Whether the shake guard opens (Turret.java:802, `if(shake > 0){`): true exactly when shake is above zero -- opener only; the Effect.shake body is registered at N2435.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
+          ]
+        },
+        "shake_effect": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "Effect.shake(shake, shake, this);",
+          "rule": "The shake effect (Turret.java:803, `Effect.shake(shake, shake, this);`): Effect.shake(intensity, duration, Position) fires a camera shake of the given intensity for the given duration at the build (Effect.java:210) -- both args are the same `shake` value, so the recorded call is {\"intensity\": shake, \"duration\": shake, \"x\": x, \"y\": y} when the guard opens and {} when it does not.",
           "used_by": [
             "SourceTurretBuildState.source_turret_shoot_bullet_legs_state"
           ]

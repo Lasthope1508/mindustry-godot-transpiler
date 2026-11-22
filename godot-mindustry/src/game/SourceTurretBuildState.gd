@@ -1759,11 +1759,11 @@ static func source_turret_bullet_entry_state(bullet: Variant, x: float, y: float
 # (:763/:767) is a call-site of the bullet Callable, owned by
 # remote N2269 -- it arrives as the bullet Callable param and
 # is never re-ported. `Effect.shake(shake, shake, this);`
-# (:803), the body of the shake guard, is NOT registered: the
-# same text is already owned at N774 (UnitComp.destroy) and
-# N2294 (BurstDrillBuild.updateTile) in other methods, so the
-# TurretBuild.bullet() occurrence stays for a later slice
-# (deferred). The rest of shoot()/bullet() (geometry :743-745,
+# (:803), the body of the shake guard, is registered at
+# N2435 (twin-registration under this owner -- the same
+# text is already owned at N774 (UnitComp.destroy) and
+# N2294 (BurstDrillBuild.updateTile) in other methods).
+# The rest of shoot()/bullet() (geometry :743-745,
 # charge :748-749, queuedBullets :755/:777, handleBullet/create
 # :790, shoot/smoke/sound effects :792-794, recoil/heat
 # :806-810) stays with remote N2269/N2252 / future slices.
@@ -1798,6 +1798,13 @@ static func source_turret_shoot_bullet_legs_state(frame: Dictionary, delay: floa
 	var effect_rotation: float = rotation * signf(x_offset)
 	ammo_use_effect.call(effect_x, effect_y, effect_rotation)
 	# `if(shake > 0){` (Turret.java:802): the shake guard
-	# opener only -- the Effect.shake body is deferred.
+	# opener -- the Effect.shake body (:803) is registered
+	# at N2435 (see below).
 	var shake_applies: bool = shake > 0.0
-	return {"barrel": barrel, "delayed": delay > 0.0, "ammo_use_effect_x": effect_x, "ammo_use_effect_y": effect_y, "ammo_use_effect_rotation": effect_rotation, "shake_applies": shake_applies}
+	# `Effect.shake(shake, shake, this);` (Turret.java:803): the shake body --
+	# Effect.shake(intensity, duration, Position) fires a camera shake of the
+	# given intensity for the given duration at the build (Effect.java:210);
+	# recorded as data (the N2437 runWave precedent: engine calls not yet
+	# wired are recorded in the returned Dictionary).
+	var shake_effect: Dictionary = {"intensity": shake, "duration": shake, "x": x, "y": y} if shake_applies else {}
+	return {"barrel": barrel, "delayed": delay > 0.0, "ammo_use_effect_x": effect_x, "ammo_use_effect_y": effect_y, "ammo_use_effect_rotation": effect_rotation, "shake_applies": shake_applies, "shake_effect": shake_effect}
