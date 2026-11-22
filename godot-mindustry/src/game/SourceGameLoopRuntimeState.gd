@@ -38,6 +38,23 @@ static func source_game_loop_is_waiting_wave_state(wait_enemies: bool, wave: int
 	result["waiting"] = (wait_enemies or (wave >= win_wave and win_wave > 0)) and enemies > 0
 	return result
 
+# Logic.checkCampaignStats() (Logic.java:251-253) — whether
+# campaign stats should be recorded:
+# return state.isCampaign() && !net.client();
+# Pure predicate over the frame inputs; `state.isCampaign()`
+# and `net.client()` are read as-is and never resolved here
+# (their live reads are later slices). The call-sites
+# `if(checkCampaignStats()){` in the Logic ctor
+# (Logic.java:163, :196, :206, :212, :223, :232, :239, :245)
+# belong to the 16 handler ctor slices, not this one.
+static func source_game_loop_check_campaign_stats_state(is_campaign: bool, is_client: bool) -> Dictionary:
+	var result := {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_GAME_LOOP_CHECK_CAMPAIGN_STATS_STATE,
+		"campaign_stats": false,
+	}
+	result["campaign_stats"] = is_campaign and not is_client
+	return result
+
 static func ready(game: Object) -> void:
 	# Vars.headless (Vars.java:208-209) via DisplayServer
 	# (decision 2026-11-17 ~12:56, Option 1): a headless display

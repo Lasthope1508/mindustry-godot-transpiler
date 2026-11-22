@@ -104393,6 +104393,40 @@
         "Logic.skipWave() -- calls runWave(); becomes a 1-expr slice after N2437 lands (same new file SourceGameWaveState.gd).",
         "Logic.runWave() Windows Godot proof -- debt in GOAL.md section 5: the N2437 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2438": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_class": "mindustry.core.Logic",
+      "java_method": "Logic.checkCampaignStats()",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_check_campaign_stats_state",
+      "exact_exprs": [
+        "return state.isCampaign() && !net.client();"
+      ],
+      "source_symbols": [
+        "source_game_loop_check_campaign_stats_state_result.campaign_stats"
+      ],
+      "tests": [
+        "test_c07_logic_check_campaign_stats_registration",
+        "test_all_c07_logic_check_campaign_stats_input_evidence_is_exact",
+        "test_logic_check_campaign_stats_state",
+        "test_reference_graph_and_actual_c07_logic_check_campaign_stats"
+      ],
+      "runtime_proof": "/root/C07LogicCheckCampaignStatsProof",
+      "deferred_exprs": [
+        "Per-building timeScale expiry is a later slice: BuildingComp.update (BuildingComp.java:2262-2266) decays timeScaleDuration by Time.delta and resets timeScale to 1f when it runs out, and simulate_block_time_scales already runs that decay each tick, but nothing ever sets a duration yet (no overdrive boost path writes it).",
+        "The disabled-building gate is a later slice: BuildingComp.update (BuildingComp.java:2275-2277) runs updateTile only when `enabled || !block.noUpdateDisabled`, and GenericCrafter leaves noUpdateDisabled false (Block.java:170), so a disabled factory still runs its updateTile half and only its zero efficiency stops progress; the tick driver does not skip the disabled frame yet.",
+        "Removal of destroyed buildings from the live loop is a later slice: the factory tick still visits every placed building frame, and a destroyed building has no removal path out of placed_blocks yet.",
+        "Source-exhaustion/output-full acts are later C06 slices: a drill on a depleted ore cell and a factory with a full output are not acted on yet.",
+        "The three per-class shouldConsume() bodies (UnitFactory.java:446, Reconstructor.java:368, UnitAssembler.java:389) are later slices; the tick passes the frame enabled flag as should_consume until then.",
+        "The plan stacks leave only at unit completion via ConsumeItemDynamic.trigger (ConsumeItemDynamic.java:53-56); the per-tick second pass removes nothing for items, so the production slice owns the trigger.",
+        "The UnitAssembler plan dynamics (ConsumePayloadDynamic, ConsumeItemDynamic over plan().itemReq, ConsumeLiquidsDynamic over plan().liquidReq, UnitAssembler.java:158-160) are later slices; the registry captures no assembler plans yet, so no dynamic rows bind for them.",
+        "Power graph shouldConsumePower from the live frame enabled flag is a later slice: Java ConsumePower.requestedPower gates on entity.shouldConsume(), but the port uses static catalog properties, so disabling a building does not change the power graph needed value and a disable -> battery-charges act is not possible yet.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption.",
+        "Logic.checkCampaignStats() N2438 Windows Godot proof -- debt in GOAL.md section 5, same as N2123: the N2438 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "The checkCampaignStats() call-sites `if(checkCampaignStats()){` in the Logic ctor (Logic.java:163, :196, :206, :212, :223, :232, :239, :245) are later slices: they belong to the 16 handler ctor slices, waiting on the bus decision, not to the predicate slice N2438.",
+        "The live reads of `state.isCampaign()` and `net.client()` are later slices: checkCampaignStats() only reads the frame inputs, it never resolves the campaign/client state itself."
+      ]
     }
   },
   "version": 1

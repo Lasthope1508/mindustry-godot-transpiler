@@ -185576,6 +185576,22 @@
         "test_reference_graph_and_actual_c07_logic_run_wave"
       ],
       "runtime_proof": "/root/C07LogicRunWaveProof"
+    },
+    "source_game_loop_check_campaign_stats_state_result.campaign_stats": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_check_campaign_stats_state",
+      "godot_symbol": "source_game_loop_check_campaign_stats_state_result.campaign_stats",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_method": "Logic.checkCampaignStats()",
+      "java_expr": "return state.isCampaign() && !net.client();",
+      "rule": "Whether campaign stats should be recorded (Logic.java:252, the full return line): isCampaign() && !net.client().",
+      "tests": [
+        "test_c07_logic_check_campaign_stats_registration",
+        "test_all_c07_logic_check_campaign_stats_input_evidence_is_exact",
+        "test_logic_check_campaign_stats_state",
+        "test_reference_graph_and_actual_c07_logic_check_campaign_stats"
+      ],
+      "runtime_proof": "/root/C07LogicCheckCampaignStatsProof"
     }
   },
   "version": 1

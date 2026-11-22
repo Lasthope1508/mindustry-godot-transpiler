@@ -78090,6 +78090,36 @@
       ],
       "runtime_proof": "/root/C07LogicRunWaveProof",
       "rule": "Source-backed Logic.runWave() state from Logic.java."
+    },
+    "SourceGameLoopRuntimeState.source_game_loop_check_campaign_stats_state": {
+      "status": "active",
+      "source_slice": "N2438",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "source_method": "Logic.checkCampaignStats()",
+      "params": [
+        {
+          "name": "is_campaign",
+          "type": "bool",
+          "schema": "source_game_loop_check_campaign_stats_state_input.is_campaign"
+        },
+        {
+          "name": "is_client",
+          "type": "bool",
+          "schema": "source_game_loop_check_campaign_stats_state_input.is_client"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "campaign_stats"
+      ],
+      "tests": [
+        "test_c07_logic_check_campaign_stats_registration",
+        "test_all_c07_logic_check_campaign_stats_input_evidence_is_exact",
+        "test_logic_check_campaign_stats_state",
+        "test_reference_graph_and_actual_c07_logic_check_campaign_stats"
+      ],
+      "runtime_proof": "/root/C07LogicCheckCampaignStatsProof",
+      "rule": "Source-backed Logic.checkCampaignStats() campaign-stats predicate state from Logic.java."
     }
   },
   "policy": {

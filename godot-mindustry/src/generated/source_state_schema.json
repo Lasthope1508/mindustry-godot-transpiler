@@ -255117,6 +255117,54 @@
       },
       "runtime_proof": "/root/C07LogicRunWaveProof",
       "rule": "Source-backed Logic.runWave() state from Logic.java."
+    },
+    "source_game_loop_check_campaign_stats_state_input": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_check_campaign_stats_state",
+      "source_slice": "N2438",
+      "keys": {
+        "is_campaign": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "return state.isCampaign() && !net.client();",
+          "rule": "Whether the game is a campaign game (Logic.java:252, `state.isCampaign()`): the first conjunct of checkCampaignStats().",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_check_campaign_stats_state"
+          ]
+        },
+        "is_client": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "return state.isCampaign() && !net.client();",
+          "rule": "Whether the game runs as a net client (Logic.java:252, `net.client()`): negated in the second conjunct of checkCampaignStats().",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_check_campaign_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LogicCheckCampaignStatsProof",
+      "rule": "Source-backed Logic.checkCampaignStats() campaign-stats predicate state from Logic.java."
+    },
+    "source_game_loop_check_campaign_stats_state_result": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_check_campaign_stats_state",
+      "source_slice": "N2438",
+      "keys": {
+        "campaign_stats": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "return state.isCampaign() && !net.client();",
+          "rule": "Whether campaign stats should be recorded (Logic.java:252, the full return line): isCampaign() && !net.client().",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_check_campaign_stats_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LogicCheckCampaignStatsProof",
+      "rule": "Source-backed Logic.checkCampaignStats() campaign-stats predicate state from Logic.java."
     }
   },
   "version": 1
