@@ -5,7 +5,7 @@ Ngày: 2026-11-23 ~05:15 +07 (targeted re-run xác minh lượt đóng slice 16.
 ## Trạng thái
 
 - N2539 DONE + PUSHED (origin/main c485a98e).
-- N2540 DONE + PUSHED (slice 27a829fe, docs TBD, GOAL TBD, status TBD): port `Weapon.update()` leg 1 — reload/recoil/smoothReload/charge/warmup decay (Weapon.java:293-306) — thành 1 pure function mới `source_weapon_update_decay_state` (SourceWeaponsCoreState.gd:287 + delegate SourceWeaponsState.gd:191-192, Weapon.java:293-306) cho Weapon family — KHÔNG driver tick (update() chưa có driver trong port). Hàm nhận 20 tham số và trả đúng 6 key `reload, recoil, recoils, smooth_reload, charge, warmup`.
+- N2540 DONE + PUSHED (slice 27a829fe, docs 4d2b0fc7, GOAL df0858e9): port `Weapon.update()` leg 1 — reload/recoil/smoothReload/charge/warmup decay (Weapon.java:293-306) — thành 1 pure function mới `source_weapon_update_decay_state` (SourceWeaponsCoreState.gd:287 + delegate SourceWeaponsState.gd:191-192, Weapon.java:293-306) cho Weapon family — KHÔNG driver tick (update() chưa có driver trong port). Hàm nhận 20 tham số và trả đúng 6 key `reload, recoil, recoils, smooth_reload, charge, warmup`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
