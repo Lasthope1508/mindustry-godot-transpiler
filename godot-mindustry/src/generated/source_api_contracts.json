@@ -76625,6 +76625,33 @@
       ],
       "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof",
       "rule": "Source-backed LiquidTurret() ctor field defaults state from LiquidTurret.java."
+    },
+    "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state": {
+      "status": "active",
+      "source_slice": "N2407",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurret(String name)",
+      "params": [
+        {
+          "name": "continuous_turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_continuous_turret_default_constructor_state_input.continuous_turret_defaults"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "coolant_multiplier",
+        "display_ammo_multiplier",
+        "continuous_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_default_constructor_registration",
+        "test_all_c07_continuous_turret_default_constructor_input_evidence_is_exact",
+        "test_continuous_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof",
+      "rule": "Source-backed ContinuousTurret() ctor field defaults state from ContinuousTurret.java."
     }
   },
   "policy": {

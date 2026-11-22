@@ -183832,6 +183832,54 @@
         "test_reference_graph_and_actual_c07_liquid_turret_default_constructor"
       ],
       "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof"
+    },
+    "source_continuous_turret_default_constructor_state_result.coolant_multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state",
+      "godot_symbol": "source_continuous_turret_default_constructor_state_result.coolant_multiplier",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurret(String name)",
+      "java_expr": "coolantMultiplier = 1f;",
+      "rule": "The coolant multiplier of this turret (ContinuousTurret.java:23, `coolantMultiplier = 1f;`): BaseTurret.coolantMultiplier; the ctor overrides the BaseTurret base default (`public float coolantMultiplier = 5f;`, BaseTurret.java:32) with 1f -- continuous turrets need no coolant boost. The same literal also appears in the LaserTurret() and TractorBeamTurret() ctors; this slice owns only the ContinuousTurret() leg (java_method `ContinuousTurret(String name)`).",
+      "tests": [
+        "test_c07_continuous_turret_default_constructor_registration",
+        "test_all_c07_continuous_turret_default_constructor_input_evidence_is_exact",
+        "test_continuous_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof"
+    },
+    "source_continuous_turret_default_constructor_state_result.display_ammo_multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state",
+      "godot_symbol": "source_continuous_turret_default_constructor_state_result.display_ammo_multiplier",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurret(String name)",
+      "java_expr": "displayAmmoMultiplier = false;",
+      "rule": "Whether this turret displays ammo multipliers in its stats (ContinuousTurret.java:25, `displayAmmoMultiplier = false;`): Turret.displayAmmoMultiplier; the ctor overrides the Turret base default (`public boolean displayAmmoMultiplier = true;`, Turret.java:99) with false -- continuous turrets show no ammo-multiplier stat.",
+      "tests": [
+        "test_c07_continuous_turret_default_constructor_registration",
+        "test_all_c07_continuous_turret_default_constructor_input_evidence_is_exact",
+        "test_continuous_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof"
+    },
+    "source_continuous_turret_default_constructor_state_result.continuous_turret_defaults": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state",
+      "godot_symbol": "source_continuous_turret_default_constructor_state_result.continuous_turret_defaults",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurret(String name)",
+      "java_expr": "public ContinuousTurret(String name){",
+      "rule": "The updated ContinuousTurret def frame (ContinuousTurret.java:20, `public ContinuousTurret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the 2 ctor keys written with the ctor literals.",
+      "tests": [
+        "test_c07_continuous_turret_default_constructor_registration",
+        "test_all_c07_continuous_turret_default_constructor_input_evidence_is_exact",
+        "test_continuous_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof"
     }
   },
   "version": 1

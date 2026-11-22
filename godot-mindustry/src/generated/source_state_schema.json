@@ -251882,6 +251882,64 @@
       },
       "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof",
       "rule": "Source-backed LiquidTurret() ctor field defaults state from LiquidTurret.java."
+    },
+    "source_continuous_turret_default_constructor_state_input": {
+      "status": "active",
+      "owner": "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state",
+      "source_slice": "N2407",
+      "keys": {
+        "continuous_turret_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "public ContinuousTurret(String name){",
+          "rule": "The ContinuousTurret def frame (ContinuousTurret.java:20, `public ContinuousTurret(String name){`): the family-convention first arg; the ctor writes its 2 literal field defaults into it, so continuous_turret_defaults is an in/out param -- keys already present keep their unrelated values, the 2 ctor keys are overwritten with the ctor literals.",
+          "used_by": [
+            "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof",
+      "rule": "Source-backed ContinuousTurret() ctor field defaults state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_default_constructor_state_result": {
+      "status": "active",
+      "owner": "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state",
+      "source_slice": "N2407",
+      "keys": {
+        "coolant_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "coolantMultiplier = 1f;",
+          "rule": "The coolant multiplier of this turret (ContinuousTurret.java:23, `coolantMultiplier = 1f;`): BaseTurret.coolantMultiplier; the ctor overrides the BaseTurret base default (`public float coolantMultiplier = 5f;`, BaseTurret.java:32) with 1f -- continuous turrets need no coolant boost. The same literal also appears in the LaserTurret() and TractorBeamTurret() ctors; this slice owns only the ContinuousTurret() leg (java_method `ContinuousTurret(String name)`).",
+          "used_by": [
+            "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state"
+          ]
+        },
+        "display_ammo_multiplier": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "displayAmmoMultiplier = false;",
+          "rule": "Whether this turret displays ammo multipliers in its stats (ContinuousTurret.java:25, `displayAmmoMultiplier = false;`): Turret.displayAmmoMultiplier; the ctor overrides the Turret base default (`public boolean displayAmmoMultiplier = true;`, Turret.java:99) with false -- continuous turrets show no ammo-multiplier stat.",
+          "used_by": [
+            "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state"
+          ]
+        },
+        "continuous_turret_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "public ContinuousTurret(String name){",
+          "rule": "The updated ContinuousTurret def frame (ContinuousTurret.java:20, `public ContinuousTurret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the 2 ctor keys written with the ctor literals.",
+          "used_by": [
+            "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof",
+      "rule": "Source-backed ContinuousTurret() ctor field defaults state from ContinuousTurret.java."
     }
   },
   "version": 1

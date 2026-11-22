@@ -4427,6 +4427,25 @@
       ],
       "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof"
     },
+    "N2407": {
+      "canonical_ledger": "source_slice_ledger.N2407",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurret(String name)",
+      "godot_owner": "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state",
+      "source_symbols": [
+        "source_continuous_turret_default_constructor_state_result.coolant_multiplier",
+        "source_continuous_turret_default_constructor_state_result.display_ammo_multiplier",
+        "source_continuous_turret_default_constructor_state_result.continuous_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_default_constructor_registration",
+        "test_all_c07_continuous_turret_default_constructor_input_evidence_is_exact",
+        "test_continuous_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",
