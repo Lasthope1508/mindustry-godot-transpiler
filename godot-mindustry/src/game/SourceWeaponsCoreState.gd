@@ -174,6 +174,92 @@ static func source_weapon_draw_outline_state(outline_found: bool, unit_rotation:
 	var xscl: float = -1.0 if flip_sprite else 1.0
 	return {"visible": true, "outline_x": wx, "outline_y": wy, "weapon_rotation": weapon_rotation, "xscl": xscl}
 
+static func source_weapon_draw_state(z: float, unit_rotation: float, unit_x: float, unit_y: float, mount_recoil: float, mount_rotation: float, rotate: bool, base_rotation: float, recoil: float, recoil_pow: float, weapon_x: float, weapon_y: float, flip_sprite: bool, shadow: float, top: bool, region_found: bool, cell_region_found: bool, heat_region_found: bool, mount_heat: float, layer_offset: float, parts_count: int) -> Dictionary:
+	# Weapon.draw() (Weapon.java:214-286,
+	# `public void draw(Unit unit, WeaponMount mount){` /
+	# `float z = Draw.z();` /
+	# `Draw.z(z + layerOffset);` /
+	# `rotation = unit.rotation - 90,` /
+	# `realRecoil = Mathf.pow(mount.recoil, recoilPow) * recoil,` /
+	# `weaponRotation  = rotation + (rotate ? mount.rotation : baseRotation),` /
+	# `wx = unit.x + Angles.trnsx(rotation, x, y) + Angles.trnsx(weaponRotation, 0, -realRecoil),` /
+	# `wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, -realRecoil);` /
+	# `if(shadow > 0){` / `Drawf.shadow(wx, wy, shadow);` /
+	# `if(top){` / `drawOutline(unit, mount);` /
+	# `if(parts.size > 0){` /
+	# `Draw.xscl *= -Mathf.sign(flipSprite);` /
+	# `if(region.found()) Draw.rect(region, wx, wy, weaponRotation);` /
+	# `if(cellRegion.found()){` /
+	# `if(heatRegion.found() && mount.heat > 0){` /
+	# `Draw.z(z);`).
+	# draw() has NO early return (unlike drawOutline): every
+	# branch returns all thirteen keys. `z` is the caller-passed
+	# Draw.z() before the layer offset (`float z = Draw.z();`,
+	# Weapon.java:214 -- the proof passes 0.0 for a fresh draw);
+	# `z_draw` is `z + layerOffset` (`Draw.z(z + layerOffset);`,
+	# Weapon.java:215 -- `public float layerOffset = 0f;`,
+	# Weapon.java:127, "draw Z offset relative to the default
+	# value"). The `Draw.z(z);` restore at the end is
+	# render-state restore, not a return value. `shadow_drawn`
+	# is `shadow > 0` (Weapon.java:224 -- `public float shadow
+	# = -1f;`, Weapon.java:99, "radius of shadow drawn under
+	# the weapon; <0 to disable"); `outline_called` is `top`
+	# (Weapon.java:228-229 -- `public boolean top = true;`,
+	# Weapon.java:51, "whether to draw the outline on top";
+	# the drawOutline call body is already N2537's function,
+	# only the flag is returned here). `has_parts` is
+	# `parts_count > 0` (`if(parts.size > 0){`,
+	# Weapon.java:232 -- per-part DrawPart drawing, both
+	# under/over loops with DrawPart.params.set / setRecoil,
+	# is a DrawPart subsystem slice later, NOT ported here).
+	# `xscl` is `-Mathf.sign(flipSprite)`; arc
+	# Mathf.sign(boolean) (Mathf.java:203-205) is 1 if true
+	# else -1, so xscl is -1.0 when flip_sprite is true and
+	# +1.0 otherwise (`public boolean flipSprite = false;`,
+	# Weapon.java:41). `region_drawn` is `region_found`
+	# (Weapon.java:253); `cell_drawn` is `cell_region_found`
+	# (Weapon.java:255); `heat_drawn` is `heat_region_found`
+	# AND `mount_heat > 0` (Weapon.java:261 -- `mount.heat`
+	# is a WeaponMount field, WeaponMount.java:22).
+	# cellColor / heatColor / applyColor values are
+	# render-only, no return key. The trns legs reuse the
+	# existing port: no scalar trnsx/trnsy port exists, and
+	# `source_angles_trns_vec` (SourceMathState.gd:140)
+	# computes exactly Angles.trnsx/trnsy(angle, x, y)
+	# (arc Angles.java:74-82, `rv.set(x, y).rotate(angle)`).
+	# `mount_recoil` / `mount_rotation` are WeaponMount
+	# fields (`public float rotation;` /
+	# `public float recoil;`, WeaponMount.java:14/16).
+	# `rotate` is the weapon flag (`public boolean rotate =
+	# false;`, Weapon.java:45); `base_rotation` is the weapon
+	# start rotation (`public float baseRotation = 0f;`,
+	# Weapon.java:49); `recoil` is the visual knockback
+	# (`public float recoil = 1.5f;`, Weapon.java:81);
+	# `recoil_pow` is the recoil power curve (`public float
+	# recoilPow = 1.8f;`, Weapon.java:87); `weapon_x` /
+	# `weapon_y` are the weapon offsets (`public float x =
+	# 5f, y = 0f;`, Weapon.java:93).
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# draw() is draw code, rendering is outside the game, and
+	# no caller reads the new function today -> live behavior
+	# does NOT change.
+	var z_draw: float = z + layer_offset
+	var rotation: float = unit_rotation - 90.0
+	var real_recoil: float = pow(mount_recoil, recoil_pow) * recoil
+	var weapon_rotation: float = rotation + (mount_rotation if rotate else base_rotation)
+	var base_offset: Dictionary = source_math_state.source_angles_trns_vec(rotation, weapon_x, weapon_y)
+	var recoil_offset: Dictionary = source_math_state.source_angles_trns_vec(weapon_rotation, 0.0, -real_recoil)
+	var wx: float = unit_x + float(base_offset.get("x", 0.0)) + float(recoil_offset.get("x", 0.0))
+	var wy: float = unit_y + float(base_offset.get("y", 0.0)) + float(recoil_offset.get("y", 0.0))
+	var xscl: float = -1.0 if flip_sprite else 1.0
+	var shadow_drawn: bool = shadow > 0.0
+	var outline_called: bool = top
+	var has_parts: bool = parts_count > 0
+	var region_drawn: bool = region_found
+	var cell_drawn: bool = cell_region_found
+	var heat_drawn: bool = heat_region_found and mount_heat > 0.0
+	return {"rotation": rotation, "real_recoil": real_recoil, "weapon_rotation": weapon_rotation, "wx": wx, "wy": wy, "xscl": xscl, "z_draw": z_draw, "shadow_drawn": shadow_drawn, "outline_called": outline_called, "has_parts": has_parts, "region_drawn": region_drawn, "cell_drawn": cell_drawn, "heat_drawn": heat_drawn}
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []
 	for index in mount_states.size():

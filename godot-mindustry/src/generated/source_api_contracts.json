@@ -71651,6 +71651,143 @@
       ],
       "runtime_proof": "/root/C07WeaponDrawOutlineProof",
       "rule": "Source-backed Weapon drawOutline() read from Weapon.java:196-213."
+    },
+    "SourceWeaponsCoreState.source_weapon_draw_state": {
+      "status": "active",
+      "source_slice": "N2538",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.draw(Unit, WeaponMount)",
+      "params": [
+        {
+          "name": "z",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.z"
+        },
+        {
+          "name": "unit_rotation",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.unit_rotation"
+        },
+        {
+          "name": "unit_x",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.unit_x"
+        },
+        {
+          "name": "unit_y",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.unit_y"
+        },
+        {
+          "name": "mount_recoil",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.mount_recoil"
+        },
+        {
+          "name": "mount_rotation",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.mount_rotation"
+        },
+        {
+          "name": "rotate",
+          "type": "bool",
+          "schema": "source_weapon_draw_state_input.rotate"
+        },
+        {
+          "name": "base_rotation",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.base_rotation"
+        },
+        {
+          "name": "recoil",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.recoil"
+        },
+        {
+          "name": "recoil_pow",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.recoil_pow"
+        },
+        {
+          "name": "weapon_x",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.weapon_x"
+        },
+        {
+          "name": "weapon_y",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.weapon_y"
+        },
+        {
+          "name": "flip_sprite",
+          "type": "bool",
+          "schema": "source_weapon_draw_state_input.flip_sprite"
+        },
+        {
+          "name": "shadow",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.shadow"
+        },
+        {
+          "name": "top",
+          "type": "bool",
+          "schema": "source_weapon_draw_state_input.top"
+        },
+        {
+          "name": "region_found",
+          "type": "bool",
+          "schema": "source_weapon_draw_state_input.region_found"
+        },
+        {
+          "name": "cell_region_found",
+          "type": "bool",
+          "schema": "source_weapon_draw_state_input.cell_region_found"
+        },
+        {
+          "name": "heat_region_found",
+          "type": "bool",
+          "schema": "source_weapon_draw_state_input.heat_region_found"
+        },
+        {
+          "name": "mount_heat",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.mount_heat"
+        },
+        {
+          "name": "layer_offset",
+          "type": "float",
+          "schema": "source_weapon_draw_state_input.layer_offset"
+        },
+        {
+          "name": "parts_count",
+          "type": "int",
+          "schema": "source_weapon_draw_state_input.parts_count"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "rotation",
+        "real_recoil",
+        "weapon_rotation",
+        "wx",
+        "wy",
+        "xscl",
+        "z_draw",
+        "shadow_drawn",
+        "outline_called",
+        "has_parts",
+        "region_drawn",
+        "cell_drawn",
+        "heat_drawn"
+      ],
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof",
+      "rule": "Source-backed Weapon draw() read from Weapon.java:214-286."
     }
   },
   "policy": {

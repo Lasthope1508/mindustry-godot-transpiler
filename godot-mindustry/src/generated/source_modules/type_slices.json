@@ -275,6 +275,35 @@
       ],
       "runtime_proof": "/root/C07WeaponDrawOutlineProof"
     },
+    "N2538": {
+      "canonical_ledger": "source_slice_ledger.N2538",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "source_symbols": [
+        "source_weapon_draw_state_result.rotation",
+        "source_weapon_draw_state_result.real_recoil",
+        "source_weapon_draw_state_result.weapon_rotation",
+        "source_weapon_draw_state_result.wx",
+        "source_weapon_draw_state_result.wy",
+        "source_weapon_draw_state_result.xscl",
+        "source_weapon_draw_state_result.z_draw",
+        "source_weapon_draw_state_result.shadow_drawn",
+        "source_weapon_draw_state_result.outline_called",
+        "source_weapon_draw_state_result.has_parts",
+        "source_weapon_draw_state_result.region_drawn",
+        "source_weapon_draw_state_result.cell_drawn",
+        "source_weapon_draw_state_result.heat_drawn"
+      ],
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",

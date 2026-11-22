@@ -241368,6 +241368,364 @@
       },
       "runtime_proof": "/root/C07WeaponDrawOutlineProof",
       "rule": "Source-backed Weapon drawOutline() read from Weapon.java:196-213."
+    },
+    "source_weapon_draw_state_input": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "source_slice": "N2538",
+      "keys": {
+        "z": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "float z = Draw.z();",
+          "rule": "The Draw z before the layer offset (`float z = Draw.z();`, Weapon.java:214 -- the caller-passed z the layer offset is added to; the proof passes 0.0 for a fresh draw).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "unit_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "rotation = unit.rotation - 90,",
+          "rule": "The owning unit rotation in degrees (`rotation = unit.rotation - 90,`, Weapon.java:218 -- the aim rotation the weapon is drawn relative to, default 90 for a fresh unit).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "unit_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "wx = unit.x + Angles.trnsx(rotation, x, y) + Angles.trnsx(weaponRotation, 0, -realRecoil),",
+          "rule": "The owning unit x position (`wx = unit.x + Angles.trnsx(rotation, x, y) + Angles.trnsx(weaponRotation, 0, -realRecoil),`, Weapon.java:221 -- the draw x is unit.x plus the rotated weapon offset plus the recoil offset).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "unit_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, -realRecoil);",
+          "rule": "The owning unit y position (`wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, -realRecoil);`, Weapon.java:222 -- the draw y is unit.y plus the rotated weapon offset plus the recoil offset).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "mount_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float recoil;",
+          "rule": "The mount recoil (`public float recoil;`, WeaponMount.java:16 -- \"weapon recoil\"; the mount recoil the real recoil is powered from, default 0 for a fresh mount).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "mount_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float rotation;",
+          "rule": "The mount rotation in degrees (`public float rotation;`, WeaponMount.java:14 -- \"rotation relative to the unit this mount is on\"; used when `rotate` is true, default the weapon base rotation).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "rotate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean rotate = false;",
+          "rule": "Whether the weapon rotates toward the target independently of the unit (`public boolean rotate = false;`, Weapon.java:45 -- \"whether to rotate toward the target independently of unit\"; `ROTATE_DEFAULT := false` in SourceWeaponDefaults.gd); a bool param, default false.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "base_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float baseRotation = 0f;",
+          "rule": "The rotation at which this weapon starts at (`public float baseRotation = 0f;`, Weapon.java:49 -- \"rotation at which this weapon starts at.\"; `BASE_ROTATION_DEFAULT := 0.0` in SourceWeaponDefaults.gd); used when `rotate` is false.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float recoil = 1.5f;",
+          "rule": "The visual weapon knockback (`public float recoil = 1.5f;`, Weapon.java:81 -- \"visual weapon knockback.\"); the real recoil is `Mathf.pow(mount.recoil, recoilPow) * recoil`.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "recoil_pow": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float recoilPow = 1.8f;",
+          "rule": "The power curve applied to visual recoil (`public float recoilPow = 1.8f;`, Weapon.java:87 -- \"power curve applied to visual recoil\").",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "weapon_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float x = 5f, y = 0f;",
+          "rule": "The weapon x offset on the unit (`public float x = 5f, y = 0f;`, Weapon.java:93 -- \"offsets of weapon position on unit\"); the base offset is Angles.trnsx/trnsy(rotation, x, y).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "weapon_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float x = 5f, y = 0f;",
+          "rule": "The weapon y offset on the unit (`public float x = 5f, y = 0f;`, Weapon.java:93 -- \"offsets of weapon position on unit\"); the base offset is Angles.trnsx/trnsy(rotation, x, y).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "flip_sprite": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean flipSprite = false;",
+          "rule": "Whether to flip the weapon sprite when rendering (`public boolean flipSprite = false;`, Weapon.java:41 -- \"whether to flip the weapon's sprite when rendering. internal use only - do not set!\"; `FLIP_SPRITE_DEFAULT := false` in SourceWeaponDefaults.gd); `xscl = -Mathf.sign(flipSprite)` with arc Mathf.sign(boolean) = 1 if true else -1.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "shadow": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float shadow = -1f;",
+          "rule": "The radius of the shadow drawn under the weapon (`public float shadow = -1f;`, Weapon.java:99 -- \"radius of shadow drawn under the weapon; <0 to disable\"); `shadow_drawn` is `shadow > 0`.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "top": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean top = true;",
+          "rule": "Whether to draw the outline on top (`public boolean top = true;`, Weapon.java:51 -- \"whether to draw the outline on top.\"); `outline_called` is `top`.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "region_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(region.found()) Draw.rect(region, wx, wy, weaponRotation);",
+          "rule": "Whether the displayed weapon region exists (`if(region.found()) Draw.rect(region, wx, wy, weaponRotation);`, Weapon.java:253 -- the region is drawn only when found); a bool param, default true.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "cell_region_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(cellRegion.found()){",
+          "rule": "Whether the cell region exists (`if(cellRegion.found()){`, Weapon.java:255 -- the cell region is drawn only when found); a bool param, default false.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "heat_region_found": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(heatRegion.found() && mount.heat > 0){",
+          "rule": "Whether the heat region exists (`if(heatRegion.found() && mount.heat > 0){`, Weapon.java:261 -- the heat region is drawn only when found and the mount heat is above 0); a bool param, default false.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "mount_heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.heat > 0",
+          "rule": "The mount heat, 0 to 1 (`mount.heat > 0`, Weapon.java:261 -- \"current heat, 0 to 1\", WeaponMount.java:21-22; `heat_drawn` is `heat_region_found` AND `mount_heat > 0`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "layer_offset": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float layerOffset = 0f;",
+          "rule": "The draw Z offset relative to the default value (`public float layerOffset = 0f;`, Weapon.java:127 -- \"draw Z offset relative to the default value\"); `z_draw` is `z + layerOffset`.",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "parts_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(parts.size > 0){",
+          "rule": "The number of extra animated parts (`if(parts.size > 0){`, Weapon.java:232 -- \"extra animated parts\", Weapon.java:160-161; `has_parts` is `parts_count > 0`; the per-part drawing itself is a later DrawPart subsystem slice).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponDrawProof",
+      "rule": "Source-backed Weapon draw() read from Weapon.java:214-286."
+    },
+    "source_weapon_draw_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "source_slice": "N2538",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "rotation = unit.rotation - 90,",
+          "rule": "The draw rotation (`rotation = unit.rotation - 90,`, Weapon.java:218 -- the unit rotation minus 90, the aim rotation the weapon is drawn relative to).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "real_recoil": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "realRecoil = Mathf.pow(mount.recoil, recoilPow) * recoil,",
+          "rule": "The real visual recoil (`realRecoil = Mathf.pow(mount.recoil, recoilPow) * recoil,`, Weapon.java:219 -- the mount recoil powered by the recoil curve times the visual knockback).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "weapon_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "weaponRotation  = rotation + (rotate ? mount.rotation : baseRotation),",
+          "rule": "The weapon draw rotation (`weaponRotation  = rotation + (rotate ? mount.rotation : baseRotation),`, Weapon.java:220 -- the unit rotation minus 90 plus the mount rotation when `rotate` is true, else the base rotation).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "wx": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "wx = unit.x + Angles.trnsx(rotation, x, y) + Angles.trnsx(weaponRotation, 0, -realRecoil),",
+          "rule": "The draw x (`wx = unit.x + Angles.trnsx(rotation, x, y) + Angles.trnsx(weaponRotation, 0, -realRecoil),`, Weapon.java:221 -- unit.x plus the rotated weapon offset plus the recoil offset, via the existing `source_angles_trns_vec` port).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "wy": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, -realRecoil);",
+          "rule": "The draw y (`wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, -realRecoil);`, Weapon.java:222 -- unit.y plus the rotated weapon offset plus the recoil offset, via the existing `source_angles_trns_vec` port).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "xscl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "Draw.xscl *= -Mathf.sign(flipSprite);",
+          "rule": "The Draw x scale draw() multiplies before the rect calls (`Draw.xscl *= -Mathf.sign(flipSprite);`, Weapon.java:248 -- arc Mathf.sign(boolean) is 1 if true else -1, so -1.0 when flip_sprite is true and +1.0 otherwise; the `Draw.xscl = 1f;` reset after the parts loop is render-state restore, not a return value).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "z_draw": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "Draw.z(z + layerOffset);",
+          "rule": "The draw z (`Draw.z(z + layerOffset);`, Weapon.java:215 -- the caller z plus the layer offset; the `Draw.z(z);` restore at the end is render-state restore, not a return value).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "shadow_drawn": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(shadow > 0){",
+          "rule": "Whether the shadow is drawn (`if(shadow > 0){`, Weapon.java:224 -- the shadow is drawn only when the shadow radius is above 0).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "outline_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "drawOutline(unit, mount);",
+          "rule": "Whether drawOutline() is called (`drawOutline(unit, mount);`, Weapon.java:229 -- called only when `top` is true, Weapon.java:228; the drawOutline body is already N2537, only the flag is returned here).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "has_parts": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(parts.size > 0){",
+          "rule": "Whether the weapon has extra animated parts (`if(parts.size > 0){`, Weapon.java:232 -- the per-part DrawPart drawing itself is a later DrawPart subsystem slice).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "region_drawn": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(region.found()) Draw.rect(region, wx, wy, weaponRotation);",
+          "rule": "Whether the displayed weapon region is drawn (`if(region.found()) Draw.rect(region, wx, wy, weaponRotation);`, Weapon.java:253 -- drawn only when the region is found).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "cell_drawn": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(cellRegion.found()){",
+          "rule": "Whether the cell region is drawn (`if(cellRegion.found()){`, Weapon.java:255 -- drawn only when the cell region is found).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        },
+        "heat_drawn": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(heatRegion.found() && mount.heat > 0){",
+          "rule": "Whether the heat region is drawn (`if(heatRegion.found() && mount.heat > 0){`, Weapon.java:261 -- drawn only when the heat region is found and the mount heat is above 0).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_draw_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponDrawProof",
+      "rule": "Source-backed Weapon draw() read from Weapon.java:214-286."
     }
   },
   "version": 1

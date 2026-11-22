@@ -178680,6 +178680,214 @@
         "test_reference_graph_and_actual_c07_weapon_draw_outline"
       ],
       "runtime_proof": "/root/C07WeaponDrawOutlineProof"
+    },
+    "source_weapon_draw_state_result.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.rotation",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "rotation = unit.rotation - 90,",
+      "rule": "The draw rotation (`rotation = unit.rotation - 90,`, Weapon.java:218 -- the unit rotation minus 90, the aim rotation the weapon is drawn relative to).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.real_recoil": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.real_recoil",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "realRecoil = Mathf.pow(mount.recoil, recoilPow) * recoil,",
+      "rule": "The real visual recoil (`realRecoil = Mathf.pow(mount.recoil, recoilPow) * recoil,`, Weapon.java:219 -- the mount recoil powered by the recoil curve times the visual knockback).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.weapon_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.weapon_rotation",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "weaponRotation  = rotation + (rotate ? mount.rotation : baseRotation),",
+      "rule": "The weapon draw rotation (`weaponRotation  = rotation + (rotate ? mount.rotation : baseRotation),`, Weapon.java:220 -- the unit rotation minus 90 plus the mount rotation when `rotate` is true, else the base rotation).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.wx": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.wx",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "wx = unit.x + Angles.trnsx(rotation, x, y) + Angles.trnsx(weaponRotation, 0, -realRecoil),",
+      "rule": "The draw x (`wx = unit.x + Angles.trnsx(rotation, x, y) + Angles.trnsx(weaponRotation, 0, -realRecoil),`, Weapon.java:221 -- unit.x plus the rotated weapon offset plus the recoil offset, via the existing `source_angles_trns_vec` port).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.wy": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.wy",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, -realRecoil);",
+      "rule": "The draw y (`wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, -realRecoil);`, Weapon.java:222 -- unit.y plus the rotated weapon offset plus the recoil offset, via the existing `source_angles_trns_vec` port).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.xscl": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.xscl",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "Draw.xscl *= -Mathf.sign(flipSprite);",
+      "rule": "The Draw x scale draw() multiplies before the rect calls (`Draw.xscl *= -Mathf.sign(flipSprite);`, Weapon.java:248 -- arc Mathf.sign(boolean) is 1 if true else -1, so -1.0 when flip_sprite is true and +1.0 otherwise; the `Draw.xscl = 1f;` reset after the parts loop is render-state restore, not a return value).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.z_draw": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.z_draw",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "Draw.z(z + layerOffset);",
+      "rule": "The draw z (`Draw.z(z + layerOffset);`, Weapon.java:215 -- the caller z plus the layer offset; the `Draw.z(z);` restore at the end is render-state restore, not a return value).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.shadow_drawn": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.shadow_drawn",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "if(shadow > 0){",
+      "rule": "Whether the shadow is drawn (`if(shadow > 0){`, Weapon.java:224 -- the shadow is drawn only when the shadow radius is above 0).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.outline_called": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.outline_called",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "drawOutline(unit, mount);",
+      "rule": "Whether drawOutline() is called (`drawOutline(unit, mount);`, Weapon.java:229 -- called only when `top` is true, Weapon.java:228; the drawOutline body is already N2537, only the flag is returned here).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.has_parts": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.has_parts",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "if(parts.size > 0){",
+      "rule": "Whether the weapon has extra animated parts (`if(parts.size > 0){`, Weapon.java:232 -- the per-part DrawPart drawing itself is a later DrawPart subsystem slice).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.region_drawn": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.region_drawn",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "if(region.found()) Draw.rect(region, wx, wy, weaponRotation);",
+      "rule": "Whether the displayed weapon region is drawn (`if(region.found()) Draw.rect(region, wx, wy, weaponRotation);`, Weapon.java:253 -- drawn only when the region is found).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.cell_drawn": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.cell_drawn",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "if(cellRegion.found()){",
+      "rule": "Whether the cell region is drawn (`if(cellRegion.found()){`, Weapon.java:255 -- drawn only when the cell region is found).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
+    },
+    "source_weapon_draw_state_result.heat_drawn": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_state",
+      "godot_symbol": "source_weapon_draw_state_result.heat_drawn",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.draw(Unit, WeaponMount)",
+      "java_expr": "if(heatRegion.found() && mount.heat > 0){",
+      "rule": "Whether the heat region is drawn (`if(heatRegion.found() && mount.heat > 0){`, Weapon.java:261 -- drawn only when the heat region is found and the mount heat is above 0).",
+      "tests": [
+        "test_c07_weapon_draw_registration",
+        "test_all_c07_weapon_draw_input_evidence_is_exact",
+        "test_weapon_draw_state",
+        "test_reference_graph_and_actual_c07_weapon_draw"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawProof"
     }
   },
   "version": 1
