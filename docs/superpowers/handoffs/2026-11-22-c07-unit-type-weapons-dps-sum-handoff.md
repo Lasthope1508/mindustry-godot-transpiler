@@ -1,6 +1,6 @@
-# Handoff — N2536 UnitType `weapons.sumf(Weapon::dps)`: wiring N2533→N2534 (C07) [DONE + PUSHED (slice 3a6481d9, docs TBA, GOAL TBA, status TBA)]
+# Handoff — N2536 UnitType `weapons.sumf(Weapon::dps)`: wiring N2533→N2534 (C07) [DONE + PUSHED (slice 3a6481d9, docs 3ff9c015, GOAL 04a2b2e7)]
 
-## Status: DONE + PUSHED (lượt cron 21:45 +07 ngày 2026-11-22; slice 3a6481d9, docs TBA, GOAL TBA, status TBA; push xong mới ghi origin/main ở đây sau khi push)
+## Status: DONE + PUSHED (lượt cron 21:45 +07 ngày 2026-11-22; slice 3a6481d9, docs 3ff9c015, GOAL 04a2b2e7; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2535 DONE + PUSHED ~20:40 +07 ngày 2026-11-22, origin/main == a98557c4
   (5 commit: slice 7f61f2d8 + docs e05b904a + GOAL 57052a13 + status 52e4b6e5 + hashes a98557c4).

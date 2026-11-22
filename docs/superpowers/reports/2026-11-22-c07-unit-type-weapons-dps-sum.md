@@ -5,7 +5,7 @@ Ngày: 2026-11-22 ~21:50 +07 (targeted re-run xác minh lượt đóng slice 17.
 ## Trạng thái
 
 - N2535 DONE + PUSHED (origin/main a98557c4).
-- N2536 DONE + PUSHED (slice 3a6481d9, docs TBA, GOAL TBA, status TBA): wiring `weapons.sumf(Weapon::dps)` của `UnitType.estimateDps()` thành 1 pure function mới `source_unit_type_weapons_dps_sum_state` (SourceUnitTypeState.gd:232, sau `source_unit_type_estimate_dps_state`, trước generated bridges) cho UnitType family — KHÔNG driver tick call site (tổng dps là read/estimate, không phải per-tick). Hàm nhận 1 tham số (`weapons_dps`, Array float — mỗi giá trị từ `source_weapon_dps_state`, N2534) và trả đúng 1 key `weapons_dps_sum`. Đây là consumer slice nối N2533 (estimateDps nhận `weapons_dps_sum` làm float param) với N2534 (Weapon.dps()): hàm này tính tổng, nhưng consumer gọi nó rồi truyền vào `source_unit_type_estimate_dps_state` vẫn là slice sau.
+- N2536 DONE + PUSHED (slice 3a6481d9, docs 3ff9c015, GOAL 04a2b2e7): wiring `weapons.sumf(Weapon::dps)` của `UnitType.estimateDps()` thành 1 pure function mới `source_unit_type_weapons_dps_sum_state` (SourceUnitTypeState.gd:232, sau `source_unit_type_estimate_dps_state`, trước generated bridges) cho UnitType family — KHÔNG driver tick call site (tổng dps là read/estimate, không phải per-tick). Hàm nhận 1 tham số (`weapons_dps`, Array float — mỗi giá trị từ `source_weapon_dps_state`, N2534) và trả đúng 1 key `weapons_dps_sum`. Đây là consumer slice nối N2533 (estimateDps nhận `weapons_dps_sum` làm float param) với N2534 (Weapon.dps()): hàm này tính tổng, nhưng consumer gọi nó rồi truyền vào `source_unit_type_estimate_dps_state` vẫn là slice sau.
 
 ## Làm được lượt này (GREEN + gate xong)
 
