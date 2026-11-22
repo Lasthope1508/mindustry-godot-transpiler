@@ -7812,6 +7812,38 @@
       "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default; a ContinuousLiquidTurret pays 1 / ammoMultiplier for its current liquid, 1.0 when the liquid has no ammo type.",
       "return_type": "Dictionary"
     },
+    "SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2413",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "source_method": "ContinuousLiquidTurret(String name)",
+      "params": [
+        {
+          "name": "continuous_liquid_turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_continuous_liquid_turret_default_constructor_state_input.continuous_liquid_turret_defaults"
+        },
+        {
+          "name": "loop_sound",
+          "type": "Variant",
+          "schema": "source_continuous_liquid_turret_default_constructor_state_input.loop_sound"
+        }
+      ],
+      "return_keys": [
+        "loop_sound",
+        "continuous_liquid_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_continuous_liquid_turret_default_constructor_registration",
+        "test_all_c07_continuous_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_continuous_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_continuous_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07ContinuousLiquidTurretDefaultConstructorProof",
+      "rule": "Source-backed ContinuousLiquidTurret() ctor field default state from ContinuousLiquidTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state": {
       "canonical_contract": "source_api_contracts.SourceContinuousLiquidTurretBuildState.source_tick_buildings_state",
       "status": "active",

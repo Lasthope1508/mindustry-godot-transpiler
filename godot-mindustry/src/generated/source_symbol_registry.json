@@ -184440,6 +184440,38 @@
         "test_reference_graph_and_actual_c07_teams_to_string"
       ],
       "runtime_proof": "/root/C07TeamsToStringProof"
+    },
+    "source_continuous_liquid_turret_default_constructor_state_result.loop_sound": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state",
+      "godot_symbol": "source_continuous_liquid_turret_default_constructor_state_result.loop_sound",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurret(String name)",
+      "java_expr": "loopSound = Sounds.loopMineBeam;",
+      "rule": "The loop sound, read through (ContinuousLiquidTurret.java:20, `loopSound = Sounds.loopMineBeam;`): the Sound reference passed in as loop_sound; the continuous liquid turret loops the mining beam sound while firing.",
+      "tests": [
+        "test_c07_continuous_liquid_turret_default_constructor_registration",
+        "test_all_c07_continuous_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_continuous_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_continuous_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07ContinuousLiquidTurretDefaultConstructorProof"
+    },
+    "source_continuous_liquid_turret_default_constructor_state_result.continuous_liquid_turret_defaults": {
+      "status": "source-backed",
+      "godot_owner": "SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state",
+      "godot_symbol": "source_continuous_liquid_turret_default_constructor_state_result.continuous_liquid_turret_defaults",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurret(String name)",
+      "java_expr": "public ContinuousLiquidTurret(String name){",
+      "rule": "The updated ContinuousLiquidTurret def frame (ContinuousLiquidTurret.java:17, `public ContinuousLiquidTurret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the ctor key written with the ctor value.",
+      "tests": [
+        "test_c07_continuous_liquid_turret_default_constructor_registration",
+        "test_all_c07_continuous_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_continuous_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_continuous_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07ContinuousLiquidTurretDefaultConstructorProof"
     }
   },
   "version": 1

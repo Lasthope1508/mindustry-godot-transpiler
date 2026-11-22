@@ -252988,6 +252988,64 @@
       },
       "runtime_proof": "/root/C07TeamsToStringProof",
       "rule": "Source-backed Teams toString state from Teams.java."
+    },
+    "source_continuous_liquid_turret_default_constructor_state_input": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state",
+      "source_slice": "N2413",
+      "keys": {
+        "continuous_liquid_turret_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public ContinuousLiquidTurret(String name){",
+          "rule": "The ContinuousLiquidTurret def frame (ContinuousLiquidTurret.java:17, `public ContinuousLiquidTurret(String name){`): the family-convention first arg; the ctor writes its 1 field default into it, so continuous_liquid_turret_defaults is an in/out param -- keys already present keep their unrelated values, the ctor key is overwritten with the ctor value.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state"
+          ]
+        },
+        "loop_sound": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "loopSound = Sounds.loopMineBeam;",
+          "rule": "The loop sound (ContinuousLiquidTurret.java:20, `loopSound = Sounds.loopMineBeam;`): Turret.loopSound; the Sound reference arrives as an explicit Variant param and passes through to the result loop_sound key; the Turret base default it overrides is `public Sound loopSound = Sounds.none;` (Turret.java:128).",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousLiquidTurretDefaultConstructorProof",
+      "rule": "Source-backed ContinuousLiquidTurret() ctor field default state from ContinuousLiquidTurret.java."
+    },
+    "source_continuous_liquid_turret_default_constructor_state_result": {
+      "status": "active",
+      "owner": "SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state",
+      "source_slice": "N2413",
+      "keys": {
+        "loop_sound": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "loopSound = Sounds.loopMineBeam;",
+          "rule": "The loop sound, read through (ContinuousLiquidTurret.java:20, `loopSound = Sounds.loopMineBeam;`): the Sound reference passed in as loop_sound; the continuous liquid turret loops the mining beam sound while firing.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state"
+          ]
+        },
+        "continuous_liquid_turret_defaults": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "java_expr": "public ContinuousLiquidTurret(String name){",
+          "rule": "The updated ContinuousLiquidTurret def frame (ContinuousLiquidTurret.java:17, `public ContinuousLiquidTurret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the ctor key written with the ctor value.",
+          "used_by": [
+            "SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousLiquidTurretDefaultConstructorProof",
+      "rule": "Source-backed ContinuousLiquidTurret() ctor field default state from ContinuousLiquidTurret.java."
     }
   },
   "version": 1
