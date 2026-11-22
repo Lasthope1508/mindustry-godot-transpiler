@@ -76576,6 +76576,55 @@
       ],
       "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof",
       "rule": "Source-backed BaseTurret() ctor field defaults state from BaseTurret.java."
+    },
+    "SourceLiquidTurretBuildState.source_liquid_turret_default_constructor_state": {
+      "status": "active",
+      "source_slice": "N2406",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurret(String name)",
+      "params": [
+        {
+          "name": "liquid_turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_liquid_turret_default_constructor_state_input.liquid_turret_defaults"
+        },
+        {
+          "name": "loop_sound",
+          "type": "Variant",
+          "schema": "source_liquid_turret_default_constructor_state_input.loop_sound"
+        },
+        {
+          "name": "shoot_sound",
+          "type": "Variant",
+          "schema": "source_liquid_turret_default_constructor_state_input.shoot_sound"
+        },
+        {
+          "name": "smoke_effect",
+          "type": "Variant",
+          "schema": "source_liquid_turret_default_constructor_state_input.smoke_effect"
+        },
+        {
+          "name": "shoot_effect",
+          "type": "Variant",
+          "schema": "source_liquid_turret_default_constructor_state_input.shoot_effect"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "loop_sound",
+        "shoot_sound",
+        "smoke_effect",
+        "shoot_effect",
+        "liquid_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_liquid_turret_default_constructor_registration",
+        "test_all_c07_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof",
+      "rule": "Source-backed LiquidTurret() ctor field defaults state from LiquidTurret.java."
     }
   },
   "policy": {

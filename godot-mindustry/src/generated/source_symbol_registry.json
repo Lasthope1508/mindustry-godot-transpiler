@@ -183752,6 +183752,86 @@
         "test_reference_graph_and_actual_c07_base_turret_default_constructor"
       ],
       "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof"
+    },
+    "source_liquid_turret_default_constructor_state_result.loop_sound": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_default_constructor_state",
+      "godot_symbol": "source_liquid_turret_default_constructor_state_result.loop_sound",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret(String name)",
+      "java_expr": "loopSound = Sounds.loopSpray;",
+      "rule": "The loop sound, read through (LiquidTurret.java:24, `loopSound = Sounds.loopSpray;`): the Sound reference passed in as loop_sound; liquid turrets spray continuously, so the loop is the spray sound.",
+      "tests": [
+        "test_c07_liquid_turret_default_constructor_registration",
+        "test_all_c07_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof"
+    },
+    "source_liquid_turret_default_constructor_state_result.shoot_sound": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_default_constructor_state",
+      "godot_symbol": "source_liquid_turret_default_constructor_state_result.shoot_sound",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret(String name)",
+      "java_expr": "shootSound = Sounds.none;",
+      "rule": "The shoot sound, read through (LiquidTurret.java:25, `shootSound = Sounds.none;`): the Sound reference passed in as shoot_sound; liquid turrets have no per-shot sound.",
+      "tests": [
+        "test_c07_liquid_turret_default_constructor_registration",
+        "test_all_c07_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof"
+    },
+    "source_liquid_turret_default_constructor_state_result.smoke_effect": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_default_constructor_state",
+      "godot_symbol": "source_liquid_turret_default_constructor_state_result.smoke_effect",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret(String name)",
+      "java_expr": "smokeEffect = Fx.none;",
+      "rule": "The smoke effect, read through (LiquidTurret.java:26, `smokeEffect = Fx.none;`): the Effect reference passed in as smoke_effect; liquid turrets emit no smoke effect.",
+      "tests": [
+        "test_c07_liquid_turret_default_constructor_registration",
+        "test_all_c07_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof"
+    },
+    "source_liquid_turret_default_constructor_state_result.shoot_effect": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_default_constructor_state",
+      "godot_symbol": "source_liquid_turret_default_constructor_state_result.shoot_effect",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret(String name)",
+      "java_expr": "shootEffect = Fx.none;",
+      "rule": "The shoot effect, read through (LiquidTurret.java:27, `shootEffect = Fx.none;`): the Effect reference passed in as shoot_effect; liquid turrets emit no shoot effect.",
+      "tests": [
+        "test_c07_liquid_turret_default_constructor_registration",
+        "test_all_c07_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof"
+    },
+    "source_liquid_turret_default_constructor_state_result.liquid_turret_defaults": {
+      "status": "source-backed",
+      "godot_owner": "SourceLiquidTurretBuildState.source_liquid_turret_default_constructor_state",
+      "godot_symbol": "source_liquid_turret_default_constructor_state_result.liquid_turret_defaults",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret(String name)",
+      "java_expr": "public LiquidTurret(String name){",
+      "rule": "The updated LiquidTurret def frame (LiquidTurret.java:22, `public LiquidTurret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the 4 ctor keys written with the ctor values.",
+      "tests": [
+        "test_c07_liquid_turret_default_constructor_registration",
+        "test_all_c07_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof"
     }
   },
   "version": 1

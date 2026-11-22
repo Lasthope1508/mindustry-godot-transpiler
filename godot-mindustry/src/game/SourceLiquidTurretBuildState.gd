@@ -278,3 +278,43 @@ static func generated_accept_liquid_bridge_state(source_building: Variant, liqui
 	var result = _liquid_turret_call("java_inner_class_LiquidTurretBuild_method_acceptLiquid_9", [source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier])
 	var canonical = accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_LIQUID_TURRET_BUILD_ACCEPT_LIQUID_STATE, "generated_owner": "liquid_turret.LiquidTurretBuild.acceptLiquid", "result": result, "canonical": canonical, "matches": result.get("accept_liquid", null) == canonical.get("accept_liquid", null) and result.get("replacement_allowed", null) == canonical.get("replacement_allowed", null) and result.get("current_required_with_epsilon", null) == canonical.get("current_required_with_epsilon", null)}
+
+static func source_liquid_turret_default_constructor_state(liquid_turret_defaults: Dictionary, loop_sound: Variant, shoot_sound: Variant, smoke_effect: Variant, shoot_effect: Variant) -> Dictionary:
+	# LiquidTurret(String name) (LiquidTurret.java:22-29):
+	# `public LiquidTurret(String name){`
+	# `super(name);` -- already the exact_expr of N2185,
+	# the Turret super-ctor runs before these assignments;
+	# cited as evidence only, never re-registered.
+	# `hasLiquids = true;` -- N927/N2000/N2179/N2182/N2209-owned;
+	# cited as evidence only, never re-registered. The 4
+	# ctor assignments below are the only exprs this slice
+	# owns: each writes a field default into the
+	# LiquidTurret def, so the function writes the same 4
+	# values into liquid_turret_defaults (in/out) and
+	# returns them.
+	# `loopSound = Sounds.loopSpray;`
+	# `shootSound = Sounds.none;`
+	# `smokeEffect = Fx.none;`
+	# `shootEffect = Fx.none;`
+	# The 4 values are Sound/Effect references, NOT
+	# literals: they arrive as the explicit Variant params
+	# and pass through (the N2405 BaseTurret ctor precedent
+	# for `EnumSet.of(BlockFlag.turret)`). The Turret base
+	# defaults this ctor overrides are `public Sound
+	# loopSound = Sounds.none;` (Turret.java:128),
+	# `public Sound shootSound = Sounds.shootDuo;`
+	# (Turret.java:122) and the nullable `public @Nullable
+	# Effect shootEffect;` / `public @Nullable Effect
+	# smokeEffect;` (Turret.java:116/118, default null).
+	# No Draw is ported and the ambient-sound driver
+	# (N2304, HELD) is untouched: these are block-level
+	# field defaults, frame data only.
+	var loop_sound_value: Variant = loop_sound
+	var shoot_sound_value: Variant = shoot_sound
+	var smoke_effect_value: Variant = smoke_effect
+	var shoot_effect_value: Variant = shoot_effect
+	liquid_turret_defaults["loop_sound"] = loop_sound_value
+	liquid_turret_defaults["shoot_sound"] = shoot_sound_value
+	liquid_turret_defaults["smoke_effect"] = smoke_effect_value
+	liquid_turret_defaults["shoot_effect"] = shoot_effect_value
+	return {"loop_sound": loop_sound_value, "shoot_sound": shoot_sound_value, "smoke_effect": smoke_effect_value, "shoot_effect": shoot_effect_value, "liquid_turret_defaults": liquid_turret_defaults}
