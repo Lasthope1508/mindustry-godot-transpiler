@@ -123531,19 +123531,48 @@
           "java_expr": "!state.rules.attackMode",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "explicit-input",
-          "type": "bool"
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "core_health_value": {
           "java_expr": "state.teams.playerCores().size",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "explicit-input",
-          "type": "float"
+          "type": "float",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "game_over_value": {
           "java_expr": "!state.gameOver",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "explicit-input",
-          "type": "bool"
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
+        },
+        "player_team": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "player.team()",
+          "rule": "The player team (Logic.java:429/436, `player.team()`): updateGameOver and gameOver compare it against the winner team; the GD func takes the team name as a String input.",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
+        },
+        "winner_team": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "player.team() == winner",
+          "rule": "The winning team (Logic.java:429/436, `player.team() == winner`): updateGameOver and gameOver receive it as the winner param; the GD func takes the team name as a String input.",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         }
       }
     },
@@ -123553,61 +123582,111 @@
           "java_expr": "!state.rules.attackMode",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "explicit-input",
-          "type": "bool"
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "core_destroyed": {
           "java_expr": "state.teams.playerCores().size == 0",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "source-backed",
-          "type": "bool"
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "core_destroyed_expr": {
           "java_expr": "state.teams.playerCores().size == 0",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "source-backed",
-          "type": "String"
+          "type": "String",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "event_expr": {
           "java_expr": "Events.fire(new GameOverEvent(state.rules.waveTeam));",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "source-backed",
-          "type": "String"
+          "type": "String",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "game_over": {
           "java_expr": "state.gameOver = true;",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "source-backed",
-          "type": "bool"
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "game_over_expr": {
           "java_expr": "state.gameOver = true;",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "source-backed",
-          "type": "String"
+          "type": "String",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "method": {
           "java_expr": "private void checkGameState(){",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "source-backed",
-          "type": "String"
+          "type": "String",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "player_cores_size": {
           "java_expr": "state.teams.playerCores().size",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "source-backed",
-          "type": "int"
+          "type": "int",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "source_owner": {
           "java_expr": "Logic.checkGameState()",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "source-backed",
-          "type": "String"
+          "type": "String",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         },
         "winner": {
           "java_expr": "state.rules.waveTeam",
           "java_source": "core/src/mindustry/core/Logic.java",
           "status": "source-backed",
-          "type": "String"
+          "type": "String",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
+        },
+        "won_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.won = player.team() == winner;",
+          "rule": "The won assignment recorded as data (Logic.java:429 in updateGameOver, :436 in gameOver, `state.won = player.team() == winner;`): the exact expr as a string, following the existing *_expr keys.",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
+        },
+        "won": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.won = player.team() == winner;",
+          "rule": "Whether the player won (Logic.java:429 in updateGameOver, :436 in gameOver, `state.won = player.team() == winner;`): true exactly when the player team equals the winner team.",
+          "used_by": [
+            "PortGame.source_game_over_core_destroyed_state"
+          ]
         }
       }
     },

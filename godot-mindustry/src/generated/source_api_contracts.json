@@ -34989,6 +34989,16 @@
           "name": "attack_mode",
           "schema": "source_game_over_core_destroyed_input.attack_mode",
           "type": "bool"
+        },
+        {
+          "name": "player_team",
+          "type": "String",
+          "schema": "source_game_over_core_destroyed_input.player_team"
+        },
+        {
+          "name": "winner_team",
+          "type": "String",
+          "schema": "source_game_over_core_destroyed_input.winner_team"
         }
       ],
       "return_keys": [
@@ -35001,7 +35011,9 @@
         "attack_mode",
         "core_destroyed",
         "game_over",
-        "winner"
+        "winner",
+        "won_expr",
+        "won"
       ],
       "rule": "API package for Logic.checkGameState non-attack player-core destroyed game-over branch.",
       "runtime_proof": "/root/Main.source_game_over_core_destroyed_state",

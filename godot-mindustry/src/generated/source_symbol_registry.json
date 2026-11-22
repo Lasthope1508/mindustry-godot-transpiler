@@ -185720,6 +185720,38 @@
         "test_reference_graph_and_actual_c07_wave_spawner_count_spawns"
       ],
       "runtime_proof": "/root/C07WaveSpawnerCountSpawnsProof"
+    },
+    "source_game_over_core_destroyed_result.won_expr": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_game_over_core_destroyed_state",
+      "godot_symbol": "source_game_over_core_destroyed_result.won_expr",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_method": "Logic.updateGameOver()/Logic.gameOver()",
+      "java_expr": "state.won = player.team() == winner;",
+      "rule": "The won assignment recorded as data (Logic.java:429 in updateGameOver, :436 in gameOver, `state.won = player.team() == winner;`): the exact expr as a string, following the existing *_expr keys.",
+      "tests": [
+        "test_c07_logic_update_game_over_registration",
+        "test_all_c07_logic_update_game_over_input_evidence_is_exact",
+        "test_logic_update_game_over_state",
+        "test_reference_graph_and_actual_c07_logic_update_game_over"
+      ],
+      "runtime_proof": "/root/C07LogicUpdateGameOverProof"
+    },
+    "source_game_over_core_destroyed_result.won": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_game_over_core_destroyed_state",
+      "godot_symbol": "source_game_over_core_destroyed_result.won",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_method": "Logic.updateGameOver()/Logic.gameOver()",
+      "java_expr": "state.won = player.team() == winner;",
+      "rule": "Whether the player won (Logic.java:429 in updateGameOver, :436 in gameOver, `state.won = player.team() == winner;`): true exactly when the player team equals the winner team.",
+      "tests": [
+        "test_c07_logic_update_game_over_registration",
+        "test_all_c07_logic_update_game_over_input_evidence_is_exact",
+        "test_logic_update_game_over_state",
+        "test_reference_graph_and_actual_c07_logic_update_game_over"
+      ],
+      "runtime_proof": "/root/C07LogicUpdateGameOverProof"
     }
   },
   "version": 1

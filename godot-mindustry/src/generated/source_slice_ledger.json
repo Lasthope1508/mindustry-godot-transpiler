@@ -104524,6 +104524,33 @@
         "WaveSpawner.countGroundSpawns()/countFlyerSpawns() (WaveSpawner.java:201-211) -- batch 40 candidates, not registered here.",
         "WaveSpawner.countSpawns() Windows Godot proof -- debt in GOAL.md section 5: the N2442 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2443": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_class": "mindustry.core.Logic",
+      "java_method": "Logic.updateGameOver()/Logic.gameOver()",
+      "godot_owner": "PortGame.source_game_over_core_destroyed_state",
+      "exact_exprs": [
+        "state.won = player.team() == winner;"
+      ],
+      "source_symbols": [
+        "source_game_over_core_destroyed_result.won_expr",
+        "source_game_over_core_destroyed_result.won"
+      ],
+      "tests": [
+        "test_c07_logic_update_game_over_registration",
+        "test_all_c07_logic_update_game_over_input_evidence_is_exact",
+        "test_logic_update_game_over_state",
+        "test_reference_graph_and_actual_c07_logic_update_game_over"
+      ],
+      "runtime_proof": "/root/C07LogicUpdateGameOverProof",
+      "deferred_exprs": [
+        "Logic.gameOver() :435 `state.stats.wavesLasted = state.wave;` -- 0-hit both ledgers; waits for a stats slice (state.stats not ported).",
+        "Logic.gameOver() :437 `Time.run(60f * 3f, () -> ui.restart.show(winner));` + :438 `netClient.setQuiet();` -- restart UI + net client not ported; waits for later slices.",
+        "Logic.updateGameOver()/gameOver() won write-back -- the GD func returns won as data; no live state mutation in the pure func, the caller applies it; no game-state write-back slice yet.",
+        "Logic.updateGameOver()/gameOver() Windows Godot proof -- debt in GOAL.md section 5: the N2443 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1
