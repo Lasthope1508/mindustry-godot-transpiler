@@ -423,3 +423,38 @@ static func source_continuous_turret_build_has_ammo_state(can_consume: bool) -> 
 static func source_continuous_turret_build_should_active_sound_state(bullets: Array) -> Dictionary:
 	var should_active_sound: bool = not bullets.is_empty()
 	return {"should_active_sound": should_active_sound}
+
+# ContinuousTurretBuild.useAmmo() + shouldConsume() +
+# peekAmmo() + activeSoundVolume() (N2421):
+# `public class ContinuousTurretBuild extends TurretBuild{`
+# (ContinuousTurret.java:38). `public BulletType shootType = Bullets.placeholder;`
+# (ContinuousTurret.java:15) is the block field whose
+# value useAmmo/peekAmmo return; it arrives as an
+# explicit Variant param (the N2330 param precedent;
+# the twin N1170/N1172 PowerTurretBuild useAmmo/
+# peekAmmo take the same Variant shape).
+# `public BulletType useAmmo(){`
+# `//nothing used directly`
+# `return shootType;`
+# `public boolean shouldConsume(){`
+# `return isShooting;`
+# `public BulletType peekAmmo(){`
+# `public float activeSoundVolume(){`
+# `return 1f;`
+# `@Override`
+# isShooting is the TurretBuild field (Turret.java:292)
+# and arrives as an explicit bool param. hasAmmo()
+# (ContinuousTurret.java:60-62) is NOT here -- already
+# owned by N2389. One owner + one pure function for
+# the four methods (the N2418 precedent: the constant
+# activeSoundVolume takes no inputs, so it cannot own
+# a schema alone -- the SSOT validator requires every
+# input schema to have non-empty keys). NO driver
+# line: one pure function the setup/tick reads, not
+# per-tick writes.
+static func source_continuous_turret_build_ammo_one_liners_state(shoot_type: Variant, is_shooting: bool) -> Dictionary:
+	var use_ammo: Variant = shoot_type
+	var should_consume: bool = is_shooting
+	var peek_ammo: Variant = shoot_type
+	var active_sound_volume: float = 1.0
+	return {"use_ammo": use_ammo, "should_consume": should_consume, "peek_ammo": peek_ammo, "active_sound_volume": active_sound_volume}

@@ -4566,6 +4566,26 @@
       ],
       "runtime_proof": "/root/C07ItemTurretEfficiencyProof"
     },
+    "N2421": {
+      "canonical_ledger": "source_slice_ledger.N2421",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.useAmmo(); ContinuousTurretBuild.shouldConsume(); ContinuousTurretBuild.peekAmmo(); ContinuousTurretBuild.activeSoundVolume()",
+      "godot_owner": "PortGame.source_continuous_turret_build_ammo_one_liners_state",
+      "source_symbols": [
+        "source_continuous_turret_build_ammo_one_liners_state_result.use_ammo",
+        "source_continuous_turret_build_ammo_one_liners_state_result.should_consume",
+        "source_continuous_turret_build_ammo_one_liners_state_result.peek_ammo",
+        "source_continuous_turret_build_ammo_one_liners_state_result.active_sound_volume"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_ammo_one_liners_registration",
+        "test_all_c07_continuous_turret_ammo_one_liners_input_evidence_is_exact",
+        "test_continuous_turret_ammo_one_liners_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_ammo_one_liners"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

@@ -254166,6 +254166,84 @@
       },
       "runtime_proof": "/root/C07DrillUpdateTileEffectsProof",
       "rule": "Source-backed Drill updateTile() effect legs state from Drill.java + Mathf.java."
+    },
+    "source_continuous_turret_build_ammo_one_liners_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_ammo_one_liners_state",
+      "source_slice": "N2421",
+      "keys": {
+        "shoot_type": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return shootType;",
+          "rule": "The shoot type, shootType (ContinuousTurret.java:15, `public BulletType shootType = Bullets.placeholder;`, returned at :56 and :71, `return shootType;`): the ContinuousTurret block field -- BulletType is NOT ported, so the type arrives as an explicit Variant (the N2330 param precedent; the twin N1170/N1172 take the same Variant shape).",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_ammo_one_liners_state"
+          ]
+        },
+        "is_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return isShooting;",
+          "rule": "Whether the build is shooting, isShooting (ContinuousTurret.java:66, `return isShooting;`): the TurretBuild field (Turret.java:292) -- true while the turret is firing, false otherwise.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_ammo_one_liners_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof",
+      "rule": "Source-backed ContinuousTurretBuild.useAmmo()+shouldConsume()+peekAmmo()+activeSoundVolume() state from ContinuousTurret.java."
+    },
+    "source_continuous_turret_build_ammo_one_liners_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_continuous_turret_build_ammo_one_liners_state",
+      "source_slice": "N2421",
+      "keys": {
+        "use_ammo": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return shootType;",
+          "rule": "The ammo type to use (ContinuousTurret.java:56, `return shootType;`): useAmmo returns the shoot type unchanged -- nothing is consumed directly (ContinuousTurret.java:55, `//nothing used directly`).",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_ammo_one_liners_state"
+          ]
+        },
+        "should_consume": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return isShooting;",
+          "rule": "Whether the build should consume (ContinuousTurret.java:66, `return isShooting;`): true exactly while shooting -- the consume gate follows the firing state.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_ammo_one_liners_state"
+          ]
+        },
+        "peek_ammo": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return shootType;",
+          "rule": "The peeked ammo type (ContinuousTurret.java:71, `return shootType;`): peekAmmo returns the shoot type unchanged, without consuming it.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_ammo_one_liners_state"
+          ]
+        },
+        "active_sound_volume": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "java_expr": "return 1f;",
+          "rule": "The active-sound volume (ContinuousTurret.java:172, `return 1f;`): a constant 1f -- the loop always plays at full volume while it sounds.",
+          "used_by": [
+            "PortGame.source_continuous_turret_build_ammo_one_liners_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof",
+      "rule": "Source-backed ContinuousTurretBuild.useAmmo()+shouldConsume()+peekAmmo()+activeSoundVolume() state from ContinuousTurret.java."
     }
   },
   "version": 1

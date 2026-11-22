@@ -185032,6 +185032,70 @@
         "test_reference_graph_and_actual_c07_drill_update_tile_effects"
       ],
       "runtime_proof": "/root/C07DrillUpdateTileEffectsProof"
+    },
+    "source_continuous_turret_build_ammo_one_liners_state_result.use_ammo": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_ammo_one_liners_state",
+      "godot_symbol": "source_continuous_turret_build_ammo_one_liners_state_result.use_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.useAmmo(); ContinuousTurretBuild.shouldConsume(); ContinuousTurretBuild.peekAmmo(); ContinuousTurretBuild.activeSoundVolume()",
+      "java_expr": "return shootType;",
+      "rule": "The ammo type to use (ContinuousTurret.java:56, `return shootType;`): useAmmo returns the shoot type unchanged -- nothing is consumed directly (ContinuousTurret.java:55, `//nothing used directly`).",
+      "tests": [
+        "test_c07_continuous_turret_ammo_one_liners_registration",
+        "test_all_c07_continuous_turret_ammo_one_liners_input_evidence_is_exact",
+        "test_continuous_turret_ammo_one_liners_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_ammo_one_liners"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof"
+    },
+    "source_continuous_turret_build_ammo_one_liners_state_result.should_consume": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_ammo_one_liners_state",
+      "godot_symbol": "source_continuous_turret_build_ammo_one_liners_state_result.should_consume",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.useAmmo(); ContinuousTurretBuild.shouldConsume(); ContinuousTurretBuild.peekAmmo(); ContinuousTurretBuild.activeSoundVolume()",
+      "java_expr": "return isShooting;",
+      "rule": "Whether the build should consume (ContinuousTurret.java:66, `return isShooting;`): true exactly while shooting -- the consume gate follows the firing state.",
+      "tests": [
+        "test_c07_continuous_turret_ammo_one_liners_registration",
+        "test_all_c07_continuous_turret_ammo_one_liners_input_evidence_is_exact",
+        "test_continuous_turret_ammo_one_liners_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_ammo_one_liners"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof"
+    },
+    "source_continuous_turret_build_ammo_one_liners_state_result.peek_ammo": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_ammo_one_liners_state",
+      "godot_symbol": "source_continuous_turret_build_ammo_one_liners_state_result.peek_ammo",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.useAmmo(); ContinuousTurretBuild.shouldConsume(); ContinuousTurretBuild.peekAmmo(); ContinuousTurretBuild.activeSoundVolume()",
+      "java_expr": "return shootType;",
+      "rule": "The peeked ammo type (ContinuousTurret.java:71, `return shootType;`): peekAmmo returns the shoot type unchanged, without consuming it.",
+      "tests": [
+        "test_c07_continuous_turret_ammo_one_liners_registration",
+        "test_all_c07_continuous_turret_ammo_one_liners_input_evidence_is_exact",
+        "test_continuous_turret_ammo_one_liners_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_ammo_one_liners"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof"
+    },
+    "source_continuous_turret_build_ammo_one_liners_state_result.active_sound_volume": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_continuous_turret_build_ammo_one_liners_state",
+      "godot_symbol": "source_continuous_turret_build_ammo_one_liners_state_result.active_sound_volume",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurretBuild.useAmmo(); ContinuousTurretBuild.shouldConsume(); ContinuousTurretBuild.peekAmmo(); ContinuousTurretBuild.activeSoundVolume()",
+      "java_expr": "return 1f;",
+      "rule": "The active-sound volume (ContinuousTurret.java:172, `return 1f;`): a constant 1f -- the loop always plays at full volume while it sounds.",
+      "tests": [
+        "test_c07_continuous_turret_ammo_one_liners_registration",
+        "test_all_c07_continuous_turret_ammo_one_liners_input_evidence_is_exact",
+        "test_continuous_turret_ammo_one_liners_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_ammo_one_liners"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof"
     }
   },
   "version": 1

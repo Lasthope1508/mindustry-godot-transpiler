@@ -77647,6 +77647,39 @@
       ],
       "runtime_proof": "/root/C07DrillUpdateTileEffectsProof",
       "rule": "Source-backed Drill updateTile() effect legs state from Drill.java + Mathf.java."
+    },
+    "PortGame.source_continuous_turret_build_ammo_one_liners_state": {
+      "status": "active",
+      "source_slice": "N2421",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.useAmmo(); ContinuousTurretBuild.shouldConsume(); ContinuousTurretBuild.peekAmmo(); ContinuousTurretBuild.activeSoundVolume()",
+      "params": [
+        {
+          "name": "shoot_type",
+          "type": "Variant",
+          "schema": "source_continuous_turret_build_ammo_one_liners_state_input.shoot_type"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_ammo_one_liners_state_input.is_shooting"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "use_ammo",
+        "should_consume",
+        "peek_ammo",
+        "active_sound_volume"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_ammo_one_liners_registration",
+        "test_all_c07_continuous_turret_ammo_one_liners_input_evidence_is_exact",
+        "test_continuous_turret_ammo_one_liners_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_ammo_one_liners"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof",
+      "rule": "Source-backed ContinuousTurretBuild.useAmmo()+shouldConsume()+peekAmmo()+activeSoundVolume() state from ContinuousTurret.java."
     }
   },
   "policy": {
