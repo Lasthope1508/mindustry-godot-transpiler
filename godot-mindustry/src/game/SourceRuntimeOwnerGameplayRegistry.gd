@@ -73,6 +73,7 @@ const PORT_GAME_SOURCE_ENEMY_UNITS_SWEEP_DEAD_STATE := "port_game.source_enemy_u
 const PORT_GAME_SOURCE_GAME_LOOP_PAUSED_STATE := "port_game.source_game_loop_paused_state"
 const PORT_GAME_SOURCE_GAME_LOOP_IS_WAITING_WAVE_STATE := "port_game.source_game_loop_is_waiting_wave_state"
 const PORT_GAME_SOURCE_GAME_LOOP_CHECK_CAMPAIGN_STATS_STATE := "port_game.source_game_loop_check_campaign_stats_state"
+const PORT_GAME_SOURCE_GAME_LOOP_CHECK_OVERLAPPING_PLANS_STATE := "port_game.source_game_loop_check_overlapping_plans_state"
 const PORT_GAME_SOURCE_GAME_HEADLESS_STATE := "port_game.source_game_headless_state"
 const PORT_GAME_SOURCE_SOUND_CONTROL_LOOP_STATE := "port_game.source_sound_control_loop_state"
 const PORT_GAME_SOURCE_SOUND_CONTROL_LOOP_POSITION_STATE := "port_game.source_sound_control_loop_position_state"

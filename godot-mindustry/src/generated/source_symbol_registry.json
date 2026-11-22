@@ -185672,6 +185672,38 @@
         "test_reference_graph_and_actual_c07_logic_skip_wave"
       ],
       "runtime_proof": "/root/C07LogicSkipWaveProof"
+    },
+    "source_game_loop_check_overlapping_plans_state_result.removed_plans": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_check_overlapping_plans_state",
+      "godot_symbol": "source_game_loop_check_overlapping_plans_state_result.removed_plans",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_method": "Logic.checkOverlappingPlans()",
+      "java_expr": "b.removed = true;",
+      "rule": "The plans whose block bounds overlap the tile bounds (Logic.java:261-262): each is marked removed = true and removed from the team plans by `it.remove();` (Logic.java:263).",
+      "tests": [
+        "test_c07_logic_check_overlapping_plans_registration",
+        "test_all_c07_logic_check_overlapping_plans_input_evidence_is_exact",
+        "test_logic_check_overlapping_plans_state",
+        "test_reference_graph_and_actual_c07_logic_check_overlapping_plans"
+      ],
+      "runtime_proof": "/root/C07LogicCheckOverlappingPlansProof"
+    },
+    "source_game_loop_check_overlapping_plans_state_result.kept_plans": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_check_overlapping_plans_state",
+      "godot_symbol": "source_game_loop_check_overlapping_plans_state_result.kept_plans",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_method": "Logic.checkOverlappingPlans()",
+      "java_expr": "while(it.hasNext()){",
+      "rule": "The plans that survive the loop (Logic.java:259): every plan is visited, and only the overlapping ones are removed (`it.remove();`, Logic.java:263), so the kept list is the plans for which it.remove() is never called.",
+      "tests": [
+        "test_c07_logic_check_overlapping_plans_registration",
+        "test_all_c07_logic_check_overlapping_plans_input_evidence_is_exact",
+        "test_logic_check_overlapping_plans_state",
+        "test_reference_graph_and_actual_c07_logic_check_overlapping_plans"
+      ],
+      "runtime_proof": "/root/C07LogicCheckOverlappingPlansProof"
     }
   },
   "version": 1

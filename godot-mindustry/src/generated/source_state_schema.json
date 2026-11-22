@@ -255273,6 +255273,64 @@
       },
       "runtime_proof": "/root/C07LogicSkipWaveProof",
       "rule": "Source-backed Logic.skipWave() state from Logic.java."
+    },
+    "source_game_loop_check_overlapping_plans_state_input": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_check_overlapping_plans_state",
+      "source_slice": "N2441",
+      "keys": {
+        "team_data": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "TeamData data = team.data();",
+          "rule": "The team data holding the build plans (Logic.java:256, `team.data()`): the plans list is read as team_data[\"plans\"], one Dictionary per BlockPlan {x, y, bounds, removed} (Teams.java:492-496).",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_check_overlapping_plans_state"
+          ]
+        },
+        "tile": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "var bounds = tile.block().bounds(tile.x, tile.y, Tmp.r1);",
+          "rule": "The tile whose block bounds are the overlap test rect (Logic.java:258, `tile.block().bounds(tile.x, tile.y, Tmp.r1)`): passed as tile[\"bounds\"] Rect2 data, since Tmp.r1 is a shared temp rect and is not ported.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_check_overlapping_plans_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LogicCheckOverlappingPlansProof",
+      "rule": "Source-backed Logic.checkOverlappingPlans() overlapping-plan removal state from Logic.java."
+    },
+    "source_game_loop_check_overlapping_plans_state_result": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_check_overlapping_plans_state",
+      "source_slice": "N2441",
+      "keys": {
+        "removed_plans": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "b.removed = true;",
+          "rule": "The plans whose block bounds overlap the tile bounds (Logic.java:261-262): each is marked removed = true and removed from the team plans by `it.remove();` (Logic.java:263).",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_check_overlapping_plans_state"
+          ]
+        },
+        "kept_plans": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "while(it.hasNext()){",
+          "rule": "The plans that survive the loop (Logic.java:259): every plan is visited, and only the overlapping ones are removed (`it.remove();`, Logic.java:263), so the kept list is the plans for which it.remove() is never called.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_check_overlapping_plans_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07LogicCheckOverlappingPlansProof",
+      "rule": "Source-backed Logic.checkOverlappingPlans() overlapping-plan removal state from Logic.java."
     }
   },
   "version": 1

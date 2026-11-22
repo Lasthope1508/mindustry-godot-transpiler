@@ -78164,6 +78164,37 @@
       ],
       "runtime_proof": "/root/C07LogicSkipWaveProof",
       "rule": "Source-backed Logic.skipWave() state from Logic.java."
+    },
+    "SourceGameLoopRuntimeState.source_game_loop_check_overlapping_plans_state": {
+      "status": "active",
+      "source_slice": "N2441",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "source_method": "Logic.checkOverlappingPlans()",
+      "params": [
+        {
+          "name": "team_data",
+          "type": "Dictionary",
+          "schema": "source_game_loop_check_overlapping_plans_state_input.team_data"
+        },
+        {
+          "name": "tile",
+          "type": "Dictionary",
+          "schema": "source_game_loop_check_overlapping_plans_state_input.tile"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "removed_plans",
+        "kept_plans"
+      ],
+      "tests": [
+        "test_c07_logic_check_overlapping_plans_registration",
+        "test_all_c07_logic_check_overlapping_plans_input_evidence_is_exact",
+        "test_logic_check_overlapping_plans_state",
+        "test_reference_graph_and_actual_c07_logic_check_overlapping_plans"
+      ],
+      "runtime_proof": "/root/C07LogicCheckOverlappingPlansProof",
+      "rule": "Source-backed Logic.checkOverlappingPlans() overlapping-plan removal state from Logic.java."
     }
   },
   "policy": {

@@ -104456,6 +104456,49 @@
         "Events.fire(new WaveEvent()) -- no event bus in the port (method Events.on 0-hit both ledgers); the runWave func records fired_event: \"WaveEvent\" as data, and skipWave forwards it; event-bus design is a separate main-thread decision.",
         "Logic.skipWave() Windows Godot proof -- debt in GOAL.md section 5: the N2439 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2441": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "java_class": "mindustry.core.Logic",
+      "java_method": "Logic.checkOverlappingPlans()",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_check_overlapping_plans_state",
+      "exact_exprs": [
+        "TeamData data = team.data();",
+        "Iterator<BlockPlan> it = data.plans.iterator();",
+        "var bounds = tile.block().bounds(tile.x, tile.y, Tmp.r1);",
+        "while(it.hasNext()){",
+        "BlockPlan b = it.next();",
+        "if(bounds.overlaps(b.block.bounds(b.x, b.y, Tmp.r2))){",
+        "b.removed = true;",
+        "it.remove();"
+      ],
+      "source_symbols": [
+        "source_game_loop_check_overlapping_plans_state_result.removed_plans",
+        "source_game_loop_check_overlapping_plans_state_result.kept_plans"
+      ],
+      "tests": [
+        "test_c07_logic_check_overlapping_plans_registration",
+        "test_all_c07_logic_check_overlapping_plans_input_evidence_is_exact",
+        "test_logic_check_overlapping_plans_state",
+        "test_reference_graph_and_actual_c07_logic_check_overlapping_plans"
+      ],
+      "runtime_proof": "/root/C07LogicCheckOverlappingPlansProof",
+      "deferred_exprs": [
+        "Per-building timeScale expiry is a later slice: BuildingComp.update (BuildingComp.java:2262-2266) decays timeScaleDuration by Time.delta and resets timeScale to 1f when it runs out, and simulate_block_time_scales already runs that decay each tick, but nothing ever sets a duration yet (no overdrive boost path writes it).",
+        "The disabled-building gate is a later slice: BuildingComp.update (BuildingComp.java:2275-2277) runs updateTile only when `enabled || !block.noUpdateDisabled`, and GenericCrafter leaves noUpdateDisabled false (Block.java:170), so a disabled factory still runs its updateTile half and only its zero efficiency stops progress; the tick driver does not skip the disabled frame yet.",
+        "Removal of destroyed buildings from the live loop is a later slice: the factory tick still visits every placed building frame, and a destroyed building has no removal path out of placed_blocks yet.",
+        "Source-exhaustion/output-full acts are later C06 slices: a drill on a depleted ore cell and a factory with a full output are not acted on yet.",
+        "The three per-class shouldConsume() bodies (UnitFactory.java:446, Reconstructor.java:368, UnitAssembler.java:389) are later slices; the tick passes the frame enabled flag as should_consume until then.",
+        "The plan stacks leave only at unit completion via ConsumeItemDynamic.trigger (ConsumeItemDynamic.java:53-56); the per-tick second pass removes nothing for items, so the production slice owns the trigger.",
+        "The UnitAssembler plan dynamics (ConsumePayloadDynamic, ConsumeItemDynamic over plan().itemReq, ConsumeLiquidsDynamic over plan().liquidReq, UnitAssembler.java:158-160) are later slices; the registry captures no assembler plans yet, so no dynamic rows bind for them.",
+        "Power graph shouldConsumePower from the live frame enabled flag is a later slice: Java ConsumePower.requestedPower gates on entity.shouldConsume(), but the port uses static catalog properties, so disabling a building does not change the power graph needed value and a disable -> battery-charges act is not possible yet.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption.",
+        "Logic.checkOverlappingPlans() N2441 Windows Godot proof -- debt in GOAL.md section 5, same as N2123: the N2441 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "The checkOverlappingPlans() call-sites `checkOverlappingPlans(event.team, event.tile);` (Logic.java:55) and `checkOverlappingPlans(e.build.team, e.build.tile);` (Logic.java:65) in the Logic ctor are later slices: they belong to the 16 handler ctor slices, waiting on the bus decision, not to the method slice N2441.",
+        "Tmp.r1 / Tmp.r2 are shared temp rects and are NOT ported: tile.block().bounds(tile.x, tile.y, Tmp.r1) arrives as tile[\"bounds\"] data and b.block.bounds(b.x, b.y, Tmp.r2) arrives as each plan[\"bounds\"] data; the GD func only tests Rect2 overlap on that data.",
+        "The live reads of tile.block().bounds() and BlockPlan fields (x, y, block, removed -- Teams.java:492-496) are later slices: checkOverlappingPlans() only reads the frame inputs, it never resolves live block bounds itself."
+      ]
     }
   },
   "version": 1

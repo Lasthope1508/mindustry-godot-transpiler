@@ -55,6 +55,48 @@ static func source_game_loop_check_campaign_stats_state(is_campaign: bool, is_cl
 	result["campaign_stats"] = is_campaign and not is_client
 	return result
 
+# Logic.checkOverlappingPlans() (Logic.java:255-266) — remove
+# build plans that overlap the block just placed on a tile:
+# TeamData data = team.data();
+# Iterator<BlockPlan> it = data.plans.iterator();
+# var bounds = tile.block().bounds(tile.x, tile.y, Tmp.r1);
+# while(it.hasNext()){
+# BlockPlan b = it.next();
+# if(bounds.overlaps(b.block.bounds(b.x, b.y, Tmp.r2))){
+# b.removed = true;
+# it.remove();
+# Pure transform over the frame inputs. BlockPlan
+# (Teams.java:492-496) is {x, y, rotation, block, config,
+# removed}; plans arrive as Dictionaries with "x", "y",
+# "bounds" (Rect2) and "removed" (bool). Tmp.r1 / Tmp.r2
+# are shared temp rects and are NOT ported — bounds arrive
+# as data: tile["bounds"] is the tile block's bounds rect
+# and each plan["bounds"] is that plan's block bounds rect.
+# Overlapping plans are marked removed = true and listed
+# under "removed_plans"; the rest stay under "kept_plans".
+# The call-sites `checkOverlappingPlans(event.team,
+# event.tile);` (Logic.java:55) and
+# `checkOverlappingPlans(e.build.team, e.build.tile);`
+# (Logic.java:65) in the Logic ctor belong to the 16
+# handler ctor slices, not this one.
+static func source_game_loop_check_overlapping_plans_state(team_data: Dictionary, tile: Dictionary) -> Dictionary:
+	var result := {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_GAME_LOOP_CHECK_OVERLAPPING_PLANS_STATE,
+		"removed_plans": [],
+		"kept_plans": [],
+	}
+	var tile_bounds: Rect2 = tile.get("bounds", Rect2())
+	var plans: Array = team_data.get("plans", [])
+	for plan in plans:
+		var entry: Dictionary = (plan as Dictionary).duplicate()
+		var plan_bounds: Rect2 = entry.get("bounds", Rect2())
+		if tile_bounds.intersects(plan_bounds):
+			entry["removed"] = true
+			result["removed_plans"].append(entry)
+		else:
+			result["kept_plans"].append(entry)
+	return result
+
 static func ready(game: Object) -> void:
 	# Vars.headless (Vars.java:208-209) via DisplayServer
 	# (decision 2026-11-17 ~12:56, Option 1): a headless display
