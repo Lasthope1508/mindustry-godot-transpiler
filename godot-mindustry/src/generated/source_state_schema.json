@@ -253046,6 +253046,114 @@
       },
       "runtime_proof": "/root/C07ContinuousLiquidTurretDefaultConstructorProof",
       "rule": "Source-backed ContinuousLiquidTurret() ctor field default state from ContinuousLiquidTurret.java."
+    },
+    "source_teams_count_payload_branch_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_count_payload_branch_state",
+      "source_slice": "N2415",
+      "keys": {
+        "payloads": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "var payloads = payloadc.payloads();",
+          "rule": "The payloads Seq (Teams.java:173, `var payloads = payloadc.payloads();`): payloadc.payloads() is a live entity query (not ported), so the payloads arrive as an explicit Array of payload entries -- a unit record {\"team_id\": int, \"type_id\": int, \"type_name\": String, \"payload_units\": [...]} when the entry is a UnitPayload, any other Variant (a raw value, a block payload record with no type_id) otherwise.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_count_payload_branch_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "unit.team.data().updateCount(unit.type, 1);",
+          "rule": "The team whose data count() updates (Teams.java:170, `unit.team.data().updateCount(unit.type, 1);`): the carrier unit's team arrives as its team id -- the recursion counts each payload unit into its own team's data when the team matches, and skips it in this single-team frame view when it does not (same as the N2383 helper's team gate).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_count_payload_branch_state"
+          ]
+        },
+        "type_counts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(data.typeCounts != null){",
+          "rule": "The per-type counts (Teams.java:189, `if(data.typeCounts != null){`): TeamData.typeCounts arrives as an explicit Array of ints, grown to content_unit_size by the updateCount callee (N2141) -- type_counts is an in/out param, the caller's Array is the one the recursion extends.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_count_payload_branch_state"
+          ]
+        },
+        "unit_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "data.unitCount = 0;",
+          "rule": "The unit count (Teams.java:186, `data.unitCount = 0;`): TeamData.unitCount arrives explicitly -- every counted payload unit bumps it by 1 through the updateCount callee (N2141).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_count_payload_branch_state"
+          ]
+        },
+        "content_unit_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "data.unitsByType = new Seq[content.units().size];",
+          "rule": "content.units().size as an explicit param (Teams.java:226, `data.unitsByType = new Seq[content.units().size];`): the content registry is not ported, so the unit-type count arrives explicitly -- it sizes the type_counts growth inside the count() callee (the N2383 precedent).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_count_payload_branch_state"
+          ]
+        },
+        "team_unit_counts": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "count(unit);",
+          "rule": "The name-keyed unit counts (Teams.java:235, `count(unit);`): {type_name: count} -- the N2141 count() callee's per-team view, one entry per counted type, payload units included exactly as count(unit) recurses -- team_unit_counts is an in/out param.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_count_payload_branch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsCountPayloadBranchProof",
+      "rule": "Source-backed Teams.count() payload branch state from Teams.java."
+    },
+    "source_teams_count_payload_branch_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_count_payload_branch_state",
+      "source_slice": "N2415",
+      "keys": {
+        "type_counts": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "count(payload.unit);",
+          "rule": "The per-type counts after the branch (Teams.java:177, `count(payload.unit);`): every UnitPayload unit's type count bumped by 1 through the count() recursion -- the same Array passed in, extended to content_unit_size.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_count_payload_branch_state"
+          ]
+        },
+        "unit_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "unit.team.data().updateCount(unit.type, 1);",
+          "rule": "The unit count after the branch (Teams.java:170, `unit.team.data().updateCount(unit.type, 1);`): bumped by 1 per counted payload unit through the updateCount callee (N2141).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_count_payload_branch_state"
+          ]
+        },
+        "team_unit_counts": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "if(payloads.get(i) instanceof UnitPayload payload){",
+          "rule": "The name-keyed unit counts after the branch (Teams.java:176, `if(payloads.get(i) instanceof UnitPayload payload){`): only UnitPayload entries reach the count() call that fills this view -- non-unit payloads add nothing.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_count_payload_branch_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsCountPayloadBranchProof",
+      "rule": "Source-backed Teams.count() payload branch state from Teams.java."
     }
   },
   "version": 1

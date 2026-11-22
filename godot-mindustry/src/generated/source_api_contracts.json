@@ -77127,6 +77127,58 @@
       ],
       "runtime_proof": "/root/C07ContinuousLiquidTurretDefaultConstructorProof",
       "rule": "Source-backed ContinuousLiquidTurret() ctor field default state from ContinuousLiquidTurret.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_count_payload_branch_state": {
+      "status": "active",
+      "source_slice": "N2415",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.count(Unit)",
+      "params": [
+        {
+          "name": "payloads",
+          "type": "Array",
+          "schema": "source_teams_count_payload_branch_state_input.payloads"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_teams_count_payload_branch_state_input.team_id"
+        },
+        {
+          "name": "type_counts",
+          "type": "Array",
+          "schema": "source_teams_count_payload_branch_state_input.type_counts"
+        },
+        {
+          "name": "unit_count",
+          "type": "int",
+          "schema": "source_teams_count_payload_branch_state_input.unit_count"
+        },
+        {
+          "name": "content_unit_size",
+          "type": "int",
+          "schema": "source_teams_count_payload_branch_state_input.content_unit_size"
+        },
+        {
+          "name": "team_unit_counts",
+          "type": "Dictionary",
+          "schema": "source_teams_count_payload_branch_state_input.team_unit_counts"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "type_counts",
+        "unit_count",
+        "team_unit_counts"
+      ],
+      "tests": [
+        "test_c07_teams_count_payload_branch_registration",
+        "test_all_c07_teams_count_payload_branch_input_evidence_is_exact",
+        "test_teams_count_payload_branch_state",
+        "test_reference_graph_and_actual_c07_teams_count_payload_branch"
+      ],
+      "runtime_proof": "/root/C07TeamsCountPayloadBranchProof",
+      "rule": "Source-backed Teams.count() payload branch state from Teams.java."
     }
   },
   "policy": {

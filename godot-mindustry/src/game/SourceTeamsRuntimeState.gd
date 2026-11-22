@@ -217,6 +217,42 @@ static func _team_data_count_unit(unit: Variant, team_id: int, type_counts: Arra
 	return {"type_counts": type_counts, "unit_count": unit_count, "team_unit_counts": team_unit_counts}
 
 
+static func source_teams_count_payload_branch_state(payloads: Array, team_id: int, type_counts: Array, unit_count: int, content_unit_size: int, team_unit_counts: Dictionary) -> Dictionary:
+	# Teams.count (Teams.java:168-179), the payload branch only:
+	# `if(unit instanceof Payloadc payloadc){`
+	# `var payloads = payloadc.payloads();`
+	# `for(int i = 0; i < payloads.size; i++){`
+	# `if(payloads.get(i) instanceof UnitPayload payload){`
+	# `count(payload.unit);`
+	# `}`
+	# `}`
+	# `}`
+	# The caller passes payloadc.payloads() -- the unit only
+	# reaches this function when it is a Payloadc, so the
+	# instanceof Payloadc gate and the payloads() call live
+	# at the call-site (the _team_data_count_unit helper,
+	# N2383, reads the unit record's "payload_units"
+	# entry). Each payload entry is a unit record when it
+	# is a UnitPayload; other payloads carry no unit
+	# record and are skipped -- a raw Variant is not a
+	# Dictionary, and a block payload record has no
+	# type_id, so both fail the gate. count(payload.unit)
+	# is the N2141 updateCount call, reached through the
+	# _team_data_count_unit recursion (call-site): it
+	# counts the payload unit into its own team's data
+	# when the team matches, and skips it in this
+	# single-team frame view when it does not (same as
+	# the helper's team gate).
+	for i in range(payloads.size()):
+		var payload: Variant = payloads[i]
+		if payload is Dictionary and int(payload.get("type_id", -1)) >= 0:
+			var recursed: Dictionary = _team_data_count_unit(payload, team_id, type_counts, unit_count, content_unit_size, team_unit_counts)
+			type_counts = recursed.get("type_counts", type_counts)
+			unit_count = int(recursed.get("unit_count", unit_count))
+			team_unit_counts = recursed.get("team_unit_counts", team_unit_counts)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TEAMS_COUNT_PAYLOAD_BRANCH_STATE, "type_counts": type_counts, "unit_count": unit_count, "team_unit_counts": team_unit_counts}
+
+
 static func source_team_data_update_team_stats_state(units: Array, team_id: int, content_unit_size: int) -> Dictionary:
 	# Teams.updateTeamStats (Teams.java:182-245) for ONE team —
 	# the frame's view is a single team's TeamData, so the

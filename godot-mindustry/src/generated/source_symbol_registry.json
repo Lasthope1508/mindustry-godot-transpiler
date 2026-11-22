@@ -184472,6 +184472,54 @@
         "test_reference_graph_and_actual_c07_continuous_liquid_turret_default_constructor"
       ],
       "runtime_proof": "/root/C07ContinuousLiquidTurretDefaultConstructorProof"
+    },
+    "source_teams_count_payload_branch_state_result.type_counts": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_count_payload_branch_state",
+      "godot_symbol": "source_teams_count_payload_branch_state_result.type_counts",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.count(Unit)",
+      "java_expr": "count(payload.unit);",
+      "rule": "The per-type counts after the branch (Teams.java:177, `count(payload.unit);`): every UnitPayload unit's type count bumped by 1 through the count() recursion -- the same Array passed in, extended to content_unit_size.",
+      "tests": [
+        "test_c07_teams_count_payload_branch_registration",
+        "test_all_c07_teams_count_payload_branch_input_evidence_is_exact",
+        "test_teams_count_payload_branch_state",
+        "test_reference_graph_and_actual_c07_teams_count_payload_branch"
+      ],
+      "runtime_proof": "/root/C07TeamsCountPayloadBranchProof"
+    },
+    "source_teams_count_payload_branch_state_result.unit_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_count_payload_branch_state",
+      "godot_symbol": "source_teams_count_payload_branch_state_result.unit_count",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.count(Unit)",
+      "java_expr": "unit.team.data().updateCount(unit.type, 1);",
+      "rule": "The unit count after the branch (Teams.java:170, `unit.team.data().updateCount(unit.type, 1);`): bumped by 1 per counted payload unit through the updateCount callee (N2141).",
+      "tests": [
+        "test_c07_teams_count_payload_branch_registration",
+        "test_all_c07_teams_count_payload_branch_input_evidence_is_exact",
+        "test_teams_count_payload_branch_state",
+        "test_reference_graph_and_actual_c07_teams_count_payload_branch"
+      ],
+      "runtime_proof": "/root/C07TeamsCountPayloadBranchProof"
+    },
+    "source_teams_count_payload_branch_state_result.team_unit_counts": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_count_payload_branch_state",
+      "godot_symbol": "source_teams_count_payload_branch_state_result.team_unit_counts",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.count(Unit)",
+      "java_expr": "if(payloads.get(i) instanceof UnitPayload payload){",
+      "rule": "The name-keyed unit counts after the branch (Teams.java:176, `if(payloads.get(i) instanceof UnitPayload payload){`): only UnitPayload entries reach the count() call that fills this view -- non-unit payloads add nothing.",
+      "tests": [
+        "test_c07_teams_count_payload_branch_registration",
+        "test_all_c07_teams_count_payload_branch_input_evidence_is_exact",
+        "test_teams_count_payload_branch_state",
+        "test_reference_graph_and_actual_c07_teams_count_payload_branch"
+      ],
+      "runtime_proof": "/root/C07TeamsCountPayloadBranchProof"
     }
   },
   "version": 1
