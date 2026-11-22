@@ -184408,6 +184408,38 @@
         "test_reference_graph_and_actual_c07_sound_control_update"
       ],
       "runtime_proof": "/root/C07SoundControlUpdateProof"
+    },
+    "source_teams_block_plan_to_string_state_result.to_string": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_block_plan_to_string_state",
+      "godot_symbol": "source_teams_block_plan_to_string_state_result.to_string",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "Teams.BlockPlan.toString()",
+      "java_expr": "return \"BlockPlan{\" +",
+      "rule": "The exact Java string (Teams.java:508, `return \"BlockPlan{\" +`): \"BlockPlan{x=.., y=.., rotation=.., block=.., config=..}\" in a one-key Dictionary envelope (N2365 precedent -- contract return_type only accepts Dictionary or void).",
+      "tests": [
+        "test_c07_teams_to_string_registration",
+        "test_all_c07_teams_to_string_input_evidence_is_exact",
+        "test_teams_to_string_state",
+        "test_reference_graph_and_actual_c07_teams_to_string"
+      ],
+      "runtime_proof": "/root/C07TeamsToStringProof"
+    },
+    "source_teams_team_data_to_string_state_result.to_string": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_teams_team_data_to_string_state",
+      "godot_symbol": "source_teams_team_data_to_string_state_result.to_string",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "java_method": "TeamData.toString()",
+      "java_expr": "return \"TeamData{\" +",
+      "rule": "The exact Java string (Teams.java:475, `return \"TeamData{\" +`): \"TeamData{cores=.., team=..}\" in a one-key Dictionary envelope (N2365 precedent).",
+      "tests": [
+        "test_c07_teams_to_string_registration",
+        "test_all_c07_teams_to_string_input_evidence_is_exact",
+        "test_teams_to_string_state",
+        "test_reference_graph_and_actual_c07_teams_to_string"
+      ],
+      "runtime_proof": "/root/C07TeamsToStringProof"
     }
   },
   "version": 1

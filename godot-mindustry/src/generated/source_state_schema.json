@@ -252862,6 +252862,132 @@
       },
       "runtime_proof": "/root/C07SoundControlUpdateProof",
       "rule": "Source-backed SoundControl update state from SoundControl.java."
+    },
+    "source_teams_block_plan_to_string_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_block_plan_to_string_state",
+      "source_slice": "N2412",
+      "keys": {
+        "x": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "\"x=\" + x +",
+          "rule": "The plan tile x (Teams.java:509, `\"x=\" + x +`): the stored short field, printed decimal.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_to_string_state"
+          ]
+        },
+        "y": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "\", y=\" + y +",
+          "rule": "The plan tile y (Teams.java:510, `\", y=\" + y +`): the stored short field, printed decimal.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_to_string_state"
+          ]
+        },
+        "rotation": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "\", rotation=\" + rotation +",
+          "rule": "The plan rotation (Teams.java:511, `\", rotation=\" + rotation +`): the stored short field, printed decimal.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_to_string_state"
+          ]
+        },
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "\", block=\" + block +",
+          "rule": "The planned block (Teams.java:512, `\", block=\" + block +`): Block is not ported, arrives as a Variant, prints via its toString; null prints as \"null\".",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_to_string_state"
+          ]
+        },
+        "config": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "\", config=\" + config +",
+          "rule": "The plan config (Teams.java:513, `\", config=\" + config +`): Object config arrives as a Variant, prints via its toString; null prints as \"null\".",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_to_string_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsToStringProof",
+      "rule": "Source-backed Teams toString state from Teams.java."
+    },
+    "source_teams_block_plan_to_string_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_block_plan_to_string_state",
+      "source_slice": "N2412",
+      "keys": {
+        "to_string": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return \"BlockPlan{\" +",
+          "rule": "The exact Java string (Teams.java:508, `return \"BlockPlan{\" +`): \"BlockPlan{x=.., y=.., rotation=.., block=.., config=..}\" in a one-key Dictionary envelope (N2365 precedent -- contract return_type only accepts Dictionary or void).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_block_plan_to_string_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsToStringProof",
+      "rule": "Source-backed Teams toString state from Teams.java."
+    },
+    "source_teams_team_data_to_string_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_team_data_to_string_state",
+      "source_slice": "N2412",
+      "keys": {
+        "cores": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "\"cores=\" + cores +",
+          "rule": "The team cores (Teams.java:476, `\"cores=\" + cores +`): ObjectSet<Core> is not ported, arrives as a Variant, prints via its toString; null prints as \"null\".",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_team_data_to_string_state"
+          ]
+        },
+        "team": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "\", team=\" + team +",
+          "rule": "The team (Teams.java:477, `\", team=\" + team +`): Team is not ported, arrives as a Variant, prints via its toString; null prints as \"null\".",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_team_data_to_string_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsToStringProof",
+      "rule": "Source-backed Teams toString state from Teams.java."
+    },
+    "source_teams_team_data_to_string_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_teams_team_data_to_string_state",
+      "source_slice": "N2412",
+      "keys": {
+        "to_string": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Teams.java",
+          "java_expr": "return \"TeamData{\" +",
+          "rule": "The exact Java string (Teams.java:475, `return \"TeamData{\" +`): \"TeamData{cores=.., team=..}\" in a one-key Dictionary envelope (N2365 precedent).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_teams_team_data_to_string_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamsToStringProof",
+      "rule": "Source-backed Teams toString state from Teams.java."
     }
   },
   "version": 1

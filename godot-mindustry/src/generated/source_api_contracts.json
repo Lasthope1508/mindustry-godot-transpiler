@@ -77021,6 +77021,81 @@
       ],
       "runtime_proof": "/root/C07SoundControlUpdateProof",
       "rule": "Source-backed SoundControl update state from SoundControl.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_block_plan_to_string_state": {
+      "status": "active",
+      "source_slice": "N2412",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "Teams.BlockPlan.toString()",
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_teams_block_plan_to_string_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_teams_block_plan_to_string_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_teams_block_plan_to_string_state_input.rotation"
+        },
+        {
+          "name": "block",
+          "type": "Variant",
+          "schema": "source_teams_block_plan_to_string_state_input.block"
+        },
+        {
+          "name": "config",
+          "type": "Variant",
+          "schema": "source_teams_block_plan_to_string_state_input.config"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "to_string"
+      ],
+      "tests": [
+        "test_c07_teams_to_string_registration",
+        "test_all_c07_teams_to_string_input_evidence_is_exact",
+        "test_teams_to_string_state",
+        "test_reference_graph_and_actual_c07_teams_to_string"
+      ],
+      "runtime_proof": "/root/C07TeamsToStringProof",
+      "rule": "Source-backed Teams toString state from Teams.java."
+    },
+    "SourceTeamsRuntimeState.source_teams_team_data_to_string_state": {
+      "status": "active",
+      "source_slice": "N2412",
+      "java_source": "core/src/mindustry/game/Teams.java",
+      "source_method": "TeamData.toString()",
+      "params": [
+        {
+          "name": "cores",
+          "type": "Variant",
+          "schema": "source_teams_team_data_to_string_state_input.cores"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "schema": "source_teams_team_data_to_string_state_input.team"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "to_string"
+      ],
+      "tests": [
+        "test_c07_teams_to_string_registration",
+        "test_all_c07_teams_to_string_input_evidence_is_exact",
+        "test_teams_to_string_state",
+        "test_reference_graph_and_actual_c07_teams_to_string"
+      ],
+      "runtime_proof": "/root/C07TeamsToStringProof",
+      "rule": "Source-backed Teams toString state from Teams.java."
     }
   },
   "policy": {

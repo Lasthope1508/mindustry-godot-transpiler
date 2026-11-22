@@ -1406,3 +1406,46 @@ static func source_teams_block_plan_state(x: int, y: int, rotation: int, block: 
 	if sy >= 0x8000:
 		sy -= 0x10000
 	return {"x": sx, "y": sy, "rotation": rotation, "block": block, "config": config}
+
+
+static func source_teams_block_plan_to_string_state(x: int, y: int, rotation: int, block: Variant, config: Variant) -> Dictionary:
+	# Teams.BlockPlan.toString() (Teams.java:507-513):
+	# `return "BlockPlan{" +`
+	# `"x=" + x +`
+	# `", y=" + y +`
+	# `", rotation=" + rotation +`
+	# `", block=" + block +`
+	# `", config=" + config +`
+	# `'}';`
+	# Java string concatenation prints null as "null" and
+	# numbers decimal; Block/config are not ported, so
+	# they arrive as Variants and print via their
+	# toString -- str() is the GDScript equivalent for
+	# these scalar/Variant values, except null, which
+	# str() would print as "Null". x/y are the stored
+	# short fields (already narrowed by the ctor, N2409),
+	# so no narrowing happens here. The SSOT contract
+	# return_type only accepts Dictionary or void, so
+	# the string is returned in a one-key envelope
+	# (the N2365 envelope precedent).
+	var block_text: String = "null" if block == null else str(block)
+	var config_text: String = "null" if config == null else str(config)
+	return {"to_string": "BlockPlan{" + "x=" + str(x) + ", y=" + str(y) + ", rotation=" + str(rotation) + ", block=" + block_text + ", config=" + config_text + "}"}
+
+
+static func source_teams_team_data_to_string_state(cores: Variant, team: Variant) -> Dictionary:
+	# Teams.TeamData.toString() (Teams.java:474-479):
+	# `return "TeamData{" +`
+	# `"cores=" + cores +`
+	# `", team=" + team +`
+	# `'}';`
+	# cores is an ObjectSet of cores and team is a Team;
+	# neither is ported, so both arrive as Variants and
+	# print via their toString -- str() is the GDScript
+	# equivalent for these values, except null, which
+	# Java prints as "null" (str() would print "Null").
+	# Same one-key Dictionary envelope as the BlockPlan
+	# toString above (N2365 envelope precedent).
+	var cores_text: String = "null" if cores == null else str(cores)
+	var team_text: String = "null" if team == null else str(team)
+	return {"to_string": "TeamData{" + "cores=" + cores_text + ", team=" + team_text + "}"}
