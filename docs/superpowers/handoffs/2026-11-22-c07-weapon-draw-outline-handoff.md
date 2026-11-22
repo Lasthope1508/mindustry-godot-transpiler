@@ -1,6 +1,6 @@
-# Handoff — N2537 Weapon.drawOutline() (C07) [DONE + PUSHED (slice 2e49bd95, docs 36afca58, GOAL 1fab1442)]
+# Handoff — N2537 Weapon.drawOutline() (C07) [DONE + PUSHED (slice 2e49bd95, docs 36afca58, GOAL 1fab1442, status e4360200)]
 
-## Status: DONE + PUSHED (lượt cron 23:15 +07 ngày 2026-11-22; slice 2e49bd95, docs 36afca58, GOAL 1fab1442; push xong mới ghi origin/main ở đây sau khi push)
+## Status: DONE + PUSHED (lượt cron 23:15 +07 ngày 2026-11-22; slice 2e49bd95, docs 36afca58, GOAL 1fab1442, status e4360200; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2536 DONE + PUSHED ~21:54 +07 ngày 2026-11-22, origin/main == 6ea3acea
   (5 commit: slice 3a6481d9 + docs 3ff9c015 + GOAL 04a2b2e7 + status 05cd344e + hashes 6ea3acea).
