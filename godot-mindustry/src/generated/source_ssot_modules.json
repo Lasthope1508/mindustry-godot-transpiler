@@ -1745,7 +1745,10 @@
         "module": "type_slices",
         "collection_key": "slices",
         "field": "godot_owner"
-      }
+      },
+      "optional_mirror_fields": [
+        "return_type"
+      ]
     },
     "type_slices": {
       "canonical_module": "slice_ledger",

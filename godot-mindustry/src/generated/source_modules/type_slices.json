@@ -254,6 +254,27 @@
       ],
       "runtime_proof": "/root/C07UnitTypeWeaponsDpsSumProof"
     },
+    "N2537": {
+      "canonical_ledger": "source_slice_ledger.N2537",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.drawOutline(Unit, WeaponMount)",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_outline_state",
+      "source_symbols": [
+        "source_weapon_draw_outline_state_result.visible",
+        "source_weapon_draw_outline_state_result.outline_x",
+        "source_weapon_draw_outline_state_result.outline_y",
+        "source_weapon_draw_outline_state_result.weapon_rotation",
+        "source_weapon_draw_outline_state_result.xscl"
+      ],
+      "tests": [
+        "test_c07_weapon_draw_outline_registration",
+        "test_all_c07_weapon_draw_outline_input_evidence_is_exact",
+        "test_weapon_draw_outline_state",
+        "test_reference_graph_and_actual_c07_weapon_draw_outline"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawOutlineProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",

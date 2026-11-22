@@ -2,6 +2,7 @@ extends RefCounted
 class_name SourceWeaponsCoreState
 
 const source_weapon_defaults := preload("res://src/game/SourceWeaponDefaults.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
 
 const SOURCE_WEAPON_BASE_ROTATION_DEFAULT := source_weapon_defaults.BASE_ROTATION_DEFAULT
 
@@ -103,6 +104,75 @@ static func source_weapon_shots_per_sec_state(reload: float, shoot_shots: int) -
 	# stats display reads `shots_per_sec` in a later
 	# slice) -> live behavior does NOT change.
 	return {"shots_per_sec": float(shoot_shots) * 60.0 / reload}
+
+static func source_weapon_draw_outline_state(outline_found: bool, unit_rotation: float, unit_x: float, unit_y: float, mount_recoil: float, mount_rotation: float, rotate: bool, base_rotation: float, recoil: float, recoil_pow: float, weapon_x: float, weapon_y: float, flip_sprite: bool) -> Dictionary:
+	# Weapon.drawOutline() (Weapon.java:196-213,
+	# `public void drawOutline(Unit unit, WeaponMount mount){` /
+	# `if(!outlineRegion.found()) return;` /
+	# `rotation = unit.rotation - 90,` /
+	# `realRecoil = Mathf.pow(mount.recoil, recoilPow) * recoil,` /
+	# `weaponRotation  = rotation + (rotate ? mount.rotation : baseRotation),` /
+	# `wx = unit.x + Angles.trnsx(rotation, x, y) + Angles.trnsx(weaponRotation, 0, -realRecoil),` /
+	# `wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, -realRecoil);` /
+	# `Draw.xscl = -Mathf.sign(flipSprite);` /
+	# `Draw.rect(outlineRegion, wx, wy, weaponRotation);` /
+	# `Draw.xscl = 1f;`).
+	# `outline_found` is a bool param: the guard is first in
+	# Java, and the port mirrors the draw_team_top_state
+	# precedent (SourceBuildingDrawState.gd:159-163, which
+	# takes `team_region_found` as its first param and
+	# returns `{"visible": false}` when the region is not
+	# found) -- when the outline region is not found,
+	# drawOutline() returns before computing anything, so
+	# this function returns only `visible: false` and no
+	# draw keys. The `Draw.xscl = 1f;` reset after Draw.rect
+	# is render-state restore, not a return value -- the
+	# returned `xscl` is the value drawOutline() sets before
+	# the rect call. `xscl` is `-Mathf.sign(flipSprite)`;
+	# arc Mathf.sign(boolean) (Mathf.java:203-205) is 1 if
+	# true else -1, so xscl is -1.0 when flip_sprite is true
+	# and +1.0 otherwise (NOT the float overload, which is
+	# -1 if f < 0 else 1). The trns legs reuse the existing
+	# port: no scalar trnsx/trnsy port exists, and
+	# `source_angles_trns_vec` (SourceMathState.gd:140)
+	# computes exactly Angles.trnsx/trnsy(angle, x, y)
+	# (arc Angles.java:74-82, `rv.set(x, y).rotate(angle)`).
+	# `mount_recoil` / `mount_rotation` are WeaponMount
+	# fields (`public float rotation;` /
+	# `public float recoil;`, WeaponMount.java:14/16).
+	# `rotate` is the weapon flag (`public boolean rotate =
+	# false;`, Weapon.java:45 -- `ROTATE_DEFAULT := false`
+	# in SourceWeaponDefaults.gd); `base_rotation` is the
+	# weapon start rotation (`public float baseRotation =
+	# 0f;`, Weapon.java:49); `recoil` is the visual
+	# knockback (`public float recoil = 1.5f;`,
+	# Weapon.java:81); `recoil_pow` is the recoil power
+	# curve (`public float recoilPow = 1.8f;`,
+	# Weapon.java:87); `weapon_x` / `weapon_y` are the
+	# weapon offsets (`public float x = 5f, y = 0f;`,
+	# Weapon.java:93); `flip_sprite` is the render flip
+	# flag (`public boolean flipSprite = false;`,
+	# Weapon.java:41). The intermediates `rotation` /
+	# `real_recoil` are NOT return keys -- they are encoded
+	# in `outline_x` / `outline_y` / `weapon_rotation`.
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# drawOutline() is draw code, rendering is outside the
+	# game, and no caller reads the new function today (its
+	# only Java caller is draw() when `top` is true,
+	# Weapon.java:227-229, itself draw code; the draw()
+	# port is a later slice) -> live behavior does NOT
+	# change.
+	if not outline_found:
+		return {"visible": false}
+	var rotation: float = unit_rotation - 90.0
+	var real_recoil: float = pow(mount_recoil, recoil_pow) * recoil
+	var weapon_rotation: float = rotation + (mount_rotation if rotate else base_rotation)
+	var base_offset: Dictionary = source_math_state.source_angles_trns_vec(rotation, weapon_x, weapon_y)
+	var recoil_offset: Dictionary = source_math_state.source_angles_trns_vec(weapon_rotation, 0.0, -real_recoil)
+	var wx: float = unit_x + float(base_offset.get("x", 0.0)) + float(recoil_offset.get("x", 0.0))
+	var wy: float = unit_y + float(base_offset.get("y", 0.0)) + float(recoil_offset.get("y", 0.0))
+	var xscl: float = -1.0 if flip_sprite else 1.0
+	return {"visible": true, "outline_x": wx, "outline_y": wy, "weapon_rotation": weapon_rotation, "xscl": xscl}
 
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []

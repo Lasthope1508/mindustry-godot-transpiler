@@ -179,6 +179,9 @@ static func source_weapon_dps_state(bullet_estimate_dps: float, reload: float, s
 static func source_weapon_shots_per_sec_state(reload: float, shoot_shots: int) -> Dictionary:
 	return source_weapons_core_state.source_weapon_shots_per_sec_state(reload, shoot_shots)
 
+static func source_weapon_draw_outline_state(outline_found: bool, unit_rotation: float, unit_x: float, unit_y: float, mount_recoil: float, mount_rotation: float, rotate: bool, base_rotation: float, recoil: float, recoil_pow: float, weapon_x: float, weapon_y: float, flip_sprite: bool) -> Dictionary:
+	return source_weapons_core_state.source_weapon_draw_outline_state(outline_found, unit_rotation, unit_x, unit_y, mount_recoil, mount_rotation, rotate, base_rotation, recoil, recoil_pow, weapon_x, weapon_y, flip_sprite)
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	return source_weapons_core_state.set_rotation_state(mount_states, source_rotation)
 

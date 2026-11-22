@@ -2692,7 +2692,8 @@
         "test_reference_graph_and_actual_c07_unit_type_estimate_dps"
       ],
       "runtime_proof": "/root/C07UnitTypeEstimateDpsProof",
-      "rule": "Source-backed UnitType estimateDps() read from UnitType.java:1132-1144."
+      "rule": "Source-backed UnitType estimateDps() read from UnitType.java:1132-1144.",
+      "return_type": "Dictionary"
     },
     "SourceUnitTypeState.source_unit_type_weapons_dps_sum_state": {
       "canonical_contract": "source_api_contracts.SourceUnitTypeState.source_unit_type_weapons_dps_sum_state",
@@ -2717,7 +2718,8 @@
         "test_reference_graph_and_actual_c07_unit_type_weapons_dps_sum"
       ],
       "runtime_proof": "/root/C07UnitTypeWeaponsDpsSumProof",
-      "rule": "Source-backed UnitType weapons.sumf(Weapon::dps) read from UnitType.java:1136."
+      "rule": "Source-backed UnitType weapons.sumf(Weapon::dps) read from UnitType.java:1136.",
+      "return_type": "Dictionary"
     },
     "SourceWeaponsCoreState.source_weapon_dps_state": {
       "canonical_contract": "source_api_contracts.SourceWeaponsCoreState.source_weapon_dps_state",
@@ -2752,7 +2754,98 @@
         "test_reference_graph_and_actual_c07_weapon_dps"
       ],
       "runtime_proof": "/root/C07WeaponDpsProof",
-      "rule": "Source-backed Weapon dps() read from Weapon.java:188-190."
+      "rule": "Source-backed Weapon dps() read from Weapon.java:188-190.",
+      "return_type": "Dictionary"
+    },
+    "SourceWeaponsCoreState.source_weapon_draw_outline_state": {
+      "canonical_contract": "source_api_contracts.SourceWeaponsCoreState.source_weapon_draw_outline_state",
+      "status": "active",
+      "source_slice": "N2537",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.drawOutline(Unit, WeaponMount)",
+      "params": [
+        {
+          "name": "outline_found",
+          "type": "bool",
+          "schema": "source_weapon_draw_outline_state_input.outline_found"
+        },
+        {
+          "name": "unit_rotation",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.unit_rotation"
+        },
+        {
+          "name": "unit_x",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.unit_x"
+        },
+        {
+          "name": "unit_y",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.unit_y"
+        },
+        {
+          "name": "mount_recoil",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.mount_recoil"
+        },
+        {
+          "name": "mount_rotation",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.mount_rotation"
+        },
+        {
+          "name": "rotate",
+          "type": "bool",
+          "schema": "source_weapon_draw_outline_state_input.rotate"
+        },
+        {
+          "name": "base_rotation",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.base_rotation"
+        },
+        {
+          "name": "recoil",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.recoil"
+        },
+        {
+          "name": "recoil_pow",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.recoil_pow"
+        },
+        {
+          "name": "weapon_x",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.weapon_x"
+        },
+        {
+          "name": "weapon_y",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.weapon_y"
+        },
+        {
+          "name": "flip_sprite",
+          "type": "bool",
+          "schema": "source_weapon_draw_outline_state_input.flip_sprite"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "outline_x",
+        "outline_y",
+        "weapon_rotation",
+        "xscl"
+      ],
+      "tests": [
+        "test_c07_weapon_draw_outline_registration",
+        "test_all_c07_weapon_draw_outline_input_evidence_is_exact",
+        "test_weapon_draw_outline_state",
+        "test_reference_graph_and_actual_c07_weapon_draw_outline"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawOutlineProof",
+      "rule": "Source-backed Weapon drawOutline() read from Weapon.java:196-213.",
+      "return_type": "Dictionary"
     },
     "SourceWeaponsCoreState.source_weapon_shots_per_sec_state": {
       "canonical_contract": "source_api_contracts.SourceWeaponsCoreState.source_weapon_shots_per_sec_state",
@@ -2782,7 +2875,8 @@
         "test_reference_graph_and_actual_c07_weapon_shots_per_sec"
       ],
       "runtime_proof": "/root/C07WeaponShotsPerSecProof",
-      "rule": "Source-backed Weapon shotsPerSec() read from Weapon.java:192-194."
+      "rule": "Source-backed Weapon shotsPerSec() read from Weapon.java:192-194.",
+      "return_type": "Dictionary"
     }
   }
 }

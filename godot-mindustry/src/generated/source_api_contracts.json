@@ -71562,6 +71562,95 @@
       ],
       "runtime_proof": "/root/C07UnitTypeWeaponsDpsSumProof",
       "rule": "Source-backed UnitType weapons.sumf(Weapon::dps) read from UnitType.java:1136."
+    },
+    "SourceWeaponsCoreState.source_weapon_draw_outline_state": {
+      "status": "active",
+      "source_slice": "N2537",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.drawOutline(Unit, WeaponMount)",
+      "params": [
+        {
+          "name": "outline_found",
+          "type": "bool",
+          "schema": "source_weapon_draw_outline_state_input.outline_found"
+        },
+        {
+          "name": "unit_rotation",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.unit_rotation"
+        },
+        {
+          "name": "unit_x",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.unit_x"
+        },
+        {
+          "name": "unit_y",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.unit_y"
+        },
+        {
+          "name": "mount_recoil",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.mount_recoil"
+        },
+        {
+          "name": "mount_rotation",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.mount_rotation"
+        },
+        {
+          "name": "rotate",
+          "type": "bool",
+          "schema": "source_weapon_draw_outline_state_input.rotate"
+        },
+        {
+          "name": "base_rotation",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.base_rotation"
+        },
+        {
+          "name": "recoil",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.recoil"
+        },
+        {
+          "name": "recoil_pow",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.recoil_pow"
+        },
+        {
+          "name": "weapon_x",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.weapon_x"
+        },
+        {
+          "name": "weapon_y",
+          "type": "float",
+          "schema": "source_weapon_draw_outline_state_input.weapon_y"
+        },
+        {
+          "name": "flip_sprite",
+          "type": "bool",
+          "schema": "source_weapon_draw_outline_state_input.flip_sprite"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "visible",
+        "outline_x",
+        "outline_y",
+        "weapon_rotation",
+        "xscl"
+      ],
+      "tests": [
+        "test_c07_weapon_draw_outline_registration",
+        "test_all_c07_weapon_draw_outline_input_evidence_is_exact",
+        "test_weapon_draw_outline_state",
+        "test_reference_graph_and_actual_c07_weapon_draw_outline"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawOutlineProof",
+      "rule": "Source-backed Weapon drawOutline() read from Weapon.java:196-213."
     }
   },
   "policy": {

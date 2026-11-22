@@ -178600,6 +178600,86 @@
         "test_reference_graph_and_actual_c07_unit_type_weapons_dps_sum"
       ],
       "runtime_proof": "/root/C07UnitTypeWeaponsDpsSumProof"
+    },
+    "source_weapon_draw_outline_state_result.visible": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_outline_state",
+      "godot_symbol": "source_weapon_draw_outline_state_result.visible",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.drawOutline(Unit, WeaponMount)",
+      "java_expr": "if(!outlineRegion.found()) return;",
+      "rule": "Whether the outline is drawn (`if(!outlineRegion.found()) return;`, Weapon.java:197 -- the guard returns early when the outline region is not found, so `visible` is false then and true otherwise; the draw_team_top_state precedent returns only `{\"visible\": false}` in that branch).",
+      "tests": [
+        "test_c07_weapon_draw_outline_registration",
+        "test_all_c07_weapon_draw_outline_input_evidence_is_exact",
+        "test_weapon_draw_outline_state",
+        "test_reference_graph_and_actual_c07_weapon_draw_outline"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawOutlineProof"
+    },
+    "source_weapon_draw_outline_state_result.outline_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_outline_state",
+      "godot_symbol": "source_weapon_draw_outline_state_result.outline_x",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.drawOutline(Unit, WeaponMount)",
+      "java_expr": "wx = unit.x + Angles.trnsx(rotation, x, y) + Angles.trnsx(weaponRotation, 0, -realRecoil),",
+      "rule": "The outline draw x (`wx = unit.x + Angles.trnsx(rotation, x, y) + Angles.trnsx(weaponRotation, 0, -realRecoil),`, Weapon.java:204 -- unit.x plus the rotated weapon offset plus the recoil offset, via the existing `source_angles_trns_vec` port).",
+      "tests": [
+        "test_c07_weapon_draw_outline_registration",
+        "test_all_c07_weapon_draw_outline_input_evidence_is_exact",
+        "test_weapon_draw_outline_state",
+        "test_reference_graph_and_actual_c07_weapon_draw_outline"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawOutlineProof"
+    },
+    "source_weapon_draw_outline_state_result.outline_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_outline_state",
+      "godot_symbol": "source_weapon_draw_outline_state_result.outline_y",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.drawOutline(Unit, WeaponMount)",
+      "java_expr": "wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, -realRecoil);",
+      "rule": "The outline draw y (`wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, -realRecoil);`, Weapon.java:205 -- unit.y plus the rotated weapon offset plus the recoil offset, via the existing `source_angles_trns_vec` port).",
+      "tests": [
+        "test_c07_weapon_draw_outline_registration",
+        "test_all_c07_weapon_draw_outline_input_evidence_is_exact",
+        "test_weapon_draw_outline_state",
+        "test_reference_graph_and_actual_c07_weapon_draw_outline"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawOutlineProof"
+    },
+    "source_weapon_draw_outline_state_result.weapon_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_outline_state",
+      "godot_symbol": "source_weapon_draw_outline_state_result.weapon_rotation",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.drawOutline(Unit, WeaponMount)",
+      "java_expr": "weaponRotation  = rotation + (rotate ? mount.rotation : baseRotation),",
+      "rule": "The outline draw rotation (`weaponRotation  = rotation + (rotate ? mount.rotation : baseRotation),`, Weapon.java:203 -- the unit rotation minus 90 plus the mount rotation when `rotate` is true, else the base rotation).",
+      "tests": [
+        "test_c07_weapon_draw_outline_registration",
+        "test_all_c07_weapon_draw_outline_input_evidence_is_exact",
+        "test_weapon_draw_outline_state",
+        "test_reference_graph_and_actual_c07_weapon_draw_outline"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawOutlineProof"
+    },
+    "source_weapon_draw_outline_state_result.xscl": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_draw_outline_state",
+      "godot_symbol": "source_weapon_draw_outline_state_result.xscl",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.drawOutline(Unit, WeaponMount)",
+      "java_expr": "Draw.xscl = -Mathf.sign(flipSprite);",
+      "rule": "The Draw x scale drawOutline() sets before the rect call (`Draw.xscl = -Mathf.sign(flipSprite);`, Weapon.java:207 -- arc Mathf.sign(boolean) is 1 if true else -1, so -1.0 when flip_sprite is true and +1.0 otherwise; the `Draw.xscl = 1f;` reset after Draw.rect is render-state restore, not a return value).",
+      "tests": [
+        "test_c07_weapon_draw_outline_registration",
+        "test_all_c07_weapon_draw_outline_input_evidence_is_exact",
+        "test_weapon_draw_outline_state",
+        "test_reference_graph_and_actual_c07_weapon_draw_outline"
+      ],
+      "runtime_proof": "/root/C07WeaponDrawOutlineProof"
     }
   },
   "version": 1
