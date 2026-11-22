@@ -103884,6 +103884,40 @@
         "ItemTurret anonymous ConsumeItemFilter.efficiency() N2419 Windows Godot proof -- debt in GOAL.md section 5, same as N2416: the N2419 proof runs headless on Linux here and waits for a Windows Godot run.",
         "ItemTurret anonymous ConsumeItemFilter.build() ammo-filter UI N2431 Windows Godot proof -- debt in GOAL.md section 5, same as N2419: the N2431 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2432": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret.TurretBuild",
+      "java_method": "TurretBuild.targetPosition(Posc)",
+      "godot_owner": "SourceTurretCombatState.source_turret_target_position_state",
+      "exact_exprs": [
+        "var offset = Tmp.v1.setZero();"
+      ],
+      "source_symbols": [
+        "source_turret_target_position_state_result.target_position",
+        "source_turret_target_position_state_result.used_intercept",
+        "source_turret_target_position_state_result.bullet_speed"
+      ],
+      "tests": [
+        "test_c07_turret_target_position_offset_registration",
+        "test_all_c07_turret_target_position_offset_input_evidence_is_exact",
+        "test_turret_target_position_offset_state",
+        "test_reference_graph_and_actual_c07_turret_target_position_offset"
+      ],
+      "runtime_proof": "/root/C07TurretTargetPositionOffsetProof",
+      "deferred_exprs": [
+        "The Unit.destroy() effects (explosion, sound, UnitDestroyEvent, wreck decal, shoot-on-death mounts, crash damage, UnitComp.java:863-959) are later slices; the sweep removes the dead enemy from the live list and frees its sprite, and SourceUnitDestroyState already holds the sub-behaviors unwired.",
+        "The bullet hit check still uses only the bullet hitSize (4.0, BulletType.java:43): Java collides the bullet hitbox against the unit hitbox, so the effective radius adds the target hitSize, while the port target_step_state checks distance <= bullet_hit_size only. A hit-fidelity slice owns that.",
+        "The turret shootY offset (3.0, Blocks.java duo) is used as-is in the pixel frame: the bullet spawns 3px forward of the turret center instead of the Java 3 source units. A world-scale slice owns the unit conversion.",
+        "The three per-class shouldConsume() bodies (UnitFactory.java:446, Reconstructor.java:368, UnitAssembler.java:389) are later slices; the tick passes the frame enabled flag as should_consume until then.",
+        "The plan stacks leave only at unit completion via ConsumeItemDynamic.trigger (ConsumeItemDynamic.java:53-56); the per-tick second pass removes nothing for items, so the production slice owns the trigger.",
+        "The UnitAssembler plan dynamics (ConsumePayloadDynamic, ConsumeItemDynamic over plan().itemReq, ConsumeLiquidsDynamic over plan().liquidReq, UnitAssembler.java:158-160) are later slices; the registry captures no assembler plans yet, so no dynamic rows bind for them.",
+        "Power graph shouldConsumePower from the live frame enabled flag is a later slice: Java ConsumePower.requestedPower gates on entity.shouldConsume(), but the port uses static catalog properties, so disabling a building does not change the power graph needed value and a disable -> battery-charges act is not possible yet.",
+        "Pause/timeScale/disable/removal and source-exhaustion/output-full acts are later C06 slices.",
+        "C06-C12 remain open. Existing uncommitted owner extraction dependencies still need C12 adoption.",
+        "TurretBuild.targetPosition() offset decl Windows Godot proof -- debt in GOAL.md section 5, same as N2122: the N2432 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

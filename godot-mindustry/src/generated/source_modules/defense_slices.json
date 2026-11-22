@@ -4722,6 +4722,25 @@
       ],
       "runtime_proof": "/root/C07ItemTurretInitAmmoFilterProof"
     },
+    "N2432": {
+      "canonical_ledger": "source_slice_ledger.N2432",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.targetPosition(Posc)",
+      "godot_owner": "SourceTurretCombatState.source_turret_target_position_state",
+      "source_symbols": [
+        "source_turret_target_position_state_result.target_position",
+        "source_turret_target_position_state_result.used_intercept",
+        "source_turret_target_position_state_result.bullet_speed"
+      ],
+      "tests": [
+        "test_c07_turret_target_position_offset_registration",
+        "test_all_c07_turret_target_position_offset_input_evidence_is_exact",
+        "test_turret_target_position_offset_state",
+        "test_reference_graph_and_actual_c07_turret_target_position_offset"
+      ],
+      "runtime_proof": "/root/C07TurretTargetPositionOffsetProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

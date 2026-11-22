@@ -11203,6 +11203,44 @@
       "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretCombatState.source_turret_target_position_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretCombatState.source_turret_target_position_state",
+      "status": "active",
+      "source_slice": "N2122",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.targetPosition(Posc)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_turret_target_position_state_input.game"
+        },
+        {
+          "name": "origin",
+          "type": "Vector2",
+          "schema": "source_turret_target_position_state_input.origin"
+        },
+        {
+          "name": "target",
+          "type": "Dictionary",
+          "schema": "source_turret_target_position_state_input.target"
+        }
+      ],
+      "return_keys": [
+        "target_position",
+        "used_intercept",
+        "bullet_speed"
+      ],
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: the turret leads its shots at the intercept point and dead enemies are swept from the live list, so a dagger crossing the duo field of fire dies before it reaches the core.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretDefaults.source_turret_default_constructor_state": {
       "canonical_contract": "source_api_contracts.SourceTurretDefaults.source_turret_default_constructor_state",
       "status": "active",
