@@ -1,11 +1,11 @@
-# Báo cáo — N2533 UnitType estimateDps(): pure UnitType.java estimateDps() port cho UnitType family (C07) [DONE (slice 33a284de; docs/GOAL/status pending)]
+# Báo cáo — N2533 UnitType estimateDps(): pure UnitType.java estimateDps() port cho UnitType family (C07) [DONE + PUSHED]
 
 Ngày: 2026-11-22 ~17:20 +07 (targeted re-run xác minh lượt này; proof xanh lượt implement ~16:00 +07, đọc trực tiếp proof .json — tái sinh 10:18:46Z bởi targeted re-run lượt này), gate xong 10:12:29Z (17:12:29 +07), slice commit 33a284de.
 
 ## Trạng thái
 
 - N2532 DONE + PUSHED (origin/main e45de296).
-- N2533 DONE (slice 33a284de, docs/GOAL/status pending): port `estimateDps()` của `UnitType` thành 1 pure function mới `source_unit_type_estimate_dps_state` (SourceUnitTypeState.gd:179, sau `landed_state`, trước các generated bridge) cho UnitType family — KHÔNG driver tick call site (estimateDps() là read/estimate, không phải per-tick; call site `UnitType.init()` là content-init, không phải driver). Hàm nhận 3 tham số (`cached_dps`, `weapons_dps_sum`, `has_kill_shooter_weapon`) và trả đúng 3 key `estimate_dps` / `cached_dps` / `branch`.
+- N2533 DONE + PUSHED (slice 33a284de, docs 2af6eca0, GOAL c10e80c8, status pending): port `estimateDps()` của `UnitType` thành 1 pure function mới `source_unit_type_estimate_dps_state` (SourceUnitTypeState.gd:179, sau `landed_state`, trước các generated bridge) cho UnitType family — KHÔNG driver tick call site (estimateDps() là read/estimate, không phải per-tick; call site `UnitType.init()` là content-init, không phải driver). Hàm nhận 3 tham số (`cached_dps`, `weapons_dps_sum`, `has_kill_shooter_weapon`) và trả đúng 3 key `estimate_dps` / `cached_dps` / `branch`.
 
 ## Làm được lượt này (GREEN + gate xong)
 

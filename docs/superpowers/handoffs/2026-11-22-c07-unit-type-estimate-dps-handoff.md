@@ -1,6 +1,6 @@
-# Handoff — N2533 UnitType `estimateDps()`: pure function cho UnitType family (C07) [DONE (slice 33a284de; docs/GOAL/status pending — push xong mới ghi origin/main ở đây sau khi push)]
+# Handoff — N2533 UnitType `estimateDps()`: pure function cho UnitType family (C07) [DONE + PUSHED (slice 33a284de, docs 2af6eca0, GOAL c10e80c8)]
 
-## Status: DONE (lượt cron 17:15 +07 ngày 2026-11-22; slice 33a284de, docs pending, GOAL pending, status pending)
+## Status: DONE + PUSHED (lượt cron 17:15 +07 ngày 2026-11-22; slice 33a284de, docs 2af6eca0, GOAL c10e80c8; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2532 DONE + PUSHED ~15:45 +07 ngày 2026-11-22, origin/main == e45de296
   (5 commit: slice 4aedbbf6 + docs 710afe02 + GOAL 6c36b912 + status dc09b68e + hashes e45de296).
