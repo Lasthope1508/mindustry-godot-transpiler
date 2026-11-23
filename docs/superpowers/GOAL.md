@@ -48,8 +48,15 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
 **Chia family giữa hai line (Isabella 2026-11-17):** VM này chỉ làm
 Turret/BurstDrill/Radar/Game + **BuildTurret** (quyết main thread 2026-11-22 ~16:10 +07: BuildTurret extends BaseTurret, BlockGroup.turrets, họ Turret; slice đầu N2423); line Windows chỉ làm RepairTower/RepairTurret
 + PointDefenseTurret (Isabella 2026-11-18 ~16:08 +07, sau 9 slice liên tiếp
-N2239–N2247 của line Windows)
+N2239–N2247 của line Windows) + **Weapon** (Isabella 2026-11-23 ~12:56 +07,
+remote đã làm 11 slice Weapon liên tiếp N2534–N2544)
 (chi tiết + lý do xem AGENTS.md). Không làm slice thuộc family của line kia.
+
+**Chia số N theo line (Isabella 2026-11-23 ~12:56 +07):** VM line chỉ lấy
+N2449–N2999; line Windows chỉ lấy N3000 trở lên (khoảng 2545–2999 để trống
+cố tình, remote max N2544 lúc merge). Không lấy số ngoài range của line
+mình; sắp vượt range thì DỪNG và báo. Draft scope không ghi số N tạm, chỉ
+nhãn slot — số thật cấp lúc spawn từ allocations.json.
 
 ## 4. Tiến độ hiện tại (2026-11-13 ~11:52 +07)
 

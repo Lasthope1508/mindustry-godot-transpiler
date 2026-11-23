@@ -57,7 +57,27 @@ the same file. After two divergences in one day (remote N2233 RepairTurret
 colliding with local N2233 on SourceRepairTurretBuildState.gd), families are
 split — each line works ONLY its own families:
 - This VM line: Turret, BurstDrill, Radar, Game. **BuildTurret → this VM line** (main-thread decision 2026-11-22 ~16:10 +07: BuildTurret extends BaseTurret, BlockGroup.turrets, Turret family; remote never touched it beyond shared PortGame-era N2184/N2201; first slice N2423 BuildTurretBuild.updateTile() plan legs).
-- Windows/other line: RepairTower, RepairTurret, PointDefenseTurret (Isabella 2026-11-18 ~16:08 +07, after 9 straight PointDefenseTurret slices N2239–N2247 from the Windows line).
+- Windows/other line: RepairTower, RepairTurret, PointDefenseTurret (Isabella 2026-11-18 ~16:08 +07, after 9 straight PointDefenseTurret slices N2239–N2247 from the Windows line). **Weapon → Windows line** (Isabella 2026-11-23 ~12:56 +07: remote did 11 straight Weapon slices N2534–N2544; VM line never spawns Weapon slices anymore, so the two lines stop fighting over SourceWeaponsCoreState.gd as in merge 2).
+
+## N-number ranges per line (Isabella, 2026-11-23 ~12:56 +07)
+
+Number collisions between the two lines are structurally impossible while
+each stays inside its own range — the merge of 94 divergence rounds
+(#1–#94, 2026-11-23) was mostly number collisions + dedup decisions:
+- This VM line: N2449–N2999 only (next_free_n 2449 at merge time).
+- Windows/other line: N3000 and up only.
+The gap N2545–N2999 stays empty by design (remote ledger max N2544 at
+merge time). Never take a number outside your line's range; if your
+next_free_n would pass your range cap, STOP and report instead of
+taking the other line's numbers. Research drafts carry NO N numbers at
+all — slot labels only (slot 1/2/3); the real N is assigned at spawn
+from allocations.json (batch 61/62 drafts both used temp numbers that
+already existed in the merged ledger: N2506–N2511). Function order in a
+GD file follows the Java order the tests pin: when merging, keep the
+remote order for functions whose tests assertLess on position (precedent:
+merge 1 misplaced source_turret_sense_state after
+source_turret_progress_state and the N2284 test failed; fix commit
+14d42ee3).
 Ambient B (N2260, RepairTurret driver tick line) belongs to the Windows line;
 ambient C (N2304, SoundControl mixer, game-level — moved from N2264 after divergence #35,
 remote took N2264) belongs to this VM line but waits for B. Never start a slice in another line's family. If the other line
