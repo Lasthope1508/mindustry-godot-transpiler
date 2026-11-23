@@ -81839,6 +81839,54 @@
       ],
       "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof",
       "rule": "Source-backed SpawnGroup.getSpawned(int) state from SpawnGroup.java."
+    },
+    "SourceTeamsRuntimeState.source_team_state": {
+      "status": "active",
+      "source_slice": "N2450",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "source_method": "Team.items()/data()/core()/active()/isAlive()/isOnlyAI()/needsFlowField()/cores()",
+      "params": [
+        {
+          "name": "teams_state",
+          "type": "Dictionary",
+          "schema": "source_team_state_input.teams_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_team_state_input.team_id"
+        },
+        {
+          "name": "is_ai",
+          "type": "bool",
+          "schema": "source_team_state_input.is_ai"
+        },
+        {
+          "name": "rts_ai",
+          "type": "bool",
+          "schema": "source_team_state_input.rts_ai"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "items",
+        "data",
+        "core",
+        "active",
+        "is_alive",
+        "is_only_ai",
+        "needs_flow_field",
+        "cores",
+        "teams_state"
+      ],
+      "tests": [
+        "test_c07_team_state_registration",
+        "test_all_c07_team_state_input_evidence_is_exact",
+        "test_team_state",
+        "test_reference_graph_and_actual_c07_team_state"
+      ],
+      "runtime_proof": "/root/C07TeamStateProof",
+      "rule": "Source-backed Team.items()+data()+core()+active()+isAlive()+isOnlyAI()+needsFlowField()+cores() state from Team.java."
     }
   },
   "policy": {

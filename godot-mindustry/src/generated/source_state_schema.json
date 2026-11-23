@@ -262982,6 +262982,154 @@
       },
       "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof",
       "rule": "Source-backed SpawnGroup.getSpawned(int) state from SpawnGroup.java."
+    },
+    "source_team_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_state",
+      "source_slice": "N2450",
+      "keys": {
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return state.teams.get(this);",
+          "rule": "The Teams manager state (Team.java:93, `return state.teams.get(this);`): the teams map lives in teams_state[\"teams\"] (team_id -> TeamData dict); get() may create a missing entry, so teams_state is in/out.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return state.teams.get(this);",
+          "rule": "The Team id (Team.java:93, `return state.teams.get(this);`): this team, used as the key into the teams map.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "is_ai": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return isAI() && data().players.size == 0;",
+          "rule": "Whether this team is AI-controlled (Team.java:118, `return isAI() && data().players.size == 0;`): isAI() is N2124 (another file), so its result arrives as an explicit bool input (the N2330 param precedent).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "rts_ai": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return isAI() && !rules().rtsAi;",
+          "rule": "Whether this team's rules use the RTS AI (Team.java:123, `return isAI() && !rules().rtsAi;`): rules().rtsAi arrives as an explicit bool input; rules() itself is the twin exact_expr of N2099+N2107 and is not re-ported.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamStateProof",
+      "rule": "Source-backed Team.items()+data()+core()+active()+isAlive()+isOnlyAI()+needsFlowField()+cores() state from Team.java."
+    },
+    "source_team_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_state",
+      "source_slice": "N2450",
+      "keys": {
+        "items": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return core() == null ? ItemModule.empty : core().items;",
+          "rule": "The core items for this team (Team.java:84, `return core() == null ? ItemModule.empty : core().items;`): the first core's items dict, or {} when there is no core (ItemModule.empty) or the core ref carries no items dict. core() is computed once and reused.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "data": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return state.teams.get(this);",
+          "rule": "The TeamData dict for this team (Team.java:93, `return state.teams.get(this);`): the per-team dict from the teams map (created when missing).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "core": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return data().core();",
+          "rule": "The first core, or null (Team.java:98, `return data().core();`): data().core() is the liveness core (Teams.java:465, `return cores.isEmpty() ? null : cores.first();`) -- null when the team has no cores (the @Nullable return, Team.java:96).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "active": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return state.teams.isActive(this);",
+          "rule": "Whether this team has any buildings on this map (Team.java:103, `return state.teams.isActive(this);`): the Teams.isActive result (in waves mode always true for the enemy team).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "is_alive": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return data().isAlive();",
+          "rule": "Whether this team has any active cores (Team.java:108, `return data().isAlive();`): data().isAlive() delegates to hasCore() (Teams.java:456), so this is true exactly when the cores Array is non-empty -- not the same as active().",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "is_only_ai": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return isAI() && data().players.size == 0;",
+          "rule": "Whether this team is solely comprised of AI (Team.java:118, `return isAI() && data().players.size == 0;`): true only when is_ai is set and the TeamData dict has no players.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "needs_flow_field": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return isAI() && !rules().rtsAi;",
+          "rule": "Whether this team needs a flow field for wave pathfinding (Team.java:123, `return isAI() && !rules().rtsAi;`): true only when is_ai is set and rts_ai is not set.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "cores": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return state.teams.cores(this);",
+          "rule": "The team cores as opaque refs (Team.java:132, `return state.teams.cores(this);`): the cores seq from the TeamData dict, in order, so core() can return the first.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        },
+        "teams_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return state.teams.get(this);",
+          "rule": "The updated teams state (Team.java:93, `return state.teams.get(this);`): get() may create the team's entry, so the caller gets the mutated state back (the N2380 precedent).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamStateProof",
+      "rule": "Source-backed Team.items()+data()+core()+active()+isAlive()+isOnlyAI()+needsFlowField()+cores() state from Team.java."
     }
   },
   "version": 1

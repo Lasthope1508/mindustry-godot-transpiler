@@ -189480,6 +189480,150 @@
         "test_reference_graph_and_actual_c07_spawn_group_get_spawned"
       ],
       "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof"
+    },
+    "source_team_state_result.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_state",
+      "godot_symbol": "source_team_state_result.items",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.items()/data()/core()/active()/isAlive()/isOnlyAI()/needsFlowField()/cores()",
+      "java_expr": "return core() == null ? ItemModule.empty : core().items;",
+      "rule": "The core items for this team (Team.java:84, `return core() == null ? ItemModule.empty : core().items;`): the first core's items dict, or {} when there is no core (ItemModule.empty) or the core ref carries no items dict. core() is computed once and reused.",
+      "tests": [
+        "test_c07_team_state_registration",
+        "test_all_c07_team_state_input_evidence_is_exact",
+        "test_team_state",
+        "test_reference_graph_and_actual_c07_team_state"
+      ],
+      "runtime_proof": "/root/C07TeamStateProof"
+    },
+    "source_team_state_result.data": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_state",
+      "godot_symbol": "source_team_state_result.data",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.items()/data()/core()/active()/isAlive()/isOnlyAI()/needsFlowField()/cores()",
+      "java_expr": "return state.teams.get(this);",
+      "rule": "The TeamData dict for this team (Team.java:93, `return state.teams.get(this);`): the per-team dict from the teams map (created when missing).",
+      "tests": [
+        "test_c07_team_state_registration",
+        "test_all_c07_team_state_input_evidence_is_exact",
+        "test_team_state",
+        "test_reference_graph_and_actual_c07_team_state"
+      ],
+      "runtime_proof": "/root/C07TeamStateProof"
+    },
+    "source_team_state_result.core": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_state",
+      "godot_symbol": "source_team_state_result.core",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.items()/data()/core()/active()/isAlive()/isOnlyAI()/needsFlowField()/cores()",
+      "java_expr": "return data().core();",
+      "rule": "The first core, or null (Team.java:98, `return data().core();`): data().core() is the liveness core (Teams.java:465, `return cores.isEmpty() ? null : cores.first();`) -- null when the team has no cores (the @Nullable return, Team.java:96).",
+      "tests": [
+        "test_c07_team_state_registration",
+        "test_all_c07_team_state_input_evidence_is_exact",
+        "test_team_state",
+        "test_reference_graph_and_actual_c07_team_state"
+      ],
+      "runtime_proof": "/root/C07TeamStateProof"
+    },
+    "source_team_state_result.active": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_state",
+      "godot_symbol": "source_team_state_result.active",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.items()/data()/core()/active()/isAlive()/isOnlyAI()/needsFlowField()/cores()",
+      "java_expr": "return state.teams.isActive(this);",
+      "rule": "Whether this team has any buildings on this map (Team.java:103, `return state.teams.isActive(this);`): the Teams.isActive result (in waves mode always true for the enemy team).",
+      "tests": [
+        "test_c07_team_state_registration",
+        "test_all_c07_team_state_input_evidence_is_exact",
+        "test_team_state",
+        "test_reference_graph_and_actual_c07_team_state"
+      ],
+      "runtime_proof": "/root/C07TeamStateProof"
+    },
+    "source_team_state_result.is_alive": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_state",
+      "godot_symbol": "source_team_state_result.is_alive",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.items()/data()/core()/active()/isAlive()/isOnlyAI()/needsFlowField()/cores()",
+      "java_expr": "return data().isAlive();",
+      "rule": "Whether this team has any active cores (Team.java:108, `return data().isAlive();`): data().isAlive() delegates to hasCore() (Teams.java:456), so this is true exactly when the cores Array is non-empty -- not the same as active().",
+      "tests": [
+        "test_c07_team_state_registration",
+        "test_all_c07_team_state_input_evidence_is_exact",
+        "test_team_state",
+        "test_reference_graph_and_actual_c07_team_state"
+      ],
+      "runtime_proof": "/root/C07TeamStateProof"
+    },
+    "source_team_state_result.is_only_ai": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_state",
+      "godot_symbol": "source_team_state_result.is_only_ai",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.items()/data()/core()/active()/isAlive()/isOnlyAI()/needsFlowField()/cores()",
+      "java_expr": "return isAI() && data().players.size == 0;",
+      "rule": "Whether this team is solely comprised of AI (Team.java:118, `return isAI() && data().players.size == 0;`): true only when is_ai is set and the TeamData dict has no players.",
+      "tests": [
+        "test_c07_team_state_registration",
+        "test_all_c07_team_state_input_evidence_is_exact",
+        "test_team_state",
+        "test_reference_graph_and_actual_c07_team_state"
+      ],
+      "runtime_proof": "/root/C07TeamStateProof"
+    },
+    "source_team_state_result.needs_flow_field": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_state",
+      "godot_symbol": "source_team_state_result.needs_flow_field",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.items()/data()/core()/active()/isAlive()/isOnlyAI()/needsFlowField()/cores()",
+      "java_expr": "return isAI() && !rules().rtsAi;",
+      "rule": "Whether this team needs a flow field for wave pathfinding (Team.java:123, `return isAI() && !rules().rtsAi;`): true only when is_ai is set and rts_ai is not set.",
+      "tests": [
+        "test_c07_team_state_registration",
+        "test_all_c07_team_state_input_evidence_is_exact",
+        "test_team_state",
+        "test_reference_graph_and_actual_c07_team_state"
+      ],
+      "runtime_proof": "/root/C07TeamStateProof"
+    },
+    "source_team_state_result.cores": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_state",
+      "godot_symbol": "source_team_state_result.cores",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.items()/data()/core()/active()/isAlive()/isOnlyAI()/needsFlowField()/cores()",
+      "java_expr": "return state.teams.cores(this);",
+      "rule": "The team cores as opaque refs (Team.java:132, `return state.teams.cores(this);`): the cores seq from the TeamData dict, in order, so core() can return the first.",
+      "tests": [
+        "test_c07_team_state_registration",
+        "test_all_c07_team_state_input_evidence_is_exact",
+        "test_team_state",
+        "test_reference_graph_and_actual_c07_team_state"
+      ],
+      "runtime_proof": "/root/C07TeamStateProof"
+    },
+    "source_team_state_result.teams_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_state",
+      "godot_symbol": "source_team_state_result.teams_state",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.items()/data()/core()/active()/isAlive()/isOnlyAI()/needsFlowField()/cores()",
+      "java_expr": "return state.teams.get(this);",
+      "rule": "The updated teams state (Team.java:93, `return state.teams.get(this);`): get() may create the team's entry, so the caller gets the mutated state back (the N2380 precedent).",
+      "tests": [
+        "test_c07_team_state_registration",
+        "test_all_c07_team_state_input_evidence_is_exact",
+        "test_team_state",
+        "test_reference_graph_and_actual_c07_team_state"
+      ],
+      "runtime_proof": "/root/C07TeamStateProof"
     }
   },
   "version": 1

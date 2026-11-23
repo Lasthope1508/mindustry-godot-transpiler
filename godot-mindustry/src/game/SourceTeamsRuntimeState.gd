@@ -638,6 +638,61 @@ static func source_teams_is_active_state(teams_state: Dictionary, team_id: int) 
 	return {"is_active": _teams_active(data, team_id, rules), "teams_state": got.get("teams_state", teams_state)}
 
 
+static func source_team_state(teams_state: Dictionary, team_id: int, is_ai: bool, rts_ai: bool) -> Dictionary:
+	# Team.items()+data()+core()+active()+isAlive()+isOnlyAI()+needsFlowField()+cores()
+	# (Team.java:83-133, one grouped slice, main-thread decision 2026-11-23,
+	# the N2390/N2395 group precedent):
+	# `public class Team implements Comparable<Team>, Senseable{`
+	# `public ItemModule items(){`
+	# `return core() == null ? ItemModule.empty : core().items;`
+	# `public TeamData data(){`
+	# `return state.teams.get(this);`
+	# `@Nullable`
+	# `public CoreBuild core(){`
+	# `return data().core();`
+	# `public boolean active(){`
+	# `return state.teams.isActive(this);`
+	# `public boolean isAlive(){`
+	# `return data().isAlive();`
+	# `public boolean isOnlyAI(){`
+	# `return isAI() && data().players.size == 0;`
+	# `public boolean needsFlowField(){`
+	# `return isAI() && !rules().rtsAi;`
+	# `public Seq<CoreBuild> cores(){`
+	# `return state.teams.cores(this);`
+	# data() calls source_teams_get_state (internal self-reference,
+	# not an outside expr): it may create the team's entry, so
+	# teams_state is in/out. core() is the liveness core (the first
+	# core or null); isAlive() is the liveness is_alive (cores.size
+	# > 0). isAI() is N2124 (another file), so it arrives as the
+	# explicit is_ai input; rules().rtsAi arrives as the explicit
+	# rts_ai input (rules() itself is the twin exact_expr of
+	# N2099+N2107, not re-ported). items() computes core() once
+	# and reuses it (Java calls core() twice in one expr): the
+	# first core's items dict, or {} when there is no core
+	# (ItemModule.empty) or the core ref carries no items dict.
+	# The liveness call is used for core/is_alive only -- build_ai
+	# is false here because has_ai is not one of this slice's keys.
+	var got: Dictionary = source_teams_get_state(teams_state, team_id)
+	var data: Dictionary = got.get("team_data", {})
+	var cores_got: Dictionary = source_teams_cores_state(teams_state, team_id)
+	var cores: Array = cores_got.get("cores", [])
+	var active_got: Dictionary = source_teams_is_active_state(teams_state, team_id)
+	var is_active: bool = bool(active_got.get("is_active", false))
+	var live: Dictionary = source_team_data_liveness_state(cores, {"rts_ai": rts_ai, "build_ai": false})
+	var core: Variant = live.get("core", null)
+	var is_alive: bool = bool(live.get("is_alive", false))
+	var items: Dictionary = {}
+	if core is Dictionary:
+		var raw_items: Variant = core.get("items", {})
+		if raw_items is Dictionary:
+			items = raw_items
+	var players: Array = data.get("players", [])
+	var is_only_ai: bool = is_ai and players.is_empty()
+	var needs_flow_field: bool = is_ai and not rts_ai
+	return {"items": items, "data": data, "core": core, "active": is_active, "is_alive": is_alive, "is_only_ai": is_only_ai, "needs_flow_field": needs_flow_field, "cores": cores, "teams_state": teams_state}
+
+
 static func source_teams_can_interact_state(team_id: int, other_team_id: int, derelict_team_id: int) -> Dictionary:
 	# Teams.canInteract (Teams.java:125-127):
 	# `public boolean canInteract(Team team, Team other){`
