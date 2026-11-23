@@ -498,6 +498,24 @@ static func source_turret_controlled_stamp_state(frame: Dictionary, unit_is_play
 	frame["controlled"] = unit_is_player
 	return frame
 
+static func source_turret_sense_state(frame: Dictionary, sensor: String, total_ammo: int, max_ammo: int, rotation: float, target_pos: Vector2, is_shooting: bool, reload_counter: float, reload: float, tilesize: float) -> Dictionary:
+	match sensor:
+		"ammo":
+			return {"handled": true, "sense_value": float(total_ammo), "sense_value_is_nan": false}
+		"ammoCapacity":
+			return {"handled": true, "sense_value": float(max_ammo), "sense_value_is_nan": false}
+		"rotation":
+			return {"handled": true, "sense_value": float(rotation), "sense_value_is_nan": false}
+		"shootX":
+			return {"handled": true, "sense_value": target_pos.x / tilesize, "sense_value_is_nan": false}
+		"shootY":
+			return {"handled": true, "sense_value": target_pos.y / tilesize, "sense_value_is_nan": false}
+		"shooting":
+			return {"handled": true, "sense_value": 1.0 if is_shooting else 0.0, "sense_value_is_nan": false}
+		"progress":
+			return {"handled": true, "sense_value": float(source_turret_progress_state(frame, reload_counter, reload).get("progress", 0.0)), "sense_value_is_nan": false}
+	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
+
 static func source_building_comp_sense_state(frame: Dictionary, sensor: String, tilesize: float, world_x: float, world_y: float, team_color_r: float, team_color_g: float, team_color_b: float, block_solid: bool, block_size: int, max_health: float, range_value: float, has_items: bool, item_capacity: int, has_liquids: bool, liquid_capacity: float, total_liquids: float, has_cons_power: bool, power_capacity: float, power_buffered: bool, has_power: bool, time_scale: float, is_player: bool, payload_count: int) -> Dictionary:
 	# BuildingComp.sense() (BuildingComp.java:2093-2126):
 	# `public double sense(LAccess sensor){` /
@@ -2367,24 +2385,6 @@ static func source_turret_progress_state(frame: Dictionary, reload_counter: floa
 # leg falls through to super.sense, so it returns handled=false
 # with a null NaN value for the caller to fall through.
 @warning_ignore("unused_parameter")
-static func source_turret_sense_state(frame: Dictionary, sensor: String, total_ammo: int, max_ammo: int, rotation: float, target_pos: Vector2, is_shooting: bool, reload_counter: float, reload: float, tilesize: float) -> Dictionary:
-	match sensor:
-		"ammo":
-			return {"handled": true, "sense_value": float(total_ammo), "sense_value_is_nan": false}
-		"ammoCapacity":
-			return {"handled": true, "sense_value": float(max_ammo), "sense_value_is_nan": false}
-		"rotation":
-			return {"handled": true, "sense_value": float(rotation), "sense_value_is_nan": false}
-		"shootX":
-			return {"handled": true, "sense_value": target_pos.x / tilesize, "sense_value_is_nan": false}
-		"shootY":
-			return {"handled": true, "sense_value": target_pos.y / tilesize, "sense_value_is_nan": false}
-		"shooting":
-			return {"handled": true, "sense_value": 1.0 if is_shooting else 0.0, "sense_value_is_nan": false}
-		"progress":
-			return {"handled": true, "sense_value": float(source_turret_progress_state(frame, reload_counter, reload).get("progress", 0.0)), "sense_value_is_nan": false}
-	return {"handled": false, "sense_value": null, "sense_value_is_nan": true}
-
 # TurretBuild.fogRadius() (Turret.java:420-423):
 # `public float fogRadius(){`
 # `return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;`
