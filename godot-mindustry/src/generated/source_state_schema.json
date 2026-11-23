@@ -242042,6 +242042,314 @@
       },
       "runtime_proof": "/root/C07WeaponUpdateDecayProof",
       "rule": "Source-backed Weapon update() leg 1 decay from Weapon.java:293-306."
+    },
+    "source_weapon_update_aim_state_input": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "source_slice": "N2541",
+      "keys": {
+        "unit_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "unit.x + Angles.trnsx(unit.rotation - 90, x, y)",
+          "rule": "The unit x position (`unit.x`, Weapon.java:314 -- the mount position base, `mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y)`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "unit_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "unit.y + Angles.trnsy(unit.rotation - 90, x, y)",
+          "rule": "The unit y position (`unit.y`, Weapon.java:315 -- the mount position base, `mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y)`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "unit_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "unit.rotation - 90",
+          "rule": "The unit rotation in degrees (`unit.rotation`, Weapon.java:314 -- the mount offset angle is `unit.rotation - 90`, and the weapon rotation base is `unit.rotation - 90`, Weapon.java:368).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "weapon_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float x = 5f, y = 0f;",
+          "rule": "The weapon x offset (`public float x = 5f, y = 0f;`, Weapon.java:93 -- the mount offset pair passed to Angles.trnsx/trnsy).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "weapon_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float x = 5f, y = 0f;",
+          "rule": "The weapon y offset (`public float x = 5f, y = 0f;`, Weapon.java:93 -- the mount offset pair passed to Angles.trnsx/trnsy).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "weapon_shoot_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float shootX = 0f, shootY = 3f;",
+          "rule": "The weapon shoot x offset (`public float shootX = 0f, shootY = 3f;`, Weapon.java:91 -- the bullet offset pair passed to Angles.trnsx/trnsy at weaponRotation, Weapon.java:369).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "weapon_shoot_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float shootX = 0f, shootY = 3f;",
+          "rule": "The weapon shoot y offset (`public float shootX = 0f, shootY = 3f;`, Weapon.java:91 -- the bullet offset pair passed to Angles.trnsx/trnsy at weaponRotation, Weapon.java:370).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "mount_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float rotation;",
+          "rule": "The mount rotation (`public float rotation;`, WeaponMount.java:14 -- rotation relative to the unit; moved toward targetRotation by the rotate block, Weapon.java:355, and returned updated).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "mount_target_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float targetRotation;",
+          "rule": "The mount target rotation (`public float targetRotation;`, WeaponMount.java:20 -- destination rotation; set to the aim angle minus unit.rotation by the rotate block, Weapon.java:354, or to angleTo by the !rotate branch, Weapon.java:364).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "mount_aim_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float aimX, aimY;",
+          "rule": "The mount aim x (`public float aimX, aimY;`, WeaponMount.java:32 -- aiming position in world coordinates; a frame input from the autoTarget block, Weapon.java:315-347, BLOCKED on the live entity scan).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "mount_aim_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float aimX, aimY;",
+          "rule": "The mount aim y (`public float aimX, aimY;`, WeaponMount.java:32 -- aiming position in world coordinates; a frame input from the autoTarget block, Weapon.java:315-347, BLOCKED on the live entity scan).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "mount_shoot": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public boolean shoot = false;",
+          "rule": "Whether the mount shoots right now (`public boolean shoot = false;`, WeaponMount.java:34 -- read by the rotate guard BEFORE alwaysShooting sets it, Weapon.java:350 vs :373; a frame input from the autoTarget block).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "mount_rotate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public boolean rotate = false;",
+          "rule": "Whether to rotate to face the target right now (`public boolean rotate = false;`, WeaponMount.java:38 -- the second leg of the rotate guard, Weapon.java:350; a frame input from the autoTarget block).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "can": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "boolean can = unit.canShoot();",
+          "rule": "The unit canShoot() frame bool (`boolean can = unit.canShoot();`, Weapon.java:293 -- taken as a bool input; canShoot() itself is NOT re-ported here; the third leg of the rotate guard, Weapon.java:350).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "rotate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean rotate = false;",
+          "rule": "Whether the weapon rotates (`public boolean rotate = false;`, Weapon.java:45 -- selects the rotate block vs the !rotate branch, Weapon.java:350/362, and the weaponRotation / bulletRotation legs, Weapon.java:368/456).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float rotateSpeed = 20f;",
+          "rule": "The weapon rotation speed (`public float rotateSpeed = 20f;`, Weapon.java:73 -- the moveToward speed is `rotateSpeed * Time.delta`, Weapon.java:355).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "rotation_limit": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float rotationLimit = 361f;",
+          "rule": "The weapon rotation limit (`public float rotationLimit = 361f;`, Weapon.java:107 -- the clamp block runs only when `rotationLimit < 360`, Weapon.java:356; the 361f default skips it).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "base_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float baseRotation = 0f;",
+          "rule": "The weapon base rotation (`public float baseRotation = 0f;`, Weapon.java:49 -- the !rotate branch rotation, Weapon.java:363, the clamp target, Weapon.java:359, and the non-rotate bulletRotation term, Weapon.java:456).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "always_shooting": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean alwaysShooting = false;",
+          "rule": "Whether the weapon always shoots (`public boolean alwaysShooting = false;`, Weapon.java:63 -- `if(alwaysShooting) mount.shoot = true;`, Weapon.java:373, AFTER the rotate block reads mount.shoot).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "rotateSpeed * Time.delta",
+          "rule": "The frame delta (`Time.delta`, Weapon.java:355 -- the rotate moveToward speed is `rotateSpeed * Time.delta`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponUpdateAimProof",
+      "rule": "Source-backed Weapon update() leg 2 aim geometry + rotate from Weapon.java:313-315, :350-371, :373, bulletRotation :455-457."
+    },
+    "source_weapon_update_aim_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "source_slice": "N2541",
+      "keys": {
+        "mount_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+          "rule": "The mount x (`mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),`, Weapon.java:314 -- the weapon mount world x).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "mount_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);",
+          "rule": "The mount y (`mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);`, Weapon.java:315 -- the weapon mount world y).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "mount_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);",
+          "rule": "The updated mount rotation (`mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);`, Weapon.java:355 -- moved toward targetRotation, then clamped toward baseRotation when the limit applies, Weapon.java:359; the !rotate branch sets it to baseRotation, Weapon.java:363).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "mount_target_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;",
+          "rule": "The updated mount target rotation (`mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;`, Weapon.java:354 -- the rotate branch; the !rotate branch sets it to `unit.angleTo(mount.aimX, mount.aimY)` with NO unit.rotation subtraction, Weapon.java:364).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "weapon_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+          "rule": "The weapon rotation (`weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),`, Weapon.java:368 -- uses the UPDATED mount.rotation when rotate is true).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "bullet_x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+          "rule": "The bullet spawn x (`bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),`, Weapon.java:369 -- mount x plus the shoot offset rotated by weaponRotation).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "bullet_y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),",
+          "rule": "The bullet spawn y (`bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),`, Weapon.java:370 -- mount y plus the shoot offset rotated by weaponRotation).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "shoot_angle": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY);",
+          "rule": "The shoot angle (`shootAngle = bulletRotation(unit, mount, bulletX, bulletY);`, Weapon.java:371 -- `unit.rotation + mount.rotation` when rotate, else the three-term aim angle, Weapon.java:456).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        },
+        "mount_shoot": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(alwaysShooting) mount.shoot = true;",
+          "rule": "The post-alwaysShooting mount shoot (`if(alwaysShooting) mount.shoot = true;`, Weapon.java:373 -- true when alwaysShooting is true, else the input mount.shoot; the rotate block read the input value BEFORE this line).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_aim_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponUpdateAimProof",
+      "rule": "Source-backed Weapon update() leg 2 aim geometry + rotate from Weapon.java:313-315, :350-371, :373, bulletRotation :455-457."
     }
   },
   "version": 1

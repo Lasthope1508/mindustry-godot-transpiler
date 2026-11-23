@@ -179000,6 +179000,150 @@
         "test_reference_graph_and_actual_c07_weapon_update_decay"
       ],
       "runtime_proof": "/root/C07WeaponUpdateDecayProof"
+    },
+    "source_weapon_update_aim_state_result.mount_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "godot_symbol": "source_weapon_update_aim_state_result.mount_x",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),",
+      "rule": "The mount x (`mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),`, Weapon.java:314 -- the weapon mount world x).",
+      "tests": [
+        "test_c07_weapon_update_aim_registration",
+        "test_all_c07_weapon_update_aim_input_evidence_is_exact",
+        "test_weapon_update_aim_state",
+        "test_reference_graph_and_actual_c07_weapon_update_aim"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateAimProof"
+    },
+    "source_weapon_update_aim_state_result.mount_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "godot_symbol": "source_weapon_update_aim_state_result.mount_y",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);",
+      "rule": "The mount y (`mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);`, Weapon.java:315 -- the weapon mount world y).",
+      "tests": [
+        "test_c07_weapon_update_aim_registration",
+        "test_all_c07_weapon_update_aim_input_evidence_is_exact",
+        "test_weapon_update_aim_state",
+        "test_reference_graph_and_actual_c07_weapon_update_aim"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateAimProof"
+    },
+    "source_weapon_update_aim_state_result.mount_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "godot_symbol": "source_weapon_update_aim_state_result.mount_rotation",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);",
+      "rule": "The updated mount rotation (`mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);`, Weapon.java:355 -- moved toward targetRotation, then clamped toward baseRotation when the limit applies, Weapon.java:359; the !rotate branch sets it to baseRotation, Weapon.java:363).",
+      "tests": [
+        "test_c07_weapon_update_aim_registration",
+        "test_all_c07_weapon_update_aim_input_evidence_is_exact",
+        "test_weapon_update_aim_state",
+        "test_reference_graph_and_actual_c07_weapon_update_aim"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateAimProof"
+    },
+    "source_weapon_update_aim_state_result.mount_target_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "godot_symbol": "source_weapon_update_aim_state_result.mount_target_rotation",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;",
+      "rule": "The updated mount target rotation (`mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;`, Weapon.java:354 -- the rotate branch; the !rotate branch sets it to `unit.angleTo(mount.aimX, mount.aimY)` with NO unit.rotation subtraction, Weapon.java:364).",
+      "tests": [
+        "test_c07_weapon_update_aim_registration",
+        "test_all_c07_weapon_update_aim_input_evidence_is_exact",
+        "test_weapon_update_aim_state",
+        "test_reference_graph_and_actual_c07_weapon_update_aim"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateAimProof"
+    },
+    "source_weapon_update_aim_state_result.weapon_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "godot_symbol": "source_weapon_update_aim_state_result.weapon_rotation",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),",
+      "rule": "The weapon rotation (`weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),`, Weapon.java:368 -- uses the UPDATED mount.rotation when rotate is true).",
+      "tests": [
+        "test_c07_weapon_update_aim_registration",
+        "test_all_c07_weapon_update_aim_input_evidence_is_exact",
+        "test_weapon_update_aim_state",
+        "test_reference_graph_and_actual_c07_weapon_update_aim"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateAimProof"
+    },
+    "source_weapon_update_aim_state_result.bullet_x": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "godot_symbol": "source_weapon_update_aim_state_result.bullet_x",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),",
+      "rule": "The bullet spawn x (`bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),`, Weapon.java:369 -- mount x plus the shoot offset rotated by weaponRotation).",
+      "tests": [
+        "test_c07_weapon_update_aim_registration",
+        "test_all_c07_weapon_update_aim_input_evidence_is_exact",
+        "test_weapon_update_aim_state",
+        "test_reference_graph_and_actual_c07_weapon_update_aim"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateAimProof"
+    },
+    "source_weapon_update_aim_state_result.bullet_y": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "godot_symbol": "source_weapon_update_aim_state_result.bullet_y",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),",
+      "rule": "The bullet spawn y (`bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),`, Weapon.java:370 -- mount y plus the shoot offset rotated by weaponRotation).",
+      "tests": [
+        "test_c07_weapon_update_aim_registration",
+        "test_all_c07_weapon_update_aim_input_evidence_is_exact",
+        "test_weapon_update_aim_state",
+        "test_reference_graph_and_actual_c07_weapon_update_aim"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateAimProof"
+    },
+    "source_weapon_update_aim_state_result.shoot_angle": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "godot_symbol": "source_weapon_update_aim_state_result.shoot_angle",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "shootAngle = bulletRotation(unit, mount, bulletX, bulletY);",
+      "rule": "The shoot angle (`shootAngle = bulletRotation(unit, mount, bulletX, bulletY);`, Weapon.java:371 -- `unit.rotation + mount.rotation` when rotate, else the three-term aim angle, Weapon.java:456).",
+      "tests": [
+        "test_c07_weapon_update_aim_registration",
+        "test_all_c07_weapon_update_aim_input_evidence_is_exact",
+        "test_weapon_update_aim_state",
+        "test_reference_graph_and_actual_c07_weapon_update_aim"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateAimProof"
+    },
+    "source_weapon_update_aim_state_result.mount_shoot": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "godot_symbol": "source_weapon_update_aim_state_result.mount_shoot",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "if(alwaysShooting) mount.shoot = true;",
+      "rule": "The post-alwaysShooting mount shoot (`if(alwaysShooting) mount.shoot = true;`, Weapon.java:373 -- true when alwaysShooting is true, else the input mount.shoot; the rotate block read the input value BEFORE this line).",
+      "tests": [
+        "test_c07_weapon_update_aim_registration",
+        "test_all_c07_weapon_update_aim_input_evidence_is_exact",
+        "test_weapon_update_aim_state",
+        "test_reference_graph_and_actual_c07_weapon_update_aim"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateAimProof"
     }
   },
   "version": 1

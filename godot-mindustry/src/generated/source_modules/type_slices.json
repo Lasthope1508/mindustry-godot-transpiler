@@ -343,6 +343,31 @@
       ],
       "runtime_proof": "/root/C07WeaponUpdateDecayProof"
     },
+    "N2541": {
+      "canonical_ledger": "source_slice_ledger.N2541",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_aim_state",
+      "source_symbols": [
+        "source_weapon_update_aim_state_result.mount_x",
+        "source_weapon_update_aim_state_result.mount_y",
+        "source_weapon_update_aim_state_result.mount_rotation",
+        "source_weapon_update_aim_state_result.mount_target_rotation",
+        "source_weapon_update_aim_state_result.weapon_rotation",
+        "source_weapon_update_aim_state_result.bullet_x",
+        "source_weapon_update_aim_state_result.bullet_y",
+        "source_weapon_update_aim_state_result.shoot_angle",
+        "source_weapon_update_aim_state_result.mount_shoot"
+      ],
+      "tests": [
+        "test_c07_weapon_update_aim_registration",
+        "test_all_c07_weapon_update_aim_input_evidence_is_exact",
+        "test_weapon_update_aim_state",
+        "test_reference_graph_and_actual_c07_weapon_update_aim"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateAimProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",

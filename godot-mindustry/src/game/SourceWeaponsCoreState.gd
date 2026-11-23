@@ -363,6 +363,125 @@ static func source_weapon_update_decay_state(mount_reload: float, mount_recoil: 
 	var warmup: float = source_math_state.source_approach_delta(mount_warmup, warmup_target, shoot_warmup_speed, source_delta) if linear_warmup else source_math_state.source_lerp_delta(mount_warmup, warmup_target, shoot_warmup_speed, source_delta)
 	return {"reload": reload, "recoil": recoil, "recoils": out_recoils, "smooth_reload": smooth_reload, "charge": charge, "warmup": warmup}
 
+static func source_weapon_update_aim_state(unit_x: float, unit_y: float, unit_rotation: float, weapon_x: float, weapon_y: float, weapon_shoot_x: float, weapon_shoot_y: float, mount_rotation: float, mount_target_rotation: float, mount_aim_x: float, mount_aim_y: float, mount_shoot: bool, mount_rotate: bool, can: bool, rotate: bool, rotate_speed: float, rotation_limit: float, base_rotation: float, always_shooting: bool, source_delta: float) -> Dictionary:
+	# Weapon.update() leg 2 (Weapon.java:313-315, :350-371,
+	# :373, bulletRotation :455-457,
+	# `float` /
+	# `mountX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),` /
+	# `mountY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);` /
+	# `if(rotate && (mount.rotate || mount.shoot) && can){` /
+	# `float axisX = unit.x + Angles.trnsx(unit.rotation - 90,  x, y),` /
+	# `axisY = unit.y + Angles.trnsy(unit.rotation - 90,  x, y);` /
+	# `mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;` /
+	# `mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);` /
+	# `if(rotationLimit < 360){` /
+	# `float dst = Angles.angleDist(mount.rotation, baseRotation);` /
+	# `if(dst > rotationLimit/2f){` /
+	# `mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit/2f);` /
+	# `}` /
+	# `}` /
+	# `}else if(!rotate){` /
+	# `mount.rotation = baseRotation;` /
+	# `mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY);` /
+	# `}` /
+	# `float` /
+	# `weaponRotation = unit.rotation - 90 + (rotate ? mount.rotation : baseRotation),` /
+	# `bulletX = mountX + Angles.trnsx(weaponRotation, this.shootX, this.shootY),` /
+	# `bulletY = mountY + Angles.trnsy(weaponRotation, this.shootX, this.shootY),` /
+	# `shootAngle = bulletRotation(unit, mount, bulletX, bulletY);` /
+	# `if(alwaysShooting) mount.shoot = true;` /
+	# bulletRotation (Weapon.java:455-457,
+	# `protected float bulletRotation(Unit unit, WeaponMount mount, float bulletX, float bulletY){` /
+	# `return rotate ? unit.rotation + mount.rotation : Angles.angle(bulletX, bulletY, mount.aimX, mount.aimY) + (unit.rotation - unit.angleTo(mount.aimX, mount.aimY)) + baseRotation;` /
+	# `}`).
+	# `unit_x` / `unit_y` / `unit_rotation` are the unit
+	# position and rotation (`unit.x` / `unit.y` /
+	# `unit.rotation`). `weapon_x` / `weapon_y` are the
+	# weapon offsets (`public float x = 5f, y = 0f;`,
+	# Weapon.java:93); `weapon_shoot_x` /
+	# `weapon_shoot_y` are the shoot offsets
+	# (`public float shootX = 0f, shootY = 3f;`,
+	# Weapon.java:91). `mount_rotation` /
+	# `mount_target_rotation` / `mount_aim_x` /
+	# `mount_aim_y` / `mount_shoot` / `mount_rotate` are
+	# WeaponMount fields (`public float rotation;` /
+	# `public float targetRotation;` /
+	# `public float aimX, aimY;` /
+	# `public boolean shoot = false;` /
+	# `public boolean rotate = false;`,
+	# WeaponMount.java:14/20/32/34/38) -- `mount.shoot` /
+	# `mount.rotate` / `mount.aimX` / `mount.aimY` come
+	# from the autoTarget block (Weapon.java:315-347) as
+	# FRAME INPUTS (the N2540 `can` precedent: that block
+	# is BLOCKED on the live entity scan, so its outputs
+	# are inputs here, not re-ported). `can` is the
+	# `unit.canShoot()` frame bool, taken as an input
+	# (canShoot() itself is NOT re-ported here,
+	# Weapon.java:293). `rotate` is the weapon flag
+	# (`public boolean rotate = false;`, Weapon.java:45);
+	# `rotate_speed` is the rotation speed
+	# (`public float rotateSpeed = 20f;`, Weapon.java:73);
+	# `rotation_limit` is the rotation limit
+	# (`public float rotationLimit = 361f;`,
+	# Weapon.java:107 -- the 361f default skips the clamp
+	# unless it is under 360); `base_rotation` is the
+	# weapon start rotation
+	# (`public float baseRotation = 0f;`, Weapon.java:49);
+	# `always_shooting` is the always-shoot flag
+	# (`public boolean alwaysShooting = false;`,
+	# Weapon.java:63). `source_delta` is `Time.delta`.
+	# ORDER TRAP: `axisX` / `axisY` (:351-352) are the
+	# IDENTICAL formula to `mountX` / `mountY` (:314-315)
+	# -- the same value, recomputed, not a different
+	# offset. The rotate block reads `mount.rotate` /
+	# `mount.shoot` BEFORE alwaysShooting (:373) sets
+	# `mount.shoot = true` -- the returned `mount_shoot`
+	# is the post-alwaysShooting value, but the rotate
+	# guard uses the input. `mount.rotation` used in
+	# weaponRotation (:368) and bulletRotation (:456) is
+	# the UPDATED rotation, not the input. The `!rotate`
+	# branch sets `mount.targetRotation =
+	# unit.angleTo(aimX, aimY)` with NO subtraction of
+	# `unit.rotation` (unlike the rotate branch).
+	# `rotationLimit` default 361f skips the clamp unless
+	# it is under 360, and `dst` is computed on the
+	# moveToward-updated rotation. bulletRotation's
+	# non-rotate branch is all three terms:
+	# `Angles.angle(bulletX, bulletY, aimX, aimY) +
+	# (unit.rotation - unit.angleTo(aimX, aimY)) +
+	# baseRotation` (`unit.angleTo(x, y)` is
+	# `Angles.angle(unit.x, unit.y, x, y)` -- the same
+	# `source_angles_angle` helper in the port).
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# update() has no driver in the port yet, and no caller
+	# reads the new function today -> live behavior does
+	# NOT change.
+	var mount_offset: Dictionary = source_math_state.source_angles_trns_vec(unit_rotation - 90.0, weapon_x, weapon_y)
+	var mount_x: float = unit_x + float(mount_offset.get("x", 0.0))
+	var mount_y: float = unit_y + float(mount_offset.get("y", 0.0))
+	var out_rotation: float = mount_rotation
+	var out_target_rotation: float = mount_target_rotation
+	if rotate and (mount_rotate or mount_shoot) and can:
+		var axis_offset: Dictionary = source_math_state.source_angles_trns_vec(unit_rotation - 90.0, weapon_x, weapon_y)
+		var axis_x: float = unit_x + float(axis_offset.get("x", 0.0))
+		var axis_y: float = unit_y + float(axis_offset.get("y", 0.0))
+		out_target_rotation = source_math_state.source_angles_angle(axis_x, axis_y, mount_aim_x, mount_aim_y) - unit_rotation
+		out_rotation = source_math_state.source_angles_move_toward(mount_rotation, out_target_rotation, rotate_speed * source_delta)
+		if rotation_limit < 360.0:
+			var dst: float = source_math_state.source_angles_angle_dist(out_rotation, base_rotation)
+			if dst > rotation_limit / 2.0:
+				out_rotation = source_math_state.source_angles_move_toward(out_rotation, base_rotation, dst - rotation_limit / 2.0)
+	elif not rotate:
+		out_rotation = base_rotation
+		out_target_rotation = source_math_state.source_angles_angle(unit_x, unit_y, mount_aim_x, mount_aim_y)
+	var weapon_rotation: float = unit_rotation - 90.0 + (out_rotation if rotate else base_rotation)
+	var bullet_offset: Dictionary = source_math_state.source_angles_trns_vec(weapon_rotation, weapon_shoot_x, weapon_shoot_y)
+	var bullet_x: float = mount_x + float(bullet_offset.get("x", 0.0))
+	var bullet_y: float = mount_y + float(bullet_offset.get("y", 0.0))
+	var shoot_angle: float = (unit_rotation + out_rotation) if rotate else source_math_state.source_angles_angle(bullet_x, bullet_y, mount_aim_x, mount_aim_y) + (unit_rotation - source_math_state.source_angles_angle(unit_x, unit_y, mount_aim_x, mount_aim_y)) + base_rotation
+	var out_shoot: bool = true if always_shooting else mount_shoot
+	return {"mount_x": mount_x, "mount_y": mount_y, "mount_rotation": out_rotation, "mount_target_rotation": out_target_rotation, "weapon_rotation": weapon_rotation, "bullet_x": bullet_x, "bullet_y": bullet_y, "shoot_angle": shoot_angle, "mount_shoot": out_shoot}
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []
 	for index in mount_states.size():
