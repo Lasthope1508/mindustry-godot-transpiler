@@ -121797,6 +121797,31 @@
         "Teams.updateTeamStats() leftover legs Windows Godot proof -- debt in GOAL.md section 5, same as N2383: the N2430 proof runs headless on Linux here and waits for a Windows Godot run.",
         "Team.items()+data()+core()+active()+isAlive()+isOnlyAI()+needsFlowField()+cores() Windows Godot proof -- debt in GOAL.md section 5, same as N2415: the N2450 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2451": {
+      "status": "done",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_class": "mindustry.ai.WaveSpawner",
+      "java_method": "WaveSpawner.playerNear()",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_player_near_state",
+      "exact_exprs": [
+        "return state.hasSpawns() && !player.dead() && spawns.contains(g -> Mathf.dst(g.x * tilesize, g.y * tilesize, player.x, player.y) < state.rules.dropZoneRadius && player.team() != state.rules.waveTeam);"
+      ],
+      "source_symbols": [
+        "source_wave_spawner_player_near_state_result.player_near"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_player_near_registration",
+        "test_all_c07_wave_spawner_player_near_input_evidence_is_exact",
+        "test_wave_spawner_player_near_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_player_near"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerPlayerNearProof",
+      "deferred_exprs": [
+        "The HudFragment call-site `spawner.playerNear()` (HudFragment.java:664, the nearpoint label update `Mathf.lerpDelta(u.color.a, Mathf.num(spawner.playerNear()), 0.1f)`) -- not in this slice; it belongs to HudFragment, a later slice.",
+        "The live reads feeding the frame inputs -- state.hasSpawns() (source_game_loop_has_spawns_state), player.dead(), player.team(), state.rules.dropZoneRadius / state.rules.waveTeam -- are later slices; playerNear only reads the frame inputs.",
+        "WaveSpawner.playerNear() Windows Godot proof -- debt in GOAL.md section 5: the N2451 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

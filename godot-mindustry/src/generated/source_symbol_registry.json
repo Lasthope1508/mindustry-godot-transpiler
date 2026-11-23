@@ -189624,6 +189624,22 @@
         "test_reference_graph_and_actual_c07_team_state"
       ],
       "runtime_proof": "/root/C07TeamStateProof"
+    },
+    "source_wave_spawner_player_near_state_result.player_near": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_player_near_state",
+      "godot_symbol": "source_wave_spawner_player_near_state_result.player_near",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_method": "WaveSpawner.playerNear()",
+      "java_expr": "return state.hasSpawns() && !player.dead() && spawns.contains(g -> Mathf.dst(g.x * tilesize, g.y * tilesize, player.x, player.y) < state.rules.dropZoneRadius && player.team() != state.rules.waveTeam);",
+      "rule": "Whether the player is near a ground spawn point (WaveSpawner.java:59, the full return line): hasSpawns() && !player.dead() && some spawn within dropZoneRadius on a team other than the wave team.",
+      "tests": [
+        "test_c07_wave_spawner_player_near_registration",
+        "test_all_c07_wave_spawner_player_near_input_evidence_is_exact",
+        "test_wave_spawner_player_near_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_player_near"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerPlayerNearProof"
     }
   },
   "version": 1

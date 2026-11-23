@@ -81887,6 +81887,61 @@
       ],
       "runtime_proof": "/root/C07TeamStateProof",
       "rule": "Source-backed Team.items()+data()+core()+active()+isAlive()+isOnlyAI()+needsFlowField()+cores() state from Team.java."
+    },
+    "SourceWaveSpawnerState.source_wave_spawner_player_near_state": {
+      "status": "active",
+      "source_slice": "N2451",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "source_method": "WaveSpawner.playerNear()",
+      "params": [
+        {
+          "name": "has_spawns",
+          "type": "bool",
+          "schema": "source_wave_spawner_player_near_state_input.has_spawns"
+        },
+        {
+          "name": "player_dead",
+          "type": "bool",
+          "schema": "source_wave_spawner_player_near_state_input.player_dead"
+        },
+        {
+          "name": "spawns",
+          "type": "Array",
+          "schema": "source_wave_spawner_player_near_state_input.spawns"
+        },
+        {
+          "name": "player_pos",
+          "type": "Vector2",
+          "schema": "source_wave_spawner_player_near_state_input.player_pos"
+        },
+        {
+          "name": "drop_zone_radius",
+          "type": "float",
+          "schema": "source_wave_spawner_player_near_state_input.drop_zone_radius"
+        },
+        {
+          "name": "player_team_id",
+          "type": "int",
+          "schema": "source_wave_spawner_player_near_state_input.player_team_id"
+        },
+        {
+          "name": "wave_team_id",
+          "type": "int",
+          "schema": "source_wave_spawner_player_near_state_input.wave_team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "player_near"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_player_near_registration",
+        "test_all_c07_wave_spawner_player_near_input_evidence_is_exact",
+        "test_wave_spawner_player_near_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_player_near"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerPlayerNearProof",
+      "rule": "Source-backed WaveSpawner.playerNear() state from WaveSpawner.java."
     }
   },
   "policy": {

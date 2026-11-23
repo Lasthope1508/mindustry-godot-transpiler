@@ -263130,6 +263130,104 @@
       },
       "runtime_proof": "/root/C07TeamStateProof",
       "rule": "Source-backed Team.items()+data()+core()+active()+isAlive()+isOnlyAI()+needsFlowField()+cores() state from Team.java."
+    },
+    "source_wave_spawner_player_near_state_input": {
+      "status": "active",
+      "owner": "SourceWaveSpawnerState.source_wave_spawner_player_near_state",
+      "source_slice": "N2451",
+      "keys": {
+        "has_spawns": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "state.hasSpawns()",
+          "rule": "Whether the wave spawner has spawn points (WaveSpawner.java:59, `state.hasSpawns()`): the first conjunct of playerNear(); GD takes it as a bool input, never calling source_game_loop_has_spawns_state cross-file.",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_player_near_state"
+          ]
+        },
+        "player_dead": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "player.dead()",
+          "rule": "Whether the player is dead (WaveSpawner.java:59, `player.dead()`): negated in the second conjunct of playerNear().",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_player_near_state"
+          ]
+        },
+        "spawns": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "private Seq<Tile> spawns = new Seq<>(false);",
+          "rule": "The spawn tiles of this WaveSpawner (WaveSpawner.java:26, `private Seq<Tile> spawns = new Seq<>(false);`): GD takes it as an Array of tile dicts with \"x\"/\"y\" tile coords and does not recompute it from the world.",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_player_near_state"
+          ]
+        },
+        "player_pos": {
+          "type": "Vector2",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "player.x, player.y",
+          "rule": "The player position in pixels (WaveSpawner.java:59, `player.x, player.y`): the second point of the Mathf.dst call in playerNear().",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_player_near_state"
+          ]
+        },
+        "drop_zone_radius": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "state.rules.dropZoneRadius",
+          "rule": "The drop-zone radius in pixels (WaveSpawner.java:59, `state.rules.dropZoneRadius`): the distance threshold of playerNear().",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_player_near_state"
+          ]
+        },
+        "player_team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "player.team()",
+          "rule": "The player team id (WaveSpawner.java:59, `player.team()`): compared against the wave team in playerNear().",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_player_near_state"
+          ]
+        },
+        "wave_team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "state.rules.waveTeam",
+          "rule": "The wave team id (WaveSpawner.java:59, `state.rules.waveTeam`): the team spawns belong to in playerNear().",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_player_near_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WaveSpawnerPlayerNearProof",
+      "rule": "Source-backed WaveSpawner.playerNear() state from WaveSpawner.java."
+    },
+    "source_wave_spawner_player_near_state_result": {
+      "status": "active",
+      "owner": "SourceWaveSpawnerState.source_wave_spawner_player_near_state",
+      "source_slice": "N2451",
+      "keys": {
+        "player_near": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "return state.hasSpawns() && !player.dead() && spawns.contains(g -> Mathf.dst(g.x * tilesize, g.y * tilesize, player.x, player.y) < state.rules.dropZoneRadius && player.team() != state.rules.waveTeam);",
+          "rule": "Whether the player is near a ground spawn point (WaveSpawner.java:59, the full return line): hasSpawns() && !player.dead() && some spawn within dropZoneRadius on a team other than the wave team.",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_player_near_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WaveSpawnerPlayerNearProof",
+      "rule": "Source-backed WaveSpawner.playerNear() state from WaveSpawner.java."
     }
   },
   "version": 1
