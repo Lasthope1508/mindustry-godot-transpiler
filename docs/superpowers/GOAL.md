@@ -619,10 +619,10 @@ N2239–N2247 của line Windows)
     `cooldownTime = 20f;`; proof cũ `C07WeaponUpdateHeatProof` đã drop).
     Chưa chạy trên Windows Godot.
   - [ ] N2543 `C07WeaponSideFlipDefaultsProof` — Linux GREEN (5 key).
-    Scene tới Windows theo merge commit 2 (merge-vm-line, hash ghi ở
-    commit docs sau — remote N2543 side-flip function trimmed, chỉ
-    giữ comment + 4 field decl; proof cũ `C07WeaponUpdateSideFlipProof`
-    đã drop). Chưa chạy trên Windows Godot.
+    Scene tới Windows theo merge commit `891d76d8` (merge 2: remote
+    N2543 side-flip function trimmed, chỉ giữ comment + 4 field decl;
+    proof cũ `C07WeaponUpdateSideFlipProof` đã drop). Chưa chạy trên
+    Windows Godot.
   - [ ] N2544 `C07WeaponInitProof` — Linux GREEN ~11:45 (4 key).
     Scene tới Windows theo slice commit `700cdf91`. Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
