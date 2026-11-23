@@ -1,0 +1,32 @@
+# Báo cáo — N2542 Weapon.update() leg 3 (C07) [DONE + PUSHED]
+
+Ngày: 2026-11-23 ~08:45 +07 (targeted re-run xác minh lượt đóng slice 17.36s; proof .json tái sinh 01:49:08Z bởi targeted re-run lượt đóng slice, nội dung không đổi), gate xong 01:41:48Z (08:41 +07), slice commit 8cc2ccc5.
+
+## Trạng thái
+
+- N2541 DONE + PUSHED (origin/main 6d09d677).
+- N2542 DONE + PUSHED (slice 8cc2ccc5, docs TBD, GOAL TBD, status TBD): port `Weapon.update()` leg 3 — heat decay (Weapon.java:376, :409-415) — thành 1 pure function mới `source_weapon_update_heat_state` (SourceWeaponsCoreState.gd:485 + delegate SourceWeaponsState.gd:197-198, Weapon.java:376, :409-415) cho Weapon family — KHÔNG driver tick (update() chưa có driver trong port). Hàm nhận 6 tham số và trả đúng 1 key `heat`.
+
+## Làm được lượt này (GREEN + gate xong)
+
+- Công thức (Weapon.java:376, :409-415): `if(continuous && mount.bullet != null){` ... `}else{` / `//heat decreases when not firing` / `mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);` / `if(mount.sound != null){ mount.sound.update(bulletX, bulletY, false); }` / `}`. Decay chỉ chạy ở else-branch — khi KHÔNG (continuous && mount.bullet != null); khi continuous bullet đang live, heat trả về không đổi. Decay là `source_delta * reload_multiplier / cooldown_time`, clamp ở 0 bằng Math.max (:411). `cooldown_time` là param (default 20f, Weapon.java:89), KHÔNG hard-code.
+- Bẫy giữ đúng: guard else-branch là 1 ternary duy nhất — `mount_heat if continuous and has_continuous_bullet else maxf(mount_heat - source_delta * reload_multiplier / cooldown_time, 0.0)`; `has_continuous_bullet` là bool input cho null-check `mount.bullet != null` (tiền lệ N2540: null-check là bool input, KHÔNG port lại leg continuous-laser :376-408 — leg này mutate live bullet entity, BLOCKED làm driver leg); dòng `mount.sound.update(bulletX, bulletY, false)` (:413-415) là audio — SKIP (tiền lệ N2541 activeSound skip); heat khi continuous bullet live KHÔNG set về 1f ở đây (heat = 1f do shoot(), Weapon.java:525 — leg shoot BLOCKED/live, không thuộc slice này).
+- DORMANT live hôm nay (nói thẳng): update() chưa có driver trong port, không caller nào đọc hàm mới → live behavior KHÔNG đổi.
+- Proof 6 keys semantic: matches:true, 9/9 true (6 semantic + registry_valid + one_headquarter_per_ssot + matches; đọc trực tiếp `C07WeaponUpdateHeatProof.json`, tái sinh 01:49:08Z bởi targeted re-run lượt đóng slice). 6 key: decay (heat 0.5 → 0.45 = 0.5 − 1×1/20) / clamp_zero (0.01 → 0, không âm) / no_decay_continuous_bullet (continuous true + bullet live, heat 0.8 → 0.8) / cooldown_time_respected (0.6, cooldown 10 → 0.5) / heat_zero_unchanged (0 → 0) / reload_multiplier_scales (0.5, multiplier 2.0 → 0.4).
+- `register_c07_weapon_update_heat.py --verify`: 13/13 (6 exact exprs + 6 input + 1 output). SSOT đo từ đĩa: 11767/1771/1704/3199 (symbols +1, Done +1, contracts +1, schemas +2 so với lúc đóng N2541: 11766/1770/1703/3197); type slices 64, contracts 64 (+1/+1, N2542 vào type shard — java_source Weapon.java, tiền lệ N2533-N2541). Deferred pool 524 (521 + 3: 1 ghi Weapon.update() leg 3 DONE + 1 nợ Windows + 1 remaining legs DEFERRED). Ledger N2542 status done, java_source `core/src/mindustry/type/Weapon.java`, godot_owner `SourceWeaponsCoreState.source_weapon_update_heat_state`.
+- Commit slice gồm 12 file (8 sửa + 4 mới — xác minh từ đĩa, đúng mẫu N2541: 2 file game + 6 file SSOT + test + register + proof .gd + .tscn; audit report KHÔNG đổi nên không stage).
+
+## Test xanh/đỏ
+
+- Xanh: targeted 4/4 OK (20 subtests, 17.36s, xác minh lại bởi lượt đóng slice, godot-bin trên PATH, port 7777 free; lượt 08:15 chạy 19.34s); register --verify 13/13; neighbours 351/351 SẠCH (NEIGHBOURS-EXIT 0 00:57:10Z, 351 passed trong 1190.31s, gồm test_c07_weapon_update_heat.py 4/4); wiring 32 OK (WIRING-EXIT 0 00:59:16Z, Ran 32 tests trong 126.008s); gate Ran 6377 trong 1258.098s, failures=271 toàn Godot-absent (xem Đỏ); `git diff --check` SẠCH (chạy lượt đóng slice, trước commit 1).
+- Đỏ: lượt đóng slice chạy targeted lần đầu KHÔNG có godot trên PATH → 3/4 (reference-graph test fail `assertIsNotNone(godot)`); chạy lại với godot-bin trên PATH → 4/4 — đúng thiết kế (test resolve godot qua `shutil.which`). Chain gate: lượt 1 (GATE-START 01:01:30Z, worker-launch) CHẾT ~90s sau launch — đúng mẫu chết theo session worker; lượt 2 (GATE-START 01:04:20Z, main thread) CHẾT do VM restart #34 ~01:08:51Z; lượt 3 (GATE-START 01:20:49Z, main thread) chạy đủ tới GATE-EXIT 1 01:41:48Z. Restart #34 wipe javalang/pytest — đã cài lại 0.13.0/9.2.0 ở lượt 08:15, verify còn nguyên lượt này (javalang 0.13.0 import OK, pytest 9.2.0). Implement worker (lượt cron 08:30) bị cancel trước khi báo cáo số — code đã nằm trên đĩa, main thread xác minh độc lập toàn bộ lượt này, không copy số worker. Gate (log full-suite-n2542-gate.log) Ran 6377 trong 1258.098s, failures=271, skipped=5, errors=0 — phân rã theo FAIL block: 271 FAIL block, TẤT CẢ `AssertionError: unexpectedly None`; 0 KeyError, 0 `return_schema_linkage`, 0 ERROR; +4 tests / +1 failure vs gate N2541, đúng mẫu — failure mới duy nhất trong diff FAIL list là reference-graph test của N2542 (test_reference_graph_and_actual_c07_weapon_update_heat), Godot-absent vì gate chạy không có godot trên PATH (đúng thiết kế chain). Baseline hydration test_liquid_consumer_hydration là 1 FAIL block hằng số trong 271.
+
+## Blocker
+
+- Không có blocker cho slice. Môi trường: javalang 0.13.0 + pytest 9.2.0 còn nguyên sau restart #34 (RULE: verify trước khi cài lại). Port 7777 free cả lượt. VM restart #34 giết gate lượt 1 + lượt 2; gate lượt 3 chạy đủ tới EXIT.
+
+## Bước tiếp theo
+
+- N2542 đóng xong lượt này: commit/push theo mẫu 5 commit của N2537/N2538/N2539/N2540/N2541 (slice 8cc2ccc5 + docs + GOAL + status + hashes), spec Done 1770→1771 + row N2542, GOAL §5 thêm nợ Windows cho C07WeaponUpdateHeatProof.
+- Slice tiếp theo (chưa scope): N2543, ứng viên Weapon.update() side-flip leg (Weapon.java:418-423, PURE với `lastReload` :294 làm frame input riêng — DEFERRED entry đã ghi trong register N2542) hoặc Weapon.init() :562 (trivial, alwaysContinuous → continuous, micro-slice); calculateHeat vẫn BLOCKED (live entity scan), findTarget BLOCKED; Turret live hasAmmo() computation vẫn DEFERRED; Turret liquid-module wiring BLOCKED cho driver tick của N2525; LaserTurret shouldConsume cần per-build bullets list.
+- Chi tiết: xem handoff docs/superpowers/handoffs/2026-11-23-c07-weapon-update-heat-handoff.md.
