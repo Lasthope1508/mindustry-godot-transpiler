@@ -613,8 +613,18 @@ N2239–N2247 của line Windows)
     Scene tới Windows theo slice commit `27a829fe`. Chưa chạy trên Windows Godot.
   - [ ] N2541 `C07WeaponUpdateAimProof` — Linux GREEN ~07:15 (9 key).
     Scene tới Windows theo slice commit `fcd53003`. Chưa chạy trên Windows Godot.
-  - [ ] N2542 `C07WeaponUpdateHeatProof` — Linux GREEN ~08:45 (6 key).
-    Scene tới Windows theo slice commit `8cc2ccc5`. Chưa chạy trên Windows Godot.
+  - [ ] N2542 `C07WeaponCooldownTimeDefaultProof` — Linux GREEN (2 key).
+    Scene tới Windows theo merge commit `0bb09aef` (merge 1: remote
+    N2542 heat-decay function trimmed, chỉ giữ field decl
+    `cooldownTime = 20f;`; proof cũ `C07WeaponUpdateHeatProof` đã drop).
+    Chưa chạy trên Windows Godot.
+  - [ ] N2543 `C07WeaponSideFlipDefaultsProof` — Linux GREEN (5 key).
+    Scene tới Windows theo merge commit 2 (merge-vm-line, hash ghi ở
+    commit docs sau — remote N2543 side-flip function trimmed, chỉ
+    giữ comment + 4 field decl; proof cũ `C07WeaponUpdateSideFlipProof`
+    đã drop). Chưa chạy trên Windows Godot.
+  - [ ] N2544 `C07WeaponInitProof` — Linux GREEN ~11:45 (4 key).
+    Scene tới Windows theo slice commit `700cdf91`. Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge

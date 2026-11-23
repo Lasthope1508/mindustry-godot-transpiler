@@ -189352,6 +189352,86 @@
         "test_reference_graph_and_actual_c07_weapon_cooldown_time_default"
       ],
       "runtime_proof": "/root/C07WeaponCooldownTimeDefaultProof"
+    },
+    "source_weapon_side_flip_defaults_state_result.other_side": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_side_flip_defaults_state",
+      "godot_symbol": "source_weapon_side_flip_defaults_state_result.other_side",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.<field declarations>",
+      "java_expr": "public int otherSide = -1;",
+      "rule": "The mirror mount index (`/** internal value used for alternation - do not change! */ public int otherSide = -1;`, Weapon.java:125 -- the first conjunct of the :420 guard is `otherSide >= 0`; -1 means no mirror mount).",
+      "tests": [
+        "test_c07_weapon_side_flip_defaults_registration",
+        "test_all_c07_weapon_side_flip_defaults_input_evidence_is_exact",
+        "test_weapon_side_flip_defaults_state",
+        "test_reference_graph_and_actual_c07_weapon_side_flip_defaults"
+      ],
+      "runtime_proof": "/root/C07WeaponSideFlipDefaultsProof"
+    },
+    "source_weapon_side_flip_defaults_state_result.alternate": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_side_flip_defaults_state",
+      "godot_symbol": "source_weapon_side_flip_defaults_state_result.alternate",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.<field declarations>",
+      "java_expr": "public boolean alternate = true;",
+      "rule": "Whether the weapon alternates arms (`/** whether to shoot the weapons in different arms one after another, rather than all at once; only valid when mirror = true */ public boolean alternate = true;`, Weapon.java:43 -- the second conjunct of the :420 guard).",
+      "tests": [
+        "test_c07_weapon_side_flip_defaults_registration",
+        "test_all_c07_weapon_side_flip_defaults_input_evidence_is_exact",
+        "test_weapon_side_flip_defaults_state",
+        "test_reference_graph_and_actual_c07_weapon_side_flip_defaults"
+      ],
+      "runtime_proof": "/root/C07WeaponSideFlipDefaultsProof"
+    },
+    "source_weapon_side_flip_defaults_state_result.flip_sprite": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_side_flip_defaults_state",
+      "godot_symbol": "source_weapon_side_flip_defaults_state_result.flip_sprite",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.<field declarations>",
+      "java_expr": "public boolean flipSprite = false;",
+      "rule": "Whether to flip the weapon's sprite when rendering (`/** whether to flip the weapon's sprite when rendering. internal use only - do not set! */ public boolean flipSprite = false;`, Weapon.java:41 -- the third conjunct of the :420 guard is `mount.side == flipSprite`).",
+      "tests": [
+        "test_c07_weapon_side_flip_defaults_registration",
+        "test_all_c07_weapon_side_flip_defaults_input_evidence_is_exact",
+        "test_weapon_side_flip_defaults_state",
+        "test_reference_graph_and_actual_c07_weapon_side_flip_defaults"
+      ],
+      "runtime_proof": "/root/C07WeaponSideFlipDefaultsProof"
+    },
+    "source_weapon_side_flip_defaults_state_result.side": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_side_flip_defaults_state",
+      "godot_symbol": "source_weapon_side_flip_defaults_state_result.side",
+      "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+      "java_method": "Weapon.<field declarations>",
+      "java_expr": "public boolean side;",
+      "rule": "This mount's side (`/** extra state for alternating weapons */ public boolean side;`, WeaponMount.java:40 -- the third conjunct compares it to `flipSprite`, and it is flipped by :422 when the guard passes; Java boolean default false).",
+      "tests": [
+        "test_c07_weapon_side_flip_defaults_registration",
+        "test_all_c07_weapon_side_flip_defaults_input_evidence_is_exact",
+        "test_weapon_side_flip_defaults_state",
+        "test_reference_graph_and_actual_c07_weapon_side_flip_defaults"
+      ],
+      "runtime_proof": "/root/C07WeaponSideFlipDefaultsProof"
+    },
+    "source_weapon_init_state_result.continuous": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_init_state",
+      "godot_symbol": "source_weapon_init_state_result.continuous",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.init()",
+      "java_expr": "continuous = true;",
+      "rule": "The hold-bullet flag after init() (`continuous = true;`, Weapon.java:564 -- set when `alwaysContinuous` is true, otherwise the input value is returned unchanged).",
+      "tests": [
+        "test_c07_weapon_init_registration",
+        "test_all_c07_weapon_init_input_evidence_is_exact",
+        "test_weapon_init_state",
+        "test_reference_graph_and_actual_c07_weapon_init"
+      ],
+      "runtime_proof": "/root/C07WeaponInitProof"
     }
   },
   "version": 1

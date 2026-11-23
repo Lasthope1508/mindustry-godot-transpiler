@@ -491,6 +491,50 @@ static func source_weapon_update_aim_state(unit_x: float, unit_y: float, unit_ro
 # tick line: a def field default, not per-tick state.
 static func source_weapon_cooldown_time_defaults_state() -> Dictionary:
 	return {"cooldown_time": 20.0}
+
+# Weapon side-flip field defaults (Weapon.java:125/:43/:41, WeaponMount.java:40):
+# field-decl-only slice (merge decision: remote N2543 trimmed -- the
+# side-flip leg it carried is owned by local N856 (flip body,
+# `wasFlipped` / if / 2 assignments) + N870 (`lastReload`); the
+# `public float reload = 1;` expr is already claimed by N2534 +
+# N2535 and NOT taken here). The 4 decls kept here, per the N2440
+# field-decl precedent + the N2542 trim precedent:
+# `//flip weapon shoot side for alternating weapons`
+# `public int otherSide = -1;` / `public boolean alternate = true;` /
+# `public boolean flipSprite = false;` / `public boolean side;`
+# (WeaponMount, Java boolean default false). NO driver tick line: def
+# field defaults, not per-tick state.
+static func source_weapon_side_flip_defaults_state() -> Dictionary:
+	return {"other_side": -1, "alternate": true, "flip_sprite": false, "side": false}
+
+static func source_weapon_init_state(always_continuous: bool, continuous: bool) -> Dictionary:
+	# Weapon.init() (Weapon.java:561-566,
+	# `@CallSuper` /
+	# `public void init(){` /
+	# `if(alwaysContinuous){` /
+	# `continuous = true;` /
+	# `}`).
+	# `always_continuous` is the always-continuous flag
+	# (`/** whether this weapon uses continuous fire
+	# without reloading; implies continuous = true */
+	# public boolean alwaysContinuous;`, Weapon.java:55).
+	# `continuous` is the current hold-bullet flag (`/**
+	# whether to hold the bullet in place while firing; it
+	# will still require reload. */ public boolean
+	# continuous;`, Weapon.java:53) -- a separate param
+	# because the pure function returns the field's new
+	# value without mutating live state (the N2540
+	# precedent: a count / null-check is an input).
+	# Only set when `alwaysContinuous` is true; otherwise
+	# the current `continuous` value is kept unchanged
+	# (including when it is already true).
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# init() has no driver in the port yet, and no caller
+	# reads the new function today -> live behavior does
+	# NOT change.
+	var out_continuous: bool = true if always_continuous else continuous
+	return {"continuous": out_continuous}
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []
 	for index in mount_states.size():

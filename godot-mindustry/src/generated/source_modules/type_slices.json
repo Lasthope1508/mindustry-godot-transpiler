@@ -385,6 +385,43 @@
       ],
       "runtime_proof": "/root/C07WeaponCooldownTimeDefaultProof"
     },
+    "N2543": {
+      "canonical_ledger": "source_slice_ledger.N2543",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.<field declarations>",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_side_flip_defaults_state",
+      "source_symbols": [
+        "source_weapon_side_flip_defaults_state_result.other_side",
+        "source_weapon_side_flip_defaults_state_result.alternate",
+        "source_weapon_side_flip_defaults_state_result.flip_sprite",
+        "source_weapon_side_flip_defaults_state_result.side"
+      ],
+      "tests": [
+        "test_c07_weapon_side_flip_defaults_registration",
+        "test_all_c07_weapon_side_flip_defaults_input_evidence_is_exact",
+        "test_weapon_side_flip_defaults_state",
+        "test_reference_graph_and_actual_c07_weapon_side_flip_defaults"
+      ],
+      "runtime_proof": "/root/C07WeaponSideFlipDefaultsProof"
+    },
+    "N2544": {
+      "canonical_ledger": "source_slice_ledger.N2544",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.init()",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_init_state",
+      "source_symbols": [
+        "source_weapon_init_state_result.continuous"
+      ],
+      "tests": [
+        "test_c07_weapon_init_registration",
+        "test_all_c07_weapon_init_input_evidence_is_exact",
+        "test_weapon_init_state",
+        "test_reference_graph_and_actual_c07_weapon_init"
+      ],
+      "runtime_proof": "/root/C07WeaponInitProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",

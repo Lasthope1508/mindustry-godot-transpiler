@@ -262817,6 +262817,103 @@
       },
       "runtime_proof": "/root/C07WeaponCooldownTimeDefaultProof",
       "rule": "Source-backed Weapon cooldownTime field default from Weapon.java."
+    },
+    "source_weapon_side_flip_defaults_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_side_flip_defaults_state",
+      "source_slice": "N2543",
+      "keys": {
+        "other_side": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public int otherSide = -1;",
+          "rule": "The mirror mount index (`/** internal value used for alternation - do not change! */ public int otherSide = -1;`, Weapon.java:125 -- the first conjunct of the :420 guard is `otherSide >= 0`; -1 means no mirror mount).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_side_flip_defaults_state"
+          ]
+        },
+        "alternate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean alternate = true;",
+          "rule": "Whether the weapon alternates arms (`/** whether to shoot the weapons in different arms one after another, rather than all at once; only valid when mirror = true */ public boolean alternate = true;`, Weapon.java:43 -- the second conjunct of the :420 guard).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_side_flip_defaults_state"
+          ]
+        },
+        "flip_sprite": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean flipSprite = false;",
+          "rule": "Whether to flip the weapon's sprite when rendering (`/** whether to flip the weapon's sprite when rendering. internal use only - do not set! */ public boolean flipSprite = false;`, Weapon.java:41 -- the third conjunct of the :420 guard is `mount.side == flipSprite`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_side_flip_defaults_state"
+          ]
+        },
+        "side": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public boolean side;",
+          "rule": "This mount's side (`/** extra state for alternating weapons */ public boolean side;`, WeaponMount.java:40 -- the third conjunct compares it to `flipSprite`, and it is flipped by :422 when the guard passes; Java boolean default false).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_side_flip_defaults_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponSideFlipDefaultsProof",
+      "rule": "Source-backed Weapon side-flip field defaults from Weapon.java / WeaponMount.java."
+    },
+    "source_weapon_init_state_input": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_init_state",
+      "source_slice": "N2544",
+      "keys": {
+        "always_continuous": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean alwaysContinuous;",
+          "rule": "Whether this weapon uses continuous fire without reloading (`/** whether this weapon uses continuous fire without reloading; implies continuous = true */ public boolean alwaysContinuous;`, Weapon.java:55 -- the guard of the init() body, :563 `if(alwaysContinuous){`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_init_state"
+          ]
+        },
+        "continuous": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean continuous;",
+          "rule": "The current hold-bullet flag (`/** whether to hold the bullet in place while firing; it will still require reload. */ public boolean continuous;`, Weapon.java:53 -- kept unchanged when `alwaysContinuous` is false; a separate param because the pure function returns the field's new value without mutating live state, the N2540 precedent).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponInitProof",
+      "rule": "Source-backed Weapon init() from Weapon.java:561-566."
+    },
+    "source_weapon_init_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_init_state",
+      "source_slice": "N2544",
+      "keys": {
+        "continuous": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "continuous = true;",
+          "rule": "The hold-bullet flag after init() (`continuous = true;`, Weapon.java:564 -- set when `alwaysContinuous` is true, otherwise the input value is returned unchanged).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponInitProof",
+      "rule": "Source-backed Weapon init() from Weapon.java:561-566."
     }
   },
   "version": 1
