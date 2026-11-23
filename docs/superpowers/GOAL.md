@@ -515,6 +515,8 @@ Thứ tự làm việc: theo backlog và mục "Next" trong handoff mới nhất
     Scene tới Windows theo slice commit `19b5a529`. Chưa chạy trên Windows Godot.
   - [ ] N2540 `C07WeaponUpdateDecayProof` — Linux GREEN ~05:15 (11 key).
     Scene tới Windows theo slice commit `27a829fe`. Chưa chạy trên Windows Godot.
+  - [ ] N2541 `C07WeaponUpdateAimProof` — Linux GREEN ~07:15 (9 key).
+    Scene tới Windows theo slice commit `fcd53003`. Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge
