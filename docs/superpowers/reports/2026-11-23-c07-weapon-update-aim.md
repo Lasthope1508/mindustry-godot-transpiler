@@ -5,7 +5,7 @@ Ngày: 2026-11-23 ~07:15 +07 (targeted re-run xác minh lượt đóng slice 17.
 ## Trạng thái
 
 - N2540 DONE + PUSHED (origin/main 1f7aed4a).
-- N2541 DONE + PUSHED (slice fcd53003, docs TBD, GOAL TBD, status TBD): port `Weapon.update()` leg 2 — aim geometry + rotate (Weapon.java:313-315, :350-371, :373, bulletRotation :455-457) — thành 1 pure function mới `source_weapon_update_aim_state` (SourceWeaponsCoreState.gd:366 + delegate SourceWeaponsState.gd:194-195, Weapon.java:313-315, :350-371, :373, bulletRotation :455-457) cho Weapon family — KHÔNG driver tick (update() chưa có driver trong port). Hàm nhận 20 tham số và trả đúng 9 key `mount_x, mount_y, mount_rotation, mount_target_rotation, weapon_rotation, bullet_x, bullet_y, shoot_angle, mount_shoot`.
+- N2541 DONE + PUSHED (slice fcd53003, docs 83bb2389, GOAL e220cb2f): port `Weapon.update()` leg 2 — aim geometry + rotate (Weapon.java:313-315, :350-371, :373, bulletRotation :455-457) — thành 1 pure function mới `source_weapon_update_aim_state` (SourceWeaponsCoreState.gd:366 + delegate SourceWeaponsState.gd:194-195, Weapon.java:313-315, :350-371, :373, bulletRotation :455-457) cho Weapon family — KHÔNG driver tick (update() chưa có driver trong port). Hàm nhận 20 tham số và trả đúng 9 key `mount_x, mount_y, mount_rotation, mount_target_rotation, weapon_rotation, bullet_x, bullet_y, shoot_angle, mount_shoot`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
