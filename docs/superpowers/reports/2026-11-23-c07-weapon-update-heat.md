@@ -1,4 +1,4 @@
-# Báo cáo — N2542 Weapon.update() leg 3 (C07) [DONE + PUSHED]
+# Báo cáo — N2542 Weapon.update() leg 3 (C07) [DONE + PUSHED (slice 8cc2ccc5, docs 19c050fb, GOAL f0e85631, status 8d61dd9b)]
 
 Ngày: 2026-11-23 ~08:45 +07 (targeted re-run xác minh lượt đóng slice 17.36s; proof .json tái sinh 01:49:08Z bởi targeted re-run lượt đóng slice, nội dung không đổi), gate xong 01:41:48Z (08:41 +07), slice commit 8cc2ccc5.
 
