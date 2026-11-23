@@ -1,6 +1,6 @@
-# Handoff — N2544 Weapon.init() (C07) [DONE — gate xanh, chờ push]
+# Handoff — N2544 Weapon.init() (C07) [DONE + PUSHED (slice 700cdf91, docs 074dca5b, GOAL ce4c11b8)]
 
-## Status: DONE — gate xanh (lượt cron 11:45 +07 ngày 2026-11-23; chờ 5 commit + push)
+## Status: DONE + PUSHED (lượt cron 11:45 +07 ngày 2026-11-23; slice 700cdf91, docs 074dca5b, GOAL ce4c11b8; push xong mới ghi origin/main ở đây sau khi push)
 
 - Gate XANH (trừ Godot-absent, xác minh độc lập lượt đóng slice từ log
   gốc full-suite-n2544-gate.log): GATE-START 04:17:29Z main-thread

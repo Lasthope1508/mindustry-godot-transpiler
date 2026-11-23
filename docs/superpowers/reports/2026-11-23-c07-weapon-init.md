@@ -1,4 +1,4 @@
-# Báo cáo — N2544 Weapon.init() (C07) [DONE — gate xanh, chờ push]
+# Báo cáo — N2544 Weapon.init() (C07) [DONE + PUSHED (slice 700cdf91, docs 074dca5b, GOAL ce4c11b8)]
 
 Ngày: 2026-11-23 ~11:45 +07 (targeted re-run xác minh lượt đóng slice 16.90s; proof .json tái sinh 04:46:57Z bởi targeted re-run lượt đóng slice, nội dung không đổi), gate xong 04:39:35Z (11:39 +07).
 
