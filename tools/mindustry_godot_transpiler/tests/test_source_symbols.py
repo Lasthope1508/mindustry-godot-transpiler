@@ -68479,7 +68479,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         contract = source_symbols.api_contract(contracts, "PortGame.source_game_over_core_destroyed_state")
         self.assertEqual(contract["source_slice"], "playable_game_over_runtime")
-        self.assertEqual([param["name"] for param in contract["params"]], ["core_health_value", "game_over_value", "attack_mode"])
+        self.assertEqual([param["name"] for param in contract["params"]], ["core_health_value", "game_over_value", "attack_mode", "player_team", "winner_team"])
         self.assertIn("winner", contract["return_keys"])
 
         input_schema = source_symbols.state_schema(schema, "source_game_over_core_destroyed_input")

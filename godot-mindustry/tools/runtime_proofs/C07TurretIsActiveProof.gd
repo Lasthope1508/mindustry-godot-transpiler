@@ -55,6 +55,28 @@ func _ready() -> void:
 	# A positive activation timer keeps the turret inactive -- directly.
 	proof["is_active_false_when_timer_positive"] = bool(direct_timer.get("is_active", true)) == false
 
+	# --- Merged from the local N2328 proof (merge 2026-11-23):
+	# the local cases the remote direct calls do not cover. The
+	# local N2328 signature was (frame, target_is_null,
+	# is_shooting, activation_timer) with enabled read from the
+	# frame; here they are re-expressed on the kept remote
+	# signature (has_target, was_shooting, enabled,
+	# activation_timer). The other local cases duplicate remote
+	# keys (active_with_target / active_while_shooting /
+	# inactive_when_disabled / inactive_while_timer_positive /
+	# active_at_timer_zero) and are not repeated.
+	# No target and not shooting: nothing to shoot at and no
+	# previous-tick shot, enabled, timer 0 -> false.
+	var idle: Dictionary = turret_build_state.source_turret_is_active_state(false, false, true, 0.0)
+	proof["inactive_no_target_not_shooting"] = bool(idle.get("is_active", true)) == false
+	# A negative activation timer is also elapsed: below zero
+	# counts as active, matching Java `activationTimer <= 0`.
+	var negative: Dictionary = turret_build_state.source_turret_is_active_state(true, false, true, -1.0)
+	proof["active_at_activation_timer_negative"] = bool(negative.get("is_active", false)) == true
+	# The result carries ONLY the one is_active key: no frame
+	# echo, no extra state.
+	proof["returns_only_one_key"] = direct_target.size() == 1
+
 	# One duo segment, live on the driver: the is_active tick
 	# runs right after the was_shooting stamp, once every
 	# input is its final value for the tick, so the frame

@@ -61,7 +61,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_drawrot import DEFERRED as N2532_DEFERRED
+from register_c07_bullet_type_estimate_dps import DEFERRED as N2529_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -86,13 +86,16 @@ EXACT_EXPRS = [
     'dpsEstimate = -1,',
 ]
 
-# DEFERRED is carried from the N2532 register script via import --
+# DEFERRED is carried from the N2529 register script via import --
+# (merge 2026-11-23: N2530 canControl, N2531 fogRadius, N2532 drawrot dropped
+# (deduped into N2297 / N2311 / N2297) -- the chain skips them; their
+# Windows-proof debts are moot with the slices).
 # never retyped. No entry is dropped: the Turret drawrot() read
 # the N2532 pool entry deferred is recorded DONE below. New
 # entries below record the estimateDps read as DONE by this
 # slice, the Windows proof debt, and the wiring + consumers that
 # still need a later slice.
-DEFERRED = N2532_DEFERRED + [
+DEFERRED = N2529_DEFERRED + [
     'UnitType.estimateDps() (`estimate_dps` / `cached_dps` / `branch` frame keys) -- DONE by this slice (N2533): `source_unit_type_estimate_dps_state` ports UnitType.java:1132-1144 for the UnitType family (cache check `dpsEstimate < 0` first, so a cached 0.0 IS a hit and a negative cache recomputes; computed leg `dpsEstimate = weapons.sumf(Weapon::dps)`; suicide leg `dpsEstimate /= 15f` on `weapons.contains(w -> w.bullet.killShooter)`, the divided value is what gets cached; `weapons_dps_sum` is a float param because Weapon.dps() (Weapon.java:188-190) is not ported yet; `has_kill_shooter_weapon` is the caller-side killShooter scan). NO driver tick call site: estimateDps() is a read/estimate, not per-tick, and no caller reads it today (the N2529 bullet function still takes `spawn_unit_dps` / `despawn_unit_dps` as float params; HUD / stats display is C11). Dormant live today: no caller reads the function, so live behavior does not change.',
     'UnitType.estimateDps() Windows Godot proof -- debt in GOAL.md section 5, same as N2283-N2284/N2506/N2507/N2508/N2509/N2510/N2511/N2512/N2513/N2514/N2515/N2516/N2517/N2518/N2519/N2520/N2521/N2522/N2523/N2524/N2525/N2526/N2527/N2528/N2529/N2530/N2531/N2532: the N2533 proof runs headless on Linux here and waits for a Windows Godot run.',
     'Wiring N2529 -> N2533 still DEFERRED (consumer slice after N2533): `source_bullet_type_estimate_dps_state` still takes `spawn_unit_dps` / `despawn_unit_dps` as float params; the consumer slice must call `source_unit_type_estimate_dps_state` on the spawned / despawned unit type and pass the returned `estimate_dps` instead. The C11 HUD / stats display that reads `estimate_dps` is also a later slice.',

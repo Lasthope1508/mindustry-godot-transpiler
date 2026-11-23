@@ -357,6 +357,71 @@ static func _pulse_radius_for_block_id(block_id: String) -> float:
 		return 6.1
 	return 6.0
 
+static func source_arc_rand_xorshift_murmur_hash3(value: int) -> int:
+	# arc Rand seeding (Rand.java: murmurHash3, `private static long murmurHash3(long x){`):
+	# x ^= x >>> 33;
+	# x *= 0xff51afd7ed558ccdL;
+	# x ^= x >>> 33;
+	# x *= 0xc4ceb9fe1a85ec53L;
+	# x ^= x >>> 33;
+	# -- GDScript >> is arithmetic while Java >>> is logical, so each logical shift is emulated by masking to the surviving bits (>>> 33 keeps 31 bits). The constants are the SourceMathDefaults canonical signed int64 spellings (RAND_MURMUR_CONST1 / RAND_MURMUR_CONST2, via SourceMathState). GDScript int64 multiply wraps, as the live probe proved (seed-10 oracle draws + randomSeed(123,360f) = 348.5952).
+	var h: int = value
+	h = int(h ^ ((h >> 33) & 0x7FFFFFFF))
+	h = int(h * SourceMathState.SOURCE_RAND_MURMUR_CONST1)
+	h = int(h ^ ((h >> 33) & 0x7FFFFFFF))
+	h = int(h * SourceMathState.SOURCE_RAND_MURMUR_CONST2)
+	h = int(h ^ ((h >> 33) & 0x7FFFFFFF))
+	return h
+
+static func source_arc_rand_xorshift_set_seed(seed_value: int) -> Dictionary:
+	# arc Rand seeding (Rand.java: `public void setSeed(final long seed){` / `long seed0 = murmurHash3(seed == 0 ? Long.MIN_VALUE : seed);` / `setState(seed0, murmurHash3(seed0));`): the seed is hashed twice through murmurHash3, so a small seed avoids the short irregular transient of near-zero states. The state is the two long words seed0/seed1 (Rand.java, `public long seed0;` / `public long seed1;`).
+	var seed: int = seed_value
+	if seed == 0:
+		seed = SourceMathState.SOURCE_INT64_MIN
+	var seed0: int = source_arc_rand_xorshift_murmur_hash3(seed)
+	return {"seed0": seed0, "seed1": source_arc_rand_xorshift_murmur_hash3(seed0)}
+
+static func source_arc_rand_xorshift_next_long(rand_state: Dictionary) -> int:
+	# arc Rand xorshift128+ step (Rand.java: `public long nextLong(){` / `long s1 = this.seed0;` / `final long s0 = this.seed1;` / `this.seed0 = s0;` / `s1 ^= s1 << 23;` / `return (this.seed1 = (s1 ^ s0 ^ (s1 >>> 17) ^ (s0 >>> 26))) + s0;`): seed1 stores the XOR value WITHOUT the + s0 -- the + s0 is only in the return. The logical shifts are emulated by masking (>>> 17 keeps 47 bits, >>> 26 keeps 38 bits).
+	var s1: int = int(rand_state.get("seed0", 0))
+	var s0: int = int(rand_state.get("seed1", 0))
+	rand_state["seed0"] = s0
+	s1 = int(s1 ^ (s1 << 23))
+	var next_seed1: int = int(s1 ^ s0 ^ ((s1 >> 17) & 0x7FFFFFFFFFFF) ^ ((s0 >> 26) & 0x3FFFFFFFFF))
+	rand_state["seed1"] = next_seed1
+	return int(next_seed1 + s0)
+
+static func source_arc_rand_xorshift_next_float(rand_state: Dictionary) -> float:
+	# arc Rand nextFloat (Rand.java: `public float nextFloat(){` / `return (float)((nextLong() >>> 40) * NORM_FLOAT);`, NORM_FLOAT = 1.0 / (1L << 24)): the top 24 bits of the next long, scaled to [0, 1).
+	return float((source_arc_rand_xorshift_next_long(rand_state) >> 40) & 0xFFFFFF) * SourceMathState.SOURCE_RAND_NORM_FLOAT
+
+static func source_arc_rand_xorshift_random_max(rand_state: Dictionary, max_value: float) -> float:
+	# arc Rand.random(float max) (Rand.java: `public float random(float max){` / `return nextFloat() * max;`).
+	return source_arc_rand_xorshift_next_float(rand_state) * max_value
+
+static func source_arc_rand_xorshift_random_range(rand_state: Dictionary, min_value: float, max_value: float) -> float:
+	# arc Rand.random(float min, float max) (Rand.java: `public float random(float min, float max){` / `return min + (max - min) * nextFloat();`).
+	return min_value + (max_value - min_value) * source_arc_rand_xorshift_next_float(rand_state)
+
+static func source_repair_turret_draw_beam_jitter_state(building_id: int, target_id: int, time_ticks: float, target_hit_size: float, target_rotation_deg: float) -> Dictionary:
+	# RepairTurret.drawBeam jitter (RepairTurret.java:111, `rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));`, inside `public static void drawBeam(float x, float y, float rotation, float length, int id, @Nullable Sized target, Team team,`): the seed is the building id plus the target id, so the jitter is deterministic per (building, target) pair. The jitter branch is guarded by the target (RepairTurret.java:113, `if(target != null){`): with no target Java performs no draws and adds no jitter, so this function models the target-present branch only. The first draw is the angle (RepairTurret.java:122, `rand.random(360f) + Time.time/2f,`), the second and third feed the table-sin amplitude (RepairTurret.java:123, `Mathf.sin(Time.time + rand.random(200f), 55f, rand.random(target.hitSize() * 0.2f, target.hitSize() * 0.45f))`), and the offset is trns(angle, amplitude) rotated by the target rotation (RepairTurret.java:121-124, `lastEnd.add(offset.trns(` ... `).rotate(target instanceof Rotc rot ? rot.rotation() : 0f));`): Vec2.trns(angle, amount) is set(amount, 0) rotated by the angle (Vec2.java, `public Vec2 trns(float angle, float amount){` / `return set(amount, 0).rotate(angle);`), then rotated by the target rotation. Time.time is the tick counter (Time.java:15, `public static float time, globalTime;`, 60fps units). The amplitude uses the port's canonical table sin (SourceMathState.source_arc_mathf_sin_scaled, Mathf.sin(radians, scl, mag) = sin(radians / scl) * mag, Mathf.java:90-91, `public static float sin(float radians, float scl, float mag){` / `return sin(radians / scl) * mag;`); the two rotates use Vector2.rotated, the N2219 exact-trig precedent. Pure functions take explicit params -- building_id, target_id, time_ticks, target_hit_size, target_rotation_deg -- because the frame today carries no building id, target id, target rotation or absolute tick; no id is invented. NO driver tick line: with no frame fields to feed it, the jitter cannot be stamped live yet -- the N2219 draw_beam_state still returns the pre-jitter beam_end until a wiring slice adds those frame fields. The pulse phase (RepairTurret.java:138, `float f = (Time.time / 85f + rand.random(1f)) % 1f;`) is the FOURTH draw from this same seeded sequence and waits for N2290. Rendering itself stays out of the game -- only the state the jitter depends on is captured, per the user boundary.
+	var rand_state: Dictionary = source_arc_rand_xorshift_set_seed(building_id + target_id)
+	var rand_angle_draw: float = source_arc_rand_xorshift_random_max(rand_state, 360.0)
+	var rand_time_draw: float = source_arc_rand_xorshift_random_max(rand_state, 200.0)
+	var rand_hit_draw: float = source_arc_rand_xorshift_random_range(rand_state, target_hit_size * 0.2, target_hit_size * 0.45)
+	var jitter_angle_deg: float = rand_angle_draw + time_ticks / 2.0
+	var jitter_amplitude: float = SourceMathState.source_arc_mathf_sin_scaled(time_ticks + rand_time_draw, 55.0, rand_hit_draw)
+	var jitter_offset: Vector2 = Vector2(jitter_amplitude, 0.0).rotated(deg_to_rad(jitter_angle_deg)).rotated(deg_to_rad(target_rotation_deg))
+	return {"rand_angle_draw": rand_angle_draw, "rand_time_draw": rand_time_draw, "rand_hit_draw": rand_hit_draw, "jitter_angle_deg": jitter_angle_deg, "jitter_amplitude": jitter_amplitude, "jitter_offset": jitter_offset}
+
+static func source_repair_turret_draw_beam_pulse_state(strength: float, pulse_stroke: float, pulse_radius: float, time_ticks: float, rand_draw: float) -> Dictionary:
+	# RepairTurret.drawBeam pulse phase (RepairTurret.java:138, `float f = (Time.time / 85f + rand.random(1f)) % 1f;`, inside `public static void drawBeam(float x, float y, float rotation, float length, int id, @Nullable Sized target, Team team,`): the pulse is the FOURTH Rand draw from the SAME seeded sequence as the N2289 jitter draws (RepairTurret.java:111, `rand.setSeed(id + (target instanceof Entityc e ? e.id() : 0));`), so the draw is taken as an explicit float param (0..1) -- the caller supplies the fourth draw, this function does not re-seed and invents no building id. The pulse block sits inside the strength guard (RepairTurret.java:129, `if(strength > 0.01f){`), the same guard the N2219 draw_beam_state already returns as beam_visible. `Draw.alpha(1f - Interp.pow5In.apply(f));` (RepairTurret.java:140) fades the pulse circle: Interp.pow5In is PowIn(5) (Interp.java:45, `PowIn pow5In = new PowIn(5);`), apply(a) = pow(a, 5) (Interp.java:119-121, `return (float)Math.pow(a, power);`), so alpha = 1 - f^5. `Lines.stroke(strength * pulseStroke);` (RepairTurret.java:141) and `Lines.circle(lastEnd.x, lastEnd.y, 1f + f * pulseRadius);` (RepairTurret.java:142) draw the circle. Time.time is the tick counter (Time.java:15, `public static float time, globalTime;`, 60fps units). pulseStroke / pulseRadius are explicit params because the per-def values differ (class defaults pulseRadius 6f / pulseStroke 2f, RepairTurret.java:37-38; repair-point 5f / repair-turret 6.1f, Blocks.java:6392/6404). NO driver tick line: with no frame fields for the absolute tick or the fourth Rand draw, the pulse cannot be stamped live yet -- the N2219 draw_beam_state still returns the pre-pulse beam (pulse_stroke only) until a wiring slice adds those frame fields. Rendering itself stays out of the game -- only the state the pulse depends on is captured, per the user boundary.
+	var f: float = fmod(time_ticks / 85.0 + rand_draw, 1.0)
+	var alpha: float = 1.0 - pow(f, 5.0)
+	var stroke: float = strength * pulse_stroke
+	var circle_radius: float = 1.0 + f * pulse_radius
+	return {"f": f, "alpha": alpha, "stroke": stroke, "circle_radius": circle_radius}
+
 static func source_repair_turret_draw_select_state(x: float, y: float, repair_radius: float) -> Dictionary:
 	# RepairPointBuild.drawSelect() draws one dash circle around the building (RepairTurret.java:177-179, inside `public void drawSelect(){`, RepairTurret.java:177):
 	# Drawf.dashCircle(x, y, repairRadius, Pal.accent);

@@ -194,8 +194,6 @@ static func source_weapon_update_decay_state(mount_reload: float, mount_recoil: 
 static func source_weapon_update_aim_state(unit_x: float, unit_y: float, unit_rotation: float, weapon_x: float, weapon_y: float, weapon_shoot_x: float, weapon_shoot_y: float, mount_rotation: float, mount_target_rotation: float, mount_aim_x: float, mount_aim_y: float, mount_shoot: bool, mount_rotate: bool, can: bool, rotate: bool, rotate_speed: float, rotation_limit: float, base_rotation: float, always_shooting: bool, source_delta: float) -> Dictionary:
 	return source_weapons_core_state.source_weapon_update_aim_state(unit_x, unit_y, unit_rotation, weapon_x, weapon_y, weapon_shoot_x, weapon_shoot_y, mount_rotation, mount_target_rotation, mount_aim_x, mount_aim_y, mount_shoot, mount_rotate, can, rotate, rotate_speed, rotation_limit, base_rotation, always_shooting, source_delta)
 
-static func source_weapon_update_heat_state(mount_heat: float, source_delta: float, reload_multiplier: float, cooldown_time: float, continuous: bool, has_continuous_bullet: bool) -> Dictionary:
-	return source_weapons_core_state.source_weapon_update_heat_state(mount_heat, source_delta, reload_multiplier, cooldown_time, continuous, has_continuous_bullet)
 
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	return source_weapons_core_state.set_rotation_state(mount_states, source_rotation)

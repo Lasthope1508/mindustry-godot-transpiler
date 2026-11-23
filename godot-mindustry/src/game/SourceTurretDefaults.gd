@@ -118,3 +118,51 @@ func runtime_summary() -> Dictionary:
 		"defaults": defaults.duplicate(),
 		"recoil_pow": recoil_pow(),
 	}
+
+
+static func source_turret_default_constructor_state(turret_defaults: Dictionary) -> Dictionary:
+	# Turret(String name) (Turret.java:157-171):
+	# `public Turret(String name){`
+	# `super(name);` -- already the exact_expr of N2185,
+	# the Block super-ctor runs before these assignments;
+	# cited as evidence only, never re-registered.
+	# `liquidCapacity = 20f;` -- N2085/N2089/N2091-owned
+	# and `rotate = true;` -- N2091/N2180/N2181-owned;
+	# neither is re-registered here. The 10 ctor
+	# assignments below are the only exprs this slice
+	# owns: each writes a literal field default into the
+	# Turret def, so the function writes the same 10
+	# literals into turret_defaults (in/out) and returns
+	# them. No Draw is ported: these are block-level field
+	# defaults, frame data only (bool/int/float literals).
+	# `outlinedIcon = 1;`
+	# `drawLiquidLight = false;`
+	# `sync = true;`
+	# `quickRotate = false;`
+	# `drawArrow = false;`
+	# `ignoreLineRotation = true;`
+	# `rotateDrawEditor = false;`
+	# `visualRotationOffset = -90f;`
+	# `regionRotated1 = 1;`
+	# `regionRotated2 = 2;`
+	var outlined_icon := 1
+	var draw_liquid_light := false
+	var sync := true
+	var quick_rotate := false
+	var draw_arrow := false
+	var ignore_line_rotation := true
+	var rotate_draw_editor := false
+	var visual_rotation_offset := -90.0
+	var region_rotated_1 := 1
+	var region_rotated_2 := 2
+	turret_defaults["outlined_icon"] = outlined_icon
+	turret_defaults["draw_liquid_light"] = draw_liquid_light
+	turret_defaults["sync"] = sync
+	turret_defaults["quick_rotate"] = quick_rotate
+	turret_defaults["draw_arrow"] = draw_arrow
+	turret_defaults["ignore_line_rotation"] = ignore_line_rotation
+	turret_defaults["rotate_draw_editor"] = rotate_draw_editor
+	turret_defaults["visual_rotation_offset"] = visual_rotation_offset
+	turret_defaults["region_rotated_1"] = region_rotated_1
+	turret_defaults["region_rotated_2"] = region_rotated_2
+	return {"outlined_icon": outlined_icon, "draw_liquid_light": draw_liquid_light, "sync": sync, "quick_rotate": quick_rotate, "draw_arrow": draw_arrow, "ignore_line_rotation": ignore_line_rotation, "rotate_draw_editor": rotate_draw_editor, "visual_rotation_offset": visual_rotation_offset, "region_rotated_1": region_rotated_1, "region_rotated_2": region_rotated_2, "turret_defaults": turret_defaults}

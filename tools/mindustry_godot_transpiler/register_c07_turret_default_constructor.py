@@ -1,0 +1,182 @@
+"""Register the Turret(String name) ctor field defaults (N2400).
+
+Turret(String name) (Turret.java:157-171, `public Turret(String
+name){`) assigns 10 literal field defaults on the Turret def:
+`outlinedIcon = 1;` / `drawLiquidLight = false;` / `sync =
+true;` / `quickRotate = false;` / `drawArrow = false;` /
+`ignoreLineRotation = true;` / `rotateDrawEditor = false;` /
+`visualRotationOffset = -90f;` / `regionRotated1 = 1;` /
+`regionRotated2 = 2;`. The 3 other ctor lines are NOT in this
+slice and are never re-registered: `super(name);` is already
+the exact_expr of N2185, `liquidCapacity = 20f;` of
+N2085/N2089/N2091, `rotate = true;` of N2091/N2180/N2181
+(all 0-hit re-probed at HEAD 47a1110c, local + remote
+ledgers). One GD function on SourceTurretDefaults.gd (the
+Turret def-defaults file, NOT SourceTurretBuildState.gd,
+which is the TurretBuild file) -- the first block-level
+ctor of C07, the Teams ctor batch 24 precedent (owner
+`source_teams_default_constructor_state`). The defaults
+are frame data only (bool/int/float literals); no Draw is
+ported, and the proof asserts frame defaults, never a real
+render. Eleven new result symbols: one per default plus
+the updated def frame. One slice source: Turret.java only.
+"""
+import json
+import sys
+from pathlib import Path
+
+from mindustry_port import source_ssot, source_symbols
+from register_c07_turret_update_tile_driver import DEFERRED as N2397_DEFERRED
+from register_liquid_consumer_hydration import backed
+
+ROOT = Path(__file__).resolve().parents[2]
+GODOT = ROOT / 'godot-mindustry'
+TURRET = 'core/src/mindustry/world/blocks/defense/turrets/Turret.java'
+PROOF = '/root/C07TurretDefaultConstructorProof'
+CTOR_OWNER = 'SourceTurretDefaults.source_turret_default_constructor_state'
+TESTS = ['test_c07_turret_default_constructor_registration', 'test_all_c07_turret_default_constructor_input_evidence_is_exact', 'test_turret_default_constructor_state', 'test_reference_graph_and_actual_c07_turret_default_constructor']
+# The 1 slice source the N2400 test checks exact_exprs
+# against -- every expr in EXACT_EXPRS below must appear verbatim
+# in this file.
+SLICE_SOURCES = [
+    'core/src/mindustry/world/blocks/defense/turrets/Turret.java',
+]
+EXACT_EXPRS = [
+    'outlinedIcon = 1;',
+    'drawLiquidLight = false;',
+    'sync = true;',
+    'quickRotate = false;',
+    'drawArrow = false;',
+    'ignoreLineRotation = true;',
+    'rotateDrawEditor = false;',
+    'visualRotationOffset = -90f;',
+    'regionRotated1 = 1;',
+    'regionRotated2 = 2;',
+]
+
+# DEFERRED is carried from the N2397 register script via import --
+# never retyped. Nothing in it closes here: N2400 ports the
+# Turret() ctor field defaults, which no N2397 entry lists.
+# One entry is added: the N2400 Windows Godot proof debt
+# (GOAL.md section 5).
+DEFERRED = N2397_DEFERRED + [
+    'Turret() ctor field defaults N2400 Windows Godot proof -- debt in GOAL.md section 5, same as N2397: the N2400 proof runs headless on Linux here and waits for a Windows Godot run.',
+]
+
+
+def definitions():
+    def a(typ, expr, rule, source=TURRET, **extra):
+        return backed(typ, source, expr, rule, **extra)
+
+    ctor_inputs = {
+        'turret_defaults': a('Dictionary', 'public Turret(String name){', 'The Turret def frame (Turret.java:157, `public Turret(String name){`): the family-convention first arg; the ctor writes its 10 literal field defaults into it, so turret_defaults is an in/out param -- keys already present keep their unrelated values, the 10 ctor keys are overwritten with the ctor literals.'),
+    }
+    ctor_outputs = {
+        'outlined_icon': a('int', 'outlinedIcon = 1;', 'The outlined-icon index (Turret.java:160, `outlinedIcon = 1;`): Block.outlinedIcon, the icon outline variant used by the icon builder; the ctor literal 1.'),
+        'draw_liquid_light': a('bool', 'drawLiquidLight = false;', 'Whether the turret draws its liquid light (Turret.java:161, `drawLiquidLight = false;`): Block.drawLiquidLight; the ctor disables it for turrets.'),
+        'sync': a('bool', 'sync = true;', 'Whether the block syncs its state over the network (Turret.java:162, `sync = true;`): Block.sync; the ctor enables it for turrets.'),
+        'quick_rotate': a('bool', 'quickRotate = false;', 'Whether the block rotates quickly when placed (Turret.java:164, `quickRotate = false;`): Block.quickRotate; the ctor disables it for turrets.'),
+        'draw_arrow': a('bool', 'drawArrow = false;', 'Whether the block draws its placement arrow (Turret.java:165, `drawArrow = false;`): Block.drawArrow; the ctor disables it for turrets.'),
+        'ignore_line_rotation': a('bool', 'ignoreLineRotation = true;', 'Whether line placement ignores rotation (Turret.java:166, `ignoreLineRotation = true;`): Block.ignoreLineRotation; the ctor enables it for turrets.'),
+        'rotate_draw_editor': a('bool', 'rotateDrawEditor = false;', 'Whether the editor draw rotates with the block (Turret.java:167, `rotateDrawEditor = false;`): Block.rotateDrawEditor; the ctor disables it for turrets.'),
+        'visual_rotation_offset': a('float', 'visualRotationOffset = -90f;', 'The visual rotation offset in degrees (Turret.java:168, `visualRotationOffset = -90f;`): Block.visualRotationOffset, applied to the drawn rotation so the turret sprite points up at rotation 0; the ctor literal -90f.'),
+        'region_rotated_1': a('int', 'regionRotated1 = 1;', 'The first region-rotation override (Turret.java:169, `regionRotated1 = 1;`): Block.regionRotated1, the placement rotation index whose icon uses the first rotated region; the ctor literal 1.'),
+        'region_rotated_2': a('int', 'regionRotated2 = 2;', 'The second region-rotation override (Turret.java:170, `regionRotated2 = 2;`): Block.regionRotated2, the placement rotation index whose icon uses the second rotated region; the ctor literal 2.'),
+        'turret_defaults': a('Dictionary', 'public Turret(String name){', 'The updated Turret def frame (Turret.java:157, `public Turret(String name){`): the same in/out Dictionary -- unrelated keys preserved, the 10 ctor keys written with the ctor literals.'),
+    }
+    return ctor_inputs, ctor_outputs
+
+
+def verify():
+    """Check every EXACT_EXPRS line and every input/output
+    java_expr appears verbatim in its upstream source, without
+    touching any SSOT JSON. Exit 0 when all are present."""
+    upstream = {}
+    for source in SLICE_SOURCES:
+        upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
+    missing = []
+    for expr in EXACT_EXPRS:
+        if not any(expr in text for text in upstream.values()):
+            missing.append(expr)
+    inputs_outputs = definitions()
+    total = len(EXACT_EXPRS)
+    for keys in inputs_outputs:
+        total += len(keys)
+        for field, meta in keys.items():
+            source = meta['java_source']
+            text = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
+            if meta['java_expr'] not in text:
+                missing.append('%s: %s' % (field, meta['java_expr']))
+    if missing:
+        for expr in missing:
+            print('MISSING: %s' % expr)
+        print('%d/%d exprs present' % (total - len(missing), total))
+        return 1
+    print('%d/%d exprs present' % (total, total))
+    return 0
+
+
+def main():
+    symbols = {}
+    ctor_inputs, ctor_outputs = definitions()
+
+    entries = [
+        ('N2400', CTOR_OWNER, 'source_turret_default_constructor_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret', 'Turret(String name)', ctor_inputs, ctor_outputs, True, 'Dictionary'),
+    ]
+    all_names = []
+    for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
+        names = []
+        for suffix, keys in [('input', inputs), ('result', outputs)]:
+            name = prefix + '_' + suffix
+            for field, meta in keys.items():
+                meta['used_by'] = [owner]
+                if suffix == 'result':
+                    symbol = name + '.' + field
+                    names.append(symbol)
+                    symbols[symbol] = dict(status='source-backed', godot_owner=owner, godot_symbol=symbol, java_source=meta['java_source'], java_method=method, java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
+            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed Turret() ctor field defaults state from Turret.java.'))
+        if has_contract:
+            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed Turret() ctor field defaults state from Turret.java.'))
+        all_names.extend(names)
+
+    by_slice = {}
+    # The test pins this order: the 10 defaults in ctor
+    # order, then the updated def frame.
+    by_slice['N2400'] = [
+        'source_turret_default_constructor_state_result.outlined_icon',
+        'source_turret_default_constructor_state_result.draw_liquid_light',
+        'source_turret_default_constructor_state_result.sync',
+        'source_turret_default_constructor_state_result.quick_rotate',
+        'source_turret_default_constructor_state_result.draw_arrow',
+        'source_turret_default_constructor_state_result.ignore_line_rotation',
+        'source_turret_default_constructor_state_result.rotate_draw_editor',
+        'source_turret_default_constructor_state_result.visual_rotation_offset',
+        'source_turret_default_constructor_state_result.region_rotated_1',
+        'source_turret_default_constructor_state_result.region_rotated_2',
+        'source_turret_default_constructor_state_result.turret_defaults',
+    ]
+    source_symbols.upsert_source_slice(GODOT, 'N2400', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret', java_method='Turret(String name)', godot_owner=CTOR_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2400'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+
+    source_symbols.upsert_source_symbols(GODOT, symbols)
+    source_symbols.write_source_symbol_audit_report(GODOT)
+    manifest = json.loads((GODOT / 'src/generated/source_ssot_modules.json').read_text(encoding='utf-8'))
+    modules = manifest['modules']
+    new_owners = {definition[1] for definition in entries}
+    for name, module in modules.items():
+        if module.get('canonical_module') == 'api_contracts':
+            selected = source_ssot.build_extension_shard(GODOT, name)[module['root_key']]
+            if new_owners.intersection(selected):
+                optional = module.setdefault('optional_mirror_fields', [])
+                if 'return_type' not in optional:
+                    optional.append('return_type')
+    source_ssot.write_registered_json(GODOT, 'module_manifest', manifest)
+    for canonical in ['slice_ledger', 'api_contracts', 'state_schema', 'registry', 'audit_report', 'module_manifest']:
+        for name, module in modules.items():
+            if module.get('canonical_module') == canonical:
+                source_ssot.write_registered_json(GODOT, name, source_ssot.build_extension_shard(GODOT, name))
+
+
+if __name__ == '__main__':
+    if '--verify' in sys.argv:
+        sys.exit(verify())
+    main()

@@ -94,6 +94,37 @@
       "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
       "rule": "Public runtime contract for DrillBuild inactive branch warmup decay and lastDrillSpeed reset."
     },
+    "PortGame.source_drill_init_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_init_state",
+      "status": "active",
+      "source_slice": "N2424",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.init()",
+      "params": [
+        {
+          "name": "drill_effect_rnd",
+          "type": "float",
+          "schema": "source_drill_init_state_input.drill_effect_rnd"
+        },
+        {
+          "name": "size",
+          "type": "float",
+          "schema": "source_drill_init_state_input.size"
+        }
+      ],
+      "return_keys": [
+        "drill_effect_rnd"
+      ],
+      "tests": [
+        "test_c07_drill_init_registration",
+        "test_all_c07_drill_init_input_evidence_is_exact",
+        "test_drill_init_state",
+        "test_reference_graph_and_actual_c07_drill_init"
+      ],
+      "runtime_proof": "/root/C07DrillInitProof",
+      "rule": "Source-backed Drill init() defaulting state from Drill.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_drill_last_speed": {
       "canonical_contract": "source_api_contracts.PortGame.source_drill_last_speed",
       "status": "active",
@@ -414,6 +445,125 @@
       "runtime_proof": "/root/Main.source_drill_time_drilled_delta",
       "rule": "Public runtime contract for DrillBuild timeDrilled update via warmup * delta()."
     },
+    "PortGame.source_drill_update_tile_effects_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_update_tile_effects_state",
+      "status": "active",
+      "source_slice": "N2420",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "update_effect_chance",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.update_effect_chance"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.warmup"
+        },
+        {
+          "name": "update_effect_roll",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.update_effect_roll"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.source_delta"
+        },
+        {
+          "name": "size",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.size"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.y"
+        },
+        {
+          "name": "was_visible",
+          "type": "bool",
+          "schema": "source_drill_update_tile_effects_state_input.was_visible"
+        },
+        {
+          "name": "drill_effect_chance",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.drill_effect_chance"
+        },
+        {
+          "name": "drill_effect_roll",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.drill_effect_roll"
+        },
+        {
+          "name": "drill_effect_rnd",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.drill_effect_rnd"
+        },
+        {
+          "name": "dominant_item_color",
+          "type": "Variant",
+          "schema": "source_drill_update_tile_effects_state_input.dominant_item_color"
+        },
+        {
+          "name": "update_effect_range_roll_x",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.update_effect_range_roll_x"
+        },
+        {
+          "name": "update_effect_range_roll_y",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.update_effect_range_roll_y"
+        },
+        {
+          "name": "drill_effect_range_roll_x",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.drill_effect_range_roll_x"
+        },
+        {
+          "name": "drill_effect_range_roll_y",
+          "type": "float",
+          "schema": "source_drill_update_tile_effects_state_input.drill_effect_range_roll_y"
+        },
+        {
+          "name": "update_effect_at",
+          "type": "Callable",
+          "schema": "source_drill_update_tile_effects_state_input.update_effect_at"
+        },
+        {
+          "name": "drill_effect_at",
+          "type": "Callable",
+          "schema": "source_drill_update_tile_effects_state_input.drill_effect_at"
+        }
+      ],
+      "return_keys": [
+        "update_effect",
+        "update_effect_x",
+        "update_effect_y",
+        "update_effect_called",
+        "drill_effect",
+        "drill_effect_x",
+        "drill_effect_y",
+        "drill_effect_color",
+        "drill_effect_called"
+      ],
+      "tests": [
+        "test_c07_drill_update_tile_effects_registration",
+        "test_all_c07_drill_update_tile_effects_input_evidence_is_exact",
+        "test_drill_update_tile_effects_state",
+        "test_reference_graph_and_actual_c07_drill_update_tile_effects"
+      ],
+      "runtime_proof": "/root/C07DrillUpdateTileEffectsProof",
+      "rule": "Source-backed Drill updateTile() effect legs state from Drill.java + Mathf.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_drill_warmup_speed": {
       "canonical_contract": "source_api_contracts.PortGame.source_drill_warmup_speed",
       "status": "active",
@@ -552,6 +702,564 @@
       "rule": "Source-backed adjacent factory family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so a cheating team's adjacent factory counts everything as valid in updateConsumption, the tick gates efficiency on the family's own shouldConsume() body, and the tick binds one RuntimeConsumer per consumeItem/consumeLiquid row and runs the bound actors through updateConsumption so the placed adjacent factory consumes its liquid rows each tick and gates efficiency on its item rows, and a sprite re-recorded with a different block reinitializes its consumers from the new block's consumeBuilder.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_can_place_on_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_can_place_on_state",
+      "status": "active",
+      "source_slice": "N2391",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.canPlaceOn(Tile tile, Team team, int rotation)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_can_place_on_state_input.frame"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.size"
+        },
+        {
+          "name": "range_value",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.range_value"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_can_place_on_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_can_place_on_state_input.blocked_items"
+        },
+        {
+          "name": "world_tile",
+          "type": "Callable",
+          "schema": "source_beam_drill_can_place_on_state_input.world_tile"
+        }
+      ],
+      "return_keys": [
+        "can_place_on"
+      ],
+      "tests": [
+        "test_c07_beam_drill_can_place_on_set_bars_registration",
+        "test_all_c07_beam_drill_can_place_on_set_bars_input_evidence_is_exact",
+        "test_beam_drill_can_place_on_set_bars_state",
+        "test_reference_graph_and_actual_c07_beam_drill_can_place_on_set_bars"
+      ],
+      "runtime_proof": "/root/C07BeamDrillCanPlaceOnSetBarsProof",
+      "rule": "Source-backed BeamDrill canPlaceOn() / setBars() state from BeamDrill.java + Block.java + Pal.java + Bar.java + arc Strings.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2401",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.BeamDrill(String name)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_default_constructor_state_input.frame"
+        },
+        {
+          "name": "block_name",
+          "type": "String",
+          "schema": "source_beam_drill_default_constructor_state_input.block_name"
+        },
+        {
+          "name": "ambient_sound",
+          "type": "Variant",
+          "schema": "source_beam_drill_default_constructor_state_input.ambient_sound"
+        },
+        {
+          "name": "block_flags",
+          "type": "Variant",
+          "schema": "source_beam_drill_default_constructor_state_input.block_flags"
+        }
+      ],
+      "return_keys": [
+        "name",
+        "draw_arrow",
+        "region_rotated_1",
+        "ignore_line_rotation",
+        "ambient_sound_volume",
+        "ambient_sound",
+        "flags"
+      ],
+      "tests": [
+        "test_c07_beam_drill_default_constructor_registration",
+        "test_all_c07_beam_drill_default_constructor_input_evidence_is_exact",
+        "test_beam_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_beam_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDefaultConstructorProof",
+      "rule": "Source-backed BeamDrill() ctor field defaults from BeamDrill.java + Block.java + BlockFlag.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_place_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_draw_place_state",
+      "status": "active",
+      "source_slice": "N2385",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.drawPlace",
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_place_state_input.valid"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.size"
+        },
+        {
+          "name": "range_value",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.range_value"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_draw_place_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_place_state_input.blocked_items"
+        },
+        {
+          "name": "world_tile",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_place_state_input.world_tile"
+        },
+        {
+          "name": "get_drill_time",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_place_state_input.get_drill_time"
+        },
+        {
+          "name": "item_icon",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_place_state_input.item_icon"
+        },
+        {
+          "name": "offset",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.offset"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.tilesize"
+        },
+        {
+          "name": "icon_small",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.icon_small"
+        },
+        {
+          "name": "text_width",
+          "type": "float",
+          "schema": "source_beam_drill_draw_place_state_input.text_width"
+        }
+      ],
+      "return_keys": [
+        "item",
+        "invalid_item",
+        "multiple",
+        "count",
+        "dash_lines",
+        "drill_speed",
+        "drill_speed_text",
+        "icon_rect",
+        "icon_shadow_rect",
+        "commands",
+        "branch"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_place_registration",
+        "test_all_c07_beam_drill_draw_place_input_evidence_is_exact",
+        "test_beam_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawPlaceProof",
+      "rule": "Source-backed BeamDrillBuild.drawPlace() state from BeamDrill.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_select_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_draw_select_state",
+      "status": "active",
+      "source_slice": "N2394",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.drawSelect()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_draw_select_state_input.frame"
+        },
+        {
+          "name": "last_item",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_select_state_input.last_item"
+        },
+        {
+          "name": "draw_item_selection",
+          "type": "Callable",
+          "schema": "source_beam_drill_draw_select_state_input.draw_item_selection"
+        }
+      ],
+      "return_keys": [
+        "draw_item_selection_called",
+        "last_item"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_select_draw_plan_region_init_registration",
+        "test_all_c07_beam_drill_draw_select_draw_plan_region_init_input_evidence_is_exact",
+        "test_beam_drill_draw_select_draw_plan_region_init_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw_select_draw_plan_region_init"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawSelectDrawPlanRegionInitProof",
+      "rule": "Source-backed BeamDrill drawSelect() / drawPlanRegion() / init() state from BeamDrill.java + Block.java + BuildingComp.java + Vars.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_draw_state",
+      "status": "active",
+      "source_slice": "N2382",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.draw",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.y"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.top_region"
+        },
+        {
+          "name": "laser",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser"
+        },
+        {
+          "name": "laser_end",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser_end"
+        },
+        {
+          "name": "laser_center",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser_center"
+        },
+        {
+          "name": "laser_boost",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser_boost"
+        },
+        {
+          "name": "laser_end_boost",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser_end_boost"
+        },
+        {
+          "name": "laser_center_boost",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.laser_center_boost"
+        },
+        {
+          "name": "glow_region",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.glow_region"
+        },
+        {
+          "name": "glow_region_found",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.glow_region_found"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.size"
+        },
+        {
+          "name": "build_id",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.build_id"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.warmup"
+        },
+        {
+          "name": "boost_warmup",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.boost_warmup"
+        },
+        {
+          "name": "is_payload",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.is_payload"
+        },
+        {
+          "name": "facing",
+          "type": "Array",
+          "schema": "source_beam_drill_draw_state_input.facing"
+        },
+        {
+          "name": "lasers",
+          "type": "Array",
+          "schema": "source_beam_drill_draw_state_input.lasers"
+        },
+        {
+          "name": "laser_width",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.laser_width"
+        },
+        {
+          "name": "glow_scl",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.glow_scl"
+        },
+        {
+          "name": "pulse_intensity",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.pulse_intensity"
+        },
+        {
+          "name": "glow_color",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.glow_color"
+        },
+        {
+          "name": "glow_intensity",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.glow_intensity"
+        },
+        {
+          "name": "spark_color",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.spark_color"
+        },
+        {
+          "name": "boost_heat_color",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.boost_heat_color"
+        },
+        {
+          "name": "heat_color",
+          "type": "Variant",
+          "schema": "source_beam_drill_draw_state_input.heat_color"
+        },
+        {
+          "name": "heat_pulse",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.heat_pulse"
+        },
+        {
+          "name": "heat_pulse_scl",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.heat_pulse_scl"
+        },
+        {
+          "name": "sparks",
+          "type": "int",
+          "schema": "source_beam_drill_draw_state_input.sparks"
+        },
+        {
+          "name": "spark_life",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.spark_life"
+        },
+        {
+          "name": "spark_recurrence",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.spark_recurrence"
+        },
+        {
+          "name": "spark_range",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.spark_range"
+        },
+        {
+          "name": "spark_spread",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.spark_spread"
+        },
+        {
+          "name": "spark_size",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.spark_size"
+        },
+        {
+          "name": "time_ticks",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.time_ticks"
+        },
+        {
+          "name": "lod_l2",
+          "type": "bool",
+          "schema": "source_beam_drill_draw_state_input.lod_l2"
+        },
+        {
+          "name": "lod_alpha2",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.lod_alpha2"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_beam_drill_draw_state_input.tilesize"
+        }
+      ],
+      "return_keys": [
+        "base_rect",
+        "top_rect",
+        "is_payload",
+        "lasers",
+        "glow_visible",
+        "glow_alpha",
+        "glow_color",
+        "glow_rect"
+      ],
+      "tests": [
+        "test_c07_beam_drill_draw_registration",
+        "test_all_c07_beam_drill_draw_input_evidence_is_exact",
+        "test_beam_drill_draw_state",
+        "test_reference_graph_and_actual_c07_beam_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BeamDrillDrawProof",
+      "rule": "Source-backed BeamDrillBuild.draw() state from BeamDrill.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "status": "active",
+      "source_slice": "N2440",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.<field declarations>",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_laser_defaults_state_input.frame"
+        },
+        {
+          "name": "block_name",
+          "type": "String",
+          "schema": "source_beam_drill_laser_defaults_state_input.block_name"
+        }
+      ],
+      "return_keys": [
+        "laser",
+        "laser_end",
+        "laser_center",
+        "laser_boost",
+        "laser_end_boost",
+        "laser_center_boost",
+        "spark_color",
+        "glow_color",
+        "glow_intensity",
+        "pulse_intensity",
+        "glow_scl",
+        "sparks",
+        "spark_range",
+        "spark_life",
+        "spark_recurrence",
+        "spark_spread",
+        "spark_size",
+        "boost_heat_color"
+      ],
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof",
+      "rule": "Source-backed BeamDrill laser/spark/glow/heat field defaults from BeamDrill.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_outputs_items_state",
+      "status": "active",
+      "source_slice": "N2417",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.outputsItems()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_outputs_items_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "outputs_items"
+      ],
+      "tests": [
+        "test_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_registration",
+        "test_all_c07_beam_drill_outputs_items_rotated_output_icons_should_consume_input_evidence_is_exact",
+        "test_beam_drill_outputs_items_rotated_output_icons_should_consume_state",
+        "test_reference_graph_and_actual_c07_beam_drill_outputs_items_rotated_output_icons_should_consume"
+      ],
+      "runtime_proof": "/root/C07BeamDrillOutputsItemsRotatedOutputIconsShouldConsumeProof",
+      "rule": "Source-backed BeamDrill BeamDrill.outputsItems() state from BeamDrill.java + Block.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_power_status_row_state",
       "status": "active",
@@ -584,6 +1292,645 @@
       "rule": "Source-backed BeamDrill power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_set_stats_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_set_stats_state",
+      "status": "active",
+      "source_slice": "N2388",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.setStats",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_set_stats_state_input.frame"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_beam_drill_set_stats_state_input.drill_time"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_set_stats_state_input.size"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_set_stats_state_input.tier"
+        },
+        {
+          "name": "drill_multipliers",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_set_stats_state_input.drill_multipliers"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_set_stats_state_input.blocked_items"
+        },
+        {
+          "name": "optional_boost_intensity",
+          "type": "float",
+          "schema": "source_beam_drill_set_stats_state_input.optional_boost_intensity"
+        },
+        {
+          "name": "booster_consumer_found",
+          "type": "bool",
+          "schema": "source_beam_drill_set_stats_state_input.booster_consumer_found"
+        },
+        {
+          "name": "booster_amount",
+          "type": "float",
+          "schema": "source_beam_drill_set_stats_state_input.booster_amount"
+        },
+        {
+          "name": "booster_consumes",
+          "type": "bool",
+          "schema": "source_beam_drill_set_stats_state_input.booster_consumes"
+        },
+        {
+          "name": "drillables_filter",
+          "type": "Callable",
+          "schema": "source_beam_drill_set_stats_state_input.drillables_filter"
+        }
+      ],
+      "return_keys": [
+        "drill_tier_row",
+        "drill_speed_row",
+        "booster_row_replaced",
+        "booster_row"
+      ],
+      "tests": [
+        "test_c07_beam_drill_set_stats_registration",
+        "test_all_c07_beam_drill_set_stats_input_evidence_is_exact",
+        "test_beam_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_beam_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07BeamDrillSetStatsProof",
+      "rule": "Source-backed BeamDrill setStats() state from BeamDrill.java + Blocks.java + StatValues.java + StatUnit.java + Stat.java + ConsumeLiquidBase.java + Block.java + Consume.java + bundle.properties.",
+      "return_type": "Dictionary"
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_update_facing_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_update_facing_state",
+      "status": "active",
+      "source_slice": "N2379",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.onProximityUpdate(); BeamDrillBuild.updateLasers(); BeamDrillBuild.updateFacing()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_update_facing_state_input.frame"
+        },
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.rotation"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.size"
+        },
+        {
+          "name": "range_value",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.range_value"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_beam_drill_update_facing_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_beam_drill_update_facing_state_input.blocked_items"
+        },
+        {
+          "name": "world_tile",
+          "type": "Callable",
+          "schema": "source_beam_drill_update_facing_state_input.world_tile"
+        }
+      ],
+      "return_keys": [
+        "lasers",
+        "facing",
+        "last_item",
+        "facing_amount"
+      ],
+      "tests": [
+        "test_c07_beam_drill_update_facing_registration",
+        "test_all_c07_beam_drill_update_facing_input_evidence_is_exact",
+        "test_beam_drill_update_facing_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_facing"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateFacingProof",
+      "rule": "Source-backed BeamDrillBuild.onProximityUpdate()/updateLasers()/updateFacing() state from BeamDrill.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_update_tile_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_update_tile_state",
+      "status": "active",
+      "source_slice": "N2398",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_update_tile_state_input.frame"
+        },
+        {
+          "name": "last_item",
+          "type": "Variant",
+          "schema": "source_beam_drill_update_tile_state_input.last_item"
+        },
+        {
+          "name": "boost_warmup",
+          "type": "float",
+          "schema": "source_beam_drill_update_tile_state_input.boost_warmup"
+        },
+        {
+          "name": "optional_efficiency",
+          "type": "float",
+          "schema": "source_beam_drill_update_tile_state_input.optional_efficiency"
+        },
+        {
+          "name": "time",
+          "type": "float",
+          "schema": "source_beam_drill_update_tile_state_input.time"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_beam_drill_update_tile_state_input.time_delta"
+        },
+        {
+          "name": "facing",
+          "type": "Array",
+          "schema": "source_beam_drill_update_tile_state_input.facing"
+        },
+        {
+          "name": "items_total",
+          "type": "int",
+          "schema": "source_beam_drill_update_tile_state_input.items_total"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_beam_drill_update_tile_state_input.item_capacity"
+        },
+        {
+          "name": "dump_ready",
+          "type": "bool",
+          "schema": "source_beam_drill_update_tile_state_input.dump_ready"
+        },
+        {
+          "name": "get_drill_time",
+          "type": "Callable",
+          "schema": "source_beam_drill_update_tile_state_input.get_drill_time"
+        },
+        {
+          "name": "items_add",
+          "type": "Callable",
+          "schema": "source_beam_drill_update_tile_state_input.items_add"
+        },
+        {
+          "name": "produced",
+          "type": "Callable",
+          "schema": "source_beam_drill_update_tile_state_input.produced"
+        },
+        {
+          "name": "dump",
+          "type": "Callable",
+          "schema": "source_beam_drill_update_tile_state_input.dump"
+        }
+      ],
+      "return_keys": [
+        "drill_time",
+        "boost_warmup",
+        "time",
+        "harvested",
+        "get_drill_time_called",
+        "items_add_called",
+        "produced_called",
+        "dump_called"
+      ],
+      "tests": [
+        "test_c07_beam_drill_update_tile_registration",
+        "test_all_c07_beam_drill_update_tile_input_evidence_is_exact",
+        "test_beam_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_beam_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BeamDrillUpdateTileProof",
+      "rule": "Source-backed BeamDrill updateTile() facing-harvest + dump state from BeamDrill.java + BuildingComp.java + Mathf.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBeamDrillBuildState.source_beam_drill_version_write_read_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_version_write_read_state",
+      "status": "active",
+      "source_slice": "N2378",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrillBuild.version(); BeamDrillBuild.write(Writes); BeamDrillBuild.read(Reads, byte)",
+      "params": [
+        {
+          "name": "time",
+          "type": "float",
+          "schema": "source_beam_drill_version_write_read_state_input.time"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_beam_drill_version_write_read_state_input.warmup"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_beam_drill_version_write_read_state_input.revision"
+        },
+        {
+          "name": "stored_time",
+          "type": "float",
+          "schema": "source_beam_drill_version_write_read_state_input.stored_time"
+        },
+        {
+          "name": "stored_warmup",
+          "type": "float",
+          "schema": "source_beam_drill_version_write_read_state_input.stored_warmup"
+        }
+      ],
+      "return_keys": [
+        "version",
+        "write_time",
+        "write_warmup",
+        "time",
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_beam_drill_version_write_read_registration",
+        "test_all_c07_beam_drill_version_write_read_input_evidence_is_exact",
+        "test_beam_drill_version_write_read_state",
+        "test_reference_graph_and_actual_c07_beam_drill_version_write_read"
+      ],
+      "runtime_proof": "/root/C07BeamDrillVersionWriteReadProof",
+      "rule": "Source-backed BeamDrillBuild.version()/write()/read() state from BeamDrill.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_ambient_volume_state",
+      "status": "active",
+      "source_slice": "N2317",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.ambientVolume()",
+      "params": [
+        {
+          "name": "super_ambient_volume",
+          "type": "float",
+          "schema": "source_burst_drill_ambient_volume_state_input.super_ambient_volume"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_burst_drill_ambient_volume_state_input.progress"
+        }
+      ],
+      "return_keys": [
+        "ambient_volume"
+      ],
+      "tests": [
+        "test_c07_burst_drill_ambient_volume_registration",
+        "test_all_c07_burst_drill_ambient_volume_input_evidence_is_exact",
+        "test_burst_drill_ambient_volume_state",
+        "test_reference_graph_and_actual_c07_burst_drill_ambient_volume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillAmbientVolumeProof",
+      "rule": "Source-backed BurstDrill ambientVolume() state from BurstDrill.java + Drill.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_draw_state",
+      "status": "active",
+      "source_slice": "N2314",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.draw()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.y"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.top_region"
+        },
+        {
+          "name": "item_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.item_region"
+        },
+        {
+          "name": "arrow_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.arrow_region"
+        },
+        {
+          "name": "arrow_blur_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.arrow_blur_region"
+        },
+        {
+          "name": "glow_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.glow_region"
+        },
+        {
+          "name": "top_invert_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.top_invert_region"
+        },
+        {
+          "name": "invert_time",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.invert_time"
+        },
+        {
+          "name": "smooth_progress",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.smooth_progress"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_burst_drill_draw_state_input.has_dominant_item"
+        },
+        {
+          "name": "dominant_item_color",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.dominant_item_color"
+        },
+        {
+          "name": "draw_mine_item",
+          "type": "bool",
+          "schema": "source_burst_drill_draw_state_input.draw_mine_item"
+        },
+        {
+          "name": "arrows",
+          "type": "int",
+          "schema": "source_burst_drill_draw_state_input.arrows"
+        },
+        {
+          "name": "arrow_spacing",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.arrow_spacing"
+        },
+        {
+          "name": "arrow_offset",
+          "type": "float",
+          "schema": "source_burst_drill_draw_state_input.arrow_offset"
+        },
+        {
+          "name": "arrow_color",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.arrow_color"
+        },
+        {
+          "name": "base_arrow_color",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.base_arrow_color"
+        },
+        {
+          "name": "glow_color",
+          "type": "Variant",
+          "schema": "source_burst_drill_draw_state_input.glow_color"
+        },
+        {
+          "name": "top_invert_region_found",
+          "type": "bool",
+          "schema": "source_burst_drill_draw_state_input.top_invert_region_found"
+        },
+        {
+          "name": "arrow_blur_region_found",
+          "type": "bool",
+          "schema": "source_burst_drill_draw_state_input.arrow_blur_region_found"
+        },
+        {
+          "name": "glow_region_found",
+          "type": "bool",
+          "schema": "source_burst_drill_draw_state_input.glow_region_found"
+        },
+        {
+          "name": "draw_default_cracks",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_draw_state_input.draw_default_cracks"
+        }
+      ],
+      "return_keys": [
+        "base_rect",
+        "cracks",
+        "top_rect",
+        "invert_visible",
+        "invert_alpha",
+        "invert_rect",
+        "mine_item_visible",
+        "mine_item_rect",
+        "fract",
+        "arrow_count",
+        "arrows",
+        "glow_visible",
+        "glow_alpha",
+        "glow_color"
+      ],
+      "tests": [
+        "test_c07_burst_drill_draw_registration",
+        "test_all_c07_burst_drill_draw_input_evidence_is_exact",
+        "test_burst_drill_draw_state",
+        "test_reference_graph_and_actual_c07_burst_drill_draw"
+      ],
+      "runtime_proof": "/root/C07BurstDrillDrawProof",
+      "rule": "Source-backed BurstDrillBuild draw() state from BurstDrill.java + Drill.java + Block.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state",
+      "status": "active",
+      "source_slice": "N2344",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrill.getDrillTime()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_get_drill_time_state_input.frame"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_burst_drill_get_drill_time_state_input.drill_time"
+        },
+        {
+          "name": "drill_multipliers",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_get_drill_time_state_input.drill_multipliers"
+        },
+        {
+          "name": "item_id",
+          "type": "Variant",
+          "schema": "source_burst_drill_get_drill_time_state_input.item_id"
+        }
+      ],
+      "return_keys": [
+        "drill_time"
+      ],
+      "tests": [
+        "test_c07_burst_drill_get_drill_time_registration",
+        "test_all_c07_burst_drill_get_drill_time_input_evidence_is_exact",
+        "test_burst_drill_get_drill_time_state",
+        "test_reference_graph_and_actual_c07_burst_drill_get_drill_time"
+      ],
+      "runtime_proof": "/root/C07BurstDrillGetDrillTimeProof",
+      "rule": "Source-backed BurstDrill getDrillTime() state from BurstDrill.java + Drill.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_icons_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_icons_state",
+      "status": "active",
+      "source_slice": "N2312",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrill.icons()",
+      "params": [
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_burst_drill_icons_state_input.region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_burst_drill_icons_state_input.top_region"
+        }
+      ],
+      "return_keys": [
+        "icons"
+      ],
+      "tests": [
+        "test_c07_burst_drill_icons_registration",
+        "test_all_c07_burst_drill_icons_input_evidence_is_exact",
+        "test_burst_drill_icons_state",
+        "test_reference_graph_and_actual_c07_burst_drill_icons"
+      ],
+      "runtime_proof": "/root/C07BurstDrillIconsProof",
+      "rule": "Source-backed BurstDrill icons() state from BurstDrill.java + Drill.java + Block.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_liquid_rows_state",
+      "status": "active",
+      "source_slice": "N2296",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_liquid_rows_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_rows_state_input.delta"
+        },
+        {
+          "name": "required_amount",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_rows_state_input.required_amount"
+        },
+        {
+          "name": "booster_amount",
+          "type": "float",
+          "schema": "source_burst_drill_liquid_rows_state_input.booster_amount"
+        }
+      ],
+      "return_keys": [
+        "edelta",
+        "ed",
+        "required_efficiency",
+        "booster_efficiency",
+        "required_remove_amount",
+        "booster_remove_amount",
+        "required_row",
+        "optional_row",
+        "has_liquids"
+      ],
+      "tests": [
+        "test_c07_burst_drill_liquid_rows_registration",
+        "test_all_c07_burst_drill_liquid_rows_input_evidence_is_exact",
+        "test_burst_drill_liquid_rows_state",
+        "test_reference_graph_and_actual_c07_burst_drill_liquid_rows"
+      ],
+      "runtime_proof": "/root/C07BurstDrillLiquidRowsProof",
+      "rule": "Source-backed BurstDrill liquid rows from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + ConsumeLiquid.java + ConsumeLiquidBase.java + Consume.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_on_proximity_update_state",
+      "status": "active",
+      "source_slice": "N2302",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "DrillBuild.onProximityUpdate()",
+      "params": [
+        {
+          "name": "linked_tiles",
+          "type": "Array",
+          "schema": "source_burst_drill_on_proximity_update_state_input.linked_tiles"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_burst_drill_on_proximity_update_state_input.tier"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_burst_drill_on_proximity_update_state_input.blocked_items"
+        }
+      ],
+      "return_keys": [
+        "dominant_item",
+        "dominant_items"
+      ],
+      "tests": [
+        "test_c07_burst_drill_on_proximity_update_registration",
+        "test_all_c07_burst_drill_on_proximity_update_input_evidence_is_exact",
+        "test_burst_drill_on_proximity_update_state",
+        "test_reference_graph_and_actual_c07_burst_drill_on_proximity_update"
+      ],
+      "runtime_proof": "/root/C07BurstDrillOnProximityUpdateProof",
+      "rule": "Source-backed BurstDrill ore / dominant-item binding from Drill.java + BurstDrill.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBurstDrillBuildState.source_burst_drill_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_power_status_row_state",
       "status": "active",
@@ -614,6 +1961,862 @@
       ],
       "runtime_proof": "/root/C07BurstDrillPowerStatusProof",
       "rule": "Source-backed BurstDrill power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_set_stats_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_set_stats_state",
+      "status": "active",
+      "source_slice": "N2309",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrill.setStats()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_set_stats_state_input.frame"
+        },
+        {
+          "name": "liquid_boost_intensity",
+          "type": "float",
+          "schema": "source_burst_drill_set_stats_state_input.liquid_boost_intensity"
+        },
+        {
+          "name": "booster_consumer_found",
+          "type": "bool",
+          "schema": "source_burst_drill_set_stats_state_input.booster_consumer_found"
+        },
+        {
+          "name": "booster_amount",
+          "type": "float",
+          "schema": "source_burst_drill_set_stats_state_input.booster_amount"
+        },
+        {
+          "name": "booster_consumes",
+          "type": "bool",
+          "schema": "source_burst_drill_set_stats_state_input.booster_consumes"
+        }
+      ],
+      "return_keys": [
+        "booster_row_removed",
+        "booster_row"
+      ],
+      "tests": [
+        "test_c07_burst_drill_set_stats_registration",
+        "test_all_c07_burst_drill_set_stats_input_evidence_is_exact",
+        "test_burst_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_burst_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07BurstDrillSetStatsProof",
+      "rule": "Source-backed BurstDrill setStats() state from BurstDrill.java + Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_should_consume_state",
+      "status": "active",
+      "source_slice": "N2295",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_should_consume_state_input.frame"
+        },
+        {
+          "name": "item_capacity",
+          "type": "float",
+          "schema": "source_burst_drill_should_consume_state_input.item_capacity"
+        }
+      ],
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_burst_drill_should_consume_registration",
+        "test_all_c07_burst_drill_should_consume_input_evidence_is_exact",
+        "test_burst_drill_should_consume_state",
+        "test_reference_graph_and_actual_c07_burst_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07BurstDrillShouldConsumeProof",
+      "rule": "Source-backed BurstDrill shouldConsume gate from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + ConsumePower.java + UnitAssembler.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_burst_drill_update_tile_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_burst_drill_update_tile_state",
+      "status": "active",
+      "source_slice": "N2294",
+      "java_source": "core/src/mindustry/world/blocks/production/BurstDrill.java",
+      "source_method": "BurstDrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_burst_drill_update_tile_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.delta"
+        },
+        {
+          "name": "drill_time_base",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.drill_time_base"
+        },
+        {
+          "name": "drill_multiplier",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.drill_multiplier"
+        },
+        {
+          "name": "inverted_time",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.inverted_time"
+        },
+        {
+          "name": "liquid_boost_intensity",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.liquid_boost_intensity"
+        },
+        {
+          "name": "item_capacity",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.item_capacity"
+        },
+        {
+          "name": "dump_interval",
+          "type": "float",
+          "schema": "source_burst_drill_update_tile_state_input.dump_interval"
+        }
+      ],
+      "return_keys": [
+        "drill_time",
+        "invert_time",
+        "smooth_progress",
+        "warmup",
+        "time_drilled",
+        "last_drill_speed",
+        "progress",
+        "dump_timer",
+        "dump_due",
+        "offloaded_count",
+        "invert_fired"
+      ],
+      "tests": [
+        "test_c07_burst_drill_update_tile_registration",
+        "test_all_c07_burst_drill_update_tile_input_evidence_is_exact",
+        "test_burst_drill_update_tile_state",
+        "test_reference_graph_and_actual_c07_burst_drill_update_tile"
+      ],
+      "runtime_proof": "/root/C07BurstDrillUpdateTileProof",
+      "rule": "Source-backed BurstDrill updateTile advance from BurstDrill.java + Drill.java + BuildingComp.java + Block.java + Blocks.java + Interp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_ambient_volume_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_ambient_volume_state",
+      "status": "active",
+      "source_slice": "N2323",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.ambientVolume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_ambient_volume_state_input.frame"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_drill_ambient_volume_state_input.size"
+        }
+      ],
+      "return_keys": [
+        "ambient_volume"
+      ],
+      "tests": [
+        "test_c07_drill_ambient_volume_registration",
+        "test_all_c07_drill_ambient_volume_input_evidence_is_exact",
+        "test_drill_ambient_volume_state",
+        "test_reference_graph_and_actual_c07_drill_ambient_volume"
+      ],
+      "runtime_proof": "/root/C07DrillAmbientVolumeProof",
+      "rule": "Source-backed DrillBuild ambientVolume() state from Drill.java + BuildingComp.java + Block.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_can_place_on_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_can_place_on_state",
+      "status": "active",
+      "source_slice": "N2330",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.canPlaceOn(Tile tile, Team team, int rotation)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_can_place_on_state_input.frame"
+        },
+        {
+          "name": "is_multiblock",
+          "type": "bool",
+          "schema": "source_drill_can_place_on_state_input.is_multiblock"
+        },
+        {
+          "name": "linked_tiles_can_mine",
+          "type": "Array",
+          "schema": "source_drill_can_place_on_state_input.linked_tiles_can_mine"
+        },
+        {
+          "name": "tile_can_mine",
+          "type": "bool",
+          "schema": "source_drill_can_place_on_state_input.tile_can_mine"
+        }
+      ],
+      "return_keys": [
+        "can_place_on"
+      ],
+      "tests": [
+        "test_c07_drill_can_place_on_set_bars_draw_plan_config_registration",
+        "test_all_c07_drill_can_place_on_set_bars_draw_plan_config_input_evidence_is_exact",
+        "test_drill_can_place_on_set_bars_draw_plan_config_state",
+        "test_reference_graph_and_actual_c07_drill_can_place_on_set_bars_draw_plan_config"
+      ],
+      "runtime_proof": "/root/C07DrillCanPlaceOnSetBarsDrawPlanConfigProof",
+      "rule": "Source-backed Drill canPlaceOn() / setBars() / drawPlanConfig() state from Drill.java + Block.java + BuildingComp.java + BuildPlan.java + Item.java + Pal.java + Bar.java + arc Strings.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2403",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.Drill(String name)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_default_constructor_state_input.frame"
+        },
+        {
+          "name": "block_name",
+          "type": "String",
+          "schema": "source_drill_default_constructor_state_input.block_name"
+        },
+        {
+          "name": "ambient_sound",
+          "type": "Variant",
+          "schema": "source_drill_default_constructor_state_input.ambient_sound"
+        },
+        {
+          "name": "group",
+          "type": "Variant",
+          "schema": "source_drill_default_constructor_state_input.group"
+        }
+      ],
+      "return_keys": [
+        "name",
+        "group",
+        "ambient_sound",
+        "ambient_sound_volume"
+      ],
+      "tests": [
+        "test_c07_drill_burst_drill_default_constructor_registration",
+        "test_all_c07_drill_burst_drill_default_constructor_input_evidence_is_exact",
+        "test_drill_burst_drill_default_constructor_state",
+        "test_reference_graph_and_actual_c07_drill_burst_drill_default_constructor"
+      ],
+      "runtime_proof": "/root/C07DrillBurstDrillDefaultConstructorProof",
+      "rule": "Source-backed Drill()/BurstDrill() ctor field defaults from Drill.java + BurstDrill.java + Block.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_draw_place_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_draw_place_state",
+      "status": "active",
+      "source_slice": "N2351",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.drawPlace()",
+      "params": [
+        {
+          "name": "x",
+          "type": "int",
+          "schema": "source_drill_draw_place_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "int",
+          "schema": "source_drill_draw_place_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_drill_draw_place_state_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_drill_draw_place_state_input.valid"
+        },
+        {
+          "name": "has_tile",
+          "type": "bool",
+          "schema": "source_drill_draw_place_state_input.has_tile"
+        },
+        {
+          "name": "has_return_item",
+          "type": "bool",
+          "schema": "source_drill_draw_place_state_input.has_return_item"
+        },
+        {
+          "name": "return_item_icon",
+          "type": "Variant",
+          "schema": "source_drill_draw_place_state_input.return_item_icon"
+        },
+        {
+          "name": "return_item_color",
+          "type": "Variant",
+          "schema": "source_drill_draw_place_state_input.return_item_color"
+        },
+        {
+          "name": "width",
+          "type": "float",
+          "schema": "source_drill_draw_place_state_input.width"
+        },
+        {
+          "name": "draw_mine_item",
+          "type": "bool",
+          "schema": "source_drill_draw_place_state_input.draw_mine_item"
+        },
+        {
+          "name": "item_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_place_state_input.item_region"
+        },
+        {
+          "name": "offset",
+          "type": "float",
+          "schema": "source_drill_draw_place_state_input.offset"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_drill_draw_place_state_input.size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_drill_draw_place_state_input.tilesize"
+        },
+        {
+          "name": "icon_small",
+          "type": "float",
+          "schema": "source_drill_draw_place_state_input.icon_small"
+        },
+        {
+          "name": "linked_item",
+          "type": "Variant",
+          "schema": "source_drill_draw_place_state_input.linked_item"
+        }
+      ],
+      "return_keys": [
+        "branch",
+        "dx",
+        "dy",
+        "icon_size",
+        "commands",
+        "mine_item_drawn",
+        "tier_req_shown",
+        "super_draw_place_called",
+        "rotation",
+        "valid"
+      ],
+      "tests": [
+        "test_c07_drill_draw_place_registration",
+        "test_all_c07_drill_draw_place_input_evidence_is_exact",
+        "test_drill_draw_place_state",
+        "test_reference_graph_and_actual_c07_drill_draw_place"
+      ],
+      "runtime_proof": "/root/C07DrillDrawPlaceProof",
+      "rule": "Source-backed DrillBuild drawPlace() remainder state from Drill.java + Vars.java + Block.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_draw_select_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_draw_select_state",
+      "status": "active",
+      "source_slice": "N2341",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_drill_draw_select_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_drill_draw_select_state_input.y"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_drill_draw_select_state_input.block_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_drill_draw_select_state_input.tilesize"
+        },
+        {
+          "name": "icon_small",
+          "type": "float",
+          "schema": "source_drill_draw_select_state_input.icon_small"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_drill_draw_select_state_input.has_dominant_item"
+        },
+        {
+          "name": "dominant_item_icon_ratio",
+          "type": "float",
+          "schema": "source_drill_draw_select_state_input.dominant_item_icon_ratio"
+        }
+      ],
+      "return_keys": [
+        "visible",
+        "dx",
+        "dy",
+        "shadow_color",
+        "shadow_alpha",
+        "shadow_y",
+        "foreground_y",
+        "selection_width",
+        "selection_height"
+      ],
+      "tests": [
+        "test_c07_drill_draw_select_registration",
+        "test_all_c07_drill_draw_select_input_evidence_is_exact",
+        "test_drill_draw_select_state",
+        "test_reference_graph_and_actual_c07_drill_draw_select"
+      ],
+      "runtime_proof": "/root/C07DrillDrawSelectProof",
+      "rule": "Source-backed DrillBuild drawSelect() state from Drill.java + BuildingComp.java + Vars.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_draw_state",
+      "status": "active",
+      "source_slice": "N2325",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.draw()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.y"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.region"
+        },
+        {
+          "name": "rim_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.rim_region"
+        },
+        {
+          "name": "rotator_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.rotator_region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.top_region"
+        },
+        {
+          "name": "item_region",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.item_region"
+        },
+        {
+          "name": "block_draw_cracks",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.block_draw_cracks"
+        },
+        {
+          "name": "damaged",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.damaged"
+        },
+        {
+          "name": "block_size",
+          "type": "int",
+          "schema": "source_drill_draw_state_input.block_size"
+        },
+        {
+          "name": "healthf",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.healthf"
+        },
+        {
+          "name": "pos_id",
+          "type": "int",
+          "schema": "source_drill_draw_state_input.pos_id"
+        },
+        {
+          "name": "crack_regions",
+          "type": "Array",
+          "schema": "source_drill_draw_state_input.crack_regions"
+        },
+        {
+          "name": "draw_rim",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.draw_rim"
+        },
+        {
+          "name": "heat_color",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.heat_color"
+        },
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.warmup"
+        },
+        {
+          "name": "time_now",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.time_now"
+        },
+        {
+          "name": "draw_spin_sprite",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.draw_spin_sprite"
+        },
+        {
+          "name": "time_drilled",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.time_drilled"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.rotate_speed"
+        },
+        {
+          "name": "draw_alpha",
+          "type": "float",
+          "schema": "source_drill_draw_state_input.draw_alpha"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.has_dominant_item"
+        },
+        {
+          "name": "dominant_item_color",
+          "type": "Variant",
+          "schema": "source_drill_draw_state_input.dominant_item_color"
+        },
+        {
+          "name": "draw_mine_item",
+          "type": "bool",
+          "schema": "source_drill_draw_state_input.draw_mine_item"
+        }
+      ],
+      "return_keys": [
+        "base_rect",
+        "cracks_z",
+        "cracks",
+        "after_cracks_z",
+        "rim_visible",
+        "rim_alpha",
+        "rim_rect",
+        "rotator",
+        "top_rect",
+        "mine_item_visible",
+        "mine_item_rect"
+      ],
+      "tests": [
+        "test_c07_drill_draw_registration",
+        "test_all_c07_drill_draw_input_evidence_is_exact",
+        "test_drill_draw_state",
+        "test_reference_graph_and_actual_c07_drill_draw"
+      ],
+      "runtime_proof": "/root/C07DrillDrawProof",
+      "rule": "Source-backed DrillBuild draw() base state from Drill.java + BuildingComp.java + HealthComp.java + Block.java + Blocks.java + Layer.java + Drawf.java + BlockRenderer.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_icons_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_icons_state",
+      "status": "active",
+      "source_slice": "N2335",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.icons()",
+      "params": [
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_drill_icons_state_input.region"
+        },
+        {
+          "name": "rotator_region",
+          "type": "Variant",
+          "schema": "source_drill_icons_state_input.rotator_region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "schema": "source_drill_icons_state_input.top_region"
+        }
+      ],
+      "return_keys": [
+        "icons"
+      ],
+      "tests": [
+        "test_c07_drill_icons_registration",
+        "test_all_c07_drill_icons_input_evidence_is_exact",
+        "test_drill_icons_state",
+        "test_reference_graph_and_actual_c07_drill_icons"
+      ],
+      "runtime_proof": "/root/C07DrillIconsProof",
+      "rule": "Source-backed Drill icons() state from Drill.java + Block.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_sense_object_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_sense_object_state",
+      "status": "active",
+      "source_slice": "N2298",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.senseObject(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_sense_object_state_input.frame"
+        },
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_drill_sense_object_state_input.sensor"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_drill_sense_object_state_input.has_dominant_item"
+        },
+        {
+          "name": "dominant_item",
+          "type": "Variant",
+          "schema": "source_drill_sense_object_state_input.dominant_item"
+        },
+        {
+          "name": "super_sense_object_value",
+          "type": "Variant",
+          "schema": "source_drill_sense_object_state_input.super_sense_object_value"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "sense_object_value"
+      ],
+      "tests": [
+        "test_c07_drill_sense_registration",
+        "test_all_c07_drill_sense_input_evidence_is_exact",
+        "test_drill_sense_state",
+        "test_reference_graph_and_actual_c07_drill_sense"
+      ],
+      "runtime_proof": "/root/C07DrillSenseProof",
+      "rule": "Source-backed DrillBuild senseObject() + sense() state from Drill.java + BuildingComp.java + LAccess.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_set_stats_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_set_stats_state",
+      "status": "active",
+      "source_slice": "N2332",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "Drill.setStats()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_set_stats_state_input.frame"
+        },
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_drill_set_stats_state_input.drill_time"
+        },
+        {
+          "name": "hardness_drill_multiplier",
+          "type": "float",
+          "schema": "source_drill_set_stats_state_input.hardness_drill_multiplier"
+        },
+        {
+          "name": "size",
+          "type": "int",
+          "schema": "source_drill_set_stats_state_input.size"
+        },
+        {
+          "name": "tier",
+          "type": "int",
+          "schema": "source_drill_set_stats_state_input.tier"
+        },
+        {
+          "name": "drill_multipliers",
+          "type": "Dictionary",
+          "schema": "source_drill_set_stats_state_input.drill_multipliers"
+        },
+        {
+          "name": "blocked_items",
+          "type": "Variant",
+          "schema": "source_drill_set_stats_state_input.blocked_items"
+        },
+        {
+          "name": "liquid_boost_intensity",
+          "type": "float",
+          "schema": "source_drill_set_stats_state_input.liquid_boost_intensity"
+        },
+        {
+          "name": "booster_consumer_found",
+          "type": "bool",
+          "schema": "source_drill_set_stats_state_input.booster_consumer_found"
+        },
+        {
+          "name": "booster_amount",
+          "type": "float",
+          "schema": "source_drill_set_stats_state_input.booster_amount"
+        },
+        {
+          "name": "booster_consumes",
+          "type": "bool",
+          "schema": "source_drill_set_stats_state_input.booster_consumes"
+        }
+      ],
+      "return_keys": [
+        "drill_tier_row",
+        "drill_speed_row",
+        "booster_row_removed",
+        "booster_row"
+      ],
+      "tests": [
+        "test_c07_drill_set_stats_registration",
+        "test_all_c07_drill_set_stats_input_evidence_is_exact",
+        "test_drill_set_stats_state",
+        "test_reference_graph_and_actual_c07_drill_set_stats"
+      ],
+      "runtime_proof": "/root/C07DrillSetStatsProof",
+      "rule": "Source-backed Drill setStats() state from Drill.java + Blocks.java + StatValues.java + StatUnit.java + ConsumeLiquidBase.java + Block.java + Consume.java + Stat.java + bundle.properties.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_should_ambient_sound_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_should_ambient_sound_state",
+      "status": "active",
+      "source_slice": "N2305",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.shouldAmbientSound()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_should_ambient_sound_state_input.frame"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_drill_should_ambient_sound_state_input.efficiency"
+        },
+        {
+          "name": "items_total",
+          "type": "int",
+          "schema": "source_drill_should_ambient_sound_state_input.items_total"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "schema": "source_drill_should_ambient_sound_state_input.item_capacity"
+        }
+      ],
+      "return_keys": [
+        "should_ambient_sound"
+      ],
+      "tests": [
+        "test_c07_drill_should_ambient_sound_registration",
+        "test_all_c07_drill_should_ambient_sound_input_evidence_is_exact",
+        "test_drill_should_ambient_sound_state",
+        "test_reference_graph_and_actual_c07_drill_should_ambient_sound"
+      ],
+      "runtime_proof": "/root/C07DrillShouldAmbientSoundProof",
+      "rule": "Source-backed DrillBuild shouldAmbientSound() gate from Drill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java + BurstDrill.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_should_consume_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_should_consume_state",
+      "status": "active",
+      "source_slice": "N2338",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_should_consume_state_input.frame"
+        },
+        {
+          "name": "item_capacity",
+          "type": "float",
+          "schema": "source_drill_should_consume_state_input.item_capacity"
+        },
+        {
+          "name": "has_dominant_item",
+          "type": "bool",
+          "schema": "source_drill_should_consume_state_input.has_dominant_item"
+        }
+      ],
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_drill_should_consume_registration",
+        "test_all_c07_drill_should_consume_input_evidence_is_exact",
+        "test_drill_should_consume_state",
+        "test_reference_graph_and_actual_c07_drill_should_consume"
+      ],
+      "runtime_proof": "/root/C07DrillShouldConsumeProof",
+      "rule": "Source-backed DrillBuild shouldConsume() gate from Drill.java + BurstDrill.java + BuildingComp.java + Block.java + Blocks.java + ItemModule.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBurstDrillBuildState.source_drill_write_state": {
+      "canonical_contract": "source_api_contracts.SourceBurstDrillBuildState.source_drill_write_state",
+      "status": "active",
+      "source_slice": "N2286",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.write()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_drill_write_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "progress",
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_burst_drill_write_read_registration",
+        "test_all_c07_burst_drill_write_read_input_evidence_is_exact",
+        "test_burst_drill_write_read_state",
+        "test_reference_graph_and_actual_c07_burst_drill_write_read"
+      ],
+      "runtime_proof": "/root/C07BurstDrillWriteReadProof",
+      "rule": "Source-backed DrillBuild.write()/read()/version() state from Drill.java + BuildingComp.java.",
       "return_type": "Dictionary"
     },
     "SourceDrillConsumptionRuntimeState.source_dominant_item_name_state": {

@@ -49,6 +49,23 @@ Agent use:
 - Spawn agents only for independent non-conflicting work.
 - Do not spawn agents for slices touching shared SSOT JSON, checklist totals, or `godot-mindustry/src/game/PortGame.gd`.
 
+## Family ownership split between lines (Isabella, 2026-11-17 ~19:06 +07)
+
+Two lines work on this repo in parallel (this VM + the Windows/other line) and
+each family lives in ONE GD file, so two lines touching the same family edit
+the same file. After two divergences in one day (remote N2233 RepairTurret
+colliding with local N2233 on SourceRepairTurretBuildState.gd), families are
+split — each line works ONLY its own families:
+- This VM line: Turret, BurstDrill, Radar, Game. **BuildTurret → this VM line** (main-thread decision 2026-11-22 ~16:10 +07: BuildTurret extends BaseTurret, BlockGroup.turrets, Turret family; remote never touched it beyond shared PortGame-era N2184/N2201; first slice N2423 BuildTurretBuild.updateTile() plan legs).
+- Windows/other line: RepairTower, RepairTurret, PointDefenseTurret (Isabella 2026-11-18 ~16:08 +07, after 9 straight PointDefenseTurret slices N2239–N2247 from the Windows line).
+Ambient B (N2260, RepairTurret driver tick line) belongs to the Windows line;
+ambient C (N2304, SoundControl mixer, game-level — moved from N2264 after divergence #35,
+remote took N2264) belongs to this VM line but waits for B. Never start a slice in another line's family. If the other line
+has already pushed a number you need, renumber yours (precedent N2228) — never
+take their number. (Restored 2026-11-18: this section was lost in the round-3
+reset to 7dfdec3; B/C renumbered from N2242/N2243 — remote took both numbers,
+divergences #11/#13.)
+
 ## Standing hourly Godot validation duty (user-authorized 2026-11-15)
 
 - At every scheduled validation run or context recovery, read `docs/superpowers/tasks/hourly-godot-validation.md` before acting. This is the persistent scope and recovery contract for the validation agent, not an instruction for migration agents to change their slices.
@@ -58,3 +75,20 @@ Agent use:
 - Publish and merge only this agent's narrowly scoped passing validation reports/evidence and necessary isolated proof-fixture repairs, following the task contract. Unresolved failures must be reported, never merged as GREEN.
 - Preserve dirty workspaces, use an isolated validation branch, stage exact files, check main again before merging, and never force-push main or resolve another agent's changes by overwriting them.
 - Save the tested SHA, evidence, pending work and next action to the on-disk checkpoint after each run. Do not rely on chat history or memory alone.
+
+## Wiring-standard test set (pinned 2026-11-18, research agent 4deb807f)
+
+Every slice re-verifies this fixed set after targeted + family, before
+committing. 9 modules, 32 tests, run from
+`tools/mindustry_godot_transpiler/` with pytest (one command, ~135s):
+`test_power_graph_live_update_binding`, `test_battery_power_status_binding`,
+`test_battery_placement_binding`, `test_adjacent_factory_live_loop`,
+`test_unit_factory_live_loop`, `test_turret_live_loop`,
+`test_continuous_liquid_turret_live_loop`,
+`test_power_graph_consumer_cheating`, `test_factory_live_loop`
+(all `tests/<name>.py`). Subtest total drifts as slices land (235 at
+N2270/N2271 in worktrees, 250 in main at N2271, 250 also at N2231) —
+registry/Godot-dependent, not a module-list change. Reference-graph
+tests in this set fail transiently on port-7777 contention with a
+sibling worker's Godot proof; re-run the failed module alone before
+calling it a real failure.

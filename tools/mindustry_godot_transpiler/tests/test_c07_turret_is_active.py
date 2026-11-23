@@ -119,7 +119,10 @@ class C07TurretIsActiveTests(unittest.TestCase):
         # function and the real driver (target alone / was
         # shooting alone / disabled / positive timer -- directly;
         # both keys stamped live on the frame, with the target
-        # and timer clauses observable through the driver).
+        # and timer clauses observable through the driver), plus
+        # the three cases merged from the local N2328 proof
+        # (merge 2026-11-23): no target + not shooting, negative
+        # timer, and the single-key result.
         proof = TURRET_IS_ACTIVE_PROOF.read_text(encoding='utf-8')
         for key in [
             'is_active_true_with_target',
@@ -128,6 +131,9 @@ class C07TurretIsActiveTests(unittest.TestCase):
             'is_active_false_when_timer_positive',
             'is_active_stamped_to_frame',
             'is_active_target_and_timer_stamped_to_frame',
+            'inactive_no_target_not_shooting',
+            'active_at_activation_timer_negative',
+            'returns_only_one_key',
         ]:
             with self.subTest(key=key):
                 self.assertIn(key, proof)
@@ -149,6 +155,9 @@ class C07TurretIsActiveTests(unittest.TestCase):
             'is_active_false_when_timer_positive',
             'is_active_stamped_to_frame',
             'is_active_target_and_timer_stamped_to_frame',
+            'inactive_no_target_not_shooting',
+            'active_at_activation_timer_negative',
+            'returns_only_one_key',
         ]:
             with self.subTest(key=key):
                 self.assertTrue(proofs[0][key], proofs[0])

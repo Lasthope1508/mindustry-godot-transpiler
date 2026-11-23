@@ -121,7 +121,15 @@ class C07TurretIsShootingTests(unittest.TestCase):
         self.assertIn('frame["is_shooting"] = is_shooting_state.get("is_shooting", false)', turret)
         self.assertLess(turret.index('frame["has_target"] = false'), turret.index('var is_shooting_state: Dictionary = source_turret_is_shooting_state(false,'))
         self.assertLess(turret.index('var is_shooting_state: Dictionary = source_turret_is_shooting_state(false,'), turret.index('var efficiency_multiplier: Dictionary'))
-        self.assertIn('source_turret_warmup_state(float(frame.get("shoot_warmup", 0.0)), float(frame.get("warmup_hold", 0.0)), bool(frame.get("is_shooting", false)), duo_can_consume', turret)
+        # The :502 warmup call reads the stamped key instead of
+        # recomputing `has_target and valid` inline. Merge
+        # 2026-11-23: the remote 11-arg
+        # source_turret_warmup_state call (dropped N2253) is
+        # rewired to the kept local N2308
+        # source_turret_update_tile_warmup_state, with
+        # potential_efficiency 1.0/0.0 recreating duo_can_consume
+        # at heat_requirement 0.0.
+        self.assertIn('source_turret_update_tile_warmup_state(frame, bool(frame.get("is_shooting", false)), 1.0 if duo_can_consume else 0.0, bool(frame.get("charging", false)), bool(frame.get("controlled", false)), float(frame.get("warmup_hold", 0.0)), float(frame.get("shoot_warmup", 0.0)), false, 0.1, float(frame.get("efficiency", 1.0)), 0.0, seconds, 0.0, 0.0)', turret)
         # The proof's keys drive the flag through the pure
         # function and the real driver (a duo with a target is
         # shooting / no target is not / a logic-controlled duo

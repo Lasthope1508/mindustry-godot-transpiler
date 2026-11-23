@@ -221,6 +221,65 @@ static func source_build_turret_should_consume_state(frame: Dictionary) -> Dicti
 	var heal_suppressed: bool = bool(frame.get("heal_suppressed", false))
 	return {"should_consume": int(plans_count) > 0 and not heal_suppressed and enabled}
 
+static func source_build_turret_update_tile_plan_state(has_following: bool, following_valid: bool, controlled: bool, build_plan_null: bool, team_plans: Array, valid_place: Callable, req_breaking: bool, req_pos: Vector2i, player_breaking_same_pos: bool, mimic_following_set: bool) -> Dictionary:
+	# BuildTurretBuild.updateTile() plan legs (BuildTurret.java:121-227): the plan search / follow / mimic / validate advance N2184 deferred -- one pure function over explicit params, no engine calls. The follower validation clears following when the follower is gone or stopped building (BuildTurret.java:144-148); the search leg iterates the team plan queue and takes the first plan the caller-supplied validPlace gate accepts (the search opener `}else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){`, :156, is owned at N2184); the mimic leg clears following and scans nearby builders when no plan was found (BuildTurret.java:174-187); the validate leg drops the request when another player is breaking the same position (BuildTurret.java:193-201) and picks the break/place leg of the valid ternary (BuildTurret.java:204-211); the controlled branch forgets everything (BuildTurret.java:217-220). The `Units.nearby` live query itself waits for its own slice -- this function only answers whether mimic starts and whether a candidate's callback returns early. The `Build.validPlace` + infiniteResources/items gate is an explicit Callable param (the N2418 precedent); `timer(timerTarget, targetInterval)` and `timer.get(timerTarget2, 30f)` are caller-side booleans, not modeled here. The 9 exact exprs of N2423 (verbatim, one per line):
+	# - `following = null;`
+	# - `for(int i = 0; i < blocks.size; i++){`
+	# - `var block = blocks.get(i);`
+	# - `var btype = block.block;`
+	# - `if(Build.validPlace(btype, unit.team(), block.x, block.y, block.rotation) && (state.rules.infiniteResources || team.rules().infiniteResources || team.items().has(btype.requirements, state.rules.buildCostMultiplier))){`
+	# - `if(unit.buildPlan() == null){`
+	# - `if(following  != null) return;`
+	# - `team.data().plans.remove(p -> p.x == req.x && p.y == req.y);`
+	# - `(req.breaking ?`
+	var following_cleared: bool = (has_following and not following_valid) or build_plan_null or controlled
+	var found_plan: Dictionary = {}
+	var found_btype: String = ""
+	var found_index: int = -1
+	if build_plan_null and not controlled:
+		for i in range(team_plans.size()):
+			var block = team_plans[i]
+			if block is Dictionary and valid_place.is_valid() and bool(valid_place.call(block)):
+				found_plan = block
+				found_btype = str(block.get("block", ""))
+				found_index = i
+				break
+	var mimic: bool = build_plan_null and found_index < 0 and not controlled
+	var mimic_early_return: bool = mimic and mimic_following_set
+	var remaining_plans: Array = team_plans.duplicate()
+	if not build_plan_null and not controlled and player_breaking_same_pos:
+		var kept: Array = []
+		for plan in team_plans:
+			if plan is Dictionary and Vector2i(int(plan.get("x", 0)), int(plan.get("y", 0))) == req_pos:
+				continue
+			kept.append(plan)
+		remaining_plans = kept
+	var valid_break_branch: bool = not build_plan_null and not controlled and req_breaking
+	return {"following_cleared": following_cleared, "found_plan": found_plan, "found_btype": found_btype, "found_index": found_index, "mimic": mimic, "mimic_early_return": mimic_early_return, "team_plans": remaining_plans, "valid_break_branch": valid_break_branch}
+
+static func source_build_turret_init_unit_type_state(rotate_speed: float) -> Dictionary:
+	# BuildTurret.init() (BuildTurret.java:50-69, `public void init(){`) builds the builder unit type once at block init: `unitType = new UnitType("turret-unit-" + name){{` (:56) -- an anonymous UnitType whose fields are the hidden builder-unit constants below. init() runs once, not per-tick, so this is a pure function over the block's rotateSpeed, which the caller passes explicitly: the constructor default is `rotateSpeed = 10f;` (BuildTurret.java:45), but the init line reads the live block field, so the value is a param, not a constant. The 6 exact exprs of N2426 (verbatim, one per line):
+	# - `hidden = true;`
+	# - `internal = true;`
+	# - `speed = 0f;`
+	# - `hitSize = 0f;`
+	# - `health = 1;`
+	# - `rotateSpeed = BuildTurret.this.rotateSpeed;`
+	# NOT this slice: `if(elevation < 0) elevation = size / 2f;` (:53, already owned), `itemCapacity = 0;` (:62, already owned), `buildBeamOffset = BuildTurret.this.buildBeamOffset;` / `buildRange = BuildTurret.this.range;` / `buildSpeed = BuildTurret.this.buildSpeed;` / `constructor = BlockUnitUnit::create;` (:64-67, already owned at N2184), the opener :56 and the `}};` closer :68 (generic). The builder unit never moves, never takes hits and never shows in the unit list: hidden + internal, speed 0, hitSize 0, health 1 -- it exists only to carry the build plan.
+	return {"hidden": true, "internal": true, "speed": 0.0, "hit_size": 0.0, "health": 1, "rotate_speed": rotate_speed}
+
+static func source_build_turret_read_plans_state(reqs_null: bool, reqs: Array) -> Dictionary:
+	# BuildTurretBuild.read() (BuildTurret.java:266-278, `public void read(Reads read, byte revision){`) restores the builder unit's plans after `TypeIO.readPlans(read)` (:272, owned at N2184): when the read plans are null nothing is restored; otherwise each plan is added back to the unit plan queue in order (`unit.plans().add(req);`, :275). The rotation / clear / readPlans legs (:269-272) are owned at N2184 -- this slice is ONLY the null-guard + restore loop. The 3 exact exprs of N2429 (verbatim, one per line):
+	# - `if(reqs != null){`
+	# - `for(var req : reqs){`
+	# - `unit.plans().add(req);`
+	# NOT this slice: `super.read(read, revision);` (:268, generic), `rotation = read.f();` (:269, N2184), `unit.rotation(rotation);` (:270, N2184), `unit.plans().clear();` (:271, N2184 -- do not confuse with :275 `unit.plans().add(req);`), `var reqs = TypeIO.readPlans(read);` (:272, N2184). read() runs once per load, not per-tick, so this is a pure function over the caller-side reqs Array + reqs_null bool (TypeIO.readPlans already ran at N2184).
+	var plans_to_add: Array = []
+	if not reqs_null:
+		for req in reqs:
+			plans_to_add.append(req)
+	return {"plans_to_add": plans_to_add}
+
 @warning_ignore("unused_parameter")
 static func source_build_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the build-turret tick wiring every

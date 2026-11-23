@@ -52,7 +52,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_warmup import DEFERRED as N2253_DEFERRED
+from register_c07_item_turret_bullet_spawn import DEFERRED as N2252_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -71,7 +71,9 @@ SLICE_SOURCES = [
 ]
 EXACT_EXPRS = ['curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);', 'heat = Mathf.approachDelta(heat, 0, 1 / cooldownTime);', 'if(recoils > 0){', 'curRecoils[i] = Mathf.approachDelta(curRecoils[i], 0, 1 / recoilTime);', 'public float recoil = 1f;', 'public int recoils = -1;', 'public float recoilTime = -1f;', 'public float recoilPow = 1.8f;', 'public float cooldownTime = 20f;', 'if(recoilTime < 0f) recoilTime = reload;', 'if(cooldownTime < 0f) cooldownTime = reload;', 'curRecoil = 1f;', 'heat = 1f;', 'recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);', 'public float curRecoil, heat, logicControlTime = -1;', 'public static float approach(float from, float to, float speed){', 'return from + Mathf.clamp(to - from, -speed, speed);', 'public static float approachDelta(float from, float to, float speed){', 'return approach(from, to, Time.delta * speed);', 'float warmupTarget = (isShooting && canConsume()) || charging() ? 1f : 0f;', 'if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup){']
 
-# DEFERRED is carried from the N2253 register script via import --
+# DEFERRED is carried from the N2252 register script via import --
+# (merge 2026-11-23: N2253 warmup dropped, content belongs to N2308 --
+# the chain skips it; its Windows-proof debt is moot with the slice).
 # never retyped. Recoil/heat decay is done by this slice, so the
 # N2253 "Turret recoil/heat decay ... (N2254 candidate)" entry and
 # the N2250 lumped "bullet() recoil/heat/totalShots" entry are
@@ -79,7 +81,7 @@ EXACT_EXPRS = ['curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);',
 # offset still wait, as separate entries below); the charge
 # advance, multi-recoil, and findTarget / queuedBullets / the
 # other ItemTurret defs still wait.
-DEFERRED = list(N2253_DEFERRED) + [
+DEFERRED = list(N2252_DEFERRED) + [
     'Turret recoil/heat Windows Godot proof -- debt in GOAL.md section 5, same as N2240-N2253: the N2254 proof runs headless on Linux here and waits for a Windows Godot run.',
     'Turret multi-recoil array (curRecoils approachDelta, Turret.java:520-525) -- duo recoils is -1, so the loop is skipped; a def with recoils > 0 waits for its own slice.',
     'Turret shoot stamp (curRecoil = 1f; / heat = 1f; / totalShots++;, Turret.java:807-810) -- the decay slice only decays the values; the stamp that sets them to 1 on a shot waits with the shoot-stamp slice.',

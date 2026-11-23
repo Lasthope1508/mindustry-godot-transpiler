@@ -6,10 +6,14 @@ const source_placed_block_state := preload("res://src/game/SourcePlacedBlockStat
 const source_block_geometry := preload("res://src/game/SourceBlockGeometry.gd")
 const source_building_efficiency_state := preload("res://src/game/SourceBuildingEfficiencyState.gd")
 const source_building_access_state := preload("res://src/game/SourceBuildingAccessState.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
 
 # The Radar implementation (Radar.java:17, `public class Radar extends Block{`): radar (consumePower 0.6f, Blocks.java:1994, `consumePower(0.6f);`; size 1, fogRadius 34, Blocks.java:1991). Radar extends Block, NOT a factory or crafter, so no existing driver matches it and no frame key exists for it; this driver uses its own family frame key ("source_radar_building", the launch-pad precedent), and this slice adds the radar key to N2142's SOURCE_CONSUMER_FRAME_META_KEYS so the graph stamp/write-back finds it. The port has NO SourceRadar* files at all yet -- no display/runtime state to lean on -- so the missing piece is the live power.status -> efficiency driver, which is exactly this slice: the updateTile progress advance (Radar.java:68, `progress += edelta() / discoveryTime;`) advances progress by edelta() (BuildingComp.java:1927-1929, `return efficiency * delta();`), so a radar with no power would never discover -- its progress would sit frozen as if power.status were 1.0.
 const SOURCE_RADAR_BUILD_IMPLEMENTATIONS := ["Radar"]
 const SOURCE_RADAR_BUILDING_META_KEY := "source_radar_building"
+# The per-def discovery time is 600.0 (Radar.java:18, `public float discoveryTime = 60f * 10f;`) and the per-def fog radius is 34.0 (Blocks.java:1991, `fogRadius = 34;`, overriding the class default `fogRadius = 10;`, Radar.java:33); the catalog carries neither, so the driver passes these constants (the N2212 per-def-param precedent).
+const SOURCE_RADAR_DISCOVERY_TIME := 600.0
+const SOURCE_RADAR_FOG_RADIUS := 34.0
 
 static func _is_radar_build_implementation(implementation: String) -> bool:
 	return SOURCE_RADAR_BUILD_IMPLEMENTATIONS.has(implementation)
@@ -69,6 +73,86 @@ static func source_radar_power_status_row_state(frame: Dictionary, has_power_con
 	var live: float = 1.0 if stamped == null else float(stamped)
 	return {"has_power_row": true, "row": {"result": live, "is_power": true}}
 
+static func source_radar_fog_radius_state(frame: Dictionary, fog_radius: float) -> Dictionary:
+	# RadarBuild.fogRadius() (Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56): the live fog radius is the def fogRadius scaled by the discovery progress and the smoothed efficiency -- 0.0 before discovery (progress 0.0) and the full def radius at progress 1.0 and smooth efficiency 1.0. The def fogRadius is 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`); fog_radius is an explicit per-def param (the N2212 per-def-param precedent) because the catalog carries no fogRadius. The frame carries `progress` (absent defaults to 0.0 -- `public float progress;`, Radar.java:49) and `smooth_efficiency` (absent defaults to 1.0 -- the Java field init, Radar.java:51, `public float smoothEfficiency = 1f;`). The accessor is what updateTile reads for its force-update check (Radar.java:63, `if(Math.abs(fogRadius() - lastRadius) >= 0.5f){`) and what drawSelect draws (Radar.java:80-82, `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`); the updateTile advance (N2320) and the draw rows wait for their own slices, so no driver tick line lands here -- the accessor is the read its callers share. One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	var progress: float = float(frame.get("progress", 0.0))
+	var smooth_efficiency: float = float(frame.get("smooth_efficiency", 1.0))
+	var fog_radius_value: float = fog_radius * progress * smooth_efficiency
+	return {"fog_radius": fog_radius_value}
+
+static func source_radar_progress_state(frame: Dictionary) -> Dictionary:
+	# RadarBuild.progress() (Radar.java:93, `public float progress(){` with `return progress;`, Radar.java:94) overrides the base BuildingComp.progress() for Radar: the discovery-progress accessor returns the frame's progress (the Java field `public float progress;`, Radar.java:49, init 0.0), advanced by updateTile (Radar.java:68, `progress += edelta() / discoveryTime;`, clamped Radar.java:69, `progress = Mathf.clamp(progress);`, N2320) and read by fogRadius() (Radar.java:56, `return fogRadius * progress * smoothEfficiency;`, N2321). The logic-dispatch hook that reads it waits for its own slice (the N2255 sense precedent), and the write/read persistence (Radar.java:101, `write.f(progress);` / Radar.java:108, `progress = read.f();`) is its own slice -- so no driver tick line lands here: the accessor is the read its callers share. One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	return {"progress": float(frame.get("progress", 0.0))}
+
+@warning_ignore("unused_parameter")
+static func source_radar_can_pickup_state(frame: Dictionary) -> Dictionary:
+	# RadarBuild.canPickup() (Radar.java:75, `public boolean canPickup(){` with `return false;`, Radar.java:76) overrides the base BuildingComp.canPickup() (BuildingComp.java:1838, `public boolean canPickup(){` with `return block.canPickup;`, BuildingComp.java:1839) for Radar: a radar can never be picked up, whatever the frame holds -- the override takes no state, so the frame is the family-convention first arg (every Radar pure function takes it) and is unused. No driver tick line lands here: pickup is a placement-time gate, not tick state (the accessor precedent N2311/N2321). One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	return {"can_pickup": false}
+
+@warning_ignore("unused_parameter")
+static func source_radar_write_state(frame: Dictionary, progress: float) -> Dictionary:
+	# RadarBuild.write() (Radar.java:98, `public void write(Writes write){` with `super.write(write);`, Radar.java:99, and `write.f(progress);`, Radar.java:101) persists exactly ONE field, the discovery progress (the Java field `public float progress;`, Radar.java:49, init 0.0). `super.write(write)` (BuildingComp) is deferred -- only the marker is recorded, as in N2217. lastRadius / smoothEfficiency / totalProgress are NOT persisted: they are recomputed every tick (`smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);`, Radar.java:61; `lastRadius = fogRadius();`, Radar.java:65; `totalProgress += efficiency * edelta();`, Radar.java:71, N2320), so a loaded radar rebuilds them from their field defaults (`public float lastRadius = 0f;`, Radar.java:50; `public float smoothEfficiency = 1f;`, Radar.java:51; `public float totalProgress;`, Radar.java:52). The frame is the family-convention first arg (every Radar pure function takes it); the persisted value is the explicit progress param, the live field value the caller passes. Java write.f is a 32-bit float while GDScript float is 64-bit -- the pure function adds NO rounding epsilon; the proof round-trips float32-safe values exactly and checks the inexact value 0.1 with is_equal_approx. There is NO driver tick line: serialization is called by save/load, not by the tick. One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	return {"progress": float(progress)}
+
+@warning_ignore("unused_parameter")
+static func source_radar_read_state(frame: Dictionary, stored_progress: float, revision: int) -> Dictionary:
+	# RadarBuild.read() (Radar.java:105, `public void read(Reads read, byte revision){` with `super.read(read, revision);`, Radar.java:106, and `progress = read.f();`, Radar.java:108) restores the persisted progress unconditionally. RadarBuild does NOT override version(), so `revision` is passed to super only and never read in the body -- there is no `if(revision >= ...)` guard like RepairTurret's (N2217); the read function takes `revision` as an explicit int input and ignores it, so the proof can pin that revisions 0, 1 and 2 give the same result. `super.read(read, revision)` (BuildingComp) is deferred -- only the marker is recorded, as in N2217. The frame is the family-convention first arg; the restored value is the explicit stored_progress param, the float read from the save stream. Java read.f is a 32-bit float while GDScript float is 64-bit -- the pure function adds NO rounding epsilon. There is NO driver tick line: serialization is called by save/load, not by the tick. One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	return {"progress": float(stored_progress)}
+
+static func source_radar_icons_state(base_region: Variant, region: Variant) -> Dictionary:
+	# Radar.icons() (Radar.java:36-39):
+	# @Override
+	# public TextureRegion[] icons(){
+	# return new TextureRegion[]{baseRegion, region};
+	# }
+	# This slice pins ONLY the override's two-element return array, base first. baseRegion is the block's own base field (Radar.java:21): `public @Load("@-base") TextureRegion baseRegion;` -- loaded as name + "-base". region is the inherited block region (Block.java:427): `public TextureRegion region;` -- the block's own region, the block name. The Block.icons() base (`protected TextureRegion[] icons(){`, Block.java:976-980, the variants/teamRegion fold) is NOT this slice: Radar overrides it. The getGeneratedIcons cache (`public TextureRegion[] getGeneratedIcons(){`, Block.java:986, `return generatedIcons == null ? (generatedIcons = icons()) : generatedIcons;`, Block.java:987) is likewise deferred -- only the override's return array is pinned (the N2227 RepairTurret.icons() precedent, itself following the N1232 TractorBeamTurret.icons() precedent: "TextureRegion internals and inherited region loading remain deferred; explicit inputs carry baseRegion and region field values", pinned as the identity pure function source_tractor_beam_turret_icons_state).
+	# The class (Radar.java:17): `public class Radar extends Block{`.
+	# Per-def region ids: radar ("radar", Blocks.java:1988) -> ["radar-base", "radar"].
+	# There is no driver tick line: icons() is a load-time region accessor, not a per-tick write (the N2217 read/write + N2224 setStats lifecycle precedent).
+	var icons: Array = [base_region, region]
+	return {"icons": icons}
+
+static func source_radar_update_tile_state(frame: Dictionary, delta: float, discovery_time: float, fog_radius: float) -> Dictionary:
+	# RadarBuild.updateTile advances the radar's discovery state every tick (Radar.java:60, `public void updateTile(){`): `smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.05f);` (Radar.java:61) lerps the smoothed efficiency toward the folded efficiency; `if(Math.abs(fogRadius() - lastRadius) >= 0.5f){` (Radar.java:63) with `Vars.fogControl.forceUpdate(team, this);` (Radar.java:64) and `lastRadius = fogRadius();` (Radar.java:65) forces a fog update when the live fog radius moved by half a tile or more; `progress += edelta() / discoveryTime;` (Radar.java:68) with `progress = Mathf.clamp(progress);` (Radar.java:69) advances discovery by edelta() over the discovery time, clamped to [0, 1]; `totalProgress += efficiency * edelta();` (Radar.java:71) tracks the efficiency-weighted tick count. edelta() is efficiency * delta (BuildingComp.java:1927-1929, `public float edelta(){` with `return efficiency * delta();`, and `public float delta(){` with `return Time.delta * timeScale;`, BuildingComp.java:1922-1923 -- timeScale is 1 by default and the port passes the raw tick seconds, the N2190 driver convention). The fog radius read is fogRadius() (Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56): the def fogRadius is 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`). The discovery time is 600f (Radar.java:18, `public float discoveryTime = 60f * 10f;`). The frame carries `smooth_efficiency` (absent defaults to 1.0 -- the Java field init, Radar.java:51, `public float smoothEfficiency = 1f;`), `progress` (absent defaults to 0.0 -- `public float progress;`, Radar.java:49), `last_radius` (absent defaults to 0.0 -- `public float lastRadius = 0f;`, Radar.java:50), `total_progress` (absent defaults to 0.0 -- `public float totalProgress;`, Radar.java:52) and `efficiency` (absent defaults to 0.0 -- the transient field default, BuildingComp.java:85, `transient float efficiency;`, the N2192/N2204 precedent). The fog-radius check uses the NEW smoothed efficiency and the OLD progress (Java order: the lerp :61 runs before the check :63-66, the progress advance :68 runs after). `force_update` is the observable flag: the actual FogControl call (`public void forceUpdate(Team team, Building build){`, FogControl.java:177) waits for its own fog slice -- the port has no fog system to call into. A disabled radar never advances because updateConsumption zeroes the efficiencies first (`if(!enabled){` with `potentialEfficiency = efficiency = optionalEfficiency = 0f;`, BuildingComp.java:1954-1955), so the driver zeroes efficiency before the call (the N2204 precedent). One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`). The lerp is the port's frame-rate independent delta-scaled helper (SourceMathState.source_lerp_delta, the SourceBlockProducerBuildUpdateState precedent; arc Mathf.lerpDelta is `return lerp(fromValue, toValue, clamp(progress * Time.delta));` and Mathf.clamp one-arg clamps to [0, 1], the GDScript spelling is clampf(value, 0.0, 1.0)).
+	var smooth_efficiency: float = float(frame.get("smooth_efficiency", 1.0))
+	var efficiency: float = float(frame.get("efficiency", 0.0))
+	smooth_efficiency = source_math_state.source_lerp_delta(smooth_efficiency, efficiency, 0.05, delta)
+	var progress: float = float(frame.get("progress", 0.0))
+	var fog_radius_value: float = fog_radius * progress * smooth_efficiency
+	var last_radius: float = float(frame.get("last_radius", 0.0))
+	var force_update: bool = absf(fog_radius_value - last_radius) >= 0.5
+	if force_update:
+		last_radius = fog_radius_value
+	var edelta: float = efficiency * delta
+	progress += edelta / discovery_time
+	progress = clampf(progress, 0.0, 1.0)
+	var total_progress: float = float(frame.get("total_progress", 0.0))
+	total_progress += efficiency * edelta
+	return {"smooth_efficiency": smooth_efficiency, "fog_radius": fog_radius_value, "force_update": force_update, "last_radius": last_radius, "progress": progress, "total_progress": total_progress}
+
+static func source_radar_draw_rotation_state(frame: Dictionary, rotate_speed: float) -> Dictionary:
+	# RadarBuild.draw() (Radar.java:85, `public void draw(){`) rotates the dish region and the glow by the same angle: `Draw.rect(region, x, y, rotateSpeed * totalProgress);` (Radar.java:87) and `Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);` (Radar.java:89) both pass rotateSpeed * totalProgress as the rotation. rotateSpeed is 2f (Radar.java:19, `public float rotateSpeed = 2f;`); rotate_speed is an explicit per-def param (the N2212 per-def-param precedent) because the catalog carries no rotateSpeed. The frame carries `total_progress` (absent defaults to 0.0 -- the Java field init, Radar.java:52, `public float totalProgress;`, advanced by updateTile Radar.java:71, `totalProgress += efficiency * edelta();`, N2320). The base region rect (`Draw.rect(baseRegion, x, y);`, Radar.java:86) has no computed value -- it is a static draw call, render-only, so no pure function pins it. There is NO driver tick line: draw() is a render call, not tick state (the accessor precedent N2311/N2321). One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	var total_progress: float = float(frame.get("total_progress", 0.0))
+	var rotation: float = rotate_speed * total_progress
+	return {"rotation": rotation}
+
+@warning_ignore("unused_parameter")
+static func source_radar_draw_glow_state(frame: Dictionary, glow_color_alpha: float, glow_mag: float, absin_value: float) -> Dictionary:
+	# RadarBuild.draw() (Radar.java:84-90): `Drawf.additive(glowRegion, glowColor, glowColor.a * (1f - glowMag + Mathf.absin(glowScl, glowMag)), x, y, rotateSpeed * totalProgress, Layer.blockAdditive);` (Radar.java:89) pulses the glow alpha: glowColor.a (Pal.turretHeat, Radar.java:24, `public Color glowColor = Pal.turretHeat;`, Pal.java:52, `turretHeat = Color.valueOf("ab3400");` -- 6-digit hex, alpha 1.0) times (1f - glowMag + Mathf.absin(glowScl, glowMag)) with glowMag (Radar.java:25, `public float glowScl = 5f, glowMag = 0.6f;`). Mathf.absin(glowScl, glowMag) is time-dependent, so the caller supplies its evaluated value as absin_value and the pure function does the algebra -- the glow is full glowColor.a at peak absin and (1f - glowMag) of it at zero absin. glow_color_alpha and glow_mag are explicit per-def params (the N2212 per-def-param precedent) because the catalog carries no glowColor/glowMag. The frame is the family-convention first arg (every Radar pure function takes it) and is unused: the glow formula reads no frame key. There is NO driver tick line: draw() is a render call, not tick state (the accessor precedent N2311/N2321). One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	var glow_alpha: float = glow_color_alpha * (1.0 - glow_mag + absin_value)
+	return {"glow_alpha": glow_alpha}
+
+static func source_radar_draw_select_state(x: float, y: float, fog_radius: float, tilesize: float) -> Dictionary:
+	# RadarBuild.drawSelect() (Radar.java:80, `public void drawSelect(){` with `Drawf.dashCircle(x, y, fogRadius() * tilesize, Pal.accent);`, Radar.java:81) draws one dash circle around the building: the center is the building world position, the radius is the LIVE fog radius (fogRadius(), Radar.java:55, `public float fogRadius(){` with `return fogRadius * progress * smoothEfficiency;`, Radar.java:56) times tilesize, and the color is Pal.accent. The live fog radius is the def fogRadius -- 34 (Blocks.java:1991, `fogRadius = 34;`), overriding the class default 10 (Radar.java:33, `fogRadius = 10;`) -- scaled by progress and smooth efficiency, so the caller passes the N2321 source_radar_fog_radius_state result as fog_radius (the N2212 per-def-param precedent); tilesize is 8 (Vars.java:135) and is passed explicitly (the drawPlace precedent), so the radius is the live fog radius in world units -- 272.0 at full discovery (34 * 8) and 0.0 before discovery (progress 0.0). The color is Pal.accent, represented as the string "Pal.accent" (the SourceBlockDrawState.gd:182 precedent). This is a different method from N2327 draw() (rotation + glow) -- no overlap. There is NO driver tick line: drawSelect is selection UI, not per-tick state (the accessor precedent N2311/N2321). One def (radar, Radar.java:17, `public class Radar extends Block{`; RadarBuild, Radar.java:48, `public class RadarBuild extends Building{`).
+	var radius: float = fog_radius * tilesize
+	return {"center": Vector2(x, y), "radius": radius, "color": "Pal.accent"}
+
+static func source_radar_draw_place_state(tile_x: int, tile_y: int, rotation: int, valid: bool, fog_radius: float, tilesize: float, block_offset: float) -> Dictionary:
+	# Radar.drawPlace() (Radar.java:42, `public void drawPlace(int x, int y, int rotation, boolean valid){`) draws one dash circle at the ghost position: `Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, fogRadius * tilesize, Pal.accent);` (Radar.java:46) after `super.drawPlace(x, y, rotation, valid);` (Radar.java:43). The center converts tile coords to world coords with tilesize (8, Vars.java:135) plus the block offset (Block.java:761 -- radar size 1, so 0.0); the radius is the DEF fogRadius -- 34 (Blocks.java:1991, `fogRadius = 34;`), class default 10 (Radar.java:33, `fogRadius = 10;`) -- times tilesize, so `fogRadius * tilesize` is 272.0 for the radar def and 80.0 for the class default. The color is Pal.accent, represented as the string "Pal.accent" (the SourceBlockDrawState.gd:182 precedent). The super leg (Block.drawPlace, Block.java:491-494: drawPotentialLinks + drawOverlay) is folded as explicit params (the N2317/N2323 super-as-param precedent): rotation/valid are echoed and super_draw_place_called records the call; the link/overlay drawing itself waits for its own slice. There is NO driver tick line: drawPlace is placement UI, not per-tick state (the accessor precedent N2311/N2321). This is a different method from N2333 drawSelect (Build method, live fogRadius()) -- no overlap. One def (radar, Radar.java:17, `public class Radar extends Block{`).
+	var center := Vector2(float(tile_x) * tilesize + block_offset, float(tile_y) * tilesize + block_offset)
+	var radius: float = fog_radius * tilesize
+	return {"center": center, "radius": radius, "color": "Pal.accent", "rotation": rotation, "valid": valid, "super_draw_place_called": true}
+
 @warning_ignore("unused_parameter")
 static func source_radar_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the radar tick wiring every
@@ -119,7 +203,60 @@ static func source_radar_tick_buildings_state(game: Object, seconds: float) -> D
 				required_results.append(power_row.get("row", {}))
 			var consumption: Dictionary = source_building_efficiency_state.update_consumption_state(true, bool(frame.get("cheating", false)), bool(frame.get("enabled", true)), valid, should_consume, float(frame.get("efficiency_scale", 1.0)), required_results, [], [], frame)
 			source_building_efficiency_state.apply_update_consumption_state(consumption, frame)
+		# The updateTile advance runs for every ticked radar, after the consumption block (updateConsumption runs BEFORE updateTile in Java, Radar.java:60, `public void updateTile(){`, so the advance reads this tick's freshly stamped efficiency): a disabled radar never advances, so its efficiency is zeroed first (`if(!enabled){` with `potentialEfficiency = efficiency = optionalEfficiency = 0f;`, BuildingComp.java:1954-1955), and the force_update flag is stamped for the future fog-control slice (the N2204 LaunchPad precedent). The per-def discoveryTime is 600.0 (Radar.java:18, `public float discoveryTime = 60f * 10f;`) and fogRadius is 34.0 (Blocks.java:1991, `fogRadius = 34;`, overriding the class default `fogRadius = 10;`, Radar.java:33).
+		if not bool(frame.get("enabled", true)):
+			frame["efficiency"] = 0.0
+		var advanced: Dictionary = source_radar_update_tile_state(frame, seconds, SOURCE_RADAR_DISCOVERY_TIME, SOURCE_RADAR_FOG_RADIUS)
+		frame["smooth_efficiency"] = advanced.get("smooth_efficiency", 1.0)
+		frame["fog_radius"] = advanced.get("fog_radius", 0.0)
+		frame["force_update"] = advanced.get("force_update", false)
+		frame["last_radius"] = advanced.get("last_radius", 0.0)
+		frame["progress"] = advanced.get("progress", 0.0)
+		frame["total_progress"] = advanced.get("total_progress", 0.0)
 		var cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 		results_by_cell[game.call("cell_key", cell)] = wired
 		ticked_count += 1
 	return {"ticked_count": ticked_count, "results_by_cell": results_by_cell}
+
+static func source_radar_default_constructor_state(radar_defaults: Dictionary, block_flags: Variant) -> Dictionary:
+	# Radar(String name) (Radar.java:27-34):
+	# `public Radar(String name){`
+	# `super(name);` -- already the exact_expr of N2185,
+	# the Block super-ctor runs before these assignments;
+	# cited as evidence only, never re-registered.
+	# `update = solid = true;`
+	# `flags = EnumSet.of(BlockFlag.hasFogRadius);`
+	# `outlineIcon = true;`
+	# `fogRadius = 10;` -- N2320/N2321/N2342-owned
+	# (the class default; the radar def overrides it
+	# with fogRadius 34, Blocks.java:1991); cited as
+	# evidence only, never re-registered here. The 3 ctor
+	# assignments above are the only exprs this slice
+	# owns: each writes a literal field default into the
+	# Radar def, so the function writes the same 3
+	# assignments into radar_defaults (in/out) and
+	# returns them. The Block base defaults the ctor
+	# overrides are `public boolean update;`
+	# (Block.java:102, default false), `public boolean
+	# solid;` (Block.java:112, default false), `public
+	# boolean outlineIcon = false;` (Block.java:313) and
+	# `public EnumSet<BlockFlag> flags = EnumSet.of();`
+	# (Block.java:251). `EnumSet.of(BlockFlag.hasFogRadius)`
+	# is the block-flag enum value -- it arrives as the
+	# explicit block_flags Variant param, NOT re-ported
+	# (the N2401 BeamDrill ctor precedent: the param
+	# passes through to the flags key in either shape).
+	# No Draw is ported: these are block-level field
+	# defaults, frame data only (bool literals + one
+	# flags value). There is NO driver tick line: the
+	# ctor is load-time block definition setup, not
+	# per-tick state. One def (radar, Radar.java:17,
+	# `public class Radar extends Block{`).
+	var update := true
+	var solid := true
+	var outline_icon := true
+	radar_defaults["update"] = update
+	radar_defaults["solid"] = solid
+	radar_defaults["flags"] = block_flags
+	radar_defaults["outline_icon"] = outline_icon
+	return {"update": update, "solid": solid, "flags": block_flags, "outline_icon": outline_icon, "radar_defaults": radar_defaults}

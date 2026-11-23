@@ -19,66 +19,64 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Turret fogRadius() (N2531): `public float
-	# fogRadius(){` / `return (range + (hasAmmo() ?
-	# peekAmmo().rangeChange : 0f)) / tilesize *
-	# fogRadiusMultiplier;` (Turret.java:420-422). It uses
-	# the `range` FIELD plus the peeked ammo rangeChange
-	# when hasAmmo() is true; it does NOT call range()
-	# (Turret.java:343-347). `tilesize` is `public static
-	# final int tilesize = 8;` (Vars.java:135) and
-	# `fogRadiusMultiplier` is the block field `public
-	# float fogRadiusMultiplier = 1f;`
-	# (BaseTurret.java:24), with the one per-def override
-	# `fogRadiusMultiplier = 0.4f;` (Blocks.java:5627,
-	# scathe). The proof drives the pure function on exact
-	# legs: 1 has ammo, range 180 + rangeChange 40 ->
-	# (180+40)/8*1 = 27.5; 2 no ammo, same range and
-	# rangeChange -> 180/8*1 = 22.5; 3 the BaseTurret
-	# default range 80, no ammo, multiplier 1 ->
-	# 80/8*1 = 10.0; 4 the scathe multiplier 0.4f, range
-	# 240 -> 240/8*0.4 = 12.0; 5 the result carries exactly
-	# the single `fog_radius` key; 6 the result value is a
-	# float; 7 rangeChange is ignored when hasAmmo is
-	# false (range 80, rc 100 -> 80/8*1 = 10.0); 8 the
-	# function is param-driven and deterministic (same
-	# params, same result, no hidden state).
-	var result: Dictionary = turret_build_state.source_turret_fog_radius_state(180.0, true, 40.0, 8, 1.0)
-	proof["fog_radius_ammo"] = is_equal_approx(float(result.get("fog_radius", 0.0)), 27.5)
+	# --- TurretBuild.fogRadius() (N2311):
+	# TurretBuild overrides fogRadius (Turret.java:420-423,
+	# `public float fogRadius(){` / `return (range +
+	# (hasAmmo() ? peekAmmo().rangeChange : 0f)) /
+	# tilesize * fogRadiusMultiplier;`) over the
+	# BaseTurret def range (BaseTurret.java:21, `public
+	# float range = 80f;`) and fogRadiusMultiplier
+	# (BaseTurret.java:24, `public float
+	# fogRadiusMultiplier = 1f;`), tilesize
+	# (Vars.java:135, `public static final int tilesize =
+	# 8;`), and the peeked bullet's rangeChange
+	# (BulletType.java:157, `public float rangeChange =
+	# 0f;`). Unlike range() (Turret.java:342-345),
+	# fogRadius() adds rangeChange only when hasAmmo()
+	# (Turret.java:698, `public boolean hasAmmo(){`) --
+	# the stricter gate (ammo present, enough for a shot,
+	# canConsume). The accessor is what the fog system
+	# reads (FogControl.java:161,
+	# `Mathf.round(build.fogRadius())`;
+	# FogRenderer.java:68, `build.fogRadius() *
+	# tilesize`); the fog system itself waits for its own
+	# slice. There is no driver tick line: fogRadius() is
+	# a load-time accessor the fog system reads, not a
+	# per-tick write (the N2249 precedent).
 
-	result = turret_build_state.source_turret_fog_radius_state(180.0, false, 40.0, 8, 1.0)
-	proof["fog_radius_no_ammo"] = is_equal_approx(float(result.get("fog_radius", 0.0)), 22.5)
+	# Default no-ammo radius: range 80.0 / tilesize 8.0
+	# * multiplier 1.0 = 10.0.
+	var default_no_ammo: Dictionary = turret_build_state.source_turret_fog_radius_state({}, 80.0, false, 0.0, 8.0, 1.0)
+	proof["fog_radius_default_no_ammo"] = is_equal_approx(float(default_no_ammo.get("fog_radius", -1.0)), 10.0)
 
-	# Phase 3: the BaseTurret.java:21 field default
-	# (`public float range = 80f;`), no ammo, multiplier
-	# 1 -> 80/8*1 = 10.0.
-	result = turret_build_state.source_turret_fog_radius_state(80.0, false, 0.0, 8, 1.0)
-	proof["fog_radius_default"] = is_equal_approx(float(result.get("fog_radius", 0.0)), 10.0)
+	# Has-ammo adds the ammo rangeChange: (80.0 + 40.0)
+	# / 8.0 * 1.0 = 15.0.
+	var with_ammo: Dictionary = turret_build_state.source_turret_fog_radius_state({}, 80.0, true, 40.0, 8.0, 1.0)
+	proof["fog_radius_with_ammo_range_change"] = is_equal_approx(float(with_ammo.get("fog_radius", -1.0)), 15.0)
 
-	# Phase 4: scathe overrides fogRadiusMultiplier to
-	# 0.4f (Blocks.java:5627) -> 240/8*0.4 = 12.0.
-	result = turret_build_state.source_turret_fog_radius_state(240.0, false, 0.0, 8, 0.4)
-	proof["fog_radius_scathe_multiplier"] = is_equal_approx(float(result.get("fog_radius", 0.0)), 12.0)
+	# The multiplier scales: 80.0 / 8.0 * 0.5 = 5.0.
+	var half_multiplier: Dictionary = turret_build_state.source_turret_fog_radius_state({}, 80.0, false, 0.0, 8.0, 0.5)
+	proof["fog_radius_multiplier_half"] = is_equal_approx(float(half_multiplier.get("fog_radius", -1.0)), 5.0)
 
-	# Phase 5: the result carries exactly the single
-	# `fog_radius` key.
-	result = turret_build_state.source_turret_fog_radius_state(80.0, false, 0.0, 8, 1.0)
-	proof["fog_radius_single_key"] = result.keys() == ["fog_radius"]
+	# A negative rangeChange shrinks: (80.0 - 16.0) /
+	# 8.0 * 1.0 = 8.0.
+	var negative_change: Dictionary = turret_build_state.source_turret_fog_radius_state({}, 80.0, true, -16.0, 8.0, 1.0)
+	proof["fog_radius_negative_range_change"] = is_equal_approx(float(negative_change.get("fog_radius", -1.0)), 8.0)
 
-	# Phase 6: the result value is a float.
-	proof["fog_radius_float_type"] = result.get("fog_radius") is float
+	# A larger range and multiplier grow: (160.0 + 80.0)
+	# / 8.0 * 2.0 = 60.0.
+	var large: Dictionary = turret_build_state.source_turret_fog_radius_state({}, 160.0, true, 80.0, 8.0, 2.0)
+	proof["fog_radius_large_range_multiplier"] = is_equal_approx(float(large.get("fog_radius", -1.0)), 60.0)
 
-	# Phase 7: rangeChange is ignored when hasAmmo is
-	# false -- range 80, rc 100 -> 80/8*1 = 10.0.
-	result = turret_build_state.source_turret_fog_radius_state(80.0, false, 100.0, 8, 1.0)
-	proof["fog_radius_range_change_ignored"] = is_equal_approx(float(result.get("fog_radius", 0.0)), 10.0)
+	# Has-ammo with zero change equals absent ammo:
+	# (80.0 + 0.0) / 8.0 * 1.0 = 10.0.
+	var zero_change: Dictionary = turret_build_state.source_turret_fog_radius_state({}, 80.0, true, 0.0, 8.0, 1.0)
+	proof["fog_radius_ammo_zero_change"] = is_equal_approx(float(zero_change.get("fog_radius", -1.0)), 10.0)
 
-	# Phase 8: param-driven and deterministic -- the same
-	# params twice give the same result (no hidden state,
-	# no catalog guess inside the function).
-	var first: Dictionary = turret_build_state.source_turret_fog_radius_state(180.0, true, 40.0, 8, 1.0)
-	var second: Dictionary = turret_build_state.source_turret_fog_radius_state(180.0, true, 40.0, 8, 1.0)
-	proof["fog_radius_param_driven"] = first == second and is_equal_approx(float(first.get("fog_radius", 0.0)), 27.5)
+	# The tilesize param divides: 80.0 / 16.0 * 1.0 =
+	# 5.0.
+	var tilesize_param: Dictionary = turret_build_state.source_turret_fog_radius_state({}, 80.0, false, 0.0, 16.0, 1.0)
+	proof["fog_radius_tilesize_param"] = is_equal_approx(float(tilesize_param.get("fog_radius", -1.0)), 5.0)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

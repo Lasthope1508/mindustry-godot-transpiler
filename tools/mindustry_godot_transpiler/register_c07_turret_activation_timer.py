@@ -55,7 +55,7 @@ import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_logic_controlled import DEFERRED as N2278_DEFERRED
+from register_c07_turret_is_shooting import DEFERRED as N2277_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -80,11 +80,13 @@ EXACT_EXPRS = [
     'public float activationTime = 0f;',
 ]
 
-# DEFERRED is carried from the N2278 register script via import --
+# DEFERRED is carried from the N2277 register script via import --
+# (merge 2026-11-23: N2278 logicControlled dropped, deduped into N2297 --
+# the chain skips it; its Windows-proof debt is moot with the slice).
 # never retyped. The activationTimer decay is done by this slice;
 # the early-return skip, isActive(), shootp / calculateHeat /
 # findTarget / the other ItemTurret defs / controlled() still wait.
-DEFERRED = list(N2278_DEFERRED) + [
+DEFERRED = list(N2277_DEFERRED) + [
     'Turret activationTimer decay (`if(activationTimer > 0){ activationTimer -= Time.delta; return; }`, Turret.java:561-564) -- DONE by this slice (N2279); the pure function ports the Java gate verbatim and the duo driver stamps frame["activation_timer"] and frame["activation_timer_elapsed"] live between the rotate sync tick and the aim call (Java order :542-545, then :561-564, then :566+). The gate never fires for duo (activationTime 0 for every def), so the timer stays 0.0 and elapsed stays true.',
     'Turret activation early-return skip -- the aim/shoot half is NOT skipped when activation_timer > 0 in this slice: the gate never fires for duo (activationTime 0 for every def -- no Blocks.java def sets activationTime > 0), so restructuring the aim block for a never-firing guard is churn; it waits for a def with activationTime > 0.',
     'Turret isActive() (`(target != null || wasShooting) && enabled && activationTimer <= 0`, Turret.java:448-450) -- NOT this slice; candidate N2280 now that activation_timer is stamped. Only LaserTurret consumes it in Java, and duo has no consumer.',

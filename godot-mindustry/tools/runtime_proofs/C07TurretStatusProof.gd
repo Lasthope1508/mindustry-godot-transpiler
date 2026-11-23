@@ -19,84 +19,75 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Turret status() (N2527): `public BlockStatus status(){` /
-	# `if(enabled && !hasAmmo()) return BlockStatus.noInput;` /
-	# `return super.status();` (Turret.java:369-372), with
-	# super.status() the BuildingComp chain
-	# (BuildingComp.java:632-646): `if(!enabled){` /
-	# `return BlockStatus.logicDisable;` /
-	# `if(!shouldConsume()){` / `return BlockStatus.noOutput;` /
-	# `if(efficiency <= 0 || !productionValid()){` /
-	# `return BlockStatus.noInput;` /
-	# `return ((state.tick / 30f) % 1f) < efficiency ?
-	# BlockStatus.active : BlockStatus.noInput;`.
-	# The Turret leg runs BEFORE super. `has_ammo` is a bool
-	# param (hasAmmo() mutates the ammo stack, Turret.java:703,
-	# so it cannot be a pure read). `reload` is the per-def
-	# reload time (ReloadTurret.java:10, `public float reload
-	# = 10f;` -- duo 20f, Blocks.java). The proof drives the
-	# pure function on exact legs: 1 enabled + no ammo ->
-	# noInput (the Turret leg, before super); 2 disabled +
-	# ammo -> logicDisable; 3 enabled + ammo + no consume
-	# (reload_counter 10.0 >= reload 10.0, not shooting) ->
-	# noOutput; 4 efficiency 0.0 -> noInput; 5 tick 0.0 /
-	# efficiency 1.0 -> active (0.0 < 1.0); 6 tick 15.0 /
-	# efficiency 0.5 -> noInput (0.5 < 0.5 is false -- the
-	# exact boundary); 7 tick 12.0 / efficiency 0.5 ->
-	# active (0.4 < 0.5); 8 disabled + no ammo ->
-	# logicDisable (the Turret leg needs enabled, so the
-	# disabled leg wins -- precedence).
-	var frame: Dictionary = {}
+	# --- Turret status() block status (N2285): TurretBuild.status()
+	# (Turret.java:369-374) returns noInput when enabled with no
+	# ammo, else super.status() -- BaseTurretBuild.status()
+	# (BaseTurret.java:143-145) returns the BuildingComp.status()
+	# result while the activation timer is at most zero, else
+	# BlockStatus.inactive:
+	# `public BlockStatus status(){`
+	# `if(enabled && !hasAmmo()) return BlockStatus.noInput;`
+	# ``
+	# `return super.status();`
+	# `}`
+	# on `public class TurretBuild extends ReloadTurretBuild implements ControlBlock{`
+	# (Turret.java:277). enabled arrives from the tick frame
+	# (absent reads true); has_ammo, activation_timer and
+	# building_status arrive as explicit params -- hasAmmo()
+	# (Turret.java:698-712) is NOT ported here (the N2311/N2261
+	# precedent), and building_status carries the live N1888
+	# PortGame.source_building_status_state result. NO driver tick
+	# line: status() is a read accessor. The proof calls the pure
+	# function with synthetic frames (no live tick: status is a
+	# pure accessor over the frame's enabled plus three explicit
+	# params).
 
-	# Phase 1: enabled + no ammo -- the Turret leg fires
-	# before super (shouldConsume would be true and
-	# efficiency 1.0, yet the answer is noInput).
-	frame = {"enabled": true, "is_shooting": true, "reload_counter": 0.0, "efficiency": 1.0}
-	var status: Dictionary = turret_build_state.source_turret_status_state(frame, 0.0, false, 10.0)
-	proof["status_no_input_enabled_no_ammo"] = str(status.get("status", "")) == "noInput"
+	# Enabled with no ammo returns noInput even while activating:
+	# timer 60, building leg active -- the Turret leg fires first.
+	var no_input: Dictionary = turret_build_state.source_turret_status_state({"enabled": true}, false, 60.0, "active")
+	proof["status_no_input_enabled_no_ammo"] = String(no_input.get("status", "")) == "noInput"
 
-	# Phase 2: disabled + ammo -> logicDisable.
-	frame = {"enabled": false, "is_shooting": true, "reload_counter": 0.0, "efficiency": 1.0}
-	status = turret_build_state.source_turret_status_state(frame, 0.0, true, 10.0)
-	proof["status_logic_disable"] = str(status.get("status", "")) == "logicDisable"
+	# The building leg passes active through at timer zero: the
+	# BaseTurret leg returns super.status() while the timer is at
+	# most zero.
+	var active: Dictionary = turret_build_state.source_turret_status_state({"enabled": true}, true, 0.0, "active")
+	proof["status_building_active"] = String(active.get("status", "")) == "active"
 
-	# Phase 3: enabled + ammo + no consume (not shooting,
-	# reload_counter 10.0 >= reload 10.0) -> noOutput.
-	frame = {"enabled": true, "is_shooting": false, "reload_counter": 10.0, "efficiency": 1.0}
-	status = turret_build_state.source_turret_status_state(frame, 0.0, true, 10.0)
-	proof["status_no_output_no_consume"] = str(status.get("status", "")) == "noOutput"
+	# The building leg passes noInput through at timer zero.
+	var building_no_input: Dictionary = turret_build_state.source_turret_status_state({"enabled": true}, true, 0.0, "noInput")
+	proof["status_building_no_input"] = String(building_no_input.get("status", "")) == "noInput"
 
-	# Phase 4: efficiency 0.0 -> noInput (shooting, so the
-	# shouldConsume gate holds).
-	frame = {"enabled": true, "is_shooting": true, "reload_counter": 0.0, "efficiency": 0.0}
-	status = turret_build_state.source_turret_status_state(frame, 0.0, true, 10.0)
-	proof["status_no_input_zero_efficiency"] = str(status.get("status", "")) == "noInput"
+	# A disabled turret with ammo falls through to the building
+	# leg's logicDisable: the first leg needs enabled, and the
+	# N1888 helper already returns logicDisable for !enabled.
+	var logic_disable: Dictionary = turret_build_state.source_turret_status_state({"enabled": false}, true, 0.0, "logicDisable")
+	proof["status_building_logic_disable"] = String(logic_disable.get("status", "")) == "logicDisable"
 
-	# Phase 5: tick 0.0 / efficiency 1.0 -> active
-	# (fmod(0.0 / 30.0, 1.0) = 0.0 < 1.0).
-	frame = {"enabled": true, "is_shooting": true, "reload_counter": 0.0, "efficiency": 1.0}
-	status = turret_build_state.source_turret_status_state(frame, 0.0, true, 10.0)
-	proof["status_active_tick_zero"] = str(status.get("status", "")) == "active"
+	# A positive timer returns inactive even with an active
+	# building leg: BaseTurret.java:144, `BlockStatus.inactive`.
+	var inactive: Dictionary = turret_build_state.source_turret_status_state({"enabled": true}, true, 60.0, "active")
+	proof["status_inactive"] = String(inactive.get("status", "")) == "inactive"
 
-	# Phase 6: tick 15.0 / efficiency 0.5 -> noInput
-	# (fmod(15.0 / 30.0, 1.0) = 0.5, and 0.5 < 0.5 is false
-	# -- the exact boundary).
-	frame = {"enabled": true, "is_shooting": true, "reload_counter": 0.0, "efficiency": 0.5}
-	status = turret_build_state.source_turret_status_state(frame, 15.0, true, 10.0)
-	proof["status_no_input_tick_edge"] = str(status.get("status", "")) == "noInput"
+	# A disabled turret with no ammo and a positive timer still
+	# returns inactive: the first leg needs enabled (so it does
+	# not fire), and the BaseTurret leg does not check enabled.
+	var inactive_disabled: Dictionary = turret_build_state.source_turret_status_state({"enabled": false}, false, 60.0, "logicDisable")
+	proof["status_inactive_disabled_no_ammo"] = String(inactive_disabled.get("status", "")) == "inactive"
 
-	# Phase 7: tick 12.0 / efficiency 0.5 -> active
-	# (fmod(12.0 / 30.0, 1.0) = 0.4 < 0.5).
-	frame = {"enabled": true, "is_shooting": true, "reload_counter": 0.0, "efficiency": 0.5}
-	status = turret_build_state.source_turret_status_state(frame, 12.0, true, 10.0)
-	proof["status_active_partial_efficiency"] = str(status.get("status", "")) == "active"
+	# A disabled turret with no ammo at timer zero falls through
+	# to the building leg's logicDisable (the first leg needs
+	# enabled, the timer leg returns super.status()).
+	var disabled_no_ammo: Dictionary = turret_build_state.source_turret_status_state({"enabled": false}, false, 0.0, "logicDisable")
+	proof["status_disabled_no_ammo_falls_to_building"] = String(disabled_no_ammo.get("status", "")) == "logicDisable"
 
-	# Phase 8: disabled + no ammo -> logicDisable (the
-	# Turret leg needs enabled, so the disabled leg wins --
-	# precedence over the noInput leg).
-	frame = {"enabled": false, "is_shooting": true, "reload_counter": 0.0, "efficiency": 1.0}
-	status = turret_build_state.source_turret_status_state(frame, 0.0, false, 10.0)
-	proof["status_logic_disable_beats_no_ammo"] = str(status.get("status", "")) == "logicDisable"
+	# A negative timer still takes the building leg (<= 0): the
+	# BaseTurret comparison is `activationTimer <= 0`, not `== 0`.
+	var negative_timer: Dictionary = turret_build_state.source_turret_status_state({"enabled": true}, true, -1.0, "noOutput")
+	proof["status_negative_timer_building_leg"] = String(negative_timer.get("status", "")) == "noOutput"
+
+	# The result carries ONLY the one status key: no frame echo,
+	# no extra state.
+	proof["returns_only_one_key"] = no_input.size() == 1
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

@@ -14758,7 +14758,7 @@ class PlayableManifestTests(unittest.TestCase):
             "func spawned_for_wave(group: Dictionary, wave_zero: int) -> int:",
             "func spawn_enemy_unit(unit_type, index: int) -> void:",
             "func source_wave_timing_runtime_state(seconds: float) -> Dictionary:",
-            "func source_game_over_core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false) -> Dictionary:",
+            "func source_game_over_core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false, player_team: String = \"\", winner_team: String = \"\") -> Dictionary:",
             "func apply_core_damage(amount: float) -> Dictionary:",
             "func enemy_runtime_state() -> Dictionary:",
             "func source_unit_weapon_damage(unit_type) -> float:",
@@ -18719,11 +18719,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var game_over := false", source)
         self.assertIn('var last_game_over_winner := ""', source)
         self.assertIn('const source_game_over_core_destroyed_state_script := preload("res://src/game/SourceGameOverCoreDestroyedState.gd")', source)
-        self.assertIn("func source_game_over_core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false) -> Dictionary:", source)
-        method_body = self._method_body(source, "func source_game_over_core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false) -> Dictionary:")
-        self.assertIn("return source_gameplay_game_over_core_destroyed_state_script.core_destroyed_state(core_health_value, game_over_value, attack_mode)", method_body)
+        self.assertIn("func source_game_over_core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false, player_team: String = \"\", winner_team: String = \"\") -> Dictionary:", source)
+        method_body = self._method_body(source, "func source_game_over_core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false, player_team: String = \"\", winner_team: String = \"\") -> Dictionary:")
+        self.assertIn("return source_gameplay_game_over_core_destroyed_state_script.core_destroyed_state(core_health_value, game_over_value, attack_mode, player_team, winner_team)", method_body)
         self.assertIn("class_name SourceGameOverCoreDestroyedState", module_source)
-        self.assertIn("static func core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false) -> Dictionary:", module_source)
+        self.assertIn("static func core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false, player_team: String = \"\", winner_team: String = \"\") -> Dictionary:", module_source)
         self.assertIn('"source_owner": source_runtime_owner_registry.SOURCE_GAME_OVER_CORE_DESTROYED_STATE', module_source)
         self.assertIn('"method": "private void checkGameState(){"', module_source)
         self.assertIn('"core_destroyed_expr": "state.teams.playerCores().size == 0"', module_source)

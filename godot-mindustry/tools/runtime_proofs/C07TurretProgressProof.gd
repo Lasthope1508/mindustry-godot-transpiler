@@ -19,81 +19,44 @@ func _ready() -> void:
 	game.set_process(false)
 	game.set_physics_process(false)
 
-	# --- Turret progress() derivation (N2282):
-	# `public float progress(){ return Mathf.clamp(
-	# reloadCounter / reload); }` (Turret.java:425-427) on
-	# the fields `public float reloadCounter;`
-	# (ReloadTurret.java:26, inherited by TurretBuild via
-	# ReloadTurretBuild -- the driver already stamps it live
-	# as frame["reload_counter"] from the aim tick, capped at
-	# reload by updateReload :720-723) and `public float
-	# reload = 10f;` (ReloadTurret.java:10, the class default;
-	# duo overrides `reload = 20f;`, Blocks.java:3317 -- the
-	# driver aim call already passes 20.0).
-	# Mathf.clamp(float) is `return Math.max(Math.min(value,
-	# 1f), 0f);` (arc Mathf.java:402-404) -- GDScript
-	# clampf(value, 0.0, 1.0) is the same min-then-max. The
-	# only Java consumer is sense() LAccess.progress
-	# (`case progress -> progress();`, Turret.java:414); the
-	# sense dispatch is its own later slice, so no consumer
-	# is rewired: this slice is stamp-only like N2280/N2281,
-	# one pure function plus one driver tick. The direct
-	# pure-function calls pin the value behind the driver
-	# observable below: an empty counter is 0, half the
-	# reload is 0.5, a full counter is 1, and a counter past
-	# reload clamps to 1 -- each read live from the frame.
+	# --- TurretBuild.progress() (N2292):
+	# TurretBuild overrides progress (Turret.java:425-427,
+	# `public float progress(){` / `return Mathf.clamp(
+	# reloadCounter / reload);`) over the base default
+	# BuildingComp.progress (BuildingComp.java:617-619,
+	# `return 0f;`). The inputs are reloadCounter
+	# (ReloadTurret.java:26, capped at reload,
+	# Turret.java:723) against reload
+	# (ReloadTurret.java:10, `public float reload = 10f;`).
+	# arc Mathf.clamp with one argument clamps to [0, 1]
+	# (the MendProjector precedent,
+	# SourceMendProjectorState.gd:41). No driver line: the
+	# only consumer is sense() case progress
+	# (Turret.java:414, N2255), and the tick frame tracks
+	# neither reloadCounter nor reload yet.
 
-	# The direct pure-function calls pin the value behind the
-	# driver observable below.
-	var direct_empty: Dictionary = turret_build_state.source_turret_progress_state(0.0, 20.0)
-	var direct_half: Dictionary = turret_build_state.source_turret_progress_state(10.0, 20.0)
-	var direct_full: Dictionary = turret_build_state.source_turret_progress_state(20.0, 20.0)
-	var direct_over: Dictionary = turret_build_state.source_turret_progress_state(25.0, 20.0)
+	# An empty reload counter reads 0.
+	var zero: Dictionary = turret_build_state.source_turret_progress_state({}, 0.0, 10.0)
+	proof["progress_zero"] = is_equal_approx(float(zero.get("progress", -1.0)), 0.0)
 
-	# An empty counter is 0 -- directly.
-	proof["progress_zero_at_empty_counter"] = float(direct_empty.get("progress", -1.0)) == 0.0
-	# Half the reload is 0.5 -- directly.
-	proof["progress_half_at_half_counter"] = float(direct_half.get("progress", -1.0)) == 0.5
-	# A full counter is 1 -- directly.
-	proof["progress_one_at_full_counter"] = float(direct_full.get("progress", -1.0)) == 1.0
-	# A counter past reload clamps to 1 -- directly.
-	proof["progress_clamped_above_reload"] = float(direct_over.get("progress", -1.0)) == 1.0
+	# A half counter reads 0.5.
+	var half: Dictionary = turret_build_state.source_turret_progress_state({}, 5.0, 10.0)
+	proof["progress_half"] = is_equal_approx(float(half.get("progress", -1.0)), 0.5)
 
-	# One duo segment, live on the driver: the progress tick
-	# runs right after the reload_counter stamp, once the
-	# counter is final for this tick, so the frame carries the
-	# verdict as a live key after a single tick.
-	var catalog = game.get("content_catalog")
-	var blocks_by_id: Dictionary = {}
-	for registered_block in catalog.get_many("block"):
-		blocks_by_id[registered_block.id] = registered_block
+	# A full counter reads 1.
+	var full: Dictionary = turret_build_state.source_turret_progress_state({}, 10.0, 10.0)
+	proof["progress_full"] = is_equal_approx(float(full.get("progress", -1.0)), 1.0)
 
-	var cell := Vector2i(28, 21)
-	var segment := Sprite2D.new()
-	game.add_child(segment)
-	game.call("record_placed_block", segment, blocks_by_id["duo"], cell)
-	# The raw Sprite2D node never passes through the texture
-	# path (SourceTextureRuntimeState.configure_block_sprite),
-	# which is what assigns a placed block its world position
-	# (`sprite.position = game.source_block_sprite_base_position(block, cell)`),
-	# so without this the segment sits at the origin (0, 0)
-	# and the turret-centred query cannot be distinguished
-	# from an origin-centred one. Seed the position exactly
-	# the way the game does (the N2211 proof lesson).
-	segment.position = game.source_block_sprite_base_position(blocks_by_id["duo"], cell)
-	turret_build_state.source_turret_bind_frame_state(segment, blocks_by_id["duo"])
+	# A counter past reload clamps to 1 (live it is capped at
+	# reload, Turret.java:723, so this only proves the pure
+	# clamp, not a live state).
+	var beyond: Dictionary = turret_build_state.source_turret_progress_state({}, 12.0, 10.0)
+	proof["progress_beyond_reload"] = is_equal_approx(float(beyond.get("progress", -1.0)), 1.0)
 
-	# One shared tick wires team_id / cheating / enabled onto
-	# the frame (and charges the reload by 1/60).
-	turret_build_state.source_turret_tick_buildings_state(game, 1.0 / 60.0)
-	var frame: Dictionary = segment.get_meta(turret_build_state.SOURCE_TURRET_BUILDING_META_KEY, {})
-
-	# The verdict is stamped on the frame after the tick, as
-	# a live key -- not just computed by the pure function.
-	# One tick charges the reload by 1/60 of the 20-tick
-	# reload, so the stamped progress is a small positive
-	# fraction inside [0, 1].
-	proof["progress_stamped_to_frame"] = frame.has("progress") and float(frame.get("progress", -1.0)) >= 0.0 and float(frame.get("progress", 2.0)) <= 1.0
+	# A negative counter clamps to 0 (pure clamp check; live
+	# the counter never goes negative).
+	var negative: Dictionary = turret_build_state.source_turret_progress_state({}, -2.0, 10.0)
+	proof["progress_negative"] = is_equal_approx(float(negative.get("progress", -1.0)), 0.0)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

@@ -54,8 +54,8 @@ func spawn_enemy_unit(unit_type, index: int) -> void:
 func source_wave_timing_runtime_state(seconds: float) -> Dictionary:
 	return source_gameplay_wave_timing_runtime_state_script.game_wave_timer_state(self, seconds)
 
-func source_game_over_core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false) -> Dictionary:
-	return source_gameplay_game_over_core_destroyed_state_script.core_destroyed_state(core_health_value, game_over_value, attack_mode)
+func source_game_over_core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false, player_team: String = "", winner_team: String = "") -> Dictionary:
+	return source_gameplay_game_over_core_destroyed_state_script.core_destroyed_state(core_health_value, game_over_value, attack_mode, player_team, winner_team)
 
 func apply_core_damage(amount: float) -> Dictionary:
 	return source_gameplay_core_damage_runtime_state.game_apply_core_damage(self, amount)

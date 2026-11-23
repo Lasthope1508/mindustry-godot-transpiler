@@ -172,11 +172,13 @@ class C07TurretCoolingTests(unittest.TestCase):
         self.assertIn('return efficiency * delta();', turret)
         self.assertIn('updateCooling();', turret)
         self.assertIn('if(reloadWhileCharging || !charging()){', turret)
-        # The pure function sits immediately AFTER
-        # source_turret_should_consume_state (the other
-        # ReloadTurret-port helper, N2524) and BEFORE
-        # source_turret_can_heal_state.
-        self.assertLess(turret.index('static func source_turret_should_consume_state('), turret.index('static func source_turret_cooling_state('))
+        # Merge 2026-11-23: in the merged file the cooling
+        # function sits early (ReloadTurret region), BEFORE
+        # source_turret_should_consume_state and BEFORE
+        # source_turret_can_heal_state -- the remote file's
+        # should_consume-first order does not survive the
+        # merge (function order is cosmetic).
+        self.assertLess(turret.index('static func source_turret_cooling_state('), turret.index('static func source_turret_should_consume_state('))
         self.assertLess(turret.index('static func source_turret_cooling_state('), turret.index('static func source_turret_can_heal_state('))
         # NO driver tick call site (the N2248 precedent): the
         # frame carries no liquid state and the catalog

@@ -124,26 +124,36 @@ class C07TurretControlledStampTests(unittest.TestCase):
         self.assertIn('public boolean controlled(){', turret)
         self.assertIn('return unit.isPlayer();', turret)
         self.assertIn('public BlockUnitc unit = (BlockUnitc)UnitTypes.block.create(team);', turret)
-        # The pure function sits immediately AFTER
-        # source_turret_logic_controlled_state (mirroring Java
-        # order :441-443 controlled before :445-447
-        # logicControlled).
-        self.assertLess(turret.index('static func source_turret_logic_controlled_state('), turret.index('static func source_turret_controlled_stamp_state('))
+        # Merge 2026-11-23: in the merged file the stamp sits
+        # early (next to the range/controlled region), while
+        # source_turret_logic_controlled_state sits later --
+        # the remote file's logic_controlled-first order does
+        # not survive the merge (function order is cosmetic;
+        # the driver tick order below is unchanged).
+        self.assertLess(turret.index('static func source_turret_controlled_stamp_state('), turret.index('static func source_turret_logic_controlled_state('))
         self.assertLess(turret.index('static func source_turret_controlled_stamp_state('), turret.index('static func source_turret_sense_state('))
         # The tick call site sits inside
         # source_turret_tick_buildings_state, right after the
         # N2278 logic_controlled stamp call and before the
         # validateTarget call.
         tick = turret[turret.index('static func source_turret_tick_buildings_state('):]
-        self.assertLess(tick.index('var logic_controlled_state: Dictionary = source_turret_logic_controlled_state(float(frame.get("logic_control_time", -1.0)))'), tick.index('var controlled_state: Dictionary = source_turret_controlled_stamp_state(frame, bool(frame.get("unit_is_player", false)))'))
+        # Merge 2026-11-23: the logic_controlled call is the
+        # kept local 2-arg form (frame first, N2297-era), not
+        # the remote 1-arg form -- the tick order itself
+        # (logic_controlled -> controlled stamp -> validate)
+        # is unchanged.
+        self.assertLess(tick.index('var logic_controlled_state: Dictionary = source_turret_logic_controlled_state(frame, float(frame.get("logic_control_time", -1.0)))'), tick.index('var controlled_state: Dictionary = source_turret_controlled_stamp_state(frame, bool(frame.get("unit_is_player", false)))'))
         self.assertLess(tick.index('var controlled_state: Dictionary = source_turret_controlled_stamp_state(frame, bool(frame.get("unit_is_player", false)))'), tick.index('var validate: Dictionary = source_item_turret_build_state.source_item_turret_validate_target_state('))
         self.assertIn('frame["controlled"] = controlled_state.get("controlled", false)', tick)
         # The three readers are UNCHANGED by this slice: the
         # validate / isShooting / warmup calls still read the
-        # frame key with the same false default.
+        # frame key with the same false default. Merge
+        # 2026-11-23: the warmup call form is the kept local
+        # N2308 source_turret_update_tile_warmup_state (the
+        # remote 11-arg call was rewired, same controlled arg).
         self.assertIn('bool(frame.get("controlled", false)),', turret)
         self.assertIn('source_turret_is_shooting_state(false, bool(frame.get("controlled", false)), false,', turret)
-        self.assertIn('bool(frame.get("controlled", false)), float(frame.get("efficiency", 1.0)), seconds, 0.1, false, 0.0)', turret)
+        self.assertIn('bool(frame.get("controlled", false)), float(frame.get("warmup_hold", 0.0)), float(frame.get("shoot_warmup", 0.0)), false, 0.1, float(frame.get("efficiency", 1.0)), 0.0, seconds, 0.0, 0.0)', turret)
         # The validateTarget formula itself lives on the N2251
         # pure function (SourceItemTurretBuildState.gd), whose
         # verdict the driver tick feeds.

@@ -109,9 +109,13 @@ func _ready() -> void:
 	# with a positive warmup target (shooting and consuming),
 	# a controlled turret keeps warmup_hold at 0, while the
 	# same call uncontrolled sets the hold (1.0 minus one
-	# tick of decay at warmupMaintainTime 1.0).
-	var warmup_controlled: Dictionary = turret_build_state.source_turret_warmup_state(0.0, 0.0, true, true, false, true, 1.0, 1.0 / 60.0, 0.1, false, 1.0)
-	var warmup_uncontrolled: Dictionary = turret_build_state.source_turret_warmup_state(0.0, 0.0, true, true, false, false, 1.0, 1.0 / 60.0, 0.1, false, 1.0)
+	# tick of decay at warmupMaintainTime 1.0). Merge
+	# 2026-11-23: the remote 11-arg source_turret_warmup_state
+	# (dropped N2253) is rewired to the kept local N2308
+	# source_turret_update_tile_warmup_state -- can_consume
+	# true arrives as potential_efficiency 1.0, heat 0.0.
+	var warmup_controlled: Dictionary = turret_build_state.source_turret_update_tile_warmup_state({}, true, 1.0, false, true, 0.0, 0.0, false, 0.1, 1.0, 1.0, 1.0 / 60.0, 0.0, 0.0)
+	var warmup_uncontrolled: Dictionary = turret_build_state.source_turret_update_tile_warmup_state({}, true, 1.0, false, false, 0.0, 0.0, false, 0.1, 1.0, 1.0, 1.0 / 60.0, 0.0, 0.0)
 	proof["controlled_warmup_hold_skipped"] = float(warmup_controlled.get("warmup_hold", -1.0)) == 0.0 and float(warmup_uncontrolled.get("warmup_hold", 0.0)) > 0.9
 
 	var state_registry := registry.canonical_headquarter_registry_state()

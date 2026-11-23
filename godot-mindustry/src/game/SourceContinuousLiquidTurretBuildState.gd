@@ -408,3 +408,35 @@ static func generated_accept_liquid_bridge_state(source_building: Variant, liqui
 	var result = _continuous_liquid_turret_call("java_inner_class_ContinuousLiquidTurretBuild_method_acceptLiquid_12", [source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier])
 	var canonical = accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONTINUOUS_LIQUID_TURRET_BUILD_ACCEPT_LIQUID_STATE, "generated_owner": "continuous_liquid_turret.ContinuousLiquidTurretBuild.acceptLiquid", "result": result, "canonical": canonical, "matches": result.get("accept_liquid", null) == canonical.get("accept_liquid", null) and result.get("replacement_allowed", null) == canonical.get("replacement_allowed", null) and result.get("current_required_with_epsilon", null) == canonical.get("current_required_with_epsilon", null)}
+
+static func source_continuous_liquid_turret_default_constructor_state(continuous_liquid_turret_defaults: Dictionary, loop_sound: Variant) -> Dictionary:
+	# ContinuousLiquidTurret(String name) (ContinuousLiquidTurret.java:17-24):
+	# `public ContinuousLiquidTurret(String name){`
+	# `super(name);` -- already the exact_expr of N2185,
+	# the ContinuousTurret super-ctor runs before this
+	# assignment; cited as evidence only, never
+	# re-registered.
+	# `hasLiquids = true;` -- N927/N2000/N2179/N2182/N2209-owned;
+	# cited as evidence only, never re-registered.
+	# `shootSound = Sounds.none;` / `smokeEffect = Fx.none;` /
+	# `shootEffect = Fx.none;` -- N2406-owned (LiquidTurret
+	# ctor); cited as evidence only, never re-registered.
+	# The 1 ctor assignment below is the only expr this
+	# slice owns: it writes a field default into the
+	# ContinuousLiquidTurret def, so the function writes
+	# the same value into continuous_liquid_turret_defaults
+	# (in/out) and returns it.
+	# `loopSound = Sounds.loopMineBeam;`
+	# The value is a Sound reference, NOT a literal: it
+	# arrives as the explicit Variant param and passes
+	# through (the N2405 BaseTurret ctor precedent for
+	# `EnumSet.of(BlockFlag.turret)`). The Turret base
+	# default this ctor overrides is `public Sound
+	# loopSound = Sounds.none;` (Turret.java:128); the
+	# continuous liquid turret loops the mining beam
+	# sound while firing. No Draw is ported and the
+	# ambient-sound driver (N2304, HELD) is untouched:
+	# this is a block-level field default, frame data only.
+	var loop_sound_value: Variant = loop_sound
+	continuous_liquid_turret_defaults["loop_sound"] = loop_sound_value
+	return {"loop_sound": loop_sound_value, "continuous_liquid_turret_defaults": continuous_liquid_turret_defaults}

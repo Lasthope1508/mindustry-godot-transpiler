@@ -75,6 +75,7 @@ SLICE_SOURCES = [
 EXACT_EXPRS = [
     'if(!validateTarget()) target = null;',
     'isShooting = alwaysShooting || (unit.controller() instanceof Player ? unit.isShooting() : logicControlled() ? logicShooting : target != null);',
+    'return isShooting;',
     'public boolean alwaysShooting = false;',
     'public boolean logicShooting = false;',
     'return unit.isPlayer();',

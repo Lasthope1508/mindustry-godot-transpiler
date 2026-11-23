@@ -372,18 +372,18 @@
       "canonical_ledger": "source_slice_ledger.N2542",
       "status": "done",
       "java_source": "core/src/mindustry/type/Weapon.java",
-      "java_method": "Weapon.update()",
-      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_heat_state",
+      "java_method": "Weapon.<field declarations>",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_cooldown_time_defaults_state",
       "source_symbols": [
-        "source_weapon_update_heat_state_result.heat"
+        "source_weapon_cooldown_time_defaults_state_result.cooldown_time"
       ],
       "tests": [
-        "test_c07_weapon_update_heat_registration",
-        "test_all_c07_weapon_update_heat_input_evidence_is_exact",
-        "test_weapon_update_heat_state",
-        "test_reference_graph_and_actual_c07_weapon_update_heat"
+        "test_c07_weapon_cooldown_time_default_registration",
+        "test_all_c07_weapon_cooldown_time_default_input_evidence_is_exact",
+        "test_weapon_cooldown_time_defaults_state",
+        "test_reference_graph_and_actual_c07_weapon_cooldown_time_default"
       ],
-      "runtime_proof": "/root/C07WeaponUpdateHeatProof"
+      "runtime_proof": "/root/C07WeaponCooldownTimeDefaultProof"
     },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",

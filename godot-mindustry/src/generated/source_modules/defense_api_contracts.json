@@ -1095,6 +1095,462 @@
       "runtime_proof": "/root/Main.source_continuous_liquid_turret_set_stats_state",
       "rule": "Public runtime contract for ContinuousLiquidTurret.setStats state; ObjectMap/StatValues internals stay deferred."
     },
+    "PortGame.source_continuous_turret_build_ammo_one_liners_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_ammo_one_liners_state",
+      "status": "active",
+      "source_slice": "N2421",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.useAmmo(); ContinuousTurretBuild.shouldConsume(); ContinuousTurretBuild.peekAmmo(); ContinuousTurretBuild.activeSoundVolume()",
+      "params": [
+        {
+          "name": "shoot_type",
+          "type": "Variant",
+          "schema": "source_continuous_turret_build_ammo_one_liners_state_input.shoot_type"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_ammo_one_liners_state_input.is_shooting"
+        }
+      ],
+      "return_keys": [
+        "use_ammo",
+        "should_consume",
+        "peek_ammo",
+        "active_sound_volume"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_ammo_one_liners_registration",
+        "test_all_c07_continuous_turret_ammo_one_liners_input_evidence_is_exact",
+        "test_continuous_turret_ammo_one_liners_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_ammo_one_liners"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretAmmoOneLinersProof",
+      "rule": "Source-backed ContinuousTurretBuild.useAmmo()+shouldConsume()+peekAmmo()+activeSoundVolume() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_continuous_turret_build_estimate_dps_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_estimate_dps_state",
+      "status": "active",
+      "source_slice": "N2389",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.estimateDps()",
+      "params": [
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.has_ammo"
+        },
+        {
+          "name": "shoot_type_damage",
+          "type": "float",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.shoot_type_damage"
+        },
+        {
+          "name": "is_continuous_bullet_type",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.is_continuous_bullet_type"
+        },
+        {
+          "name": "damage_interval",
+          "type": "float",
+          "schema": "source_continuous_turret_build_estimate_dps_state_input.damage_interval"
+        }
+      ],
+      "return_keys": [
+        "estimate_dps"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_registration",
+        "test_all_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound_input_evidence_is_exact",
+        "test_continuous_turret_estimate_dps_has_ammo_should_active_sound_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_estimate_dps_has_ammo_should_active_sound"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretEstimateDpsHasAmmoShouldActiveSoundProof",
+      "rule": "Source-backed ContinuousTurretBuild.estimateDps()+hasAmmo()+shouldActiveSound() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_continuous_turret_build_get_ammo_fraction_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_get_ammo_fraction_state",
+      "status": "active",
+      "source_slice": "N2355",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.getAmmoFraction()",
+      "params": [
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.efficiency"
+        },
+        {
+          "name": "has_liquid_consumer",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.has_liquid_consumer"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.liquid_amount"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "schema": "source_continuous_turret_build_get_ammo_fraction_state_input.liquid_capacity"
+        }
+      ],
+      "return_keys": [
+        "ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_get_ammo_fraction_registration",
+        "test_all_c07_continuous_turret_get_ammo_fraction_input_evidence_is_exact",
+        "test_continuous_turret_get_ammo_fraction_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_get_ammo_fraction"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretGetAmmoFractionProof",
+      "rule": "Source-backed ContinuousTurretBuild.getAmmoFraction() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_turn_to_target_handle_bullet_state",
+      "status": "active",
+      "source_slice": "N2370",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.turnToTarget(float); ContinuousTurretBuild.handleBullet(Bullet, float, float, float)",
+      "params": [
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.rotation"
+        },
+        {
+          "name": "target_rot",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.target_rot"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.efficiency"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.rotate_speed"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.delta"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.y"
+        },
+        {
+          "name": "shoot_y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.shoot_y"
+        },
+        {
+          "name": "last_length",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.last_length"
+        },
+        {
+          "name": "bullet",
+          "type": "Variant",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.bullet"
+        },
+        {
+          "name": "offset_x",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.offset_x"
+        },
+        {
+          "name": "offset_y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.offset_y"
+        },
+        {
+          "name": "angle_offset",
+          "type": "float",
+          "schema": "source_continuous_turret_build_turn_to_target_handle_bullet_state_input.angle_offset"
+        }
+      ],
+      "return_keys": [
+        "rotation",
+        "bullet_entry",
+        "bullet_aim_x",
+        "bullet_aim_y"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_continuous_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_continuous_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretTurnToTargetHandleBulletProof",
+      "rule": "Source-backed ContinuousTurretBuild.turnToTarget()/handleBullet() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_continuous_turret_build_update_bullet_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_update_bullet_state",
+      "status": "active",
+      "source_slice": "N2366",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.updateBullet()",
+      "params": [
+        {
+          "name": "entry",
+          "type": "Dictionary",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.entry"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.rotation"
+        },
+        {
+          "name": "shoot_x",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.shoot_x"
+        },
+        {
+          "name": "shoot_y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.shoot_y"
+        },
+        {
+          "name": "target_pos_x",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.target_pos_x"
+        },
+        {
+          "name": "target_pos_y",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.target_pos_y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.range_value"
+        },
+        {
+          "name": "aim_change_speed",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.aim_change_speed"
+        },
+        {
+          "name": "scale_damage_efficiency",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.scale_damage_efficiency"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.efficiency"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.time_scale"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.shoot_warmup"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.is_shooting"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.has_ammo"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_bullet_state_input.source_delta"
+        }
+      ],
+      "return_keys": [
+        "bullet_x",
+        "bullet_y",
+        "bullet_angle",
+        "bullet_aim_x",
+        "bullet_aim_y",
+        "bullet_damage",
+        "bullet_time",
+        "bullet_keep_alive",
+        "last_length",
+        "shoot_length",
+        "cur_length",
+        "result_length"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_update_bullet_registration",
+        "test_all_c07_continuous_turret_update_bullet_input_evidence_is_exact",
+        "test_continuous_turret_update_bullet_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_bullet"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateBulletProof",
+      "rule": "Source-backed ContinuousTurretBuild.updateBullet() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_continuous_turret_build_update_shooting_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_update_shooting_state",
+      "status": "active",
+      "source_slice": "N2367",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.updateShooting()",
+      "params": [
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.has_bullets"
+        },
+        {
+          "name": "can_consume",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.can_consume"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.charging"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.shoot_warmup"
+        },
+        {
+          "name": "min_warmup",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.min_warmup"
+        },
+        {
+          "name": "ammo_type",
+          "type": "Variant",
+          "schema": "source_continuous_turret_build_update_shooting_state_input.ammo_type"
+        }
+      ],
+      "return_keys": [
+        "shot",
+        "ammo_type"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_update_shooting_registration",
+        "test_all_c07_continuous_turret_update_shooting_input_evidence_is_exact",
+        "test_continuous_turret_update_shooting_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_shooting"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateShootingProof",
+      "rule": "Source-backed ContinuousTurretBuild.updateShooting() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_continuous_turret_build_update_tile_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_update_tile_state",
+      "status": "active",
+      "source_slice": "N2362",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_continuous_turret_build_update_tile_state_input.bullets"
+        },
+        {
+          "name": "recoil",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_tile_state_input.recoil"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_tile_state_input.heat"
+        },
+        {
+          "name": "cur_recoil",
+          "type": "float",
+          "schema": "source_continuous_turret_build_update_tile_state_input.cur_recoil"
+        }
+      ],
+      "return_keys": [
+        "bullets",
+        "was_shooting",
+        "heat",
+        "cur_recoil"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_update_tile_registration",
+        "test_all_c07_continuous_turret_update_tile_input_evidence_is_exact",
+        "test_continuous_turret_update_tile_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_update_tile"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretUpdateTileProof",
+      "rule": "Source-backed ContinuousTurretBuild.updateTile() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_continuous_turret_build_version_write_read_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_build_version_write_read_state",
+      "status": "active",
+      "source_slice": "N2375",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurretBuild.version(); ContinuousTurretBuild.write(Writes); ContinuousTurretBuild.read(Reads, byte)",
+      "params": [
+        {
+          "name": "last_length",
+          "type": "float",
+          "schema": "source_continuous_turret_build_version_write_read_state_input.last_length"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_continuous_turret_build_version_write_read_state_input.revision"
+        },
+        {
+          "name": "stored_last_length",
+          "type": "float",
+          "schema": "source_continuous_turret_build_version_write_read_state_input.stored_last_length"
+        }
+      ],
+      "return_keys": [
+        "version",
+        "write_last_length",
+        "last_length"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_version_write_read_registration",
+        "test_all_c07_continuous_turret_version_write_read_input_evidence_is_exact",
+        "test_continuous_turret_version_write_read_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_version_write_read"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretVersionWriteReadProof",
+      "rule": "Source-backed ContinuousTurretBuild.version()/write()/read() state from ContinuousTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_continuous_turret_set_stats_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_continuous_turret_set_stats_state",
       "status": "source-backed",
@@ -1865,6 +2321,93 @@
       "runtime_proof": "/root/Main.source_item_turret_build_write_state",
       "rule": "Public runtime contract for ItemTurretBuild.write(Writes) ordered write-call state."
     },
+    "PortGame.source_item_turret_efficiency_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_item_turret_efficiency_state",
+      "status": "active",
+      "source_slice": "N2419",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurret.init() ConsumeItemFilter.efficiency(Building build)",
+      "params": [
+        {
+          "name": "is_item_turret_build",
+          "type": "bool",
+          "schema": "source_item_turret_efficiency_state_input.is_item_turret_build"
+        },
+        {
+          "name": "ammo_size",
+          "type": "int",
+          "schema": "source_item_turret_efficiency_state_input.ammo_size"
+        },
+        {
+          "name": "peek_amount",
+          "type": "int",
+          "schema": "source_item_turret_efficiency_state_input.peek_amount"
+        },
+        {
+          "name": "ammo_per_shot",
+          "type": "int",
+          "schema": "source_item_turret_efficiency_state_input.ammo_per_shot"
+        },
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_item_turret_efficiency_state_input.cheating"
+        }
+      ],
+      "return_keys": [
+        "efficiency"
+      ],
+      "tests": [
+        "test_c07_item_turret_efficiency_registration",
+        "test_all_c07_item_turret_efficiency_input_evidence_is_exact",
+        "test_item_turret_efficiency_state",
+        "test_reference_graph_and_actual_c07_item_turret_efficiency"
+      ],
+      "runtime_proof": "/root/C07ItemTurretEfficiencyProof",
+      "rule": "Source-backed ItemTurret anonymous ConsumeItemFilter.efficiency() state from ItemTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_item_turret_init_ammo_filter_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_item_turret_init_ammo_filter_state",
+      "status": "active",
+      "source_slice": "N2431",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurret.init() ConsumeItemFilter.build(Building build, Table table)",
+      "params": [
+        {
+          "name": "items",
+          "type": "Array",
+          "schema": "source_item_turret_init_ammo_filter_state_input.items"
+        },
+        {
+          "name": "is_item_turret_build",
+          "type": "bool",
+          "schema": "source_item_turret_init_ammo_filter_state_input.is_item_turret_build"
+        },
+        {
+          "name": "ammo_empty",
+          "type": "bool",
+          "schema": "source_item_turret_init_ammo_filter_state_input.ammo_empty"
+        },
+        {
+          "name": "peek_item",
+          "type": "Variant",
+          "schema": "source_item_turret_init_ammo_filter_state_input.peek_item"
+        }
+      ],
+      "return_keys": [
+        "req_images"
+      ],
+      "tests": [
+        "test_c07_item_turret_init_ammo_filter_registration",
+        "test_all_c07_item_turret_init_ammo_filter_input_evidence_is_exact",
+        "test_item_turret_init_ammo_filter_state",
+        "test_reference_graph_and_actual_c07_item_turret_init_ammo_filter"
+      ],
+      "runtime_proof": "/root/C07ItemTurretInitAmmoFilterProof",
+      "rule": "Source-backed ItemTurret anonymous ConsumeItemFilter.build() ammo-filter UI state from ItemTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_item_turret_init_ground_overlap_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_item_turret_init_ground_overlap_state",
       "status": "source-backed",
@@ -2089,6 +2632,467 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
       "rule": "Public runtime contract for ItemTurret.setStats() stat call sequence and ammo capacity formula."
+    },
+    "PortGame.source_laser_turret_build_active_sound_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_active_sound_state",
+      "status": "active",
+      "source_slice": "N2418",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.activeSoundVolume(); LaserTurretBuild.shouldActiveSound()",
+      "params": [
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_laser_turret_build_active_sound_state_input.has_bullets"
+        }
+      ],
+      "return_keys": [
+        "active_sound_volume",
+        "should_active_sound"
+      ],
+      "tests": [
+        "test_c07_laser_turret_active_sound_volume_registration",
+        "test_all_c07_laser_turret_active_sound_volume_input_evidence_is_exact",
+        "test_laser_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_laser_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07LaserTurretActiveSoundVolumeProof",
+      "rule": "Source-backed LaserTurretBuild.activeSoundVolume()/shouldActiveSound() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_laser_turret_build_placed_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_placed_state",
+      "status": "active",
+      "source_slice": "N2422",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.placed()",
+      "params": [],
+      "return_keys": [
+        "placed"
+      ],
+      "tests": [
+        "test_c07_laser_turret_placed_registration",
+        "test_all_c07_laser_turret_placed_input_evidence_is_exact",
+        "test_laser_turret_placed_state",
+        "test_reference_graph_and_actual_c07_laser_turret_placed"
+      ],
+      "runtime_proof": "/root/C07LaserTurretPlacedProof",
+      "rule": "Source-backed LaserTurretBuild.placed() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_laser_turret_build_set_stats_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_set_stats_state",
+      "status": "active",
+      "source_slice": "N2386",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurret.setStats()",
+      "params": [
+        {
+          "name": "stats",
+          "type": "Array",
+          "schema": "source_laser_turret_build_set_stats_state_input.stats"
+        },
+        {
+          "name": "coolant",
+          "type": "Variant",
+          "schema": "source_laser_turret_build_set_stats_state_input.coolant"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_laser_turret_build_set_stats_state_input.reload"
+        },
+        {
+          "name": "coolant_multiplier",
+          "type": "float",
+          "schema": "source_laser_turret_build_set_stats_state_input.coolant_multiplier"
+        },
+        {
+          "name": "consumes_liquid",
+          "type": "Callable",
+          "schema": "source_laser_turret_build_set_stats_state_input.consumes_liquid"
+        }
+      ],
+      "return_keys": [
+        "stats"
+      ],
+      "tests": [
+        "test_c07_laser_turret_set_stats_init_progress_registration",
+        "test_all_c07_laser_turret_set_stats_init_progress_input_evidence_is_exact",
+        "test_laser_turret_set_stats_init_progress_state",
+        "test_reference_graph_and_actual_c07_laser_turret_set_stats_init_progress"
+      ],
+      "runtime_proof": "/root/C07LaserTurretSetStatsInitProgressProof",
+      "rule": "Source-backed LaserTurret.setStats()+init() + LaserTurretBuild.progress() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_laser_turret_build_should_consume_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_should_consume_state",
+      "status": "active",
+      "source_slice": "N2360",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.shouldConsume()",
+      "params": [
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_laser_turret_build_should_consume_state_input.has_bullets"
+        },
+        {
+          "name": "is_active",
+          "type": "bool",
+          "schema": "source_laser_turret_build_should_consume_state_input.is_active"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_laser_turret_build_should_consume_state_input.is_shooting"
+        }
+      ],
+      "return_keys": [
+        "should_consume"
+      ],
+      "tests": [
+        "test_c07_laser_turret_should_consume_registration",
+        "test_all_c07_laser_turret_should_consume_input_evidence_is_exact",
+        "test_laser_turret_should_consume_state",
+        "test_reference_graph_and_actual_c07_laser_turret_should_consume"
+      ],
+      "runtime_proof": "/root/C07LaserTurretShouldConsumeProof",
+      "rule": "Source-backed LaserTurretBuild.shouldConsume() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_turn_to_target_handle_bullet_state",
+      "status": "active",
+      "source_slice": "N2369",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.turnToTarget(float); LaserTurretBuild.handleBullet(Bullet, float, float, float)",
+      "params": [
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.rotation"
+        },
+        {
+          "name": "target_rot",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.target_rot"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.efficiency"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.rotate_speed"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.delta"
+        },
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.has_bullets"
+        },
+        {
+          "name": "firing_move_fract",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.firing_move_fract"
+        },
+        {
+          "name": "bullet",
+          "type": "Variant",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.bullet"
+        },
+        {
+          "name": "offset_x",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.offset_x"
+        },
+        {
+          "name": "offset_y",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.offset_y"
+        },
+        {
+          "name": "angle_offset",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.angle_offset"
+        },
+        {
+          "name": "shoot_duration",
+          "type": "float",
+          "schema": "source_laser_turret_build_turn_to_target_handle_bullet_state_input.shoot_duration"
+        }
+      ],
+      "return_keys": [
+        "rotation",
+        "bullet_entry"
+      ],
+      "tests": [
+        "test_c07_laser_turret_turn_to_target_handle_bullet_registration",
+        "test_all_c07_laser_turret_turn_to_target_handle_bullet_input_evidence_is_exact",
+        "test_laser_turret_turn_to_target_handle_bullet_state",
+        "test_reference_graph_and_actual_c07_laser_turret_turn_to_target_handle_bullet"
+      ],
+      "runtime_proof": "/root/C07LaserTurretTurnToTargetHandleBulletProof",
+      "rule": "Source-backed LaserTurretBuild.turnToTarget()/handleBullet() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_laser_turret_build_update_shooting_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_update_shooting_state",
+      "status": "active",
+      "source_slice": "N2364",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.updateShooting()",
+      "params": [
+        {
+          "name": "has_bullets",
+          "type": "bool",
+          "schema": "source_laser_turret_build_update_shooting_state_input.has_bullets"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_shooting_state_input.reload_counter"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_shooting_state_input.efficiency"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_laser_turret_build_update_shooting_state_input.charging"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_shooting_state_input.shoot_warmup"
+        },
+        {
+          "name": "min_warmup",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_shooting_state_input.min_warmup"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_shooting_state_input.reload"
+        },
+        {
+          "name": "ammo_type",
+          "type": "Variant",
+          "schema": "source_laser_turret_build_update_shooting_state_input.ammo_type"
+        }
+      ],
+      "return_keys": [
+        "should_shoot",
+        "shoot_type",
+        "reload_counter"
+      ],
+      "tests": [
+        "test_c07_laser_turret_update_shooting_registration",
+        "test_all_c07_laser_turret_update_shooting_input_evidence_is_exact",
+        "test_laser_turret_update_shooting_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_shooting"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateShootingProof",
+      "rule": "Source-backed LaserTurretBuild.updateShooting() state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_laser_turret_build_update_tile_leg1_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_update_tile_leg1_state",
+      "status": "active",
+      "source_slice": "N2372",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "bullets",
+          "type": "Array",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.bullets"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.rotation"
+        },
+        {
+          "name": "shoot_x",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.shoot_x"
+        },
+        {
+          "name": "shoot_y",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.shoot_y"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.efficiency"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.time_scale"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.source_delta"
+        },
+        {
+          "name": "heat",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.heat"
+        },
+        {
+          "name": "cur_recoil",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg1_state_input.cur_recoil"
+        }
+      ],
+      "return_keys": [
+        "bullets",
+        "was_shooting",
+        "heat",
+        "cur_recoil",
+        "reload_branch"
+      ],
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg1_registration",
+        "test_all_c07_laser_turret_update_tile_leg1_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg1_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg1"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg1Proof",
+      "rule": "Source-backed LaserTurretBuild.updateTile() leg 1 state from LaserTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_laser_turret_build_update_tile_leg2_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_laser_turret_build_update_tile_leg2_state",
+      "status": "active",
+      "source_slice": "N2373",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LaserTurret.java",
+      "source_method": "LaserTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.reload_counter"
+        },
+        {
+          "name": "coolant",
+          "type": "Variant",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.coolant"
+        },
+        {
+          "name": "coolant_multiplier",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.coolant_multiplier"
+        },
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.cheating"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.delta"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.edelta"
+        },
+        {
+          "name": "liquids",
+          "type": "Dictionary",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.liquids"
+        },
+        {
+          "name": "current_liquid",
+          "type": "Variant",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.current_liquid"
+        },
+        {
+          "name": "liquid_heat_capacity",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.liquid_heat_capacity"
+        },
+        {
+          "name": "chance_result",
+          "type": "bool",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.chance_result"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.y"
+        },
+        {
+          "name": "size",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.size"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.source_tilesize"
+        },
+        {
+          "name": "range_x",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.range_x"
+        },
+        {
+          "name": "range_y",
+          "type": "float",
+          "schema": "source_laser_turret_build_update_tile_leg2_state_input.range_y"
+        }
+      ],
+      "return_keys": [
+        "reload_counter",
+        "liquids",
+        "used",
+        "max_used",
+        "reload_branch",
+        "cool_effect_called",
+        "cool_effect_call"
+      ],
+      "tests": [
+        "test_c07_laser_turret_update_tile_leg2_registration",
+        "test_all_c07_laser_turret_update_tile_leg2_input_evidence_is_exact",
+        "test_laser_turret_update_tile_leg2_state",
+        "test_reference_graph_and_actual_c07_laser_turret_update_tile_leg2"
+      ],
+      "runtime_proof": "/root/C07LaserTurretUpdateTileLeg2Proof",
+      "rule": "Source-backed LaserTurretBuild.updateTile() leg 2 state from LaserTurret.java.",
+      "return_type": "Dictionary"
     },
     "PortGame.source_liquid_turret_ammo_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_liquid_turret_ammo_state",
@@ -3243,6 +4247,371 @@
       ],
       "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state",
       "rule": "Public runtime contract for OverdriveProjector updateTile eachBlock target filter summary state."
+    },
+    "PortGame.source_payload_ammo_turret_build_current_ammo_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_current_ammo_state",
+      "status": "active",
+      "source_slice": "N2358",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.currentAmmo()",
+      "params": [
+        {
+          "name": "ammo_keys",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_current_ammo_state_input.ammo_keys"
+        },
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_current_ammo_state_input.payload_contents"
+        }
+      ],
+      "return_keys": [
+        "current_ammo"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_current_ammo_registration",
+        "test_all_c07_payload_ammo_turret_current_ammo_input_evidence_is_exact",
+        "test_payload_ammo_turret_current_ammo_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_current_ammo"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretCurrentAmmoProof",
+      "rule": "Source-backed PayloadTurretBuild.currentAmmo() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_payload_ammo_turret_build_display_bars_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_display_bars_state",
+      "status": "active",
+      "source_slice": "N2381",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.displayBars(Table)",
+      "params": [
+        {
+          "name": "bars",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_display_bars_state_input.bars"
+        },
+        {
+          "name": "total_ammo",
+          "type": "int",
+          "schema": "source_payload_ammo_turret_build_display_bars_state_input.total_ammo"
+        },
+        {
+          "name": "max_ammo",
+          "type": "int",
+          "schema": "source_payload_ammo_turret_build_display_bars_state_input.max_ammo"
+        }
+      ],
+      "return_keys": [
+        "bars",
+        "ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_payload_turret_display_bars_registration",
+        "test_all_c07_payload_turret_display_bars_input_evidence_is_exact",
+        "test_payload_turret_display_bars_update_tile_get_payloads_state",
+        "test_reference_graph_and_actual_c07_payload_turret_display_bars"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretDisplayBarsProof",
+      "rule": "Source-backed PayloadTurretBuild.displayBars()+updateTile()+getPayloads() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_payload_ammo_turret_build_get_ammo_content_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_get_ammo_content_state",
+      "status": "active",
+      "source_slice": "N2368",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.getAmmoContent()",
+      "params": [
+        {
+          "name": "ammo_keys",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_get_ammo_content_state_input.ammo_keys"
+        },
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_get_ammo_content_state_input.payload_contents"
+        }
+      ],
+      "return_keys": [
+        "ammo_content"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_get_ammo_content_registration",
+        "test_all_c07_payload_ammo_turret_get_ammo_content_input_evidence_is_exact",
+        "test_payload_ammo_turret_get_ammo_content_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_get_ammo_content"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretGetAmmoContentProof",
+      "rule": "Source-backed PayloadTurretBuild.getAmmoContent() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_payload_ammo_turret_build_has_ammo_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_has_ammo_state",
+      "status": "active",
+      "source_slice": "N2387",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurretBuild.hasAmmo()",
+      "params": [
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_has_ammo_state_input.payload_contents"
+        }
+      ],
+      "return_keys": [
+        "has_ammo"
+      ],
+      "tests": [
+        "test_c07_payload_turret_payload_intake_registration",
+        "test_all_c07_payload_turret_payload_intake_input_evidence_is_exact",
+        "test_payload_turret_payload_intake_state",
+        "test_reference_graph_and_actual_c07_payload_turret_payload_intake"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPayloadIntakeProof",
+      "rule": "Source-backed PayloadAmmoTurretBuild.hasAmmo()+acceptPayload()+handlePayload() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_payload_ammo_turret_build_use_ammo_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_use_ammo_state",
+      "status": "active",
+      "source_slice": "N2363",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.useAmmo()",
+      "params": [
+        {
+          "name": "ammo_keys",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_use_ammo_state_input.ammo_keys"
+        },
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_use_ammo_state_input.payload_contents"
+        },
+        {
+          "name": "ammo_types",
+          "type": "Dictionary",
+          "schema": "source_payload_ammo_turret_build_use_ammo_state_input.ammo_types"
+        }
+      ],
+      "return_keys": [
+        "used_ammo",
+        "payload_contents"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_use_ammo_registration",
+        "test_all_c07_payload_ammo_turret_use_ammo_input_evidence_is_exact",
+        "test_payload_ammo_turret_use_ammo_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_use_ammo"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretUseAmmoProof",
+      "rule": "Source-backed PayloadTurretBuild.useAmmo() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_payload_ammo_turret_build_write_read_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_write_read_state",
+      "status": "active",
+      "source_slice": "N2376",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.write(Writes); PayloadTurretBuild.read(Reads, byte)",
+      "params": [
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_write_read_state_input.payload_contents"
+        },
+        {
+          "name": "stored_payload_contents",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_build_write_read_state_input.stored_payload_contents"
+        },
+        {
+          "name": "ammo_types",
+          "type": "Dictionary",
+          "schema": "source_payload_ammo_turret_build_write_read_state_input.ammo_types"
+        }
+      ],
+      "return_keys": [
+        "write_payload_contents",
+        "payload_contents"
+      ],
+      "tests": [
+        "test_c07_payload_turret_write_read_registration",
+        "test_all_c07_payload_turret_write_read_input_evidence_is_exact",
+        "test_payload_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_payload_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretWriteReadProof",
+      "rule": "Source-backed PayloadTurretBuild.write()+read() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_payload_ammo_turret_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2416",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurret(String name)",
+      "params": [
+        {
+          "name": "payload_ammo_turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_payload_ammo_turret_default_constructor_state_input.payload_ammo_turret_defaults"
+        },
+        {
+          "name": "max_ammo",
+          "type": "int",
+          "schema": "source_payload_ammo_turret_default_constructor_state_input.max_ammo"
+        }
+      ],
+      "return_keys": [
+        "max_ammo",
+        "payload_ammo_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_default_constructor_registration",
+        "test_all_c07_payload_ammo_turret_default_constructor_input_evidence_is_exact",
+        "test_payload_ammo_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretDefaultConstructorProof",
+      "rule": "Source-backed PayloadAmmoTurret() ctor field default state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_payload_ammo_turret_init_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_init_state",
+      "status": "active",
+      "source_slice": "N2396",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurret.init()",
+      "params": [
+        {
+          "name": "content_blocks",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_init_state_input.content_blocks"
+        },
+        {
+          "name": "content_units",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_init_state_input.content_units"
+        },
+        {
+          "name": "filter",
+          "type": "Callable",
+          "schema": "source_payload_ammo_turret_init_state_input.filter"
+        },
+        {
+          "name": "unlocked_now",
+          "type": "Callable",
+          "schema": "source_payload_ammo_turret_init_state_input.unlocked_now"
+        },
+        {
+          "name": "ui_icon",
+          "type": "Callable",
+          "schema": "source_payload_ammo_turret_init_state_input.ui_icon"
+        },
+        {
+          "name": "is_payload_turret_build",
+          "type": "bool",
+          "schema": "source_payload_ammo_turret_init_state_input.is_payload_turret_build"
+        },
+        {
+          "name": "payloads_any",
+          "type": "bool",
+          "schema": "source_payload_ammo_turret_init_state_input.payloads_any"
+        },
+        {
+          "name": "current_ammo",
+          "type": "Variant",
+          "schema": "source_payload_ammo_turret_init_state_input.current_ammo"
+        }
+      ],
+      "return_keys": [
+        "display_contents",
+        "efficiency"
+      ],
+      "tests": [
+        "test_c07_payload_ammo_turret_init_registration",
+        "test_all_c07_payload_ammo_turret_init_input_evidence_is_exact",
+        "test_payload_ammo_turret_init_state",
+        "test_reference_graph_and_actual_c07_payload_ammo_turret_init"
+      ],
+      "runtime_proof": "/root/C07PayloadAmmoTurretInitProof",
+      "rule": "Source-backed PayloadAmmoTurret.init() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_payload_ammo_turret_limit_range_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_limit_range_state",
+      "status": "active",
+      "source_slice": "N2384",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadAmmoTurret.limitRange(float)",
+      "params": [
+        {
+          "name": "ammo_entries",
+          "type": "Array",
+          "schema": "source_payload_ammo_turret_limit_range_state_input.ammo_entries"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_payload_ammo_turret_limit_range_state_input.range_value"
+        },
+        {
+          "name": "margin",
+          "type": "float",
+          "schema": "source_payload_ammo_turret_limit_range_state_input.margin"
+        }
+      ],
+      "return_keys": [
+        "ammo_entries"
+      ],
+      "tests": [
+        "test_c07_payload_turret_limit_range_registration",
+        "test_all_c07_payload_turret_limit_range_input_evidence_is_exact",
+        "test_payload_turret_limit_range_set_stats_state",
+        "test_reference_graph_and_actual_c07_payload_turret_limit_range"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretLimitRangeProof",
+      "rule": "Source-backed PayloadAmmoTurret.limitRange()+limitRange(float)+setStats() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "PortGame.source_payload_turret_build_peek_ammo_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_turret_build_peek_ammo_state",
+      "status": "active",
+      "source_slice": "N2371",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.peekAmmo()",
+      "params": [
+        {
+          "name": "ammo_keys",
+          "type": "Array",
+          "schema": "source_payload_turret_build_peek_ammo_state_input.ammo_keys"
+        },
+        {
+          "name": "payload_contents",
+          "type": "Array",
+          "schema": "source_payload_turret_build_peek_ammo_state_input.payload_contents"
+        },
+        {
+          "name": "ammo_types",
+          "type": "Dictionary",
+          "schema": "source_payload_turret_build_peek_ammo_state_input.ammo_types"
+        }
+      ],
+      "return_keys": [
+        "peeked_ammo"
+      ],
+      "tests": [
+        "test_c07_payload_turret_peek_ammo_registration",
+        "test_all_c07_payload_turret_peek_ammo_input_evidence_is_exact",
+        "test_payload_turret_peek_ammo_state",
+        "test_reference_graph_and_actual_c07_payload_turret_peek_ammo"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretPeekAmmoProof",
+      "rule": "Source-backed PayloadTurretBuild.peekAmmo() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
     },
     "PortGame.source_point_defense_turret_build_write_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_point_defense_turret_build_write_state",
@@ -6538,6 +7907,72 @@
       "rule": "Source-backed BaseShield power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBaseTurretDefaults.source_base_turret_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceBaseTurretDefaults.source_base_turret_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2405",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "source_method": "BaseTurret(String name)",
+      "params": [
+        {
+          "name": "base_turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_base_turret_default_constructor_state_input.base_turret_defaults"
+        },
+        {
+          "name": "block_flags",
+          "type": "Variant",
+          "schema": "source_base_turret_default_constructor_state_input.block_flags"
+        }
+      ],
+      "return_keys": [
+        "outline_icon",
+        "attacks",
+        "priority",
+        "flags",
+        "base_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_base_turret_default_constructor_registration",
+        "test_all_c07_base_turret_default_constructor_input_evidence_is_exact",
+        "test_base_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_base_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07BaseTurretDefaultConstructorProof",
+      "rule": "Source-backed BaseTurret() ctor field defaults state from BaseTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBuildTurretBuildState.source_build_turret_init_unit_type_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_init_unit_type_state",
+      "status": "active",
+      "source_slice": "N2426",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurret.init()",
+      "params": [
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_build_turret_init_unit_type_state_input.rotate_speed"
+        }
+      ],
+      "return_keys": [
+        "hidden",
+        "internal",
+        "speed",
+        "hit_size",
+        "health",
+        "rotate_speed"
+      ],
+      "tests": [
+        "test_c07_build_turret_init_unit_type_registration",
+        "test_all_c07_build_turret_init_unit_type_input_evidence_is_exact",
+        "test_build_turret_init_unit_type_state",
+        "test_reference_graph_and_actual_c07_build_turret_init_unit_type"
+      ],
+      "runtime_proof": "/root/C07BuildTurretInitUnitTypeProof",
+      "rule": "Source-backed BuildTurret init() UnitType fields from BuildTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildTurretBuildState.source_build_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_power_status_row_state",
       "status": "active",
@@ -6570,6 +8005,37 @@
       "rule": "Source-backed BuildTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceBuildTurretBuildState.source_build_turret_read_plans_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_read_plans_state",
+      "status": "active",
+      "source_slice": "N2429",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.read(Reads, byte)",
+      "params": [
+        {
+          "name": "reqs_null",
+          "type": "bool",
+          "schema": "source_build_turret_read_plans_state_input.reqs_null"
+        },
+        {
+          "name": "reqs",
+          "type": "Array",
+          "schema": "source_build_turret_read_plans_state_input.reqs"
+        }
+      ],
+      "return_keys": [
+        "plans_to_add"
+      ],
+      "tests": [
+        "test_c07_build_turret_read_plans_registration",
+        "test_all_c07_build_turret_read_plans_input_evidence_is_exact",
+        "test_build_turret_read_plans_state",
+        "test_reference_graph_and_actual_c07_build_turret_read_plans"
+      ],
+      "runtime_proof": "/root/C07BuildTurretReadPlansProof",
+      "rule": "Source-backed BuildTurretBuild read() plans restore from BuildTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildTurretBuildState.source_build_turret_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_should_consume_state",
       "status": "active",
@@ -6594,6 +8060,84 @@
       ],
       "runtime_proof": "/root/C07BuildTurretShouldConsumeProof",
       "rule": "Source-backed BuildTurret shouldConsume gate from BuildTurret.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_update_tile_plan_state",
+      "status": "active",
+      "source_slice": "N2423",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "has_following",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.has_following"
+        },
+        {
+          "name": "following_valid",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.following_valid"
+        },
+        {
+          "name": "controlled",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.controlled"
+        },
+        {
+          "name": "build_plan_null",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.build_plan_null"
+        },
+        {
+          "name": "team_plans",
+          "type": "Array",
+          "schema": "source_build_turret_update_tile_plan_state_input.team_plans"
+        },
+        {
+          "name": "valid_place",
+          "type": "Callable",
+          "schema": "source_build_turret_update_tile_plan_state_input.valid_place"
+        },
+        {
+          "name": "req_breaking",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.req_breaking"
+        },
+        {
+          "name": "req_pos",
+          "type": "Vector2i",
+          "schema": "source_build_turret_update_tile_plan_state_input.req_pos"
+        },
+        {
+          "name": "player_breaking_same_pos",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.player_breaking_same_pos"
+        },
+        {
+          "name": "mimic_following_set",
+          "type": "bool",
+          "schema": "source_build_turret_update_tile_plan_state_input.mimic_following_set"
+        }
+      ],
+      "return_keys": [
+        "following_cleared",
+        "found_plan",
+        "found_btype",
+        "found_index",
+        "mimic",
+        "mimic_early_return",
+        "team_plans",
+        "valid_break_branch"
+      ],
+      "tests": [
+        "test_c07_build_turret_update_tile_plan_registration",
+        "test_all_c07_build_turret_update_tile_plan_input_evidence_is_exact",
+        "test_build_turret_update_tile_plan_state",
+        "test_reference_graph_and_actual_c07_build_turret_update_tile_plan"
+      ],
+      "runtime_proof": "/root/C07BuildTurretUpdateTilePlanProof",
+      "rule": "Source-backed BuildTurretBuild.updateTile() plan legs from BuildTurret.java.",
       "return_type": "Dictionary"
     },
     "SourceBulletSpawnState.source_spawn_turret_bullet_from_state": {
@@ -6656,6 +8200,38 @@
       ],
       "runtime_proof": "/root/CostMultiplierForBlockProof",
       "rule": "Source-backed per-block cost multiplier; unit factories pay Rules.unitCost, other blocks pay the 1.0 default; a ContinuousLiquidTurret pays 1 / ammoMultiplier for its current liquid, 1.0 when the liquid has no ammo type.",
+      "return_type": "Dictionary"
+    },
+    "SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceContinuousLiquidTurretBuildState.source_continuous_liquid_turret_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2413",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "source_method": "ContinuousLiquidTurret(String name)",
+      "params": [
+        {
+          "name": "continuous_liquid_turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_continuous_liquid_turret_default_constructor_state_input.continuous_liquid_turret_defaults"
+        },
+        {
+          "name": "loop_sound",
+          "type": "Variant",
+          "schema": "source_continuous_liquid_turret_default_constructor_state_input.loop_sound"
+        }
+      ],
+      "return_keys": [
+        "loop_sound",
+        "continuous_liquid_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_continuous_liquid_turret_default_constructor_registration",
+        "test_all_c07_continuous_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_continuous_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_continuous_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07ContinuousLiquidTurretDefaultConstructorProof",
+      "rule": "Source-backed ContinuousLiquidTurret() ctor field default state from ContinuousLiquidTurret.java.",
       "return_type": "Dictionary"
     },
     "SourceContinuousLiquidTurretBuildState.source_tick_buildings_state": {
@@ -6738,6 +8314,34 @@
       ],
       "runtime_proof": "/root/ContinuousLiquidTurretTickFrameProof",
       "rule": "Source-backed ContinuousLiquidTurret tick frame wiring; the tick sets the frame keys the N2101 cost multiplier reads (current_liquid from the liquid module, ammo_types from the block), so the multiplier is paid live.",
+      "return_type": "Dictionary"
+    },
+    "SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceContinuousTurretDefaults.source_continuous_turret_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2407",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "source_method": "ContinuousTurret(String name)",
+      "params": [
+        {
+          "name": "continuous_turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_continuous_turret_default_constructor_state_input.continuous_turret_defaults"
+        }
+      ],
+      "return_keys": [
+        "coolant_multiplier",
+        "display_ammo_multiplier",
+        "continuous_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_continuous_turret_default_constructor_registration",
+        "test_all_c07_continuous_turret_default_constructor_input_evidence_is_exact",
+        "test_continuous_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_continuous_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07ContinuousTurretDefaultConstructorProof",
+      "rule": "Source-backed ContinuousTurret() ctor field defaults state from ContinuousTurret.java.",
       "return_type": "Dictionary"
     },
     "SourceForceProjectorBuildState.source_force_projector_power_status_row_state": {
@@ -7123,6 +8727,138 @@
       ],
       "runtime_proof": "/root/C07ItemTurretValidateTargetProof",
       "rule": "Source-backed ItemTurret validateTarget from Turret.java / Units.java / Team.java / Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceLiquidTurretBuildState.source_liquid_turret_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceLiquidTurretBuildState.source_liquid_turret_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2406",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurret(String name)",
+      "params": [
+        {
+          "name": "liquid_turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_liquid_turret_default_constructor_state_input.liquid_turret_defaults"
+        },
+        {
+          "name": "loop_sound",
+          "type": "Variant",
+          "schema": "source_liquid_turret_default_constructor_state_input.loop_sound"
+        },
+        {
+          "name": "shoot_sound",
+          "type": "Variant",
+          "schema": "source_liquid_turret_default_constructor_state_input.shoot_sound"
+        },
+        {
+          "name": "smoke_effect",
+          "type": "Variant",
+          "schema": "source_liquid_turret_default_constructor_state_input.smoke_effect"
+        },
+        {
+          "name": "shoot_effect",
+          "type": "Variant",
+          "schema": "source_liquid_turret_default_constructor_state_input.shoot_effect"
+        }
+      ],
+      "return_keys": [
+        "loop_sound",
+        "shoot_sound",
+        "smoke_effect",
+        "shoot_effect",
+        "liquid_turret_defaults"
+      ],
+      "tests": [
+        "test_c07_liquid_turret_default_constructor_registration",
+        "test_all_c07_liquid_turret_default_constructor_input_evidence_is_exact",
+        "test_liquid_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretDefaultConstructorProof",
+      "rule": "Source-backed LiquidTurret() ctor field defaults state from LiquidTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state": {
+      "canonical_contract": "source_api_contracts.SourceLiquidTurretBuildState.source_liquid_turret_find_target_scan_state",
+      "status": "active",
+      "source_slice": "N2408",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurretBuild.findTarget()",
+      "params": [
+        {
+          "name": "build_x",
+          "type": "float",
+          "schema": "source_liquid_turret_find_target_scan_state_input.build_x"
+        },
+        {
+          "name": "build_y",
+          "type": "float",
+          "schema": "source_liquid_turret_find_target_scan_state_input.build_y"
+        },
+        {
+          "name": "scan_range",
+          "type": "float",
+          "schema": "source_liquid_turret_find_target_scan_state_input.scan_range"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_liquid_turret_find_target_scan_state_input.tilesize"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "schema": "source_liquid_turret_find_target_scan_state_input.team"
+        },
+        {
+          "name": "self_build",
+          "type": "Variant",
+          "schema": "source_liquid_turret_find_target_scan_state_input.self_build"
+        },
+        {
+          "name": "world_tile",
+          "type": "Callable",
+          "schema": "source_liquid_turret_find_target_scan_state_input.world_tile"
+        },
+        {
+          "name": "fires_get",
+          "type": "Callable",
+          "schema": "source_liquid_turret_find_target_scan_state_input.fires_get"
+        },
+        {
+          "name": "fires_has",
+          "type": "Callable",
+          "schema": "source_liquid_turret_find_target_scan_state_input.fires_has"
+        },
+        {
+          "name": "dst2",
+          "type": "Callable",
+          "schema": "source_liquid_turret_find_target_scan_state_input.dst2"
+        }
+      ],
+      "return_keys": [
+        "fire_result",
+        "mindst",
+        "result_found",
+        "tile_x",
+        "tile_y",
+        "scan_radius",
+        "build_x",
+        "build_y",
+        "scan_range",
+        "tilesize",
+        "team",
+        "self_build"
+      ],
+      "tests": [
+        "test_c07_liquid_turret_find_target_scan_registration",
+        "test_all_c07_liquid_turret_find_target_scan_input_evidence_is_exact",
+        "test_liquid_turret_find_target_scan_state",
+        "test_reference_graph_and_actual_c07_liquid_turret_find_target_scan"
+      ],
+      "runtime_proof": "/root/C07LiquidTurretFindTargetScanProof",
+      "rule": "Source-backed LiquidTurretBuild.findTarget() extinguish-scan loop state from LiquidTurret.java.",
       "return_type": "Dictionary"
     },
     "SourceMendProjectorBuildState.source_mend_projector_power_status_row_state": {
@@ -7605,6 +9341,264 @@
       "rule": "Source-backed PointDefenseTurret write/read persistence from PointDefenseTurret.java + BaseTurret.java + BuildingComp.java + ReloadTurret.java.",
       "return_type": "Dictionary"
     },
+    "SourceRadarBuildState.source_radar_can_pickup_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_can_pickup_state",
+      "status": "active",
+      "source_slice": "N2318",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.canPickup()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_can_pickup_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "can_pickup"
+      ],
+      "tests": [
+        "test_c07_radar_can_pickup_registration",
+        "test_all_c07_radar_can_pickup_input_evidence_is_exact",
+        "test_radar_can_pickup_state",
+        "test_reference_graph_and_actual_c07_radar_can_pickup"
+      ],
+      "runtime_proof": "/root/C07RadarCanPickupProof",
+      "rule": "Source-backed Radar canPickup() accessor from Radar.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2404",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "Radar(String name)",
+      "params": [
+        {
+          "name": "radar_defaults",
+          "type": "Dictionary",
+          "schema": "source_radar_default_constructor_state_input.radar_defaults"
+        },
+        {
+          "name": "block_flags",
+          "type": "Variant",
+          "schema": "source_radar_default_constructor_state_input.block_flags"
+        }
+      ],
+      "return_keys": [
+        "update",
+        "solid",
+        "flags",
+        "outline_icon",
+        "radar_defaults"
+      ],
+      "tests": [
+        "test_c07_radar_default_constructor_registration",
+        "test_all_c07_radar_default_constructor_input_evidence_is_exact",
+        "test_radar_default_constructor_state",
+        "test_reference_graph_and_actual_c07_radar_default_constructor"
+      ],
+      "runtime_proof": "/root/C07RadarDefaultConstructorProof",
+      "rule": "Source-backed Radar() ctor field defaults state from Radar.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_draw_place_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_draw_place_state",
+      "status": "active",
+      "source_slice": "N2342",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "Radar.drawPlace()",
+      "params": [
+        {
+          "name": "tile_x",
+          "type": "int",
+          "schema": "source_radar_draw_place_state_input.tile_x"
+        },
+        {
+          "name": "tile_y",
+          "type": "int",
+          "schema": "source_radar_draw_place_state_input.tile_y"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "schema": "source_radar_draw_place_state_input.rotation"
+        },
+        {
+          "name": "valid",
+          "type": "bool",
+          "schema": "source_radar_draw_place_state_input.valid"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_draw_place_state_input.fog_radius"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_radar_draw_place_state_input.tilesize"
+        },
+        {
+          "name": "block_offset",
+          "type": "float",
+          "schema": "source_radar_draw_place_state_input.block_offset"
+        }
+      ],
+      "return_keys": [
+        "center",
+        "radius",
+        "color",
+        "rotation",
+        "valid",
+        "super_draw_place_called"
+      ],
+      "tests": [
+        "test_c07_radar_draw_place_registration",
+        "test_all_c07_radar_draw_place_input_evidence_is_exact",
+        "test_radar_draw_place_state",
+        "test_reference_graph_and_actual_c07_radar_draw_place"
+      ],
+      "runtime_proof": "/root/C07RadarDrawPlaceProof",
+      "rule": "Source-backed Radar drawPlace() row from Radar.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_draw_rotation_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_draw_rotation_state",
+      "status": "active",
+      "source_slice": "N2327",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.draw()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_draw_rotation_state_input.frame"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_radar_draw_rotation_state_input.rotate_speed"
+        }
+      ],
+      "return_keys": [
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_radar_draw_registration",
+        "test_all_c07_radar_draw_input_evidence_is_exact",
+        "test_radar_draw_state",
+        "test_reference_graph_and_actual_c07_radar_draw"
+      ],
+      "runtime_proof": "/root/C07RadarDrawProof",
+      "rule": "Source-backed Radar draw() rows from Radar.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_draw_select_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_draw_select_state",
+      "status": "active",
+      "source_slice": "N2333",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.y"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.fog_radius"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_radar_draw_select_state_input.tilesize"
+        }
+      ],
+      "return_keys": [
+        "center",
+        "radius",
+        "color"
+      ],
+      "tests": [
+        "test_c07_radar_draw_select_registration",
+        "test_all_c07_radar_draw_select_input_evidence_is_exact",
+        "test_radar_draw_select_state",
+        "test_reference_graph_and_actual_c07_radar_draw_select"
+      ],
+      "runtime_proof": "/root/C07RadarDrawSelectProof",
+      "rule": "Source-backed Radar drawSelect() row from Radar.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_fog_radius_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_fog_radius_state",
+      "status": "active",
+      "source_slice": "N2321",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.fogRadius()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_fog_radius_state_input.frame"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_fog_radius_state_input.fog_radius"
+        }
+      ],
+      "return_keys": [
+        "fog_radius"
+      ],
+      "tests": [
+        "test_c07_radar_fog_radius_registration",
+        "test_all_c07_radar_fog_radius_input_evidence_is_exact",
+        "test_radar_fog_radius_state",
+        "test_reference_graph_and_actual_c07_radar_fog_radius"
+      ],
+      "runtime_proof": "/root/C07RadarFogRadiusProof",
+      "rule": "Source-backed Radar fogRadius() accessor from Radar.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_icons_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_icons_state",
+      "status": "active",
+      "source_slice": "N2288",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "Radar.icons()",
+      "params": [
+        {
+          "name": "base_region",
+          "type": "Variant",
+          "schema": "source_radar_icons_state_input.base_region"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "schema": "source_radar_icons_state_input.region"
+        }
+      ],
+      "return_keys": [
+        "icons"
+      ],
+      "tests": [
+        "test_c07_radar_icons_registration",
+        "test_all_c07_radar_icons_input_evidence_is_exact",
+        "test_radar_icons_state",
+        "test_reference_graph_and_actual_c07_radar_icons"
+      ],
+      "runtime_proof": "/root/C07RadarIconsProof",
+      "rule": "Source-backed Radar icons() state from Radar.java + Block.java.",
+      "return_type": "Dictionary"
+    },
     "SourceRadarBuildState.source_radar_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_power_status_row_state",
       "status": "active",
@@ -7635,6 +9629,109 @@
       ],
       "runtime_proof": "/root/C07RadarPowerStatusProof",
       "rule": "Source-backed Radar power.status row from ConsumePower.java / BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_progress_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_progress_state",
+      "status": "active",
+      "source_slice": "N2303",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.progress()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_progress_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "progress"
+      ],
+      "tests": [
+        "test_c07_radar_progress_registration",
+        "test_all_c07_radar_progress_input_evidence_is_exact",
+        "test_radar_progress_state",
+        "test_reference_graph_and_actual_c07_radar_progress"
+      ],
+      "runtime_proof": "/root/C07RadarProgressProof",
+      "rule": "Source-backed Radar progress() accessor from Radar.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_update_tile_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_update_tile_state",
+      "status": "active",
+      "source_slice": "N2320",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_update_tile_state_input.frame"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_radar_update_tile_state_input.delta"
+        },
+        {
+          "name": "discovery_time",
+          "type": "float",
+          "schema": "source_radar_update_tile_state_input.discovery_time"
+        },
+        {
+          "name": "fog_radius",
+          "type": "float",
+          "schema": "source_radar_update_tile_state_input.fog_radius"
+        }
+      ],
+      "return_keys": [
+        "smooth_efficiency",
+        "fog_radius",
+        "force_update",
+        "last_radius",
+        "progress",
+        "total_progress"
+      ],
+      "tests": [
+        "test_c07_radar_update_tile_registration",
+        "test_all_c07_radar_update_tile_input_evidence_is_exact",
+        "test_radar_update_tile_state",
+        "test_reference_graph_and_actual_c07_radar_update_tile"
+      ],
+      "runtime_proof": "/root/C07RadarUpdateTileProof",
+      "rule": "Source-backed Radar updateTile advance from Radar.java + BuildingComp.java + Blocks.java + FogControl.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceRadarBuildState.source_radar_write_state": {
+      "canonical_contract": "source_api_contracts.SourceRadarBuildState.source_radar_write_state",
+      "status": "active",
+      "source_slice": "N2310",
+      "java_source": "core/src/mindustry/world/blocks/defense/Radar.java",
+      "source_method": "RadarBuild.write()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_radar_write_state_input.frame"
+        },
+        {
+          "name": "progress",
+          "type": "float",
+          "schema": "source_radar_write_state_input.progress"
+        }
+      ],
+      "return_keys": [
+        "progress"
+      ],
+      "tests": [
+        "test_c07_radar_write_read_registration",
+        "test_all_c07_radar_write_read_input_evidence_is_exact",
+        "test_radar_write_read_state",
+        "test_reference_graph_and_actual_c07_radar_write_read"
+      ],
+      "runtime_proof": "/root/C07RadarWriteReadProof",
+      "rule": "Source-backed Radar write/read persistence from Radar.java.",
       "return_type": "Dictionary"
     },
     "SourceRegenProjectorBuildState.source_regen_projector_power_status_row_state": {
@@ -8111,6 +10208,55 @@
       "rule": "Source-backed TractorBeamTurret power.status row from ConsumePower.java / BuildingComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_base_turret_build_draw_select_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_base_turret_build_draw_select_state",
+      "status": "active",
+      "source_slice": "N2393",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "source_method": "BaseTurretBuild.drawSelect()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_base_turret_build_draw_select_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_base_turret_build_draw_select_state_input.y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_base_turret_build_draw_select_state_input.range_value"
+        },
+        {
+          "name": "team_color",
+          "type": "String",
+          "schema": "source_base_turret_build_draw_select_state_input.team_color"
+        },
+        {
+          "name": "dash_circle",
+          "type": "Callable",
+          "schema": "source_base_turret_build_draw_select_state_input.dash_circle"
+        }
+      ],
+      "return_keys": [
+        "dash_circle_called",
+        "center",
+        "radius",
+        "color"
+      ],
+      "tests": [
+        "test_c07_base_turret_build_draw_select_registration",
+        "test_all_c07_base_turret_build_draw_select_input_evidence_is_exact",
+        "test_base_turret_build_draw_select_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_draw_select"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildDrawSelectProof",
+      "rule": "Source-backed BaseTurret drawSelect() row from BaseTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_activation_timer_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_activation_timer_state",
       "status": "active",
@@ -8141,6 +10287,87 @@
       ],
       "runtime_proof": "/root/C07TurretActivationTimerProof",
       "rule": "Source-backed Turret activationTimer decay from TurretBuild.updateTile() / Turret.java:561-564.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_active_sound_volume_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_active_sound_volume_state",
+      "status": "active",
+      "source_slice": "N2346",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.activeSoundVolume()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_active_sound_volume_state_input.frame"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_turret_active_sound_volume_state_input.shoot_warmup"
+        }
+      ],
+      "return_keys": [
+        "active_sound_volume"
+      ],
+      "tests": [
+        "test_c07_turret_active_sound_volume_registration",
+        "test_all_c07_turret_active_sound_volume_input_evidence_is_exact",
+        "test_turret_active_sound_volume_state",
+        "test_reference_graph_and_actual_c07_turret_active_sound_volume"
+      ],
+      "runtime_proof": "/root/C07TurretActiveSoundVolumeProof",
+      "rule": "Source-backed TurretBuild.activeSoundVolume()/shouldActiveSound() state from Turret.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_bullet_entry_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_bullet_entry_state",
+      "status": "active",
+      "source_slice": "N2410",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "BulletEntry(Bullet, float, float, float, float)",
+      "params": [
+        {
+          "name": "bullet",
+          "type": "Variant",
+          "schema": "source_turret_bullet_entry_state_input.bullet"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_turret_bullet_entry_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_turret_bullet_entry_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_turret_bullet_entry_state_input.rotation"
+        },
+        {
+          "name": "life",
+          "type": "float",
+          "schema": "source_turret_bullet_entry_state_input.life"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "x",
+        "y",
+        "rotation",
+        "life"
+      ],
+      "tests": [
+        "test_c07_turret_bullet_entry_registration",
+        "test_all_c07_turret_bullet_entry_input_evidence_is_exact",
+        "test_turret_bullet_entry_state",
+        "test_reference_graph_and_actual_c07_turret_bullet_entry"
+      ],
+      "runtime_proof": "/root/C07TurretBulletEntryProof",
+      "rule": "Source-backed TurretBuild.BulletEntry() ctor record state from Turret.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_can_consume_heat_gate_state": {
@@ -8177,73 +10404,6 @@
       ],
       "runtime_proof": "/root/C07TurretCanConsumeHeatGateProof",
       "rule": "Source-backed TurretBuild.canConsume() heat gate from Turret.java / Blocks.java.",
-      "return_type": "Dictionary"
-    },
-    "SourceTurretBuildState.source_turret_can_control_state": {
-      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_can_control_state",
-      "status": "active",
-      "source_slice": "N2530",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "source_method": "TurretBuild.canControl()",
-      "params": [
-        {
-          "name": "player_controllable",
-          "type": "bool",
-          "schema": "source_turret_can_control_state_input.player_controllable"
-        }
-      ],
-      "return_keys": [
-        "can_control"
-      ],
-      "tests": [
-        "test_c07_turret_can_control_registration",
-        "test_all_c07_turret_can_control_input_evidence_is_exact",
-        "test_turret_can_control_state",
-        "test_reference_graph_and_actual_c07_turret_can_control"
-      ],
-      "runtime_proof": "/root/C07TurretCanControlProof",
-      "rule": "Source-backed Turret canControl() read from Turret.java:376-379 + Turret.java:96-97 + ControlBlock.java:15-17 + Blocks.java.",
-      "return_type": "Dictionary"
-    },
-    "SourceTurretBuildState.source_turret_can_heal_state": {
-      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_can_heal_state",
-      "status": "active",
-      "source_slice": "N2281",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "source_method": "TurretBuild.canHeal()",
-      "params": [
-        {
-          "name": "target_healing",
-          "type": "bool",
-          "schema": "source_turret_can_heal_state_input.target_healing"
-        },
-        {
-          "name": "has_ammo",
-          "type": "bool",
-          "schema": "source_turret_can_heal_state_input.has_ammo"
-        },
-        {
-          "name": "ammo_collides_team",
-          "type": "bool",
-          "schema": "source_turret_can_heal_state_input.ammo_collides_team"
-        },
-        {
-          "name": "ammo_heals",
-          "type": "bool",
-          "schema": "source_turret_can_heal_state_input.ammo_heals"
-        }
-      ],
-      "return_keys": [
-        "can_heal"
-      ],
-      "tests": [
-        "test_c07_turret_can_heal_registration",
-        "test_all_c07_turret_can_heal_input_evidence_is_exact",
-        "test_turret_can_heal_state",
-        "test_reference_graph_and_actual_c07_turret_can_heal"
-      ],
-      "runtime_proof": "/root/C07TurretCanHealProof",
-      "rule": "Source-backed Turret canHeal() derivation from TurretBuild.canHeal() / Turret.java:635-637.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_charge_effect_state": {
@@ -8454,6 +10614,37 @@
       "rule": "Source-backed Turret controlled() frame stamp from Turret.java:441-443 + :490-503 + :631-633.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_controlled_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_controlled_state",
+      "status": "active",
+      "source_slice": "N2324",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.controlled()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_controlled_state_input.frame"
+        },
+        {
+          "name": "is_player",
+          "type": "bool",
+          "schema": "source_turret_controlled_state_input.is_player"
+        }
+      ],
+      "return_keys": [
+        "controlled"
+      ],
+      "tests": [
+        "test_c07_turret_controlled_registration",
+        "test_all_c07_turret_controlled_input_evidence_is_exact",
+        "test_turret_controlled_state",
+        "test_reference_graph_and_actual_c07_turret_controlled"
+      ],
+      "runtime_proof": "/root/C07TurretControlledProof",
+      "rule": "Source-backed TurretBuild.controlled() state from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_cooling_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_cooling_state",
       "status": "active",
@@ -8522,30 +10713,85 @@
       "rule": "Source-backed Turret updateCooling() coolant fold from ReloadTurret.java:28-38 + Turret.java:550/:727 + BaseTurret.java:32 + BuildingComp.java:1927-1929 + Blocks.java.",
       "return_type": "Dictionary"
     },
-    "SourceTurretBuildState.source_turret_drawrot_state": {
-      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_drawrot_state",
+    "SourceTurretBuildState.source_turret_draw_select_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_draw_select_state",
       "status": "active",
-      "source_slice": "N2532",
+      "source_slice": "N2334",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "source_method": "TurretBuild.drawrot()",
+      "source_method": "TurretBuild.drawSelect()",
       "params": [
         {
-          "name": "rotation",
+          "name": "x",
           "type": "float",
-          "schema": "source_turret_drawrot_state_input.rotation"
+          "schema": "source_turret_draw_select_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_turret_draw_select_state_input.y"
+        },
+        {
+          "name": "draw_min_range",
+          "type": "bool",
+          "schema": "source_turret_draw_select_state_input.draw_min_range"
+        },
+        {
+          "name": "min_range",
+          "type": "float",
+          "schema": "source_turret_draw_select_state_input.min_range"
+        },
+        {
+          "name": "team_color",
+          "type": "String",
+          "schema": "source_turret_draw_select_state_input.team_color"
         }
       ],
       "return_keys": [
-        "drawrot"
+        "draw_min_range_circle",
+        "center",
+        "radius",
+        "color"
       ],
       "tests": [
-        "test_c07_turret_drawrot_registration",
-        "test_all_c07_turret_drawrot_input_evidence_is_exact",
-        "test_turret_drawrot_state",
-        "test_reference_graph_and_actual_c07_turret_drawrot"
+        "test_c07_turret_draw_select_registration",
+        "test_all_c07_turret_draw_select_input_evidence_is_exact",
+        "test_turret_draw_select_state",
+        "test_reference_graph_and_actual_c07_turret_draw_select"
       ],
-      "runtime_proof": "/root/C07TurretDrawrotProof",
-      "rule": "Source-backed Turret drawrot() read from Turret.java:359-362 + BaseTurret.java:114 + BuildingComp.java:587-588.",
+      "runtime_proof": "/root/C07TurretDrawSelectProof",
+      "rule": "Source-backed Turret drawSelect() row from Turret.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_draw_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_draw_state",
+      "status": "active",
+      "source_slice": "N2377",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.draw()",
+      "params": [
+        {
+          "name": "drawer",
+          "type": "Callable",
+          "schema": "source_turret_draw_state_input.drawer"
+        },
+        {
+          "name": "build",
+          "type": "Dictionary",
+          "schema": "source_turret_draw_state_input.build"
+        }
+      ],
+      "return_keys": [
+        "draw_delegated",
+        "drawer_called"
+      ],
+      "tests": [
+        "test_c07_turret_draw_registration",
+        "test_all_c07_turret_draw_input_evidence_is_exact",
+        "test_turret_draw_state",
+        "test_reference_graph_and_actual_c07_turret_draw"
+      ],
+      "runtime_proof": "/root/C07TurretDrawProof",
+      "rule": "Source-backed Turret draw() row from Turret.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_efficiency_multiplier_state": {
@@ -8597,7 +10843,7 @@
     "SourceTurretBuildState.source_turret_estimate_dps_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_estimate_dps_state",
       "status": "active",
-      "source_slice": "N2528",
+      "source_slice": "N2301",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.estimateDps()",
       "params": [
@@ -8612,16 +10858,6 @@
           "schema": "source_turret_estimate_dps_state_input.has_ammo"
         },
         {
-          "name": "has_peek_ammo",
-          "type": "bool",
-          "schema": "source_turret_estimate_dps_state_input.has_peek_ammo"
-        },
-        {
-          "name": "peek_ammo_dps",
-          "type": "float",
-          "schema": "source_turret_estimate_dps_state_input.peek_ammo_dps"
-        },
-        {
           "name": "shots",
           "type": "int",
           "schema": "source_turret_estimate_dps_state_input.shots"
@@ -8630,6 +10866,16 @@
           "name": "reload",
           "type": "float",
           "schema": "source_turret_estimate_dps_state_input.reload"
+        },
+        {
+          "name": "peek_ammo_estimate_dps",
+          "type": "float",
+          "schema": "source_turret_estimate_dps_state_input.peek_ammo_estimate_dps"
+        },
+        {
+          "name": "potential_efficiency",
+          "type": "float",
+          "schema": "source_turret_estimate_dps_state_input.potential_efficiency"
         },
         {
           "name": "time_scale",
@@ -8647,20 +10893,157 @@
         "test_reference_graph_and_actual_c07_turret_estimate_dps"
       ],
       "runtime_proof": "/root/C07TurretEstimateDpsProof",
-      "rule": "Source-backed Turret estimateDps() read from Turret.java:329-333 + ShootPattern.java:9 + ReloadTurret.java:10 + BuildingComp.java:98 + BulletType.java:414.",
+      "rule": "Source-backed TurretBuild.estimateDps() state from Turret.java + ReloadTurret.java + ShootPattern.java + BulletType.java + BuildingComp.java + RtsAI.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_find_enemy_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_find_enemy_state",
+      "status": "active",
+      "source_slice": "N2316",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.findEnemy(float)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_find_enemy_state_input.frame"
+        },
+        {
+          "name": "team_is_derelict",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.team_is_derelict"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_turret_find_enemy_state_input.range"
+        },
+        {
+          "name": "target_air",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.target_air"
+        },
+        {
+          "name": "target_ground",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.target_ground"
+        },
+        {
+          "name": "target_blocks",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.target_blocks"
+        },
+        {
+          "name": "ammo_is_null",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.ammo_is_null"
+        },
+        {
+          "name": "ammo_target_blocks",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.ammo_target_blocks"
+        },
+        {
+          "name": "ammo_target_missiles",
+          "type": "bool",
+          "schema": "source_turret_find_enemy_state_input.ammo_target_missiles"
+        },
+        {
+          "name": "unit_candidates",
+          "type": "Array",
+          "schema": "source_turret_find_enemy_state_input.unit_candidates"
+        },
+        {
+          "name": "building_candidates",
+          "type": "Array",
+          "schema": "source_turret_find_enemy_state_input.building_candidates"
+        }
+      ],
+      "return_keys": [
+        "target"
+      ],
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof",
+      "rule": "Source-backed TurretBuild findTarget/findEnemy/validateTarget/canHeal state from Turret.java + Units.java + UnitSorts.java + BlockIndexer.java + BulletType.java + Mathf.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_find_target_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_find_target_state",
+      "status": "active",
+      "source_slice": "N2316",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.findTarget()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_find_target_state_input.frame"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_turret_find_target_state_input.range"
+        },
+        {
+          "name": "track_range",
+          "type": "float",
+          "schema": "source_turret_find_target_state_input.track_range"
+        },
+        {
+          "name": "found_standard",
+          "type": "Variant",
+          "schema": "source_turret_find_target_state_input.found_standard"
+        },
+        {
+          "name": "found_track",
+          "type": "Variant",
+          "schema": "source_turret_find_target_state_input.found_track"
+        },
+        {
+          "name": "can_heal",
+          "type": "bool",
+          "schema": "source_turret_find_target_state_input.can_heal"
+        },
+        {
+          "name": "ally_tile",
+          "type": "Variant",
+          "schema": "source_turret_find_target_state_input.ally_tile"
+        }
+      ],
+      "return_keys": [
+        "target"
+      ],
+      "tests": [
+        "test_c07_turret_find_target_registration",
+        "test_all_c07_turret_find_target_input_evidence_is_exact",
+        "test_turret_find_target_state",
+        "test_reference_graph_and_actual_c07_turret_find_target"
+      ],
+      "runtime_proof": "/root/C07TurretFindTargetProof",
+      "rule": "Source-backed TurretBuild findTarget/findEnemy/validateTarget/canHeal state from Turret.java + Units.java + UnitSorts.java + BlockIndexer.java + BulletType.java + Mathf.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_fog_radius_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_fog_radius_state",
       "status": "active",
-      "source_slice": "N2531",
+      "source_slice": "N2311",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.fogRadius()",
       "params": [
         {
-          "name": "range_value",
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_fog_radius_state_input.frame"
+        },
+        {
+          "name": "range",
           "type": "float",
-          "schema": "source_turret_fog_radius_state_input.range_value"
+          "schema": "source_turret_fog_radius_state_input.range"
         },
         {
           "name": "has_ammo",
@@ -8668,13 +11051,13 @@
           "schema": "source_turret_fog_radius_state_input.has_ammo"
         },
         {
-          "name": "peek_ammo_range_change",
+          "name": "ammo_range_change",
           "type": "float",
-          "schema": "source_turret_fog_radius_state_input.peek_ammo_range_change"
+          "schema": "source_turret_fog_radius_state_input.ammo_range_change"
         },
         {
           "name": "tilesize",
-          "type": "int",
+          "type": "float",
           "schema": "source_turret_fog_radius_state_input.tilesize"
         },
         {
@@ -8693,7 +11076,117 @@
         "test_reference_graph_and_actual_c07_turret_fog_radius"
       ],
       "runtime_proof": "/root/C07TurretFogRadiusProof",
-      "rule": "Source-backed Turret fogRadius() read from Turret.java:420-422 + BaseTurret.java:21/24 + Vars.java:135 + Blocks.java:5627 + BulletType.java:157.",
+      "rule": "Source-backed TurretBuild.fogRadius() state from Turret.java + BaseTurret.java + Vars.java + BulletType.java + FogControl.java + FogRenderer.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_get_ammo_content_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_get_ammo_content_state",
+      "status": "active",
+      "source_slice": "N2348",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.getAmmoContent()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_get_ammo_content_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "ammo_content"
+      ],
+      "tests": [
+        "test_c07_turret_get_ammo_content_fraction_registration",
+        "test_all_c07_turret_get_ammo_content_fraction_input_evidence_is_exact",
+        "test_turret_get_ammo_content_fraction_state",
+        "test_reference_graph_and_actual_c07_turret_get_ammo_content_fraction"
+      ],
+      "runtime_proof": "/root/C07TurretGetAmmoContentFractionProof",
+      "rule": "Source-backed TurretBuild.getAmmoContent()/getAmmoFraction() state from Turret.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_handle_liquid_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_handle_liquid_state",
+      "status": "active",
+      "source_slice": "N2356",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.handleLiquid()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_handle_liquid_state_input.frame"
+        },
+        {
+          "name": "has_coolant",
+          "type": "bool",
+          "schema": "source_turret_handle_liquid_state_input.has_coolant"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_turret_handle_liquid_state_input.liquid_amount"
+        }
+      ],
+      "return_keys": [
+        "turret_cool_fired",
+        "super_called"
+      ],
+      "tests": [
+        "test_c07_turret_handle_liquid_registration",
+        "test_all_c07_turret_handle_liquid_input_evidence_is_exact",
+        "test_turret_handle_liquid_state",
+        "test_reference_graph_and_actual_c07_turret_handle_liquid"
+      ],
+      "runtime_proof": "/root/C07TurretHandleLiquidProof",
+      "rule": "Source-backed TurretBuild.handleLiquid() state from Turret.java + BaseTurret.java + BuildingComp.java + LiquidModule.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_has_ammo_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_has_ammo_state",
+      "status": "active",
+      "source_slice": "N2313",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.hasAmmo()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_has_ammo_state_input.frame"
+        },
+        {
+          "name": "ammo_stacks",
+          "type": "Array",
+          "schema": "source_turret_has_ammo_state_input.ammo_stacks"
+        },
+        {
+          "name": "ammo_per_shot",
+          "type": "int",
+          "schema": "source_turret_has_ammo_state_input.ammo_per_shot"
+        },
+        {
+          "name": "can_consume",
+          "type": "bool",
+          "schema": "source_turret_has_ammo_state_input.can_consume"
+        },
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_turret_has_ammo_state_input.cheating"
+        }
+      ],
+      "return_keys": [
+        "has_ammo",
+        "ammo_stacks_after"
+      ],
+      "tests": [
+        "test_c07_turret_has_ammo_registration",
+        "test_all_c07_turret_has_ammo_input_evidence_is_exact",
+        "test_turret_has_ammo_state",
+        "test_reference_graph_and_actual_c07_turret_has_ammo"
+      ],
+      "runtime_proof": "/root/C07TurretHasAmmoProof",
+      "rule": "Source-backed TurretBuild.hasAmmo() state from Turret.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_heat_req_state": {
@@ -8888,30 +11381,45 @@
       "rule": "Source-backed Turret logicControlTime decay from Turret.java.",
       "return_type": "Dictionary"
     },
-    "SourceTurretBuildState.source_turret_logic_controlled_state": {
-      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_logic_controlled_state",
+    "SourceTurretBuildState.source_turret_min_range_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_min_range_state",
       "status": "active",
-      "source_slice": "N2278",
+      "source_slice": "N2340",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "source_method": "TurretBuild.updateTile()",
+      "source_method": "TurretBuild.minRange()",
       "params": [
         {
-          "name": "logic_control_time",
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_min_range_state_input.frame"
+        },
+        {
+          "name": "min_range",
           "type": "float",
-          "schema": "source_turret_logic_controlled_state_input.logic_control_time"
+          "schema": "source_turret_min_range_state_input.min_range"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_min_range_state_input.has_ammo"
+        },
+        {
+          "name": "ammo_min_range_change",
+          "type": "float",
+          "schema": "source_turret_min_range_state_input.ammo_min_range_change"
         }
       ],
       "return_keys": [
-        "logic_controlled"
+        "min_range"
       ],
       "tests": [
-        "test_c07_turret_logic_controlled_registration",
-        "test_all_c07_turret_logic_controlled_input_evidence_is_exact",
-        "test_turret_logic_controlled_state",
-        "test_reference_graph_and_actual_c07_turret_logic_controlled"
+        "test_c07_turret_min_range_registration",
+        "test_all_c07_turret_min_range_input_evidence_is_exact",
+        "test_turret_min_range_state",
+        "test_reference_graph_and_actual_c07_turret_min_range"
       ],
-      "runtime_proof": "/root/C07TurretLogicControlledProof",
-      "rule": "Source-backed Turret logicControlled() predicate from TurretBuild.updateTile() / Turret.java:445-447.",
+      "runtime_proof": "/root/C07TurretMinRangeProof",
+      "rule": "Source-backed TurretBuild.minRange() state from Turret.java + BulletType.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_multi_recoil_stamp_state": {
@@ -8991,6 +11499,37 @@
       "rule": "Source-backed Turret multi-recoil decay from Turret.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_peek_ammo_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_peek_ammo_state",
+      "status": "active",
+      "source_slice": "N2329",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.peekAmmo()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_peek_ammo_state_input.frame"
+        },
+        {
+          "name": "ammo_stacks",
+          "type": "Array",
+          "schema": "source_turret_peek_ammo_state_input.ammo_stacks"
+        }
+      ],
+      "return_keys": [
+        "peek_ammo"
+      ],
+      "tests": [
+        "test_c07_turret_peek_ammo_registration",
+        "test_all_c07_turret_peek_ammo_input_evidence_is_exact",
+        "test_turret_peek_ammo_state",
+        "test_reference_graph_and_actual_c07_turret_peek_ammo"
+      ],
+      "runtime_proof": "/root/C07TurretPeekAmmoProof",
+      "rule": "Source-backed TurretBuild.peekAmmo() state from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_power_status_row_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_power_status_row_state",
       "status": "active",
@@ -9026,10 +11565,15 @@
     "SourceTurretBuildState.source_turret_progress_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_progress_state",
       "status": "active",
-      "source_slice": "N2282",
+      "source_slice": "N2292",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.progress()",
       "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_progress_state_input.frame"
+        },
         {
           "name": "reload_counter",
           "type": "float",
@@ -9051,7 +11595,7 @@
         "test_reference_graph_and_actual_c07_turret_progress"
       ],
       "runtime_proof": "/root/C07TurretProgressProof",
-      "rule": "Source-backed Turret progress() derivation from TurretBuild.progress() / Turret.java:425-427.",
+      "rule": "Source-backed TurretBuild.progress() state from Turret.java + ReloadTurret.java + BuildingComp.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_queued_bullets_state": {
@@ -9176,6 +11720,44 @@
       "rule": "Source-backed Turret range() / minRange() / trackingRange() accessors from Turret.java:334-350 + :217-219 + BaseTurret.java:21 + BulletType.java:157/:163 + Blocks.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_read_sync_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_read_sync_state",
+      "status": "active",
+      "source_slice": "N2353",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.readSync()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_read_sync_state_input.frame"
+        },
+        {
+          "name": "read_data",
+          "type": "Dictionary",
+          "schema": "source_turret_read_sync_state_input.read_data"
+        },
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_turret_read_sync_state_input.revision"
+        }
+      ],
+      "return_keys": [
+        "rotation",
+        "reload_counter",
+        "read_applied"
+      ],
+      "tests": [
+        "test_c07_turret_read_sync_registration",
+        "test_all_c07_turret_read_sync_input_evidence_is_exact",
+        "test_turret_read_sync_state",
+        "test_reference_graph_and_actual_c07_turret_read_sync"
+      ],
+      "runtime_proof": "/root/C07TurretReadSyncProof",
+      "rule": "Source-backed TurretBuild.readSync() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_recoil_heat_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_recoil_heat_state",
       "status": "active",
@@ -9264,6 +11846,37 @@
       "rule": "Source-backed Turret recoilOffset draw from Turret.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_remove_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_remove_state",
+      "status": "active",
+      "source_slice": "N2350",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.remove()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_remove_state_input.frame"
+        },
+        {
+          "name": "has_sound_loop",
+          "type": "bool",
+          "schema": "source_turret_remove_state_input.has_sound_loop"
+        }
+      ],
+      "return_keys": [
+        "sound_loop_stopped"
+      ],
+      "tests": [
+        "test_c07_turret_remove_on_destroyed_registration",
+        "test_all_c07_turret_remove_on_destroyed_input_evidence_is_exact",
+        "test_turret_remove_on_destroyed_state",
+        "test_reference_graph_and_actual_c07_turret_remove_on_destroyed"
+      ],
+      "runtime_proof": "/root/C07TurretRemoveOnDestroyedProof",
+      "rule": "Source-backed TurretBuild.remove()/onDestroyed() state from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_rotate_sync_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_rotate_sync_state",
       "status": "active",
@@ -9303,7 +11916,7 @@
     "SourceTurretBuildState.source_turret_sense_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_sense_state",
       "status": "active",
-      "source_slice": "N2283",
+      "source_slice": "N2293",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.sense(LAccess)",
       "params": [
@@ -9328,6 +11941,31 @@
           "schema": "source_turret_sense_state_input.max_ammo"
         },
         {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_turret_sense_state_input.rotation"
+        },
+        {
+          "name": "target_pos",
+          "type": "Vector2",
+          "schema": "source_turret_sense_state_input.target_pos"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_turret_sense_state_input.is_shooting"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_turret_sense_state_input.reload_counter"
+        },
+        {
+          "name": "reload",
+          "type": "float",
+          "schema": "source_turret_sense_state_input.reload"
+        },
+        {
           "name": "tilesize",
           "type": "float",
           "schema": "source_turret_sense_state_input.tilesize"
@@ -9345,7 +11983,109 @@
         "test_reference_graph_and_actual_c07_turret_sense"
       ],
       "runtime_proof": "/root/C07TurretSenseProof",
-      "rule": "Source-backed Turret sense() LAccess dispatch from Turret.java:405-419 + BaseTurret.java + World.java + Vars.java + LAccess.java + BuildingComp.java.",
+      "rule": "Source-backed TurretBuild.sense() state from Turret.java + ReloadTurret.java + BuildingComp.java + Vars.java + LAccess.java + World.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_shoot_bullet_legs_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_shoot_bullet_legs_state",
+      "status": "active",
+      "source_slice": "N2428",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.shoot()/TurretBuild.bullet()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_shoot_bullet_legs_state_input.frame"
+        },
+        {
+          "name": "delay",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.delay"
+        },
+        {
+          "name": "bullet",
+          "type": "Callable",
+          "schema": "source_turret_shoot_bullet_legs_state_input.bullet"
+        },
+        {
+          "name": "time_run",
+          "type": "Callable",
+          "schema": "source_turret_shoot_bullet_legs_state_input.time_run"
+        },
+        {
+          "name": "bullet_type",
+          "type": "Variant",
+          "schema": "source_turret_shoot_bullet_legs_state_input.bullet_type"
+        },
+        {
+          "name": "x_offset",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.x_offset"
+        },
+        {
+          "name": "y_offset",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.y_offset"
+        },
+        {
+          "name": "angle_offset",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.angle_offset"
+        },
+        {
+          "name": "mover",
+          "type": "Variant",
+          "schema": "source_turret_shoot_bullet_legs_state_input.mover"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.y"
+        },
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.rotation"
+        },
+        {
+          "name": "ammo_eject_back",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.ammo_eject_back"
+        },
+        {
+          "name": "shake",
+          "type": "float",
+          "schema": "source_turret_shoot_bullet_legs_state_input.shake"
+        },
+        {
+          "name": "ammo_use_effect",
+          "type": "Callable",
+          "schema": "source_turret_shoot_bullet_legs_state_input.ammo_use_effect"
+        }
+      ],
+      "return_keys": [
+        "barrel",
+        "delayed",
+        "ammo_use_effect_x",
+        "ammo_use_effect_y",
+        "ammo_use_effect_rotation",
+        "shake_applies",
+        "shake_effect"
+      ],
+      "tests": [
+        "test_c07_turret_shoot_bullet_legs_registration",
+        "test_all_c07_turret_shoot_bullet_legs_input_evidence_is_exact",
+        "test_turret_shoot_bullet_legs_state",
+        "test_reference_graph_and_actual_c07_turret_shoot_bullet_legs"
+      ],
+      "runtime_proof": "/root/C07TurretShootBulletLegsProof",
+      "rule": "Source-backed TurretBuild.shoot()/bullet() leftover legs from Turret.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_shoot_stamp_state": {
@@ -9389,7 +12129,7 @@
     "SourceTurretBuildState.source_turret_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_should_consume_state",
       "status": "active",
-      "source_slice": "N2524",
+      "source_slice": "N2291",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.shouldConsume()",
       "params": [
@@ -9397,6 +12137,16 @@
           "name": "frame",
           "type": "Dictionary",
           "schema": "source_turret_should_consume_state_input.frame"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_turret_should_consume_state_input.is_shooting"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_turret_should_consume_state_input.reload_counter"
         },
         {
           "name": "reload",
@@ -9414,13 +12164,49 @@
         "test_reference_graph_and_actual_c07_turret_should_consume"
       ],
       "runtime_proof": "/root/C07TurretShouldConsumeProof",
-      "rule": "Source-backed Turret shouldConsume() gate from Turret.java:364-366 + :490-492 + ReloadTurret.java:10/:26/:46-48 + BuildingComp.java:1947/:2274/:2277.",
+      "rule": "Source-backed TurretBuild.shouldConsume() state from Turret.java + ReloadTurret.java + BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_should_turn_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_should_turn_state",
+      "status": "active",
+      "source_slice": "N2337",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.shouldTurn()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_should_turn_state_input.frame"
+        },
+        {
+          "name": "move_while_charging",
+          "type": "bool",
+          "schema": "source_turret_should_turn_state_input.move_while_charging"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_turret_should_turn_state_input.charging"
+        }
+      ],
+      "return_keys": [
+        "should_turn"
+      ],
+      "tests": [
+        "test_c07_turret_should_turn_registration",
+        "test_all_c07_turret_should_turn_input_evidence_is_exact",
+        "test_turret_should_turn_state",
+        "test_reference_graph_and_actual_c07_turret_should_turn"
+      ],
+      "runtime_proof": "/root/C07TurretShouldTurnProof",
+      "rule": "Source-backed TurretBuild.shouldTurn() state from Turret.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_status_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_status_state",
       "status": "active",
-      "source_slice": "N2527",
+      "source_slice": "N2285",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.status()",
       "params": [
@@ -9430,19 +12216,19 @@
           "schema": "source_turret_status_state_input.frame"
         },
         {
-          "name": "tick",
-          "type": "float",
-          "schema": "source_turret_status_state_input.tick"
-        },
-        {
           "name": "has_ammo",
           "type": "bool",
           "schema": "source_turret_status_state_input.has_ammo"
         },
         {
-          "name": "reload",
+          "name": "activation_timer",
           "type": "float",
-          "schema": "source_turret_status_state_input.reload"
+          "schema": "source_turret_status_state_input.activation_timer"
+        },
+        {
+          "name": "building_status",
+          "type": "String",
+          "schema": "source_turret_status_state_input.building_status"
         }
       ],
       "return_keys": [
@@ -9455,7 +12241,7 @@
         "test_reference_graph_and_actual_c07_turret_status"
       ],
       "runtime_proof": "/root/C07TurretStatusProof",
-      "rule": "Source-backed Turret status() read from Turret.java:369-372 + BuildingComp.java:632-646 + Turret.java:364-366 + ReloadTurret.java:10 + Blocks.java.",
+      "rule": "Source-backed TurretBuild.status() state from Turret.java + BaseTurret.java + BuildingComp.java + BlockStatus.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_target_position_control_state": {
@@ -9549,6 +12335,46 @@
       "rule": "Source-backed Turret targetPosition(pos) call from Turret.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_targeting_defaults_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "status": "active",
+      "source_slice": "N2445",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "Turret field declarations",
+      "params": [
+        {
+          "name": "target_under_blocks",
+          "type": "bool",
+          "schema": "source_turret_targeting_defaults_state_input.target_under_blocks"
+        },
+        {
+          "name": "under_bullets",
+          "type": "bool",
+          "schema": "source_turret_targeting_defaults_state_input.under_bullets"
+        }
+      ],
+      "return_keys": [
+        "target_interval",
+        "new_target_interval",
+        "reload_while_charging",
+        "target_air",
+        "target_ground",
+        "target_blocks",
+        "display_ammo_multiplier",
+        "target_under_blocks",
+        "unit_filter",
+        "building_filter"
+      ],
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof",
+      "rule": "Source-backed Turret targeting/shoot field defaults state from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_tick_buildings_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_tick_buildings_state",
       "status": "active",
@@ -9579,6 +12405,47 @@
       ],
       "runtime_proof": "/root/TurretLiveLoopProof",
       "rule": "Source-backed Turret family live-loop tick and placement frame binding; the frame is bound when the block is placed (Block.newBuilding) and its keys are refreshed from the live rules every simulate_factory tick, so TurretBuild.useAmmo() skips consumption for a cheating team.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_tracking_range_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_tracking_range_state",
+      "status": "active",
+      "source_slice": "N2319",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.trackingRange()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_tracking_range_state_input.frame"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_turret_tracking_range_state_input.range_value"
+        },
+        {
+          "name": "tracking_range",
+          "type": "float",
+          "schema": "source_turret_tracking_range_state_input.tracking_range"
+        },
+        {
+          "name": "range",
+          "type": "float",
+          "schema": "source_turret_tracking_range_state_input.range"
+        }
+      ],
+      "return_keys": [
+        "tracking_range"
+      ],
+      "tests": [
+        "test_c07_turret_tracking_range_registration",
+        "test_all_c07_turret_tracking_range_input_evidence_is_exact",
+        "test_turret_tracking_range_state",
+        "test_reference_graph_and_actual_c07_turret_tracking_range"
+      ],
+      "runtime_proof": "/root/C07TurretTrackingRangeProof",
+      "rule": "Source-backed TurretBuild.trackingRange() state from Turret.java + BaseTurret.java + BulletType.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_unit_health_state": {
@@ -9631,6 +12498,42 @@
       ],
       "runtime_proof": "/root/C07TurretUnitMaxHealthProof",
       "rule": "Source-backed Turret unit maxHealth from BlockUnitComp.tile() / HealthComp.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_unit_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_unit_state",
+      "status": "active",
+      "source_slice": "N2307",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.unit()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_unit_state_input.frame"
+        },
+        {
+          "name": "unit",
+          "type": "Dictionary",
+          "schema": "source_turret_unit_state_input.unit"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_turret_unit_state_input.team_id"
+        }
+      ],
+      "return_keys": [
+        "unit"
+      ],
+      "tests": [
+        "test_c07_turret_unit_registration",
+        "test_all_c07_turret_unit_input_evidence_is_exact",
+        "test_turret_unit_state",
+        "test_reference_graph_and_actual_c07_turret_unit"
+      ],
+      "runtime_proof": "/root/C07TurretUnitProof",
+      "rule": "Source-backed TurretBuild.unit() state from Turret.java + BlockUnitComp.java + TeamComp.java + BuildingComp.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_turret_unit_sync_state": {
@@ -9731,82 +12634,388 @@
       "rule": "Source-backed Turret unit world position from BlockUnitComp.tile() / PosComp.set / Tile drawx/drawy.",
       "return_type": "Dictionary"
     },
-    "SourceTurretBuildState.source_turret_warmup_state": {
-      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_warmup_state",
+    "SourceTurretBuildState.source_turret_update_tile_driver_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_update_tile_driver_state",
       "status": "active",
-      "source_slice": "N2253",
+      "source_slice": "N2397",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "TurretBuild.updateTile()",
       "params": [
         {
-          "name": "shoot_warmup",
-          "type": "float",
-          "schema": "source_turret_warmup_state_input.shoot_warmup"
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_update_tile_driver_state_input.frame"
         },
         {
-          "name": "warmup_hold",
-          "type": "float",
-          "schema": "source_turret_warmup_state_input.warmup_hold"
-        },
-        {
-          "name": "is_shooting",
+          "name": "is_player",
           "type": "bool",
-          "schema": "source_turret_warmup_state_input.is_shooting"
+          "schema": "source_turret_update_tile_driver_state_input.is_player"
         },
         {
-          "name": "can_consume",
+          "name": "ammo_fraction",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.ammo_fraction"
+        },
+        {
+          "name": "has_sound_loop",
           "type": "bool",
-          "schema": "source_turret_warmup_state_input.can_consume"
+          "schema": "source_turret_update_tile_driver_state_input.has_sound_loop"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.y"
+        },
+        {
+          "name": "should_active_sound",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.should_active_sound"
+        },
+        {
+          "name": "active_sound_volume",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.active_sound_volume"
+        },
+        {
+          "name": "reload_while_charging",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.reload_while_charging"
         },
         {
           "name": "charging",
           "type": "bool",
-          "schema": "source_turret_warmup_state_input.charging"
+          "schema": "source_turret_update_tile_driver_state_input.charging"
+        },
+        {
+          "name": "fog",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.fog"
+        },
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.has_ammo"
+        },
+        {
+          "name": "ammo_range_change",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.ammo_range_change"
+        },
+        {
+          "name": "last_range_change",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.last_range_change"
+        },
+        {
+          "name": "reload_counter",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.reload_counter"
+        },
+        {
+          "name": "timer_target_ready",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.timer_target_ready"
+        },
+        {
+          "name": "validate_target",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.validate_target"
         },
         {
           "name": "controlled",
           "type": "bool",
-          "schema": "source_turret_warmup_state_input.controlled"
+          "schema": "source_turret_update_tile_driver_state_input.controlled"
         },
         {
-          "name": "efficiency",
-          "type": "float",
-          "schema": "source_turret_warmup_state_input.efficiency"
+          "name": "logic_controlled",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.logic_controlled"
         },
         {
-          "name": "delta",
-          "type": "float",
-          "schema": "source_turret_warmup_state_input.delta"
+          "name": "target_pos",
+          "type": "Vector2",
+          "schema": "source_turret_update_tile_driver_state_input.target_pos"
         },
         {
-          "name": "shoot_warmup_speed",
+          "name": "unit_aim_x",
           "type": "float",
-          "schema": "source_turret_warmup_state_input.shoot_warmup_speed"
+          "schema": "source_turret_update_tile_driver_state_input.unit_aim_x"
+        },
+        {
+          "name": "unit_aim_y",
+          "type": "float",
+          "schema": "source_turret_update_tile_driver_state_input.unit_aim_y"
+        },
+        {
+          "name": "unit_is_shooting",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.unit_is_shooting"
+        },
+        {
+          "name": "logic_shooting",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.logic_shooting"
+        },
+        {
+          "name": "always_shooting",
+          "type": "bool",
+          "schema": "source_turret_update_tile_driver_state_input.always_shooting"
+        }
+      ],
+      "return_keys": [
+        "unit_ammo_fraction",
+        "sound_loop_update",
+        "reload_gate_open",
+        "update_reload_called",
+        "last_range_change",
+        "fog_range_changed",
+        "fog_force_update_called",
+        "reload_counter",
+        "find_target_called",
+        "target_pos",
+        "can_shoot",
+        "unit_aim_x",
+        "unit_aim_y",
+        "always_shooting_gate"
+      ],
+      "tests": [
+        "test_c07_turret_update_tile_driver_registration",
+        "test_all_c07_turret_update_tile_driver_input_evidence_is_exact",
+        "test_turret_update_tile_driver_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_driver"
+      ],
+      "runtime_proof": "/root/C07TurretUpdateTileDriverProof",
+      "rule": "Source-backed TurretBuild.updateTile() remaining driver-tick legs from Turret.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_update_tile_warmup_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_update_tile_warmup_state",
+      "status": "active",
+      "source_slice": "N2308",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.updateTile()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_update_tile_warmup_state_input.frame"
+        },
+        {
+          "name": "is_shooting",
+          "type": "bool",
+          "schema": "source_turret_update_tile_warmup_state_input.is_shooting"
+        },
+        {
+          "name": "potential_efficiency",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.potential_efficiency"
+        },
+        {
+          "name": "charging",
+          "type": "bool",
+          "schema": "source_turret_update_tile_warmup_state_input.charging"
+        },
+        {
+          "name": "controlled",
+          "type": "bool",
+          "schema": "source_turret_update_tile_warmup_state_input.controlled"
+        },
+        {
+          "name": "warmup_hold",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.warmup_hold"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.shoot_warmup"
         },
         {
           "name": "linear_warmup",
           "type": "bool",
-          "schema": "source_turret_warmup_state_input.linear_warmup"
+          "schema": "source_turret_update_tile_warmup_state_input.linear_warmup"
+        },
+        {
+          "name": "shoot_warmup_speed",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.shoot_warmup_speed"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.efficiency"
         },
         {
           "name": "warmup_maintain_time",
           "type": "float",
-          "schema": "source_turret_warmup_state_input.warmup_maintain_time"
+          "schema": "source_turret_update_tile_warmup_state_input.warmup_maintain_time"
+        },
+        {
+          "name": "delta",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.delta"
+        },
+        {
+          "name": "heat_requirement",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.heat_requirement"
+        },
+        {
+          "name": "heat_req",
+          "type": "float",
+          "schema": "source_turret_update_tile_warmup_state_input.heat_req"
         }
       ],
       "return_keys": [
-        "shoot_warmup",
+        "warmup_target",
         "warmup_hold",
-        "warmup_target"
+        "shoot_warmup"
       ],
       "tests": [
-        "test_c07_turret_warmup_registration",
-        "test_all_c07_turret_warmup_input_evidence_is_exact",
-        "test_turret_warmup_state",
-        "test_reference_graph_and_actual_c07_turret_warmup"
+        "test_c07_turret_update_tile_warmup_registration",
+        "test_all_c07_turret_update_tile_warmup_input_evidence_is_exact",
+        "test_turret_update_tile_warmup_state",
+        "test_reference_graph_and_actual_c07_turret_update_tile_warmup"
       ],
-      "runtime_proof": "/root/C07TurretWarmupProof",
-      "rule": "Source-backed Turret warmup lerp advance from Turret.java / Mathf.java.",
+      "runtime_proof": "/root/C07TurretUpdateTileWarmupProof",
+      "rule": "Source-backed TurretBuild.updateTile() warmup advance from Turret.java + BuildingComp.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_warmup_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_warmup_state",
+      "status": "active",
+      "source_slice": "N2297",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.warmup()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_warmup_state_input.frame"
+        },
+        {
+          "name": "shoot_warmup",
+          "type": "float",
+          "schema": "source_turret_warmup_state_input.shoot_warmup"
+        }
+      ],
+      "return_keys": [
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_turret_micro_accessors_registration",
+        "test_all_c07_turret_micro_accessors_input_evidence_is_exact",
+        "test_turret_micro_accessors_state",
+        "test_reference_graph_and_actual_c07_turret_micro_accessors"
+      ],
+      "runtime_proof": "/root/C07TurretMicroAccessorsProof",
+      "rule": "Source-backed TurretBuild.warmup()/drawrot()/canControl()/logicControlled() state from Turret.java + RotComp.java + BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_turret_write_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_write_state",
+      "status": "active",
+      "source_slice": "N2322",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.write()",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_turret_write_state_input.frame"
+        }
+      ],
+      "return_keys": [
+        "reload_counter",
+        "rotation"
+      ],
+      "tests": [
+        "test_c07_turret_write_read_registration",
+        "test_all_c07_turret_write_read_input_evidence_is_exact",
+        "test_turret_write_read_state",
+        "test_reference_graph_and_actual_c07_turret_write_read"
+      ],
+      "runtime_proof": "/root/C07TurretWriteReadProof",
+      "rule": "Source-backed TurretBuild.write()/read()/version() state from Turret.java + ReloadTurret.java + RotComp.java + BuildingComp.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretCombatState.source_turret_target_position_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretCombatState.source_turret_target_position_state",
+      "status": "active",
+      "source_slice": "N2122",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "TurretBuild.targetPosition(Posc)",
+      "params": [
+        {
+          "name": "game",
+          "type": "Object",
+          "schema": "source_turret_target_position_state_input.game"
+        },
+        {
+          "name": "origin",
+          "type": "Vector2",
+          "schema": "source_turret_target_position_state_input.origin"
+        },
+        {
+          "name": "target",
+          "type": "Dictionary",
+          "schema": "source_turret_target_position_state_input.target"
+        }
+      ],
+      "return_keys": [
+        "target_position",
+        "used_intercept",
+        "bullet_speed"
+      ],
+      "tests": [
+        "test_c06_defense_leg_registration",
+        "test_all_c06_defense_leg_input_evidence_is_exact",
+        "test_defense_leg_reads_live_turret_and_enemy_state",
+        "test_reference_graph_and_actual_c06_defense_leg"
+      ],
+      "runtime_proof": "/root/C06DefenseProof",
+      "rule": "Source-backed C06 defense leg: the turret leads its shots at the intercept point and dead enemies are swept from the live list, so a dagger crossing the duo field of fire dies before it reaches the core.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretDefaults.source_turret_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretDefaults.source_turret_default_constructor_state",
+      "status": "active",
+      "source_slice": "N2400",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "Turret(String name)",
+      "params": [
+        {
+          "name": "turret_defaults",
+          "type": "Dictionary",
+          "schema": "source_turret_default_constructor_state_input.turret_defaults"
+        }
+      ],
+      "return_keys": [
+        "outlined_icon",
+        "draw_liquid_light",
+        "sync",
+        "quick_rotate",
+        "draw_arrow",
+        "ignore_line_rotation",
+        "rotate_draw_editor",
+        "visual_rotation_offset",
+        "region_rotated_1",
+        "region_rotated_2",
+        "turret_defaults"
+      ],
+      "tests": [
+        "test_c07_turret_default_constructor_registration",
+        "test_all_c07_turret_default_constructor_input_evidence_is_exact",
+        "test_turret_default_constructor_state",
+        "test_reference_graph_and_actual_c07_turret_default_constructor"
+      ],
+      "runtime_proof": "/root/C07TurretDefaultConstructorProof",
+      "rule": "Source-backed Turret() ctor field defaults state from Turret.java.",
       "return_type": "Dictionary"
     }
   }

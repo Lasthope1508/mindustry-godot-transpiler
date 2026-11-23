@@ -102,7 +102,8 @@ static func _turret_target_current_position(target) -> Vector2:
 # enough (bullet.speed >= 0.01), else the target's current position;
 # a zero intercept falls back to the current position. The duo runs
 # accurateDelay with moveWhileCharging, so the charge offset is
-# zero. The target's per-frame displacement is its world speed
+# zero. (Turret.java:457) var offset = Tmp.v1.setZero();
+# The target's per-frame displacement is its world speed
 # toward the core for one live-loop tick (time_delta 1.0); the
 # shooter is the turret's world position from its grid cell.
 static func source_turret_target_position_state(game: Object, origin, target) -> Dictionary:

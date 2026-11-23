@@ -278,3 +278,110 @@ static func generated_accept_liquid_bridge_state(source_building: Variant, liqui
 	var result = _liquid_turret_call("java_inner_class_LiquidTurretBuild_method_acceptLiquid_9", [source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier])
 	var canonical = accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_LIQUID_TURRET_BUILD_ACCEPT_LIQUID_STATE, "generated_owner": "liquid_turret.LiquidTurretBuild.acceptLiquid", "result": result, "canonical": canonical, "matches": result.get("accept_liquid", null) == canonical.get("accept_liquid", null) and result.get("replacement_allowed", null) == canonical.get("replacement_allowed", null) and result.get("current_required_with_epsilon", null) == canonical.get("current_required_with_epsilon", null)}
+
+static func source_liquid_turret_default_constructor_state(liquid_turret_defaults: Dictionary, loop_sound: Variant, shoot_sound: Variant, smoke_effect: Variant, shoot_effect: Variant) -> Dictionary:
+	# LiquidTurret(String name) (LiquidTurret.java:22-29):
+	# `public LiquidTurret(String name){`
+	# `super(name);` -- already the exact_expr of N2185,
+	# the Turret super-ctor runs before these assignments;
+	# cited as evidence only, never re-registered.
+	# `hasLiquids = true;` -- N927/N2000/N2179/N2182/N2209-owned;
+	# cited as evidence only, never re-registered. The 4
+	# ctor assignments below are the only exprs this slice
+	# owns: each writes a field default into the
+	# LiquidTurret def, so the function writes the same 4
+	# values into liquid_turret_defaults (in/out) and
+	# returns them.
+	# `loopSound = Sounds.loopSpray;`
+	# `shootSound = Sounds.none;`
+	# `smokeEffect = Fx.none;`
+	# `shootEffect = Fx.none;`
+	# The 4 values are Sound/Effect references, NOT
+	# literals: they arrive as the explicit Variant params
+	# and pass through (the N2405 BaseTurret ctor precedent
+	# for `EnumSet.of(BlockFlag.turret)`). The Turret base
+	# defaults this ctor overrides are `public Sound
+	# loopSound = Sounds.none;` (Turret.java:128),
+	# `public Sound shootSound = Sounds.shootDuo;`
+	# (Turret.java:122) and the nullable `public @Nullable
+	# Effect shootEffect;` / `public @Nullable Effect
+	# smokeEffect;` (Turret.java:116/118, default null).
+	# No Draw is ported and the ambient-sound driver
+	# (N2304, HELD) is untouched: these are block-level
+	# field defaults, frame data only.
+	var loop_sound_value: Variant = loop_sound
+	var shoot_sound_value: Variant = shoot_sound
+	var smoke_effect_value: Variant = smoke_effect
+	var shoot_effect_value: Variant = shoot_effect
+	liquid_turret_defaults["loop_sound"] = loop_sound_value
+	liquid_turret_defaults["shoot_sound"] = shoot_sound_value
+	liquid_turret_defaults["smoke_effect"] = smoke_effect_value
+	liquid_turret_defaults["shoot_effect"] = shoot_effect_value
+	return {"loop_sound": loop_sound_value, "shoot_sound": shoot_sound_value, "smoke_effect": smoke_effect_value, "shoot_effect": shoot_effect_value, "liquid_turret_defaults": liquid_turret_defaults}
+
+static func source_liquid_turret_find_target_scan_state(build_x: float, build_y: float, scan_range: float, tilesize: float, team: Variant, self_build: Variant, world_tile: Callable, fires_get: Callable, fires_has: Callable, dst2: Callable) -> Dictionary:
+	# LiquidTurretBuild.findTarget() extinguish-scan loop (LiquidTurret.java:91-117):
+	# `int tx = World.toTile(x), ty = World.toTile(y);`
+	# `float mindst = 0f;`
+	# `int tr = (int)(range / tilesize);`
+	# `for(int x = -tr; x <= tr; x++){`
+	# `for(int y = -tr; y <= tr; y++){`
+	# `Tile other = world.tile(x + tx, y + ty);`
+	# `var fire = Fires.get(x + tx, y + ty);`
+	# `float dst = fire == null ? 0 : dst2(fire);`
+	# `if(other != null && fire != null && other.build != this && Fires.has(other.x, other.y) && dst <= range * range && (result == null || dst < mindst) && (other.build == null || other.team() == team)){`
+	# `result = fire;`
+	# `mindst = dst;`
+	# `if(result != null){`
+	# Only the 12 loop exprs above are owned here. The shell
+	# is N1200-owned (`protected void findTarget(){`,
+	# `if(extinguish && liquids.current().canExtinguish()){`,
+	# `Fire result = null;`, `target = result;`, `return;`,
+	# `super.findTarget();` -- plus the class decl and
+	# @Override) and is never re-registered; the
+	# `if(result != null){` tail (`target = result;` +
+	# `return;`) also stays N1200-owned -- this slice only
+	# computes the scan result and reports result_found.
+	# The signature line also hits local N2316
+	# (TurretBuild.findTarget) and is not registered here.
+	# `range` is named `scan_range` in GD because `range`
+	# shadows GDScript's builtin `range()` used by the
+	# loop. `tilesize` is Vars.tilesize (8), always
+	# positive. World.toTile is Math.round(coord /
+	# tilesize) (World.java:174-176), implemented here as
+	# int(floor(v / tilesize + 0.5)) -- Java Math.round
+	# semantics, not GDScript roundi() (they differ on
+	# negative halves). World lookups arrive as Callables
+	# (the N2395/N2316 precedent): world_tile takes
+	# (tile_x, tile_y) and returns a tile Dictionary
+	# {"build": Variant, "build_team": Variant} or null
+	# out of bounds (World.tile returns tiles.get, null
+	# OOB); fires_get takes (tile_x, tile_y) and returns
+	# a fire Dictionary or null (Fires.get returns null
+	# OOB); fires_has takes (tile_x, tile_y) and reports
+	# Fires.has (stricter than fire != null: the fire must
+	# be added, unfinished, and on exactly that tile);
+	# dst2 takes a fire and returns the squared distance
+	# from this build to it. The tile "build" is the live
+	# build object (or null); "build_team" is that
+	# build's team (null when there is no build). The
+	# scan never writes the frame and never assigns the
+	# target -- the driver (N1200 shell) consumes
+	# fire_result when result_found is true.
+	var tx: int = int(floor(build_x / tilesize + 0.5))
+	var ty: int = int(floor(build_y / tilesize + 0.5))
+	var mindst: float = 0.0
+	var tr: int = int(scan_range / tilesize)
+	var result: Variant = null
+	for ox in range(-tr, tr + 1):
+		for oy in range(-tr, tr + 1):
+			var other: Variant = world_tile.call(tx + ox, ty + oy)
+			var fire: Variant = fires_get.call(tx + ox, ty + oy)
+			var dst: float = 0.0
+			if fire != null:
+				dst = float(dst2.call(fire))
+			if other != null and fire != null and other.get("build") != self_build and fires_has.call(tx + ox, ty + oy) == true and dst <= scan_range * scan_range and (result == null or dst < mindst) and (other.get("build") == null or other.get("build_team") == team):
+				result = fire
+				mindst = dst
+	var result_found: bool = result != null
+	return {"fire_result": result, "mindst": mindst, "result_found": result_found, "tile_x": tx, "tile_y": ty, "scan_radius": tr, "build_x": build_x, "build_y": build_y, "scan_range": scan_range, "tilesize": tilesize, "team": team, "self_build": self_build}

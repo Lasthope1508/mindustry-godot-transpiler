@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-TURRET_BUILD_STATE = ROOT / 'godot-mindustry/src/game/SourceTurretBuildState.gd'
+TURRET_STATE = ROOT / 'godot-mindustry/src/game/SourceTurretBuildState.gd'
 TURRET_PROGRESS_PROOF = ROOT / 'godot-mindustry/tools/runtime_proofs/C07TurretProgressProof.gd'
 
 
@@ -14,41 +14,55 @@ class C07TurretProgressTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2282']['godot_owner'], 'SourceTurretBuildState.source_turret_progress_state')
-        # progress() is `public float progress(){ return
-        # Mathf.clamp(reloadCounter / reload); }`
-        # (Turret.java:425-427) on the fields `public float
-        # reloadCounter;` (ReloadTurret.java:26, inherited by
-        # TurretBuild via ReloadTurretBuild -- the driver
-        # already stamps it live as frame["reload_counter"]
-        # from the aim tick, capped at reload by updateReload
-        # :720-723) and `public float reload = 10f;`
-        # (ReloadTurret.java:10, class default; duo overrides
-        # `reload = 20f;`, Blocks.java:3317 -- the driver aim
-        # call already passes 20.0). Mathf.clamp(float) is
-        # `return Math.max(Math.min(value, 1f), 0f);`
-        # (arc Mathf.java:402-404) -- GDScript clampf(value,
-        # 0.0, 1.0) is the same min-then-max. The only Java
-        # consumer is sense() LAccess.progress (`case progress
-        # -> progress();`, Turret.java:414); the sense dispatch
-        # is its own later slice, so no consumer is rewired:
-        # this slice is stamp-only like N2280/N2281, one pure
-        # function plus one driver tick. One new result symbol:
-        # progress.
+        self.assertEqual(ledger['N2292']['godot_owner'], 'SourceTurretBuildState.source_turret_progress_state')
+        # TurretBuild overrides progress (Turret.java:425-427,
+        # `public float progress(){` / `return
+        # Mathf.clamp(reloadCounter / reload);`) over the base
+        # default BuildingComp.progress (BuildingComp.java:617-619,
+        # `public float progress(){` / `return 0f;`). The inputs
+        # are reloadCounter (ReloadTurret.java:26, `public float
+        # reloadCounter;`, advanced in updateReload,
+        # Turret.java:720-723 and capped at reload, Turret.java:723,
+        # `reloadCounter = Math.min(reloadCounter, reload);`)
+        # against the per-def reload time (ReloadTurret.java:10,
+        # `public float reload = 10f;`). arc Mathf.clamp with one
+        # argument clamps to [0, 1] (the MendProjector precedent,
+        # SourceMendProjectorState.gd:41, `clamp(charge /
+        # reload_value, 0.0, 1.0)`). The only live consumer is
+        # sense() case progress (Turret.java:414, `case progress
+        # -> progress();`) -- the assigned N2255 slice; setBars
+        # (Turret.java:192-202) never reads progress(). This
+        # closes the deferred item recorded in N2253. RED
+        # decisions (recorded in the register docstring): (1)
+        # one pure function on SourceTurretBuildState.gd next to
+        # the N2253 shouldConsume row, (frame, reload_counter,
+        # reload), following the N2188 explicit-param
+        # precedent -- frame reads no live key, the two inputs
+        # arrive as explicit params. (2) NO driver line: the
+        # tick frame tracks neither reloadCounter nor reload
+        # yet, and wiring frame defaults would stamp a constant
+        # 0.0 progress -- pure function only, the N2251 / N2252
+        # precedent; sense() (N2255) calls it with explicit
+        # params. (3) sense() stays DEFERRED (assigned N2255).
+        # One new result symbol: progress.
         self.assertEqual(
-            ledger['N2282']['source_symbols'],
+            ledger['N2292']['source_symbols'],
             [
                 'source_turret_progress_state_result.progress',
             ],
         )
-        for name in ledger['N2282']['source_symbols']:
+        for name in ledger['N2292']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
-                self.assertEqual(symbol['java_source'], 'core/src/mindustry/world/blocks/defense/turrets/Turret.java')
-                self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.source_turret_progress_state')
-        self.assertEqual(ledger['N2282']['runtime_proof'], '/root/C07TurretProgressProof')
+                self.assertIn(symbol['java_source'], {
+                    'core/src/mindustry/world/blocks/defense/turrets/Turret.java',
+                    'core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java',
+                    'core/src/mindustry/entities/comp/BuildingComp.java',
+                })
+                self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
+        self.assertEqual(ledger['N2292']['runtime_proof'], '/root/C07TurretProgressProof')
         self.assertEqual(
-            ledger['N2282']['tests'],
+            ledger['N2292']['tests'],
             [
                 'test_c07_turret_progress_registration',
                 'test_all_c07_turret_progress_input_evidence_is_exact',
@@ -56,79 +70,77 @@ class C07TurretProgressTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_progress',
             ],
         )
-        self.assertTrue(ledger['N2282']['deferred_exprs'])
+        self.assertTrue(ledger['N2292']['deferred_exprs'])
+        self.assertNotIn(
+            'TurretBuild.progress() (Turret.java:425-427)',
+            ' '.join(ledger['N2292']['deferred_exprs']),
+        )
 
     def test_all_c07_turret_progress_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2282']['source_symbols']:
+        for name in ledger['N2292']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
-                self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8') if not symbol['java_source'].startswith('arc-core/') else (ROOT / 'arc-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
-                self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.source_turret_progress_state')
+                self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
+                self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
         slice_sources = {
             'core/src/mindustry/world/blocks/defense/turrets/Turret.java',
-            'arc-core/src/arc/math/Mathf.java',
+            'core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java',
+            'core/src/mindustry/entities/comp/BuildingComp.java',
             'core/src/mindustry/content/Blocks.java',
         }
         upstream = {}
         for source in slice_sources:
-            root = ROOT / 'arc-upstream' if source.startswith('arc-core/') else ROOT / 'mindustry-upstream'
-            upstream[source] = (root / source).read_text(encoding='utf-8')
-        for expr in ledger['N2282']['exact_exprs']:
+            upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
+        for expr in ledger['N2292']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 
     def test_turret_progress_state(self):
-        turret = TURRET_BUILD_STATE.read_text(encoding='utf-8')
-        # progress() (Turret.java:425-427) is `return
-        # Mathf.clamp(reloadCounter / reload);`. The pure
-        # function takes the two live inputs -- reload_counter
-        # (ReloadTurret.java:26, the live counter stamped by
-        # the aim tick, frame["reload_counter"]) and reload
-        # (ReloadTurret.java:10, class default 10f; duo 20f,
-        # Blocks.java:3317, the same 20.0 the driver aim call
-        # already passes) -- and returns one key:
-        # `{"progress": ..}`. The driver tick runs in the duo
-        # branch right AFTER the reload_counter stamp (:1683),
-        # once the counter is final for this tick, and stamps
-        # the key on the frame. No consumer is rewired: the
-        # sense() LAccess.progress dispatch (Turret.java:414)
-        # is its own later slice; this slice is stamp-only
-        # like N2280/N2281.
-        self.assertIn('static func source_turret_progress_state(reload_counter: float, reload: float) -> Dictionary:', turret)
-        self.assertIn('var progress: float = clampf(reload_counter / reload, 0.0, 1.0)', turret)
-        self.assertIn('return {"progress": progress}', turret)
-        self.assertIn('public float progress(){', turret)
-        self.assertIn('return Mathf.clamp(reloadCounter / reload);', turret)
-        self.assertIn('case progress -> progress();', turret)
-        self.assertIn('return Math.max(Math.min(value, 1f), 0f);', turret)
-        self.assertIn('reload = 20f;', turret)
-        # The driver tick lives in the shared TurretBuild driver
-        # (SourceTurretBuildState.gd), in the duo branch right
-        # after the reload_counter stamp: it derives progress
-        # live from the frame counter and the duo reload and
-        # stamps the key.
-        self.assertIn('var progress_state: Dictionary = source_turret_progress_state(float(frame.get("reload_counter", 0.0)), 20.0)', turret)
-        self.assertIn('frame["progress"] = progress_state.get("progress", 0.0)', turret)
-        self.assertLess(turret.index('frame["reload_counter"] = aim.get("reload_counter", 0.0)'), turret.index('var progress_state: Dictionary = source_turret_progress_state('))
-        self.assertLess(turret.index('var progress_state: Dictionary = source_turret_progress_state('), turret.index('frame["shot"] = aim.get("shot", false)'))
-        # The pure function sits immediately BEFORE
-        # source_turret_is_shooting_state, since Java order is
-        # progress :425-427 before isShooting :440-442.
-        self.assertLess(turret.index('static func source_turret_progress_state('), turret.index('static func source_turret_is_shooting_state('))
-        # The proof's keys pin the clamp through the pure
-        # function and the real driver (empty / half / full /
-        # above-reload -- directly; the key stamped live on the
-        # frame by the driver).
+        turret = TURRET_STATE.read_text(encoding='utf-8')
+        # TurretBuild.progress() (Turret.java:425-427):
+        # `return Mathf.clamp(reloadCounter / reload);`
+        # over reloadCounter (ReloadTurret.java:26, capped at
+        # reload, Turret.java:723) against reload
+        # (ReloadTurret.java:10, `public float reload =
+        # 10f;`). The base default it overrides is
+        # BuildingComp.progress (BuildingComp.java:617-619,
+        # `return 0f;`). arc Mathf.clamp with one argument
+        # clamps to [0, 1] (the MendProjector precedent,
+        # SourceMendProjectorState.gd:41). No driver line:
+        # the only consumer is sense() case progress
+        # (Turret.java:414, N2255), and the tick frame tracks
+        # neither reloadCounter nor reload yet, so wiring
+        # frame defaults would stamp a constant 0.0.
+        self.assertIn('static func source_turret_progress_state(frame: Dictionary, reload_counter: float, reload: float) -> Dictionary:', turret)
+        self.assertIn('return {"progress": clampf(reload_counter / reload, 0.0, 1.0)}', turret)
+        for expr in [
+            'public float progress(){',
+            'return Mathf.clamp(reloadCounter / reload);',
+            'public float reloadCounter;',
+            'public float reload = 10f;',
+            'reloadCounter = Math.min(reloadCounter, reload);',
+            'public class TurretBuild extends ReloadTurretBuild implements ControlBlock{',
+            'return 0f;',
+            'case progress -> progress();',
+        ]:
+            with self.subTest(expr=expr):
+                self.assertIn(expr, turret)
+        # The proof's keys drive the pure function directly
+        # with explicit params: an empty counter reads 0, a
+        # half counter reads 0.5, a full counter reads 1, a
+        # counter past reload clamps to 1 (live it is capped
+        # at reload, Turret.java:723), and a negative counter
+        # clamps to 0.
         proof = TURRET_PROGRESS_PROOF.read_text(encoding='utf-8')
         for key in [
-            'progress_zero_at_empty_counter',
-            'progress_half_at_half_counter',
-            'progress_one_at_full_counter',
-            'progress_clamped_above_reload',
-            'progress_stamped_to_frame',
+            'progress_zero',
+            'progress_half',
+            'progress_full',
+            'progress_beyond_reload',
+            'progress_negative',
         ]:
             with self.subTest(key=key):
                 self.assertIn(key, proof)
@@ -144,11 +156,11 @@ class C07TurretProgressTests(unittest.TestCase):
         self.assertEqual(len(proofs), 1, output)
         self.assertTrue(proofs[0]['matches'], proofs[0])
         for key in [
-            'progress_zero_at_empty_counter',
-            'progress_half_at_half_counter',
-            'progress_one_at_full_counter',
-            'progress_clamped_above_reload',
-            'progress_stamped_to_frame',
+            'progress_zero',
+            'progress_half',
+            'progress_full',
+            'progress_beyond_reload',
+            'progress_negative',
         ]:
             with self.subTest(key=key):
                 self.assertTrue(proofs[0][key], proofs[0])

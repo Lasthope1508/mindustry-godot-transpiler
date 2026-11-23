@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-TURRET_BUILD_STATE = ROOT / 'godot-mindustry/src/game/SourceTurretBuildState.gd'
+TURRET_STATE = ROOT / 'godot-mindustry/src/game/SourceTurretBuildState.gd'
 TURRET_FOG_RADIUS_PROOF = ROOT / 'godot-mindustry/tools/runtime_proofs/C07TurretFogRadiusProof.gd'
 
 
@@ -14,45 +14,73 @@ class C07TurretFogRadiusTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2531']['godot_owner'], 'SourceTurretBuildState.source_turret_fog_radius_state')
-        # fogRadius() is the TurretBuild read (Turret.java:420-422):
-        # `public float fogRadius(){` /
-        # `return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;`
-        # -- it uses the `range` FIELD plus the peeked ammo
-        # rangeChange when hasAmmo() is true; it does NOT
-        # call range() (Turret.java:343-347), though the
-        # value equals range() when hasAmmo is true and
-        # peekAmmo is non-null. `tilesize` is
-        # `public static final int tilesize = 8;`
-        # (Vars.java:135) and `fogRadiusMultiplier` is the
-        # block field `public float fogRadiusMultiplier = 1f;`
-        # (BaseTurret.java:24), with the one per-def
-        # override `fogRadiusMultiplier = 0.4f;`
-        # (Blocks.java:5627, scathe). `rangeChange` is the
-        # BulletType field `public float rangeChange = 0f;`
-        # (BulletType.java:157). `range` is the block field
-        # `public float range = 80f;` (BaseTurret.java:21).
-        # NOT the block-init fogRadius (BaseTurret.java:59,
-        # `fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);`)
-        # -- that is a field init at block level, not the
-        # TurretBuild.fogRadius() override. One new result
-        # symbol: fog_radius. The slice mirrors into the
-        # defense shard (217/216 -> 218/217); comp stays
-        # 572/475.
+        self.assertEqual(ledger['N2311']['godot_owner'], 'SourceTurretBuildState.source_turret_fog_radius_state')
+        # TurretBuild overrides fogRadius (Turret.java:420-423,
+        # `public float fogRadius(){` / `return (range +
+        # (hasAmmo() ? peekAmmo().rangeChange : 0f)) /
+        # tilesize * fogRadiusMultiplier;`) over the
+        # BaseTurret def range (BaseTurret.java:21, `public
+        # float range = 80f;`) and fogRadiusMultiplier
+        # (BaseTurret.java:24, `public float
+        # fogRadiusMultiplier = 1f;`), tilesize
+        # (Vars.java:135, `public static final int tilesize
+        # = 8;`), and the peeked bullet's rangeChange
+        # (BulletType.java:157, `public float rangeChange =
+        # 0f;`, default 0f). Unlike range()
+        # (Turret.java:342-345, `public float range(){` /
+        # `return range + peekAmmo().rangeChange;`), which
+        # adds rangeChange whenever peekAmmo() is non-null
+        # (Turret.java:693, `public @Nullable BulletType
+        # peekAmmo(){`), fogRadius() adds it only when
+        # hasAmmo() (Turret.java:698, `public boolean
+        # hasAmmo(){`) -- the stricter gate (ammo present,
+        # enough for a shot, canConsume). The accessor is
+        # what the fog system reads (FogControl.java:161,
+        # `Mathf.round(build.fogRadius())`;
+        # FogRenderer.java:68, `build.fogRadius() *
+        # tilesize`); the fog system itself waits for its
+        # own slice. RED decisions (recorded in the
+        # register docstring): (1) one pure function on
+        # SourceTurretBuildState.gd next to the N2253
+        # shouldConsume / N2254 progress / N2255 sense rows,
+        # following the N2249 Radar fogRadius() accessor
+        # precedent exactly: (frame, range, has_ammo,
+        # ammo_range_change, tilesize,
+        # fog_radius_multiplier) and one result key
+        # `fog_radius`. (2) All live values arrive as
+        # explicit params (the N2188 precedent) --
+        # the tick frame tracks only cheating / enabled /
+        # power_status / efficiency today. (3) Ammo absent
+        # preserves the base range: has_ammo false adds 0f
+        # (the N2253/N2254 absent-preserves precedent). (4)
+        # NO driver line: fogRadius() is a load-time
+        # accessor the fog system reads, not a per-tick
+        # write (the N2249 precedent); the fog-system
+        # callers wait for their own slices. One new result
+        # symbol: fog_radius. This slice closes no deferred
+        # item: fogRadius() was never a deferred entry of
+        # the Turret chain.
         self.assertEqual(
-            ledger['N2531']['source_symbols'],
+            ledger['N2311']['source_symbols'],
             [
                 'source_turret_fog_radius_state_result.fog_radius',
             ],
         )
-        for name in ledger['N2531']['source_symbols']:
+        for name in ledger['N2311']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
-                self.assertEqual(symbol['java_source'], 'core/src/mindustry/world/blocks/defense/turrets/Turret.java')
-                self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.source_turret_fog_radius_state')
-        self.assertEqual(ledger['N2531']['runtime_proof'], '/root/C07TurretFogRadiusProof')
+                self.assertIn(symbol['java_source'], {
+                    'core/src/mindustry/world/blocks/defense/turrets/Turret.java',
+                    'core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java',
+                    'core/src/mindustry/Vars.java',
+                    'core/src/mindustry/entities/bullet/BulletType.java',
+                    'core/src/mindustry/game/FogControl.java',
+                    'core/src/mindustry/graphics/FogRenderer.java',
+                })
+                self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
+        self.assertEqual(ledger['N2311']['runtime_proof'], '/root/C07TurretFogRadiusProof')
         self.assertEqual(
-            ledger['N2531']['tests'],
+            ledger['N2311']['tests'],
             [
                 'test_c07_turret_fog_radius_registration',
                 'test_all_c07_turret_fog_radius_input_evidence_is_exact',
@@ -60,94 +88,91 @@ class C07TurretFogRadiusTests(unittest.TestCase):
                 'test_reference_graph_and_actual_c07_turret_fog_radius',
             ],
         )
-        self.assertTrue(ledger['N2531']['deferred_exprs'])
+        self.assertTrue(ledger['N2311']['deferred_exprs'])
+        self.assertIn(
+            'Turret fogRadius() Windows Godot proof',
+            ' '.join(ledger['N2311']['deferred_exprs']),
+        )
 
     def test_all_c07_turret_fog_radius_input_evidence_is_exact(self):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        for name in ledger['N2531']['source_symbols']:
+        for name in ledger['N2311']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
-                self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.source_turret_fog_radius_state')
+                self.assertEqual(symbol['godot_owner'], 'SourceTurretBuildState.' + name.rsplit('_result.', 1)[0])
         slice_sources = {
             'core/src/mindustry/world/blocks/defense/turrets/Turret.java',
             'core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java',
             'core/src/mindustry/Vars.java',
-            'core/src/mindustry/content/Blocks.java',
             'core/src/mindustry/entities/bullet/BulletType.java',
+            'core/src/mindustry/game/FogControl.java',
+            'core/src/mindustry/graphics/FogRenderer.java',
         }
         upstream = {}
         for source in slice_sources:
             upstream[source] = (ROOT / 'mindustry-upstream' / source).read_text(encoding='utf-8')
-        for expr in ledger['N2531']['exact_exprs']:
+        for expr in ledger['N2311']['exact_exprs']:
             with self.subTest(expr=expr):
                 self.assertTrue(any(expr in text for text in upstream.values()), expr)
 
     def test_turret_fog_radius_state(self):
-        turret = TURRET_BUILD_STATE.read_text(encoding='utf-8')
-        # fogRadius() (Turret.java:420-422) for the Turret
-        # family as one pure function: `(range + (hasAmmo()
-        # ? peekAmmo().rangeChange : 0f)) / tilesize *
-        # fogRadiusMultiplier` -- five params, one float
-        # result key `fog_radius`. `hasAmmo()` MUTATES the
-        # ammo stack (`ammo.swap(ammo.size - 1, i);`,
-        # Turret.java:703), so it is a bool param, not
-        # computed in the function (the N2527/N2528
-        # precedent). `peek_ammo_range_change` is a float
-        # param: the BulletType.rangeChange value itself
-        # (BulletType.java:157). `tilesize` is the
-        # Vars.java:135 constant, an explicit int param.
-        # `fog_radius_multiplier` is the BaseTurret.java:24
-        # field, an explicit float param, never hardcoded
-        # (scathe overrides it to 0.4f in Blocks.java:5627).
-        # NO driver tick call site (the N2528/N2530
-        # precedent): fogRadius() is a read, not per-tick,
-        # and no caller reads it today (fog-of-war / draw
-        # logic is a later slice).
-        self.assertIn('static func source_turret_fog_radius_state(range_value: float, has_ammo: bool, peek_ammo_range_change: float, tilesize: int, fog_radius_multiplier: float) -> Dictionary:', turret)
-        self.assertIn('return {"fog_radius": (range_value + (peek_ammo_range_change if has_ammo else 0.0)) / float(tilesize) * fog_radius_multiplier}', turret)
-        self.assertIn('public float fogRadius(){', turret)
-        self.assertIn('return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;', turret)
-        self.assertIn('public static final int tilesize = 8;', turret)
-        self.assertIn('public float fogRadiusMultiplier = 1f;', turret)
-        self.assertIn('public float rangeChange = 0f;', turret)
-        self.assertIn('public float range = 80f;', turret)
-        self.assertIn('fogRadiusMultiplier = 0.4f;', turret)
-        # The pure function sits immediately AFTER
-        # source_turret_can_control_state (N2530) and BEFORE
-        # source_turret_can_heal_state.
-        self.assertLess(turret.index('static func source_turret_can_control_state('), turret.index('static func source_turret_fog_radius_state('))
-        self.assertLess(turret.index('static func source_turret_fog_radius_state('), turret.index('static func source_turret_can_heal_state('))
-        # NO driver tick call site: fogRadius() is a read,
-        # not per-tick. The tick function must not call the
-        # new pure function.
-        tick = turret[turret.index('static func source_turret_tick_buildings_state('):]
-        self.assertNotIn('source_turret_fog_radius_state(', tick)
-        # The proof's keys drive the pure function on exact
-        # legs: 1 has ammo, range 180 + rangeChange 40 ->
-        # (180+40)/8*1 = 27.5; 2 no ammo, same range and
-        # rangeChange -> 180/8*1 = 22.5; 3 the BaseTurret
-        # default range 80, no ammo, multiplier 1 ->
-        # 80/8*1 = 10.0; 4 the scathe multiplier 0.4f,
-        # range 240 -> 240/8*0.4 = 12.0; 5 the result
-        # carries exactly the single `fog_radius` key; 6
-        # the result value is a float; 7 rangeChange is
-        # ignored when hasAmmo is false (range 80, rc 100
-        # -> 80/8*1 = 10.0); 8 the function is param-driven
-        # and deterministic (same params, same result, no
-        # hidden state).
+        turret = TURRET_STATE.read_text(encoding='utf-8')
+        # TurretBuild.fogRadius() (Turret.java:420-423):
+        # `public float fogRadius(){`
+        # `return (range + (hasAmmo() ? peekAmmo().rangeChange
+        # : 0f)) / tilesize * fogRadiusMultiplier;`
+        # over the BaseTurret def range (BaseTurret.java:21,
+        # `public float range = 80f;`) and
+        # fogRadiusMultiplier (BaseTurret.java:24, `public
+        # float fogRadiusMultiplier = 1f;`), tilesize
+        # (Vars.java:135, `public static final int tilesize
+        # = 8;`), and the peeked bullet's rangeChange
+        # (BulletType.java:157, `public float rangeChange =
+        # 0f;`). Unlike range() (Turret.java:342-345),
+        # fogRadius() adds rangeChange only when hasAmmo()
+        # (Turret.java:698, `public boolean hasAmmo(){`).
+        # No driver line: fogRadius() is a load-time
+        # accessor the fog system reads, not a per-tick
+        # write (the N2249 precedent).
+        self.assertIn('static func source_turret_fog_radius_state(frame: Dictionary, range: float, has_ammo: bool, ammo_range_change: float, tilesize: float, fog_radius_multiplier: float) -> Dictionary:', turret)
+        self.assertIn('return {"fog_radius": (range + (ammo_range_change if has_ammo else 0.0)) / tilesize * fog_radius_multiplier}', turret)
+        for expr in [
+            'public float fogRadius(){',
+            'return (range + (hasAmmo() ? peekAmmo().rangeChange : 0f)) / tilesize * fogRadiusMultiplier;',
+            'public float range = 80f;',
+            'public float fogRadiusMultiplier = 1f;',
+            'public static final int tilesize = 8;',
+            'public float rangeChange = 0f;',
+            'public boolean hasAmmo(){',
+            'public @Nullable BulletType peekAmmo(){',
+            'public float range(){',
+            'return range + peekAmmo().rangeChange;',
+            'public class TurretBuild extends ReloadTurretBuild implements ControlBlock{',
+            'public class BaseTurret extends Block{',
+            'Mathf.round(build.fogRadius())',
+            'build.fogRadius() * tilesize',
+        ]:
+            with self.subTest(expr=expr):
+                self.assertIn(expr, turret)
+        # The proof's keys drive the pure function directly
+        # with explicit params: the default no-ammo radius
+        # is range / tilesize * multiplier; has_ammo adds
+        # the ammo rangeChange; the multiplier scales; a
+        # negative rangeChange shrinks; a larger range and
+        # multiplier grow; has_ammo with zero change equals
+        # absent ammo; and the tilesize param divides.
         proof = TURRET_FOG_RADIUS_PROOF.read_text(encoding='utf-8')
         for key in [
-            'fog_radius_ammo',
-            'fog_radius_no_ammo',
-            'fog_radius_default',
-            'fog_radius_scathe_multiplier',
-            'fog_radius_single_key',
-            'fog_radius_float_type',
-            'fog_radius_range_change_ignored',
-            'fog_radius_param_driven',
+            'fog_radius_default_no_ammo',
+            'fog_radius_with_ammo_range_change',
+            'fog_radius_multiplier_half',
+            'fog_radius_negative_range_change',
+            'fog_radius_large_range_multiplier',
+            'fog_radius_ammo_zero_change',
+            'fog_radius_tilesize_param',
         ]:
             with self.subTest(key=key):
                 self.assertIn(key, proof)
@@ -163,14 +188,13 @@ class C07TurretFogRadiusTests(unittest.TestCase):
         self.assertEqual(len(proofs), 1, output)
         self.assertTrue(proofs[0]['matches'], proofs[0])
         for key in [
-            'fog_radius_ammo',
-            'fog_radius_no_ammo',
-            'fog_radius_default',
-            'fog_radius_scathe_multiplier',
-            'fog_radius_single_key',
-            'fog_radius_float_type',
-            'fog_radius_range_change_ignored',
-            'fog_radius_param_driven',
+            'fog_radius_default_no_ammo',
+            'fog_radius_with_ammo_range_change',
+            'fog_radius_multiplier_half',
+            'fog_radius_negative_range_change',
+            'fog_radius_large_range_multiplier',
+            'fog_radius_ammo_zero_change',
+            'fog_radius_tilesize_param',
         ]:
             with self.subTest(key=key):
                 self.assertTrue(proofs[0][key], proofs[0])

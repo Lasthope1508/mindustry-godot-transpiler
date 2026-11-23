@@ -1,89 +1,57 @@
-"""Register the Turret shouldConsume() gate (N2524).
+"""Register the TurretBuild.shouldConsume() pure function (N2291).
 
-shouldConsume() is `public boolean shouldConsume(){
-return isShooting || reloadCounter < reload; }`
-(Turret.java:364-366), the one-line predicate on the turret
-build's own two fields. Both inputs are already live on the
-frame: `isShooting` (Turret.java:492, ported N2277 --
-`source_turret_is_shooting_state`, the tick stamps
-`frame["is_shooting"]` in the duo branch) and `reloadCounter`
-(ReloadTurret.java:26, ported N2240 -- the aim call stamps
-`frame["reload_counter"]` in the duo branch). The driver
-tick's consumption branch ran the machinery with
-should_consume=true whenever enabled, with a comment saying
-there is no shouldConsume gate yet -- that comment is now
-STALE for duo (the tick tracks both inputs since N2277 +
-N2240). This slice ports the predicate as a pure function
-and wires it into the consumption branch, so a power turret
-stops consuming when it is neither shooting nor reloading.
-Java order is updateConsumption() BEFORE updateTile()
-(BuildingComp.java:2274 vs :2277), so the gate reads the
-PREVIOUS tick's frame values (the N2270 heat fold
-precedent). When the gate is false,
-update_consumption_setup_state returns `update =
-should_consume and production_valid`
-(SourceBuildingEfficiencyState.gd:106-107) and
-update_consumption_efficiency_state folds `efficiency =
-0.0` (:127-134) -- exactly Java (BuildingComp.java:1947,
-`efficiency = ... shouldConsume() ? potentialEfficiency :
-0f;`). `reload` is per def, read from the catalog
-(`block.properties`, the N2270 precedent -- the catalog
-carries reload for every turret def), class default 10f
-(ReloadTurret.java:10); the six defs the branch can visit
-with consumePower are lancer 80f / 6f, arc 35f / 3.3f,
-foreshadow 200f / 10f, meltdown 90f / 17f, afflict 50f /
-5f, malign 3.5f / 40f (Blocks.java). This slice does NOT
-touch the duo branch, aim/shoot, validate, isShooting,
-warmup, recoil, unit sync, or any N2520-N2523 stamp, and
-does NOT add a second pure function for the reload lookup
--- the catalog IS the per-def table (the N2270
-heatRequirement precedent).
+TurretBuild overrides shouldConsume (Turret.java:364-366,
+`public boolean shouldConsume(){` / `return isShooting ||
+reloadCounter < reload;`). The base default it overrides is
+BuildingComp.shouldConsume (BuildingComp.java:755-757,
+`public boolean shouldConsume(){` / `return enabled;`), and
+updateConsumption forces efficiency to zero when the gate is
+false (BuildingComp.java:1960, `boolean update =
+shouldConsume() && productionValid();` + 1993,
+`efficiency = optionalEfficiency = 0f;`). The two inputs
+are TurretBuild fields: isShooting (Turret.java:292,
+`public boolean wasShooting, isShooting;`, set in
+updateTile :492) and reloadCounter (ReloadTurret.java:26,
+`public float reloadCounter;`, advanced in updateReload,
+Turret.java:720-723 and capped at reload, Turret.java:723,
+`reloadCounter = Math.min(reloadCounter, reload);`),
+against the per-def reload time (ReloadTurret.java:10,
+`public float reload = 10f;`). The same comparison is the
+canReload gate (ReloadTurret.java:50, `return
+reloadCounter < reload;`). This closes the deferred item
+recorded in N2148 ('Turret shouldConsume gate
+(isShooting / reloadCounter, Turret.java:364-366) -- needs
+targeting/reload state the tick does not track yet.').
 
-GREEN decisions (pinned by this slice): (1) One pure
-function on SourceTurretBuildState.gd,
-source_turret_should_consume_state(frame, reload), placed
-immediately AFTER source_turret_power_status_row_state (the
-other helper of the consumption branch) and BEFORE
-source_turret_can_heal_state. It reads `enabled` (default
-true), `is_shooting` (default false) and `reload_counter`
-(default 0.0) from the frame, returns exactly ONE key,
-`should_consume` (the N2241 PointDefense precedent -- one
-pure function, one key, frame-read inputs; `reload` is the
-only scalar param because it is per-def config, not frame
-state). (2) ONE tick call site in the consumption branch
-(:2497-2499), replacing `var should_consume: bool =
-bool(frame.get("enabled", true))` with `var
-should_consume_state: Dictionary =
-source_turret_should_consume_state(frame,
-float(block.properties.get("reload", 10.0)))` then `var
-should_consume: bool =
-bool(should_consume_state.get("should_consume", true))`.
-The downstream lines are UNCHANGED
-(`update_consumption_setup_state`,
-`update_consumption_state`,
-`apply_update_consumption_state`, the PowerTurret heat
-fold). (3) The stale "no shouldConsume gate yet" comment
-in the consumption branch is removed; the
-source_turret_power_status_row_state comment saying the
-same is corrected too. (4) No legacy
-`source_turret_should_consume_state_result` schema exists,
-so the contract validator falls through to the new schema
-and no alias is needed. SSOT expected after GREEN: symbols
-+1, Done +1, contracts +1, schema +2, 11711/1752/1685/3161
--> 11712/1753/1686/3163; defense shard slices 211 -> 212,
-contracts 210 -> 211; comp stays 572/475. (The scope's
-inline-match reload table is NOT followed: the catalog
-already carries reload per def -- verified against
-Blocks.java this run -- so the tick reads
-`block.properties.get("reload", 10.0)"` exactly like the
-N2270 heatRequirement read; no new table is invented.)
+RED decisions (resolved at RED): (1) One pure function on
+SourceTurretBuildState.gd next to the N2148 power-status
+row, following the N2188 explicit-param precedent:
+(frame, is_shooting, reload_counter, reload). frame is
+accepted for the family call shape and reads no live frame
+key -- isShooting / reloadCounter / reload arrive as
+explicit params, because the tick frame tracks only
+cheating / enabled / power_status / efficiency today.
+(2) The driver line replaces `should_consume = enabled`
+in the power-consumer branch of
+source_turret_tick_buildings_state (:221) and reads frame
+defaults (is_shooting=false, reload_counter=0.0,
+reload=10f -- the Java field defaults: boolean false,
+float 0f, ReloadTurret.java:10) until a frame-tracking
+slice stamps them; with those defaults 0.0 < 10f, so the
+gate preserves the N2148 behaviour (should_consume=true
+when enabled). (3) progress() (Turret.java:425-427) and
+sense() (Turret.java:406-419) stay DEFERRED -- they are
+the assigned N2292 / N2293 slices. The warmup advance
+(Turret.java:501-515) stays deferred per N2148. One new
+result symbol: should_consume. Slice sources:
+Turret.java + ReloadTurret.java + BuildingComp.java.
 """
 import json
 import sys
 from pathlib import Path
 
 from mindustry_port import source_ssot, source_symbols
-from register_c07_turret_controlled_stamp import DEFERRED as N2523_DEFERRED
+from register_c07_turret_power_status import DEFERRED as N2148_DEFERRED
 from register_liquid_consumer_hydration import backed
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -91,64 +59,41 @@ GODOT = ROOT / 'godot-mindustry'
 TURRET = 'core/src/mindustry/world/blocks/defense/turrets/Turret.java'
 RELOAD_TURRET = 'core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java'
 BUILDING_COMP = 'core/src/mindustry/entities/comp/BuildingComp.java'
-BLOCKS = 'core/src/mindustry/content/Blocks.java'
 PROOF = '/root/C07TurretShouldConsumeProof'
 SHOULD_CONSUME_OWNER = 'SourceTurretBuildState.source_turret_should_consume_state'
 TESTS = ['test_c07_turret_should_consume_registration', 'test_all_c07_turret_should_consume_input_evidence_is_exact', 'test_turret_should_consume_state', 'test_reference_graph_and_actual_c07_turret_should_consume']
-# The slice sources the N2524 test checks exact_exprs
+# The 3 slice sources the N2291 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
 # in one of these files.
 SLICE_SOURCES = [
     'core/src/mindustry/world/blocks/defense/turrets/Turret.java',
     'core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java',
     'core/src/mindustry/entities/comp/BuildingComp.java',
-    'core/src/mindustry/content/Blocks.java',
 ]
 EXACT_EXPRS = [
     'public boolean shouldConsume(){',
     'return isShooting || reloadCounter < reload;',
-    'public float reload = 10f;',
+    'public boolean wasShooting, isShooting;',
     'public float reloadCounter;',
-    'protected boolean canReload(){',
+    'public float reload = 10f;',
     'return reloadCounter < reload;',
-    'efficiency = optionalEfficiency = shouldConsume() ? potentialEfficiency : 0f;',
-    'updateConsumption();',
-    'updateTile();',
-    'lancer = new PowerTurret("lancer"){{',
-    'arc = new PowerTurret("arc"){{',
-    'foreshadow = new ItemTurret("foreshadow"){{',
-    'meltdown = new LaserTurret("meltdown"){{',
-    'afflict = new PowerTurret("afflict"){{',
-    'malign = new PowerTurret("malign"){{',
-    'reload = 80f;',
-    'reload = 35f;',
-    'reload = 200f;',
-    'reload = 90f;',
-    'reload = 50f;',
-    'reload = 3.5f;',
-    'consumePower(6f);',
-    'consumePower(3.3f);',
-    'consumePower(10f);',
-    'consumePower(17f);',
-    'consumePower(5f);',
-    'consumePower(40f);',
+    'boolean update = shouldConsume() && productionValid();',
+    'efficiency = optionalEfficiency = 0f;',
+    'reloadCounter = Math.min(reloadCounter, reload);',
+    'public class TurretBuild extends ReloadTurretBuild implements ControlBlock{',
+    'return enabled;',
 ]
 
-# DEFERRED is carried from the N2523 register script via import --
-# never retyped. No entry is dropped: the gate completes no
-# deferred entry except the shouldConsume wiring itself
-# (recorded DONE below). New entries below record the gate as
-# DONE by this slice, the Windows proof debt, and the
-# updateCooling coolant fold (new -- no pool entry mentions it).
-# LaserTurret.shouldConsume() and the validateTarget
-# effective-team wiring already have pool entries (checked this
-# run: 'LaserTurret shouldConsume() wiring' and 'Turret
-# validateTarget() effective-team wiring'), so they are NOT
-# re-added here.
-DEFERRED = N2523_DEFERRED + [
-    'Turret shouldConsume() gate (`should_consume` frame key) -- DONE by this slice (N2524): `source_turret_should_consume_state` gates the consumption branch on `enabled && (is_shooting || reload_counter < reload)` (Turret.java:364-366), reading `is_shooting` (N2277 stamp) and `reload_counter` (N2240 stamp) from the frame and `reload` per def from the catalog (`block.properties`, class default 10f, ReloadTurret.java:10); the gate runs in updateConsumption order (before updateTile, BuildingComp.java:2274 vs :2277) so it reads the previous tick\'s frame values. Dormant live today: only duo stamps the two frame keys and duo has no consumePower, so the gate reads the absent defaults (false / 0.0 < reload) and stays true on every live frame; it goes live when aim/shoot drivers land for the power turrets.',
-    'Turret shouldConsume() gate Windows Godot proof -- debt in GOAL.md section 5, same as N2283-N2284/N2506/N2507/N2508/N2509/N2510/N2511/N2512/N2513/N2514/N2515/N2516/N2517/N2518/N2519/N2520/N2521/N2522/N2523: the N2524 proof runs headless on Linux here and waits for a Windows Godot run.',
-    'Turret updateCooling coolant fold (ReloadTurret.java:28-39, called from updateTile :547-551) -- DEFERRED (new, after N2524): needs turret liquid-module state (`liquids.current()`, `coolant.efficiency(this)`, `coolant.update(this)`); the frame carries no liquid state today.',
+# DEFERRED is carried from the N2148 register script via import --
+# never retyped. The N2148 entry deferring the Turret
+# shouldConsume gate to "its own slice" is DROPPED here: N2291
+# IS that slice. Everything else is carried verbatim.
+DEFERRED = [e for e in N2148_DEFERRED if 'Turret shouldConsume gate' not in e] + [
+    'Turret shouldConsume Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2291 proof runs headless on Linux here and waits for a Windows Godot run.',
+    'Turret frame tracking for isShooting / reloadCounter / reload -- TurretBuild.updateTile sets isShooting (Turret.java:492) and updateReload advances reloadCounter (Turret.java:720-723, capped at reload :723); the tick frame tracks only cheating/enabled/power_status/efficiency today, so the driver reads frame defaults (is_shooting=false, reload_counter=0.0, reload=10f) until a frame-tracking slice stamps them.',
+    'TurretBuild.progress() (Turret.java:425-427) -- N2292, assigned centrally; depends on the reloadCounter/reload pair this slice wires.',
+    'TurretBuild.sense() (Turret.java:406-419) -- N2293, assigned centrally; its progress case depends on N2292.',
+    'Turret shouldConsume gate for non-power turrets -- the N2291 driver line lives in the power-consumer branch of the tick driver (N2148); a turret with no power consumer runs no updateConsumption in this driver yet, so the gate does not reach it; waits for its own consumption-wiring slice.',
 ]
 
 
@@ -157,11 +102,13 @@ def definitions():
         return backed(typ, source, expr, rule, **extra)
 
     should_consume_inputs = {
-        'frame': a('Dictionary', 'public void updateTile(){', 'The turret frame (the port Building state) the tick stamps every tick (`public void updateTile(){`, Turret.java:490 -- the driver tick for every Turret-family build); the gate reads `enabled` (default true), `is_shooting` (default false, N2277 stamp) and `reload_counter` (default 0.0, N2240 stamp) from it and returns exactly one key (the N2241 precedent).'),
-        'reload': a('float', 'public float reload = 10f;', 'The per-def reload time in ticks (`public float reload = 10f;`, ReloadTurret.java:10 -- the class default); the tick reads it per def from the catalog (`block.properties`, the N2270 precedent): lancer 80f, arc 35f, foreshadow 200f, meltdown 90f, afflict 50f, malign 3.5f (Blocks.java).', source=RELOAD_TURRET),
+        'frame': a('Dictionary', 'return isShooting || reloadCounter < reload;', 'The turret frame (accepted for the family call shape; this leg reads no live frame key -- isShooting / reloadCounter / reload arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).'),
+        'is_shooting': a('bool', 'public boolean wasShooting, isShooting;', 'Whether the turret is shooting: the TurretBuild.isShooting field (Turret.java:292), set in updateTile (Turret.java:492); passed explicitly because no frame key stamps it yet.'),
+        'reload_counter': a('float', 'public float reloadCounter;', 'The reload progress: the ReloadTurretBuild.reloadCounter field (ReloadTurret.java:26), advanced in updateReload (Turret.java:720-723) and capped at reload (:723); passed explicitly because no frame key stamps it yet.', source=RELOAD_TURRET),
+        'reload': a('float', 'public float reload = 10f;', 'The per-def reload time: ReloadTurret.reload (ReloadTurret.java:10); passed explicitly because the frame carries no reload def value yet.', source=RELOAD_TURRET),
     }
     should_consume_outputs = {
-        'should_consume': a('bool', 'return isShooting || reloadCounter < reload;', 'Whether the turret should consume this tick (`public boolean shouldConsume(){` / `return isShooting || reloadCounter < reload;`, Turret.java:364-366 -- the consumption branch feeds it to `update_consumption_setup_state`, so a false gate folds efficiency to 0.0, BuildingComp.java:1947).'),
+        'should_consume': a('bool', 'return isShooting || reloadCounter < reload;', 'Whether the turret should consume: true while shooting or still reloading (Turret.java:365); updateConsumption forces efficiency to zero when false (BuildingComp.java:1960 + 1993).'),
     }
     return should_consume_inputs, should_consume_outputs
 
@@ -200,7 +147,7 @@ def main():
     should_consume_inputs, should_consume_outputs = definitions()
 
     entries = [
-        ('N2524', SHOULD_CONSUME_OWNER, 'source_turret_should_consume_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.shouldConsume()', should_consume_inputs, should_consume_outputs, True, 'Dictionary'),
+        ('N2291', SHOULD_CONSUME_OWNER, 'source_turret_should_consume_state', TURRET, 'mindustry.world.blocks.defense.turrets.Turret.TurretBuild', 'TurretBuild.shouldConsume()', should_consume_inputs, should_consume_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -213,21 +160,20 @@ def main():
                     symbol = name + '.' + field
                     names.append(symbol)
                     symbols[symbol] = dict(status='source-backed', godot_owner=owner, godot_symbol=symbol, java_source=meta['java_source'], java_method=method, java_expr=meta['java_expr'], rule=meta['rule'], tests=TESTS, runtime_proof=PROOF)
-            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed Turret shouldConsume() gate from Turret.java:364-366 + :490-492 + ReloadTurret.java:10/:26/:46-48 + BuildingComp.java:1947/:2274/:2277.'))
+            source_symbols.upsert_source_state_schema(GODOT, name, dict(status='active', owner=owner, source_slice=sid, keys=keys, runtime_proof=PROOF, rule='Source-backed TurretBuild.shouldConsume() state from Turret.java + ReloadTurret.java + BuildingComp.java.'))
         if has_contract:
-            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed Turret shouldConsume() gate from Turret.java:364-366 + :490-492 + ReloadTurret.java:10/:26/:46-48 + BuildingComp.java:1947/:2274/:2277.'))
+            source_symbols.upsert_source_api_contract(GODOT, owner, dict(status='active', source_slice=sid, java_source=source, source_method=method, params=[dict(name=k, type=v['type'], schema=prefix + '_input.' + k) for k, v in inputs.items()], return_type=return_type, return_keys=list(outputs), tests=TESTS, runtime_proof=PROOF, rule='Source-backed TurretBuild.shouldConsume() state from Turret.java + ReloadTurret.java + BuildingComp.java.'))
         all_names.extend(names)
 
     by_slice = {}
-    # The test pins this order: should_consume.
-    by_slice['N2524'] = [
+    # The test pins this order: the single result symbol.
+    by_slice['N2291'] = [
         'source_turret_should_consume_state_result.should_consume',
     ]
-    source_symbols.upsert_source_slice(GODOT, 'N2524', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.shouldConsume()', godot_owner=SHOULD_CONSUME_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2524'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
+    source_symbols.upsert_source_slice(GODOT, 'N2291', dict(status='done', java_source=TURRET, java_class='mindustry.world.blocks.defense.turrets.Turret.TurretBuild', java_method='TurretBuild.shouldConsume()', godot_owner=SHOULD_CONSUME_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2291'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 
     source_symbols.upsert_source_symbols(GODOT, symbols)
     source_symbols.write_source_symbol_audit_report(GODOT)
-
     manifest = json.loads((GODOT / 'src/generated/source_ssot_modules.json').read_text(encoding='utf-8'))
     modules = manifest['modules']
     new_owners = {definition[1] for definition in entries}

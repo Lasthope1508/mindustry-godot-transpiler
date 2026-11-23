@@ -47,6 +47,7 @@ static func source_count_ore_state(linked_tiles: Array, tier: int, blocked_items
 			if not ore_count.has(item["id"]):
 				item_array.append(item)
 			ore_count[item["id"]] = ore_count.get(item["id"], 0) + 1
+	# `itemArray.sort((item1, item2) -> {` (Drill.java:215, N2433) — sort opener: ascending lowPriority/amount/numeric-id ordering; peek selects the last.
 	item_array.sort_custom(func(item1: Dictionary, item2: Dictionary) -> bool:
 		if item1["low_priority"] != item2["low_priority"]:
 			return item1["low_priority"]
