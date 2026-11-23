@@ -1,4 +1,4 @@
-# Báo cáo — N2543 Weapon.update() leg 4 (C07) [DONE (slice 364af040)]
+# Báo cáo — N2543 Weapon.update() leg 4 (C07) [DONE + PUSHED (slice 364af040, docs b5a01fa3, GOAL abac5890)]
 
 Ngày: 2026-11-23 ~10:00 +07 (targeted re-run xác minh lượt đóng slice 18.31s; proof .json tái sinh 03:04:35Z bởi targeted re-run lượt đóng slice, nội dung không đổi), gate xong 02:55:34Z (09:55 +07), slice commit 364af040.
 

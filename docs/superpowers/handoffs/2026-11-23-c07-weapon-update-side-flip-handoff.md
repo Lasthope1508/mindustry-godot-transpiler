@@ -1,6 +1,6 @@
-# Handoff — N2543 Weapon.update() leg 4 (C07) [DONE (slice 364af040)]
+# Handoff — N2543 Weapon.update() leg 4 (C07) [DONE + PUSHED (slice 364af040, docs b5a01fa3, GOAL abac5890)]
 
-## Status: DONE (lượt cron 10:00 +07 ngày 2026-11-23; slice 364af040; push xong mới ghi origin/main ở đây sau khi push)
+## Status: DONE + PUSHED (lượt cron 10:00 +07 ngày 2026-11-23; slice 364af040, docs b5a01fa3, GOAL abac5890; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2542 DONE + PUSHED ~08:45 +07 ngày 2026-11-23, origin/main == d7dadcf1
   (5 commit: slice 8cc2ccc5 + docs 19c050fb + GOAL f0e85631 + status 8d61dd9b + hashes d7dadcf1).
