@@ -255448,6 +255448,224 @@
       },
       "runtime_proof": "/root/C07WaveSpawnerCountSpawnsProof",
       "rule": "Source-backed WaveSpawner.countSpawns() state from WaveSpawner.java."
+    },
+    "source_beam_drill_laser_defaults_state_input": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "source_slice": "N2440",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(value = \"@-beam\", fallback = \"drill-laser\") TextureRegion laser;",
+          "rule": "The beam-drill frame (BeamDrill field defaults, BeamDrill.java:28-59): carries no live keys for this load-time setup -- the laser region names depend on the block name, not on frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "block_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(value = \"@-beam\", fallback = \"drill-laser\") TextureRegion laser;",
+          "rule": "The block name (BeamDrill.java:28, `value = \"@-beam\"`): the \"@-beam\" value is the block name + \"-beam\" (plasma-bore, Blocks.java:3038; large-plasma-bore, Blocks.java:3052); it passes through to the six laser region keys, and the scalar / color defaults below do not depend on it.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof",
+      "rule": "Source-backed BeamDrill laser/spark/glow/heat field defaults from BeamDrill.java."
+    },
+    "source_beam_drill_laser_defaults_state_result": {
+      "status": "active",
+      "owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "source_slice": "N2440",
+      "keys": {
+        "laser": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(value = \"@-beam\", fallback = \"drill-laser\") TextureRegion laser;",
+          "rule": "The laser region name (BeamDrill.java:28, `public @Load(value = \"@-beam\", fallback = \"drill-laser\") TextureRegion laser;`): block_name + \"-beam\" -- the \"@-beam\" value; the \"drill-laser\" fallback is load metadata kept in the comment + rule, the draw_state `laser` param receives the resolved region name.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "laser_end": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(value = \"@-beam-end\", fallback = \"drill-laser-end\") TextureRegion laserEnd;",
+          "rule": "The laser-end region name (BeamDrill.java:29, `public @Load(value = \"@-beam-end\", fallback = \"drill-laser-end\") TextureRegion laserEnd;`): block_name + \"-beam-end\"; fallback \"drill-laser-end\" is load metadata, the draw_state `laser_end` param receives the resolved name.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "laser_center": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(value = \"@-beam-center\", fallback = \"drill-laser-center\") TextureRegion laserCenter;",
+          "rule": "The laser-center region name (BeamDrill.java:30, `public @Load(value = \"@-beam-center\", fallback = \"drill-laser-center\") TextureRegion laserCenter;`): block_name + \"-beam-center\"; fallback \"drill-laser-center\" is load metadata, the draw_state `laser_center` param receives the resolved name.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "laser_boost": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(value = \"@-beam-boost\", fallback = \"drill-laser-boost\") TextureRegion laserBoost;",
+          "rule": "The boost laser region name (BeamDrill.java:32, `public @Load(value = \"@-beam-boost\", fallback = \"drill-laser-boost\") TextureRegion laserBoost;`): block_name + \"-beam-boost\"; fallback \"drill-laser-boost\" is load metadata, the draw_state `laser_boost` param receives the resolved name.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "laser_end_boost": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(value = \"@-beam-boost-end\", fallback = \"drill-laser-boost-end\") TextureRegion laserEndBoost;",
+          "rule": "The boost laser-end region name (BeamDrill.java:33, `public @Load(value = \"@-beam-boost-end\", fallback = \"drill-laser-boost-end\") TextureRegion laserEndBoost;`): block_name + \"-beam-boost-end\"; fallback \"drill-laser-boost-end\" is load metadata, the draw_state `laser_end_boost` param receives the resolved name.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "laser_center_boost": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(value = \"@-beam-boost-center\", fallback = \"drill-laser-boost-center\") TextureRegion laserCenterBoost;",
+          "rule": "The boost laser-center region name (BeamDrill.java:34, `public @Load(value = \"@-beam-boost-center\", fallback = \"drill-laser-boost-center\") TextureRegion laserCenterBoost;`): block_name + \"-beam-boost-center\"; fallback \"drill-laser-boost-center\" is load metadata, the draw_state `laser_center_boost` param receives the resolved name.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "spark_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Color sparkColor = Color.valueOf(\"fd9e81\"), glowColor = Color.white;",
+          "rule": "The spark color (BeamDrill.java:53, `Color.valueOf(\"fd9e81\")`): (253, 158, 129) / 255, alpha 1 -- the Tmp.c3 spark base the draw func lerps toward boostHeatColor; Variant in the schema (no \"Color\" type exists -- the draw_state precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "glow_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Color sparkColor = Color.valueOf(\"fd9e81\"), glowColor = Color.white;",
+          "rule": "The glow color (BeamDrill.java:53, `Color.white`): (1, 1, 1, 1) -- the Draw.mixcol base the draw func mixes with absin(glowScl, glowIntensity); Variant in the schema (no \"Color\" type exists -- the draw_state precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "glow_intensity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float glowIntensity = 0.2f, pulseIntensity = 0.07f;",
+          "rule": "The glow intensity (BeamDrill.java:54, `glowIntensity = 0.2f`): 0.2 -- the absin amplitude the draw func mixes glowColor with; the draw_state `glow_intensity` param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "pulse_intensity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float glowIntensity = 0.2f, pulseIntensity = 0.07f;",
+          "rule": "The pulse intensity (BeamDrill.java:54, `pulseIntensity = 0.07f`): 0.07 -- the absin amplitude the draw func adds to laserWidth for the beam width; the draw_state `pulse_intensity` param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "glow_scl": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float glowScl = 3f;",
+          "rule": "The glow scale (BeamDrill.java:55, `glowScl = 3f`): 3.0 -- the absin period the draw func uses for both the beam width and the glow mix; the draw_state `glow_scl` param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "sparks": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public int sparks = 7;",
+          "rule": "The spark count (BeamDrill.java:56, `sparks = 7`): 7 -- the loop bound of the spark pass in the draw func; the draw_state `sparks` param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "spark_range": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+          "rule": "The spark range (BeamDrill.java:57, `sparkRange = 10f`): 10.0 -- the spark travel distance (sparkRange * fin) in the draw func; the draw_state `spark_range` param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "spark_life": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+          "rule": "The spark life (BeamDrill.java:57, `sparkLife = 27f`): 27.0 -- the fin divisor (Time.time / sparkLife) in the draw func; the draw_state `spark_life` param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "spark_recurrence": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+          "rule": "The spark recurrence (BeamDrill.java:57, `sparkRecurrence = 4f`): 4.0 -- the fin modulus and the rand.random bound in the draw func; the draw_state `spark_recurrence` param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "spark_spread": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+          "rule": "The spark spread (BeamDrill.java:57, `sparkSpread = 45f`): 45.0 -- the rand.range rotation bound in the draw func; the draw_state `spark_spread` param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "spark_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+          "rule": "The spark size (BeamDrill.java:57, `sparkSize = 3.5f`): 3.5 -- the spark line width in the draw func; the draw_state `spark_size` param.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "boost_heat_color": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public Color boostHeatColor = Color.sky.cpy().mul(0.87f);",
+          "rule": "The boost heat color (BeamDrill.java:59, `Color.sky.cpy().mul(0.87f)`): sky (135, 206, 235) / 255 with every component * 0.87 (alpha 0.87) -- the lerp target the draw func blends sparkColor toward at full boostWarmup; GDScript Color.SKY_BLUE * 0.87 (Color * float multiplies all four components, arc Color.mul(float) included); Variant in the schema (no \"Color\" type exists -- the draw_state precedent).",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof",
+      "rule": "Source-backed BeamDrill laser/spark/glow/heat field defaults from BeamDrill.java."
     }
   },
   "version": 1

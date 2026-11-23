@@ -1186,6 +1186,54 @@
       "rule": "Source-backed BeamDrillBuild.draw() state from BeamDrill.java.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "status": "active",
+      "source_slice": "N2440",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.<field declarations>",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_beam_drill_laser_defaults_state_input.frame"
+        },
+        {
+          "name": "block_name",
+          "type": "String",
+          "schema": "source_beam_drill_laser_defaults_state_input.block_name"
+        }
+      ],
+      "return_keys": [
+        "laser",
+        "laser_end",
+        "laser_center",
+        "laser_boost",
+        "laser_end_boost",
+        "laser_center_boost",
+        "spark_color",
+        "glow_color",
+        "glow_intensity",
+        "pulse_intensity",
+        "glow_scl",
+        "sparks",
+        "spark_range",
+        "spark_life",
+        "spark_recurrence",
+        "spark_spread",
+        "spark_size",
+        "boost_heat_color"
+      ],
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof",
+      "rule": "Source-backed BeamDrill laser/spark/glow/heat field defaults from BeamDrill.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_outputs_items_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_outputs_items_state",
       "status": "active",

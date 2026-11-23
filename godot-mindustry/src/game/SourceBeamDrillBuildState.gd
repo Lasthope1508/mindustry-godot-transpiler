@@ -1528,6 +1528,75 @@ static func source_beam_drill_default_constructor_state(frame: Dictionary, block
 	return {"name": block_name, "draw_arrow": draw_arrow, "region_rotated_1": region_rotated_1, "ignore_line_rotation": ignore_line_rotation, "ambient_sound_volume": ambient_sound_volume, "ambient_sound": ambient_sound, "flags": block_flags}
 
 @warning_ignore("unused_parameter")
+static func source_beam_drill_laser_defaults_state(frame: Dictionary, block_name: String) -> Dictionary:
+	# N2440 -- BeamDrill field defaults (BeamDrill.java:28-59):
+	# `public @Load(value = "@-beam", fallback = "drill-laser") TextureRegion laser;`
+	# `public @Load(value = "@-beam-end", fallback = "drill-laser-end") TextureRegion laserEnd;`
+	# `public @Load(value = "@-beam-center", fallback = "drill-laser-center") TextureRegion laserCenter;`
+	# `public @Load(value = "@-beam-boost", fallback = "drill-laser-boost") TextureRegion laserBoost;`
+	# `public @Load(value = "@-beam-boost-end", fallback = "drill-laser-boost-end") TextureRegion laserEndBoost;`
+	# `public @Load(value = "@-beam-boost-center", fallback = "drill-laser-boost-center") TextureRegion laserCenterBoost;`
+	# `public Color sparkColor = Color.valueOf("fd9e81"), glowColor = Color.white;`
+	# `public float glowIntensity = 0.2f, pulseIntensity = 0.07f;`
+	# `public float glowScl = 3f;`
+	# `public int sparks = 7;`
+	# `public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;`
+	# `public Color boostHeatColor = Color.sky.cpy().mul(0.87f);`
+	# on `public class BeamDrill extends Block{`
+	# (BeamDrill.java:25). These 12 lines own no method:
+	# field declarations are load-time block definition
+	# setup, not per-tick state, so no method slice can
+	# absorb them. The values are NOT live code anywhere
+	# else: the draw func (source_beam_drill_draw_state)
+	# takes every one of them as an explicit param, and
+	# the defaults themselves live only as a prose
+	# comment (:562-566) -- this func is the first live
+	# home for the values. The laser textures load as
+	# name + suffix ("@-beam", "@-beam-end",
+	# "@-beam-center", "@-beam-boost", "@-beam-boost-end",
+	# "@-beam-boost-center") with the drill-laser*
+	# fallback names; the result carries the resolved
+	# per-block region name (the N2212/N2224
+	# per-def-param precedent: block_name arrives
+	# explicitly -- plasma-bore (Blocks.java:3038) and
+	# large-plasma-bore (Blocks.java:3052) override none
+	# of the 12 lines, only laserWidth 0.7f,
+	# Blocks.java:3062). sparkColor is
+	# Color.valueOf("fd9e81"), glowColor is Color.white,
+	# boostHeatColor is Color.sky.cpy().mul(0.87f) --
+	# GDScript Color.SKY_BLUE * 0.87 (Color * float multiplies
+	# all four components, arc Color.mul(float) included).
+	# NOT this slice: topRegion :36 / glowRegion :37 /
+	# range :40 / tier :41 / drillMultipliers :47 /
+	# blockedItem :49 / blockedItems :51 (already own),
+	# drillTime :39 / laserWidth :42 /
+	# optionalBoostIntensity :44 / heatColor :60 (free,
+	# deferred to their own slices). There is NO driver
+	# tick line: field defaults are load-time, not
+	# per-tick state. frame carries no live keys for
+	# this load-time setup -- it is the canonical first
+	# param of this family file.
+	var laser: String = block_name + "-beam"
+	var laser_end: String = block_name + "-beam-end"
+	var laser_center: String = block_name + "-beam-center"
+	var laser_boost: String = block_name + "-beam-boost"
+	var laser_end_boost: String = block_name + "-beam-boost-end"
+	var laser_center_boost: String = block_name + "-beam-boost-center"
+	var spark_color: Color = Color("fd9e81")
+	var glow_color: Color = Color.WHITE
+	var glow_intensity: float = 0.2
+	var pulse_intensity: float = 0.07
+	var glow_scl: float = 3.0
+	var sparks: int = 7
+	var spark_range: float = 10.0
+	var spark_life: float = 27.0
+	var spark_recurrence: float = 4.0
+	var spark_spread: float = 45.0
+	var spark_size: float = 3.5
+	var boost_heat_color: Color = Color.SKY_BLUE * 0.87
+	return {"laser": laser, "laser_end": laser_end, "laser_center": laser_center, "laser_boost": laser_boost, "laser_end_boost": laser_end_boost, "laser_center_boost": laser_center_boost, "spark_color": spark_color, "glow_color": glow_color, "glow_intensity": glow_intensity, "pulse_intensity": pulse_intensity, "glow_scl": glow_scl, "sparks": sparks, "spark_range": spark_range, "spark_life": spark_life, "spark_recurrence": spark_recurrence, "spark_spread": spark_spread, "spark_size": spark_size, "boost_heat_color": boost_heat_color}
+
+@warning_ignore("unused_parameter")
 static func source_beam_drill_outputs_items_state(frame: Dictionary) -> Dictionary:
 	# BeamDrill.outputsItems() (BeamDrill.java:98-100):
 	# @Override

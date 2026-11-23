@@ -185752,6 +185752,294 @@
         "test_reference_graph_and_actual_c07_logic_update_game_over"
       ],
       "runtime_proof": "/root/C07LogicUpdateGameOverProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.laser": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.laser",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public @Load(value = \"@-beam\", fallback = \"drill-laser\") TextureRegion laser;",
+      "rule": "The laser region name (BeamDrill.java:28, `public @Load(value = \"@-beam\", fallback = \"drill-laser\") TextureRegion laser;`): block_name + \"-beam\" -- the \"@-beam\" value; the \"drill-laser\" fallback is load metadata kept in the comment + rule, the draw_state `laser` param receives the resolved region name.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.laser_end": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.laser_end",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public @Load(value = \"@-beam-end\", fallback = \"drill-laser-end\") TextureRegion laserEnd;",
+      "rule": "The laser-end region name (BeamDrill.java:29, `public @Load(value = \"@-beam-end\", fallback = \"drill-laser-end\") TextureRegion laserEnd;`): block_name + \"-beam-end\"; fallback \"drill-laser-end\" is load metadata, the draw_state `laser_end` param receives the resolved name.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.laser_center": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.laser_center",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public @Load(value = \"@-beam-center\", fallback = \"drill-laser-center\") TextureRegion laserCenter;",
+      "rule": "The laser-center region name (BeamDrill.java:30, `public @Load(value = \"@-beam-center\", fallback = \"drill-laser-center\") TextureRegion laserCenter;`): block_name + \"-beam-center\"; fallback \"drill-laser-center\" is load metadata, the draw_state `laser_center` param receives the resolved name.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.laser_boost": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.laser_boost",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public @Load(value = \"@-beam-boost\", fallback = \"drill-laser-boost\") TextureRegion laserBoost;",
+      "rule": "The boost laser region name (BeamDrill.java:32, `public @Load(value = \"@-beam-boost\", fallback = \"drill-laser-boost\") TextureRegion laserBoost;`): block_name + \"-beam-boost\"; fallback \"drill-laser-boost\" is load metadata, the draw_state `laser_boost` param receives the resolved name.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.laser_end_boost": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.laser_end_boost",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public @Load(value = \"@-beam-boost-end\", fallback = \"drill-laser-boost-end\") TextureRegion laserEndBoost;",
+      "rule": "The boost laser-end region name (BeamDrill.java:33, `public @Load(value = \"@-beam-boost-end\", fallback = \"drill-laser-boost-end\") TextureRegion laserEndBoost;`): block_name + \"-beam-boost-end\"; fallback \"drill-laser-boost-end\" is load metadata, the draw_state `laser_end_boost` param receives the resolved name.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.laser_center_boost": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.laser_center_boost",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public @Load(value = \"@-beam-boost-center\", fallback = \"drill-laser-boost-center\") TextureRegion laserCenterBoost;",
+      "rule": "The boost laser-center region name (BeamDrill.java:34, `public @Load(value = \"@-beam-boost-center\", fallback = \"drill-laser-boost-center\") TextureRegion laserCenterBoost;`): block_name + \"-beam-boost-center\"; fallback \"drill-laser-boost-center\" is load metadata, the draw_state `laser_center_boost` param receives the resolved name.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.spark_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.spark_color",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public Color sparkColor = Color.valueOf(\"fd9e81\"), glowColor = Color.white;",
+      "rule": "The spark color (BeamDrill.java:53, `Color.valueOf(\"fd9e81\")`): (253, 158, 129) / 255, alpha 1 -- the Tmp.c3 spark base the draw func lerps toward boostHeatColor; Variant in the schema (no \"Color\" type exists -- the draw_state precedent).",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.glow_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.glow_color",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public Color sparkColor = Color.valueOf(\"fd9e81\"), glowColor = Color.white;",
+      "rule": "The glow color (BeamDrill.java:53, `Color.white`): (1, 1, 1, 1) -- the Draw.mixcol base the draw func mixes with absin(glowScl, glowIntensity); Variant in the schema (no \"Color\" type exists -- the draw_state precedent).",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.glow_intensity": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.glow_intensity",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public float glowIntensity = 0.2f, pulseIntensity = 0.07f;",
+      "rule": "The glow intensity (BeamDrill.java:54, `glowIntensity = 0.2f`): 0.2 -- the absin amplitude the draw func mixes glowColor with; the draw_state `glow_intensity` param.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.pulse_intensity": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.pulse_intensity",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public float glowIntensity = 0.2f, pulseIntensity = 0.07f;",
+      "rule": "The pulse intensity (BeamDrill.java:54, `pulseIntensity = 0.07f`): 0.07 -- the absin amplitude the draw func adds to laserWidth for the beam width; the draw_state `pulse_intensity` param.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.glow_scl": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.glow_scl",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public float glowScl = 3f;",
+      "rule": "The glow scale (BeamDrill.java:55, `glowScl = 3f`): 3.0 -- the absin period the draw func uses for both the beam width and the glow mix; the draw_state `glow_scl` param.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.sparks": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.sparks",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public int sparks = 7;",
+      "rule": "The spark count (BeamDrill.java:56, `sparks = 7`): 7 -- the loop bound of the spark pass in the draw func; the draw_state `sparks` param.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.spark_range": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.spark_range",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+      "rule": "The spark range (BeamDrill.java:57, `sparkRange = 10f`): 10.0 -- the spark travel distance (sparkRange * fin) in the draw func; the draw_state `spark_range` param.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.spark_life": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.spark_life",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+      "rule": "The spark life (BeamDrill.java:57, `sparkLife = 27f`): 27.0 -- the fin divisor (Time.time / sparkLife) in the draw func; the draw_state `spark_life` param.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.spark_recurrence": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.spark_recurrence",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+      "rule": "The spark recurrence (BeamDrill.java:57, `sparkRecurrence = 4f`): 4.0 -- the fin modulus and the rand.random bound in the draw func; the draw_state `spark_recurrence` param.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.spark_spread": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.spark_spread",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+      "rule": "The spark spread (BeamDrill.java:57, `sparkSpread = 45f`): 45.0 -- the rand.range rotation bound in the draw func; the draw_state `spark_spread` param.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.spark_size": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.spark_size",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public float sparkRange = 10f, sparkLife = 27f, sparkRecurrence = 4f, sparkSpread = 45f, sparkSize = 3.5f;",
+      "rule": "The spark size (BeamDrill.java:57, `sparkSize = 3.5f`): 3.5 -- the spark line width in the draw func; the draw_state `spark_size` param.",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_beam_drill_laser_defaults_state_result.boost_heat_color": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
+      "godot_symbol": "source_beam_drill_laser_defaults_state_result.boost_heat_color",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.<field declarations>",
+      "java_expr": "public Color boostHeatColor = Color.sky.cpy().mul(0.87f);",
+      "rule": "The boost heat color (BeamDrill.java:59, `Color.sky.cpy().mul(0.87f)`): sky (135, 206, 235) / 255 with every component * 0.87 (alpha 0.87) -- the lerp target the draw func blends sparkColor toward at full boostWarmup; GDScript Color.SKY_BLUE * 0.87 (Color * float multiplies all four components, arc Color.mul(float) included); Variant in the schema (no \"Color\" type exists -- the draw_state precedent).",
+      "tests": [
+        "test_c07_beam_drill_laser_defaults_registration",
+        "test_all_c07_beam_drill_laser_defaults_input_evidence_is_exact",
+        "test_beam_drill_laser_defaults_state",
+        "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
+      ],
+      "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
     }
   },
   "version": 1

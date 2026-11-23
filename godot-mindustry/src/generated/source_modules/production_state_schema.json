@@ -786,6 +786,31 @@
         }
       }
     },
+    "source_beam_drill_laser_defaults_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_laser_defaults_state_input",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(value = \"@-beam\", fallback = \"drill-laser\") TextureRegion laser;",
+          "rule": "The beam-drill frame (BeamDrill field defaults, BeamDrill.java:28-59): carries no live keys for this load-time setup -- the laser region names depend on the block name, not on frame keys (the N2212 / N2224 per-def-param precedent); frame is the canonical first param of this family file.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        },
+        "block_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public @Load(value = \"@-beam\", fallback = \"drill-laser\") TextureRegion laser;",
+          "rule": "The block name (BeamDrill.java:28, `value = \"@-beam\"`): the \"@-beam\" value is the block name + \"-beam\" (plasma-bore, Blocks.java:3038; large-plasma-bore, Blocks.java:3052); it passes through to the six laser region keys, and the scalar / color defaults below do not depend on it.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_outputs_items_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_outputs_items_state_input",
       "keys": {
