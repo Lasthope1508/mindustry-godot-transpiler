@@ -66,3 +66,17 @@ static func wave_spawn_state(groups: Array, wave_index: int, fallback_unit_id: S
 		"groups": spawned_groups,
 		"spawn_requests": spawn_requests,
 	}
+
+
+static func source_wave_spawn_can_spawn_state(spawn: int, position: int) -> Dictionary:
+	# SpawnGroup.canSpawn(int) (SpawnGroup.java:62-64): the 1 body expr
+	# only -- `return spawn == -1 || spawn == position;` (:63). `spawn`
+	# is the SpawnGroup field `public int spawn = -1;`
+	# (SpawnGroup.java:44, "If not -1, the unit will only spawn in
+	# spawnpoints with these packed coordinates."): -1 means every
+	# position. GD takes spawn + position as int inputs, never
+	# packs/unpacks coords here. No call-site of canSpawn exists
+	# outside SpawnGroup.java (grep: 0 hits) -- this slice ports
+	# only the predicate. Precedent N2123/N2297 micro-accessors +
+	# N2444 isSpawning, same pure-predicate shape.
+	return {"can_spawn": spawn == -1 or spawn == position}

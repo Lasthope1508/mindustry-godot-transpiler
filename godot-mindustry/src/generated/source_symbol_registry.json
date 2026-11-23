@@ -186232,6 +186232,22 @@
         "test_reference_graph_and_actual_c07_wave_spawner_get_spawns"
       ],
       "runtime_proof": "/root/C07WaveSpawnerGetSpawnsProof"
+    },
+    "source_wave_spawn_can_spawn_state_result.can_spawn": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_wave_spawn_can_spawn_state",
+      "godot_symbol": "source_wave_spawn_can_spawn_state_result.can_spawn",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.canSpawn(int)",
+      "java_expr": "return spawn == -1 || spawn == position;",
+      "rule": "Whether this group spawns at the given position (SpawnGroup.java:63, the full return line): spawn == -1 || spawn == position.",
+      "tests": [
+        "test_c07_spawn_group_can_spawn_registration",
+        "test_all_c07_spawn_group_can_spawn_input_evidence_is_exact",
+        "test_spawn_group_can_spawn_state",
+        "test_reference_graph_and_actual_c07_spawn_group_can_spawn"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupCanSpawnProof"
     }
   },
   "version": 1

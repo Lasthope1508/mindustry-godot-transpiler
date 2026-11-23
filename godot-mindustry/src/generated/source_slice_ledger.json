@@ -104741,6 +104741,31 @@
         "The getSpawns() consumers -- BaseBuilderAI :164/:193 and Pathfinder :139/:585 call `spawner.getSpawns()` -- not in this slice; they belong to BaseBuilderAI/Pathfinder, outside the C07 VM line.",
         "WaveSpawner.getSpawns() Windows Godot proof -- debt in GOAL.md section 5: the N2446 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2447": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_class": "mindustry.game.SpawnGroup",
+      "java_method": "SpawnGroup.canSpawn(int)",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_wave_spawn_can_spawn_state",
+      "exact_exprs": [
+        "return spawn == -1 || spawn == position;"
+      ],
+      "source_symbols": [
+        "source_wave_spawn_can_spawn_state_result.can_spawn"
+      ],
+      "tests": [
+        "test_c07_spawn_group_can_spawn_registration",
+        "test_all_c07_spawn_group_can_spawn_input_evidence_is_exact",
+        "test_spawn_group_can_spawn_state",
+        "test_reference_graph_and_actual_c07_spawn_group_can_spawn"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupCanSpawnProof",
+      "deferred_exprs": [
+        "SpawnGroup.canSpawn(int) has no call-site outside SpawnGroup.java (grep: 0 hits) -- no consumer slice follows from this one; consumers that later call canSpawn belong to their own method slices.",
+        "The `spawn` field writes -- SpawnGroup.read()/write() serialization and editor/mod assignment of `spawn` -- are later slices; canSpawn only reads the frame input.",
+        "SpawnGroup.canSpawn(int) Windows Godot proof -- debt in GOAL.md section 5: the N2447 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

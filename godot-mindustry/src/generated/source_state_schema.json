@@ -255890,6 +255890,54 @@
       },
       "runtime_proof": "/root/C07WaveSpawnerGetSpawnsProof",
       "rule": "Source-backed WaveSpawner.getSpawns() state from WaveSpawner.java."
+    },
+    "source_wave_spawn_can_spawn_state_input": {
+      "status": "active",
+      "owner": "SourceWaveSpawnRuntimeState.source_wave_spawn_can_spawn_state",
+      "source_slice": "N2447",
+      "keys": {
+        "spawn": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "public int spawn = -1;",
+          "rule": "The packed-coords spawnpoint this group is restricted to (SpawnGroup.java:44, `public int spawn = -1;` -- \"If not -1, the unit will only spawn in spawnpoints with these packed coordinates.\"): -1 means every position, the first disjunct of canSpawn().",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_wave_spawn_can_spawn_state"
+          ]
+        },
+        "position": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "public boolean canSpawn(int position){",
+          "rule": "The packed-coords position to test (SpawnGroup.java:62, `public boolean canSpawn(int position){`): the second disjunct compares it against spawn.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_wave_spawn_can_spawn_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SpawnGroupCanSpawnProof",
+      "rule": "Source-backed SpawnGroup.canSpawn(int) state from SpawnGroup.java."
+    },
+    "source_wave_spawn_can_spawn_state_result": {
+      "status": "active",
+      "owner": "SourceWaveSpawnRuntimeState.source_wave_spawn_can_spawn_state",
+      "source_slice": "N2447",
+      "keys": {
+        "can_spawn": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "return spawn == -1 || spawn == position;",
+          "rule": "Whether this group spawns at the given position (SpawnGroup.java:63, the full return line): spawn == -1 || spawn == position.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_wave_spawn_can_spawn_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SpawnGroupCanSpawnProof",
+      "rule": "Source-backed SpawnGroup.canSpawn(int) state from SpawnGroup.java."
     }
   },
   "version": 1
