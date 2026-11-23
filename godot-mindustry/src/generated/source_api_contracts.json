@@ -72066,6 +72066,56 @@
       ],
       "runtime_proof": "/root/C07WeaponUpdateAimProof",
       "rule": "Source-backed Weapon update() leg 2 aim geometry + rotate from Weapon.java:313-315, :350-371, :373, bulletRotation :455-457."
+    },
+    "SourceWeaponsCoreState.source_weapon_update_heat_state": {
+      "status": "active",
+      "source_slice": "N2542",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update()",
+      "params": [
+        {
+          "name": "mount_heat",
+          "type": "float",
+          "schema": "source_weapon_update_heat_state_input.mount_heat"
+        },
+        {
+          "name": "source_delta",
+          "type": "float",
+          "schema": "source_weapon_update_heat_state_input.source_delta"
+        },
+        {
+          "name": "reload_multiplier",
+          "type": "float",
+          "schema": "source_weapon_update_heat_state_input.reload_multiplier"
+        },
+        {
+          "name": "cooldown_time",
+          "type": "float",
+          "schema": "source_weapon_update_heat_state_input.cooldown_time"
+        },
+        {
+          "name": "continuous",
+          "type": "bool",
+          "schema": "source_weapon_update_heat_state_input.continuous"
+        },
+        {
+          "name": "has_continuous_bullet",
+          "type": "bool",
+          "schema": "source_weapon_update_heat_state_input.has_continuous_bullet"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "heat"
+      ],
+      "tests": [
+        "test_c07_weapon_update_heat_registration",
+        "test_all_c07_weapon_update_heat_input_evidence_is_exact",
+        "test_weapon_update_heat_state",
+        "test_reference_graph_and_actual_c07_weapon_update_heat"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateHeatProof",
+      "rule": "Source-backed Weapon update() leg 3 heat decay from Weapon.java:376, :409-415."
     }
   },
   "policy": {

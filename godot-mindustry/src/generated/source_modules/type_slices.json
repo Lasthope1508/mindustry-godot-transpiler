@@ -368,6 +368,23 @@
       ],
       "runtime_proof": "/root/C07WeaponUpdateAimProof"
     },
+    "N2542": {
+      "canonical_ledger": "source_slice_ledger.N2542",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_heat_state",
+      "source_symbols": [
+        "source_weapon_update_heat_state_result.heat"
+      ],
+      "tests": [
+        "test_c07_weapon_update_heat_registration",
+        "test_all_c07_weapon_update_heat_input_evidence_is_exact",
+        "test_weapon_update_heat_state",
+        "test_reference_graph_and_actual_c07_weapon_update_heat"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateHeatProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",

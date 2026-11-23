@@ -482,6 +482,49 @@ static func source_weapon_update_aim_state(unit_x: float, unit_y: float, unit_ro
 	var out_shoot: bool = true if always_shooting else mount_shoot
 	return {"mount_x": mount_x, "mount_y": mount_y, "mount_rotation": out_rotation, "mount_target_rotation": out_target_rotation, "weapon_rotation": weapon_rotation, "bullet_x": bullet_x, "bullet_y": bullet_y, "shoot_angle": shoot_angle, "mount_shoot": out_shoot}
 
+static func source_weapon_update_heat_state(mount_heat: float, source_delta: float, reload_multiplier: float, cooldown_time: float, continuous: bool, has_continuous_bullet: bool) -> Dictionary:
+	# Weapon.update() leg 3 (Weapon.java:376, :409-415,
+	# `if(continuous && mount.bullet != null){` /
+	# `}else{` /
+	# `//heat decreases when not firing` /
+	# `mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);` /
+	# `if(mount.sound != null){` /
+	# `mount.sound.update(bulletX, bulletY, false);` /
+	# `}` /
+	# `}`).
+	# `mount_heat` is the mount heat (`/** current heat,
+	# 0 to 1*/ public float heat;`,
+	# WeaponMount.java:21-22). `source_delta` is
+	# `Time.delta` (:411); `reload_multiplier` is
+	# `unit.reloadMultiplier` (:411); `cooldown_time` is
+	# the weapon cooldown time (`/** ticks to cool down
+	# the heat region */ public float cooldownTime = 20f;`,
+	# Weapon.java:89). `continuous` is the continuous
+	# weapon flag (`public boolean continuous;`,
+	# Weapon.java:53); `has_continuous_bullet` is the
+	# `mount.bullet != null` leg of the :376 guard (the
+	# N2540 precedent: a null-check as a bool input, NOT
+	# re-ported here -- the continuous-laser leg :376-408
+	# mutates the live bullet entity and is BLOCKED as a
+	# driver leg). The `mount.sound.update(bulletX,
+	# bulletY, false)` line (:413-415) is audio -- SKIP
+	# (the N2541 activeSound skip precedent: sound is
+	# not ported in this slice).
+	# GUARD: the decay runs ONLY in the else-branch --
+	# when NOT (continuous && mount.bullet != null).
+	# When the continuous bullet is live, heat is
+	# returned unchanged (the continuous leg owns the
+	# bullet then; heat is set to 1f by shoot(),
+	# Weapon.java:525, a BLOCKED/live shoot leg, not
+	# here). The decay is clamped at 0 with Math.max
+	# (:411), so heat never goes below 0.
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# update() has no driver in the port yet, and no caller
+	# reads the new function today -> live behavior does
+	# NOT change.
+	var heat: float = mount_heat if continuous and has_continuous_bullet else maxf(mount_heat - source_delta * reload_multiplier / cooldown_time, 0.0)
+	return {"heat": heat}
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []
 	for index in mount_states.size():

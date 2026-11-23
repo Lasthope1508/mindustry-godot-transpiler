@@ -179144,6 +179144,22 @@
         "test_reference_graph_and_actual_c07_weapon_update_aim"
       ],
       "runtime_proof": "/root/C07WeaponUpdateAimProof"
+    },
+    "source_weapon_update_heat_state_result.heat": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_heat_state",
+      "godot_symbol": "source_weapon_update_heat_state_result.heat",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);",
+      "rule": "The updated mount heat (`mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);`, Weapon.java:411 -- decayed by the else-branch, clamped at 0; unchanged when continuous && bullet present).",
+      "tests": [
+        "test_c07_weapon_update_heat_registration",
+        "test_all_c07_weapon_update_heat_input_evidence_is_exact",
+        "test_weapon_update_heat_state",
+        "test_reference_graph_and_actual_c07_weapon_update_heat"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateHeatProof"
     }
   },
   "version": 1

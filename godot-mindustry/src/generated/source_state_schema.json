@@ -242350,6 +242350,94 @@
       },
       "runtime_proof": "/root/C07WeaponUpdateAimProof",
       "rule": "Source-backed Weapon update() leg 2 aim geometry + rotate from Weapon.java:313-315, :350-371, :373, bulletRotation :455-457."
+    },
+    "source_weapon_update_heat_state_input": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_update_heat_state",
+      "source_slice": "N2542",
+      "keys": {
+        "mount_heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public float heat;",
+          "rule": "The mount heat (`/** current heat, 0 to 1*/ public float heat;`, WeaponMount.java:21-22 -- the heat value decayed by the else-branch, Weapon.java:411, and returned unchanged when the continuous bullet is live).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_heat_state"
+          ]
+        },
+        "source_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "Time.delta * unit.reloadMultiplier / cooldownTime",
+          "rule": "The frame delta (`Time.delta`, Weapon.java:411 -- the decay step is `Time.delta * unit.reloadMultiplier / cooldownTime`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_heat_state"
+          ]
+        },
+        "reload_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "Time.delta * unit.reloadMultiplier / cooldownTime",
+          "rule": "The unit reload multiplier (`unit.reloadMultiplier`, Weapon.java:411 -- scales the decay step).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_heat_state"
+          ]
+        },
+        "cooldown_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float cooldownTime = 20f;",
+          "rule": "The weapon cooldown time (`/** ticks to cool down the heat region */ public float cooldownTime = 20f;`, Weapon.java:89 -- the decay divisor; passed as a param, NOT hard-coded).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_heat_state"
+          ]
+        },
+        "continuous": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean continuous;",
+          "rule": "Whether the weapon is continuous (`public boolean continuous;`, Weapon.java:53 -- the first leg of the :376 guard; when true AND a bullet is live, the else-branch does NOT run).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_heat_state"
+          ]
+        },
+        "has_continuous_bullet": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "if(continuous && mount.bullet != null){",
+          "rule": "Whether a continuous bullet is live (`mount.bullet != null`, Weapon.java:376 -- the second leg of the guard; a bool input for the null-check, the N2540 precedent).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_heat_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponUpdateHeatProof",
+      "rule": "Source-backed Weapon update() leg 3 heat decay from Weapon.java:376, :409-415."
+    },
+    "source_weapon_update_heat_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_update_heat_state",
+      "source_slice": "N2542",
+      "keys": {
+        "heat": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);",
+          "rule": "The updated mount heat (`mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0);`, Weapon.java:411 -- decayed by the else-branch, clamped at 0; unchanged when continuous && bullet present).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_heat_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponUpdateHeatProof",
+      "rule": "Source-backed Weapon update() leg 3 heat decay from Weapon.java:376, :409-415."
     }
   },
   "version": 1
