@@ -69,3 +69,25 @@ static func source_wave_spawner_player_near_state(has_spawns: bool, player_dead:
 				player_near = true
 				break
 	return {"player_near": player_near}
+
+
+static func source_wave_spawner_spawn_counts_state(ground_spawn_points: Array, flyer_spawn_points: Array) -> Dictionary:
+	# WaveSpawner.countGroundSpawns() (WaveSpawner.java:201-205) +
+	# WaveSpawner.countFlyerSpawns() (WaveSpawner.java:207-211): the 4
+	# distinct body exprs only -- `tmpCount = 0;` (:202/:208, shared),
+	# `eachGroundSpawn((x, y) -> tmpCount ++);` (:203),
+	# `eachFlyerSpawn(-1, (x, y) -> tmpCount ++);` (:209) and
+	# `return tmpCount;` (:204/:210, shared). Each Java method resets
+	# tmpCount, counts one callback invocation per enumerated spawn
+	# point, and returns the total -- so the count IS the size of the
+	# enumerated list. GD takes the two already-enumerated lists as
+	# Array inputs (option (A) data-driven, decided at spawn;
+	# precedent N2451 playerNear input instead of cross-func call)
+	# and does not enumerate them itself: eachGroundSpawn (:125-175)
+	# and eachFlyerSpawn (:176-199) are NOT ported and belong to
+	# later slices -- this slice does NOT claim the iterators are
+	# ported. The field `private int tmpCount;` (:25) is NOT ported
+	# here (field decl, no GD state needed -- count is list size).
+	# The call-sites (Logic.checkGameState / runWave) are NOT in
+	# this slice -- they belong to Logic, a later slice.
+	return {"ground_spawn_count": ground_spawn_points.size(), "flyer_spawn_count": flyer_spawn_points.size()}

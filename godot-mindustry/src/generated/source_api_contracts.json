@@ -81982,6 +81982,37 @@
       ],
       "runtime_proof": "/root/C07SpawnGroupGetShieldProof",
       "rule": "Source-backed SpawnGroup.getShield(int) state from SpawnGroup.java."
+    },
+    "SourceWaveSpawnerState.source_wave_spawner_spawn_counts_state": {
+      "status": "active",
+      "source_slice": "N2453",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "source_method": "WaveSpawner.countGroundSpawns() + WaveSpawner.countFlyerSpawns()",
+      "params": [
+        {
+          "name": "ground_spawn_points",
+          "type": "Array",
+          "schema": "source_wave_spawner_spawn_counts_state_input.ground_spawn_points"
+        },
+        {
+          "name": "flyer_spawn_points",
+          "type": "Array",
+          "schema": "source_wave_spawner_spawn_counts_state_input.flyer_spawn_points"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "ground_spawn_count",
+        "flyer_spawn_count"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_spawn_counts_registration",
+        "test_all_c07_wave_spawner_spawn_counts_input_evidence_is_exact",
+        "test_wave_spawner_spawn_counts_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_spawn_counts"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerSpawnCountsProof",
+      "rule": "Source-backed WaveSpawner.countGroundSpawns()/countFlyerSpawns() state from WaveSpawner.java."
     }
   },
   "policy": {

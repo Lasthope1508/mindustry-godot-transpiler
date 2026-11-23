@@ -189656,6 +189656,38 @@
         "test_reference_graph_and_actual_c07_spawn_group_get_shield"
       ],
       "runtime_proof": "/root/C07SpawnGroupGetShieldProof"
+    },
+    "source_wave_spawner_spawn_counts_state_result.ground_spawn_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_spawn_counts_state",
+      "godot_symbol": "source_wave_spawner_spawn_counts_state_result.ground_spawn_count",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_method": "WaveSpawner.countGroundSpawns() + WaveSpawner.countFlyerSpawns()",
+      "java_expr": "return tmpCount;",
+      "rule": "The ground spawn count (WaveSpawner.java:204, `return tmpCount;`): the number of ground spawn points, i.e. the size of the enumerated ground list.",
+      "tests": [
+        "test_c07_wave_spawner_spawn_counts_registration",
+        "test_all_c07_wave_spawner_spawn_counts_input_evidence_is_exact",
+        "test_wave_spawner_spawn_counts_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_spawn_counts"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerSpawnCountsProof"
+    },
+    "source_wave_spawner_spawn_counts_state_result.flyer_spawn_count": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_spawn_counts_state",
+      "godot_symbol": "source_wave_spawner_spawn_counts_state_result.flyer_spawn_count",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_method": "WaveSpawner.countGroundSpawns() + WaveSpawner.countFlyerSpawns()",
+      "java_expr": "return tmpCount;",
+      "rule": "The flyer spawn count (WaveSpawner.java:210, `return tmpCount;`): the number of flyer spawn points, i.e. the size of the enumerated flyer list.",
+      "tests": [
+        "test_c07_wave_spawner_spawn_counts_registration",
+        "test_all_c07_wave_spawner_spawn_counts_input_evidence_is_exact",
+        "test_wave_spawner_spawn_counts_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_spawn_counts"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerSpawnCountsProof"
     }
   },
   "version": 1

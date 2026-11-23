@@ -121847,6 +121847,36 @@
         "Java `Math.max(float, int 0)` becomes GD `maxf(..., 0.0)` -- the 0 literal is 0.0 in GD because maxf takes floats; the clamp value is identical.",
         "SpawnGroup.getShield(int) Windows Godot proof -- debt in GOAL.md section 5: the N2452 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2453": {
+      "status": "done",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_class": "mindustry.ai.WaveSpawner",
+      "java_method": "WaveSpawner.countGroundSpawns() + WaveSpawner.countFlyerSpawns()",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_spawn_counts_state",
+      "exact_exprs": [
+        "tmpCount = 0;",
+        "eachGroundSpawn((x, y) -> tmpCount ++);",
+        "eachFlyerSpawn(-1, (x, y) -> tmpCount ++);",
+        "return tmpCount;"
+      ],
+      "source_symbols": [
+        "source_wave_spawner_spawn_counts_state_result.flyer_spawn_count",
+        "source_wave_spawner_spawn_counts_state_result.ground_spawn_count"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_spawn_counts_registration",
+        "test_all_c07_wave_spawner_spawn_counts_input_evidence_is_exact",
+        "test_wave_spawner_spawn_counts_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_spawn_counts"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerSpawnCountsProof",
+      "deferred_exprs": [
+        "WaveSpawner.eachGroundSpawn(int, SpawnConsumer) (WaveSpawner.java:125-175) + eachFlyerSpawn(int, Floatc2) (WaveSpawner.java:176-199) -- the iterators that enumerate the spawn points are NOT ported here; this slice only counts already-enumerated lists (option (A) data-driven), and the enumeration belongs to later eachGroundSpawn/eachFlyerSpawn slices.",
+        "The field `private int tmpCount;` (WaveSpawner.java:25) -- NOT registered here (field decl, no GD state needed -- count is list size).",
+        "The Logic call-sites of countGroundSpawns()/countFlyerSpawns() (checkGameState / runWave) -- not in this slice; they belong to Logic, a later slice.",
+        "WaveSpawner.countGroundSpawns()/countFlyerSpawns() Windows Godot proof -- debt in GOAL.md section 5: the N2453 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

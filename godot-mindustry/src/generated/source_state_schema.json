@@ -263296,6 +263296,64 @@
       },
       "runtime_proof": "/root/C07SpawnGroupGetShieldProof",
       "rule": "Source-backed SpawnGroup.getShield(int) state from SpawnGroup.java."
+    },
+    "source_wave_spawner_spawn_counts_state_input": {
+      "status": "active",
+      "owner": "SourceWaveSpawnerState.source_wave_spawner_spawn_counts_state",
+      "source_slice": "N2453",
+      "keys": {
+        "ground_spawn_points": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "eachGroundSpawn((x, y) -> tmpCount ++);",
+          "rule": "The already-enumerated ground spawn points (WaveSpawner.java:203, `eachGroundSpawn((x, y) -> tmpCount ++);`): the (x, y) pairs the iterator would pass to the counting callback; GD takes them as an Array input and counts them by size, never calling eachGroundSpawn itself (option (A) data-driven).",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_spawn_counts_state"
+          ]
+        },
+        "flyer_spawn_points": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "eachFlyerSpawn(-1, (x, y) -> tmpCount ++);",
+          "rule": "The already-enumerated flyer spawn points (WaveSpawner.java:209, `eachFlyerSpawn(-1, (x, y) -> tmpCount ++);`): the (x, y) pairs the iterator would pass to the counting callback; GD takes them as an Array input and counts them by size, never calling eachFlyerSpawn itself (option (A) data-driven).",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_spawn_counts_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WaveSpawnerSpawnCountsProof",
+      "rule": "Source-backed WaveSpawner.countGroundSpawns()/countFlyerSpawns() state from WaveSpawner.java."
+    },
+    "source_wave_spawner_spawn_counts_state_result": {
+      "status": "active",
+      "owner": "SourceWaveSpawnerState.source_wave_spawner_spawn_counts_state",
+      "source_slice": "N2453",
+      "keys": {
+        "ground_spawn_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "return tmpCount;",
+          "rule": "The ground spawn count (WaveSpawner.java:204, `return tmpCount;`): the number of ground spawn points, i.e. the size of the enumerated ground list.",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_spawn_counts_state"
+          ]
+        },
+        "flyer_spawn_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "return tmpCount;",
+          "rule": "The flyer spawn count (WaveSpawner.java:210, `return tmpCount;`): the number of flyer spawn points, i.e. the size of the enumerated flyer list.",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_spawn_counts_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WaveSpawnerSpawnCountsProof",
+      "rule": "Source-backed WaveSpawner.countGroundSpawns()/countFlyerSpawns() state from WaveSpawner.java."
     }
   },
   "version": 1
