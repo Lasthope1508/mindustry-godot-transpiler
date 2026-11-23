@@ -78403,6 +78403,46 @@
       ],
       "runtime_proof": "/root/C07SpawnGroupCanSpawnProof",
       "rule": "Source-backed SpawnGroup.canSpawn(int) state from SpawnGroup.java."
+    },
+    "SourceGameLoopRuntimeState.source_game_loop_has_spawns_state": {
+      "status": "active",
+      "source_slice": "N2448",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "source_method": "GameState.hasSpawns()",
+      "params": [
+        {
+          "name": "waves",
+          "type": "bool",
+          "schema": "source_game_loop_has_spawns_state_input.waves"
+        },
+        {
+          "name": "wave_team_core_count",
+          "type": "int",
+          "schema": "source_game_loop_has_spawns_state_input.wave_team_core_count"
+        },
+        {
+          "name": "attack_mode",
+          "type": "bool",
+          "schema": "source_game_loop_has_spawns_state_input.attack_mode"
+        },
+        {
+          "name": "spawn_group_count",
+          "type": "int",
+          "schema": "source_game_loop_has_spawns_state_input.spawn_group_count"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "has_spawns"
+      ],
+      "tests": [
+        "test_c07_game_loop_has_spawns_registration",
+        "test_all_c07_game_loop_has_spawns_input_evidence_is_exact",
+        "test_game_loop_has_spawns_state",
+        "test_reference_graph_and_actual_c07_game_loop_has_spawns"
+      ],
+      "runtime_proof": "/root/C07GameLoopHasSpawnsProof",
+      "rule": "Source-backed GameState.hasSpawns() state from GameState.java."
     }
   },
   "policy": {

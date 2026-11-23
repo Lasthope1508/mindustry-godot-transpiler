@@ -104766,6 +104766,31 @@
         "The `spawn` field writes -- SpawnGroup.read()/write() serialization and editor/mod assignment of `spawn` -- are later slices; canSpawn only reads the frame input.",
         "SpawnGroup.canSpawn(int) Windows Godot proof -- debt in GOAL.md section 5: the N2447 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2448": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_class": "mindustry.core.GameState",
+      "java_method": "GameState.hasSpawns()",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_has_spawns_state",
+      "exact_exprs": [
+        "return rules.waves && ((rules.waveTeam.cores().size > 0 && rules.attackMode) || rules.spawns.size > 0);"
+      ],
+      "source_symbols": [
+        "source_game_loop_has_spawns_state_result.has_spawns"
+      ],
+      "tests": [
+        "test_c07_game_loop_has_spawns_registration",
+        "test_all_c07_game_loop_has_spawns_input_evidence_is_exact",
+        "test_game_loop_has_spawns_state",
+        "test_reference_graph_and_actual_c07_game_loop_has_spawns"
+      ],
+      "runtime_proof": "/root/C07GameLoopHasSpawnsProof",
+      "deferred_exprs": [
+        "The hasSpawns() call-sites -- WaveSpawner.playerNear (WaveSpawner.java:59) + eachGroundSpawn (:126), UnitComp (:772), MinimapRenderer (:298), OverlayRenderer (:203) -- are not in this slice; they belong to their own methods.",
+        "Team.cores() (GameState.java:69, `rules.waveTeam.cores()`) is not ported here; GD takes the wave-team core count as a frame input. Team.cores() is a batch 42 candidate (batch 41 scope \u00a74c).",
+        "GameState.hasSpawns() Windows Godot proof -- debt in GOAL.md section 5: the N2448 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

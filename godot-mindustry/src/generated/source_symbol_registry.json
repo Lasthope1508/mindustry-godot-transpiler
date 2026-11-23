@@ -186248,6 +186248,22 @@
         "test_reference_graph_and_actual_c07_spawn_group_can_spawn"
       ],
       "runtime_proof": "/root/C07SpawnGroupCanSpawnProof"
+    },
+    "source_game_loop_has_spawns_state_result.has_spawns": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_has_spawns_state",
+      "godot_symbol": "source_game_loop_has_spawns_state_result.has_spawns",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.hasSpawns()",
+      "java_expr": "return rules.waves && ((rules.waveTeam.cores().size > 0 && rules.attackMode) || rules.spawns.size > 0);",
+      "rule": "Whether this map has a spawn point for a wave (GameState.java:69, the full return line): waves on AND (wave team has a core in attack mode OR there are spawn groups).",
+      "tests": [
+        "test_c07_game_loop_has_spawns_registration",
+        "test_all_c07_game_loop_has_spawns_input_evidence_is_exact",
+        "test_game_loop_has_spawns_state",
+        "test_reference_graph_and_actual_c07_game_loop_has_spawns"
+      ],
+      "runtime_proof": "/root/C07GameLoopHasSpawnsProof"
     }
   },
   "version": 1

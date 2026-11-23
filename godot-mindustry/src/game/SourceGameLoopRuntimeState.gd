@@ -97,6 +97,26 @@ static func source_game_loop_check_overlapping_plans_state(team_data: Dictionary
 			result["kept_plans"].append(entry)
 	return result
 
+static func source_game_loop_has_spawns_state(waves: bool, wave_team_core_count: int, attack_mode: bool, spawn_group_count: int) -> Dictionary:
+	# GameState.hasSpawns() (GameState.java:68-70) — whether the
+	# map has a spawn point for a wave:
+	# return rules.waves && ((rules.waveTeam.cores().size > 0 && rules.attackMode) || rules.spawns.size > 0);
+	# Pure predicate over the frame inputs; `rules` is the
+	# GameState input param, not an owned schema.
+	# `rules.waveTeam.cores()` arrives as the frame input
+	# wave_team_core_count (the count, not the cores() call --
+	# Team.cores() is a later slice) and `rules.spawns` as
+	# spawn_group_count. The call-sites (WaveSpawner.playerNear
+	# :59 + eachGroundSpawn :126, UnitComp :772,
+	# MinimapRenderer :298, OverlayRenderer :203) belong to
+	# their own methods, not this one.
+	var result := {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_GAME_LOOP_HAS_SPAWNS_STATE,
+		"has_spawns": false,
+	}
+	result["has_spawns"] = waves and ((wave_team_core_count > 0 and attack_mode) or spawn_group_count > 0)
+	return result
+
 static func ready(game: Object) -> void:
 	# Vars.headless (Vars.java:208-209) via DisplayServer
 	# (decision 2026-11-17 ~12:56, Option 1): a headless display

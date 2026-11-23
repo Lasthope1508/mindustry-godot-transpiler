@@ -255938,6 +255938,74 @@
       },
       "runtime_proof": "/root/C07SpawnGroupCanSpawnProof",
       "rule": "Source-backed SpawnGroup.canSpawn(int) state from SpawnGroup.java."
+    },
+    "source_game_loop_has_spawns_state_input": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_has_spawns_state",
+      "source_slice": "N2448",
+      "keys": {
+        "waves": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "rules.waves",
+          "rule": "Whether waves are enabled (GameState.java:69, `rules.waves`): the first conjunct of hasSpawns(); `rules` is the GameState input param, not an owned schema.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_has_spawns_state"
+          ]
+        },
+        "wave_team_core_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "rules.waveTeam.cores().size > 0",
+          "rule": "How many cores the wave team still has (GameState.java:69, `rules.waveTeam.cores().size > 0`): the count arrives as a frame input; Team.cores() itself is a later slice.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_has_spawns_state"
+          ]
+        },
+        "attack_mode": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "rules.attackMode",
+          "rule": "Whether the rules are in attack mode (GameState.java:69, `rules.attackMode`): gates the wave-team-core leg of hasSpawns().",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_has_spawns_state"
+          ]
+        },
+        "spawn_group_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "rules.spawns.size > 0",
+          "rule": "How many spawn groups the rules still have (GameState.java:69, `rules.spawns.size > 0`): the count arrives as a frame input.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_has_spawns_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameLoopHasSpawnsProof",
+      "rule": "Source-backed GameState.hasSpawns() state from GameState.java."
+    },
+    "source_game_loop_has_spawns_state_result": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_has_spawns_state",
+      "source_slice": "N2448",
+      "keys": {
+        "has_spawns": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return rules.waves && ((rules.waveTeam.cores().size > 0 && rules.attackMode) || rules.spawns.size > 0);",
+          "rule": "Whether this map has a spawn point for a wave (GameState.java:69, the full return line): waves on AND (wave team has a core in attack mode OR there are spawn groups).",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_has_spawns_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameLoopHasSpawnsProof",
+      "rule": "Source-backed GameState.hasSpawns() state from GameState.java."
     }
   },
   "version": 1
