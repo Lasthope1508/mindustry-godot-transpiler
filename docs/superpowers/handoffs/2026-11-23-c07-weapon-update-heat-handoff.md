@@ -1,6 +1,6 @@
-# Handoff — N2542 Weapon.update() leg 3 (C07) [DONE + PUSHED (slice 8cc2ccc5, docs TBD, GOAL TBD, status TBD)]
+# Handoff — N2542 Weapon.update() leg 3 (C07) [DONE + PUSHED (slice 8cc2ccc5, docs 19c050fb, GOAL f0e85631)]
 
-## Status: DONE + PUSHED (lượt cron 08:45 +07 ngày 2026-11-23; slice 8cc2ccc5, docs TBD, GOAL TBD, status TBD; push xong mới ghi origin/main ở đây sau khi push)
+## Status: DONE + PUSHED (lượt cron 08:45 +07 ngày 2026-11-23; slice 8cc2ccc5, docs 19c050fb, GOAL f0e85631; push xong mới ghi origin/main ở đây sau khi push)
 
 - N2541 DONE + PUSHED ~07:15 +07 ngày 2026-11-23, origin/main == 6d09d677
   (5 commit: slice fcd53003 + docs 83bb2389 + GOAL e220cb2f + status f92a10f1 + hashes 6d09d677).

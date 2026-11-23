@@ -5,7 +5,7 @@ Ngày: 2026-11-23 ~08:45 +07 (targeted re-run xác minh lượt đóng slice 17.
 ## Trạng thái
 
 - N2541 DONE + PUSHED (origin/main 6d09d677).
-- N2542 DONE + PUSHED (slice 8cc2ccc5, docs TBD, GOAL TBD, status TBD): port `Weapon.update()` leg 3 — heat decay (Weapon.java:376, :409-415) — thành 1 pure function mới `source_weapon_update_heat_state` (SourceWeaponsCoreState.gd:485 + delegate SourceWeaponsState.gd:197-198, Weapon.java:376, :409-415) cho Weapon family — KHÔNG driver tick (update() chưa có driver trong port). Hàm nhận 6 tham số và trả đúng 1 key `heat`.
+- N2542 DONE + PUSHED (slice 8cc2ccc5, docs 19c050fb, GOAL f0e85631): port `Weapon.update()` leg 3 — heat decay (Weapon.java:376, :409-415) — thành 1 pure function mới `source_weapon_update_heat_state` (SourceWeaponsCoreState.gd:485 + delegate SourceWeaponsState.gd:197-198, Weapon.java:376, :409-415) cho Weapon family — KHÔNG driver tick (update() chưa có driver trong port). Hàm nhận 6 tham số và trả đúng 1 key `heat`.
 
 ## Làm được lượt này (GREEN + gate xong)
 
