@@ -25,3 +25,17 @@ static func source_wave_spawner_is_spawning_state(spawning: bool, is_client: boo
 	# The checkGameState() call-site `spawner.isSpawning();` (:369) is NOT
 	# in this slice -- it belongs to checkGameState, a later slice.
 	return {"spawning": spawning and not is_client}
+
+
+static func source_wave_spawner_get_spawns_state(spawns: Array) -> Dictionary:
+	# WaveSpawner.getSpawns() (WaveSpawner.java:53-55): the 1 body expr
+	# only -- `return spawns;` (:54). `spawns` is the WaveSpawner field
+	# `private Seq<Tile> spawns = new Seq<>(false);`
+	# (WaveSpawner.java:26), populated by reset() (:217-227, a later
+	# slice) from the world-tiles scan; GD takes it as an Array input
+	# and does not recompute it from the world (precedent N2442
+	# countSpawns, same field; N2123/N2297 micro-accessors). The
+	# consumers (BaseBuilderAI :164/:193, Pathfinder :139/:585) call
+	# `spawner.getSpawns()` -- NOT in this slice; they belong to
+	# BaseBuilderAI/Pathfinder, outside the C07 VM line.
+	return {"spawns": spawns}

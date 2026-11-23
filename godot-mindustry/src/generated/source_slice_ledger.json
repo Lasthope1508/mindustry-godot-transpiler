@@ -104716,6 +104716,31 @@
         "The live read of Block.underBullets (Block.java:118, declared without initializer, Java boolean default false) is a later slice: this slice takes under_bullets as an input, it never resolves the block field itself.",
         "The other Turret field decls (Turret.java:46-:108 except the 10 registered here) are later slices, not this one."
       ]
+    },
+    "N2446": {
+      "status": "done",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_class": "mindustry.ai.WaveSpawner",
+      "java_method": "WaveSpawner.getSpawns()",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_get_spawns_state",
+      "exact_exprs": [
+        "return spawns;"
+      ],
+      "source_symbols": [
+        "source_wave_spawner_get_spawns_state_result.spawns"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_get_spawns_registration",
+        "test_all_c07_wave_spawner_get_spawns_input_evidence_is_exact",
+        "test_wave_spawner_get_spawns_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_get_spawns"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerGetSpawnsProof",
+      "deferred_exprs": [
+        "WaveSpawner.reset() (WaveSpawner.java:217-227) -- populates the `spawns` field from the world-tiles scan; a later slice. getSpawns only returns the frame input.",
+        "The getSpawns() consumers -- BaseBuilderAI :164/:193 and Pathfinder :139/:585 call `spawner.getSpawns()` -- not in this slice; they belong to BaseBuilderAI/Pathfinder, outside the C07 VM line.",
+        "WaveSpawner.getSpawns() Windows Godot proof -- debt in GOAL.md section 5: the N2446 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

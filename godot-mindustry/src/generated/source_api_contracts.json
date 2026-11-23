@@ -78348,6 +78348,31 @@
       ],
       "runtime_proof": "/root/C07TurretTargetingDefaultsProof",
       "rule": "Source-backed Turret targeting/shoot field defaults state from Turret.java."
+    },
+    "SourceWaveSpawnerState.source_wave_spawner_get_spawns_state": {
+      "status": "active",
+      "source_slice": "N2446",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "source_method": "WaveSpawner.getSpawns()",
+      "params": [
+        {
+          "name": "spawns",
+          "type": "Array",
+          "schema": "source_wave_spawner_get_spawns_state_input.spawns"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "spawns"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_get_spawns_registration",
+        "test_all_c07_wave_spawner_get_spawns_input_evidence_is_exact",
+        "test_wave_spawner_get_spawns_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_get_spawns"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerGetSpawnsProof",
+      "rule": "Source-backed WaveSpawner.getSpawns() state from WaveSpawner.java."
     }
   },
   "policy": {

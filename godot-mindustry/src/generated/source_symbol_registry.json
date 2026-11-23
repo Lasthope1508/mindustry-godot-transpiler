@@ -186216,6 +186216,22 @@
         "test_reference_graph_and_actual_c07_turret_targeting_defaults"
       ],
       "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
+    "source_wave_spawner_get_spawns_state_result.spawns": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_get_spawns_state",
+      "godot_symbol": "source_wave_spawner_get_spawns_state_result.spawns",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_method": "WaveSpawner.getSpawns()",
+      "java_expr": "return spawns;",
+      "rule": "The spawn tiles (WaveSpawner.java:54, `return spawns;`): getSpawns returns the spawns sequence as-is.",
+      "tests": [
+        "test_c07_wave_spawner_get_spawns_registration",
+        "test_all_c07_wave_spawner_get_spawns_input_evidence_is_exact",
+        "test_wave_spawner_get_spawns_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_get_spawns"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerGetSpawnsProof"
     }
   },
   "version": 1
