@@ -2985,6 +2985,37 @@
       "rule": "Source-backed Weapon draw() read from Weapon.java:214-286.",
       "return_type": "Dictionary"
     },
+    "SourceWeaponsCoreState.source_weapon_init_state": {
+      "canonical_contract": "source_api_contracts.SourceWeaponsCoreState.source_weapon_init_state",
+      "status": "active",
+      "source_slice": "N2544",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.init()",
+      "params": [
+        {
+          "name": "always_continuous",
+          "type": "bool",
+          "schema": "source_weapon_init_state_input.always_continuous"
+        },
+        {
+          "name": "continuous",
+          "type": "bool",
+          "schema": "source_weapon_init_state_input.continuous"
+        }
+      ],
+      "return_keys": [
+        "continuous"
+      ],
+      "tests": [
+        "test_c07_weapon_init_registration",
+        "test_all_c07_weapon_init_input_evidence_is_exact",
+        "test_weapon_init_state",
+        "test_reference_graph_and_actual_c07_weapon_init"
+      ],
+      "runtime_proof": "/root/C07WeaponInitProof",
+      "rule": "Source-backed Weapon init() from Weapon.java:561-566.",
+      "return_type": "Dictionary"
+    },
     "SourceWeaponsCoreState.source_weapon_range_state": {
       "canonical_contract": "source_api_contracts.SourceWeaponsCoreState.source_weapon_range_state",
       "status": "active",

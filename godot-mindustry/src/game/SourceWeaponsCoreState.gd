@@ -585,6 +585,34 @@ static func source_weapon_update_side_flip_state(other_side: int, alternate: boo
 	var out_other_side: bool = (not other_mount_side) if flips else other_mount_side
 	return {"mount_side": out_mount_side, "other_side_side": out_other_side, "was_flipped": mount_side}
 
+static func source_weapon_init_state(always_continuous: bool, continuous: bool) -> Dictionary:
+	# Weapon.init() (Weapon.java:561-566,
+	# `@CallSuper` /
+	# `public void init(){` /
+	# `if(alwaysContinuous){` /
+	# `continuous = true;` /
+	# `}`).
+	# `always_continuous` is the always-continuous flag
+	# (`/** whether this weapon uses continuous fire
+	# without reloading; implies continuous = true */
+	# public boolean alwaysContinuous;`, Weapon.java:55).
+	# `continuous` is the current hold-bullet flag (`/**
+	# whether to hold the bullet in place while firing; it
+	# will still require reload. */ public boolean
+	# continuous;`, Weapon.java:53) -- a separate param
+	# because the pure function returns the field's new
+	# value without mutating live state (the N2540
+	# precedent: a count / null-check is an input).
+	# Only set when `alwaysContinuous` is true; otherwise
+	# the current `continuous` value is kept unchanged
+	# (including when it is already true).
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# init() has no driver in the port yet, and no caller
+	# reads the new function today -> live behavior does
+	# NOT change.
+	var out_continuous: bool = true if always_continuous else continuous
+	return {"continuous": out_continuous}
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []
 	for index in mount_states.size():

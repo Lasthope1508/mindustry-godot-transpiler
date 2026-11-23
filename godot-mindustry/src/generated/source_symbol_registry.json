@@ -179208,6 +179208,22 @@
         "test_reference_graph_and_actual_c07_weapon_update_side_flip"
       ],
       "runtime_proof": "/root/C07WeaponUpdateSideFlipProof"
+    },
+    "source_weapon_init_state_result.continuous": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_init_state",
+      "godot_symbol": "source_weapon_init_state_result.continuous",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.init()",
+      "java_expr": "continuous = true;",
+      "rule": "The hold-bullet flag after init() (`continuous = true;`, Weapon.java:564 -- set when `alwaysContinuous` is true, otherwise the input value is returned unchanged).",
+      "tests": [
+        "test_c07_weapon_init_registration",
+        "test_all_c07_weapon_init_input_evidence_is_exact",
+        "test_weapon_init_state",
+        "test_reference_graph_and_actual_c07_weapon_init"
+      ],
+      "runtime_proof": "/root/C07WeaponInitProof"
     }
   },
   "version": 1

@@ -404,6 +404,23 @@
       ],
       "runtime_proof": "/root/C07WeaponUpdateSideFlipProof"
     },
+    "N2544": {
+      "canonical_ledger": "source_slice_ledger.N2544",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.init()",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_init_state",
+      "source_symbols": [
+        "source_weapon_init_state_result.continuous"
+      ],
+      "tests": [
+        "test_c07_weapon_init_registration",
+        "test_all_c07_weapon_init_input_evidence_is_exact",
+        "test_weapon_init_state",
+        "test_reference_graph_and_actual_c07_weapon_init"
+      ],
+      "runtime_proof": "/root/C07WeaponInitProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",

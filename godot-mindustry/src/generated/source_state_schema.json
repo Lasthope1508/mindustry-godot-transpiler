@@ -242576,6 +242576,54 @@
       },
       "runtime_proof": "/root/C07WeaponUpdateSideFlipProof",
       "rule": "Source-backed Weapon update() leg 4 side-flip from Weapon.java:418-423."
+    },
+    "source_weapon_init_state_input": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_init_state",
+      "source_slice": "N2544",
+      "keys": {
+        "always_continuous": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean alwaysContinuous;",
+          "rule": "Whether this weapon uses continuous fire without reloading (`/** whether this weapon uses continuous fire without reloading; implies continuous = true */ public boolean alwaysContinuous;`, Weapon.java:55 -- the guard of the init() body, :563 `if(alwaysContinuous){`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_init_state"
+          ]
+        },
+        "continuous": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean continuous;",
+          "rule": "The current hold-bullet flag (`/** whether to hold the bullet in place while firing; it will still require reload. */ public boolean continuous;`, Weapon.java:53 -- kept unchanged when `alwaysContinuous` is false; a separate param because the pure function returns the field's new value without mutating live state, the N2540 precedent).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponInitProof",
+      "rule": "Source-backed Weapon init() from Weapon.java:561-566."
+    },
+    "source_weapon_init_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_init_state",
+      "source_slice": "N2544",
+      "keys": {
+        "continuous": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "continuous = true;",
+          "rule": "The hold-bullet flag after init() (`continuous = true;`, Weapon.java:564 -- set when `alwaysContinuous` is true, otherwise the input value is returned unchanged).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_init_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponInitProof",
+      "rule": "Source-backed Weapon init() from Weapon.java:561-566."
     }
   },
   "version": 1
