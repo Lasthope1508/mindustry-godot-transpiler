@@ -525,6 +525,66 @@ static func source_weapon_update_heat_state(mount_heat: float, source_delta: flo
 	var heat: float = mount_heat if continuous and has_continuous_bullet else maxf(mount_heat - source_delta * reload_multiplier / cooldown_time, 0.0)
 	return {"heat": heat}
 
+static func source_weapon_update_side_flip_state(other_side: int, alternate: bool, mount_side: bool, flip_sprite: bool, other_mount_side: bool, mounts_count: int, mount_reload: float, weapon_reload: float, last_reload: float) -> Dictionary:
+	# Weapon.update() leg 4 (Weapon.java:418-423,
+	# `//flip weapon shoot side for alternating weapons` /
+	# `boolean wasFlipped = mount.side;` /
+	# `if(otherSide >= 0 && alternate && mount.side == flipSprite && otherSide < unit.mounts.length && mount.reload <= reload / 2f && lastReload > reload / 2f){` /
+	# `unit.mounts[otherSide].side = !unit.mounts[otherSide].side;` /
+	# `mount.side = !mount.side;` /
+	# `}`).
+	# `other_side` is the mirror mount index (`/** internal
+	# value used for alternation - do not change! */
+	# public int otherSide = -1;`, Weapon.java:125).
+	# `alternate` is the alternation flag (`/** whether to
+	# shoot the weapons in different arms one after another,
+	# rather than all at once; only valid when mirror = true
+	# */ public boolean alternate = true;`, Weapon.java:43).
+	# `mount_side` is this mount's side (`/** extra state
+	# for alternating weapons */ public boolean side;`,
+	# WeaponMount.java:40). `flip_sprite` is the weapon
+	# sprite-flip flag (`/** whether to flip the weapon's
+	# sprite when rendering. internal use only - do not set!
+	# */ public boolean flipSprite = false;`,
+	# Weapon.java:41). `other_mount_side` is the opposite
+	# mount's current side (`unit.mounts[otherSide].side`,
+	# :421) -- a separate param because the pure function
+	# does not read the live mounts array (the N2540
+	# precedent: a count / null-check is an input).
+	# `mounts_count` is `unit.mounts.length` (:420).
+	# `mount_reload` is the mount reload AFTER the leg 1
+	# decay (N2540, Weapon.java:295). `weapon_reload` is
+	# the weapon reload (`/** weapon reload in frames */
+	# public float reload = 1;`, Weapon.java:75).
+	# `last_reload` is the pre-decay reload (`float
+	# lastReload = mount.reload;`, Weapon.java:294) -- a
+	# separate frame input, because leg 1 only returns the
+	# post-decay reload (the trap already noted in the
+	# N2541 scope doc).
+	# GUARD: all six conjuncts must hold, in Java order --
+	# `otherSide >= 0`, `alternate`, `mount.side ==
+	# flipSprite`, `otherSide < unit.mounts.length`,
+	# `mount.reload <= reload / 2f`, `lastReload > reload /
+	# 2f`. Note the asymmetry: reload uses `<=` (exactly
+	# half still flips) while lastReload uses strict `>`
+	# (exactly half does NOT flip). `was_flipped` is
+	# `mount.side` BEFORE the flip (:419) -- returned
+	# unchanged when the guard fails, and read by the shoot
+	# gate :435 (`(!alternate || wasFlipped == flipSprite)`)
+	# in a later slice, not here.
+	# MIRROR INVARIANT: `otherSide` points at the mirrored
+	# mount, never at this mount itself -- the two sides are
+	# distinct inputs and both flip together when the guard
+	# passes; when it fails, both are returned unchanged.
+	# LIVE CONSEQUENCE: DORMANT live today.
+	# update() has no driver in the port yet, and no caller
+	# reads the new function today -> live behavior does
+	# NOT change.
+	var flips: bool = other_side >= 0 and alternate and mount_side == flip_sprite and other_side < mounts_count and mount_reload <= weapon_reload / 2.0 and last_reload > weapon_reload / 2.0
+	var out_mount_side: bool = (not mount_side) if flips else mount_side
+	var out_other_side: bool = (not other_mount_side) if flips else other_mount_side
+	return {"mount_side": out_mount_side, "other_side_side": out_other_side, "was_flipped": mount_side}
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	var mounts: Array = []
 	for index in mount_states.size():

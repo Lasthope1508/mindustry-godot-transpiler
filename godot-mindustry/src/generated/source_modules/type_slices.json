@@ -385,6 +385,25 @@
       ],
       "runtime_proof": "/root/C07WeaponUpdateHeatProof"
     },
+    "N2543": {
+      "canonical_ledger": "source_slice_ledger.N2543",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_side_flip_state",
+      "source_symbols": [
+        "source_weapon_update_side_flip_state_result.mount_side",
+        "source_weapon_update_side_flip_state_result.other_side_side",
+        "source_weapon_update_side_flip_state_result.was_flipped"
+      ],
+      "tests": [
+        "test_c07_weapon_update_side_flip_registration",
+        "test_all_c07_weapon_update_side_flip_input_evidence_is_exact",
+        "test_weapon_update_side_flip_state",
+        "test_reference_graph_and_actual_c07_weapon_update_side_flip"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateSideFlipProof"
+    },
     "N779": {
       "canonical_ledger": "source_slice_ledger.N779",
       "status": "done",

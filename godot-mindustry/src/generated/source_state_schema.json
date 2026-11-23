@@ -242438,6 +242438,144 @@
       },
       "runtime_proof": "/root/C07WeaponUpdateHeatProof",
       "rule": "Source-backed Weapon update() leg 3 heat decay from Weapon.java:376, :409-415."
+    },
+    "source_weapon_update_side_flip_state_input": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_update_side_flip_state",
+      "source_slice": "N2543",
+      "keys": {
+        "other_side": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public int otherSide = -1;",
+          "rule": "The mirror mount index (`/** internal value used for alternation - do not change! */ public int otherSide = -1;`, Weapon.java:125 -- the first conjunct of the :420 guard is `otherSide >= 0`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        },
+        "alternate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean alternate = true;",
+          "rule": "Whether the weapon alternates arms (`/** whether to shoot the weapons in different arms one after another, rather than all at once; only valid when mirror = true */ public boolean alternate = true;`, Weapon.java:43 -- the second conjunct of the :420 guard).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        },
+        "mount_side": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/units/WeaponMount.java",
+          "java_expr": "public boolean side;",
+          "rule": "This mount's side (`/** extra state for alternating weapons */ public boolean side;`, WeaponMount.java:40 -- the third conjunct compares it to `flipSprite`, and it is flipped by :422 when the guard passes).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        },
+        "flip_sprite": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public boolean flipSprite = false;",
+          "rule": "Whether to flip the weapon's sprite when rendering (`/** whether to flip the weapon's sprite when rendering. internal use only - do not set! */ public boolean flipSprite = false;`, Weapon.java:41 -- the third conjunct of the :420 guard is `mount.side == flipSprite`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        },
+        "other_mount_side": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;",
+          "rule": "The opposite mount's current side (`unit.mounts[otherSide].side`, Weapon.java:421 -- flipped by :421 when the guard passes; a separate param because the pure function does not read the live mounts array, the N2540 precedent).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        },
+        "mounts_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "otherSide < unit.mounts.length",
+          "rule": "The number of mounts on the unit (`unit.mounts.length`, Weapon.java:420 -- the fourth conjunct of the guard is `otherSide < unit.mounts.length`).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        },
+        "mount_reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.reload <= reload / 2f",
+          "rule": "The mount reload AFTER the leg 1 decay (`mount.reload <= reload / 2f`, Weapon.java:420 -- the fifth conjunct; the post-decay reload returned by leg 1, N2540, Weapon.java:295).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        },
+        "weapon_reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "public float reload = 1;",
+          "rule": "The weapon reload (`/** weapon reload in frames */ public float reload = 1;`, Weapon.java:75 -- the half-reload threshold `reload / 2f` in the fifth and sixth conjuncts of the :420 guard).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        },
+        "last_reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "float lastReload = mount.reload;",
+          "rule": "The pre-decay reload (`float lastReload = mount.reload;`, Weapon.java:294 -- the sixth conjunct is `lastReload > reload / 2f`, strict; a separate frame input because leg 1 only returns the post-decay reload).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponUpdateSideFlipProof",
+      "rule": "Source-backed Weapon update() leg 4 side-flip from Weapon.java:418-423."
+    },
+    "source_weapon_update_side_flip_state_result": {
+      "status": "active",
+      "owner": "SourceWeaponsCoreState.source_weapon_update_side_flip_state",
+      "source_slice": "N2543",
+      "keys": {
+        "mount_side": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "mount.side = !mount.side;",
+          "rule": "This mount's side after the leg (`mount.side = !mount.side;`, Weapon.java:422 -- flipped when the guard passes, unchanged otherwise).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        },
+        "other_side_side": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;",
+          "rule": "The opposite mount's side after the leg (`unit.mounts[otherSide].side = !unit.mounts[otherSide].side;`, Weapon.java:421 -- flipped when the guard passes, unchanged otherwise).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        },
+        "was_flipped": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Weapon.java",
+          "java_expr": "boolean wasFlipped = mount.side;",
+          "rule": "This mount's side BEFORE the flip (`boolean wasFlipped = mount.side;`, Weapon.java:419 -- returned unchanged when the guard fails; read by the shoot gate :435 in a later slice, not here).",
+          "used_by": [
+            "SourceWeaponsCoreState.source_weapon_update_side_flip_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WeaponUpdateSideFlipProof",
+      "rule": "Source-backed Weapon update() leg 4 side-flip from Weapon.java:418-423."
     }
   },
   "version": 1

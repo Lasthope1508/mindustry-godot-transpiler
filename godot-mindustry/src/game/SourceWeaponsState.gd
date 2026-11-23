@@ -197,6 +197,9 @@ static func source_weapon_update_aim_state(unit_x: float, unit_y: float, unit_ro
 static func source_weapon_update_heat_state(mount_heat: float, source_delta: float, reload_multiplier: float, cooldown_time: float, continuous: bool, has_continuous_bullet: bool) -> Dictionary:
 	return source_weapons_core_state.source_weapon_update_heat_state(mount_heat, source_delta, reload_multiplier, cooldown_time, continuous, has_continuous_bullet)
 
+static func source_weapon_update_side_flip_state(other_side: int, alternate: bool, mount_side: bool, flip_sprite: bool, other_mount_side: bool, mounts_count: int, mount_reload: float, weapon_reload: float, last_reload: float) -> Dictionary:
+	return source_weapons_core_state.source_weapon_update_side_flip_state(other_side, alternate, mount_side, flip_sprite, other_mount_side, mounts_count, mount_reload, weapon_reload, last_reload)
+
 static func set_rotation_state(mount_states: Array, source_rotation: float) -> Dictionary:
 	return source_weapons_core_state.set_rotation_state(mount_states, source_rotation)
 

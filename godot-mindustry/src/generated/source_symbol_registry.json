@@ -179160,6 +179160,54 @@
         "test_reference_graph_and_actual_c07_weapon_update_heat"
       ],
       "runtime_proof": "/root/C07WeaponUpdateHeatProof"
+    },
+    "source_weapon_update_side_flip_state_result.mount_side": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_side_flip_state",
+      "godot_symbol": "source_weapon_update_side_flip_state_result.mount_side",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "mount.side = !mount.side;",
+      "rule": "This mount's side after the leg (`mount.side = !mount.side;`, Weapon.java:422 -- flipped when the guard passes, unchanged otherwise).",
+      "tests": [
+        "test_c07_weapon_update_side_flip_registration",
+        "test_all_c07_weapon_update_side_flip_input_evidence_is_exact",
+        "test_weapon_update_side_flip_state",
+        "test_reference_graph_and_actual_c07_weapon_update_side_flip"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateSideFlipProof"
+    },
+    "source_weapon_update_side_flip_state_result.other_side_side": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_side_flip_state",
+      "godot_symbol": "source_weapon_update_side_flip_state_result.other_side_side",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "unit.mounts[otherSide].side = !unit.mounts[otherSide].side;",
+      "rule": "The opposite mount's side after the leg (`unit.mounts[otherSide].side = !unit.mounts[otherSide].side;`, Weapon.java:421 -- flipped when the guard passes, unchanged otherwise).",
+      "tests": [
+        "test_c07_weapon_update_side_flip_registration",
+        "test_all_c07_weapon_update_side_flip_input_evidence_is_exact",
+        "test_weapon_update_side_flip_state",
+        "test_reference_graph_and_actual_c07_weapon_update_side_flip"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateSideFlipProof"
+    },
+    "source_weapon_update_side_flip_state_result.was_flipped": {
+      "status": "source-backed",
+      "godot_owner": "SourceWeaponsCoreState.source_weapon_update_side_flip_state",
+      "godot_symbol": "source_weapon_update_side_flip_state_result.was_flipped",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update()",
+      "java_expr": "boolean wasFlipped = mount.side;",
+      "rule": "This mount's side BEFORE the flip (`boolean wasFlipped = mount.side;`, Weapon.java:419 -- returned unchanged when the guard fails; read by the shoot gate :435 in a later slice, not here).",
+      "tests": [
+        "test_c07_weapon_update_side_flip_registration",
+        "test_all_c07_weapon_update_side_flip_input_evidence_is_exact",
+        "test_weapon_update_side_flip_state",
+        "test_reference_graph_and_actual_c07_weapon_update_side_flip"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateSideFlipProof"
     }
   },
   "version": 1

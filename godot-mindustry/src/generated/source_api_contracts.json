@@ -72116,6 +72116,73 @@
       ],
       "runtime_proof": "/root/C07WeaponUpdateHeatProof",
       "rule": "Source-backed Weapon update() leg 3 heat decay from Weapon.java:376, :409-415."
+    },
+    "SourceWeaponsCoreState.source_weapon_update_side_flip_state": {
+      "status": "active",
+      "source_slice": "N2543",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update()",
+      "params": [
+        {
+          "name": "other_side",
+          "type": "int",
+          "schema": "source_weapon_update_side_flip_state_input.other_side"
+        },
+        {
+          "name": "alternate",
+          "type": "bool",
+          "schema": "source_weapon_update_side_flip_state_input.alternate"
+        },
+        {
+          "name": "mount_side",
+          "type": "bool",
+          "schema": "source_weapon_update_side_flip_state_input.mount_side"
+        },
+        {
+          "name": "flip_sprite",
+          "type": "bool",
+          "schema": "source_weapon_update_side_flip_state_input.flip_sprite"
+        },
+        {
+          "name": "other_mount_side",
+          "type": "bool",
+          "schema": "source_weapon_update_side_flip_state_input.other_mount_side"
+        },
+        {
+          "name": "mounts_count",
+          "type": "int",
+          "schema": "source_weapon_update_side_flip_state_input.mounts_count"
+        },
+        {
+          "name": "mount_reload",
+          "type": "float",
+          "schema": "source_weapon_update_side_flip_state_input.mount_reload"
+        },
+        {
+          "name": "weapon_reload",
+          "type": "float",
+          "schema": "source_weapon_update_side_flip_state_input.weapon_reload"
+        },
+        {
+          "name": "last_reload",
+          "type": "float",
+          "schema": "source_weapon_update_side_flip_state_input.last_reload"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "mount_side",
+        "other_side_side",
+        "was_flipped"
+      ],
+      "tests": [
+        "test_c07_weapon_update_side_flip_registration",
+        "test_all_c07_weapon_update_side_flip_input_evidence_is_exact",
+        "test_weapon_update_side_flip_state",
+        "test_reference_graph_and_actual_c07_weapon_update_side_flip"
+      ],
+      "runtime_proof": "/root/C07WeaponUpdateSideFlipProof",
+      "rule": "Source-backed Weapon update() leg 4 side-flip from Weapon.java:418-423."
     }
   },
   "policy": {
