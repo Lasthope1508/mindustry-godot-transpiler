@@ -1,4 +1,4 @@
-# Handoff — N2543 Weapon.update() leg 4 (C07) [DONE + PUSHED (slice 364af040, docs b5a01fa3, GOAL abac5890)]
+# Handoff — N2543 Weapon.update() leg 4 (C07) [DONE + PUSHED (slice 364af040, docs b5a01fa3, GOAL abac5890, status 4c54504e)]
 
 ## Status: DONE + PUSHED (lượt cron 10:00 +07 ngày 2026-11-23; slice 364af040, docs b5a01fa3, GOAL abac5890; push xong mới ghi origin/main ở đây sau khi push)
 
