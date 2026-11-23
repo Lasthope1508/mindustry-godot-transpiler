@@ -81942,6 +81942,46 @@
       ],
       "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof",
       "rule": "Source-backed SpawnGroup.getSpawned(int) state from SpawnGroup.java."
+    },
+    "SourceWaveSpawnRuntimeState.source_spawn_group_get_shield_state": {
+      "status": "active",
+      "source_slice": "N2452",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "source_method": "SpawnGroup.getShield(int)",
+      "params": [
+        {
+          "name": "shields",
+          "type": "float",
+          "schema": "source_spawn_group_get_shield_state_input.shields"
+        },
+        {
+          "name": "shield_scaling",
+          "type": "float",
+          "schema": "source_spawn_group_get_shield_state_input.shield_scaling"
+        },
+        {
+          "name": "wave",
+          "type": "int",
+          "schema": "source_spawn_group_get_shield_state_input.wave"
+        },
+        {
+          "name": "begin",
+          "type": "int",
+          "schema": "source_spawn_group_get_shield_state_input.begin"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "shield"
+      ],
+      "tests": [
+        "test_c07_spawn_group_get_shield_registration",
+        "test_all_c07_spawn_group_get_shield_input_evidence_is_exact",
+        "test_spawn_group_get_shield_state",
+        "test_reference_graph_and_actual_c07_spawn_group_get_shield"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupGetShieldProof",
+      "rule": "Source-backed SpawnGroup.getShield(int) state from SpawnGroup.java."
     }
   },
   "policy": {

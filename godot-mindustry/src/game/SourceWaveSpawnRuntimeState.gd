@@ -48,6 +48,20 @@ static func spawned_for_wave_state(group: Dictionary, wave_zero: int) -> Diction
 static func source_spawn_group_get_spawned_state(group: Dictionary, wave_zero: int) -> Dictionary:
 	return spawned_for_wave_state(group, wave_zero)
 
+# SpawnGroup.getShield(int) (N2452).
+# SpawnGroup.getShield(int wave) (SpawnGroup.java:76-78): `return
+# Math.max(shields + shieldScaling*(wave - begin), 0);` (:77).
+# Unlike getSpawned (N2449, registration-only), this formula was
+# NOT live in GD (grep `-i shield` in this file: 0-hit; grep
+# `get_shield|getShield` in all of src/game/: 0-hit), so this slice
+# writes the GD func new. Java `Math.max(float, int 0)` becomes GD
+# `maxf(..., 0.0)` (maxf, not maxi, because the left side is a
+# float; wave - begin may be negative -- the clamp to 0 is correct
+# in that case too). Pure formula, no side effect; precedent
+# N2123/N2297 micro-accessors.
+static func source_spawn_group_get_shield_state(shields: float, shield_scaling: float, wave: int, begin: int) -> Dictionary:
+	return {"shield": maxf(shields + shield_scaling * float(wave - begin), 0.0)}
+
 static func wave_spawn_state(groups: Array, wave_index: int, fallback_unit_id: String) -> Dictionary:
 	var wave_zero: int = wave_index - 1
 	var spawned_groups: Array = []

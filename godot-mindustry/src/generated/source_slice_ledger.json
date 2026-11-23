@@ -121822,6 +121822,31 @@
         "The live reads feeding the frame inputs -- state.hasSpawns() (source_game_loop_has_spawns_state), player.dead(), player.team(), state.rules.dropZoneRadius / state.rules.waveTeam -- are later slices; playerNear only reads the frame inputs.",
         "WaveSpawner.playerNear() Windows Godot proof -- debt in GOAL.md section 5: the N2451 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2452": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_class": "mindustry.game.SpawnGroup",
+      "java_method": "SpawnGroup.getShield(int)",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_get_shield_state",
+      "exact_exprs": [
+        "return Math.max(shields + shieldScaling*(wave - begin), 0);"
+      ],
+      "source_symbols": [
+        "source_spawn_group_get_shield_state_result.shield"
+      ],
+      "tests": [
+        "test_c07_spawn_group_get_shield_registration",
+        "test_all_c07_spawn_group_get_shield_input_evidence_is_exact",
+        "test_spawn_group_get_shield_state",
+        "test_reference_graph_and_actual_c07_spawn_group_get_shield"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupGetShieldProof",
+      "deferred_exprs": [
+        "The createUnit() call-site `unit.shield = getShield(wave);` (SpawnGroup.java:92) belongs to the createUnit slice, not this one; this slice ports only the getShield formula.",
+        "Java `Math.max(float, int 0)` becomes GD `maxf(..., 0.0)` -- the 0 literal is 0.0 in GD because maxf takes floats; the clamp value is identical.",
+        "SpawnGroup.getShield(int) Windows Godot proof -- debt in GOAL.md section 5: the N2452 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

@@ -189640,6 +189640,22 @@
         "test_reference_graph_and_actual_c07_spawn_group_get_spawned"
       ],
       "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof"
+    },
+    "source_spawn_group_get_shield_state_result.shield": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_get_shield_state",
+      "godot_symbol": "source_spawn_group_get_shield_state_result.shield",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.getShield(int)",
+      "java_expr": "return Math.max(shields + shieldScaling*(wave - begin), 0);",
+      "rule": "How much shield each unit has on this wave (SpawnGroup.java:77, the full return line): shields + shieldScaling * (wave - begin), clamped at 0; wave - begin may be negative, so the clamp also covers waves before begin.",
+      "tests": [
+        "test_c07_spawn_group_get_shield_registration",
+        "test_all_c07_spawn_group_get_shield_input_evidence_is_exact",
+        "test_spawn_group_get_shield_state",
+        "test_reference_graph_and_actual_c07_spawn_group_get_shield"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupGetShieldProof"
     }
   },
   "version": 1

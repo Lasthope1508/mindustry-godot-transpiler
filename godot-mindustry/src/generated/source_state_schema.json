@@ -263228,6 +263228,74 @@
       },
       "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof",
       "rule": "Source-backed SpawnGroup.getSpawned(int) state from SpawnGroup.java."
+    },
+    "source_spawn_group_get_shield_state_input": {
+      "status": "active",
+      "owner": "SourceWaveSpawnRuntimeState.source_spawn_group_get_shield_state",
+      "source_slice": "N2452",
+      "keys": {
+        "shields": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "public float shields = 0f;",
+          "rule": "The base shield points each unit has (SpawnGroup.java:38, `public float shields = 0f;`): GD takes it as a float input, never reads the field.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_spawn_group_get_shield_state"
+          ]
+        },
+        "shield_scaling": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "public float shieldScaling = 0f;",
+          "rule": "How much shields get increased by per wave (SpawnGroup.java:40, `public float shieldScaling = 0f;`): GD takes it as a float input.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_spawn_group_get_shield_state"
+          ]
+        },
+        "wave": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "public float getShield(int wave){",
+          "rule": "The wave argument (SpawnGroup.java:76, `public float getShield(int wave){`): GD names it wave, the wave whose shield is computed.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_spawn_group_get_shield_state"
+          ]
+        },
+        "begin": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "public int begin;",
+          "rule": "When this spawn should start (SpawnGroup.java:30, `public int begin;`): the wave the scaling counts from -- GD takes it as an int input.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_spawn_group_get_shield_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SpawnGroupGetShieldProof",
+      "rule": "Source-backed SpawnGroup.getShield(int) state from SpawnGroup.java."
+    },
+    "source_spawn_group_get_shield_state_result": {
+      "status": "active",
+      "owner": "SourceWaveSpawnRuntimeState.source_spawn_group_get_shield_state",
+      "source_slice": "N2452",
+      "keys": {
+        "shield": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "return Math.max(shields + shieldScaling*(wave - begin), 0);",
+          "rule": "How much shield each unit has on this wave (SpawnGroup.java:77, the full return line): shields + shieldScaling * (wave - begin), clamped at 0; wave - begin may be negative, so the clamp also covers waves before begin.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_spawn_group_get_shield_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SpawnGroupGetShieldProof",
+      "rule": "Source-backed SpawnGroup.getShield(int) state from SpawnGroup.java."
     }
   },
   "version": 1
