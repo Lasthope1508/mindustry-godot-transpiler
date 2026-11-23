@@ -263354,6 +263354,174 @@
       },
       "runtime_proof": "/root/C07WaveSpawnerSpawnCountsProof",
       "rule": "Source-backed WaveSpawner.countGroundSpawns()/countFlyerSpawns() state from WaveSpawner.java."
+    },
+    "source_game_loop_state_accessors_state_input": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "source_slice": "N2454",
+      "keys": {
+        "state_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "state == State.playing",
+          "rule": "The current game state as a name (GameState.java:99, `state == State.playing;`): `state` is a private Java field (GameState.java:53), so it arrives as a String (\"paused\"/\"playing\"/\"menu\", the State enum GameState.java:119-121) instead of being read live.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "astate_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return state == astate;",
+          "rule": "The state to compare against, as a name (GameState.java:112, `return state == astate;`): the `astate` param of is(State), in the same String form as state_name.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "rules_sector": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return rules.sector;",
+          "rule": "The rules sector, or null (GameState.java:82, `return rules.sector;`): `rules` is the GameState input param, not an owned schema; the sector arrives as an opaque ref (a Dictionary carrying \"planet\" in the proof).",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "rules_planet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return rules.sector != null ? rules.sector.planet : rules.planet;",
+          "rule": "The fallback planet when there is no sector (GameState.java:86, `return rules.sector != null ? rules.sector.planet : rules.planet;`): rules.planet, used by getPlanet() only when rules_sector is null.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "rules_editor": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return rules.editor;",
+          "rule": "Whether the rules are in editor mode (GameState.java:90, `return rules.editor;`): the rules.editor flag arrives as a frame input.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "bosses": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return teams.bosses.firstOpt();",
+          "rule": "The boss units (GameState.java:57, `return teams.bosses.firstOpt();`): teams.bosses arrives as an Array; firstOpt() is the first element, or null when empty -- no cross-call to Teams.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof",
+      "rule": "Source-backed GameState 9 accessors state from GameState.java."
+    },
+    "source_game_loop_state_accessors_state_result": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "source_slice": "N2454",
+      "keys": {
+        "boss": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return teams.bosses.firstOpt();",
+          "rule": "The first boss unit, or null (GameState.java:57, `return teams.bosses.firstOpt();`): bosses[0] when the Array is non-empty, else null.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "sector": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return rules.sector;",
+          "rule": "The rules sector, or null (GameState.java:82, `return rules.sector;`): rules_sector passed through as-is.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "planet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return rules.sector != null ? rules.sector.planet : rules.planet;",
+          "rule": "The planet of the current sector, or rules.planet (GameState.java:86, `return rules.sector != null ? rules.sector.planet : rules.planet;`): sector.planet when rules_sector is non-null, else rules_planet.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "is_editor": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return rules.editor;",
+          "rule": "Whether the rules are in editor mode (GameState.java:90, `return rules.editor;`): rules_editor passed through.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "is_playing": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return state == State.playing;",
+          "rule": "Whether there is an unpaused game in progress (GameState.java:99, `return state == State.playing;`): state_name == \"playing\".",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "is_game": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return state != State.menu;",
+          "rule": "Whether the current state is not the menu (GameState.java:104, `return state != State.menu;`): state_name != \"menu\".",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "is_menu": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return state == State.menu;",
+          "rule": "Whether the current state is the menu (GameState.java:108, `return state == State.menu;`): state_name == \"menu\".",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "is_state": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return state == astate;",
+          "rule": "Whether the current state equals the given state (GameState.java:112, `return state == astate;`): state_name == astate_name.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        },
+        "state": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "return state;",
+          "rule": "The current game state as a name (GameState.java:116, `return state;`): state_name passed through as-is.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof",
+      "rule": "Source-backed GameState 9 accessors state from GameState.java."
     }
   },
   "version": 1

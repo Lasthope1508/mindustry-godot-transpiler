@@ -121877,6 +121877,49 @@
         "The Logic call-sites of countGroundSpawns()/countFlyerSpawns() (checkGameState / runWave) -- not in this slice; they belong to Logic, a later slice.",
         "WaveSpawner.countGroundSpawns()/countFlyerSpawns() Windows Godot proof -- debt in GOAL.md section 5: the N2453 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2454": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_class": "mindustry.core.GameState",
+      "java_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "exact_exprs": [
+        "return teams.bosses.firstOpt();",
+        "return rules.sector;",
+        "return rules.sector != null ? rules.sector.planet : rules.planet;",
+        "return rules.editor;",
+        "return state == State.playing;",
+        "return state != State.menu;",
+        "return state == State.menu;",
+        "return state == astate;",
+        "return state;"
+      ],
+      "source_symbols": [
+        "source_game_loop_state_accessors_state_result.boss",
+        "source_game_loop_state_accessors_state_result.sector",
+        "source_game_loop_state_accessors_state_result.planet",
+        "source_game_loop_state_accessors_state_result.is_editor",
+        "source_game_loop_state_accessors_state_result.is_playing",
+        "source_game_loop_state_accessors_state_result.is_game",
+        "source_game_loop_state_accessors_state_result.is_menu",
+        "source_game_loop_state_accessors_state_result.is_state",
+        "source_game_loop_state_accessors_state_result.state"
+      ],
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof",
+      "deferred_exprs": [
+        "GameState.isPaused() (GameState.java:93-95) is NOT in this slice: its only body expr `return state == State.paused;` is the exact_expr of N2123.",
+        "GameState.isCampaign() (GameState.java:73-75) + hasSector() (GameState.java:77-79) are NOT in this slice: both share the literal `return rules.sector != null;` already owned by N2124 (twin-register only when main thread approves it explicitly).",
+        "GameState.set(State) (GameState.java:60-66) is NOT in this slice: `:64` Events.fire(new StateChangeEvent(state, astate)); needs the event-bus decision (batch 37 scope section 4a); `:62` guard + `:65` assign are setter-mutate legs for batch 44+.",
+        "GameState.hasSpawns() (GameState.java:68-70) is NOT in this slice: N2448 owns it.",
+        "GameState 9 accessors Windows Godot proof -- debt in GOAL.md section 5: the N2454 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

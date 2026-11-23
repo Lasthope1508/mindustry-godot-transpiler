@@ -82013,6 +82013,64 @@
       ],
       "runtime_proof": "/root/C07WaveSpawnerSpawnCountsProof",
       "rule": "Source-backed WaveSpawner.countGroundSpawns()/countFlyerSpawns() state from WaveSpawner.java."
+    },
+    "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state": {
+      "status": "active",
+      "source_slice": "N2454",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "source_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "params": [
+        {
+          "name": "state_name",
+          "type": "String",
+          "schema": "source_game_loop_state_accessors_state_input.state_name"
+        },
+        {
+          "name": "astate_name",
+          "type": "String",
+          "schema": "source_game_loop_state_accessors_state_input.astate_name"
+        },
+        {
+          "name": "rules_sector",
+          "type": "Variant",
+          "schema": "source_game_loop_state_accessors_state_input.rules_sector"
+        },
+        {
+          "name": "rules_planet",
+          "type": "Variant",
+          "schema": "source_game_loop_state_accessors_state_input.rules_planet"
+        },
+        {
+          "name": "rules_editor",
+          "type": "bool",
+          "schema": "source_game_loop_state_accessors_state_input.rules_editor"
+        },
+        {
+          "name": "bosses",
+          "type": "Array",
+          "schema": "source_game_loop_state_accessors_state_input.bosses"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "boss",
+        "sector",
+        "planet",
+        "is_editor",
+        "is_playing",
+        "is_game",
+        "is_menu",
+        "is_state",
+        "state"
+      ],
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof",
+      "rule": "Source-backed GameState 9 accessors state from GameState.java."
     }
   },
   "policy": {

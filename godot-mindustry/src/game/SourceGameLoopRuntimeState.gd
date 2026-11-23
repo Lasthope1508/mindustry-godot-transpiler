@@ -117,6 +117,58 @@ static func source_game_loop_has_spawns_state(waves: bool, wave_team_core_count:
 	result["has_spawns"] = waves and ((wave_team_core_count > 0 and attack_mode) or spawn_group_count > 0)
 	return result
 
+# GameState 9 accessors (GameState.java:56-117) — boss() :56-58,
+# getSector() :81-83, getPlanet() :85-87, isEditor() :89-91,
+# isPlaying() :98-100, isGame() :103-105, isMenu() :107-109,
+# is(State) :111-113, getState() :115-117:
+# return teams.bosses.firstOpt();
+# return rules.sector;
+# return rules.sector != null ? rules.sector.planet : rules.planet;
+# return rules.editor;
+# return state == State.playing;
+# return state != State.menu;
+# return state == State.menu;
+# return state == astate;
+# return state;
+# Pure accessors over the frame inputs. `state` is a private Java
+# field, so it arrives as state_name ("paused"/"playing"/"menu",
+# GameState.java:119-121); `rules` arrives as its fields
+# (rules_sector / rules_planet / rules_editor); `teams.bosses`
+# arrives as the bosses Array -- firstOpt() is null when the
+# bosses seq is empty. getPlanet() reads sector.planet when
+# there is a sector, else rules.planet. isPaused() :93-95 is
+# NOT here -- N2123 owns it. isCampaign() :73-75 / hasSector()
+# :77-79 share the literal `return rules.sector != null;`
+# already owned by N2124 -- NOT registered here. set(State)
+# :60-66 waits for the event-bus decision (batch 43 scope §3).
+static func source_game_loop_state_accessors_state(state_name: String, astate_name: String, rules_sector: Variant, rules_planet: Variant, rules_editor: bool, bosses: Array) -> Dictionary:
+	var result := {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_GAME_LOOP_STATE_ACCESSORS_STATE,
+		"boss": null,
+		"sector": null,
+		"planet": null,
+		"is_editor": false,
+		"is_playing": false,
+		"is_game": false,
+		"is_menu": false,
+		"is_state": false,
+		"state": "",
+	}
+	if bosses.size() > 0:
+		result["boss"] = bosses[0]
+	result["sector"] = rules_sector
+	if rules_sector != null:
+		result["planet"] = rules_sector.get("planet")
+	else:
+		result["planet"] = rules_planet
+	result["is_editor"] = rules_editor
+	result["is_playing"] = state_name == "playing"
+	result["is_game"] = state_name != "menu"
+	result["is_menu"] = state_name == "menu"
+	result["is_state"] = state_name == astate_name
+	result["state"] = state_name
+	return result
+
 static func ready(game: Object) -> void:
 	# Vars.headless (Vars.java:208-209) via DisplayServer
 	# (decision 2026-11-17 ~12:56, Option 1): a headless display

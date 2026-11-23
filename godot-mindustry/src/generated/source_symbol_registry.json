@@ -189688,6 +189688,150 @@
         "test_reference_graph_and_actual_c07_wave_spawner_spawn_counts"
       ],
       "runtime_proof": "/root/C07WaveSpawnerSpawnCountsProof"
+    },
+    "source_game_loop_state_accessors_state_result.boss": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "godot_symbol": "source_game_loop_state_accessors_state_result.boss",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "java_expr": "return teams.bosses.firstOpt();",
+      "rule": "The first boss unit, or null (GameState.java:57, `return teams.bosses.firstOpt();`): bosses[0] when the Array is non-empty, else null.",
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof"
+    },
+    "source_game_loop_state_accessors_state_result.sector": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "godot_symbol": "source_game_loop_state_accessors_state_result.sector",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "java_expr": "return rules.sector;",
+      "rule": "The rules sector, or null (GameState.java:82, `return rules.sector;`): rules_sector passed through as-is.",
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof"
+    },
+    "source_game_loop_state_accessors_state_result.planet": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "godot_symbol": "source_game_loop_state_accessors_state_result.planet",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "java_expr": "return rules.sector != null ? rules.sector.planet : rules.planet;",
+      "rule": "The planet of the current sector, or rules.planet (GameState.java:86, `return rules.sector != null ? rules.sector.planet : rules.planet;`): sector.planet when rules_sector is non-null, else rules_planet.",
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof"
+    },
+    "source_game_loop_state_accessors_state_result.is_editor": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "godot_symbol": "source_game_loop_state_accessors_state_result.is_editor",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "java_expr": "return rules.editor;",
+      "rule": "Whether the rules are in editor mode (GameState.java:90, `return rules.editor;`): rules_editor passed through.",
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof"
+    },
+    "source_game_loop_state_accessors_state_result.is_playing": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "godot_symbol": "source_game_loop_state_accessors_state_result.is_playing",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "java_expr": "return state == State.playing;",
+      "rule": "Whether there is an unpaused game in progress (GameState.java:99, `return state == State.playing;`): state_name == \"playing\".",
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof"
+    },
+    "source_game_loop_state_accessors_state_result.is_game": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "godot_symbol": "source_game_loop_state_accessors_state_result.is_game",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "java_expr": "return state != State.menu;",
+      "rule": "Whether the current state is not the menu (GameState.java:104, `return state != State.menu;`): state_name != \"menu\".",
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof"
+    },
+    "source_game_loop_state_accessors_state_result.is_menu": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "godot_symbol": "source_game_loop_state_accessors_state_result.is_menu",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "java_expr": "return state == State.menu;",
+      "rule": "Whether the current state is the menu (GameState.java:108, `return state == State.menu;`): state_name == \"menu\".",
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof"
+    },
+    "source_game_loop_state_accessors_state_result.is_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "godot_symbol": "source_game_loop_state_accessors_state_result.is_state",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "java_expr": "return state == astate;",
+      "rule": "Whether the current state equals the given state (GameState.java:112, `return state == astate;`): state_name == astate_name.",
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof"
+    },
+    "source_game_loop_state_accessors_state_result.state": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_loop_state_accessors_state",
+      "godot_symbol": "source_game_loop_state_accessors_state_result.state",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.boss()/getSector()/getPlanet()/isEditor()/isPlaying()/isGame()/isMenu()/is(State)/getState()",
+      "java_expr": "return state;",
+      "rule": "The current game state as a name (GameState.java:116, `return state;`): state_name passed through as-is.",
+      "tests": [
+        "test_c07_game_loop_state_accessors_registration",
+        "test_all_c07_game_loop_state_accessors_input_evidence_is_exact",
+        "test_game_loop_state_accessors_state",
+        "test_reference_graph_and_actual_c07_game_loop_state_accessors"
+      ],
+      "runtime_proof": "/root/C07GameLoopStateAccessorsProof"
     }
   },
   "version": 1
