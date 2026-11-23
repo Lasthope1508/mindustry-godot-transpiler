@@ -4758,6 +4758,32 @@
       ],
       "runtime_proof": "/root/C07TurretShootBulletShakeProof"
     },
+    "N2445": {
+      "canonical_ledger": "source_slice_ledger.N2445",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "source_symbols": [
+        "source_turret_targeting_defaults_state_result.target_interval",
+        "source_turret_targeting_defaults_state_result.new_target_interval",
+        "source_turret_targeting_defaults_state_result.reload_while_charging",
+        "source_turret_targeting_defaults_state_result.target_air",
+        "source_turret_targeting_defaults_state_result.target_ground",
+        "source_turret_targeting_defaults_state_result.target_blocks",
+        "source_turret_targeting_defaults_state_result.display_ammo_multiplier",
+        "source_turret_targeting_defaults_state_result.target_under_blocks",
+        "source_turret_targeting_defaults_state_result.unit_filter",
+        "source_turret_targeting_defaults_state_result.building_filter"
+      ],
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
     "N713": {
       "canonical_ledger": "source_slice_ledger.N713",
       "status": "done",

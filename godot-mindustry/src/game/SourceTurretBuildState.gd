@@ -1808,3 +1808,32 @@ static func source_turret_shoot_bullet_legs_state(frame: Dictionary, delay: floa
 	# wired are recorded in the returned Dictionary).
 	var shake_effect: Dictionary = {"intensity": shake, "duration": shake, "x": x, "y": y} if shake_applies else {}
 	return {"barrel": barrel, "delayed": delay > 0.0, "ammo_use_effect_x": effect_x, "ammo_use_effect_y": effect_y, "ammo_use_effect_rotation": effect_rotation, "shake_applies": shake_applies, "shake_effect": shake_effect}
+
+static func source_turret_targeting_defaults_state(target_under_blocks: bool = true, under_bullets: bool = false) -> Dictionary:
+	# Turret targeting/shoot field defaults (Turret.java:42,
+	# :44, :82, :89, :91, :93, :99, :101, :109, :111) -- the
+	# decls belong to no method, so this func is their home
+	# (N2445, field-decl-only slice, N2440 precedent). The
+	# values are the Java field initializers, quoted verbatim
+	# below (one expr per comment line, N2378 precedent).
+	# `public float targetInterval = 20;`
+	# `public float newTargetInterval = -1f;`
+	# `public boolean reloadWhileCharging = true;`
+	# `public boolean targetAir = true;`
+	# `public boolean targetGround = true;`
+	# `public boolean targetBlocks = true;`
+	# `public boolean displayAmmoMultiplier = true;`
+	# `public boolean targetUnderBlocks = true;`
+	# `public Boolf<Unit> unitFilter = u -> true;`
+	# `public Boolf<Building> buildingFilter = b -> targetUnderBlocks || !b.block.underBullets;`
+	# The two Boolf lambdas are data, not Callables: unitFilter
+	# is `u -> true` (always true), and buildingFilter is the
+	# `targetUnderBlocks || !b.block.underBullets` predicate
+	# computed from the two inputs -- target_under_blocks is
+	# this slice's :101 default (echoed as both input default
+	# and returned key), under_bullets is the per-building
+	# Block.underBullets value (Block.java:118, declared
+	# without initializer, Java boolean default false; its
+	# live read is a later slice).
+	var building_filter: bool = target_under_blocks or not under_bullets
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TURRET_TARGETING_DEFAULTS_STATE, "target_interval": 20.0, "new_target_interval": -1.0, "reload_while_charging": true, "target_air": true, "target_ground": true, "target_blocks": true, "display_ammo_multiplier": true, "target_under_blocks": target_under_blocks, "unit_filter": true, "building_filter": building_filter}

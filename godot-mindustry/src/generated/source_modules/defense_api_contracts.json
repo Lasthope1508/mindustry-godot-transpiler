@@ -10785,6 +10785,46 @@
       "rule": "Source-backed TurretBuild.status() state from Turret.java + BaseTurret.java + BuildingComp.java + BlockStatus.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_turret_targeting_defaults_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "status": "active",
+      "source_slice": "N2445",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "Turret field declarations",
+      "params": [
+        {
+          "name": "target_under_blocks",
+          "type": "bool",
+          "schema": "source_turret_targeting_defaults_state_input.target_under_blocks"
+        },
+        {
+          "name": "under_bullets",
+          "type": "bool",
+          "schema": "source_turret_targeting_defaults_state_input.under_bullets"
+        }
+      ],
+      "return_keys": [
+        "target_interval",
+        "new_target_interval",
+        "reload_while_charging",
+        "target_air",
+        "target_ground",
+        "target_blocks",
+        "display_ammo_multiplier",
+        "target_under_blocks",
+        "unit_filter",
+        "building_filter"
+      ],
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof",
+      "rule": "Source-backed Turret targeting/shoot field defaults state from Turret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_turret_tick_buildings_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_turret_tick_buildings_state",
       "status": "active",

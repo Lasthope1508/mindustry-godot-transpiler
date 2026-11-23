@@ -255714,6 +255714,144 @@
       },
       "runtime_proof": "/root/C07WaveSpawnerIsSpawningProof",
       "rule": "Source-backed WaveSpawner.isSpawning() state from WaveSpawner.java."
+    },
+    "source_turret_targeting_defaults_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "source_slice": "N2445",
+      "keys": {
+        "target_under_blocks": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean targetUnderBlocks = true;",
+          "rule": "Whether under blocks like conveyors are targeted (Turret.java:101, `public boolean targetUnderBlocks = true;`): this slice's :101 default -- echoed as both the input default and the returned key; the buildingFilter operand.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        },
+        "under_bullets": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean underBullets;",
+          "rule": "Whether the candidate building's block is under bullets (Block.java:118, `public boolean underBullets;`): declared without initializer, Java boolean default false; read as-is from the input, the negated buildingFilter operand -- its live read is a later slice.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof",
+      "rule": "Source-backed Turret targeting/shoot field defaults state from Turret.java."
+    },
+    "source_turret_targeting_defaults_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "source_slice": "N2445",
+      "keys": {
+        "target_interval": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float targetInterval = 20;",
+          "rule": "Ticks between attempts at finding a target (Turret.java:42, `public float targetInterval = 20;`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        },
+        "new_target_interval": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public float newTargetInterval = -1f;",
+          "rule": "Target interval for when this turret already has a valid target; -1 means targetInterval (Turret.java:44, `public float newTargetInterval = -1f;`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        },
+        "reload_while_charging": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean reloadWhileCharging = true;",
+          "rule": "Whether this turret can reload while charging (Turret.java:82, `public boolean reloadWhileCharging = true;`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        },
+        "target_air": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean targetAir = true;",
+          "rule": "Whether this block targets air units (Turret.java:89, `public boolean targetAir = true;`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        },
+        "target_ground": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean targetGround = true;",
+          "rule": "Whether this block targets ground units and structures (Turret.java:91, `public boolean targetGround = true;`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        },
+        "target_blocks": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean targetBlocks = true;",
+          "rule": "Whether this block targets blocks (Turret.java:93, `public boolean targetBlocks = true;`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        },
+        "display_ammo_multiplier": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean displayAmmoMultiplier = true;",
+          "rule": "Whether this block displays ammo multipliers in its stats (Turret.java:99, `public boolean displayAmmoMultiplier = true;`).",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        },
+        "target_under_blocks": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public boolean targetUnderBlocks = true;",
+          "rule": "Whether under blocks like conveyors are targeted (Turret.java:101, `public boolean targetUnderBlocks = true;`): the returned default, echoing the input.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        },
+        "unit_filter": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Boolf<Unit> unitFilter = u -> true;",
+          "rule": "Filter for types of units to attack (Turret.java:109, `public Boolf<Unit> unitFilter = u -> true;`): GDScript has no Java Boolf, so the lambda is data -- always true.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        },
+        "building_filter": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "java_expr": "public Boolf<Building> buildingFilter = b -> targetUnderBlocks || !b.block.underBullets;",
+          "rule": "Filter for types of buildings to attack (Turret.java:111, `public Boolf<Building> buildingFilter = b -> targetUnderBlocks || !b.block.underBullets;`): GDScript has no Java Boolf, so the predicate is computed from the inputs as `target_under_blocks || !under_bullets`.",
+          "used_by": [
+            "SourceTurretBuildState.source_turret_targeting_defaults_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof",
+      "rule": "Source-backed Turret targeting/shoot field defaults state from Turret.java."
     }
   },
   "version": 1

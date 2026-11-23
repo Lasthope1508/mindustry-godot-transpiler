@@ -78309,6 +78309,45 @@
       ],
       "runtime_proof": "/root/C07WaveSpawnerIsSpawningProof",
       "rule": "Source-backed WaveSpawner.isSpawning() state from WaveSpawner.java."
+    },
+    "SourceTurretBuildState.source_turret_targeting_defaults_state": {
+      "status": "active",
+      "source_slice": "N2445",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "Turret field declarations",
+      "params": [
+        {
+          "name": "target_under_blocks",
+          "type": "bool",
+          "schema": "source_turret_targeting_defaults_state_input.target_under_blocks"
+        },
+        {
+          "name": "under_bullets",
+          "type": "bool",
+          "schema": "source_turret_targeting_defaults_state_input.under_bullets"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "target_interval",
+        "new_target_interval",
+        "reload_while_charging",
+        "target_air",
+        "target_ground",
+        "target_blocks",
+        "display_ammo_multiplier",
+        "target_under_blocks",
+        "unit_filter",
+        "building_filter"
+      ],
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof",
+      "rule": "Source-backed Turret targeting/shoot field defaults state from Turret.java."
     }
   },
   "policy": {

@@ -104672,6 +104672,50 @@
         "The live writes to the `spawning` field -- spawnEnemies() sets it true (WaveSpawner.java:63), reset() clears it (:218), a delayed Time.run clears it (:108) -- are later slices; isSpawning only reads the frame input.",
         "WaveSpawner.isSpawning() Windows Godot proof -- debt in GOAL.md section 5: the N2444 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2445": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "Turret field declarations",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "exact_exprs": [
+        "public float targetInterval = 20;",
+        "public float newTargetInterval = -1f;",
+        "public boolean reloadWhileCharging = true;",
+        "public boolean targetAir = true;",
+        "public boolean targetGround = true;",
+        "public boolean targetBlocks = true;",
+        "public boolean displayAmmoMultiplier = true;",
+        "public boolean targetUnderBlocks = true;",
+        "public Boolf<Unit> unitFilter = u -> true;",
+        "public Boolf<Building> buildingFilter = b -> targetUnderBlocks || !b.block.underBullets;"
+      ],
+      "source_symbols": [
+        "source_turret_targeting_defaults_state_result.target_interval",
+        "source_turret_targeting_defaults_state_result.new_target_interval",
+        "source_turret_targeting_defaults_state_result.reload_while_charging",
+        "source_turret_targeting_defaults_state_result.target_air",
+        "source_turret_targeting_defaults_state_result.target_ground",
+        "source_turret_targeting_defaults_state_result.target_blocks",
+        "source_turret_targeting_defaults_state_result.display_ammo_multiplier",
+        "source_turret_targeting_defaults_state_result.target_under_blocks",
+        "source_turret_targeting_defaults_state_result.unit_filter",
+        "source_turret_targeting_defaults_state_result.building_filter"
+      ],
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof",
+      "deferred_exprs": [
+        "Turret targeting/shoot field defaults Windows Godot proof -- debt in GOAL.md section 5, same as N2148/N2227: the N2445 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "The live reads of the 10 defaults are later slices: targetInterval/newTargetInterval are consumed by the updateTile driver via timer_target_ready; reloadWhileCharging is consumed live by the driver param; targetAir/targetGround/targetBlocks and the per-candidate unit_filter/building_filter flags are consumed live by find_enemy; displayAmmoMultiplier is consumed by setStats; the live field read of targetUnderBlocks itself is a later slice (this slice takes it as an input).",
+        "The live read of Block.underBullets (Block.java:118, declared without initializer, Java boolean default false) is a later slice: this slice takes under_bullets as an input, it never resolves the block field itself.",
+        "The other Turret field decls (Turret.java:46-:108 except the 10 registered here) are later slices, not this one."
+      ]
     }
   },
   "version": 1

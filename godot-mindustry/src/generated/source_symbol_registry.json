@@ -186056,6 +186056,166 @@
         "test_reference_graph_and_actual_c07_wave_spawner_is_spawning"
       ],
       "runtime_proof": "/root/C07WaveSpawnerIsSpawningProof"
+    },
+    "source_turret_targeting_defaults_state_result.target_interval": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "godot_symbol": "source_turret_targeting_defaults_state_result.target_interval",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "java_expr": "public float targetInterval = 20;",
+      "rule": "Ticks between attempts at finding a target (Turret.java:42, `public float targetInterval = 20;`).",
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
+    "source_turret_targeting_defaults_state_result.new_target_interval": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "godot_symbol": "source_turret_targeting_defaults_state_result.new_target_interval",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "java_expr": "public float newTargetInterval = -1f;",
+      "rule": "Target interval for when this turret already has a valid target; -1 means targetInterval (Turret.java:44, `public float newTargetInterval = -1f;`).",
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
+    "source_turret_targeting_defaults_state_result.reload_while_charging": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "godot_symbol": "source_turret_targeting_defaults_state_result.reload_while_charging",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "java_expr": "public boolean reloadWhileCharging = true;",
+      "rule": "Whether this turret can reload while charging (Turret.java:82, `public boolean reloadWhileCharging = true;`).",
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
+    "source_turret_targeting_defaults_state_result.target_air": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "godot_symbol": "source_turret_targeting_defaults_state_result.target_air",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "java_expr": "public boolean targetAir = true;",
+      "rule": "Whether this block targets air units (Turret.java:89, `public boolean targetAir = true;`).",
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
+    "source_turret_targeting_defaults_state_result.target_ground": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "godot_symbol": "source_turret_targeting_defaults_state_result.target_ground",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "java_expr": "public boolean targetGround = true;",
+      "rule": "Whether this block targets ground units and structures (Turret.java:91, `public boolean targetGround = true;`).",
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
+    "source_turret_targeting_defaults_state_result.target_blocks": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "godot_symbol": "source_turret_targeting_defaults_state_result.target_blocks",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "java_expr": "public boolean targetBlocks = true;",
+      "rule": "Whether this block targets blocks (Turret.java:93, `public boolean targetBlocks = true;`).",
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
+    "source_turret_targeting_defaults_state_result.display_ammo_multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "godot_symbol": "source_turret_targeting_defaults_state_result.display_ammo_multiplier",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "java_expr": "public boolean displayAmmoMultiplier = true;",
+      "rule": "Whether this block displays ammo multipliers in its stats (Turret.java:99, `public boolean displayAmmoMultiplier = true;`).",
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
+    "source_turret_targeting_defaults_state_result.target_under_blocks": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "godot_symbol": "source_turret_targeting_defaults_state_result.target_under_blocks",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "java_expr": "public boolean targetUnderBlocks = true;",
+      "rule": "Whether under blocks like conveyors are targeted (Turret.java:101, `public boolean targetUnderBlocks = true;`): the returned default, echoing the input.",
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
+    "source_turret_targeting_defaults_state_result.unit_filter": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "godot_symbol": "source_turret_targeting_defaults_state_result.unit_filter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "java_expr": "public Boolf<Unit> unitFilter = u -> true;",
+      "rule": "Filter for types of units to attack (Turret.java:109, `public Boolf<Unit> unitFilter = u -> true;`): GDScript has no Java Boolf, so the lambda is data -- always true.",
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
+    },
+    "source_turret_targeting_defaults_state_result.building_filter": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_turret_targeting_defaults_state",
+      "godot_symbol": "source_turret_targeting_defaults_state_result.building_filter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "Turret field declarations",
+      "java_expr": "public Boolf<Building> buildingFilter = b -> targetUnderBlocks || !b.block.underBullets;",
+      "rule": "Filter for types of buildings to attack (Turret.java:111, `public Boolf<Building> buildingFilter = b -> targetUnderBlocks || !b.block.underBullets;`): GDScript has no Java Boolf, so the predicate is computed from the inputs as `target_under_blocks || !under_bullets`.",
+      "tests": [
+        "test_c07_turret_targeting_defaults_registration",
+        "test_all_c07_turret_targeting_defaults_input_evidence_is_exact",
+        "test_turret_targeting_defaults_state",
+        "test_reference_graph_and_actual_c07_turret_targeting_defaults"
+      ],
+      "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
     }
   },
   "version": 1
