@@ -121920,6 +121920,35 @@
         "GameState.hasSpawns() (GameState.java:68-70) is NOT in this slice: N2448 owns it.",
         "GameState 9 accessors Windows Godot proof -- debt in GOAL.md section 5: the N2454 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2455": {
+      "status": "done",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_class": "mindustry.ai.WaveSpawner",
+      "java_method": "WaveSpawner.getFirstSpawn()",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_get_first_spawn_state",
+      "exact_exprs": [
+        "firstSpawn = null;",
+        "eachGroundSpawn((cx, cy) -> {",
+        "firstSpawn = world.tile(cx, cy);",
+        "return firstSpawn;"
+      ],
+      "source_symbols": [
+        "source_wave_spawner_get_first_spawn_state_result.first_spawn"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_get_first_spawn_registration",
+        "test_all_c07_wave_spawner_get_first_spawn_input_evidence_is_exact",
+        "test_wave_spawner_get_first_spawn_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_get_first_spawn"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerGetFirstSpawnProof",
+      "deferred_exprs": [
+        "WaveSpawner.eachGroundSpawn(Intc2) (WaveSpawner.java:121-123) + eachGroundSpawn(int, SpawnConsumer) (WaveSpawner.java:125-174) -- the iterators that enumerate the ground spawn points are NOT ported here; this slice only folds an already-enumerated tile list (option (A) data-driven), and the enumeration belongs to later eachGroundSpawn slices.",
+        "The field `private Tile firstSpawn = null;` (WaveSpawner.java:29) -- NOT registered here (field decl; in the port it is a per-call local reset by `firstSpawn = null;` at WaveSpawner.java:42).",
+        "The call-sites of getFirstSpawn() -- not in this slice; they belong to their own owners, later slices.",
+        "WaveSpawner.getFirstSpawn() Windows Godot proof -- debt in GOAL.md section 5: the N2455 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

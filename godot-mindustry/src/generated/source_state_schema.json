@@ -263522,6 +263522,44 @@
       },
       "runtime_proof": "/root/C07GameLoopStateAccessorsProof",
       "rule": "Source-backed GameState 9 accessors state from GameState.java."
+    },
+    "source_wave_spawner_get_first_spawn_state_input": {
+      "status": "active",
+      "owner": "SourceWaveSpawnerState.source_wave_spawner_get_first_spawn_state",
+      "source_slice": "N2455",
+      "keys": {
+        "ground_spawn_tiles": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "eachGroundSpawn((cx, cy) -> {",
+          "rule": "The already-enumerated ground spawn tiles (WaveSpawner.java:43-44, `eachGroundSpawn((cx, cy) -> { firstSpawn = world.tile(cx, cy); });`): the tiles the iterator callback would produce via world.tile(cx, cy), in enumeration order; GD takes them as an Array input and folds them in order, never calling eachGroundSpawn itself (option (A) data-driven).",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_get_first_spawn_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WaveSpawnerGetFirstSpawnProof",
+      "rule": "Source-backed WaveSpawner.getFirstSpawn() state from WaveSpawner.java."
+    },
+    "source_wave_spawner_get_first_spawn_state_result": {
+      "status": "active",
+      "owner": "SourceWaveSpawnerState.source_wave_spawner_get_first_spawn_state",
+      "source_slice": "N2455",
+      "keys": {
+        "first_spawn": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "return firstSpawn;",
+          "rule": "The first-spawn tile (WaveSpawner.java:46, `return firstSpawn;`): the LAST tile of the enumerated ground spawn list, because the callback at WaveSpawner.java:44 overwrites firstSpawn unconditionally on every point; null when the list is empty (the reset at WaveSpawner.java:42 stands).",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_get_first_spawn_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WaveSpawnerGetFirstSpawnProof",
+      "rule": "Source-backed WaveSpawner.getFirstSpawn() state from WaveSpawner.java."
     }
   },
   "version": 1

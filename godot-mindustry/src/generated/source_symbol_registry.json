@@ -189832,6 +189832,22 @@
         "test_reference_graph_and_actual_c07_game_loop_state_accessors"
       ],
       "runtime_proof": "/root/C07GameLoopStateAccessorsProof"
+    },
+    "source_wave_spawner_get_first_spawn_state_result.first_spawn": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_get_first_spawn_state",
+      "godot_symbol": "source_wave_spawner_get_first_spawn_state_result.first_spawn",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_method": "WaveSpawner.getFirstSpawn()",
+      "java_expr": "return firstSpawn;",
+      "rule": "The first-spawn tile (WaveSpawner.java:46, `return firstSpawn;`): the LAST tile of the enumerated ground spawn list, because the callback at WaveSpawner.java:44 overwrites firstSpawn unconditionally on every point; null when the list is empty (the reset at WaveSpawner.java:42 stands).",
+      "tests": [
+        "test_c07_wave_spawner_get_first_spawn_registration",
+        "test_all_c07_wave_spawner_get_first_spawn_input_evidence_is_exact",
+        "test_wave_spawner_get_first_spawn_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_get_first_spawn"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerGetFirstSpawnProof"
     }
   },
   "version": 1

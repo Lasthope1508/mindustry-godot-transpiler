@@ -82071,6 +82071,31 @@
       ],
       "runtime_proof": "/root/C07GameLoopStateAccessorsProof",
       "rule": "Source-backed GameState 9 accessors state from GameState.java."
+    },
+    "SourceWaveSpawnerState.source_wave_spawner_get_first_spawn_state": {
+      "status": "active",
+      "source_slice": "N2455",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "source_method": "WaveSpawner.getFirstSpawn()",
+      "params": [
+        {
+          "name": "ground_spawn_tiles",
+          "type": "Array",
+          "schema": "source_wave_spawner_get_first_spawn_state_input.ground_spawn_tiles"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "first_spawn"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_get_first_spawn_registration",
+        "test_all_c07_wave_spawner_get_first_spawn_input_evidence_is_exact",
+        "test_wave_spawner_get_first_spawn_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_get_first_spawn"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerGetFirstSpawnProof",
+      "rule": "Source-backed WaveSpawner.getFirstSpawn() state from WaveSpawner.java."
     }
   },
   "policy": {

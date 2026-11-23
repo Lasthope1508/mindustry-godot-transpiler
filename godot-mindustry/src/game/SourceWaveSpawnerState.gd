@@ -91,3 +91,28 @@ static func source_wave_spawner_spawn_counts_state(ground_spawn_points: Array, f
 	# The call-sites (Logic.checkGameState / runWave) are NOT in
 	# this slice -- they belong to Logic, a later slice.
 	return {"ground_spawn_count": ground_spawn_points.size(), "flyer_spawn_count": flyer_spawn_points.size()}
+
+
+static func source_wave_spawner_get_first_spawn_state(ground_spawn_tiles: Array) -> Dictionary:
+	# WaveSpawner.getFirstSpawn() (WaveSpawner.java:40-47): the 3
+	# distinct body exprs only -- `firstSpawn = null;` (:42),
+	# `eachGroundSpawn((cx, cy) -> { firstSpawn = world.tile(cx, cy); });`
+	# (:43-45) and `return firstSpawn;` (:46). TRAP: despite the
+	# name, the callback overwrites firstSpawn UNCONDITIONALLY on
+	# every enumerated ground spawn point, so the method returns
+	# the LAST enumerated tile, not the first -- the GD loop must
+	# NOT break early and must NOT return ground_spawn_tiles[0].
+	# GD takes the already-enumerated ground spawn tiles as an
+	# Array input (option (A) data-driven, precedent N2453 spawn
+	# counts / N2451 playerNear) and does not enumerate them
+	# itself: eachGroundSpawn (:121-174) is NOT ported and belongs
+	# to a later slice. Each input element is the tile the
+	# callback would have produced via `world.tile(cx, cy)` (:44).
+	# The field `private Tile firstSpawn = null;`
+	# (WaveSpawner.java:29) is NOT state here -- it is a per-call
+	# local, reset to null at the start of every call (:42), so an
+	# empty list returns null.
+	var first_spawn: Variant = null
+	for spawn_tile in ground_spawn_tiles:
+		first_spawn = spawn_tile
+	return {"first_spawn": first_spawn}
