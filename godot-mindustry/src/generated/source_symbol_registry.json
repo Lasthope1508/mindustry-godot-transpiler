@@ -186040,6 +186040,22 @@
         "test_reference_graph_and_actual_c07_beam_drill_laser_defaults"
       ],
       "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof"
+    },
+    "source_wave_spawner_is_spawning_state_result.spawning": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_is_spawning_state",
+      "godot_symbol": "source_wave_spawner_is_spawning_state_result.spawning",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_method": "WaveSpawner.isSpawning()",
+      "java_expr": "return spawning && !net.client();",
+      "rule": "Whether a wave is spawning and this side is not a net client (WaveSpawner.java:214, the full return line): spawning && !net.client().",
+      "tests": [
+        "test_c07_wave_spawner_is_spawning_registration",
+        "test_all_c07_wave_spawner_is_spawning_input_evidence_is_exact",
+        "test_wave_spawner_is_spawning_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_is_spawning"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerIsSpawningProof"
     }
   },
   "version": 1

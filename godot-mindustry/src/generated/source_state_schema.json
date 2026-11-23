@@ -255666,6 +255666,54 @@
       },
       "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof",
       "rule": "Source-backed BeamDrill laser/spark/glow/heat field defaults from BeamDrill.java."
+    },
+    "source_wave_spawner_is_spawning_state_input": {
+      "status": "active",
+      "owner": "SourceWaveSpawnerState.source_wave_spawner_is_spawning_state",
+      "source_slice": "N2444",
+      "keys": {
+        "spawning": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "private boolean spawning = false;",
+          "rule": "Whether a wave is currently spawning (WaveSpawner.java:27, `private boolean spawning = false;`): the first conjunct of isSpawning(), set true by spawnEnemies() (:63) and cleared by reset() (:218).",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_is_spawning_state"
+          ]
+        },
+        "is_client": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "return spawning && !net.client();",
+          "rule": "Whether the game runs as a net client (WaveSpawner.java:214, `net.client()`): negated in the second conjunct of isSpawning().",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_is_spawning_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WaveSpawnerIsSpawningProof",
+      "rule": "Source-backed WaveSpawner.isSpawning() state from WaveSpawner.java."
+    },
+    "source_wave_spawner_is_spawning_state_result": {
+      "status": "active",
+      "owner": "SourceWaveSpawnerState.source_wave_spawner_is_spawning_state",
+      "source_slice": "N2444",
+      "keys": {
+        "spawning": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+          "java_expr": "return spawning && !net.client();",
+          "rule": "Whether a wave is spawning and this side is not a net client (WaveSpawner.java:214, the full return line): spawning && !net.client().",
+          "used_by": [
+            "SourceWaveSpawnerState.source_wave_spawner_is_spawning_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07WaveSpawnerIsSpawningProof",
+      "rule": "Source-backed WaveSpawner.isSpawning() state from WaveSpawner.java."
     }
   },
   "version": 1

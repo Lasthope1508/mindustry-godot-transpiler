@@ -104647,6 +104647,31 @@
         "BeamDrill field decls still free, not this slice: `public float drillTime = 200f;` (:39), `public float laserWidth = 0.65f;` (:42), `public float optionalBoostIntensity = 2.5f;` (:44), `public Color heatColor = new Color(1f, 0.35f, 0.35f, 0.9f);` (:60) -- each waits for its own slice; large-plasma-bore overrides only laserWidth (0.7f, Blocks.java:3062).",
         "BeamDrill laser/spark/glow/heat field defaults Windows Godot proof -- debt in GOAL.md section 5, same as N2401/N2417: the N2440 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2444": {
+      "status": "done",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "java_class": "mindustry.ai.WaveSpawner",
+      "java_method": "WaveSpawner.isSpawning()",
+      "godot_owner": "SourceWaveSpawnerState.source_wave_spawner_is_spawning_state",
+      "exact_exprs": [
+        "return spawning && !net.client();"
+      ],
+      "source_symbols": [
+        "source_wave_spawner_is_spawning_state_result.spawning"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_is_spawning_registration",
+        "test_all_c07_wave_spawner_is_spawning_input_evidence_is_exact",
+        "test_wave_spawner_is_spawning_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_is_spawning"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerIsSpawningProof",
+      "deferred_exprs": [
+        "Logic.checkGameState() call-site `spawner.isSpawning();` (WaveSpawner.java:369, via Logic.java checkGameState) -- not in this slice; it belongs to checkGameState, a later slice.",
+        "The live writes to the `spawning` field -- spawnEnemies() sets it true (WaveSpawner.java:63), reset() clears it (:218), a delayed Time.run clears it (:108) -- are later slices; isSpawning only reads the frame input.",
+        "WaveSpawner.isSpawning() Windows Godot proof -- debt in GOAL.md section 5: the N2444 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

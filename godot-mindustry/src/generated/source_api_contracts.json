@@ -78279,6 +78279,36 @@
       ],
       "runtime_proof": "/root/C07BeamDrillLaserDefaultsProof",
       "rule": "Source-backed BeamDrill laser/spark/glow/heat field defaults from BeamDrill.java."
+    },
+    "SourceWaveSpawnerState.source_wave_spawner_is_spawning_state": {
+      "status": "active",
+      "source_slice": "N2444",
+      "java_source": "core/src/mindustry/ai/WaveSpawner.java",
+      "source_method": "WaveSpawner.isSpawning()",
+      "params": [
+        {
+          "name": "spawning",
+          "type": "bool",
+          "schema": "source_wave_spawner_is_spawning_state_input.spawning"
+        },
+        {
+          "name": "is_client",
+          "type": "bool",
+          "schema": "source_wave_spawner_is_spawning_state_input.is_client"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "spawning"
+      ],
+      "tests": [
+        "test_c07_wave_spawner_is_spawning_registration",
+        "test_all_c07_wave_spawner_is_spawning_input_evidence_is_exact",
+        "test_wave_spawner_is_spawning_state",
+        "test_reference_graph_and_actual_c07_wave_spawner_is_spawning"
+      ],
+      "runtime_proof": "/root/C07WaveSpawnerIsSpawningProof",
+      "rule": "Source-backed WaveSpawner.isSpawning() state from WaveSpawner.java."
     }
   },
   "policy": {
