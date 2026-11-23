@@ -39,6 +39,15 @@ static func spawned_for_wave_state(group: Dictionary, wave_zero: int) -> Diction
 		"spawned": spawned,
 	}
 
+# SSOT-registered entry point for SpawnGroup.getSpawned(int) (N2449).
+# The validator only discovers functions named source_*/generated_/tile_,
+# and the bare spawned_for_wave_state above predates that rule (PortGame-era
+# file creation; its exact name is pinned by test_playable.py), so the
+# slice registers this thin source_-prefixed forward instead of renaming
+# the original. Behavior is identical -- it delegates 1:1.
+static func source_spawn_group_get_spawned_state(group: Dictionary, wave_zero: int) -> Dictionary:
+	return spawned_for_wave_state(group, wave_zero)
+
 static func wave_spawn_state(groups: Array, wave_index: int, fallback_unit_id: String) -> Dictionary:
 	var wave_zero: int = wave_index - 1
 	var spawned_groups: Array = []

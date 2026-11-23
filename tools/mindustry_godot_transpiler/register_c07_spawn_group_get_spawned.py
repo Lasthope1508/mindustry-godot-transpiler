@@ -13,11 +13,18 @@ N2322/N2245/N2249) and is NOT registered here.
 
 Registration-only (precedent N2427/N2430/N2432-N2434): the formula
 is already LIVE in SourceWaveSpawnRuntimeState.
-spawned_for_wave_state (:16-40) -- no GD change in this slice. The
-godot_owner follows the N2447 ClassName.func_name convention
-(`SourceWaveSpawnRuntimeState.spawned_for_wave_state`); the runtime
-"source_owner" value inside the returned dict comes from the
-registry const SOURCE_WAVE_SPAWNED_FOR_WAVE_STATE
+spawned_for_wave_state (:16-40). The slice registers a thin
+source_-prefixed forward, source_spawn_group_get_spawned_state,
+as its godot_owner (`SourceWaveSpawnRuntimeState.
+source_spawn_group_get_spawned_state`): the validator only
+discovers functions named source_*/generated_/tile_, and the bare
+spawned_for_wave_state predates that rule (PortGame-era file
+creation; its exact name is pinned by test_playable.py), so
+renaming it is out of scope -- the forward delegates 1:1 and the
+original stays untouched (gate batch 42 fix: the bare name as
+owner failed implementation_linkage in 8 power modules). The
+runtime "source_owner" value inside the returned dict comes from
+the registry const SOURCE_WAVE_SPAWNED_FOR_WAVE_STATE
 (SourceRuntimeOwnerGameplayRegistry.gd:175, lowercase value
 "source_wave_spawn_runtime_state.spawned_for_wave_state"). The 3
 source_symbols are the computed result keys: spacing (the effective
@@ -50,7 +57,7 @@ ROOT = Path(__file__).resolve().parents[2]
 GODOT = ROOT / 'godot-mindustry'
 SPAWN_GROUP = 'core/src/mindustry/game/SpawnGroup.java'
 PROOF = '/root/C07SpawnGroupGetSpawnedProof'
-GET_SPAWNED_OWNER = 'SourceWaveSpawnRuntimeState.spawned_for_wave_state'
+GET_SPAWNED_OWNER = 'SourceWaveSpawnRuntimeState.source_spawn_group_get_spawned_state'
 TESTS = ['test_c07_spawn_group_get_spawned_registration', 'test_all_c07_spawn_group_get_spawned_input_evidence_is_exact', 'test_spawn_group_get_spawned_state', 'test_reference_graph_and_actual_c07_spawn_group_get_spawned']
 # The 1 slice source the N2449 test checks exact_exprs
 # against -- every expr in EXACT_EXPRS below must appear verbatim
@@ -124,7 +131,7 @@ def main():
     get_spawned_inputs, get_spawned_outputs = definitions()
 
     entries = [
-        ('N2449', GET_SPAWNED_OWNER, 'source_wave_spawned_for_wave_state', SPAWN_GROUP, 'mindustry.game.SpawnGroup', 'SpawnGroup.getSpawned(int)', get_spawned_inputs, get_spawned_outputs, True, 'Dictionary'),
+        ('N2449', GET_SPAWNED_OWNER, 'source_spawn_group_get_spawned_state', SPAWN_GROUP, 'mindustry.game.SpawnGroup', 'SpawnGroup.getSpawned(int)', get_spawned_inputs, get_spawned_outputs, True, 'Dictionary'),
     ]
     all_names = []
     for sid, owner, prefix, source, cls, method, inputs, outputs, has_contract, return_type in entries:
@@ -147,9 +154,9 @@ def main():
     # the computed result keys of the GD func, in Java order
     # (:68 normalization, :69 eligibility, :72 formula).
     by_slice['N2449'] = [
-        'source_wave_spawned_for_wave_state_result.spacing',
-        'source_wave_spawned_for_wave_state_result.eligible',
-        'source_wave_spawned_for_wave_state_result.spawned',
+        'source_spawn_group_get_spawned_state_result.spacing',
+        'source_spawn_group_get_spawned_state_result.eligible',
+        'source_spawn_group_get_spawned_state_result.spawned',
     ]
     source_symbols.upsert_source_slice(GODOT, 'N2449', dict(status='done', java_source=SPAWN_GROUP, java_class='mindustry.game.SpawnGroup', java_method='SpawnGroup.getSpawned(int)', godot_owner=GET_SPAWNED_OWNER, exact_exprs=EXACT_EXPRS, source_symbols=by_slice['N2449'], tests=TESTS, runtime_proof=PROOF, deferred_exprs=DEFERRED))
 

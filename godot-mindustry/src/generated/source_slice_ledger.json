@@ -121417,16 +121417,16 @@
       "java_source": "core/src/mindustry/game/SpawnGroup.java",
       "java_class": "mindustry.game.SpawnGroup",
       "java_method": "SpawnGroup.getSpawned(int)",
-      "godot_owner": "SourceWaveSpawnRuntimeState.spawned_for_wave_state",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_get_spawned_state",
       "exact_exprs": [
         "if(spacing == 0) spacing = 1;",
         "if(wave < begin || wave > end || (wave - begin) % spacing != 0){",
         "return Math.min(unitAmount + (int)(((wave - begin) / spacing) / unitScaling), max);"
       ],
       "source_symbols": [
-        "source_wave_spawned_for_wave_state_result.spacing",
-        "source_wave_spawned_for_wave_state_result.eligible",
-        "source_wave_spawned_for_wave_state_result.spawned"
+        "source_spawn_group_get_spawned_state_result.spacing",
+        "source_spawn_group_get_spawned_state_result.eligible",
+        "source_spawn_group_get_spawned_state_result.spawned"
       ],
       "tests": [
         "test_c07_spawn_group_get_spawned_registration",

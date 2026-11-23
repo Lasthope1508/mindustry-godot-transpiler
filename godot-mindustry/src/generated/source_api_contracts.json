@@ -81808,38 +81808,6 @@
       "runtime_proof": "/root/C07WeaponInitProof",
       "rule": "Source-backed Weapon init() from Weapon.java:561-566."
     },
-    "SourceWaveSpawnRuntimeState.spawned_for_wave_state": {
-      "status": "active",
-      "source_slice": "N2449",
-      "java_source": "core/src/mindustry/game/SpawnGroup.java",
-      "source_method": "SpawnGroup.getSpawned(int)",
-      "params": [
-        {
-          "name": "group",
-          "type": "Dictionary",
-          "schema": "source_wave_spawned_for_wave_state_input.group"
-        },
-        {
-          "name": "wave_zero",
-          "type": "int",
-          "schema": "source_wave_spawned_for_wave_state_input.wave_zero"
-        }
-      ],
-      "return_type": "Dictionary",
-      "return_keys": [
-        "spacing",
-        "eligible",
-        "spawned"
-      ],
-      "tests": [
-        "test_c07_spawn_group_get_spawned_registration",
-        "test_all_c07_spawn_group_get_spawned_input_evidence_is_exact",
-        "test_spawn_group_get_spawned_state",
-        "test_reference_graph_and_actual_c07_spawn_group_get_spawned"
-      ],
-      "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof",
-      "rule": "Source-backed SpawnGroup.getSpawned(int) state from SpawnGroup.java."
-    },
     "SourceTeamsRuntimeState.source_team_state": {
       "status": "active",
       "source_slice": "N2450",
@@ -81942,6 +81910,38 @@
       ],
       "runtime_proof": "/root/C07WaveSpawnerPlayerNearProof",
       "rule": "Source-backed WaveSpawner.playerNear() state from WaveSpawner.java."
+    },
+    "SourceWaveSpawnRuntimeState.source_spawn_group_get_spawned_state": {
+      "status": "active",
+      "source_slice": "N2449",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "source_method": "SpawnGroup.getSpawned(int)",
+      "params": [
+        {
+          "name": "group",
+          "type": "Dictionary",
+          "schema": "source_spawn_group_get_spawned_state_input.group"
+        },
+        {
+          "name": "wave_zero",
+          "type": "int",
+          "schema": "source_spawn_group_get_spawned_state_input.wave_zero"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "spacing",
+        "eligible",
+        "spawned"
+      ],
+      "tests": [
+        "test_c07_spawn_group_get_spawned_registration",
+        "test_all_c07_spawn_group_get_spawned_input_evidence_is_exact",
+        "test_spawn_group_get_spawned_state",
+        "test_reference_graph_and_actual_c07_spawn_group_get_spawned"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof",
+      "rule": "Source-backed SpawnGroup.getSpawned(int) state from SpawnGroup.java."
     }
   },
   "policy": {

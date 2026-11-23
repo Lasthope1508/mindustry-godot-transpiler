@@ -14,7 +14,7 @@ class C07SpawnGroupGetSpawnedTests(unittest.TestCase):
         generated = ROOT / 'godot-mindustry/src/generated'
         ledger = json.loads((generated / 'source_slice_ledger.json').read_text(encoding='utf-8'))['slices']
         symbols = json.loads((generated / 'source_symbol_registry.json').read_text(encoding='utf-8'))['symbols']
-        self.assertEqual(ledger['N2449']['godot_owner'], 'SourceWaveSpawnRuntimeState.spawned_for_wave_state')
+        self.assertEqual(ledger['N2449']['godot_owner'], 'SourceWaveSpawnRuntimeState.source_spawn_group_get_spawned_state')
         # SpawnGroup.getSpawned(int) (SpawnGroup.java:67-73), one
         # method slice (batch 42 slot 1): exactly the 3 body exprs
         # `:68` `if(spacing == 0) spacing = 1;`, `:69`
@@ -27,9 +27,14 @@ class C07SpawnGroupGetSpawnedTests(unittest.TestCase):
         # Registration-only (precedent N2427/N2430/N2432-N2434):
         # the formula is already LIVE in
         # SourceWaveSpawnRuntimeState.spawned_for_wave_state
-        # (:16-40) -- no GD change in this slice. The godot_owner
-        # follows the N2447 ClassName.func_name convention; the
-        # runtime "source_owner" value inside the returned dict
+        # (:16-40); the slice registers the thin source_-prefixed
+        # forward source_spawn_group_get_spawned_state (gate batch
+        # 42 fix: the bare name as owner failed
+        # implementation_linkage in 8 power modules, because the
+        # validator only discovers source_*/generated_/tile_
+        # functions). The godot_owner follows the
+        # ClassName.func_name convention; the runtime
+        # "source_owner" value inside the returned dict
         # comes from the registry const
         # SOURCE_WAVE_SPAWNED_FOR_WAVE_STATE
         # (SourceRuntimeOwnerGameplayRegistry.gd:175, lowercase
@@ -50,16 +55,16 @@ class C07SpawnGroupGetSpawnedTests(unittest.TestCase):
         self.assertEqual(
             ledger['N2449']['source_symbols'],
             [
-                'source_wave_spawned_for_wave_state_result.spacing',
-                'source_wave_spawned_for_wave_state_result.eligible',
-                'source_wave_spawned_for_wave_state_result.spawned',
+                'source_spawn_group_get_spawned_state_result.spacing',
+                'source_spawn_group_get_spawned_state_result.eligible',
+                'source_spawn_group_get_spawned_state_result.spawned',
             ],
         )
         for name in ledger['N2449']['source_symbols']:
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertEqual(symbol['java_source'], 'core/src/mindustry/game/SpawnGroup.java')
-                self.assertTrue(symbol['godot_owner'].startswith('SourceWaveSpawnRuntimeState.spawned_for_wave_state'))
+                self.assertTrue(symbol['godot_owner'].startswith('SourceWaveSpawnRuntimeState.source_spawn_group_get_spawned_state'))
         self.assertEqual(ledger['N2449']['runtime_proof'], '/root/C07SpawnGroupGetSpawnedProof')
         self.assertEqual(
             ledger['N2449']['tests'],
@@ -80,7 +85,7 @@ class C07SpawnGroupGetSpawnedTests(unittest.TestCase):
             with self.subTest(symbol=name):
                 symbol = symbols[name]
                 self.assertIn(symbol['java_expr'], (ROOT / 'mindustry-upstream' / symbol['java_source']).read_text(encoding='utf-8'))
-                self.assertTrue(symbol['godot_owner'].startswith('SourceWaveSpawnRuntimeState.spawned_for_wave_state'))
+                self.assertTrue(symbol['godot_owner'].startswith('SourceWaveSpawnRuntimeState.source_spawn_group_get_spawned_state'))
         slice_sources = {
             'core/src/mindustry/game/SpawnGroup.java',
         }
@@ -100,6 +105,8 @@ class C07SpawnGroupGetSpawnedTests(unittest.TestCase):
         # spawned (:28-29) is the :72 formula with spawned = 0 when
         # not eligible (equivalent to :70).
         self.assertIn('static func spawned_for_wave_state(group: Dictionary, wave_zero: int) -> Dictionary:', wave)
+        self.assertIn('static func source_spawn_group_get_spawned_state(group: Dictionary, wave_zero: int) -> Dictionary:', wave)
+        self.assertIn('return spawned_for_wave_state(group, wave_zero)', wave)
         self.assertIn('const SOURCE_SPAWN_GROUP_GET_SPAWNED_BEGIN_END_EXPR := "if(wave < begin || wave > end || (wave - begin) % spacing != 0){"', wave)
         self.assertIn('const SOURCE_SPAWN_GROUP_GET_SPAWNED_AMOUNT_EXPR := "return Math.min(unitAmount + (int)(((wave - begin) / spacing) / unitScaling), max);"', wave)
         self.assertIn('var spacing: int = max(1, int(group.get("spacing", SPAWN_GROUP_SPACING_DEFAULT)))', wave)
