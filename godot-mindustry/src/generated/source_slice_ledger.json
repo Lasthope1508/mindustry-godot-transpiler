@@ -121411,6 +121411,38 @@
         "Weapon.init() Windows Godot proof -- debt in GOAL.md section 5, same as N2283-N2284/N2506/N2507/N2508/N2509/N2510/N2511/N2512/N2513/N2514/N2515/N2516/N2517/N2518/N2519/N2520/N2521/N2522/N2523/N2524/N2525/N2526/N2527/N2528/N2529/N2530/N2531/N2532/N2533/N2534/N2535/N2536/N2537/N2538/N2539/N2540/N2541/N2542/N2543: the N2544 proof runs headless on Linux here and waits for a Windows Godot run.",
         "Weapon.update() remaining legs still DEFERRED (later slices): auto-target block (Weapon.java:315-347, BLOCKED -- findTarget :447 live Units.closestTarget scan, checkTarget :451 live Units.invalidateTarget, Predict.intercept not ported); continuous-laser leg (Weapon.java:376-408, bullet entity live -- BLOCKED as a driver leg; shootLength :391 uses range() N2539 + approachDelta, pure); activeSound (Weapon.java:425-427, audio -- skip); shoot gate + shoot() (Weapon.java:429-444, BLOCKED/live -- shoot() spawns a real bullet, :459+; velLen needs unit.isRemote/deltaLen live; the shoot gate reads `was_flipped` from local N856 (merge re-point 2026-11-23: the remote N2543 side-flip function was trimmed, the flip body lives in N856), `(!alternate || wasFlipped == flipSprite)` :435). flip() :544 needs ShootPattern.copy()/flip() (port status unchecked) -- defer. addStats() :175-187 UI stats, C11-ish -- defer."
       ]
+    },
+    "N2449": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_class": "mindustry.game.SpawnGroup",
+      "java_method": "SpawnGroup.getSpawned(int)",
+      "godot_owner": "SourceWaveSpawnRuntimeState.spawned_for_wave_state",
+      "exact_exprs": [
+        "if(spacing == 0) spacing = 1;",
+        "if(wave < begin || wave > end || (wave - begin) % spacing != 0){",
+        "return Math.min(unitAmount + (int)(((wave - begin) / spacing) / unitScaling), max);"
+      ],
+      "source_symbols": [
+        "source_wave_spawned_for_wave_state_result.spacing",
+        "source_wave_spawned_for_wave_state_result.eligible",
+        "source_wave_spawned_for_wave_state_result.spawned"
+      ],
+      "tests": [
+        "test_c07_spawn_group_get_spawned_registration",
+        "test_all_c07_spawn_group_get_spawned_input_evidence_is_exact",
+        "test_spawn_group_get_spawned_state",
+        "test_reference_graph_and_actual_c07_spawn_group_get_spawned"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof",
+      "deferred_exprs": [
+        "Deviation (b): :68 -- GD uses `max(1, spacing)`, clamping negative spacing to 1 as well, while Java only fixes spacing == 0 (negative spacing stays, and `%` with a negative divisor applies at :69). Negative spacing never occurs in real data (default 1, SpawnGroup.java:33 `public int spacing = 1;`), but the difference is recorded, not hidden.",
+        "Deviation (c): :72 -- GD divides with floats (`float(wave_zero - begin) / float(spacing)`) while Java divides ints (`(wave - begin) / spacing`) and only then divides by unitScaling as a float. Equivalent ONLY because :69 guarantees (wave - begin) % spacing == 0 on the eligible branch (the other branch yields spawned = 0 in both) -- equivalence is conditional, not unconditional.",
+        ":70 `return 0;` is a generic literal already owned by 11 slices (N1184/N1414/N1635/N524/N949/N1802/N1885/N2286/N2322/N2245/N2249) -- NOT registered here. GD returns spawned = 0 when not eligible, which is the same outcome.",
+        "Pre-existing PortGame-era guard, no Java equivalent: GD clamps unitScaling to at least 0.0001 (`max(float(group.get(\"unitScaling\", ...)), 0.0001)`) to avoid division by zero; Java has no such clamp (unitScaling defaults to `never` = Integer.MAX_VALUE, SpawnGroup.java:38). The max clamp in :72 bounds the result either way.",
+        "The spawnEnemies() call-site `int spawned = group.getSpawned(state.wave - 1);` (WaveSpawner.java, kept verbatim in SOURCE_WAVE_SPAWNER_WAVE_ZERO_EXPR) belongs to the spawnEnemies slice, not this one; wave_spawn_state already calls spawned_for_wave_state with wave_index - 1.",
+        "SpawnGroup.getSpawned(int) Windows Godot proof -- debt in GOAL.md section 5: the N2449 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

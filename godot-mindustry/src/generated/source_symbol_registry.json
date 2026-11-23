@@ -189432,6 +189432,54 @@
         "test_reference_graph_and_actual_c07_weapon_init"
       ],
       "runtime_proof": "/root/C07WeaponInitProof"
+    },
+    "source_wave_spawned_for_wave_state_result.spacing": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.spawned_for_wave_state",
+      "godot_symbol": "source_wave_spawned_for_wave_state_result.spacing",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.getSpawned(int)",
+      "java_expr": "if(spacing == 0) spacing = 1;",
+      "rule": "The effective spacing after :68 (SpawnGroup.java:68, `if(spacing == 0) spacing = 1;`): GD returns max(1, spacing) without mutating the input group -- see deviation (b) in DEFERRED.",
+      "tests": [
+        "test_c07_spawn_group_get_spawned_registration",
+        "test_all_c07_spawn_group_get_spawned_input_evidence_is_exact",
+        "test_spawn_group_get_spawned_state",
+        "test_reference_graph_and_actual_c07_spawn_group_get_spawned"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof"
+    },
+    "source_wave_spawned_for_wave_state_result.eligible": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.spawned_for_wave_state",
+      "godot_symbol": "source_wave_spawned_for_wave_state_result.eligible",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.getSpawned(int)",
+      "java_expr": "if(wave < begin || wave > end || (wave - begin) % spacing != 0){",
+      "rule": "Whether this wave spawns for this group (SpawnGroup.java:69, the full if-condition): the exact negation of :69 -- wave >= begin and wave <= end and (wave - begin) % spacing == 0.",
+      "tests": [
+        "test_c07_spawn_group_get_spawned_registration",
+        "test_all_c07_spawn_group_get_spawned_input_evidence_is_exact",
+        "test_spawn_group_get_spawned_state",
+        "test_reference_graph_and_actual_c07_spawn_group_get_spawned"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof"
+    },
+    "source_wave_spawned_for_wave_state_result.spawned": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.spawned_for_wave_state",
+      "godot_symbol": "source_wave_spawned_for_wave_state_result.spawned",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.getSpawned(int)",
+      "java_expr": "return Math.min(unitAmount + (int)(((wave - begin) / spacing) / unitScaling), max);",
+      "rule": "How many units spawn on this wave (SpawnGroup.java:72, the full return line): unitAmount + (wave - begin) / spacing / unitScaling, clamped by max; 0 when not eligible (the :70 outcome) -- see deviation (c) in DEFERRED.",
+      "tests": [
+        "test_c07_spawn_group_get_spawned_registration",
+        "test_all_c07_spawn_group_get_spawned_input_evidence_is_exact",
+        "test_spawn_group_get_spawned_state",
+        "test_reference_graph_and_actual_c07_spawn_group_get_spawned"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof"
     }
   },
   "version": 1

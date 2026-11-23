@@ -262914,6 +262914,74 @@
       },
       "runtime_proof": "/root/C07WeaponInitProof",
       "rule": "Source-backed Weapon init() from Weapon.java:561-566."
+    },
+    "source_wave_spawned_for_wave_state_input": {
+      "status": "active",
+      "owner": "SourceWaveSpawnRuntimeState.spawned_for_wave_state",
+      "source_slice": "N2449",
+      "keys": {
+        "group": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "public class SpawnGroup implements JsonSerializable, Cloneable{",
+          "rule": "The SpawnGroup instance (SpawnGroup.java:23, `public class SpawnGroup implements JsonSerializable, Cloneable{`): GD takes it as a Dictionary carrying begin/end/spacing/unitAmount/unitScaling/max and never mutates it -- Java :68 mutates the field, GD returns the normalized spacing instead.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.spawned_for_wave_state"
+          ]
+        },
+        "wave_zero": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "public int getSpawned(int wave){",
+          "rule": "The wave argument (SpawnGroup.java:67, `public int getSpawned(int wave){`): GD names it wave_zero because the call-site passes state.wave - 1 (see SOURCE_WAVE_SPAWNER_WAVE_ZERO_EXPR, `int spawned = group.getSpawned(state.wave - 1);`).",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.spawned_for_wave_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof",
+      "rule": "Source-backed SpawnGroup.getSpawned(int) state from SpawnGroup.java."
+    },
+    "source_wave_spawned_for_wave_state_result": {
+      "status": "active",
+      "owner": "SourceWaveSpawnRuntimeState.spawned_for_wave_state",
+      "source_slice": "N2449",
+      "keys": {
+        "spacing": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "if(spacing == 0) spacing = 1;",
+          "rule": "The effective spacing after :68 (SpawnGroup.java:68, `if(spacing == 0) spacing = 1;`): GD returns max(1, spacing) without mutating the input group -- see deviation (b) in DEFERRED.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.spawned_for_wave_state"
+          ]
+        },
+        "eligible": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "if(wave < begin || wave > end || (wave - begin) % spacing != 0){",
+          "rule": "Whether this wave spawns for this group (SpawnGroup.java:69, the full if-condition): the exact negation of :69 -- wave >= begin and wave <= end and (wave - begin) % spacing == 0.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.spawned_for_wave_state"
+          ]
+        },
+        "spawned": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "return Math.min(unitAmount + (int)(((wave - begin) / spacing) / unitScaling), max);",
+          "rule": "How many units spawn on this wave (SpawnGroup.java:72, the full return line): unitAmount + (wave - begin) / spacing / unitScaling, clamped by max; 0 when not eligible (the :70 outcome) -- see deviation (c) in DEFERRED.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.spawned_for_wave_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SpawnGroupGetSpawnedProof",
+      "rule": "Source-backed SpawnGroup.getSpawned(int) state from SpawnGroup.java."
     }
   },
   "version": 1
