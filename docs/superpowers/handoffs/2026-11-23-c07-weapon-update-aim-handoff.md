@@ -1,4 +1,4 @@
-# Handoff — N2541 Weapon.update() leg 2 (C07) [DONE + PUSHED (slice fcd53003, docs 83bb2389, GOAL e220cb2f)]
+# Handoff — N2541 Weapon.update() leg 2 (C07) [DONE + PUSHED (slice fcd53003, docs 83bb2389, GOAL e220cb2f, status f92a10f1)]
 
 ## Status: DONE + PUSHED (lượt cron 07:15 +07 ngày 2026-11-23; slice fcd53003, docs 83bb2389, GOAL e220cb2f; push xong mới ghi origin/main ở đây sau khi push)
 

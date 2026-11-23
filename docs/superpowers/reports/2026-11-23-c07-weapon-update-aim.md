@@ -1,4 +1,4 @@
-# Báo cáo — N2541 Weapon.update() leg 2 (C07) [DONE + PUSHED]
+# Báo cáo — N2541 Weapon.update() leg 2 (C07) [DONE + PUSHED (slice fcd53003, docs 83bb2389, GOAL e220cb2f, status f92a10f1)]
 
 Ngày: 2026-11-23 ~07:15 +07 (targeted re-run xác minh lượt đóng slice 17.00s; proof xanh lượt implement ~05:41 +07, đọc trực tiếp proof .json — tái sinh 00:17:53Z bởi targeted re-run lượt đóng slice, nội dung không đổi), gate xong 00:09:16Z (07:09 +07), slice commit fcd53003.
 
