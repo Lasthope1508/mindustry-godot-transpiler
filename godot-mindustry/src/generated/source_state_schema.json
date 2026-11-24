@@ -263934,6 +263934,54 @@
       },
       "runtime_proof": "/root/C07RulesUnitDamageProof",
       "rule": "Source-backed Rules.unitDamage() state from Rules.java."
+    },
+    "source_team_compare_to_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_compare_to_state",
+      "source_slice": "N2463",
+      "keys": {
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "        return Integer.compare(id, team.id);",
+          "rule": "The id of the team being compared (Team.java:160, `compareTo(Team team)`; `id` is `public final int` :18).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_compare_to_state"
+          ]
+        },
+        "other_team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "        return Integer.compare(id, team.id);",
+          "rule": "The id of the team to compare against (Team.java:161, `team.id` in `Integer.compare(id, team.id)`).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_compare_to_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamCompareToProof",
+      "rule": "Source-backed Team.compareTo() state from Team.java."
+    },
+    "source_team_compare_to_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_compare_to_state",
+      "source_slice": "N2463",
+      "keys": {
+        "comparison": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "        return Integer.compare(id, team.id);",
+          "rule": "The comparison result (Team.java:159-162): exactly -1, 0 or 1 -- never the difference of the ids, so 0 vs 255 is -1, not -255.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_compare_to_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamCompareToProof",
+      "rule": "Source-backed Team.compareTo() state from Team.java."
     }
   },
   "version": 1

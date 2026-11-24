@@ -82327,6 +82327,36 @@
       ],
       "runtime_proof": "/root/C07RulesUnitDamageProof",
       "rule": "Source-backed Rules.unitDamage() state from Rules.java."
+    },
+    "SourceTeamsRuntimeState.source_team_compare_to_state": {
+      "status": "active",
+      "source_slice": "N2463",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "source_method": "Team.compareTo(Team)",
+      "params": [
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_team_compare_to_state_input.team_id"
+        },
+        {
+          "name": "other_team_id",
+          "type": "int",
+          "schema": "source_team_compare_to_state_input.other_team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "comparison"
+      ],
+      "tests": [
+        "test_c07_team_compare_to_registration",
+        "test_all_c07_team_compare_to_input_evidence_is_exact",
+        "test_team_compare_to_state",
+        "test_reference_graph_and_actual_c07_team_compare_to"
+      ],
+      "runtime_proof": "/root/C07TeamCompareToProof",
+      "rule": "Source-backed Team.compareTo() state from Team.java."
     }
   },
   "policy": {

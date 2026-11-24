@@ -122157,6 +122157,35 @@
         "Rules.unitBuildSpeed / unitMineSpeed / blockHealth / blockDamage / buildSpeed -- same multiplier family as unitCost/unitDamage/unitHealth, left for a later batch so batch 46 is not all one pattern.",
         "Rules.unitDamage() Windows Godot proof -- debt in GOAL.md section 5: the N2462 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2463": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_class": "mindustry.game.Team",
+      "java_method": "Team.compareTo(Team)",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_compare_to_state",
+      "exact_exprs": [
+        "    public int compareTo(Team team){",
+        "        return Integer.compare(id, team.id);",
+        "    public final int id;",
+        "public class Team implements Comparable<Team>, Senseable{"
+      ],
+      "source_symbols": [
+        "source_team_compare_to_state_input.team_id",
+        "source_team_compare_to_state_input.other_team_id",
+        "source_team_compare_to_state_result.comparison"
+      ],
+      "tests": [
+        "test_c07_team_compare_to_registration",
+        "test_all_c07_team_compare_to_input_evidence_is_exact",
+        "test_team_compare_to_state",
+        "test_reference_graph_and_actual_c07_team_compare_to"
+      ],
+      "runtime_proof": "/root/C07TeamCompareToProof",
+      "deferred_exprs": [
+        "Team.sense() / senseObject() -- a switch on LAccess, needs the sensor enum; left for a later slice.",
+        "Team.compareTo() Windows Godot proof -- debt in GOAL.md section 5: the N2463 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

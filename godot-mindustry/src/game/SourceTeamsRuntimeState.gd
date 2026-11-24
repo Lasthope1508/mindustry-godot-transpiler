@@ -657,6 +657,25 @@ static func source_team_get_state(all_teams: Array, id: int) -> Dictionary:
 	return {"team": all_teams[wrapped_id], "wrapped_id": wrapped_id}
 
 
+static func source_team_compare_to_state(team_id: int, other_team_id: int) -> Dictionary:
+	# Team.compareTo (Team.java:159-162):
+	# `@Override`
+	# `public int compareTo(Team team){`
+	# `return Integer.compare(id, team.id);`
+	# `}`
+	# Integer.compare returns exactly -1, 0 or 1 -- never the
+	# difference of the ids: 0 vs 255 is -1, not -255. A port
+	# that returns id - other_id is wrong (and risks int
+	# overflow in Java). GDScript ints are 64-bit signed, so
+	# the ternary comparison below reproduces Integer.compare
+	# for every int, including negatives. The function takes
+	# the two team ids directly (Team.id is a plain int,
+	# Team.java:18) -- unlike source_team_get_state, it needs
+	# no all_teams array.
+	var comparison: int = -1 if team_id < other_team_id else (1 if team_id > other_team_id else 0)
+	return {"comparison": comparison}
+
+
 static func source_team_state(teams_state: Dictionary, team_id: int, is_ai: bool, rts_ai: bool) -> Dictionary:
 	# Team.items()+data()+core()+active()+isAlive()+isOnlyAI()+needsFlowField()+cores()
 	# (Team.java:83-133, one grouped slice, main-thread decision 2026-11-23,

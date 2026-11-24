@@ -190104,6 +190104,54 @@
         "test_reference_graph_and_actual_c07_rules_unit_damage"
       ],
       "runtime_proof": "/root/C07RulesUnitDamageProof"
+    },
+    "source_team_compare_to_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_compare_to_state",
+      "godot_symbol": "source_team_compare_to_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.compareTo(Team)",
+      "java_expr": "        return Integer.compare(id, team.id);",
+      "rule": "The id of the team being compared (Team.java:160, `compareTo(Team team)`; `id` is `public final int` :18).",
+      "tests": [
+        "test_c07_team_compare_to_registration",
+        "test_all_c07_team_compare_to_input_evidence_is_exact",
+        "test_team_compare_to_state",
+        "test_reference_graph_and_actual_c07_team_compare_to"
+      ],
+      "runtime_proof": "/root/C07TeamCompareToProof"
+    },
+    "source_team_compare_to_state_input.other_team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_compare_to_state",
+      "godot_symbol": "source_team_compare_to_state_input.other_team_id",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.compareTo(Team)",
+      "java_expr": "        return Integer.compare(id, team.id);",
+      "rule": "The id of the team to compare against (Team.java:161, `team.id` in `Integer.compare(id, team.id)`).",
+      "tests": [
+        "test_c07_team_compare_to_registration",
+        "test_all_c07_team_compare_to_input_evidence_is_exact",
+        "test_team_compare_to_state",
+        "test_reference_graph_and_actual_c07_team_compare_to"
+      ],
+      "runtime_proof": "/root/C07TeamCompareToProof"
+    },
+    "source_team_compare_to_state_result.comparison": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_compare_to_state",
+      "godot_symbol": "source_team_compare_to_state_result.comparison",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.compareTo(Team)",
+      "java_expr": "        return Integer.compare(id, team.id);",
+      "rule": "The comparison result (Team.java:159-162): exactly -1, 0 or 1 -- never the difference of the ids, so 0 vs 255 is -1, not -255.",
+      "tests": [
+        "test_c07_team_compare_to_registration",
+        "test_all_c07_team_compare_to_input_evidence_is_exact",
+        "test_team_compare_to_state",
+        "test_reference_graph_and_actual_c07_team_compare_to"
+      ],
+      "runtime_proof": "/root/C07TeamCompareToProof"
     }
   },
   "version": 1
