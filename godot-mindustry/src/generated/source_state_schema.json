@@ -263886,6 +263886,54 @@
       },
       "runtime_proof": "/root/C07RulesBuildRadiusProof",
       "rule": "Source-backed Rules.buildRadius() state from Rules.java."
+    },
+    "source_rules_unit_damage_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_unit_damage_state",
+      "source_slice": "N2462",
+      "keys": {
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitDamageMultiplier * teams.get(team).unitDamageMultiplier;",
+          "rule": "The live rules state (Rules.java:279-281): a Dictionary with the global unitDamageMultiplier (:85, defaults to 1f) and a \"teams\" dict of per-team unitDamageMultiplier values (:355, TeamRules, defaults to 1f). A team missing from the dict means the Java fresh TeamRule, so its multiplier defaults to 1f.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_damage_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitDamageMultiplier * teams.get(team).unitDamageMultiplier;",
+          "rule": "The team whose unit damage multiplier to read (Rules.java:279, `unitDamage(Team team)`).",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_damage_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesUnitDamageProof",
+      "rule": "Source-backed Rules.unitDamage() state from Rules.java."
+    },
+    "source_rules_unit_damage_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_unit_damage_state",
+      "source_slice": "N2462",
+      "keys": {
+        "unit_damage": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitDamageMultiplier * teams.get(team).unitDamageMultiplier;",
+          "rule": "The unit damage multiplier (Rules.java:279-281): global * team, with NO floor -- a product of 0 returns 0.0 and a negative product passes through negative, unlike N2459 unitHealth which floors at 0.000001f.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_damage_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesUnitDamageProof",
+      "rule": "Source-backed Rules.unitDamage() state from Rules.java."
     }
   },
   "version": 1

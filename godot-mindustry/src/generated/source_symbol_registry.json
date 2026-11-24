@@ -190056,6 +190056,54 @@
         "test_reference_graph_and_actual_c07_rules_build_radius"
       ],
       "runtime_proof": "/root/C07RulesBuildRadiusProof"
+    },
+    "source_rules_unit_damage_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_damage_state",
+      "godot_symbol": "source_rules_unit_damage_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitDamage(Team)",
+      "java_expr": "        return unitDamageMultiplier * teams.get(team).unitDamageMultiplier;",
+      "rule": "The live rules state (Rules.java:279-281): a Dictionary with the global unitDamageMultiplier (:85, defaults to 1f) and a \"teams\" dict of per-team unitDamageMultiplier values (:355, TeamRules, defaults to 1f). A team missing from the dict means the Java fresh TeamRule, so its multiplier defaults to 1f.",
+      "tests": [
+        "test_c07_rules_unit_damage_registration",
+        "test_all_c07_rules_unit_damage_input_evidence_is_exact",
+        "test_rules_unit_damage_state",
+        "test_reference_graph_and_actual_c07_rules_unit_damage"
+      ],
+      "runtime_proof": "/root/C07RulesUnitDamageProof"
+    },
+    "source_rules_unit_damage_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_damage_state",
+      "godot_symbol": "source_rules_unit_damage_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitDamage(Team)",
+      "java_expr": "        return unitDamageMultiplier * teams.get(team).unitDamageMultiplier;",
+      "rule": "The team whose unit damage multiplier to read (Rules.java:279, `unitDamage(Team team)`).",
+      "tests": [
+        "test_c07_rules_unit_damage_registration",
+        "test_all_c07_rules_unit_damage_input_evidence_is_exact",
+        "test_rules_unit_damage_state",
+        "test_reference_graph_and_actual_c07_rules_unit_damage"
+      ],
+      "runtime_proof": "/root/C07RulesUnitDamageProof"
+    },
+    "source_rules_unit_damage_state_result.unit_damage": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_damage_state",
+      "godot_symbol": "source_rules_unit_damage_state_result.unit_damage",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitDamage(Team)",
+      "java_expr": "        return unitDamageMultiplier * teams.get(team).unitDamageMultiplier;",
+      "rule": "The unit damage multiplier (Rules.java:279-281): global * team, with NO floor -- a product of 0 returns 0.0 and a negative product passes through negative, unlike N2459 unitHealth which floors at 0.000001f.",
+      "tests": [
+        "test_c07_rules_unit_damage_registration",
+        "test_all_c07_rules_unit_damage_input_evidence_is_exact",
+        "test_rules_unit_damage_state",
+        "test_reference_graph_and_actual_c07_rules_unit_damage"
+      ],
+      "runtime_proof": "/root/C07RulesUnitDamageProof"
     }
   },
   "version": 1

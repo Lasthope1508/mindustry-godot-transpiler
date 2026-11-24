@@ -122128,6 +122128,35 @@
         "Rules.unitDamage / unitBuildSpeed / unitMineSpeed / blockHealth / blockDamage / buildSpeed -- same multiplier family as unitCost/unitHealth, left for later batches so batch 46 is not all one pattern.",
         "Rules.buildRadius() Windows Godot proof -- debt in GOAL.md section 5: the N2461 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2462": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.unitDamage(Team)",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_damage_state",
+      "exact_exprs": [
+        "    public float unitDamage(Team team){",
+        "        return unitDamageMultiplier * teams.get(team).unitDamageMultiplier;",
+        "    /** How much damage units deal. */\n    public float unitDamageMultiplier = 1f;",
+        "        /** How much damage units deal. */\n        public float unitDamageMultiplier = 1f;"
+      ],
+      "source_symbols": [
+        "source_rules_unit_damage_state_input.rules_state",
+        "source_rules_unit_damage_state_input.team_id",
+        "source_rules_unit_damage_state_result.unit_damage"
+      ],
+      "tests": [
+        "test_c07_rules_unit_damage_registration",
+        "test_all_c07_rules_unit_damage_input_evidence_is_exact",
+        "test_rules_unit_damage_state",
+        "test_reference_graph_and_actual_c07_rules_unit_damage"
+      ],
+      "runtime_proof": "/root/C07RulesUnitDamageProof",
+      "deferred_exprs": [
+        "Rules.unitBuildSpeed / unitMineSpeed / blockHealth / blockDamage / buildSpeed -- same multiplier family as unitCost/unitDamage/unitHealth, left for a later batch so batch 46 is not all one pattern.",
+        "Rules.unitDamage() Windows Godot proof -- debt in GOAL.md section 5: the N2462 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

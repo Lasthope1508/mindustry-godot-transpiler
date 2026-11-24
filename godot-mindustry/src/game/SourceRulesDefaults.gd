@@ -8,6 +8,12 @@ const UNIT_COST_MULTIPLIER_DEFAULT := 1.0
 # to 1f: units start at full health unless the map rules scale
 # it (N2459 unitHealth, sibling of N2096 unitCost).
 const UNIT_HEALTH_MULTIPLIER_DEFAULT := 1.0
+# Rules.unitDamageMultiplier (Rules.java:85) and
+# TeamRule.unitDamageMultiplier (Rules.java:355) both default
+# to 1f: units deal full damage unless the map rules scale
+# it (N2462 unitDamage, sibling of N2096 unitCost). Unlike
+# unitHealth (N2459) there is NO floor on the product here.
+const UNIT_DAMAGE_MULTIPLIER_DEFAULT := 1.0
 # Rules.enemyCoreBuildRadius (Rules.java:123) defaults to 400f:
 # the no-build zone around the enemy core (N2461 buildRadius).
 const ENEMY_CORE_BUILD_RADIUS_DEFAULT := 400.0
