@@ -82177,6 +82177,66 @@
       ],
       "runtime_proof": "/root/C07RulesModeProof",
       "rule": "Source-backed Rules.mode() state from Rules.java."
+    },
+    "SourceGameStatsRuntimeState.source_game_stats_get_placed_state": {
+      "status": "active",
+      "source_slice": "N2460",
+      "java_source": "core/src/mindustry/game/GameStats.java",
+      "source_method": "GameStats.getPlaced(Block)/getDestroyed(Block)",
+      "params": [
+        {
+          "name": "stats_state",
+          "type": "Dictionary",
+          "schema": "source_game_stats_get_placed_state_input.stats_state"
+        },
+        {
+          "name": "block",
+          "type": "String",
+          "schema": "source_game_stats_get_placed_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "placed"
+      ],
+      "tests": [
+        "test_c07_game_stats_registration",
+        "test_all_c07_game_stats_input_evidence_is_exact",
+        "test_game_stats_state",
+        "test_reference_graph_and_actual_c07_game_stats"
+      ],
+      "runtime_proof": "/root/C07GameStatsProof",
+      "rule": "Source-backed GameStats.getPlaced(Block)/getDestroyed(Block) state from GameStats.java."
+    },
+    "SourceGameStatsRuntimeState.source_game_stats_get_destroyed_state": {
+      "status": "active",
+      "source_slice": "N2460",
+      "java_source": "core/src/mindustry/game/GameStats.java",
+      "source_method": "GameStats.getPlaced(Block)/getDestroyed(Block)",
+      "params": [
+        {
+          "name": "stats_state",
+          "type": "Dictionary",
+          "schema": "source_game_stats_get_destroyed_state_input.stats_state"
+        },
+        {
+          "name": "block",
+          "type": "String",
+          "schema": "source_game_stats_get_destroyed_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "destroyed"
+      ],
+      "tests": [
+        "test_c07_game_stats_registration",
+        "test_all_c07_game_stats_input_evidence_is_exact",
+        "test_game_stats_state",
+        "test_reference_graph_and_actual_c07_game_stats"
+      ],
+      "runtime_proof": "/root/C07GameStatsProof",
+      "rule": "Source-backed GameStats.getPlaced(Block)/getDestroyed(Block) state from GameStats.java."
     }
   },
   "policy": {

@@ -122038,6 +122038,36 @@
         "Gamemode.valid / description / toString -- NOT part of this slice; description/toString need Core.bundle (i18n).",
         "Rules.mode() Windows Godot proof -- debt in GOAL.md section 5: the N2458 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2460": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/GameStats.java",
+      "java_class": "mindustry.game.GameStats",
+      "java_method": "GameStats.getPlaced(Block)/getDestroyed(Block)",
+      "godot_owner": "SourceGameStatsRuntimeState.source_game_stats_get_placed_state; SourceGameStatsRuntimeState.source_game_stats_get_destroyed_state",
+      "exact_exprs": [
+        "public int getPlaced(Block block){",
+        "return placedBlockCount.get(block, 0);",
+        "public int getDestroyed(Block block){",
+        "return destroyedBlockCount.get(block, 0);"
+      ],
+      "source_symbols": [
+        "source_game_stats_get_placed_state_result.placed",
+        "source_game_stats_get_destroyed_state_result.destroyed"
+      ],
+      "tests": [
+        "test_c07_game_stats_registration",
+        "test_all_c07_game_stats_input_evidence_is_exact",
+        "test_game_stats_state",
+        "test_reference_graph_and_actual_c07_game_stats"
+      ],
+      "runtime_proof": "/root/C07GameStatsProof",
+      "deferred_exprs": [
+        "GameStats.coreItemCount (GameStats.java:28, `public ObjectIntMap<Item> coreItemCount = new ObjectIntMap<>();`) -- NOT ported here; no getter exists in Java, so a later slice needs a new accessor decision.",
+        "The int counters (GameStats.java:8-18: enemyUnitsDestroyed, wavesLasted, buildingsBuilt, buildingsDeconstructed, buildingsDestroyed, unitsCreated) -- NOT ported here; they are public fields with no getters, so a later slice needs a new accessor decision.",
+        "Block identity (GameStats.java:30/34, `Block block`) -- GD compares the block name as a String (data-driven model); the actual Block object identity is not ported.",
+        "GameStats.getPlaced(Block) + getDestroyed(Block) Windows Godot proof -- debt in GOAL.md section 5: the N2460 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

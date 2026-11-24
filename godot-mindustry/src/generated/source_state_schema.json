@@ -263694,6 +263694,102 @@
       },
       "runtime_proof": "/root/C07RulesModeProof",
       "rule": "Source-backed Rules.mode() state from Rules.java."
+    },
+    "source_game_stats_get_placed_state_input": {
+      "status": "active",
+      "owner": "SourceGameStatsRuntimeState.source_game_stats_get_placed_state",
+      "source_slice": "N2460",
+      "keys": {
+        "stats_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/GameStats.java",
+          "java_expr": "public ObjectIntMap<Block> placedBlockCount = new ObjectIntMap<>();",
+          "rule": "The GameStats state (GameStats.java:21, `public ObjectIntMap<Block> placedBlockCount = new ObjectIntMap<>();`): a Dictionary with placedBlockCount and destroyedBlockCount, each a Dictionary keyed by block name to int counts.",
+          "used_by": [
+            "SourceGameStatsRuntimeState.source_game_stats_get_placed_state"
+          ]
+        },
+        "block": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/GameStats.java",
+          "java_expr": "public int getPlaced(Block block){",
+          "rule": "The block to look up (GameStats.java:30, `public int getPlaced(Block block){`): a String block name; a missing block returns 0.",
+          "used_by": [
+            "SourceGameStatsRuntimeState.source_game_stats_get_placed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameStatsProof",
+      "rule": "Source-backed GameStats.getPlaced(Block)/getDestroyed(Block) state from GameStats.java."
+    },
+    "source_game_stats_get_placed_state_result": {
+      "status": "active",
+      "owner": "SourceGameStatsRuntimeState.source_game_stats_get_placed_state",
+      "source_slice": "N2460",
+      "keys": {
+        "placed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/GameStats.java",
+          "java_expr": "return placedBlockCount.get(block, 0);",
+          "rule": "How many of the block have been placed (GameStats.java:31): `placedBlockCount.get(block, 0)` -- 0 when the block is absent from the placed map.",
+          "used_by": [
+            "SourceGameStatsRuntimeState.source_game_stats_get_placed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameStatsProof",
+      "rule": "Source-backed GameStats.getPlaced(Block)/getDestroyed(Block) state from GameStats.java."
+    },
+    "source_game_stats_get_destroyed_state_input": {
+      "status": "active",
+      "owner": "SourceGameStatsRuntimeState.source_game_stats_get_destroyed_state",
+      "source_slice": "N2460",
+      "keys": {
+        "stats_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/GameStats.java",
+          "java_expr": "public ObjectIntMap<Block> destroyedBlockCount = new ObjectIntMap<>();",
+          "rule": "The GameStats state (GameStats.java:24, `public ObjectIntMap<Block> destroyedBlockCount = new ObjectIntMap<>();`): a Dictionary with placedBlockCount and destroyedBlockCount, each a Dictionary keyed by block name to int counts.",
+          "used_by": [
+            "SourceGameStatsRuntimeState.source_game_stats_get_destroyed_state"
+          ]
+        },
+        "block": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/GameStats.java",
+          "java_expr": "public int getDestroyed(Block block){",
+          "rule": "The block to look up (GameStats.java:34, `public int getDestroyed(Block block){`): a String block name; a missing block returns 0.",
+          "used_by": [
+            "SourceGameStatsRuntimeState.source_game_stats_get_destroyed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameStatsProof",
+      "rule": "Source-backed GameStats.getPlaced(Block)/getDestroyed(Block) state from GameStats.java."
+    },
+    "source_game_stats_get_destroyed_state_result": {
+      "status": "active",
+      "owner": "SourceGameStatsRuntimeState.source_game_stats_get_destroyed_state",
+      "source_slice": "N2460",
+      "keys": {
+        "destroyed": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/GameStats.java",
+          "java_expr": "return destroyedBlockCount.get(block, 0);",
+          "rule": "How many of the block have been destroyed (GameStats.java:35): `destroyedBlockCount.get(block, 0)` -- 0 when the block is absent from the destroyed map, even if it is present in the placed map.",
+          "used_by": [
+            "SourceGameStatsRuntimeState.source_game_stats_get_destroyed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameStatsProof",
+      "rule": "Source-backed GameStats.getPlaced(Block)/getDestroyed(Block) state from GameStats.java."
     }
   },
   "version": 1

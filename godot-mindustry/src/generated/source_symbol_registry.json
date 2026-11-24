@@ -189928,6 +189928,38 @@
         "test_reference_graph_and_actual_c07_rules_mode"
       ],
       "runtime_proof": "/root/C07RulesModeProof"
+    },
+    "source_game_stats_get_placed_state_result.placed": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameStatsRuntimeState.source_game_stats_get_placed_state",
+      "godot_symbol": "source_game_stats_get_placed_state_result.placed",
+      "java_source": "core/src/mindustry/game/GameStats.java",
+      "java_method": "GameStats.getPlaced(Block)/getDestroyed(Block)",
+      "java_expr": "return placedBlockCount.get(block, 0);",
+      "rule": "How many of the block have been placed (GameStats.java:31): `placedBlockCount.get(block, 0)` -- 0 when the block is absent from the placed map.",
+      "tests": [
+        "test_c07_game_stats_registration",
+        "test_all_c07_game_stats_input_evidence_is_exact",
+        "test_game_stats_state",
+        "test_reference_graph_and_actual_c07_game_stats"
+      ],
+      "runtime_proof": "/root/C07GameStatsProof"
+    },
+    "source_game_stats_get_destroyed_state_result.destroyed": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameStatsRuntimeState.source_game_stats_get_destroyed_state",
+      "godot_symbol": "source_game_stats_get_destroyed_state_result.destroyed",
+      "java_source": "core/src/mindustry/game/GameStats.java",
+      "java_method": "GameStats.getPlaced(Block)/getDestroyed(Block)",
+      "java_expr": "return destroyedBlockCount.get(block, 0);",
+      "rule": "How many of the block have been destroyed (GameStats.java:35): `destroyedBlockCount.get(block, 0)` -- 0 when the block is absent from the destroyed map, even if it is present in the placed map.",
+      "tests": [
+        "test_c07_game_stats_registration",
+        "test_all_c07_game_stats_input_evidence_is_exact",
+        "test_game_stats_state",
+        "test_reference_graph_and_actual_c07_game_stats"
+      ],
+      "runtime_proof": "/root/C07GameStatsProof"
     }
   },
   "version": 1
