@@ -263608,6 +263608,54 @@
       },
       "runtime_proof": "/root/C07TeamGetProof",
       "rule": "Source-backed Team.get(int) state from Team.java."
+    },
+    "source_spawn_group_equals_state_input": {
+      "status": "active",
+      "owner": "SourceWaveSpawnRuntimeState.source_spawn_group_equals_state",
+      "source_slice": "N2457",
+      "keys": {
+        "group": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "SpawnGroup group = (SpawnGroup)o;",
+          "rule": "The SpawnGroup being compared (SpawnGroup.java:185, `SpawnGroup group = (SpawnGroup)o;`): a Dictionary with the compared fields end, begin, spacing, max, unitScaling, shields, shieldScaling, unitAmount, type, effect, items -- plus the uncompared spawn, payloads, team fields, which never affect the result.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_spawn_group_equals_state"
+          ]
+        },
+        "other": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "public boolean equals(Object o){",
+          "rule": "The object to compare against (SpawnGroup.java:182, `public boolean equals(Object o){`): a Dictionary for another group, null, or any other type -- null and non-Dictionary values are never equal.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_spawn_group_equals_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SpawnGroupEqualsProof",
+      "rule": "Source-backed SpawnGroup.equals(Object) state from SpawnGroup.java."
+    },
+    "source_spawn_group_equals_state_result": {
+      "status": "active",
+      "owner": "SourceWaveSpawnRuntimeState.source_spawn_group_equals_state",
+      "source_slice": "N2457",
+      "keys": {
+        "equals": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/SpawnGroup.java",
+          "java_expr": "return end == group.end && begin == group.begin && spacing == group.spacing && max == group.max",
+          "rule": "Whether the two groups are equal (SpawnGroup.java:186-189): all compared fields equal, with Float.compare semantics for the three floats (NaN == NaN, -0.0f < 0.0f) and Structs.eq semantics for items; spawn, payloads and team are deliberately not compared.",
+          "used_by": [
+            "SourceWaveSpawnRuntimeState.source_spawn_group_equals_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07SpawnGroupEqualsProof",
+      "rule": "Source-backed SpawnGroup.equals(Object) state from SpawnGroup.java."
     }
   },
   "version": 1

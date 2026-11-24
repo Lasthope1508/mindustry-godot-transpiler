@@ -189880,6 +189880,22 @@
         "test_reference_graph_and_actual_c07_team_get"
       ],
       "runtime_proof": "/root/C07TeamGetProof"
+    },
+    "source_spawn_group_equals_state_result.equals": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_equals_state",
+      "godot_symbol": "source_spawn_group_equals_state_result.equals",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.equals(Object)",
+      "java_expr": "return end == group.end && begin == group.begin && spacing == group.spacing && max == group.max",
+      "rule": "Whether the two groups are equal (SpawnGroup.java:186-189): all compared fields equal, with Float.compare semantics for the three floats (NaN == NaN, -0.0f < 0.0f) and Structs.eq semantics for items; spawn, payloads and team are deliberately not compared.",
+      "tests": [
+        "test_c07_spawn_group_equals_registration",
+        "test_all_c07_spawn_group_equals_input_evidence_is_exact",
+        "test_spawn_group_equals_state",
+        "test_reference_graph_and_actual_c07_spawn_group_equals"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupEqualsProof"
     }
   },
   "version": 1

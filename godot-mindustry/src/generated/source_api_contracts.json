@@ -82122,6 +82122,36 @@
       ],
       "runtime_proof": "/root/C07TeamGetProof",
       "rule": "Source-backed Team.get(int) state from Team.java."
+    },
+    "SourceWaveSpawnRuntimeState.source_spawn_group_equals_state": {
+      "status": "active",
+      "source_slice": "N2457",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "source_method": "SpawnGroup.equals(Object)",
+      "params": [
+        {
+          "name": "group",
+          "type": "Dictionary",
+          "schema": "source_spawn_group_equals_state_input.group"
+        },
+        {
+          "name": "other",
+          "type": "Variant",
+          "schema": "source_spawn_group_equals_state_input.other"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "equals"
+      ],
+      "tests": [
+        "test_c07_spawn_group_equals_registration",
+        "test_all_c07_spawn_group_equals_input_evidence_is_exact",
+        "test_spawn_group_equals_state",
+        "test_reference_graph_and_actual_c07_spawn_group_equals"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupEqualsProof",
+      "rule": "Source-backed SpawnGroup.equals(Object) state from SpawnGroup.java."
     }
   },
   "policy": {

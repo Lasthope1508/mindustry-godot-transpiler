@@ -121976,6 +121976,37 @@
         "The call-sites of Team.get(int) -- `BuildingComp.setProp` (java_expr `Team team = Team.get((int)value);`, already in the registry as a call-site, not a body expr) and `SpawnGroup.read` (Team.java call at SpawnGroup.java:147) -- not in this slice; they belong to their own owners, later slices.",
         "Team.get(int) Windows Godot proof -- debt in GOAL.md section 5: the N2456 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2457": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_class": "mindustry.game.SpawnGroup",
+      "java_method": "SpawnGroup.equals(Object)",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_equals_state",
+      "exact_exprs": [
+        "public boolean equals(Object o){",
+        "return end == group.end && begin == group.begin && spacing == group.spacing && max == group.max",
+        "Float.compare(group.unitScaling, unitScaling) == 0 && Float.compare(group.shields, shields) == 0",
+        "Float.compare(group.shieldScaling, shieldScaling) == 0 && unitAmount == group.unitAmount &&",
+        "type == group.type && effect == group.effect && Structs.eq(items, group.items);"
+      ],
+      "source_symbols": [
+        "source_spawn_group_equals_state_result.equals"
+      ],
+      "tests": [
+        "test_c07_spawn_group_equals_registration",
+        "test_all_c07_spawn_group_equals_input_evidence_is_exact",
+        "test_spawn_group_equals_state",
+        "test_reference_graph_and_actual_c07_spawn_group_equals"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupEqualsProof",
+      "deferred_exprs": [
+        "SpawnGroup.hashCode() (SpawnGroup.java:192-195, `Arrays.hashCode(new Object[]{type, end, begin, spacing, max, unitScaling, shields, shieldScaling, unitAmount, effect, items})`) -- NOT ported here; Arrays.hashCode semantics belong to a later slice.",
+        "The `this == o` identity shortcut (SpawnGroup.java:183) -- NOT modelled: GDScript has no reference-identity operator for Dictionary, and Dictionary `==` is deep value equality, which is wrong here twice over (verified on Godot 4.6.2): `==` between a Dictionary and a String/int is an invalid operation, and `{\"x\": 0.0} == {\"x\": -0.0}` is true, so a `==` shortcut would short-circuit the -0.0 trap before _float_compare ever runs. The shortcut is unobservable: the field comparison returns true for a group compared with itself (Float.compare makes NaN == NaN, Structs.eq makes items equal to itself).",
+        "type/effect reference identity (`type == group.type && effect == group.effect`, SpawnGroup.java:189) -- GD compares the content names as strings (data-driven model); the actual UnitType/StatusEffect object identity is not ported.",
+        "Structs.eq(items, group.items) (SpawnGroup.java:189) -- GD models ItemStack as a Dictionary {\"item\": <name>, \"amount\": <int>} or null and compares those two keys, per ItemStack.equals (ItemStack.java:77-79); a richer ItemStack model belongs to a later slice if needed.",
+        "SpawnGroup.equals(Object) Windows Godot proof -- debt in GOAL.md section 5: the N2457 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1
