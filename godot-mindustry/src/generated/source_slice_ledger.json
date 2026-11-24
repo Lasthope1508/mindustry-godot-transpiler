@@ -122007,6 +122007,37 @@
         "Structs.eq(items, group.items) (SpawnGroup.java:189) -- GD models ItemStack as a Dictionary {\"item\": <name>, \"amount\": <int>} or null and compares those two keys, per ItemStack.equals (ItemStack.java:77-79); a richer ItemStack model belongs to a later slice if needed.",
         "SpawnGroup.equals(Object) Windows Godot proof -- debt in GOAL.md section 5: the N2457 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2458": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.mode()",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_mode_state",
+      "exact_exprs": [
+        "    public Gamemode mode(){",
+        "        if(pvp){\n            return Gamemode.pvp;",
+        "        }else if(editor){\n            return Gamemode.editor;",
+        "        }else if(attackMode){\n            return Gamemode.attack;",
+        "        }else if(infiniteResources){\n            return Gamemode.sandbox;",
+        "        }else{\n            return Gamemode.survival;"
+      ],
+      "source_symbols": [
+        "source_rules_mode_state_input.rules_state",
+        "source_rules_mode_state_result.mode"
+      ],
+      "tests": [
+        "test_c07_rules_mode_registration",
+        "test_all_c07_rules_mode_input_evidence_is_exact",
+        "test_rules_mode_state",
+        "test_reference_graph_and_actual_c07_rules_mode"
+      ],
+      "runtime_proof": "/root/C07RulesModeProof",
+      "deferred_exprs": [
+        "Gamemode.apply (Gamemode.java, mutating rules presets) -- NOT ported here; mode() only reads the 4 flags and returns the mode name.",
+        "Gamemode.valid / description / toString -- NOT part of this slice; description/toString need Core.bundle (i18n).",
+        "Rules.mode() Windows Godot proof -- debt in GOAL.md section 5: the N2458 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

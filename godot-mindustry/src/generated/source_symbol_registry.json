@@ -189896,6 +189896,38 @@
         "test_reference_graph_and_actual_c07_spawn_group_equals"
       ],
       "runtime_proof": "/root/C07SpawnGroupEqualsProof"
+    },
+    "source_rules_mode_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_mode_state",
+      "godot_symbol": "source_rules_mode_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.mode()",
+      "java_expr": "    public Gamemode mode(){",
+      "rule": "The live rules state (Rules.java:249-261): a Dictionary with the 4 bool flags pvp (:41), editor (:51), attackMode (:49) and infiniteResources (:27). A missing flag means the Java field default (false); all four default to false, so an empty rules state is survival.",
+      "tests": [
+        "test_c07_rules_mode_registration",
+        "test_all_c07_rules_mode_input_evidence_is_exact",
+        "test_rules_mode_state",
+        "test_reference_graph_and_actual_c07_rules_mode"
+      ],
+      "runtime_proof": "/root/C07RulesModeProof"
+    },
+    "source_rules_mode_state_result.mode": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_mode_state",
+      "godot_symbol": "source_rules_mode_state_result.mode",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.mode()",
+      "java_expr": "        }else{\n            return Gamemode.survival;",
+      "rule": "The gamemode that best fits these rules (Rules.java:249-261, `/** Returns the gamemode that best fits these rules. */`): \"pvp\", \"editor\", \"attack\", \"sandbox\" or \"survival\" -- the Gamemode enum name as a String (precedent N2454 GameState state_name). Priority order is pvp > editor > attackMode > infiniteResources > survival.",
+      "tests": [
+        "test_c07_rules_mode_registration",
+        "test_all_c07_rules_mode_input_evidence_is_exact",
+        "test_rules_mode_state",
+        "test_reference_graph_and_actual_c07_rules_mode"
+      ],
+      "runtime_proof": "/root/C07RulesModeProof"
     }
   },
   "version": 1

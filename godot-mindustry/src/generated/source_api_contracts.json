@@ -82152,6 +82152,31 @@
       ],
       "runtime_proof": "/root/C07SpawnGroupEqualsProof",
       "rule": "Source-backed SpawnGroup.equals(Object) state from SpawnGroup.java."
+    },
+    "SourceRulesRuntimeState.source_rules_mode_state": {
+      "status": "active",
+      "source_slice": "N2458",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "source_method": "Rules.mode()",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_rules_mode_state_input.rules_state"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "mode"
+      ],
+      "tests": [
+        "test_c07_rules_mode_registration",
+        "test_all_c07_rules_mode_input_evidence_is_exact",
+        "test_rules_mode_state",
+        "test_reference_graph_and_actual_c07_rules_mode"
+      ],
+      "runtime_proof": "/root/C07RulesModeProof",
+      "rule": "Source-backed Rules.mode() state from Rules.java."
     }
   },
   "policy": {

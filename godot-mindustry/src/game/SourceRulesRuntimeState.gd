@@ -3,6 +3,45 @@ class_name SourceRulesRuntimeState
 
 const source_rules_defaults := preload("res://src/game/SourceRulesDefaults.gd")
 
+# Rules.mode() — Rules.java:249-261:
+#     /** Returns the gamemode that best fits these rules. */
+#     public Gamemode mode(){
+#         if(pvp){
+#             return Gamemode.pvp;
+#         }else if(editor){
+#             return Gamemode.editor;
+#         }else if(attackMode){
+#             return Gamemode.attack;
+#         }else if(infiniteResources){
+#             return Gamemode.sandbox;
+#         }else{
+#             return Gamemode.survival;
+#         }
+#     }
+# The Gamemode enum is returned as its String name -- precedent
+# N2454: GameState `state` travels through GD as `state_name`
+# ("paused"/"playing"/"menu"). The priority order is the trap:
+# pvp wins over every other flag set at the same time, so the
+# branches must be checked in Java order and must not be
+# reordered (checking infiniteResources first would return
+# "sandbox" for an attack game). A missing flag means the Java
+# field default (false): all four booleans default to false
+# (pvp :41, editor :51, attackMode :49, infiniteResources :27),
+# so an empty rules state is survival.
+# rules_state shape: {"pvp": bool, "editor": bool,
+#   "attackMode": bool, "infiniteResources": bool}.
+static func source_rules_mode_state(rules_state: Dictionary) -> Dictionary:
+	if bool(rules_state.get("pvp", false)):
+		return {"mode": "pvp"}
+	if bool(rules_state.get("editor", false)):
+		return {"mode": "editor"}
+	if bool(rules_state.get("attackMode", false)):
+		return {"mode": "attack"}
+	if bool(rules_state.get("infiniteResources", false)):
+		return {"mode": "sandbox"}
+	return {"mode": "survival"}
+
+
 # Rules.unitCost(Team team) — Rules.java:275-276:
 #     return unitCostMultiplier * teams.get(team).unitCostMultiplier;
 # The global multiplier defaults to 1f (Rules.java:83) and the

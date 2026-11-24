@@ -263656,6 +263656,44 @@
       },
       "runtime_proof": "/root/C07SpawnGroupEqualsProof",
       "rule": "Source-backed SpawnGroup.equals(Object) state from SpawnGroup.java."
+    },
+    "source_rules_mode_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_mode_state",
+      "source_slice": "N2458",
+      "keys": {
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "    public Gamemode mode(){",
+          "rule": "The live rules state (Rules.java:249-261): a Dictionary with the 4 bool flags pvp (:41), editor (:51), attackMode (:49) and infiniteResources (:27). A missing flag means the Java field default (false); all four default to false, so an empty rules state is survival.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_mode_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesModeProof",
+      "rule": "Source-backed Rules.mode() state from Rules.java."
+    },
+    "source_rules_mode_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_mode_state",
+      "source_slice": "N2458",
+      "keys": {
+        "mode": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        }else{\n            return Gamemode.survival;",
+          "rule": "The gamemode that best fits these rules (Rules.java:249-261, `/** Returns the gamemode that best fits these rules. */`): \"pvp\", \"editor\", \"attack\", \"sandbox\" or \"survival\" -- the Gamemode enum name as a String (precedent N2454 GameState state_name). Priority order is pvp > editor > attackMode > infiniteResources > survival.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_mode_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesModeProof",
+      "rule": "Source-backed Rules.mode() state from Rules.java."
     }
   },
   "version": 1
