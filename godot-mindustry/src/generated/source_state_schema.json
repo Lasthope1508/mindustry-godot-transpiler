@@ -263790,6 +263790,54 @@
       },
       "runtime_proof": "/root/C07GameStatsProof",
       "rule": "Source-backed GameStats.getPlaced(Block)/getDestroyed(Block) state from GameStats.java."
+    },
+    "source_rules_unit_health_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_unit_health_state",
+      "source_slice": "N2459",
+      "keys": {
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return Math.max(unitHealthMultiplier * teams.get(team).unitHealthMultiplier, 0.000001f);",
+          "rule": "The live rules state (Rules.java:283-286): a Dictionary with the global unitHealthMultiplier (:87, defaults to 1f) and a \"teams\" dict of per-team unitHealthMultiplier values (:363, TeamRules, defaults to 1f). A team missing from the dict means the Java fresh TeamRule, so its multiplier defaults to 1f.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_health_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return Math.max(unitHealthMultiplier * teams.get(team).unitHealthMultiplier, 0.000001f);",
+          "rule": "The team whose unit health multiplier to read (Rules.java:283, `unitHealth(Team team)`).",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_health_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesUnitHealthProof",
+      "rule": "Source-backed Rules.unitHealth() state from Rules.java."
+    },
+    "source_rules_unit_health_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_unit_health_state",
+      "source_slice": "N2459",
+      "keys": {
+        "unit_health": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return Math.max(unitHealthMultiplier * teams.get(team).unitHealthMultiplier, 0.000001f);",
+          "rule": "The unit health multiplier (Rules.java:283-286): Math.max(global * team, 0.000001f). The floor is 0.000001, not 0 -- a product of 0 or negative still returns 0.000001, exactly as the Java comment :284 says (\"a 0 here would be a very bad idea\").",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_health_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesUnitHealthProof",
+      "rule": "Source-backed Rules.unitHealth() state from Rules.java."
     }
   },
   "version": 1

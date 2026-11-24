@@ -82237,6 +82237,36 @@
       ],
       "runtime_proof": "/root/C07GameStatsProof",
       "rule": "Source-backed GameStats.getPlaced(Block)/getDestroyed(Block) state from GameStats.java."
+    },
+    "SourceRulesRuntimeState.source_rules_unit_health_state": {
+      "status": "active",
+      "source_slice": "N2459",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "source_method": "Rules.unitHealth(Team)",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_rules_unit_health_state_input.rules_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_rules_unit_health_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unit_health"
+      ],
+      "tests": [
+        "test_c07_rules_unit_health_registration",
+        "test_all_c07_rules_unit_health_input_evidence_is_exact",
+        "test_rules_unit_health_state",
+        "test_reference_graph_and_actual_c07_rules_unit_health"
+      ],
+      "runtime_proof": "/root/C07RulesUnitHealthProof",
+      "rule": "Source-backed Rules.unitHealth() state from Rules.java."
     }
   },
   "policy": {

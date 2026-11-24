@@ -122068,6 +122068,36 @@
         "Block identity (GameStats.java:30/34, `Block block`) -- GD compares the block name as a String (data-driven model); the actual Block object identity is not ported.",
         "GameStats.getPlaced(Block) + getDestroyed(Block) Windows Godot proof -- debt in GOAL.md section 5: the N2460 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2459": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.unitHealth(Team)",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_health_state",
+      "exact_exprs": [
+        "    public float unitHealth(Team team){",
+        "        //a 0 here would be a very bad idea.",
+        "        return Math.max(unitHealthMultiplier * teams.get(team).unitHealthMultiplier, 0.000001f);",
+        "    /** How much health units start with. */\n    public float unitHealthMultiplier = 1f;",
+        "        /** How much health units start with. */\n        public float unitHealthMultiplier = 1f;"
+      ],
+      "source_symbols": [
+        "source_rules_unit_health_state_input.rules_state",
+        "source_rules_unit_health_state_input.team_id",
+        "source_rules_unit_health_state_result.unit_health"
+      ],
+      "tests": [
+        "test_c07_rules_unit_health_registration",
+        "test_all_c07_rules_unit_health_input_evidence_is_exact",
+        "test_rules_unit_health_state",
+        "test_reference_graph_and_actual_c07_rules_unit_health"
+      ],
+      "runtime_proof": "/root/C07RulesUnitHealthProof",
+      "deferred_exprs": [
+        "Rules.unitDamage / unitBuildSpeed / unitMineSpeed / blockHealth / blockDamage / buildSpeed -- same multiplier family as unitCost/unitHealth, left for a later batch so batch 45 is not all one pattern.",
+        "Rules.unitHealth() Windows Godot proof -- debt in GOAL.md section 5: the N2459 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

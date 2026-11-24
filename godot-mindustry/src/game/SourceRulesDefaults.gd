@@ -3,6 +3,11 @@ class_name SourceRulesDefaults
 
 const BUILD_COST_MULTIPLIER_DEFAULT := 1.0
 const UNIT_COST_MULTIPLIER_DEFAULT := 1.0
+# Rules.unitHealthMultiplier (Rules.java:87) and
+# TeamRule.unitHealthMultiplier (Rules.java:363) both default
+# to 1f: units start at full health unless the map rules scale
+# it (N2459 unitHealth, sibling of N2096 unitCost).
+const UNIT_HEALTH_MULTIPLIER_DEFAULT := 1.0
 # TeamRule.cheat (Rules.java:328) has no explicit initializer, so it
 # defaults to false like every Java boolean field: a team does not
 # cheat unless its rules say so.

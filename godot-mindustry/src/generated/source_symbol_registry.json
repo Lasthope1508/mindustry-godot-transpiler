@@ -189960,6 +189960,54 @@
         "test_reference_graph_and_actual_c07_game_stats"
       ],
       "runtime_proof": "/root/C07GameStatsProof"
+    },
+    "source_rules_unit_health_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_health_state",
+      "godot_symbol": "source_rules_unit_health_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitHealth(Team)",
+      "java_expr": "        return Math.max(unitHealthMultiplier * teams.get(team).unitHealthMultiplier, 0.000001f);",
+      "rule": "The live rules state (Rules.java:283-286): a Dictionary with the global unitHealthMultiplier (:87, defaults to 1f) and a \"teams\" dict of per-team unitHealthMultiplier values (:363, TeamRules, defaults to 1f). A team missing from the dict means the Java fresh TeamRule, so its multiplier defaults to 1f.",
+      "tests": [
+        "test_c07_rules_unit_health_registration",
+        "test_all_c07_rules_unit_health_input_evidence_is_exact",
+        "test_rules_unit_health_state",
+        "test_reference_graph_and_actual_c07_rules_unit_health"
+      ],
+      "runtime_proof": "/root/C07RulesUnitHealthProof"
+    },
+    "source_rules_unit_health_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_health_state",
+      "godot_symbol": "source_rules_unit_health_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitHealth(Team)",
+      "java_expr": "        return Math.max(unitHealthMultiplier * teams.get(team).unitHealthMultiplier, 0.000001f);",
+      "rule": "The team whose unit health multiplier to read (Rules.java:283, `unitHealth(Team team)`).",
+      "tests": [
+        "test_c07_rules_unit_health_registration",
+        "test_all_c07_rules_unit_health_input_evidence_is_exact",
+        "test_rules_unit_health_state",
+        "test_reference_graph_and_actual_c07_rules_unit_health"
+      ],
+      "runtime_proof": "/root/C07RulesUnitHealthProof"
+    },
+    "source_rules_unit_health_state_result.unit_health": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_health_state",
+      "godot_symbol": "source_rules_unit_health_state_result.unit_health",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitHealth(Team)",
+      "java_expr": "        return Math.max(unitHealthMultiplier * teams.get(team).unitHealthMultiplier, 0.000001f);",
+      "rule": "The unit health multiplier (Rules.java:283-286): Math.max(global * team, 0.000001f). The floor is 0.000001, not 0 -- a product of 0 or negative still returns 0.000001, exactly as the Java comment :284 says (\"a 0 here would be a very bad idea\").",
+      "tests": [
+        "test_c07_rules_unit_health_registration",
+        "test_all_c07_rules_unit_health_input_evidence_is_exact",
+        "test_rules_unit_health_state",
+        "test_reference_graph_and_actual_c07_rules_unit_health"
+      ],
+      "runtime_proof": "/root/C07RulesUnitHealthProof"
     }
   },
   "version": 1

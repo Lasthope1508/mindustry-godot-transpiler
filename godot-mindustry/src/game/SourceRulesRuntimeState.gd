@@ -66,6 +66,37 @@ static func source_unit_cost_state(rules_state: Dictionary, team_id: int) -> Dic
 	return {"unit_cost": global_multiplier * team_multiplier}
 
 
+# Rules.unitHealth(Team team) — Rules.java:283-286:
+#     public float unitHealth(Team team){
+#         //a 0 here would be a very bad idea.
+#         return Math.max(unitHealthMultiplier * teams.get(team).unitHealthMultiplier, 0.000001f);
+#     }
+# The global multiplier defaults to 1f (Rules.java:87) and the
+# per-team multiplier defaults to 1f (Rules.java:363, TeamRules).
+# TRAP: the floor is 0.000001, not 0 -- a product of 0 (or
+# negative) still returns 0.000001, exactly as the Java comment
+# :284 says ("a 0 here would be a very bad idea"). A port that
+# clamps to 0 is wrong. GDScript float is 64-bit vs Java float
+# 32-bit: the floor literal is the same 0.000001, and products
+# are compared with a tolerance in the proof, never == on large
+# float products.
+# rules_state shape: {"unitHealthMultiplier": float,
+#   "teams": {team_id: {"unitHealthMultiplier": float}}}.
+# Team keys may be ints (built in GDScript) or strings (from JSON).
+static func source_rules_unit_health_state(rules_state: Dictionary, team_id: int) -> Dictionary:
+	var global_multiplier: float = float(rules_state.get("unitHealthMultiplier", source_rules_defaults.UNIT_HEALTH_MULTIPLIER_DEFAULT))
+	var team_multiplier: float = source_rules_defaults.UNIT_HEALTH_MULTIPLIER_DEFAULT
+	var teams: Dictionary = rules_state.get("teams", {})
+	var team_rules: Dictionary = {}
+	if teams.has(team_id):
+		team_rules = teams[team_id]
+	elif teams.has(str(team_id)):
+		team_rules = teams[str(team_id)]
+	if not team_rules.is_empty():
+		team_multiplier = float(team_rules.get("unitHealthMultiplier", source_rules_defaults.UNIT_HEALTH_MULTIPLIER_DEFAULT))
+	return {"unit_health": maxf(global_multiplier * team_multiplier, 0.000001)}
+
+
 # GameState.rules — GameState.java:35:
 #     /** The current game rules. */
 #     public Rules rules = new Rules();
