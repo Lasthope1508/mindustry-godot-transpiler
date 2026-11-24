@@ -49,6 +49,18 @@ Agent use:
 - Spawn agents only for independent non-conflicting work.
 - Do not spawn agents for slices touching shared SSOT JSON, checklist totals, or `godot-mindustry/src/game/PortGame.gd`.
 
+## Full gate on this VM: run it sharded (2026-11-24)
+
+This VM restarts every ~1.5–2 hours and kills running processes; the
+monolithic full gate (~2h, 7013 tests) died three times in a row for
+N2456 (at ~35%, 90.3%, 95.6%) and blocked a finished slice for 5+ hours.
+Run the step-6 gate **sharded** per `docs/gate-sharding.md`: 5 shards by
+module in discovery order, one log each, resumable — a restart costs at
+most the in-flight shard. Pass bar is unchanged: aggregate failures must
+be exactly the 2 known baseline failures and errors must be 0. Any work
+expected to run over ~1 hour on this VM must be checkpointed the same
+way; never let one long process hold a commit hostage.
+
 ## Family ownership split between lines (Isabella, 2026-11-17 ~19:06 +07)
 
 Two lines work on this repo in parallel (this VM + the Windows/other line) and
