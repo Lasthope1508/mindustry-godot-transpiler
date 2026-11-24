@@ -82267,6 +82267,36 @@
       ],
       "runtime_proof": "/root/C07RulesUnitHealthProof",
       "rule": "Source-backed Rules.unitHealth() state from Rules.java."
+    },
+    "SourceRulesRuntimeState.source_rules_build_radius_state": {
+      "status": "active",
+      "source_slice": "N2461",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "source_method": "Rules.buildRadius(Team)",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_rules_build_radius_state_input.rules_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_rules_build_radius_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "build_radius"
+      ],
+      "tests": [
+        "test_c07_rules_build_radius_registration",
+        "test_all_c07_rules_build_radius_input_evidence_is_exact",
+        "test_rules_build_radius_state",
+        "test_reference_graph_and_actual_c07_rules_build_radius"
+      ],
+      "runtime_proof": "/root/C07RulesBuildRadiusProof",
+      "rule": "Source-backed Rules.buildRadius() state from Rules.java."
     }
   },
   "policy": {

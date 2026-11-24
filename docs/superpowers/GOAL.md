@@ -642,6 +642,8 @@ nhãn slot — số thật cấp lúc spawn từ allocations.json.
     Scene tới Windows theo slice commit `663d9520`. Chưa chạy trên Windows Godot.
   - [ ] N2458 `C07RulesModeProof` — Linux GREEN 2026-11-24 ~17:40 (8 key).
     Scene tới Windows theo slice commit `e4ef9814`. Chưa chạy trên Windows Godot.
+  - [ ] N2461 `C07RulesBuildRadiusProof` — Linux GREEN 2026-11-24 ~23:15 (8 key).
+    Scene tới Windows theo slice commit `d0dcac23`. Chưa chạy trên Windows Godot.
   - [ ] N2459 `C07RulesUnitHealthProof` — Linux GREEN 2026-11-24 ~20:30 (8 key).
     Scene tới Windows theo slice commit `9edd36f1`. Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu

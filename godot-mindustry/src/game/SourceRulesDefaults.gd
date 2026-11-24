@@ -8,6 +8,9 @@ const UNIT_COST_MULTIPLIER_DEFAULT := 1.0
 # to 1f: units start at full health unless the map rules scale
 # it (N2459 unitHealth, sibling of N2096 unitCost).
 const UNIT_HEALTH_MULTIPLIER_DEFAULT := 1.0
+# Rules.enemyCoreBuildRadius (Rules.java:123) defaults to 400f:
+# the no-build zone around the enemy core (N2461 buildRadius).
+const ENEMY_CORE_BUILD_RADIUS_DEFAULT := 400.0
 # TeamRule.cheat (Rules.java:328) has no explicit initializer, so it
 # defaults to false like every Java boolean field: a team does not
 # cheat unless its rules say so.

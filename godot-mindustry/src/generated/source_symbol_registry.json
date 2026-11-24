@@ -190008,6 +190008,54 @@
         "test_reference_graph_and_actual_c07_rules_unit_health"
       ],
       "runtime_proof": "/root/C07RulesUnitHealthProof"
+    },
+    "source_rules_build_radius_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_build_radius_state",
+      "godot_symbol": "source_rules_build_radius_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.buildRadius(Team)",
+      "java_expr": "        return !teams.get(team).protectCores ? 0f : enemyCoreBuildRadius + teams.get(team).extraCoreBuildRadius;",
+      "rule": "The live rules state (Rules.java:267-269): a Dictionary with the global enemyCoreBuildRadius (:123, defaults to 400f) and a \"teams\" dict of per-team protectCores (:324, TeamRules, defaults to true) and extraCoreBuildRadius (:371, defaults to 0f) values. A team missing from the dict means the Java fresh TeamRule, so protect defaults to true and extra to 0f.",
+      "tests": [
+        "test_c07_rules_build_radius_registration",
+        "test_all_c07_rules_build_radius_input_evidence_is_exact",
+        "test_rules_build_radius_state",
+        "test_reference_graph_and_actual_c07_rules_build_radius"
+      ],
+      "runtime_proof": "/root/C07RulesBuildRadiusProof"
+    },
+    "source_rules_build_radius_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_build_radius_state",
+      "godot_symbol": "source_rules_build_radius_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.buildRadius(Team)",
+      "java_expr": "        return !teams.get(team).protectCores ? 0f : enemyCoreBuildRadius + teams.get(team).extraCoreBuildRadius;",
+      "rule": "The team whose build radius to read (Rules.java:267, `buildRadius(Team team)`).",
+      "tests": [
+        "test_c07_rules_build_radius_registration",
+        "test_all_c07_rules_build_radius_input_evidence_is_exact",
+        "test_rules_build_radius_state",
+        "test_reference_graph_and_actual_c07_rules_build_radius"
+      ],
+      "runtime_proof": "/root/C07RulesBuildRadiusProof"
+    },
+    "source_rules_build_radius_state_result.build_radius": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_build_radius_state",
+      "godot_symbol": "source_rules_build_radius_state_result.build_radius",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.buildRadius(Team)",
+      "java_expr": "        return !teams.get(team).protectCores ? 0f : enemyCoreBuildRadius + teams.get(team).extraCoreBuildRadius;",
+      "rule": "The no-build radius around the enemy core (Rules.java:267-269): 0f when protectCores is false, else enemyCoreBuildRadius + extraCoreBuildRadius. No clamp -- a negative extra passes through (400 + -50 = 350), unlike the Math.max floor in N2459 unitHealth.",
+      "tests": [
+        "test_c07_rules_build_radius_registration",
+        "test_all_c07_rules_build_radius_input_evidence_is_exact",
+        "test_rules_build_radius_state",
+        "test_reference_graph_and_actual_c07_rules_build_radius"
+      ],
+      "runtime_proof": "/root/C07RulesBuildRadiusProof"
     }
   },
   "version": 1

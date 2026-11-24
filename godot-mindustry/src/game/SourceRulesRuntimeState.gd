@@ -42,6 +42,42 @@ static func source_rules_mode_state(rules_state: Dictionary) -> Dictionary:
 	return {"mode": "survival"}
 
 
+# Rules.buildRadius(Team team) — Rules.java:267-269:
+#     public float buildRadius(Team team){
+#         return !teams.get(team).protectCores ? 0f :
+#             enemyCoreBuildRadius +
+#             teams.get(team).extraCoreBuildRadius;
+#     }
+# The global enemyCoreBuildRadius defaults to 400f (Rules.java:123)
+# and the per-team protectCores defaults to true (Rules.java:324,
+# TeamRules) with extraCoreBuildRadius defaulting to 0f (:371).
+# TRAP: protectCores=false blocks everything -- the ternary
+# returns 0f without adding anything, however large the extra
+# is. A port that adds first and checks protect later is wrong.
+# TRAP: no clamp -- unlike N2459 unitHealth there is no Math.max
+# here, so a negative extra passes through (400 + -50 = 350).
+# rules_state shape: {"enemyCoreBuildRadius": float,
+#   "teams": {team_id: {"protectCores": bool,
+#   "extraCoreBuildRadius": float}}}.
+# Team keys may be ints (built in GDScript) or strings (from JSON).
+static func source_rules_build_radius_state(rules_state: Dictionary, team_id: int) -> Dictionary:
+	var enemy_core_build_radius: float = float(rules_state.get("enemyCoreBuildRadius", source_rules_defaults.ENEMY_CORE_BUILD_RADIUS_DEFAULT))
+	var protect_cores: bool = true
+	var extra_core_build_radius: float = 0.0
+	var teams: Dictionary = rules_state.get("teams", {})
+	var team_rules: Dictionary = {}
+	if teams.has(team_id):
+		team_rules = teams[team_id]
+	elif teams.has(str(team_id)):
+		team_rules = teams[str(team_id)]
+	if not team_rules.is_empty():
+		protect_cores = bool(team_rules.get("protectCores", true))
+		extra_core_build_radius = float(team_rules.get("extraCoreBuildRadius", 0.0))
+	if not protect_cores:
+		return {"build_radius": 0.0}
+	return {"build_radius": enemy_core_build_radius + extra_core_build_radius}
+
+
 # Rules.unitCost(Team team) — Rules.java:275-276:
 #     return unitCostMultiplier * teams.get(team).unitCostMultiplier;
 # The global multiplier defaults to 1f (Rules.java:83) and the

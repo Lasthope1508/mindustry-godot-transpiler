@@ -122098,6 +122098,36 @@
         "Rules.unitDamage / unitBuildSpeed / unitMineSpeed / blockHealth / blockDamage / buildSpeed -- same multiplier family as unitCost/unitHealth, left for a later batch so batch 45 is not all one pattern.",
         "Rules.unitHealth() Windows Godot proof -- debt in GOAL.md section 5: the N2459 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2461": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.buildRadius(Team)",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_build_radius_state",
+      "exact_exprs": [
+        "    public float buildRadius(Team team){",
+        "        return !teams.get(team).protectCores ? 0f : enemyCoreBuildRadius + teams.get(team).extraCoreBuildRadius;",
+        "    /** No-build zone around enemy core radius. */\n    public float enemyCoreBuildRadius = 400f;",
+        "        /** Whether the core no-build radius/polygonal protection applies to this team, unprotected teams are ignored by team assigner */\n        public boolean protectCores = true;",
+        "        /** Extra spacing added to the no-build zone around the core. */\n        public float extraCoreBuildRadius = 0f;"
+      ],
+      "source_symbols": [
+        "source_rules_build_radius_state_input.rules_state",
+        "source_rules_build_radius_state_input.team_id",
+        "source_rules_build_radius_state_result.build_radius"
+      ],
+      "tests": [
+        "test_c07_rules_build_radius_registration",
+        "test_all_c07_rules_build_radius_input_evidence_is_exact",
+        "test_rules_build_radius_state",
+        "test_reference_graph_and_actual_c07_rules_build_radius"
+      ],
+      "runtime_proof": "/root/C07RulesBuildRadiusProof",
+      "deferred_exprs": [
+        "Rules.unitDamage / unitBuildSpeed / unitMineSpeed / blockHealth / blockDamage / buildSpeed -- same multiplier family as unitCost/unitHealth, left for later batches so batch 46 is not all one pattern.",
+        "Rules.buildRadius() Windows Godot proof -- debt in GOAL.md section 5: the N2461 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1
