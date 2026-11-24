@@ -82096,6 +82096,32 @@
       ],
       "runtime_proof": "/root/C07WaveSpawnerGetFirstSpawnProof",
       "rule": "Source-backed WaveSpawner.getFirstSpawn() state from WaveSpawner.java."
+    },
+    "SourceTeamsRuntimeState.source_team_get_state": {
+      "status": "active",
+      "source_slice": "N2456",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "source_method": "Team.get(int)",
+      "params": [
+        {
+          "name": "all_teams",
+          "type": "Array",
+          "schema": "source_team_get_state_input.all_teams"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "team",
+        "wrapped_id"
+      ],
+      "tests": [
+        "test_c07_team_get_registration",
+        "test_all_c07_team_get_input_evidence_is_exact",
+        "test_team_get_state",
+        "test_reference_graph_and_actual_c07_team_get"
+      ],
+      "runtime_proof": "/root/C07TeamGetProof",
+      "rule": "Source-backed Team.get(int) state from Team.java."
     }
   },
   "policy": {

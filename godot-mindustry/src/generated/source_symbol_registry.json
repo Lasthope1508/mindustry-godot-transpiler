@@ -189848,6 +189848,38 @@
         "test_reference_graph_and_actual_c07_wave_spawner_get_first_spawn"
       ],
       "runtime_proof": "/root/C07WaveSpawnerGetFirstSpawnProof"
+    },
+    "source_team_get_state_result.team": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_get_state",
+      "godot_symbol": "source_team_get_state_result.team",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.get(int)",
+      "java_expr": "return all[((byte)id) & 0xff];",
+      "rule": "The team at the wrapped index (Team.java:59, `return all[((byte)id) & 0xff];`): all_teams[((id % 256) + 256) % 256] in GD, the same modulo-256 wrap as the Java (byte) cast + & 0xff for every int, including negatives.",
+      "tests": [
+        "test_c07_team_get_registration",
+        "test_all_c07_team_get_input_evidence_is_exact",
+        "test_team_get_state",
+        "test_reference_graph_and_actual_c07_team_get"
+      ],
+      "runtime_proof": "/root/C07TeamGetProof"
+    },
+    "source_team_get_state_result.wrapped_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_get_state",
+      "godot_symbol": "source_team_get_state_result.wrapped_id",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.get(int)",
+      "java_expr": "((byte)id) & 0xff",
+      "rule": "The wrapped index (Team.java:59, `((byte)id) & 0xff`): the low 8 bits of id as an unsigned 0..255 value; 256 -> 0, -1 -> 255, -256 -> 0, 257 -> 1.",
+      "tests": [
+        "test_c07_team_get_registration",
+        "test_all_c07_team_get_input_evidence_is_exact",
+        "test_team_get_state",
+        "test_reference_graph_and_actual_c07_team_get"
+      ],
+      "runtime_proof": "/root/C07TeamGetProof"
     }
   },
   "version": 1

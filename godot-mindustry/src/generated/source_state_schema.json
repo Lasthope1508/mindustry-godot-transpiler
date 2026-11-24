@@ -263560,6 +263560,54 @@
       },
       "runtime_proof": "/root/C07WaveSpawnerGetFirstSpawnProof",
       "rule": "Source-backed WaveSpawner.getFirstSpawn() state from WaveSpawner.java."
+    },
+    "source_team_get_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_get_state",
+      "source_slice": "N2456",
+      "keys": {
+        "all_teams": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "public static final Team[] all = new Team[256];",
+          "rule": "The 256 registered teams (Team.java:27-28, `/** All 256 registered teams. */ public static final Team[] all = new Team[256];`): GD takes the already-built array as an Array input and indexes it, never constructing the teams itself (option (A) data-driven).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_get_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamGetProof",
+      "rule": "Source-backed Team.get(int) state from Team.java."
+    },
+    "source_team_get_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_get_state",
+      "source_slice": "N2456",
+      "keys": {
+        "team": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "return all[((byte)id) & 0xff];",
+          "rule": "The team at the wrapped index (Team.java:59, `return all[((byte)id) & 0xff];`): all_teams[((id % 256) + 256) % 256] in GD, the same modulo-256 wrap as the Java (byte) cast + & 0xff for every int, including negatives.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_get_state"
+          ]
+        },
+        "wrapped_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "((byte)id) & 0xff",
+          "rule": "The wrapped index (Team.java:59, `((byte)id) & 0xff`): the low 8 bits of id as an unsigned 0..255 value; 256 -> 0, -1 -> 255, -256 -> 0, 257 -> 1.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_get_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamGetProof",
+      "rule": "Source-backed Team.get(int) state from Team.java."
     }
   },
   "version": 1

@@ -638,6 +638,25 @@ static func source_teams_is_active_state(teams_state: Dictionary, team_id: int) 
 	return {"is_active": _teams_active(data, team_id, rules), "teams_state": got.get("teams_state", teams_state)}
 
 
+static func source_team_get_state(all_teams: Array, id: int) -> Dictionary:
+	# Team.get (Team.java:58-60):
+	# `public static Team get(int id){`
+	# `return all[((byte)id) & 0xff];`
+	# `}`
+	# The (byte) cast keeps only the low 8 bits, then & 0xff
+	# makes the index unsigned, so the id wraps modulo 256:
+	# 256 -> 0, -1 -> 255, -256 -> 0, 257 -> 1. GDScript's %
+	# keeps the dividend's sign, so the double modulo
+	# ((id % 256) + 256) % 256 reproduces the Java wrap for
+	# every int, including negatives. all_teams is the 256-entry
+	# Team.all array (Team.java:27-28), passed in as data --
+	# this slice does NOT build the 256 teams (the static init
+	# at Team.java:43-56 with its Mathf.rand seed belongs to a
+	# later slice).
+	var wrapped_id: int = ((id % 256) + 256) % 256
+	return {"team": all_teams[wrapped_id], "wrapped_id": wrapped_id}
+
+
 static func source_team_state(teams_state: Dictionary, team_id: int, is_ai: bool, rts_ai: bool) -> Dictionary:
 	# Team.items()+data()+core()+active()+isAlive()+isOnlyAI()+needsFlowField()+cores()
 	# (Team.java:83-133, one grouped slice, main-thread decision 2026-11-23,

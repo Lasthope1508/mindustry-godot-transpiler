@@ -634,6 +634,8 @@ nhãn slot — số thật cấp lúc spawn từ allocations.json.
     Scene tới Windows theo slice commit `700cdf91`. Chưa chạy trên Windows Godot.
   - [ ] N2455 `C07WaveSpawnerGetFirstSpawnProof` — Linux GREEN 2026-11-24 ~05:32 (8 key).
     Scene tới Windows theo slice commit `def371c6`. Chưa chạy trên Windows Godot.
+  - [ ] N2456 `C07TeamGetProof` — Linux GREEN 2026-11-24 ~13:35 (8 key).
+    Scene tới Windows theo slice commit `757172b2`. Chưa chạy trên Windows Godot.
   - [ ] Mọi slice sau này: proof scene mới nào cũng ghi nợ Windows theo mẫu
     trên (ghi rõ commit đưa scene tới Windows).
   - [ ] Agent khác đang test các lỗi fail trên Windows Godot (PR #1 đã merge

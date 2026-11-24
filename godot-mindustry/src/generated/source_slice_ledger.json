@@ -121949,6 +121949,33 @@
         "The call-sites of getFirstSpawn() -- not in this slice; they belong to their own owners, later slices.",
         "WaveSpawner.getFirstSpawn() Windows Godot proof -- debt in GOAL.md section 5: the N2455 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2456": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_class": "mindustry.game.Team",
+      "java_method": "Team.get(int)",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_get_state",
+      "exact_exprs": [
+        "public static Team get(int id){",
+        "return all[((byte)id) & 0xff];"
+      ],
+      "source_symbols": [
+        "source_team_get_state_result.team",
+        "source_team_get_state_result.wrapped_id"
+      ],
+      "tests": [
+        "test_c07_team_get_registration",
+        "test_all_c07_team_get_input_evidence_is_exact",
+        "test_team_get_state",
+        "test_reference_graph_and_actual_c07_team_get"
+      ],
+      "runtime_proof": "/root/C07TeamGetProof",
+      "deferred_exprs": [
+        "The static init creating the 256 teams (Team.java:43-56, `Mathf.rand.setSeed(8)` + the loop filling `all[7..255]` with placeholder teams) -- NOT ported here; GD takes the already-built 256-entry Team.all array as data input (option (A) data-driven), and the construction belongs to a later slice.",
+        "The call-sites of Team.get(int) -- `BuildingComp.setProp` (java_expr `Team team = Team.get((int)value);`, already in the registry as a call-site, not a body expr) and `SpawnGroup.read` (Team.java call at SpawnGroup.java:147) -- not in this slice; they belong to their own owners, later slices.",
+        "Team.get(int) Windows Godot proof -- debt in GOAL.md section 5: the N2456 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1
