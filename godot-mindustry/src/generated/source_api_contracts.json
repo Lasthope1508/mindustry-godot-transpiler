@@ -82387,6 +82387,36 @@
       ],
       "runtime_proof": "/root/C07RulesUnitBuildSpeedProof",
       "rule": "Source-backed Rules.unitBuildSpeed() state from Rules.java."
+    },
+    "SourceRulesRuntimeState.source_rules_is_banned_state": {
+      "status": "active",
+      "source_slice": "N2465",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "source_method": "Rules.isBanned(Block)",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_rules_is_banned_state_input.rules_state"
+        },
+        {
+          "name": "block",
+          "type": "String",
+          "schema": "source_rules_is_banned_state_input.block"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "is_banned"
+      ],
+      "tests": [
+        "test_c07_rules_is_banned_registration",
+        "test_all_c07_rules_is_banned_input_evidence_is_exact",
+        "test_rules_is_banned_state",
+        "test_reference_graph_and_actual_c07_rules_is_banned"
+      ],
+      "runtime_proof": "/root/C07RulesIsBannedProof",
+      "rule": "Source-backed Rules.isBanned() state from Rules.java."
     }
   },
   "policy": {

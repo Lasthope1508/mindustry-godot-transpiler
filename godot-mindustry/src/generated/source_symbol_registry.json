@@ -190200,6 +190200,54 @@
         "test_reference_graph_and_actual_c07_rules_unit_build_speed"
       ],
       "runtime_proof": "/root/C07RulesUnitBuildSpeedProof"
+    },
+    "source_rules_is_banned_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_is_banned_state",
+      "godot_symbol": "source_rules_is_banned_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.isBanned(Block)",
+      "java_expr": "        return blockWhitelist != bannedBlocks.contains(block);",
+      "rule": "The live rules state (Rules.java:307-309): a Dictionary with blockWhitelist (:145, defaults to false) and bannedBlocks (:181, defaults to an empty set of block names). A missing key means the Java field default.",
+      "tests": [
+        "test_c07_rules_is_banned_registration",
+        "test_all_c07_rules_is_banned_input_evidence_is_exact",
+        "test_rules_is_banned_state",
+        "test_reference_graph_and_actual_c07_rules_is_banned"
+      ],
+      "runtime_proof": "/root/C07RulesIsBannedProof"
+    },
+    "source_rules_is_banned_state_input.block": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_is_banned_state",
+      "godot_symbol": "source_rules_is_banned_state_input.block",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.isBanned(Block)",
+      "java_expr": "        return blockWhitelist != bannedBlocks.contains(block);",
+      "rule": "The block to check, by String name (Rules.java:307, `isBanned(Block block)`) -- precedent N2460 GameStats.getPlaced, which keys blocks by name in GD.",
+      "tests": [
+        "test_c07_rules_is_banned_registration",
+        "test_all_c07_rules_is_banned_input_evidence_is_exact",
+        "test_rules_is_banned_state",
+        "test_reference_graph_and_actual_c07_rules_is_banned"
+      ],
+      "runtime_proof": "/root/C07RulesIsBannedProof"
+    },
+    "source_rules_is_banned_state_result.is_banned": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_is_banned_state",
+      "godot_symbol": "source_rules_is_banned_state_result.is_banned",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.isBanned(Block)",
+      "java_expr": "        return blockWhitelist != bannedBlocks.contains(block);",
+      "rule": "Whether the block is banned (Rules.java:307-309): blockWhitelist != bannedBlocks.contains(block) -- the whitelist INVERTS the answer, so with the whitelist on a listed block is allowed (false) and with an empty set every block is banned (true).",
+      "tests": [
+        "test_c07_rules_is_banned_registration",
+        "test_all_c07_rules_is_banned_input_evidence_is_exact",
+        "test_rules_is_banned_state",
+        "test_reference_graph_and_actual_c07_rules_is_banned"
+      ],
+      "runtime_proof": "/root/C07RulesIsBannedProof"
     }
   },
   "version": 1

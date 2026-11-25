@@ -122215,6 +122215,35 @@
         "Rules.unitMineSpeed / blockHealth / blockDamage / buildSpeed -- same multiplier family as unitCost/unitDamage/unitBuildSpeed, left for a later batch so batch 47 is not all one pattern.",
         "Rules.unitBuildSpeed() Windows Godot proof -- debt in GOAL.md section 5: the N2464 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2465": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.isBanned(Block)",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_is_banned_state",
+      "exact_exprs": [
+        "    public boolean isBanned(Block block){",
+        "        return blockWhitelist != bannedBlocks.contains(block);",
+        "    /** If true, bannedBlocks becomes a whitelist. */\n    public boolean blockWhitelist = false;",
+        "    /** Blocks that cannot be placed. */\n    public ObjectSet<Block> bannedBlocks = new ObjectSet<>();"
+      ],
+      "source_symbols": [
+        "source_rules_is_banned_state_input.rules_state",
+        "source_rules_is_banned_state_input.block",
+        "source_rules_is_banned_state_result.is_banned"
+      ],
+      "tests": [
+        "test_c07_rules_is_banned_registration",
+        "test_all_c07_rules_is_banned_input_evidence_is_exact",
+        "test_rules_is_banned_state",
+        "test_reference_graph_and_actual_c07_rules_is_banned"
+      ],
+      "runtime_proof": "/root/C07RulesIsBannedProof",
+      "deferred_exprs": [
+        "Rules.isBanned(UnitType) -- same whitelist XOR shape as isBanned(Block), left for a later batch so batch 47 is not all one pattern.",
+        "Rules.isBanned(Block) Windows Godot proof -- debt in GOAL.md section 5: the N2465 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

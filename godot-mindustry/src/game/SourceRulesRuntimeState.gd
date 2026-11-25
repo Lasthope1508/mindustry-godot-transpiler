@@ -190,6 +190,30 @@ static func source_rules_unit_health_state(rules_state: Dictionary, team_id: int
 	return {"unit_health": maxf(global_multiplier * team_multiplier, 0.000001)}
 
 
+# Rules.isBanned(Block block) — Rules.java:307-309:
+#     public boolean isBanned(Block block){
+#         return blockWhitelist != bannedBlocks.contains(block);
+#     }
+# blockWhitelist defaults to false (Rules.java:145) and
+# bannedBlocks defaults to an empty ObjectSet<Block> (:181).
+# TRAP: the whitelist INVERTS the answer -- with the whitelist
+# on, a block IN the set is allowed (false) and a block NOT in
+# the set is banned (true); with an empty set and the whitelist
+# on, EVERY block is banned. A port that reads isBanned as "is
+# in the set" (== instead of !=) is wrong in both whitelist
+# cases. The block travels as its String name -- precedent N2460
+# GameStats.getPlaced (SourceGameStatsRuntimeState
+# source_game_stats_get_placed_state(stats_state, block:
+# String)), because Java keys the set by Block object and GD keys
+# by name.
+# rules_state shape: {"blockWhitelist": bool,
+#   "bannedBlocks": Array[String]}.
+static func source_rules_is_banned_state(rules_state: Dictionary, block: String) -> Dictionary:
+	var block_whitelist: bool = bool(rules_state.get("blockWhitelist", false))
+	var banned_blocks: Array = rules_state.get("bannedBlocks", [])
+	return {"is_banned": block_whitelist != banned_blocks.has(block)}
+
+
 # GameState.rules — GameState.java:35:
 #     /** The current game rules. */
 #     public Rules rules = new Rules();

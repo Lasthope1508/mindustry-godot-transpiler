@@ -264030,6 +264030,54 @@
       },
       "runtime_proof": "/root/C07RulesUnitBuildSpeedProof",
       "rule": "Source-backed Rules.unitBuildSpeed() state from Rules.java."
+    },
+    "source_rules_is_banned_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_is_banned_state",
+      "source_slice": "N2465",
+      "keys": {
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return blockWhitelist != bannedBlocks.contains(block);",
+          "rule": "The live rules state (Rules.java:307-309): a Dictionary with blockWhitelist (:145, defaults to false) and bannedBlocks (:181, defaults to an empty set of block names). A missing key means the Java field default.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_is_banned_state"
+          ]
+        },
+        "block": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return blockWhitelist != bannedBlocks.contains(block);",
+          "rule": "The block to check, by String name (Rules.java:307, `isBanned(Block block)`) -- precedent N2460 GameStats.getPlaced, which keys blocks by name in GD.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_is_banned_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesIsBannedProof",
+      "rule": "Source-backed Rules.isBanned() state from Rules.java."
+    },
+    "source_rules_is_banned_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_is_banned_state",
+      "source_slice": "N2465",
+      "keys": {
+        "is_banned": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return blockWhitelist != bannedBlocks.contains(block);",
+          "rule": "Whether the block is banned (Rules.java:307-309): blockWhitelist != bannedBlocks.contains(block) -- the whitelist INVERTS the answer, so with the whitelist on a listed block is allowed (false) and with an empty set every block is banned (true).",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_is_banned_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesIsBannedProof",
+      "rule": "Source-backed Rules.isBanned() state from Rules.java."
     }
   },
   "version": 1
