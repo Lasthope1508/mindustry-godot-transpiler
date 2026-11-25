@@ -276,6 +276,31 @@ static func source_rules_is_banned_state(rules_state: Dictionary, block: String)
 	return {"is_banned": block_whitelist != banned_blocks.has(block)}
 
 
+# Rules.isBanned(UnitType unit) — Rules.java:311-313:
+#     public boolean isBanned(UnitType unit){
+#         return unitWhitelist != bannedUnits.contains(unit);
+#     }
+# unitWhitelist defaults to false (Rules.java:147) and
+# bannedUnits defaults to an empty ObjectSet<UnitType> (:183).
+# TRAP: the whitelist INVERTS the answer -- with the whitelist
+# on, a unit IN the set is allowed (false) and a unit NOT in
+# the set is banned (true); with an empty set and the whitelist
+# on, EVERY unit is banned. A port that reads isBanned as "is
+# in the set" (== instead of !=) is wrong in both whitelist
+# cases. TRAP: do not copy N2465's field names -- this method
+# reads unitWhitelist/bannedUnits, not blockWhitelist/
+# bannedBlocks. The unit travels as its String name -- same
+# precedent as N2465 (Block by name, N2460 GameStats.getPlaced),
+# because Java keys the set by UnitType object and GD keys by
+# name.
+# rules_state shape: {"unitWhitelist": bool,
+#   "bannedUnits": Array[String]}.
+static func source_rules_is_banned_unit_state(rules_state: Dictionary, unit: String) -> Dictionary:
+	var unit_whitelist: bool = bool(rules_state.get("unitWhitelist", false))
+	var banned_units: Array = rules_state.get("bannedUnits", [])
+	return {"is_banned": unit_whitelist != banned_units.has(unit)}
+
+
 # Rules.unitActivationDelay(Team team) — Rules.java:315-317:
 #     public float unitActivationDelay(Team team){
 #         return unitFactoryActivationDelay +

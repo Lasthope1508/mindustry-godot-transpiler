@@ -264222,6 +264222,54 @@
       },
       "runtime_proof": "/root/C07RulesUnitMineSpeedProof",
       "rule": "Source-backed Rules.unitMineSpeed() state from Rules.java."
+    },
+    "source_rules_is_banned_unit_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_is_banned_unit_state",
+      "source_slice": "N2469",
+      "keys": {
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitWhitelist != bannedUnits.contains(unit);",
+          "rule": "The live rules state (Rules.java:311-313): a Dictionary with unitWhitelist (:147, defaults to false) and bannedUnits (:183, defaults to an empty set of unit names). A missing key means the Java field default.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_is_banned_unit_state"
+          ]
+        },
+        "unit": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitWhitelist != bannedUnits.contains(unit);",
+          "rule": "The unit to check, by String name (Rules.java:311, `isBanned(UnitType unit)`) -- precedent N2465 isBanned(Block), which keys blocks by name in GD.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_is_banned_unit_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesIsBannedUnitProof",
+      "rule": "Source-backed Rules.isBanned() state from Rules.java."
+    },
+    "source_rules_is_banned_unit_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_is_banned_unit_state",
+      "source_slice": "N2469",
+      "keys": {
+        "is_banned": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitWhitelist != bannedUnits.contains(unit);",
+          "rule": "Whether the unit is banned (Rules.java:311-313): unitWhitelist != bannedUnits.contains(unit) -- the whitelist INVERTS the answer, so with the whitelist on a listed unit is allowed (false) and with an empty set every unit is banned (true).",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_is_banned_unit_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesIsBannedUnitProof",
+      "rule": "Source-backed Rules.isBanned() state from Rules.java."
     }
   },
   "version": 1

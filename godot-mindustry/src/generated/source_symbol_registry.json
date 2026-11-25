@@ -190392,6 +190392,54 @@
         "test_reference_graph_and_actual_c07_rules_unit_mine_speed"
       ],
       "runtime_proof": "/root/C07RulesUnitMineSpeedProof"
+    },
+    "source_rules_is_banned_unit_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_is_banned_unit_state",
+      "godot_symbol": "source_rules_is_banned_unit_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.isBanned(UnitType)",
+      "java_expr": "        return unitWhitelist != bannedUnits.contains(unit);",
+      "rule": "The live rules state (Rules.java:311-313): a Dictionary with unitWhitelist (:147, defaults to false) and bannedUnits (:183, defaults to an empty set of unit names). A missing key means the Java field default.",
+      "tests": [
+        "test_c07_rules_is_banned_unit_registration",
+        "test_all_c07_rules_is_banned_unit_input_evidence_is_exact",
+        "test_rules_is_banned_unit_state",
+        "test_reference_graph_and_actual_c07_rules_is_banned_unit"
+      ],
+      "runtime_proof": "/root/C07RulesIsBannedUnitProof"
+    },
+    "source_rules_is_banned_unit_state_input.unit": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_is_banned_unit_state",
+      "godot_symbol": "source_rules_is_banned_unit_state_input.unit",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.isBanned(UnitType)",
+      "java_expr": "        return unitWhitelist != bannedUnits.contains(unit);",
+      "rule": "The unit to check, by String name (Rules.java:311, `isBanned(UnitType unit)`) -- precedent N2465 isBanned(Block), which keys blocks by name in GD.",
+      "tests": [
+        "test_c07_rules_is_banned_unit_registration",
+        "test_all_c07_rules_is_banned_unit_input_evidence_is_exact",
+        "test_rules_is_banned_unit_state",
+        "test_reference_graph_and_actual_c07_rules_is_banned_unit"
+      ],
+      "runtime_proof": "/root/C07RulesIsBannedUnitProof"
+    },
+    "source_rules_is_banned_unit_state_result.is_banned": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_is_banned_unit_state",
+      "godot_symbol": "source_rules_is_banned_unit_state_result.is_banned",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.isBanned(UnitType)",
+      "java_expr": "        return unitWhitelist != bannedUnits.contains(unit);",
+      "rule": "Whether the unit is banned (Rules.java:311-313): unitWhitelist != bannedUnits.contains(unit) -- the whitelist INVERTS the answer, so with the whitelist on a listed unit is allowed (false) and with an empty set every unit is banned (true).",
+      "tests": [
+        "test_c07_rules_is_banned_unit_registration",
+        "test_all_c07_rules_is_banned_unit_input_evidence_is_exact",
+        "test_rules_is_banned_unit_state",
+        "test_reference_graph_and_actual_c07_rules_is_banned_unit"
+      ],
+      "runtime_proof": "/root/C07RulesIsBannedUnitProof"
     }
   },
   "version": 1
