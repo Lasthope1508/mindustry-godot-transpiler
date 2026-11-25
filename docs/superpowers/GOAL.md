@@ -653,6 +653,8 @@ nhãn slot — số thật cấp lúc spawn từ allocations.json.
   - [ ] N2468 `C07RulesUnitMineSpeedProof` — Linux GREEN 2026-11-25 ~19:52 (8 key), commit 1b7101b8.
   - [ ] N2469 `C07RulesIsBannedUnitProof` — Linux GREEN 2026-11-25 ~22:51 (8 key), commit dbf973de.
     Scene tới Windows theo slice commit (chưa commit — main thread điền hash khi commit). Chưa chạy trên Windows Godot.
+  - [ ] N2470 `C07RulesBlockHealthProof` — Linux GREEN 2026-11-26 ~01:16 (8 key).
+    Scene tới Windows theo slice commit `d04a6ac3`. Chưa chạy trên Windows Godot.
   - [ ] N2463 `C07TeamCompareToProof` — Linux GREEN 2026-11-25 ~03:51 (8 key).
     Scene tới Windows theo slice commit `d508da77`. Chưa chạy trên Windows Godot.
   - [ ] N2462 `C07RulesUnitDamageProof` — Linux GREEN 2026-11-25 ~01:20 (8 key).

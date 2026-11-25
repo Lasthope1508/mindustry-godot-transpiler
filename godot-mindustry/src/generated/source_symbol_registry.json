@@ -190440,6 +190440,54 @@
         "test_reference_graph_and_actual_c07_rules_is_banned_unit"
       ],
       "runtime_proof": "/root/C07RulesIsBannedUnitProof"
+    },
+    "source_rules_block_health_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_block_health_state",
+      "godot_symbol": "source_rules_block_health_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.blockHealth(Team)",
+      "java_expr": "        return blockHealthMultiplier * teams.get(team).blockHealthMultiplier;",
+      "rule": "The live rules state (Rules.java:296-298): a Dictionary with the global blockHealthMultiplier (:111, defaults to 1f) and a \"teams\" dict of per-team blockHealthMultiplier values (:365, TeamRules, defaults to 1f). A team missing from the dict means the Java fresh TeamRule, so its multiplier defaults to 1f.",
+      "tests": [
+        "test_c07_rules_block_health_registration",
+        "test_all_c07_rules_block_health_input_evidence_is_exact",
+        "test_rules_block_health_state",
+        "test_reference_graph_and_actual_c07_rules_block_health"
+      ],
+      "runtime_proof": "/root/C07RulesBlockHealthProof"
+    },
+    "source_rules_block_health_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_block_health_state",
+      "godot_symbol": "source_rules_block_health_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.blockHealth(Team)",
+      "java_expr": "        return blockHealthMultiplier * teams.get(team).blockHealthMultiplier;",
+      "rule": "The team whose block health multiplier to read (Rules.java:296, `blockHealth(Team team)`).",
+      "tests": [
+        "test_c07_rules_block_health_registration",
+        "test_all_c07_rules_block_health_input_evidence_is_exact",
+        "test_rules_block_health_state",
+        "test_reference_graph_and_actual_c07_rules_block_health"
+      ],
+      "runtime_proof": "/root/C07RulesBlockHealthProof"
+    },
+    "source_rules_block_health_state_result.block_health": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_block_health_state",
+      "godot_symbol": "source_rules_block_health_state_result.block_health",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.blockHealth(Team)",
+      "java_expr": "        return blockHealthMultiplier * teams.get(team).blockHealthMultiplier;",
+      "rule": "The block health multiplier (Rules.java:296-298): global * team, with NO floor -- a product of 0 returns 0.0 and a negative product passes through negative, unlike N2459 unitHealth which floors at 0.000001f.",
+      "tests": [
+        "test_c07_rules_block_health_registration",
+        "test_all_c07_rules_block_health_input_evidence_is_exact",
+        "test_rules_block_health_state",
+        "test_reference_graph_and_actual_c07_rules_block_health"
+      ],
+      "runtime_proof": "/root/C07RulesBlockHealthProof"
     }
   },
   "version": 1

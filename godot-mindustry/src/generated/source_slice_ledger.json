@@ -122357,6 +122357,35 @@
       "deferred_exprs": [
         "Rules.isBanned(UnitType) Windows Godot proof -- debt in GOAL.md section 5: the N2469 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2470": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.blockHealth(Team)",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_block_health_state",
+      "exact_exprs": [
+        "    public float blockHealth(Team team){",
+        "        return blockHealthMultiplier * teams.get(team).blockHealthMultiplier;",
+        "    /** How much health blocks start with. */\n    public float blockHealthMultiplier = 1f;",
+        "        /** How much health blocks start with. */\n        public float blockHealthMultiplier = 1f;"
+      ],
+      "source_symbols": [
+        "source_rules_block_health_state_input.rules_state",
+        "source_rules_block_health_state_input.team_id",
+        "source_rules_block_health_state_result.block_health"
+      ],
+      "tests": [
+        "test_c07_rules_block_health_registration",
+        "test_all_c07_rules_block_health_input_evidence_is_exact",
+        "test_rules_block_health_state",
+        "test_reference_graph_and_actual_c07_rules_block_health"
+      ],
+      "runtime_proof": "/root/C07RulesBlockHealthProof",
+      "deferred_exprs": [
+        "Rules.blockDamage / buildSpeed -- same multiplier family as unitCost/unitDamage/unitBuildSpeed/unitMineSpeed/blockHealth, left for a later batch so batch 49 is not all one pattern.",
+        "Rules.blockHealth() Windows Godot proof -- debt in GOAL.md section 5: the N2470 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

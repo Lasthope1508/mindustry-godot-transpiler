@@ -82537,6 +82537,36 @@
       ],
       "runtime_proof": "/root/C07RulesIsBannedUnitProof",
       "rule": "Source-backed Rules.isBanned() state from Rules.java."
+    },
+    "SourceRulesRuntimeState.source_rules_block_health_state": {
+      "status": "active",
+      "source_slice": "N2470",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "source_method": "Rules.blockHealth(Team)",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_rules_block_health_state_input.rules_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_rules_block_health_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "block_health"
+      ],
+      "tests": [
+        "test_c07_rules_block_health_registration",
+        "test_all_c07_rules_block_health_input_evidence_is_exact",
+        "test_rules_block_health_state",
+        "test_reference_graph_and_actual_c07_rules_block_health"
+      ],
+      "runtime_proof": "/root/C07RulesBlockHealthProof",
+      "rule": "Source-backed Rules.blockHealth() state from Rules.java."
     }
   },
   "policy": {

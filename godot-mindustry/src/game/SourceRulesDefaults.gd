@@ -27,6 +27,13 @@ const UNIT_BUILD_SPEED_MULTIPLIER_DEFAULT := 1.0
 # Like unitDamage (N2462) and unitBuildSpeed (N2464) there is
 # NO floor on the product here.
 const UNIT_MINE_SPEED_MULTIPLIER_DEFAULT := 1.0
+# Rules.blockHealthMultiplier (Rules.java:111) and
+# TeamRule.blockHealthMultiplier (Rules.java:365) both default
+# to 1f: blocks start at full health unless the map rules scale
+# it (N2470 blockHealth, sibling of N2096 unitCost).
+# Like unitDamage (N2462), unitBuildSpeed (N2464) and
+# unitMineSpeed (N2468) there is NO floor on the product here.
+const BLOCK_HEALTH_MULTIPLIER_DEFAULT := 1.0
 # Rules.enemyCoreBuildRadius (Rules.java:123) defaults to 400f:
 # the no-build zone around the enemy core (N2461 buildRadius).
 const ENEMY_CORE_BUILD_RADIUS_DEFAULT := 400.0
