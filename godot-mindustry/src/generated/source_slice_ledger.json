@@ -122300,6 +122300,35 @@
       "deferred_exprs": [
         "Rules.hasEnv(int) Windows Godot proof -- debt in GOAL.md section 5: the N2467 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2468": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.unitMineSpeed(Team)",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_mine_speed_state",
+      "exact_exprs": [
+        "    public float unitMineSpeed(Team team){",
+        "        return unitMineSpeedMultiplier * teams.get(team).unitMineSpeedMultiplier;",
+        "    /** How fast units can mine. */\n    public float unitMineSpeedMultiplier = 1f;",
+        "        /** How fast units can mine. */\n        public float unitMineSpeedMultiplier = 1f;"
+      ],
+      "source_symbols": [
+        "source_rules_unit_mine_speed_state_input.rules_state",
+        "source_rules_unit_mine_speed_state_input.team_id",
+        "source_rules_unit_mine_speed_state_result.unit_mine_speed"
+      ],
+      "tests": [
+        "test_c07_rules_unit_mine_speed_registration",
+        "test_all_c07_rules_unit_mine_speed_input_evidence_is_exact",
+        "test_rules_unit_mine_speed_state",
+        "test_reference_graph_and_actual_c07_rules_unit_mine_speed"
+      ],
+      "runtime_proof": "/root/C07RulesUnitMineSpeedProof",
+      "deferred_exprs": [
+        "Rules.blockHealth / blockDamage / buildSpeed -- same multiplier family as unitCost/unitDamage/unitBuildSpeed/unitMineSpeed, left for a later batch so batch 48 is not all one pattern.",
+        "Rules.unitMineSpeed() Windows Godot proof -- debt in GOAL.md section 5: the N2468 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

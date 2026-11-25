@@ -190344,6 +190344,54 @@
         "test_reference_graph_and_actual_c07_rules_has_env"
       ],
       "runtime_proof": "/root/C07RulesHasEnvProof"
+    },
+    "source_rules_unit_mine_speed_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_mine_speed_state",
+      "godot_symbol": "source_rules_unit_mine_speed_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitMineSpeed(Team)",
+      "java_expr": "        return unitMineSpeedMultiplier * teams.get(team).unitMineSpeedMultiplier;",
+      "rule": "The live rules state (Rules.java:292-294): a Dictionary with the global unitMineSpeedMultiplier (:91, defaults to 1f) and a \"teams\" dict of per-team unitMineSpeedMultiplier values (:359, TeamRules, defaults to 1f). A team missing from the dict means the Java fresh TeamRule, so its multiplier defaults to 1f.",
+      "tests": [
+        "test_c07_rules_unit_mine_speed_registration",
+        "test_all_c07_rules_unit_mine_speed_input_evidence_is_exact",
+        "test_rules_unit_mine_speed_state",
+        "test_reference_graph_and_actual_c07_rules_unit_mine_speed"
+      ],
+      "runtime_proof": "/root/C07RulesUnitMineSpeedProof"
+    },
+    "source_rules_unit_mine_speed_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_mine_speed_state",
+      "godot_symbol": "source_rules_unit_mine_speed_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitMineSpeed(Team)",
+      "java_expr": "        return unitMineSpeedMultiplier * teams.get(team).unitMineSpeedMultiplier;",
+      "rule": "The team whose unit mine speed multiplier to read (Rules.java:292, `unitMineSpeed(Team team)`).",
+      "tests": [
+        "test_c07_rules_unit_mine_speed_registration",
+        "test_all_c07_rules_unit_mine_speed_input_evidence_is_exact",
+        "test_rules_unit_mine_speed_state",
+        "test_reference_graph_and_actual_c07_rules_unit_mine_speed"
+      ],
+      "runtime_proof": "/root/C07RulesUnitMineSpeedProof"
+    },
+    "source_rules_unit_mine_speed_state_result.unit_mine_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_mine_speed_state",
+      "godot_symbol": "source_rules_unit_mine_speed_state_result.unit_mine_speed",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitMineSpeed(Team)",
+      "java_expr": "        return unitMineSpeedMultiplier * teams.get(team).unitMineSpeedMultiplier;",
+      "rule": "The unit mine speed multiplier (Rules.java:292-294): global * team, with NO floor -- a product of 0 returns 0.0 and a negative product passes through negative, unlike N2459 unitHealth which floors at 0.000001f.",
+      "tests": [
+        "test_c07_rules_unit_mine_speed_registration",
+        "test_all_c07_rules_unit_mine_speed_input_evidence_is_exact",
+        "test_rules_unit_mine_speed_state",
+        "test_reference_graph_and_actual_c07_rules_unit_mine_speed"
+      ],
+      "runtime_proof": "/root/C07RulesUnitMineSpeedProof"
     }
   },
   "version": 1

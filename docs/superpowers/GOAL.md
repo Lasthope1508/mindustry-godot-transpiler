@@ -650,6 +650,8 @@ nhãn slot — số thật cấp lúc spawn từ allocations.json.
     Scene tới Windows theo slice commit `62c64a78`. Chưa chạy trên Windows Godot.
   - [ ] N2467 `C07RulesHasEnvProof` — Linux GREEN 2026-11-25 ~17:37 (8 key).
     Scene tới Windows theo slice commit `0e16d85b`. Chưa chạy trên Windows Godot.
+  - [ ] N2468 `C07RulesUnitMineSpeedProof` — Linux GREEN 2026-11-25 ~19:52 (8 key), commit 1b7101b8.
+    Scene tới Windows theo slice commit (chưa commit — main thread điền hash khi commit). Chưa chạy trên Windows Godot.
   - [ ] N2463 `C07TeamCompareToProof` — Linux GREEN 2026-11-25 ~03:51 (8 key).
     Scene tới Windows theo slice commit `d508da77`. Chưa chạy trên Windows Godot.
   - [ ] N2462 `C07RulesUnitDamageProof` — Linux GREEN 2026-11-25 ~01:20 (8 key).
