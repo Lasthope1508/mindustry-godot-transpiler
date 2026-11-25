@@ -264126,6 +264126,54 @@
       },
       "runtime_proof": "/root/C07RulesUnitActivationDelayProof",
       "rule": "Source-backed Rules.unitActivationDelay() state from Rules.java."
+    },
+    "source_rules_has_env_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_has_env_state",
+      "source_slice": "N2467",
+      "keys": {
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return (this.env & env) != 0;",
+          "rule": "The live rules state (Rules.java:263-265): a Dictionary with env (:163, defaults to Vars.defaultEnv = 233 per Vars.java:65). A missing key means the Java field default.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_has_env_state"
+          ]
+        },
+        "env_flag": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return (this.env & env) != 0;",
+          "rule": "The environment flag bitmask to test (Rules.java:263, `hasEnv(int env)`) -- true when ANY of its bits overlaps the rules env.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_has_env_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesHasEnvProof",
+      "rule": "Source-backed Rules.hasEnv() state from Rules.java."
+    },
+    "source_rules_has_env_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_has_env_state",
+      "source_slice": "N2467",
+      "keys": {
+        "has_env": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return (this.env & env) != 0;",
+          "rule": "Whether the rules env overlaps the flag (Rules.java:263-265): (this.env & env) != 0 -- an ANY-overlap check, not ALL-bits, and flag 0 is always false.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_has_env_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesHasEnvProof",
+      "rule": "Source-backed Rules.hasEnv() state from Rules.java."
     }
   },
   "version": 1

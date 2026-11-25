@@ -122272,6 +122272,34 @@
       "deferred_exprs": [
         "Rules.unitActivationDelay(Team) Windows Godot proof -- debt in GOAL.md section 5: the N2466 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2467": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.hasEnv(int)",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_has_env_state",
+      "exact_exprs": [
+        "    public boolean hasEnv(int env){",
+        "        return (this.env & env) != 0;",
+        "    /** Environmental flags that dictate visuals & how blocks function. */\n    public int env = Vars.defaultEnv;",
+        "    /** Default rule environment. */\n    public static final int defaultEnv = Env.terrestrial | Env.spores | Env.groundOil | Env.groundWater | Env.oxygen;"
+      ],
+      "source_symbols": [
+        "source_rules_has_env_state_input.rules_state",
+        "source_rules_has_env_state_input.env_flag",
+        "source_rules_has_env_state_result.has_env"
+      ],
+      "tests": [
+        "test_c07_rules_has_env_registration",
+        "test_all_c07_rules_has_env_input_evidence_is_exact",
+        "test_rules_has_env_state",
+        "test_reference_graph_and_actual_c07_rules_has_env"
+      ],
+      "runtime_proof": "/root/C07RulesHasEnvProof",
+      "deferred_exprs": [
+        "Rules.hasEnv(int) Windows Godot proof -- debt in GOAL.md section 5: the N2467 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

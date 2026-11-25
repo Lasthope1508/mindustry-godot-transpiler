@@ -82447,6 +82447,36 @@
       ],
       "runtime_proof": "/root/C07RulesUnitActivationDelayProof",
       "rule": "Source-backed Rules.unitActivationDelay() state from Rules.java."
+    },
+    "SourceRulesRuntimeState.source_rules_has_env_state": {
+      "status": "active",
+      "source_slice": "N2467",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "source_method": "Rules.hasEnv(int)",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_rules_has_env_state_input.rules_state"
+        },
+        {
+          "name": "env_flag",
+          "type": "int",
+          "schema": "source_rules_has_env_state_input.env_flag"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "has_env"
+      ],
+      "tests": [
+        "test_c07_rules_has_env_registration",
+        "test_all_c07_rules_has_env_input_evidence_is_exact",
+        "test_rules_has_env_state",
+        "test_reference_graph_and_actual_c07_rules_has_env"
+      ],
+      "runtime_proof": "/root/C07RulesHasEnvProof",
+      "rule": "Source-backed Rules.hasEnv() state from Rules.java."
     }
   },
   "policy": {

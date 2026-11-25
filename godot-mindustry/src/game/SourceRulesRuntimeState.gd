@@ -42,6 +42,37 @@ static func source_rules_mode_state(rules_state: Dictionary) -> Dictionary:
 	return {"mode": "survival"}
 
 
+# Rules.hasEnv(int env) — Rules.java:263-265:
+#     public boolean hasEnv(int env){
+#         return (this.env & env) != 0;
+#     }
+# The env field defaults to Vars.defaultEnv (Rules.java:163;
+# Vars.java:65: Env.terrestrial | Env.spores | Env.groundOil |
+# Env.groundWater | Env.oxygen). With the Env bits (Env.java:
+# terrestrial=1, space=1<<1, spores=1<<3, groundOil=1<<5,
+# groundWater=1<<6, oxygen=1<<7) the default is
+# 1|8|32|64|128 = 233 -- note space (2) is NOT in it.
+# TRAP: this is an ANY-overlap check, not ALL-bits -- a
+# combined flag is true when ANY one of its bits is set
+# (flag 2|8=10 is true on the default env because spores=8
+# is set, even though space=2 is not). A port that checks
+# (env & flag) == flag is wrong.
+# TRAP: flag 0 is always false -- 0 & anything is 0, so
+# hasEnv(0) is false for every env. A port that returns the
+# raw AND value instead of comparing != 0 breaks the bool
+# shape here.
+# The Java parameter is also named `env` and shadows the
+# field; GD names the parameter env_flag and the field
+# travels as the "env" key. A missing "env" key means the
+# Java field default. No const exists for 233 in
+# SourceRulesDefaults.gd, so the literal is used with the
+# Vars.java:65 derivation above.
+# rules_state shape: {"env": int}.
+static func source_rules_has_env_state(rules_state: Dictionary, env_flag: int) -> Dictionary:
+	var env: int = int(rules_state.get("env", 233))
+	return {"has_env": (env & env_flag) != 0}
+
+
 # Rules.buildRadius(Team team) — Rules.java:267-269:
 #     public float buildRadius(Team team){
 #         return !teams.get(team).protectCores ? 0f :

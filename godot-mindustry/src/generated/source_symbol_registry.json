@@ -190296,6 +190296,54 @@
         "test_reference_graph_and_actual_c07_rules_unit_activation_delay"
       ],
       "runtime_proof": "/root/C07RulesUnitActivationDelayProof"
+    },
+    "source_rules_has_env_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_has_env_state",
+      "godot_symbol": "source_rules_has_env_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.hasEnv(int)",
+      "java_expr": "        return (this.env & env) != 0;",
+      "rule": "The live rules state (Rules.java:263-265): a Dictionary with env (:163, defaults to Vars.defaultEnv = 233 per Vars.java:65). A missing key means the Java field default.",
+      "tests": [
+        "test_c07_rules_has_env_registration",
+        "test_all_c07_rules_has_env_input_evidence_is_exact",
+        "test_rules_has_env_state",
+        "test_reference_graph_and_actual_c07_rules_has_env"
+      ],
+      "runtime_proof": "/root/C07RulesHasEnvProof"
+    },
+    "source_rules_has_env_state_input.env_flag": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_has_env_state",
+      "godot_symbol": "source_rules_has_env_state_input.env_flag",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.hasEnv(int)",
+      "java_expr": "        return (this.env & env) != 0;",
+      "rule": "The environment flag bitmask to test (Rules.java:263, `hasEnv(int env)`) -- true when ANY of its bits overlaps the rules env.",
+      "tests": [
+        "test_c07_rules_has_env_registration",
+        "test_all_c07_rules_has_env_input_evidence_is_exact",
+        "test_rules_has_env_state",
+        "test_reference_graph_and_actual_c07_rules_has_env"
+      ],
+      "runtime_proof": "/root/C07RulesHasEnvProof"
+    },
+    "source_rules_has_env_state_result.has_env": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_has_env_state",
+      "godot_symbol": "source_rules_has_env_state_result.has_env",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.hasEnv(int)",
+      "java_expr": "        return (this.env & env) != 0;",
+      "rule": "Whether the rules env overlaps the flag (Rules.java:263-265): (this.env & env) != 0 -- an ANY-overlap check, not ALL-bits, and flag 0 is always false.",
+      "tests": [
+        "test_c07_rules_has_env_registration",
+        "test_all_c07_rules_has_env_input_evidence_is_exact",
+        "test_rules_has_env_state",
+        "test_reference_graph_and_actual_c07_rules_has_env"
+      ],
+      "runtime_proof": "/root/C07RulesHasEnvProof"
     }
   },
   "version": 1
