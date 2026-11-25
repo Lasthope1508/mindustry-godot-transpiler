@@ -82567,6 +82567,36 @@
       ],
       "runtime_proof": "/root/C07RulesBlockHealthProof",
       "rule": "Source-backed Rules.blockHealth() state from Rules.java."
+    },
+    "SourceRulesRuntimeState.source_rules_block_damage_state": {
+      "status": "active",
+      "source_slice": "N2471",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "source_method": "Rules.blockDamage(Team)",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_rules_block_damage_state_input.rules_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_rules_block_damage_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "block_damage"
+      ],
+      "tests": [
+        "test_c07_rules_block_damage_registration",
+        "test_all_c07_rules_block_damage_input_evidence_is_exact",
+        "test_rules_block_damage_state",
+        "test_reference_graph_and_actual_c07_rules_block_damage"
+      ],
+      "runtime_proof": "/root/C07RulesBlockDamageProof",
+      "rule": "Source-backed Rules.blockDamage() state from Rules.java."
     }
   },
   "policy": {

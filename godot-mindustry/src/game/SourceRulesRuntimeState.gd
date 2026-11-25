@@ -283,6 +283,37 @@ static func source_rules_block_health_state(rules_state: Dictionary, team_id: in
 	return {"block_health": global_multiplier * team_multiplier}
 
 
+# Rules.blockDamage(Team team) — Rules.java:299-301:
+#     public float blockDamage(Team team){
+#         return blockDamageMultiplier *
+#             teams.get(team).blockDamageMultiplier;
+#     }
+# The global multiplier defaults to 1f (Rules.java:113) and the
+# per-team multiplier defaults to 1f (Rules.java:367, TeamRules).
+# TRAP: there is NO floor here -- unlike N2459 unitHealth, which
+# returns Math.max(product, 0.000001f), a product of 0 returns
+# 0.0 and a negative product passes through negative. A port
+# that copies the N2459 floor into this function is wrong.
+# GDScript float is 64-bit vs Java float 32-bit: products are
+# compared with a tolerance in the proof, never == on large
+# float products.
+# rules_state shape: {"blockDamageMultiplier": float,
+#   "teams": {team_id: {"blockDamageMultiplier": float}}}.
+# Team keys may be ints (built in GDScript) or strings (from JSON).
+static func source_rules_block_damage_state(rules_state: Dictionary, team_id: int) -> Dictionary:
+	var global_multiplier: float = float(rules_state.get("blockDamageMultiplier", source_rules_defaults.BLOCK_DAMAGE_MULTIPLIER_DEFAULT))
+	var team_multiplier: float = source_rules_defaults.BLOCK_DAMAGE_MULTIPLIER_DEFAULT
+	var teams: Dictionary = rules_state.get("teams", {})
+	var team_rules: Dictionary = {}
+	if teams.has(team_id):
+		team_rules = teams[team_id]
+	elif teams.has(str(team_id)):
+		team_rules = teams[str(team_id)]
+	if not team_rules.is_empty():
+		team_multiplier = float(team_rules.get("blockDamageMultiplier", source_rules_defaults.BLOCK_DAMAGE_MULTIPLIER_DEFAULT))
+	return {"block_damage": global_multiplier * team_multiplier}
+
+
 # Rules.isBanned(Block block) — Rules.java:307-309:
 #     public boolean isBanned(Block block){
 #         return blockWhitelist != bannedBlocks.contains(block);
