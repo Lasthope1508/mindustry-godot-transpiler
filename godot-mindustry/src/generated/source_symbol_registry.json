@@ -190152,6 +190152,54 @@
         "test_reference_graph_and_actual_c07_team_compare_to"
       ],
       "runtime_proof": "/root/C07TeamCompareToProof"
+    },
+    "source_rules_unit_build_speed_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_build_speed_state",
+      "godot_symbol": "source_rules_unit_build_speed_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitBuildSpeed(Team)",
+      "java_expr": "        return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+      "rule": "The live rules state (Rules.java:271-273): a Dictionary with the global unitBuildSpeedMultiplier (:81, defaults to 1f) and a \"teams\" dict of per-team unitBuildSpeedMultiplier values (:353, TeamRules, defaults to 1f). A team missing from the dict means the Java fresh TeamRule, so its multiplier defaults to 1f.",
+      "tests": [
+        "test_c07_rules_unit_build_speed_registration",
+        "test_all_c07_rules_unit_build_speed_input_evidence_is_exact",
+        "test_rules_unit_build_speed_state",
+        "test_reference_graph_and_actual_c07_rules_unit_build_speed"
+      ],
+      "runtime_proof": "/root/C07RulesUnitBuildSpeedProof"
+    },
+    "source_rules_unit_build_speed_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_build_speed_state",
+      "godot_symbol": "source_rules_unit_build_speed_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitBuildSpeed(Team)",
+      "java_expr": "        return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+      "rule": "The team whose unit build speed multiplier to read (Rules.java:271, `unitBuildSpeed(Team team)`).",
+      "tests": [
+        "test_c07_rules_unit_build_speed_registration",
+        "test_all_c07_rules_unit_build_speed_input_evidence_is_exact",
+        "test_rules_unit_build_speed_state",
+        "test_reference_graph_and_actual_c07_rules_unit_build_speed"
+      ],
+      "runtime_proof": "/root/C07RulesUnitBuildSpeedProof"
+    },
+    "source_rules_unit_build_speed_state_result.unit_build_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_build_speed_state",
+      "godot_symbol": "source_rules_unit_build_speed_state_result.unit_build_speed",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitBuildSpeed(Team)",
+      "java_expr": "        return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+      "rule": "The unit build speed multiplier (Rules.java:271-273): global * team, with NO floor -- a product of 0 returns 0.0 and a negative product passes through negative, unlike N2459 unitHealth which floors at 0.000001f.",
+      "tests": [
+        "test_c07_rules_unit_build_speed_registration",
+        "test_all_c07_rules_unit_build_speed_input_evidence_is_exact",
+        "test_rules_unit_build_speed_state",
+        "test_reference_graph_and_actual_c07_rules_unit_build_speed"
+      ],
+      "runtime_proof": "/root/C07RulesUnitBuildSpeedProof"
     }
   },
   "version": 1

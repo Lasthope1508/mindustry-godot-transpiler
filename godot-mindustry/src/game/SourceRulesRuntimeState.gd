@@ -78,6 +78,35 @@ static func source_rules_build_radius_state(rules_state: Dictionary, team_id: in
 	return {"build_radius": enemy_core_build_radius + extra_core_build_radius}
 
 
+# Rules.unitBuildSpeed(Team team) — Rules.java:271-273:
+#     return unitBuildSpeedMultiplier *
+#         teams.get(team).unitBuildSpeedMultiplier;
+# The global multiplier defaults to 1f (Rules.java:81) and the
+# per-team multiplier defaults to 1f (Rules.java:353, TeamRules).
+# TRAP: there is NO floor here -- unlike N2459 unitHealth, which
+# returns Math.max(product, 0.000001f), a product of 0 returns
+# 0.0 and a negative product passes through negative. A port
+# that copies the N2459 floor into this function is wrong.
+# GDScript float is 64-bit vs Java float 32-bit: products are
+# compared with a tolerance in the proof, never == on large
+# float products.
+# rules_state shape: {"unitBuildSpeedMultiplier": float,
+#   "teams": {team_id: {"unitBuildSpeedMultiplier": float}}}.
+# Team keys may be ints (built in GDScript) or strings (from JSON).
+static func source_rules_unit_build_speed_state(rules_state: Dictionary, team_id: int) -> Dictionary:
+	var global_multiplier: float = float(rules_state.get("unitBuildSpeedMultiplier", source_rules_defaults.UNIT_BUILD_SPEED_MULTIPLIER_DEFAULT))
+	var team_multiplier: float = source_rules_defaults.UNIT_BUILD_SPEED_MULTIPLIER_DEFAULT
+	var teams: Dictionary = rules_state.get("teams", {})
+	var team_rules: Dictionary = {}
+	if teams.has(team_id):
+		team_rules = teams[team_id]
+	elif teams.has(str(team_id)):
+		team_rules = teams[str(team_id)]
+	if not team_rules.is_empty():
+		team_multiplier = float(team_rules.get("unitBuildSpeedMultiplier", source_rules_defaults.UNIT_BUILD_SPEED_MULTIPLIER_DEFAULT))
+	return {"unit_build_speed": global_multiplier * team_multiplier}
+
+
 # Rules.unitCost(Team team) — Rules.java:275-276:
 #     return unitCostMultiplier * teams.get(team).unitCostMultiplier;
 # The global multiplier defaults to 1f (Rules.java:83) and the

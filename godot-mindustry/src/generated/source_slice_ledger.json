@@ -122186,6 +122186,35 @@
         "Team.sense() / senseObject() -- a switch on LAccess, needs the sensor enum; left for a later slice.",
         "Team.compareTo() Windows Godot proof -- debt in GOAL.md section 5: the N2463 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2464": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.unitBuildSpeed(Team)",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_build_speed_state",
+      "exact_exprs": [
+        "    public float unitBuildSpeed(Team team){",
+        "        return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+        "    /** How fast unit factories build units. */\n    public float unitBuildSpeedMultiplier = 1f;",
+        "        /** How fast unit factories build units. */\n        public float unitBuildSpeedMultiplier = 1f;"
+      ],
+      "source_symbols": [
+        "source_rules_unit_build_speed_state_input.rules_state",
+        "source_rules_unit_build_speed_state_input.team_id",
+        "source_rules_unit_build_speed_state_result.unit_build_speed"
+      ],
+      "tests": [
+        "test_c07_rules_unit_build_speed_registration",
+        "test_all_c07_rules_unit_build_speed_input_evidence_is_exact",
+        "test_rules_unit_build_speed_state",
+        "test_reference_graph_and_actual_c07_rules_unit_build_speed"
+      ],
+      "runtime_proof": "/root/C07RulesUnitBuildSpeedProof",
+      "deferred_exprs": [
+        "Rules.unitMineSpeed / blockHealth / blockDamage / buildSpeed -- same multiplier family as unitCost/unitDamage/unitBuildSpeed, left for a later batch so batch 47 is not all one pattern.",
+        "Rules.unitBuildSpeed() Windows Godot proof -- debt in GOAL.md section 5: the N2464 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

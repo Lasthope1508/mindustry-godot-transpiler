@@ -263982,6 +263982,54 @@
       },
       "runtime_proof": "/root/C07TeamCompareToProof",
       "rule": "Source-backed Team.compareTo() state from Team.java."
+    },
+    "source_rules_unit_build_speed_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_unit_build_speed_state",
+      "source_slice": "N2464",
+      "keys": {
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+          "rule": "The live rules state (Rules.java:271-273): a Dictionary with the global unitBuildSpeedMultiplier (:81, defaults to 1f) and a \"teams\" dict of per-team unitBuildSpeedMultiplier values (:353, TeamRules, defaults to 1f). A team missing from the dict means the Java fresh TeamRule, so its multiplier defaults to 1f.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_build_speed_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+          "rule": "The team whose unit build speed multiplier to read (Rules.java:271, `unitBuildSpeed(Team team)`).",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_build_speed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesUnitBuildSpeedProof",
+      "rule": "Source-backed Rules.unitBuildSpeed() state from Rules.java."
+    },
+    "source_rules_unit_build_speed_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_unit_build_speed_state",
+      "source_slice": "N2464",
+      "keys": {
+        "unit_build_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitBuildSpeedMultiplier * teams.get(team).unitBuildSpeedMultiplier;",
+          "rule": "The unit build speed multiplier (Rules.java:271-273): global * team, with NO floor -- a product of 0 returns 0.0 and a negative product passes through negative, unlike N2459 unitHealth which floors at 0.000001f.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_build_speed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesUnitBuildSpeedProof",
+      "rule": "Source-backed Rules.unitBuildSpeed() state from Rules.java."
     }
   },
   "version": 1

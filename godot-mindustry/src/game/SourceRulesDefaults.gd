@@ -14,6 +14,12 @@ const UNIT_HEALTH_MULTIPLIER_DEFAULT := 1.0
 # it (N2462 unitDamage, sibling of N2096 unitCost). Unlike
 # unitHealth (N2459) there is NO floor on the product here.
 const UNIT_DAMAGE_MULTIPLIER_DEFAULT := 1.0
+# Rules.unitBuildSpeedMultiplier (Rules.java:81) and
+# TeamRule.unitBuildSpeedMultiplier (Rules.java:353) both default
+# to 1f: unit factories build at full speed unless the map rules
+# scale it (N2464 unitBuildSpeed, sibling of N2096 unitCost).
+# Like unitDamage (N2462) there is NO floor on the product here.
+const UNIT_BUILD_SPEED_MULTIPLIER_DEFAULT := 1.0
 # Rules.enemyCoreBuildRadius (Rules.java:123) defaults to 400f:
 # the no-build zone around the enemy core (N2461 buildRadius).
 const ENEMY_CORE_BUILD_RADIUS_DEFAULT := 400.0

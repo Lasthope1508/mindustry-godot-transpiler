@@ -82357,6 +82357,36 @@
       ],
       "runtime_proof": "/root/C07TeamCompareToProof",
       "rule": "Source-backed Team.compareTo() state from Team.java."
+    },
+    "SourceRulesRuntimeState.source_rules_unit_build_speed_state": {
+      "status": "active",
+      "source_slice": "N2464",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "source_method": "Rules.unitBuildSpeed(Team)",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_rules_unit_build_speed_state_input.rules_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_rules_unit_build_speed_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unit_build_speed"
+      ],
+      "tests": [
+        "test_c07_rules_unit_build_speed_registration",
+        "test_all_c07_rules_unit_build_speed_input_evidence_is_exact",
+        "test_rules_unit_build_speed_state",
+        "test_reference_graph_and_actual_c07_rules_unit_build_speed"
+      ],
+      "runtime_proof": "/root/C07RulesUnitBuildSpeedProof",
+      "rule": "Source-backed Rules.unitBuildSpeed() state from Rules.java."
     }
   },
   "policy": {
