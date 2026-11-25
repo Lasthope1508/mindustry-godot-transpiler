@@ -122244,6 +122244,34 @@
         "Rules.isBanned(UnitType) -- same whitelist XOR shape as isBanned(Block), left for a later batch so batch 47 is not all one pattern.",
         "Rules.isBanned(Block) Windows Godot proof -- debt in GOAL.md section 5: the N2465 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2466": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.unitActivationDelay(Team)",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_activation_delay_state",
+      "exact_exprs": [
+        "    public float unitActivationDelay(Team team){",
+        "        return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+        "    /** Time until unit factories activate (global). */\n    public float unitFactoryActivationDelay = 0f;",
+        "        /** Time until unit factories activate. This is used for enemy teams in attack maps. */\n        public float unitFactoryActivationDelay = 0f;"
+      ],
+      "source_symbols": [
+        "source_rules_unit_activation_delay_state_input.rules_state",
+        "source_rules_unit_activation_delay_state_input.team_id",
+        "source_rules_unit_activation_delay_state_result.unit_activation_delay"
+      ],
+      "tests": [
+        "test_c07_rules_unit_activation_delay_registration",
+        "test_all_c07_rules_unit_activation_delay_input_evidence_is_exact",
+        "test_rules_unit_activation_delay_state",
+        "test_reference_graph_and_actual_c07_rules_unit_activation_delay"
+      ],
+      "runtime_proof": "/root/C07RulesUnitActivationDelayProof",
+      "deferred_exprs": [
+        "Rules.unitActivationDelay(Team) Windows Godot proof -- debt in GOAL.md section 5: the N2466 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

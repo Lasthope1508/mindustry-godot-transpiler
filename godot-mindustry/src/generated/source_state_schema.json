@@ -264078,6 +264078,54 @@
       },
       "runtime_proof": "/root/C07RulesIsBannedProof",
       "rule": "Source-backed Rules.isBanned() state from Rules.java."
+    },
+    "source_rules_unit_activation_delay_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_unit_activation_delay_state",
+      "source_slice": "N2466",
+      "keys": {
+        "rules_state": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+          "rule": "The live rules state (Rules.java:315-317): a Dictionary with unitFactoryActivationDelay (:93, defaults to 0f) and teams (:29, TeamRules) mapping team id to unitFactoryActivationDelay (:351, defaults to 0f). A missing key means the Java field default.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_activation_delay_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+          "rule": "The team id (Rules.java:315, `unitActivationDelay(Team team)`) -- the team whose TeamRule delay is added to the global delay.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_activation_delay_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesUnitActivationDelayProof",
+      "rule": "Source-backed Rules.unitActivationDelay() state from Rules.java."
+    },
+    "source_rules_unit_activation_delay_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_rules_unit_activation_delay_state",
+      "source_slice": "N2466",
+      "keys": {
+        "unit_activation_delay": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Rules.java",
+          "java_expr": "        return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+          "rule": "The activation delay in ticks (Rules.java:315-317): unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay -- an ADD, not a multiply (2 + 3 is 5.0, not 6.0), with no clamp, so a negative team delay passes through (5 + -2 = 3.0).",
+          "used_by": [
+            "SourceRulesRuntimeState.source_rules_unit_activation_delay_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07RulesUnitActivationDelayProof",
+      "rule": "Source-backed Rules.unitActivationDelay() state from Rules.java."
     }
   },
   "version": 1

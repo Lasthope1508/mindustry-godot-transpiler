@@ -190248,6 +190248,54 @@
         "test_reference_graph_and_actual_c07_rules_is_banned"
       ],
       "runtime_proof": "/root/C07RulesIsBannedProof"
+    },
+    "source_rules_unit_activation_delay_state_input.rules_state": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_activation_delay_state",
+      "godot_symbol": "source_rules_unit_activation_delay_state_input.rules_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitActivationDelay(Team)",
+      "java_expr": "        return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+      "rule": "The live rules state (Rules.java:315-317): a Dictionary with unitFactoryActivationDelay (:93, defaults to 0f) and teams (:29, TeamRules) mapping team id to unitFactoryActivationDelay (:351, defaults to 0f). A missing key means the Java field default.",
+      "tests": [
+        "test_c07_rules_unit_activation_delay_registration",
+        "test_all_c07_rules_unit_activation_delay_input_evidence_is_exact",
+        "test_rules_unit_activation_delay_state",
+        "test_reference_graph_and_actual_c07_rules_unit_activation_delay"
+      ],
+      "runtime_proof": "/root/C07RulesUnitActivationDelayProof"
+    },
+    "source_rules_unit_activation_delay_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_activation_delay_state",
+      "godot_symbol": "source_rules_unit_activation_delay_state_input.team_id",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitActivationDelay(Team)",
+      "java_expr": "        return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+      "rule": "The team id (Rules.java:315, `unitActivationDelay(Team team)`) -- the team whose TeamRule delay is added to the global delay.",
+      "tests": [
+        "test_c07_rules_unit_activation_delay_registration",
+        "test_all_c07_rules_unit_activation_delay_input_evidence_is_exact",
+        "test_rules_unit_activation_delay_state",
+        "test_reference_graph_and_actual_c07_rules_unit_activation_delay"
+      ],
+      "runtime_proof": "/root/C07RulesUnitActivationDelayProof"
+    },
+    "source_rules_unit_activation_delay_state_result.unit_activation_delay": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_unit_activation_delay_state",
+      "godot_symbol": "source_rules_unit_activation_delay_state_result.unit_activation_delay",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "Rules.unitActivationDelay(Team)",
+      "java_expr": "        return unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay;",
+      "rule": "The activation delay in ticks (Rules.java:315-317): unitFactoryActivationDelay + teams.get(team).unitFactoryActivationDelay -- an ADD, not a multiply (2 + 3 is 5.0, not 6.0), with no clamp, so a negative team delay passes through (5 + -2 = 3.0).",
+      "tests": [
+        "test_c07_rules_unit_activation_delay_registration",
+        "test_all_c07_rules_unit_activation_delay_input_evidence_is_exact",
+        "test_rules_unit_activation_delay_state",
+        "test_reference_graph_and_actual_c07_rules_unit_activation_delay"
+      ],
+      "runtime_proof": "/root/C07RulesUnitActivationDelayProof"
     }
   },
   "version": 1

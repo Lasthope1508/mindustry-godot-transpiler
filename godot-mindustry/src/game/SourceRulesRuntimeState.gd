@@ -214,6 +214,42 @@ static func source_rules_is_banned_state(rules_state: Dictionary, block: String)
 	return {"is_banned": block_whitelist != banned_blocks.has(block)}
 
 
+# Rules.unitActivationDelay(Team team) — Rules.java:315-317:
+#     public float unitActivationDelay(Team team){
+#         return unitFactoryActivationDelay +
+#             teams.get(team).unitFactoryActivationDelay;
+#     }
+# The global delay defaults to 0f (Rules.java:93) and the
+# per-team delay defaults to 0f (Rules.java:351, TeamRule).
+# TRAP: this ADDS -- unlike the sibling Rules multipliers
+# (N2096 unitCost, N2462 unitDamage, N2464 unitBuildSpeed)
+# which multiply, 2 + 3 is 5.0, not 6.0. A port that copies
+# the multiply pattern into this function is wrong.
+# TRAP: there is NO clamp here -- unlike N2459 unitHealth,
+# which returns Math.max(product, 0.000001f), a negative
+# team delay passes through (5 + -2 = 3.0). The const
+# UNIT_FACTORY_ACTIVATION_DELAY_DEFAULT already exists in
+# SourceRulesDefaults.gd (:34), so no new const is needed.
+# GDScript float is 64-bit vs Java float 32-bit: sums are
+# compared with a tolerance in the proof, never == on large
+# float sums.
+# rules_state shape: {"unitFactoryActivationDelay": float,
+#   "teams": {team_id: {"unitFactoryActivationDelay": float}}}.
+# Team keys may be ints (built in GDScript) or strings (from JSON).
+static func source_rules_unit_activation_delay_state(rules_state: Dictionary, team_id: int) -> Dictionary:
+	var global_delay: float = float(rules_state.get("unitFactoryActivationDelay", source_rules_defaults.UNIT_FACTORY_ACTIVATION_DELAY_DEFAULT))
+	var team_delay: float = source_rules_defaults.UNIT_FACTORY_ACTIVATION_DELAY_DEFAULT
+	var teams: Dictionary = rules_state.get("teams", {})
+	var team_rules: Dictionary = {}
+	if teams.has(team_id):
+		team_rules = teams[team_id]
+	elif teams.has(str(team_id)):
+		team_rules = teams[str(team_id)]
+	if not team_rules.is_empty():
+		team_delay = float(team_rules.get("unitFactoryActivationDelay", source_rules_defaults.UNIT_FACTORY_ACTIVATION_DELAY_DEFAULT))
+	return {"unit_activation_delay": global_delay + team_delay}
+
+
 # GameState.rules — GameState.java:35:
 #     /** The current game rules. */
 #     public Rules rules = new Rules();

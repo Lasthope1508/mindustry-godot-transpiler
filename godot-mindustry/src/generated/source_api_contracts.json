@@ -82417,6 +82417,36 @@
       ],
       "runtime_proof": "/root/C07RulesIsBannedProof",
       "rule": "Source-backed Rules.isBanned() state from Rules.java."
+    },
+    "SourceRulesRuntimeState.source_rules_unit_activation_delay_state": {
+      "status": "active",
+      "source_slice": "N2466",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "source_method": "Rules.unitActivationDelay(Team)",
+      "params": [
+        {
+          "name": "rules_state",
+          "type": "Dictionary",
+          "schema": "source_rules_unit_activation_delay_state_input.rules_state"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_rules_unit_activation_delay_state_input.team_id"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "unit_activation_delay"
+      ],
+      "tests": [
+        "test_c07_rules_unit_activation_delay_registration",
+        "test_all_c07_rules_unit_activation_delay_input_evidence_is_exact",
+        "test_rules_unit_activation_delay_state",
+        "test_reference_graph_and_actual_c07_rules_unit_activation_delay"
+      ],
+      "runtime_proof": "/root/C07RulesUnitActivationDelayProof",
+      "rule": "Source-backed Rules.unitActivationDelay() state from Rules.java."
     }
   },
   "policy": {
