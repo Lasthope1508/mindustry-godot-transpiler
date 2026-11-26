@@ -5384,6 +5384,25 @@
       ],
       "runtime_proof": "/root/C07TurretTargetingDefaultsProof"
     },
+    "N2473": {
+      "canonical_ledger": "source_slice_ledger.N2473",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "ReloadTurretBuild.canReload()",
+      "godot_owner": "SourceTurretBuildState.source_reload_turret_can_reload_state",
+      "source_symbols": [
+        "source_reload_turret_can_reload_state_input.reload_counter",
+        "source_reload_turret_can_reload_state_input.reload",
+        "source_reload_turret_can_reload_state_result.can_reload"
+      ],
+      "tests": [
+        "test_c07_reload_turret_can_reload_registration",
+        "test_all_c07_reload_turret_can_reload_input_evidence_is_exact",
+        "test_reload_turret_can_reload_state",
+        "test_reference_graph_and_actual_c07_reload_turret_can_reload"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretCanReloadProof"
+    },
     "N2523": {
       "canonical_ledger": "source_slice_ledger.N2523",
       "status": "done",

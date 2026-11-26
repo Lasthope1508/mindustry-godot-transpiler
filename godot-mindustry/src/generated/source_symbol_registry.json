@@ -190584,6 +190584,54 @@
         "test_reference_graph_and_actual_c07_rules_build_speed"
       ],
       "runtime_proof": "/root/C07RulesBuildSpeedProof"
+    },
+    "source_reload_turret_can_reload_state_input.reload_counter": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_reload_turret_can_reload_state",
+      "godot_symbol": "source_reload_turret_can_reload_state_input.reload_counter",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "ReloadTurretBuild.canReload()",
+      "java_expr": "            return reloadCounter < reload;",
+      "rule": "The reload counter (ReloadTurret.java:49-51): the ReloadTurretBuild field `reloadCounter` (:26, Java float default 0f), the left half of the strict `<` comparison.",
+      "tests": [
+        "test_c07_reload_turret_can_reload_registration",
+        "test_all_c07_reload_turret_can_reload_input_evidence_is_exact",
+        "test_reload_turret_can_reload_state",
+        "test_reference_graph_and_actual_c07_reload_turret_can_reload"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretCanReloadProof"
+    },
+    "source_reload_turret_can_reload_state_input.reload": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_reload_turret_can_reload_state",
+      "godot_symbol": "source_reload_turret_can_reload_state_input.reload",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "ReloadTurretBuild.canReload()",
+      "java_expr": "            return reloadCounter < reload;",
+      "rule": "The per-def reload time in ticks (ReloadTurret.java:49-51): the ReloadTurret field `reload` (:10, default 10f), the right half of the strict `<` comparison.",
+      "tests": [
+        "test_c07_reload_turret_can_reload_registration",
+        "test_all_c07_reload_turret_can_reload_input_evidence_is_exact",
+        "test_reload_turret_can_reload_state",
+        "test_reference_graph_and_actual_c07_reload_turret_can_reload"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretCanReloadProof"
+    },
+    "source_reload_turret_can_reload_state_result.can_reload": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_reload_turret_can_reload_state",
+      "godot_symbol": "source_reload_turret_can_reload_state_result.can_reload",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "ReloadTurretBuild.canReload()",
+      "java_expr": "            return reloadCounter < reload;",
+      "rule": "Whether the turret can reload (ReloadTurret.java:49-51): `reloadCounter < reload`, STRICT `<` -- counter == reload is false, 0 < 0 is false, and a negative counter is NOT clamped (no Math.max here; capping lives in updateReload, not in canReload).",
+      "tests": [
+        "test_c07_reload_turret_can_reload_registration",
+        "test_all_c07_reload_turret_can_reload_input_evidence_is_exact",
+        "test_reload_turret_can_reload_state",
+        "test_reference_graph_and_actual_c07_reload_turret_can_reload"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretCanReloadProof"
     }
   },
   "version": 1

@@ -264414,6 +264414,54 @@
       },
       "runtime_proof": "/root/C07RulesBuildSpeedProof",
       "rule": "Source-backed Rules.buildSpeed() state from Rules.java."
+    },
+    "source_reload_turret_can_reload_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_reload_turret_can_reload_state",
+      "source_slice": "N2473",
+      "keys": {
+        "reload_counter": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "            return reloadCounter < reload;",
+          "rule": "The reload counter (ReloadTurret.java:49-51): the ReloadTurretBuild field `reloadCounter` (:26, Java float default 0f), the left half of the strict `<` comparison.",
+          "used_by": [
+            "SourceTurretBuildState.source_reload_turret_can_reload_state"
+          ]
+        },
+        "reload": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "            return reloadCounter < reload;",
+          "rule": "The per-def reload time in ticks (ReloadTurret.java:49-51): the ReloadTurret field `reload` (:10, default 10f), the right half of the strict `<` comparison.",
+          "used_by": [
+            "SourceTurretBuildState.source_reload_turret_can_reload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ReloadTurretCanReloadProof",
+      "rule": "Source-backed ReloadTurretBuild.canReload() state from ReloadTurret.java."
+    },
+    "source_reload_turret_can_reload_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_reload_turret_can_reload_state",
+      "source_slice": "N2473",
+      "keys": {
+        "can_reload": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "            return reloadCounter < reload;",
+          "rule": "Whether the turret can reload (ReloadTurret.java:49-51): `reloadCounter < reload`, STRICT `<` -- counter == reload is false, 0 < 0 is false, and a negative counter is NOT clamped (no Math.max here; capping lives in updateReload, not in canReload).",
+          "used_by": [
+            "SourceTurretBuildState.source_reload_turret_can_reload_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ReloadTurretCanReloadProof",
+      "rule": "Source-backed ReloadTurretBuild.canReload() state from ReloadTurret.java."
     }
   },
   "version": 1

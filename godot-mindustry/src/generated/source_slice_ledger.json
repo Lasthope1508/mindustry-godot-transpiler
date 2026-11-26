@@ -122443,6 +122443,34 @@
       "deferred_exprs": [
         "Rules.buildSpeed() Windows Godot proof -- debt in GOAL.md section 5: the N2472 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2473": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ReloadTurret.ReloadTurretBuild",
+      "java_method": "ReloadTurretBuild.canReload()",
+      "godot_owner": "SourceTurretBuildState.source_reload_turret_can_reload_state",
+      "exact_exprs": [
+        "        protected boolean canReload(){",
+        "            return reloadCounter < reload;",
+        "    public float reload = 10f;",
+        "        public float reloadCounter;"
+      ],
+      "source_symbols": [
+        "source_reload_turret_can_reload_state_input.reload_counter",
+        "source_reload_turret_can_reload_state_input.reload",
+        "source_reload_turret_can_reload_state_result.can_reload"
+      ],
+      "tests": [
+        "test_c07_reload_turret_can_reload_registration",
+        "test_all_c07_reload_turret_can_reload_input_evidence_is_exact",
+        "test_reload_turret_can_reload_state",
+        "test_reference_graph_and_actual_c07_reload_turret_can_reload"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretCanReloadProof",
+      "deferred_exprs": [
+        "ReloadTurretBuild.canReload() Windows Godot proof -- debt in GOAL.md section 5: the N2473 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

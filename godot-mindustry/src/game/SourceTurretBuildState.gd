@@ -410,6 +410,34 @@ static func source_turret_cooling_state(frame: Dictionary, has_coolant: bool, co
 		cooling_applied = true
 	return {"reload_counter": reload_counter, "cooling_applied": cooling_applied, "coolant_consumed": coolant_consumed}
 
+static func source_reload_turret_can_reload_state(reload_counter: float, reload: float) -> Dictionary:
+	# canReload() (ReloadTurret.java:49-51):
+	# `protected boolean canReload(){` /
+	# `return reloadCounter < reload;` -- the gate
+	# updateCooling() calls first (`if(canReload() &&
+	# coolant != null && coolant.efficiency(this) > 0 &&
+	# efficiency > 0){`, ReloadTurret.java:29) and the
+	# gate TurretBuild.shouldConsume() embeds as half of
+	# an OR (`return isShooting || reloadCounter < reload;`,
+	# Turret.java:364-366, N2291) -- but neither slice
+	# registers canReload(): N2525 registers updateCooling
+	# and N2291 registers shouldConsume, so this slice
+	# owns the gate itself. The comparison is STRICT `<`:
+	# counter == reload is false, 0 < 0 is false, and a
+	# negative counter is NOT clamped (Java has no
+	# Math.max here; capping lives in updateReload, not
+	# in canReload). `reloadCounter` is the
+	# ReloadTurretBuild field (`public float reloadCounter;`,
+	# ReloadTurret.java:26, Java float default 0f) and
+	# `reload` is the ReloadTurret field (`public float
+	# reload = 10f;`, ReloadTurret.java:10). NO driver
+	# tick call site: the pure function takes the two
+	# fields as parameters; the tick wiring that feeds
+	# them belongs to the driver-tick slice. DORMANT live
+	# today -- the driver tick never calls this function,
+	# so live behavior does not change.
+	return {"can_reload": reload_counter < reload}
+
 static func source_turret_range_state(frame: Dictionary, range_value: float, min_range: float, tracking_range: float, has_peek_ammo: bool, range_change: float, min_range_change: float) -> Dictionary:
 	# range() / minRange() / trackingRange() (Turret.java:334-350,
 	# the three TurretBuild accessors): `public float minRange(){` /
