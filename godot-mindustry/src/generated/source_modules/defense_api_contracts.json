@@ -10257,6 +10257,37 @@
       "rule": "Source-backed BaseTurret drawSelect() row from BaseTurret.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_base_turret_build_status_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_base_turret_build_status_state",
+      "status": "active",
+      "source_slice": "N2475",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "source_method": "BaseTurretBuild.status()",
+      "params": [
+        {
+          "name": "activation_timer",
+          "type": "float",
+          "schema": "source_base_turret_build_status_state_input.activation_timer"
+        },
+        {
+          "name": "base_status",
+          "type": "String",
+          "schema": "source_base_turret_build_status_state_input.base_status"
+        }
+      ],
+      "return_keys": [
+        "status"
+      ],
+      "tests": [
+        "test_c07_base_turret_status_registration",
+        "test_all_c07_base_turret_status_input_evidence_is_exact",
+        "test_base_turret_status_state",
+        "test_reference_graph_and_actual_c07_base_turret_status"
+      ],
+      "runtime_proof": "/root/C07BaseTurretStatusProof",
+      "rule": "Source-backed BaseTurretBuild.status() state from BaseTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_reload_turret_can_reload_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_reload_turret_can_reload_state",
       "status": "active",

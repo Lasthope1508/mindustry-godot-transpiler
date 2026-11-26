@@ -264510,6 +264510,54 @@
       },
       "runtime_proof": "/root/C07GameStateIsCampaignProof",
       "rule": "Source-backed GameState.isCampaign() state from GameState.java."
+    },
+    "source_base_turret_build_status_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_base_turret_build_status_state",
+      "source_slice": "N2475",
+      "keys": {
+        "activation_timer": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "            return (activationTimer <= 0)? super.status() : BlockStatus.inactive;",
+          "rule": "The activation countdown (BaseTurret.java:115, `public float activationTimer = 0;`, default 0): set to activationTime by placed() (BaseTurret.java:119-122, `activationTimer = activationTime;`). The boundary is `<= 0` -- timer 0 returns the base status, NOT inactive.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_status_state"
+          ]
+        },
+        "base_status": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "            return (activationTimer <= 0)? super.status() : BlockStatus.inactive;",
+          "rule": "The precomputed super.status() result (BaseTurret.java:144, `super.status()`, i.e. BuildingComp.status(), BuildingComp.java:632-646, already live as N1888 PortGame.source_building_status_state): arrives as an explicit input (the N1256/N2374 precedent), NOT re-ported here. One of \"active\", \"noOutput\", \"noInput\", \"logicDisable\", \"inactiveUnitFactory\", \"inactive\".",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_status_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseTurretStatusProof",
+      "rule": "Source-backed BaseTurretBuild.status() state from BaseTurret.java."
+    },
+    "source_base_turret_build_status_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_base_turret_build_status_state",
+      "source_slice": "N2475",
+      "keys": {
+        "status": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "            return (activationTimer <= 0)? super.status() : BlockStatus.inactive;",
+          "rule": "The block status (BaseTurret.java:144, `return (activationTimer <= 0)? super.status() : BlockStatus.inactive;`): base_status when activation_timer <= 0, else \"inactive\" (BlockStatus.inactive -- NOT \"inactiveUnitFactory\", a different enum value).",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_status_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseTurretStatusProof",
+      "rule": "Source-backed BaseTurretBuild.status() state from BaseTurret.java."
     }
   },
   "version": 1

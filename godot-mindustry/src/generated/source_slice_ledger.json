@@ -122501,6 +122501,36 @@
         "GameState.isCampaign() is a TWIN-REGISTER with explicit main-thread approval (2026-11-26): the literal `return rules.sector != null;` is also an exact_expr of N2124, which cites it only as dependency evidence for unlockedNowHost() (`return !state.isCampaign() || unlockedHost();`) and ports no isCampaign function; N2124 is the original owner of the literal. Precedent: N2421, N2389, N2418.",
         "GameState.hasSector() (GameState.java:77-79) is NOT in this slice: it shares the literal `return rules.sector != null;` with isCampaign() and needs its own twin-register approval."
       ]
+    },
+    "N2475": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret.BaseTurretBuild",
+      "java_method": "BaseTurretBuild.status()",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_build_status_state",
+      "exact_exprs": [
+        "        public BlockStatus status() {",
+        "            return (activationTimer <= 0)? super.status() : BlockStatus.inactive;",
+        "        public float activationTimer = 0;",
+        "    public class BaseTurretBuild extends Building implements Ranged, RotBlock{"
+      ],
+      "source_symbols": [
+        "source_base_turret_build_status_state_input.activation_timer",
+        "source_base_turret_build_status_state_input.base_status",
+        "source_base_turret_build_status_state_result.status"
+      ],
+      "tests": [
+        "test_c07_base_turret_status_registration",
+        "test_all_c07_base_turret_status_input_evidence_is_exact",
+        "test_base_turret_status_state",
+        "test_reference_graph_and_actual_c07_base_turret_status"
+      ],
+      "runtime_proof": "/root/C07BaseTurretStatusProof",
+      "deferred_exprs": [
+        "BaseTurretBuild.status() Windows Godot proof -- debt in GOAL.md section 5: the N2475 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "BaseTurretBuild.status() is a TWIN-REGISTER with explicit main-thread assignment (2026-11-26): the literal `return (activationTimer <= 0)? super.status() : BlockStatus.inactive;` is also an exact_expr of N2285 (TurretBuild.status()), which cites it as the super chain and inlines the leg in source_turret_status_state; N2285 is a different java_method (hasAmmo leg, Java body never mentions activationTimer) and ports no function owned as BaseTurretBuild.status(). Precedent: N2474, N2421, N2389, N2418.",
+        "BaseTurretBuild.estimateDps() (BaseTurret.java:137-139) is NOT in this slice: it sits between drawSelect() (:133-135) and status() (:143-145) in Java and is spared -- a later slice inserts its GD function between source_base_turret_build_draw_select_state and source_base_turret_build_status_state."
+      ]
     }
   },
   "version": 1

@@ -2886,6 +2886,8 @@ static func source_turret_should_active_sound_state(frame: Dictionary, shoot_war
 # BuildingComp.status() helper only returns logicDisable /
 # noOutput / noInput / active, so the activation-timer leg of
 # TurretBuild.status() carries its own family-local const.
+# BaseTurretBuild.status() (N2475) shares this const -- it is
+# the same BlockStatus.inactive value.
 const SOURCE_TURRET_STATUS_INACTIVE := "inactive"
 
 # TurretBuild.status() (Turret.java:369-374):
@@ -3049,6 +3051,41 @@ static func source_base_turret_build_draw_select_state(x: float, y: float, range
 		dash_circle.call(x, y, range_value, team_color)
 		dash_circle_called = true
 	return {"dash_circle_called": dash_circle_called, "center": Vector2(x, y), "radius": range_value, "color": team_color}
+
+# BaseTurretBuild.status() (BaseTurret.java:143-145):
+# `public BlockStatus status() {`
+# `return (activationTimer <= 0)? super.status() : BlockStatus.inactive;`
+# `}`
+# on `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`
+# (BaseTurret.java:113) in `public class BaseTurret extends Block{`
+# (BaseTurret.java:20). The boundary is `<= 0`: timer 0 returns
+# super.status(), NOT inactive (a port using `< 0` is wrong).
+# super.status() is BuildingComp.status()
+# (BuildingComp.java:632-646) -- already live as N1888
+# PortGame.source_building_status_state, whose result arrives
+# here as the explicit base_status param (the N1256/N2374
+# precedent: a precomputed input, NOT re-ported here).
+# activationTimer is the BaseTurretBuild field (`public float
+# activationTimer = 0;`, BaseTurret.java:115, default 0), set
+# to activationTime by placed() (BaseTurret.java:119-122).
+# The inactive leg is BlockStatus.inactive -- NOT
+# inactiveUnitFactory, a different enum value (BlockStatus.java).
+# This is a different method from TurretBuild.status() (N2285,
+# Turret.java:369-374), which adds the hasAmmo leg and calls
+# super.status() -- i.e. THIS method -- for its tail; N2285
+# inlines this leg in source_turret_status_state, and this
+# slice adds the first GD function owned as
+# BaseTurretBuild.status(), for the inheritors that do not
+# override status() (RadarBuild / BuildTurretBuild /
+# ReloadTurretBuild). The inactive leg reuses the family-local
+# const SOURCE_TURRET_STATUS_INACTIVE (N2285; BlockStatus.inactive
+# has no N1888 constant). NO driver tick line: status() is a
+# read accessor its callers read, not a per-tick write (the
+# N2249/N2221 precedent).
+static func source_base_turret_build_status_state(activation_timer: float, base_status: String) -> Dictionary:
+	if activation_timer <= 0.0:
+		return {"status": base_status}
+	return {"status": SOURCE_TURRET_STATUS_INACTIVE}
 
 # TurretBuild.draw() (Turret.java:476-478):
 # `public void draw(){`
