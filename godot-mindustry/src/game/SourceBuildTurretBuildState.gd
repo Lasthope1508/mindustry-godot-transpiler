@@ -63,6 +63,28 @@ static func source_build_turret_bind_frame_state(sprite: Sprite2D, block: Object
 	sprite.set_meta(SOURCE_BUILD_TURRET_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
 
+static func source_build_turret_can_control_state() -> Dictionary:
+	# BuildTurretBuild.canControl() (BuildTurret.java:103-105, N2480):
+	#     return true;
+	# on `public class BuildTurretBuild extends BaseTurretBuild
+	# implements ControlBlock, RotBlock{` (BuildTurret.java:92).
+	# The build tower is ALWAYS controllable -- ControlBlock
+	# with no gate -- so the method returns the constant
+	# true and reads NO state: no unit, no player, no logic,
+	# no block field. TRAP: this is NOT TurretBuild.canControl()
+	# (Turret.java:376-378, N2297, `return playerControllable;`
+	# -- the block-level field `public boolean
+	# playerControllable = true;`, Turret.java:97, which a def
+	# can set false): a block with playerControllable = false
+	# still returns true here and false in N2297. TRAP: this
+	# is NOT TurretBuild.controlled() (Turret.java:441-443,
+	# N2324/N2523, `return unit.isPlayer();`) -- canControl is
+	# about the block being controllable, controlled is about
+	# who holds it now. Java order: canControl (:103-105)
+	# stands BEFORE buildRotation (:107-110, N2477), so this
+	# function sits before source_build_turret_build_rotation_state.
+	return {"can_control": true}
+
 static func source_build_turret_build_rotation_state(unit_rotation: float) -> Dictionary:
 	# BuildTurretBuild.buildRotation() (BuildTurret.java:107-110, N2477):
 	#     return unit.rotation();

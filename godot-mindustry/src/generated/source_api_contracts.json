@@ -82822,6 +82822,25 @@
       ],
       "runtime_proof": "/root/C07BaseTurretBuildRotationProof",
       "rule": "Source-backed BaseTurretBuild.buildRotation() state from BaseTurret.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_can_control_state": {
+      "status": "active",
+      "source_slice": "N2480",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.canControl()",
+      "params": [],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "can_control"
+      ],
+      "tests": [
+        "test_c07_build_turret_can_control_registration",
+        "test_all_c07_build_turret_can_control_input_evidence_is_exact",
+        "test_build_turret_can_control_state",
+        "test_reference_graph_and_actual_c07_build_turret_can_control"
+      ],
+      "runtime_proof": "/root/C07BuildTurretCanControlProof",
+      "rule": "Source-backed BuildTurretBuild.canControl() state from BuildTurret.java."
     }
   },
   "policy": {

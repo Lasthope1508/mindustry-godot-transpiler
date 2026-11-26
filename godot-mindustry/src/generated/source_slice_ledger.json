@@ -122649,6 +122649,34 @@
         "BuildTurretBuild.buildRotation() (BuildTurret.java:107-110, N2477) is NOT in this slice: it reads `unit.rotation()`, a different method of the child class -- the proof pins the cross-trap (field 33 + unit 77 returns 33 here, 77 in N2477).",
         "BaseTurretBuild.estimateDps() (BaseTurret.java:137-139) is NOT in this slice: it sits between drawSelect() (:133-135) and status() (:143-145) in Java and is spared -- a later slice inserts its GD function between source_base_turret_build_draw_select_state and source_base_turret_build_status_state."
       ]
+    },
+    "N2480": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_class": "mindustry.world.blocks.defense.BuildTurret.BuildTurretBuild",
+      "java_method": "BuildTurretBuild.canControl()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_can_control_state",
+      "exact_exprs": [
+        "        public boolean canControl(){",
+        "            return true;",
+        "    public class BuildTurretBuild extends BaseTurretBuild implements ControlBlock, RotBlock{"
+      ],
+      "source_symbols": [
+        "source_build_turret_can_control_state_result.can_control"
+      ],
+      "tests": [
+        "test_c07_build_turret_can_control_registration",
+        "test_all_c07_build_turret_can_control_input_evidence_is_exact",
+        "test_build_turret_can_control_state",
+        "test_reference_graph_and_actual_c07_build_turret_can_control"
+      ],
+      "runtime_proof": "/root/C07BuildTurretCanControlProof",
+      "deferred_exprs": [
+        "BuildTurretBuild.canControl() Windows Godot proof -- debt in GOAL.md section 5: the N2480 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "BuildTurretBuild.canControl() is a TWIN-REGISTER with explicit main-thread approval (2026-11-27): the literal `public boolean canControl(){` is also an exact_expr of N2184 (BuildTurretBuild.updateTile), which cites the BuildTurret.java:103-110 rows only as dependency evidence and ports no canControl function; N2184 is the original owner of the literal, and its own deferred_exprs say canControl \"waits for its own slice\". The same deferred sentence approved the twin-register for N2477 (buildRotation, same :103-110 cluster). The second literal hit, N2297 (TurretBuild.canControl, `return playerControllable;`), is a different method in a different class. The body line `return true;` is a generic constant line (45 exact_expr hits) and is NOT twin evidence. Precedent: N2474, N2477, N2421, N2389, N2418.",
+        "TurretBuild.canControl() (Turret.java:376-378, N2297, `return playerControllable;`) is NOT in this slice: it is the parent-class method whose result follows the block-level `playerControllable` field (Turret.java:97, default true) -- a block with playerControllable = false returns false there and true here; the proof pins the cross-trap.",
+        "TurretBuild.controlled() (Turret.java:441-443, N2324/N2523, `return unit.isPlayer();`) is NOT in this slice: canControl is about the block being controllable, controlled is about who holds it now."
+      ]
     }
   },
   "version": 1

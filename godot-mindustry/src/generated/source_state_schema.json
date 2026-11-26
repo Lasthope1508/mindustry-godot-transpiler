@@ -264720,6 +264720,25 @@
       },
       "runtime_proof": "/root/C07BaseTurretBuildRotationProof",
       "rule": "Source-backed BaseTurretBuild.buildRotation() state from BaseTurret.java."
+    },
+    "source_build_turret_can_control_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_can_control_state",
+      "source_slice": "N2480",
+      "keys": {
+        "can_control": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "            return true;",
+          "rule": "Whether the build tower can be controlled (BuildTurret.java:103-105, `return true;`): BuildTurretBuild implements ControlBlock (BuildTurret.java:92) with no gate, so the method always returns true -- it reads no unit, no player, no logic, and NOT the block-level `playerControllable` field (Turret.java:97) that TurretBuild.canControl() (N2297) follows.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_can_control_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretCanControlProof",
+      "rule": "Source-backed BuildTurretBuild.canControl() state from BuildTurret.java."
     }
   },
   "version": 1
