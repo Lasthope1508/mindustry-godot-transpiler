@@ -122557,6 +122557,34 @@
       "deferred_exprs": [
         "ReloadTurretBuild.baseReloadSpeed() Windows Godot proof -- debt in GOAL.md section 5: the N2476 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2477": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_class": "mindustry.world.blocks.defense.BuildTurret.BuildTurretBuild",
+      "java_method": "BuildTurretBuild.buildRotation()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_rotation_state",
+      "exact_exprs": [
+        "        public float buildRotation(){",
+        "            return unit.rotation();",
+        "        public BlockUnitc unit = (BlockUnitc)unitType.create(team);"
+      ],
+      "source_symbols": [
+        "source_build_turret_build_rotation_state_input.unit_rotation",
+        "source_build_turret_build_rotation_state_result.build_rotation"
+      ],
+      "tests": [
+        "test_c07_build_turret_build_rotation_registration",
+        "test_all_c07_build_turret_build_rotation_input_evidence_is_exact",
+        "test_build_turret_build_rotation_state",
+        "test_reference_graph_and_actual_c07_build_turret_build_rotation"
+      ],
+      "runtime_proof": "/root/C07BuildTurretBuildRotationProof",
+      "deferred_exprs": [
+        "BuildTurretBuild.buildRotation() Windows Godot proof -- debt in GOAL.md section 5: the N2477 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "BuildTurretBuild.buildRotation() is a TWIN-REGISTER with explicit main-thread approval (2026-11-26): the literals `public float buildRotation(){` and `return unit.rotation();` are also exact_exprs of N2184 (BuildTurretBuild.updateTile), which cites the BuildTurret.java:103-110 rows only as dependency evidence and ports no buildRotation function; N2184 is the original owner of the literals, and its own deferred_exprs say buildRotation \"waits for its own slice\". Precedent: N2474, N2421, N2389, N2418.",
+        "BaseTurretBuild.buildRotation() (BaseTurret.java:129-131, `return rotation;` -- reads the inherited field) is NOT in this slice: it is a different method in the parent class with a different body, and needs its own slice (backup B)."
+      ]
     }
   },
   "version": 1

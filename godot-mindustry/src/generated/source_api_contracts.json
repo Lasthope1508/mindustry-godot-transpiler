@@ -82742,6 +82742,31 @@
       ],
       "runtime_proof": "/root/C07ReloadTurretBaseReloadSpeedProof",
       "rule": "Source-backed ReloadTurretBuild.baseReloadSpeed() state from ReloadTurret.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_build_rotation_state": {
+      "status": "active",
+      "source_slice": "N2477",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.buildRotation()",
+      "params": [
+        {
+          "name": "unit_rotation",
+          "type": "float",
+          "schema": "source_build_turret_build_rotation_state_input.unit_rotation"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "build_rotation"
+      ],
+      "tests": [
+        "test_c07_build_turret_build_rotation_registration",
+        "test_all_c07_build_turret_build_rotation_input_evidence_is_exact",
+        "test_build_turret_build_rotation_state",
+        "test_reference_graph_and_actual_c07_build_turret_build_rotation"
+      ],
+      "runtime_proof": "/root/C07BuildTurretBuildRotationProof",
+      "rule": "Source-backed BuildTurretBuild.buildRotation() state from BuildTurret.java."
     }
   },
   "policy": {

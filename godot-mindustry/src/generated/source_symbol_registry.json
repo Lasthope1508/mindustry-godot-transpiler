@@ -190760,6 +190760,38 @@
         "test_reference_graph_and_actual_c07_reload_turret_base_reload_speed"
       ],
       "runtime_proof": "/root/C07ReloadTurretBaseReloadSpeedProof"
+    },
+    "source_build_turret_build_rotation_state_input.unit_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_rotation_state",
+      "godot_symbol": "source_build_turret_build_rotation_state_input.unit_rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.buildRotation()",
+      "java_expr": "            return unit.rotation();",
+      "rule": "The builder unit rotation (BuildTurret.java:107-110): the precomputed `unit.rotation()` of the BuildTurretBuild field `unit` (BuildTurret.java:93), initialised to 90f (:98-100, `unit.rotation(90f);`) -- NOT the inherited `rotation` field of BaseTurretBuild, which updateTile (:121) assigns from the unit every tick and which can differ between ticks.",
+      "tests": [
+        "test_c07_build_turret_build_rotation_registration",
+        "test_all_c07_build_turret_build_rotation_input_evidence_is_exact",
+        "test_build_turret_build_rotation_state",
+        "test_reference_graph_and_actual_c07_build_turret_build_rotation"
+      ],
+      "runtime_proof": "/root/C07BuildTurretBuildRotationProof"
+    },
+    "source_build_turret_build_rotation_state_result.build_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_build_rotation_state",
+      "godot_symbol": "source_build_turret_build_rotation_state_result.build_rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.buildRotation()",
+      "java_expr": "            return unit.rotation();",
+      "rule": "The build rotation (BuildTurret.java:107-110): `unit.rotation()` returned whole -- no clamp, no angle normalisation (a negative angle or an angle > 360 passes through; Java has no Math.min/max or angle wrap here).",
+      "tests": [
+        "test_c07_build_turret_build_rotation_registration",
+        "test_all_c07_build_turret_build_rotation_input_evidence_is_exact",
+        "test_build_turret_build_rotation_state",
+        "test_reference_graph_and_actual_c07_build_turret_build_rotation"
+      ],
+      "runtime_proof": "/root/C07BuildTurretBuildRotationProof"
     }
   },
   "version": 1

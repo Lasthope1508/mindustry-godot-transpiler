@@ -63,6 +63,25 @@ static func source_build_turret_bind_frame_state(sprite: Sprite2D, block: Object
 	sprite.set_meta(SOURCE_BUILD_TURRET_BUILDING_META_KEY, frame)
 	return {"applied": true, "frame": frame}
 
+static func source_build_turret_build_rotation_state(unit_rotation: float) -> Dictionary:
+	# BuildTurretBuild.buildRotation() (BuildTurret.java:107-110, N2477):
+	#     return unit.rotation();
+	# TRAP: this reads the UNIT's rotation (the BuildTurretBuild
+	# field `unit`, BuildTurret.java:93, initialised to 90f
+	# at :98-100), NOT the inherited `rotation` field of
+	# BaseTurretBuild (BaseTurret.java:129-131, `return
+	# rotation;` -- a different method, backup B): updateTile
+	# (:121) assigns the field from the unit every tick, so
+	# between ticks the two can differ. TRAP: no clamp, no
+	# angle normalisation -- a negative angle or an angle >
+	# 360 passes through whole. The unit rotation arrives
+	# precomputed as unit_rotation (the GD function takes no
+	# live unit). Java order: canControl (:103-105, unported)
+	# and buildRotation (:107-110) come before updateTile
+	# (:121-139, N2184), so this function sits before
+	# source_build_turret_power_status_row_state.
+	return {"build_rotation": unit_rotation}
+
 static func source_build_turret_power_status_row_state(frame: Dictionary, has_power_consumer: bool) -> Dictionary:
 	# ConsumePower.efficiency (ConsumePower.java:38-40, `return build.power.status;`): the power consumer's efficiency is the building's live power.status, and the first pass folds it into the min efficiency (BuildingComp.java:1969-1976, `for(var cons : block.nonOptionalConsumers){` / `minEfficiency = Math.min(minEfficiency, result);`). The graph update stamps frame["power_status"] each tick (N2142); a missing stamp folds to 1.0 before the first graph update, the assembler fold (UnitAssembler.java:469, `float powerStatus = !enabled ? 0f : power == null ? 1f : power.status;`). A block with no power consumer contributes no row. The power consumer counts toward hasConsumers (Block.java:1449, `hasConsumers = consumers.length > 0;`), so a build tower does not take the early return. The tower's power draw is STATIC, not conditional: `consumePower(3f);` (Blocks.java:2005) registers a plain ConsumePower, so the catalog consumePower 3.0 is present and the plain radar gate (block.properties.has("consumePower")) works -- no RepairTurret-style `or consumesPower` adaptation is needed. The pure row is still the same ConsumePower read (`return build.power.status;`, ConsumePower.java:39). The tower's updateTile (BuildTurret.java:121-139, `rotation = unit.rotation();` / `if(unit.activelyBuilding()){` / `unit.lookAt(angleTo(unit.buildPlan()));` / `if(checkSuppression()){` / `efficiency = potentialEfficiency = 0f;` / `unit.buildSpeedMultiplier(potentialEfficiency * timeScale);` / `unit.speedMultiplier(potentialEfficiency * timeScale);` / `warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);`) scales the builder unit by potentialEfficiency -- and because there is no baseEfficiency-style floor, the tower never builds when the gate fails; the folded efficiency is what the efficiency keys prove, and the plan search / follow / mimic / validate advance waits for its own slice.
 	# BuildTurretBuild DOES override shouldConsume (BuildTurret.java:229-230, `public boolean shouldConsume(){` / `return unit.plans().size > 0 && !isHealSuppressed();`), and updateConsumption forces efficiency to zero when the gate is false (BuildingComp.java:1960, `boolean update = shouldConsume() && productionValid();` + 1992, `if(!update){`). RED decision: fold power-only and defer the gate (the PointDefenseTurret N2151 precedent); the port tracks no live build-plan state on any placed-building frame, so the driver needs a plans frame input or a documented deferral. N2201 wires the gate through source_build_turret_should_consume_state(frame): plans_count > 0 and not heal_suppressed and enabled when a plans observation is present, enabled when the frame carries no plans_count key (the N2184 behavior preserved; no live plans are stamped on any placed-building frame yet). canConsume (BuildingComp.java:1917, `public boolean canConsume(){` with `return potentialEfficiency > 0;`, BuildingComp.java:1918) and edelta (BuildingComp.java:1927-1929, `return efficiency * delta();`) are the surrounding gates.
