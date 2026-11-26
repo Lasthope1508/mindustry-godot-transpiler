@@ -786,6 +786,31 @@
         }
       }
     },
+    "source_beam_drill_get_drill_time_state_input": {
+      "canonical_schema": "source_state_schema.source_beam_drill_get_drill_time_state_input",
+      "keys": {
+        "drill_time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "public float drillTime = 200f;",
+          "rule": "The base time to drill one ore, in frames (`public float drillTime = 200f;`, BeamDrill.java:39); passed explicitly because it is per-def static state, not a live frame key (the N2212 per-def-param precedent). Plasma-bore overrides it to 160f, large-plasma-bore to 100f (Blocks.java:3042/3055). NOT Drill's `public float drillTime = 300;` (Drill.java:36): BeamDrill extends Block, not Drill.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_get_drill_time_state"
+          ]
+        },
+        "drill_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+          "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+          "rule": "The pre-resolved per-item multiplier: the caller applies `drillMultipliers.get(item, 1f)` (BeamDrill.java:217) at the call boundary, so a missing item -- including a null item -- resolves to 1f before this function sees it. The map itself (`public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();`, BeamDrill.java:47) is NOT an input here; neither BeamDrill def puts any multiplier, so in practice every item drills at the default 1f.",
+          "used_by": [
+            "SourceBeamDrillBuildState.source_beam_drill_get_drill_time_state"
+          ]
+        }
+      }
+    },
     "source_beam_drill_laser_defaults_state_input": {
       "canonical_schema": "source_state_schema.source_beam_drill_laser_defaults_state_input",
       "keys": {

@@ -190792,6 +190792,54 @@
         "test_reference_graph_and_actual_c07_build_turret_build_rotation"
       ],
       "runtime_proof": "/root/C07BuildTurretBuildRotationProof"
+    },
+    "source_beam_drill_get_drill_time_state_input.drill_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_get_drill_time_state",
+      "godot_symbol": "source_beam_drill_get_drill_time_state_input.drill_time",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.getDrillTime(Item)",
+      "java_expr": "public float drillTime = 200f;",
+      "rule": "The base time to drill one ore, in frames (`public float drillTime = 200f;`, BeamDrill.java:39); passed explicitly because it is per-def static state, not a live frame key (the N2212 per-def-param precedent). Plasma-bore overrides it to 160f, large-plasma-bore to 100f (Blocks.java:3042/3055). NOT Drill's `public float drillTime = 300;` (Drill.java:36): BeamDrill extends Block, not Drill.",
+      "tests": [
+        "test_c07_beam_drill_get_drill_time_registration",
+        "test_all_c07_beam_drill_get_drill_time_input_evidence_is_exact",
+        "test_beam_drill_get_drill_time_state",
+        "test_reference_graph_and_actual_c07_beam_drill_get_drill_time"
+      ],
+      "runtime_proof": "/root/C07BeamDrillGetDrillTimeProof"
+    },
+    "source_beam_drill_get_drill_time_state_input.drill_multiplier": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_get_drill_time_state",
+      "godot_symbol": "source_beam_drill_get_drill_time_state_input.drill_multiplier",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.getDrillTime(Item)",
+      "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+      "rule": "The pre-resolved per-item multiplier: the caller applies `drillMultipliers.get(item, 1f)` (BeamDrill.java:217) at the call boundary, so a missing item -- including a null item -- resolves to 1f before this function sees it. The map itself (`public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();`, BeamDrill.java:47) is NOT an input here; neither BeamDrill def puts any multiplier, so in practice every item drills at the default 1f.",
+      "tests": [
+        "test_c07_beam_drill_get_drill_time_registration",
+        "test_all_c07_beam_drill_get_drill_time_input_evidence_is_exact",
+        "test_beam_drill_get_drill_time_state",
+        "test_reference_graph_and_actual_c07_beam_drill_get_drill_time"
+      ],
+      "runtime_proof": "/root/C07BeamDrillGetDrillTimeProof"
+    },
+    "source_beam_drill_get_drill_time_state_result.drill_time": {
+      "status": "source-backed",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_get_drill_time_state",
+      "godot_symbol": "source_beam_drill_get_drill_time_state_result.drill_time",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_method": "BeamDrill.getDrillTime(Item)",
+      "java_expr": "return drillTime / drillMultipliers.get(item, 1f);",
+      "rule": "The drill time for the item: drillTime divided by the pre-resolved per-item multiplier (`return drillTime / drillMultipliers.get(item, 1f);`, BeamDrill.java:217). Multiplier 0 gives Infinity (Java float division, no exception); a negative multiplier passes through unclamped.",
+      "tests": [
+        "test_c07_beam_drill_get_drill_time_registration",
+        "test_all_c07_beam_drill_get_drill_time_input_evidence_is_exact",
+        "test_beam_drill_get_drill_time_state",
+        "test_reference_graph_and_actual_c07_beam_drill_get_drill_time"
+      ],
+      "runtime_proof": "/root/C07BeamDrillGetDrillTimeProof"
     }
   },
   "version": 1

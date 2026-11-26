@@ -122585,6 +122585,40 @@
         "BuildTurretBuild.buildRotation() is a TWIN-REGISTER with explicit main-thread approval (2026-11-26): the literals `public float buildRotation(){` and `return unit.rotation();` are also exact_exprs of N2184 (BuildTurretBuild.updateTile), which cites the BuildTurret.java:103-110 rows only as dependency evidence and ports no buildRotation function; N2184 is the original owner of the literals, and its own deferred_exprs say buildRotation \"waits for its own slice\". Precedent: N2474, N2421, N2389, N2418.",
         "BaseTurretBuild.buildRotation() (BaseTurret.java:129-131, `return rotation;` -- reads the inherited field) is NOT in this slice: it is a different method in the parent class with a different body, and needs its own slice (backup B)."
       ]
+    },
+    "N2478": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "java_class": "mindustry.world.blocks.production.BeamDrill",
+      "java_method": "BeamDrill.getDrillTime(Item)",
+      "godot_owner": "SourceBeamDrillBuildState.source_beam_drill_get_drill_time_state",
+      "exact_exprs": [
+        "public class BeamDrill extends Block{",
+        "public float drillTime = 200f;",
+        "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+        "public float getDrillTime(Item item){",
+        "return drillTime / drillMultipliers.get(item, 1f);",
+        "drillTime = 160f;",
+        "drillTime = 100f;",
+        "float drillTime = getDrillTime(lastItem);"
+      ],
+      "source_symbols": [
+        "source_beam_drill_get_drill_time_state_input.drill_time",
+        "source_beam_drill_get_drill_time_state_input.drill_multiplier",
+        "source_beam_drill_get_drill_time_state_result.drill_time"
+      ],
+      "tests": [
+        "test_c07_beam_drill_get_drill_time_registration",
+        "test_all_c07_beam_drill_get_drill_time_input_evidence_is_exact",
+        "test_beam_drill_get_drill_time_state",
+        "test_reference_graph_and_actual_c07_beam_drill_get_drill_time"
+      ],
+      "runtime_proof": "/root/C07BeamDrillGetDrillTimeProof",
+      "deferred_exprs": [
+        "BeamDrill.getDrillTime(Item) Windows Godot proof -- debt in GOAL.md section 5: the N2478 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "BeamDrill.getDrillTime(Item) is a TWIN-REGISTER with explicit main-thread approval (2026-11-26): the body literal `return drillTime / drillMultipliers.get(item, 1f);` was already ported per-class for BurstDrill (N2344, owner SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state) and Drill (N690/N1367, owner PortGame.source_drill_delay), and is an exact_expr of N2294 (evidence only). N2344 is the nearest port owner; BeamDrill had no get_drill_time symbol of its own (registry 0-hit), so this slice adds a real new GD function. Precedent: N2474, N2477, N2421, N2389, N2418.",
+        "Item null is modelled by a pre-resolved multiplier: the caller applies `drillMultipliers.get(item, 1f)` at the call boundary (a null item resolves to 1.0 there), so the pure function takes a float multiplier and never guesses Arc ObjectFloatMap null-key semantics."
+      ]
     }
   },
   "version": 1

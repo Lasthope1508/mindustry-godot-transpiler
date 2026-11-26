@@ -1186,6 +1186,37 @@
       "rule": "Source-backed BeamDrillBuild.draw() state from BeamDrill.java.",
       "return_type": "Dictionary"
     },
+    "SourceBeamDrillBuildState.source_beam_drill_get_drill_time_state": {
+      "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_get_drill_time_state",
+      "status": "active",
+      "source_slice": "N2478",
+      "java_source": "core/src/mindustry/world/blocks/production/BeamDrill.java",
+      "source_method": "BeamDrill.getDrillTime(Item)",
+      "params": [
+        {
+          "name": "drill_time",
+          "type": "float",
+          "schema": "source_beam_drill_get_drill_time_state_input.drill_time"
+        },
+        {
+          "name": "drill_multiplier",
+          "type": "float",
+          "schema": "source_beam_drill_get_drill_time_state_input.drill_multiplier"
+        }
+      ],
+      "return_keys": [
+        "drill_time"
+      ],
+      "tests": [
+        "test_c07_beam_drill_get_drill_time_registration",
+        "test_all_c07_beam_drill_get_drill_time_input_evidence_is_exact",
+        "test_beam_drill_get_drill_time_state",
+        "test_reference_graph_and_actual_c07_beam_drill_get_drill_time"
+      ],
+      "runtime_proof": "/root/C07BeamDrillGetDrillTimeProof",
+      "rule": "Source-backed BeamDrill.getDrillTime(Item) state from BeamDrill.java + Blocks.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state": {
       "canonical_contract": "source_api_contracts.SourceBeamDrillBuildState.source_beam_drill_laser_defaults_state",
       "status": "active",

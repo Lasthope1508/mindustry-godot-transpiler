@@ -1122,6 +1122,43 @@ static func source_beam_drill_can_place_on_state(frame: Dictionary, tile_x: int,
 			break
 	return {"can_place_on": can_place_on}
 
+static func source_beam_drill_get_drill_time_state(drill_time: float, drill_multiplier: float) -> Dictionary:
+	# BeamDrill.getDrillTime() (BeamDrill.java:216-218):
+	# `public float getDrillTime(Item item){`
+	# `return drillTime / drillMultipliers.get(item, 1f);`
+	# `}`
+	# on `public class BeamDrill extends Block{`
+	# (BeamDrill.java:25). drillTime is the BeamDrill
+	# field (`public float drillTime = 200f;`,
+	# BeamDrill.java:39) -- NOT Drill's `public float
+	# drillTime = 300;` (Drill.java:36): BeamDrill
+	# extends Block, not Drill, so Drill's hardness
+	# formula (Drill.java:171) is NOT this slice.
+	# Per-def drillTime: plasma-bore 160f,
+	# large-plasma-bore 100f (Blocks.java:3042/3055).
+	# The multiplier arrives PRE-RESOLVED: the caller
+	# applies `drillMultipliers.get(item, 1f)` (default
+	# 1f, BeamDrill.java:47 `public ObjectFloatMap<Item>
+	# drillMultipliers = new ObjectFloatMap<>();`) at the
+	# call boundary, so a missing item -- including a
+	# null item -- resolves to 1.0 before this function
+	# sees it, and this pure function never guesses Arc
+	# ObjectFloatMap null-key semantics. TRAPS:
+	# multiplier 0 gives Infinity (Java float division,
+	# no exception -- GDScript float division behaves
+	# the same); a negative multiplier passes through
+	# (no clamp); drillTime is a per-def input, NOT
+	# hardcoded. TWIN-REGISTER (main-thread approval
+	# 2026-11-26): the same body was already ported
+	# per-class for BurstDrill (N2344) and Drill
+	# (N690/N1367); this slice adds BeamDrill's own
+	# function (precedent N2474/N2477). The updateTile
+	# caller (`float drillTime =
+	# getDrillTime(lastItem);`, BeamDrill.java:247) and
+	# drawPlace (BeamDrill.java:183) read it through
+	# their own slices -- NO driver tick line here.
+	return {"drill_time": drill_time / drill_multiplier}
+
 @warning_ignore("unused_parameter")
 static func source_beam_drill_set_bars_state(frame: Dictionary, super_set_bars: Variant, last_drill_speed: float, warmup: float) -> Dictionary:
 	# N2391 -- BeamDrill.setBars() (BeamDrill.java:90-97):
