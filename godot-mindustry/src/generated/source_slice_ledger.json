@@ -122415,6 +122415,34 @@
         "Rules.buildSpeed -- same multiplier family as unitCost/unitDamage/unitBuildSpeed/unitMineSpeed/blockHealth/blockDamage, left for a later batch so batch 49 is not all one pattern.",
         "Rules.blockDamage() Windows Godot proof -- debt in GOAL.md section 5: the N2471 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2472": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_class": "mindustry.game.Rules",
+      "java_method": "Rules.buildSpeed(Team)",
+      "godot_owner": "SourceRulesRuntimeState.source_rules_build_speed_state",
+      "exact_exprs": [
+        "    public float buildSpeed(Team team){",
+        "        return buildSpeedMultiplier * teams.get(team).buildSpeedMultiplier;",
+        "    /** Multiplier for building speed. */\n    public float buildSpeedMultiplier = 1f;",
+        "        /** Multiplier for building speed. */\n        public float buildSpeedMultiplier = 1f;"
+      ],
+      "source_symbols": [
+        "source_rules_build_speed_state_input.rules_state",
+        "source_rules_build_speed_state_input.team_id",
+        "source_rules_build_speed_state_result.build_speed"
+      ],
+      "tests": [
+        "test_c07_rules_build_speed_registration",
+        "test_all_c07_rules_build_speed_input_evidence_is_exact",
+        "test_rules_build_speed_state",
+        "test_reference_graph_and_actual_c07_rules_build_speed"
+      ],
+      "runtime_proof": "/root/C07RulesBuildSpeedProof",
+      "deferred_exprs": [
+        "Rules.buildSpeed() Windows Godot proof -- debt in GOAL.md section 5: the N2472 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

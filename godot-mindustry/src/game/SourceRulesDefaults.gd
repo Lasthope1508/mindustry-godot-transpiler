@@ -44,6 +44,16 @@ const BLOCK_HEALTH_MULTIPLIER_DEFAULT := 1.0
 # BLOCK_DAMAGE_METHOD below, which is only a marker string
 # for the TractorBeam slice, not a default.
 const BLOCK_DAMAGE_MULTIPLIER_DEFAULT := 1.0
+# Rules.buildSpeedMultiplier (Rules.java:117) and
+# TeamRule.buildSpeedMultiplier (Rules.java:369) both default
+# to 1f: buildings build at full speed unless the map rules
+# scale it (N2472 buildSpeed, sibling of N2096 unitCost).
+# Like unitDamage (N2462), unitBuildSpeed (N2464),
+# unitMineSpeed (N2468), blockHealth (N2470) and blockDamage
+# (N2471) there is NO floor on the product here. NOT to be
+# confused with UNIT_BUILD_SPEED_MULTIPLIER_DEFAULT above,
+# which belongs to N2464 unitBuildSpeed (a different method).
+const BUILD_SPEED_MULTIPLIER_DEFAULT := 1.0
 # Rules.enemyCoreBuildRadius (Rules.java:123) defaults to 400f:
 # the no-build zone around the enemy core (N2461 buildRadius).
 const ENEMY_CORE_BUILD_RADIUS_DEFAULT := 400.0
