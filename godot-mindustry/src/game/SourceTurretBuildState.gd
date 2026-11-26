@@ -3051,6 +3051,31 @@ static func source_turret_draw_select_state(x: float, y: float, draw_min_range: 
 		return {"draw_min_range_circle": true, "center": Vector2(x, y), "radius": min_range, "color": team_color}
 	return {"draw_min_range_circle": false, "center": Vector2(x, y), "radius": 0.0, "color": team_color}
 
+# BaseTurretBuild.buildRotation() (BaseTurret.java:129-131):
+# `public float buildRotation(){`
+# `return rotation;`
+# `}`
+# on `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`
+# (BaseTurret.java:113) in `public class BaseTurret extends Block{`
+# (BaseTurret.java:20). This reads the INHERITED `rotation` field
+# (`public float rotation = 90;`, BaseTurret.java:114, default 90) --
+# the OPPOSITE of N2477 BuildTurretBuild.buildRotation()
+# (BuildTurret.java:107-110, `return unit.rotation();`): field 33
+# with a unit at 77 returns 33 here, 77 there. No clamp, no angle
+# normalisation: a negative rotation or one > 360 passes through
+# whole. This is a different method from BaseTurretBuild.range()
+# (N739, bare `range()`, BaseTurret.java:124-126). The body literal
+# `return rotation;` is a shared RotBlock literal already an
+# exact_expr of N2233 (RepairPointBuild.buildRotation(), line
+# Windows), N1839 and N2223 -- no slice cites it for
+# BaseTurretBuild, so this is the first GD function owned as
+# BaseTurretBuild.buildRotation() (generic-literal note, N2479;
+# no twin-register approval required). NO driver tick line:
+# buildRotation() is a read accessor its callers read, not a
+# per-tick write (the N2249/N2221 precedent).
+static func source_base_turret_build_rotation_state(rotation: float) -> Dictionary:
+	return {"build_rotation": rotation}
+
 # BaseTurretBuild.drawSelect() (BaseTurret.java:133-135):
 # `public void drawSelect(){`
 # `Drawf.dashCircle(x, y, range(), team.color);`

@@ -82797,6 +82797,31 @@
       ],
       "runtime_proof": "/root/C07BeamDrillGetDrillTimeProof",
       "rule": "Source-backed BeamDrill.getDrillTime(Item) state from BeamDrill.java + Blocks.java."
+    },
+    "SourceTurretBuildState.source_base_turret_build_rotation_state": {
+      "status": "active",
+      "source_slice": "N2479",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "source_method": "BaseTurretBuild.buildRotation()",
+      "params": [
+        {
+          "name": "rotation",
+          "type": "float",
+          "schema": "source_base_turret_build_rotation_state_input.rotation"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "build_rotation"
+      ],
+      "tests": [
+        "test_c07_base_turret_build_rotation_registration",
+        "test_all_c07_base_turret_build_rotation_input_evidence_is_exact",
+        "test_base_turret_build_rotation_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_rotation"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildRotationProof",
+      "rule": "Source-backed BaseTurretBuild.buildRotation() state from BaseTurret.java."
     }
   },
   "policy": {

@@ -264682,6 +264682,44 @@
       },
       "runtime_proof": "/root/C07BeamDrillGetDrillTimeProof",
       "rule": "Source-backed BeamDrill.getDrillTime(Item) state from BeamDrill.java + Blocks.java."
+    },
+    "source_base_turret_build_rotation_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_base_turret_build_rotation_state",
+      "source_slice": "N2479",
+      "keys": {
+        "rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "            return rotation;",
+          "rule": "The inherited `rotation` field (BaseTurret.java:114, `public float rotation = 90;`, default 90): the field itself, NOT the unit rotation -- the opposite of N2477 (BuildTurretBuild.buildRotation() reads `unit.rotation()`). No clamp, no angle normalisation.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_rotation_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseTurretBuildRotationProof",
+      "rule": "Source-backed BaseTurretBuild.buildRotation() state from BaseTurret.java."
+    },
+    "source_base_turret_build_rotation_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_base_turret_build_rotation_state",
+      "source_slice": "N2479",
+      "keys": {
+        "build_rotation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "            return rotation;",
+          "rule": "The build rotation (BaseTurret.java:130, `return rotation;`): the field value passed through whole, unclamped and unnormalised.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_build_rotation_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseTurretBuildRotationProof",
+      "rule": "Source-backed BaseTurretBuild.buildRotation() state from BaseTurret.java."
     }
   },
   "version": 1

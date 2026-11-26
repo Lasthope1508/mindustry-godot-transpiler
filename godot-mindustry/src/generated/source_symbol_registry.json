@@ -190840,6 +190840,38 @@
         "test_reference_graph_and_actual_c07_beam_drill_get_drill_time"
       ],
       "runtime_proof": "/root/C07BeamDrillGetDrillTimeProof"
+    },
+    "source_base_turret_build_rotation_state_input.rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_build_rotation_state",
+      "godot_symbol": "source_base_turret_build_rotation_state_input.rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurretBuild.buildRotation()",
+      "java_expr": "            return rotation;",
+      "rule": "The inherited `rotation` field (BaseTurret.java:114, `public float rotation = 90;`, default 90): the field itself, NOT the unit rotation -- the opposite of N2477 (BuildTurretBuild.buildRotation() reads `unit.rotation()`). No clamp, no angle normalisation.",
+      "tests": [
+        "test_c07_base_turret_build_rotation_registration",
+        "test_all_c07_base_turret_build_rotation_input_evidence_is_exact",
+        "test_base_turret_build_rotation_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_rotation"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildRotationProof"
+    },
+    "source_base_turret_build_rotation_state_result.build_rotation": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_build_rotation_state",
+      "godot_symbol": "source_base_turret_build_rotation_state_result.build_rotation",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurretBuild.buildRotation()",
+      "java_expr": "            return rotation;",
+      "rule": "The build rotation (BaseTurret.java:130, `return rotation;`): the field value passed through whole, unclamped and unnormalised.",
+      "tests": [
+        "test_c07_base_turret_build_rotation_registration",
+        "test_all_c07_base_turret_build_rotation_input_evidence_is_exact",
+        "test_base_turret_build_rotation_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_rotation"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildRotationProof"
     }
   },
   "version": 1

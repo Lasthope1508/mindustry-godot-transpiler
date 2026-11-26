@@ -122619,6 +122619,36 @@
         "BeamDrill.getDrillTime(Item) is a TWIN-REGISTER with explicit main-thread approval (2026-11-26): the body literal `return drillTime / drillMultipliers.get(item, 1f);` was already ported per-class for BurstDrill (N2344, owner SourceBurstDrillBuildState.source_burst_drill_get_drill_time_state) and Drill (N690/N1367, owner PortGame.source_drill_delay), and is an exact_expr of N2294 (evidence only). N2344 is the nearest port owner; BeamDrill had no get_drill_time symbol of its own (registry 0-hit), so this slice adds a real new GD function. Precedent: N2474, N2477, N2421, N2389, N2418.",
         "Item null is modelled by a pre-resolved multiplier: the caller applies `drillMultipliers.get(item, 1f)` at the call boundary (a null item resolves to 1.0 there), so the pure function takes a float multiplier and never guesses Arc ObjectFloatMap null-key semantics."
       ]
+    },
+    "N2479": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret.BaseTurretBuild",
+      "java_method": "BaseTurretBuild.buildRotation()",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_build_rotation_state",
+      "exact_exprs": [
+        "        public float buildRotation(){",
+        "            return rotation;",
+        "        public float rotation = 90;",
+        "    public class BaseTurretBuild extends Building implements Ranged, RotBlock{"
+      ],
+      "source_symbols": [
+        "source_base_turret_build_rotation_state_input.rotation",
+        "source_base_turret_build_rotation_state_result.build_rotation"
+      ],
+      "tests": [
+        "test_c07_base_turret_build_rotation_registration",
+        "test_all_c07_base_turret_build_rotation_input_evidence_is_exact",
+        "test_base_turret_build_rotation_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_rotation"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildRotationProof",
+      "deferred_exprs": [
+        "BaseTurretBuild.buildRotation() Windows Godot proof -- debt in GOAL.md section 5: the N2479 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "BaseTurretBuild.buildRotation() generic-literal note (NOT a twin-register, no approval required -- main thread confirmed 2026-11-27): the body literal `return rotation;` is already an exact_expr of N2233 (RepairPointBuild.buildRotation(), line Windows), N1839 (UnitComp.prefRotation()) and N2223 (BuildingComp.sense(LAccess)); the declaration `public float buildRotation(){` is cited only for other classes (N2184 BuildTurretBuild, N2233 RepairPointBuild). No slice cites either literal for BaseTurretBuild, so this slice adds the first GD function owned as BaseTurretBuild.buildRotation().",
+        "BuildTurretBuild.buildRotation() (BuildTurret.java:107-110, N2477) is NOT in this slice: it reads `unit.rotation()`, a different method of the child class -- the proof pins the cross-trap (field 33 + unit 77 returns 33 here, 77 in N2477).",
+        "BaseTurretBuild.estimateDps() (BaseTurret.java:137-139) is NOT in this slice: it sits between drawSelect() (:133-135) and status() (:143-145) in Java and is spared -- a later slice inserts its GD function between source_base_turret_build_draw_select_state and source_base_turret_build_status_state."
+      ]
     }
   },
   "version": 1

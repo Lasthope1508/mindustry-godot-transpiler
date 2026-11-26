@@ -5458,6 +5458,24 @@
       ],
       "runtime_proof": "/root/C07BuildTurretBuildRotationProof"
     },
+    "N2479": {
+      "canonical_ledger": "source_slice_ledger.N2479",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurretBuild.buildRotation()",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_build_rotation_state",
+      "source_symbols": [
+        "source_base_turret_build_rotation_state_input.rotation",
+        "source_base_turret_build_rotation_state_result.build_rotation"
+      ],
+      "tests": [
+        "test_c07_base_turret_build_rotation_registration",
+        "test_all_c07_base_turret_build_rotation_input_evidence_is_exact",
+        "test_base_turret_build_rotation_state",
+        "test_reference_graph_and_actual_c07_base_turret_build_rotation"
+      ],
+      "runtime_proof": "/root/C07BaseTurretBuildRotationProof"
+    },
     "N2523": {
       "canonical_ledger": "source_slice_ledger.N2523",
       "status": "done",
