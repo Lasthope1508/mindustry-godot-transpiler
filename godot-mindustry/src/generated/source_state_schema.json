@@ -264462,6 +264462,54 @@
       },
       "runtime_proof": "/root/C07ReloadTurretCanReloadProof",
       "rule": "Source-backed ReloadTurretBuild.canReload() state from ReloadTurret.java."
+    },
+    "source_game_state_is_campaign_state_input": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_state_is_campaign_state",
+      "source_slice": "N2474",
+      "keys": {
+        "rules_sector": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "        return rules.sector != null;",
+          "rule": "The rules sector, or null (GameState.java:74, `return rules.sector != null;`): `rules` is the GameState input param, not an owned schema; the sector arrives as an opaque ref (a Dictionary carrying \"planet\" when present, null when absent -- the N2454 precedent).",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_state_is_campaign_state"
+          ]
+        },
+        "rules_planet": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "        return rules.sector != null;",
+          "rule": "The fallback planet (GameState.java:86, getPlanet()): received for signature parity with getPlanet() (N2454) and to pin the trap -- isCampaign() does NOT consult it; sector null is false even when rules_planet is non-null. getPlanet() is a different method.",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_state_is_campaign_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameStateIsCampaignProof",
+      "rule": "Source-backed GameState.isCampaign() state from GameState.java."
+    },
+    "source_game_state_is_campaign_state_result": {
+      "status": "active",
+      "owner": "SourceGameLoopRuntimeState.source_game_state_is_campaign_state",
+      "source_slice": "N2474",
+      "keys": {
+        "is_campaign": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/GameState.java",
+          "java_expr": "        return rules.sector != null;",
+          "rule": "Whether the game is a campaign (GameState.java:74, `return rules.sector != null;`): true only when rules_sector is non-null -- NO fallback to rules.planet, unlike getPlanet() (N2454).",
+          "used_by": [
+            "SourceGameLoopRuntimeState.source_game_state_is_campaign_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07GameStateIsCampaignProof",
+      "rule": "Source-backed GameState.isCampaign() state from GameState.java."
     }
   },
   "version": 1

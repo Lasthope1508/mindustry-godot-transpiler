@@ -117,6 +117,28 @@ static func source_game_loop_has_spawns_state(waves: bool, wave_team_core_count:
 	result["has_spawns"] = waves and ((wave_team_core_count > 0 and attack_mode) or spawn_group_count > 0)
 	return result
 
+# GameState.isCampaign() (GameState.java:72-75) — whether the
+# game is a campaign:
+# /** Note that being in a campaign does not necessarily mean having a sector. */
+# public boolean isCampaign(){
+#     return rules.sector != null;
+# }
+# Pure predicate over the frame inputs. `rules` arrives as its
+# fields (rules_sector / rules_planet -- the N2454 precedent);
+# rules_planet is received for signature parity with
+# getPlanet() and to pin the trap, but the body deliberately
+# does NOT consult it: unlike getPlanet() (N2454,
+# `return rules.sector != null ? rules.sector.planet :
+# rules.planet;`), isCampaign() has NO fallback to
+# rules.planet -- sector null is false even when the planet
+# is non-null. TWIN-REGISTER (N2474, main thread approved
+# explicitly): the literal `return rules.sector != null;` is
+# also an exact_expr of N2124, which cites it only as
+# dependency evidence for unlockedNowHost() and ports no
+# isCampaign function.
+static func source_game_state_is_campaign_state(rules_sector: Variant, rules_planet: Variant) -> Dictionary:
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_GAME_STATE_IS_CAMPAIGN_STATE, "is_campaign": rules_sector != null}
+
 # GameState 9 accessors (GameState.java:56-117) — boss() :56-58,
 # getSector() :81-83, getPlanet() :85-87, isEditor() :89-91,
 # isPlaying() :98-100, isGame() :103-105, isMenu() :107-109,
@@ -137,9 +159,12 @@ static func source_game_loop_has_spawns_state(waves: bool, wave_team_core_count:
 # arrives as the bosses Array -- firstOpt() is null when the
 # bosses seq is empty. getPlanet() reads sector.planet when
 # there is a sector, else rules.planet. isPaused() :93-95 is
-# NOT here -- N2123 owns it. isCampaign() :73-75 / hasSector()
-# :77-79 share the literal `return rules.sector != null;`
-# already owned by N2124 -- NOT registered here. set(State)
+# NOT here -- N2123 owns it. isCampaign() :73-75 is N2474
+# (twin-registered with explicit main-thread approval; the
+# literal `return rules.sector != null;` is also an exact_expr
+# of N2124, cited there only as dependency evidence).
+# hasSector() :77-79 shares the same literal and stays
+# unregistered -- it needs its own twin approval. set(State)
 # :60-66 waits for the event-bus decision (batch 43 scope §3).
 static func source_game_loop_state_accessors_state(state_name: String, astate_name: String, rules_sector: Variant, rules_planet: Variant, rules_editor: bool, bosses: Array) -> Dictionary:
 	var result := {

@@ -82657,6 +82657,36 @@
       ],
       "runtime_proof": "/root/C07ReloadTurretCanReloadProof",
       "rule": "Source-backed ReloadTurretBuild.canReload() state from ReloadTurret.java."
+    },
+    "SourceGameLoopRuntimeState.source_game_state_is_campaign_state": {
+      "status": "active",
+      "source_slice": "N2474",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "source_method": "GameState.isCampaign()",
+      "params": [
+        {
+          "name": "rules_sector",
+          "type": "Variant",
+          "schema": "source_game_state_is_campaign_state_input.rules_sector"
+        },
+        {
+          "name": "rules_planet",
+          "type": "Variant",
+          "schema": "source_game_state_is_campaign_state_input.rules_planet"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "is_campaign"
+      ],
+      "tests": [
+        "test_c07_game_state_is_campaign_registration",
+        "test_all_c07_game_state_is_campaign_input_evidence_is_exact",
+        "test_game_state_is_campaign_state",
+        "test_reference_graph_and_actual_c07_game_state_is_campaign"
+      ],
+      "runtime_proof": "/root/C07GameStateIsCampaignProof",
+      "rule": "Source-backed GameState.isCampaign() state from GameState.java."
     }
   },
   "policy": {

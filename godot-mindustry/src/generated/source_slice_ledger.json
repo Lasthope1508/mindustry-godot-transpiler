@@ -122471,6 +122471,36 @@
       "deferred_exprs": [
         "ReloadTurretBuild.canReload() Windows Godot proof -- debt in GOAL.md section 5: the N2473 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2474": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_class": "mindustry.core.GameState",
+      "java_method": "GameState.isCampaign()",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_state_is_campaign_state",
+      "exact_exprs": [
+        "    public boolean isCampaign(){",
+        "        return rules.sector != null;",
+        "    public Rules rules = new Rules();",
+        "    /** Note that being in a campaign does not necessarily mean having a sector. */"
+      ],
+      "source_symbols": [
+        "source_game_state_is_campaign_state_input.rules_sector",
+        "source_game_state_is_campaign_state_input.rules_planet",
+        "source_game_state_is_campaign_state_result.is_campaign"
+      ],
+      "tests": [
+        "test_c07_game_state_is_campaign_registration",
+        "test_all_c07_game_state_is_campaign_input_evidence_is_exact",
+        "test_game_state_is_campaign_state",
+        "test_reference_graph_and_actual_c07_game_state_is_campaign"
+      ],
+      "runtime_proof": "/root/C07GameStateIsCampaignProof",
+      "deferred_exprs": [
+        "GameState.isCampaign() Windows Godot proof -- debt in GOAL.md section 5: the N2474 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "GameState.isCampaign() is a TWIN-REGISTER with explicit main-thread approval (2026-11-26): the literal `return rules.sector != null;` is also an exact_expr of N2124, which cites it only as dependency evidence for unlockedNowHost() (`return !state.isCampaign() || unlockedHost();`) and ports no isCampaign function; N2124 is the original owner of the literal. Precedent: N2421, N2389, N2418.",
+        "GameState.hasSector() (GameState.java:77-79) is NOT in this slice: it shares the literal `return rules.sector != null;` with isCampaign() and needs its own twin-register approval."
+      ]
     }
   },
   "version": 1
