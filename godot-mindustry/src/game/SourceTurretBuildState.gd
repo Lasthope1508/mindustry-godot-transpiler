@@ -410,6 +410,34 @@ static func source_turret_cooling_state(frame: Dictionary, has_coolant: bool, co
 		cooling_applied = true
 	return {"reload_counter": reload_counter, "cooling_applied": cooling_applied, "coolant_consumed": coolant_consumed}
 
+static func source_reload_turret_base_reload_speed_state(efficiency: float) -> Dictionary:
+	# baseReloadSpeed() (ReloadTurret.java:45-47):
+	# `protected float baseReloadSpeed(){` /
+	# `return efficiency;` -- the base reload-speed factor
+	# TurretBuild.updateReload() multiplies
+	# (`reloadCounter += delta() * ammoReloadMultiplier() *
+	# baseReloadSpeed();`, Turret.java:719-721, N746) -- but
+	# N746 registers updateReload, not baseReloadSpeed, so
+	# this slice owns the factor itself. `efficiency` is
+	# returned WHOLE: no clamp, no floor -- 0 stays 0.0,
+	# > 1 passes through, and a negative value passes
+	# through (Java has no Math.min/max here; the cap in
+	# updateReload is on reloadCounter, not on this
+	# factor). `efficiency` is the Building field
+	# (`transient float efficiency;`,
+	# BuildingComp.java:84-85, "Base efficiency. Takes the
+	# minimum value of all consumers"). Do NOT confuse with
+	# ammoReloadMultiplier() (ReloadTurret.java:41-43,
+	# returns the constant 1f) or
+	# TurretBuild.ammoReloadMultiplier() (N746, a ternary
+	# on peekAmmo) -- baseReloadSpeed never looks at ammo.
+	# NO driver tick call site: the pure function takes the
+	# field as a parameter; the tick wiring that feeds it
+	# belongs to the driver-tick slice. DORMANT live today
+	# -- the driver tick never calls this function, so live
+	# behavior does not change.
+	return {"base_reload_speed": efficiency}
+
 static func source_reload_turret_can_reload_state(reload_counter: float, reload: float) -> Dictionary:
 	# canReload() (ReloadTurret.java:49-51):
 	# `protected boolean canReload(){` /

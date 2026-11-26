@@ -10288,6 +10288,32 @@
       "rule": "Source-backed BaseTurretBuild.status() state from BaseTurret.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_reload_turret_base_reload_speed_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_reload_turret_base_reload_speed_state",
+      "status": "active",
+      "source_slice": "N2476",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "source_method": "ReloadTurretBuild.baseReloadSpeed()",
+      "params": [
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_reload_turret_base_reload_speed_state_input.efficiency"
+        }
+      ],
+      "return_keys": [
+        "base_reload_speed"
+      ],
+      "tests": [
+        "test_c07_reload_turret_base_reload_speed_registration",
+        "test_all_c07_reload_turret_base_reload_speed_input_evidence_is_exact",
+        "test_reload_turret_base_reload_speed_state",
+        "test_reference_graph_and_actual_c07_reload_turret_base_reload_speed"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretBaseReloadSpeedProof",
+      "rule": "Source-backed ReloadTurretBuild.baseReloadSpeed() state from ReloadTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_reload_turret_can_reload_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_reload_turret_can_reload_state",
       "status": "active",

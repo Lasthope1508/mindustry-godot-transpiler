@@ -5422,6 +5422,24 @@
       ],
       "runtime_proof": "/root/C07BaseTurretStatusProof"
     },
+    "N2476": {
+      "canonical_ledger": "source_slice_ledger.N2476",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "ReloadTurretBuild.baseReloadSpeed()",
+      "godot_owner": "SourceTurretBuildState.source_reload_turret_base_reload_speed_state",
+      "source_symbols": [
+        "source_reload_turret_base_reload_speed_state_input.efficiency",
+        "source_reload_turret_base_reload_speed_state_result.base_reload_speed"
+      ],
+      "tests": [
+        "test_c07_reload_turret_base_reload_speed_registration",
+        "test_all_c07_reload_turret_base_reload_speed_input_evidence_is_exact",
+        "test_reload_turret_base_reload_speed_state",
+        "test_reference_graph_and_actual_c07_reload_turret_base_reload_speed"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretBaseReloadSpeedProof"
+    },
     "N2523": {
       "canonical_ledger": "source_slice_ledger.N2523",
       "status": "done",

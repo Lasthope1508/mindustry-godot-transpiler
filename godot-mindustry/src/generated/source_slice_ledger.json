@@ -122531,6 +122531,32 @@
         "BaseTurretBuild.status() is a TWIN-REGISTER with explicit main-thread assignment (2026-11-26): the literal `return (activationTimer <= 0)? super.status() : BlockStatus.inactive;` is also an exact_expr of N2285 (TurretBuild.status()), which cites it as the super chain and inlines the leg in source_turret_status_state; N2285 is a different java_method (hasAmmo leg, Java body never mentions activationTimer) and ports no function owned as BaseTurretBuild.status(). Precedent: N2474, N2421, N2389, N2418.",
         "BaseTurretBuild.estimateDps() (BaseTurret.java:137-139) is NOT in this slice: it sits between drawSelect() (:133-135) and status() (:143-145) in Java and is spared -- a later slice inserts its GD function between source_base_turret_build_draw_select_state and source_base_turret_build_status_state."
       ]
+    },
+    "N2476": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ReloadTurret.ReloadTurretBuild",
+      "java_method": "ReloadTurretBuild.baseReloadSpeed()",
+      "godot_owner": "SourceTurretBuildState.source_reload_turret_base_reload_speed_state",
+      "exact_exprs": [
+        "        protected float baseReloadSpeed(){",
+        "            return efficiency;",
+        "    transient float efficiency;"
+      ],
+      "source_symbols": [
+        "source_reload_turret_base_reload_speed_state_input.efficiency",
+        "source_reload_turret_base_reload_speed_state_result.base_reload_speed"
+      ],
+      "tests": [
+        "test_c07_reload_turret_base_reload_speed_registration",
+        "test_all_c07_reload_turret_base_reload_speed_input_evidence_is_exact",
+        "test_reload_turret_base_reload_speed_state",
+        "test_reference_graph_and_actual_c07_reload_turret_base_reload_speed"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretBaseReloadSpeedProof",
+      "deferred_exprs": [
+        "ReloadTurretBuild.baseReloadSpeed() Windows Godot proof -- debt in GOAL.md section 5: the N2476 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

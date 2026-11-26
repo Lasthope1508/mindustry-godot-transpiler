@@ -190728,6 +190728,38 @@
         "test_reference_graph_and_actual_c07_base_turret_status"
       ],
       "runtime_proof": "/root/C07BaseTurretStatusProof"
+    },
+    "source_reload_turret_base_reload_speed_state_input.efficiency": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_reload_turret_base_reload_speed_state",
+      "godot_symbol": "source_reload_turret_base_reload_speed_state_input.efficiency",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "ReloadTurretBuild.baseReloadSpeed()",
+      "java_expr": "            return efficiency;",
+      "rule": "The base efficiency (ReloadTurret.java:45-47): the Building field `efficiency` (BuildingComp.java:84-85, \"Base efficiency. Takes the minimum value of all consumers\", transient float), returned whole as the base reload-speed factor -- no clamp, no floor.",
+      "tests": [
+        "test_c07_reload_turret_base_reload_speed_registration",
+        "test_all_c07_reload_turret_base_reload_speed_input_evidence_is_exact",
+        "test_reload_turret_base_reload_speed_state",
+        "test_reference_graph_and_actual_c07_reload_turret_base_reload_speed"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretBaseReloadSpeedProof"
+    },
+    "source_reload_turret_base_reload_speed_state_result.base_reload_speed": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_reload_turret_base_reload_speed_state",
+      "godot_symbol": "source_reload_turret_base_reload_speed_state_result.base_reload_speed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "ReloadTurretBuild.baseReloadSpeed()",
+      "java_expr": "            return efficiency;",
+      "rule": "The base reload speed (ReloadTurret.java:45-47): `efficiency` returned whole -- 0 stays 0.0, > 1 passes through, a negative value passes through (no Math.min/max here; the cap in updateReload is on reloadCounter, not on this factor).",
+      "tests": [
+        "test_c07_reload_turret_base_reload_speed_registration",
+        "test_all_c07_reload_turret_base_reload_speed_input_evidence_is_exact",
+        "test_reload_turret_base_reload_speed_state",
+        "test_reference_graph_and_actual_c07_reload_turret_base_reload_speed"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretBaseReloadSpeedProof"
     }
   },
   "version": 1

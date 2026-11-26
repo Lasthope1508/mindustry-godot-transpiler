@@ -264558,6 +264558,44 @@
       },
       "runtime_proof": "/root/C07BaseTurretStatusProof",
       "rule": "Source-backed BaseTurretBuild.status() state from BaseTurret.java."
+    },
+    "source_reload_turret_base_reload_speed_state_input": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_reload_turret_base_reload_speed_state",
+      "source_slice": "N2476",
+      "keys": {
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "            return efficiency;",
+          "rule": "The base efficiency (ReloadTurret.java:45-47): the Building field `efficiency` (BuildingComp.java:84-85, \"Base efficiency. Takes the minimum value of all consumers\", transient float), returned whole as the base reload-speed factor -- no clamp, no floor.",
+          "used_by": [
+            "SourceTurretBuildState.source_reload_turret_base_reload_speed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ReloadTurretBaseReloadSpeedProof",
+      "rule": "Source-backed ReloadTurretBuild.baseReloadSpeed() state from ReloadTurret.java."
+    },
+    "source_reload_turret_base_reload_speed_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_reload_turret_base_reload_speed_state",
+      "source_slice": "N2476",
+      "keys": {
+        "base_reload_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "            return efficiency;",
+          "rule": "The base reload speed (ReloadTurret.java:45-47): `efficiency` returned whole -- 0 stays 0.0, > 1 passes through, a negative value passes through (no Math.min/max here; the cap in updateReload is on reloadCounter, not on this factor).",
+          "used_by": [
+            "SourceTurretBuildState.source_reload_turret_base_reload_speed_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ReloadTurretBaseReloadSpeedProof",
+      "rule": "Source-backed ReloadTurretBuild.baseReloadSpeed() state from ReloadTurret.java."
     }
   },
   "version": 1
