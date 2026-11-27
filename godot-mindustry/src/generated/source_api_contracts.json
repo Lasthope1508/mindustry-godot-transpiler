@@ -83058,6 +83058,41 @@
       ],
       "runtime_proof": "/root/C07PayloadTurretGetAmmoFractionProof",
       "rule": "Source-backed PayloadTurretBuild.getAmmoFraction() state from PayloadAmmoTurret.java."
+    },
+    "SourceTeamsRuntimeState.source_team_colored_name_state": {
+      "status": "active",
+      "source_slice": "N2488",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "source_method": "Team.coloredName()",
+      "params": [
+        {
+          "name": "emoji",
+          "type": "String",
+          "schema": "source_team_colored_name_state_input.emoji"
+        },
+        {
+          "name": "color_hex",
+          "type": "String",
+          "schema": "source_team_colored_name_state_input.color_hex"
+        },
+        {
+          "name": "localized_name",
+          "type": "String",
+          "schema": "source_team_colored_name_state_input.localized_name"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "colored_name"
+      ],
+      "tests": [
+        "test_c07_team_colored_name_registration",
+        "test_all_c07_team_colored_name_input_evidence_is_exact",
+        "test_team_colored_name_state",
+        "test_reference_graph_and_actual_c07_team_colored_name"
+      ],
+      "runtime_proof": "/root/C07TeamColoredNameProof",
+      "rule": "Source-backed Team.coloredName() state from Team.java."
     }
   },
   "policy": {

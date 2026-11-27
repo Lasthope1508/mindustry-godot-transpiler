@@ -265107,6 +265107,64 @@
       },
       "runtime_proof": "/root/C07PayloadTurretGetAmmoFractionProof",
       "rule": "Source-backed PayloadTurretBuild.getAmmoFraction() state from PayloadAmmoTurret.java."
+    },
+    "source_team_colored_name_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_colored_name_state",
+      "source_slice": "N2488",
+      "keys": {
+        "emoji": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "    public String emoji = \"\";",
+          "rule": "The emoji field (Team.java:23, `public String emoji = \"\";`, default \"\"): the icon-font glyph prefix, loaded from stringIcons (Fonts.java:210, 233) -- arrives as an explicit param, empty when the team has none.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_colored_name_state"
+          ]
+        },
+        "color_hex": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "    public final Color color = new Color();",
+          "rule": "The team color as its arc Color.toString() hex (Team.java:18, `public final Color color = new Color();`): the \"[#\" + color + \"]\" segment stringifies the Color (arc-core Color.java:769-779, RRGGBBAA, 8 hex chars) -- arrives as a precomputed hex string, not a Color object.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_colored_name_state"
+          ]
+        },
+        "localized_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "        return Core.bundle.get(\"team.\" + name + \".name\", name);",
+          "rule": "The precomputed localized() value (Team.java:136, `return Core.bundle.get(\"team.\" + name + \".name\", name);`): localized() itself is NOT ported here (needs Core.bundle infra) -- its value arrives as an explicit param (the precomputed-input precedent).",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_colored_name_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamColoredNameProof",
+      "rule": "Source-backed Team.coloredName() state from Team.java."
+    },
+    "source_team_colored_name_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_colored_name_state",
+      "source_slice": "N2488",
+      "keys": {
+        "colored_name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "        return emoji + \"[#\" + color + \"]\" + localized() + \"[]\";",
+          "rule": "The colored name (Team.java:140): emoji + \"[#\" + color + \"]\" + localized() + \"[]\" -- plain concatenation, no guard, no clamp, no escaping; an empty emoji contributes nothing and an empty localized leaves \"[#...][]\".",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_colored_name_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamColoredNameProof",
+      "rule": "Source-backed Team.coloredName() state from Team.java."
     }
   },
   "version": 1
