@@ -264739,6 +264739,25 @@
       },
       "runtime_proof": "/root/C07BuildTurretCanControlProof",
       "rule": "Source-backed BuildTurretBuild.canControl() state from BuildTurret.java."
+    },
+    "source_reload_turret_ammo_reload_multiplier_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_reload_turret_ammo_reload_multiplier_state",
+      "source_slice": "N2481",
+      "keys": {
+        "ammo_reload_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "java_expr": "            return 1f;",
+          "rule": "The ammo reload multiplier (ReloadTurret.java:41-43, `return 1f;`): the ReloadTurretBuild override returns the constant 1f and reads no ammo, no coolant, no efficiency -- it \"turns off\" the parent TurretBuild.ammoReloadMultiplier() (N746, `return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;`), so an ammo with reloadMultiplier 2.5 still contributes the factor 1.0 here.",
+          "used_by": [
+            "SourceTurretBuildState.source_reload_turret_ammo_reload_multiplier_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07ReloadTurretAmmoReloadMultiplierProof",
+      "rule": "Source-backed ReloadTurretBuild.ammoReloadMultiplier() state from ReloadTurret.java."
     }
   },
   "version": 1

@@ -10360,6 +10360,26 @@
       "rule": "Source-backed BaseTurretBuild.status() state from BaseTurret.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_reload_turret_ammo_reload_multiplier_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_reload_turret_ammo_reload_multiplier_state",
+      "status": "active",
+      "source_slice": "N2481",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "source_method": "ReloadTurretBuild.ammoReloadMultiplier()",
+      "params": [],
+      "return_keys": [
+        "ammo_reload_multiplier"
+      ],
+      "tests": [
+        "test_c07_reload_turret_ammo_reload_multiplier_registration",
+        "test_all_c07_reload_turret_ammo_reload_multiplier_input_evidence_is_exact",
+        "test_reload_turret_ammo_reload_multiplier_state",
+        "test_reference_graph_and_actual_c07_reload_turret_ammo_reload_multiplier"
+      ],
+      "runtime_proof": "/root/C07ReloadTurretAmmoReloadMultiplierProof",
+      "rule": "Source-backed ReloadTurretBuild.ammoReloadMultiplier() state from ReloadTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_reload_turret_base_reload_speed_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_reload_turret_base_reload_speed_state",
       "status": "active",

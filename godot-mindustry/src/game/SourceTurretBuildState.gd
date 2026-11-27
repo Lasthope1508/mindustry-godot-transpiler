@@ -410,6 +410,32 @@ static func source_turret_cooling_state(frame: Dictionary, has_coolant: bool, co
 		cooling_applied = true
 	return {"reload_counter": reload_counter, "cooling_applied": cooling_applied, "coolant_consumed": coolant_consumed}
 
+static func source_reload_turret_ammo_reload_multiplier_state() -> Dictionary:
+	# ammoReloadMultiplier() (ReloadTurret.java:41-43):
+	# `protected float ammoReloadMultiplier(){` /
+	# `return 1f;` -- the ReloadTurretBuild OVERRIDE of the
+	# parent TurretBuild.ammoReloadMultiplier() (N746,
+	# Turret.java:727-729, `return hasAmmo() ?
+	# peekAmmo().reloadMultiplier : 1f;`). The override
+	# returns the CONSTANT 1f and reads NO state: no ammo,
+	# no coolant, no efficiency -- it "turns off" the
+	# parent's ammo multiplier entirely. updateCooling()
+	# still calls it by virtual dispatch (`reloadCounter +=
+	# amount * edelta() * capacity * coolantMultiplier *
+	# ammoReloadMultiplier();`, ReloadTurret.java:35, N2525),
+	# but the override always contributes the factor 1.
+	# Do NOT confuse with baseReloadSpeed()
+	# (ReloadTurret.java:45-47, N2476, `return efficiency;`)
+	# or canReload() (ReloadTurret.java:49-51, N2473,
+	# `return reloadCounter < reload;`) -- the three
+	# consecutive methods :41/:45/:49 are three separate
+	# slices. NO driver tick call site: the pure function
+	# takes no inputs; the tick wiring that feeds it
+	# belongs to the driver-tick slice. DORMANT live today
+	# -- the driver tick never calls this function, so live
+	# behavior does not change.
+	return {"ammo_reload_multiplier": 1.0}
+
 static func source_reload_turret_base_reload_speed_state(efficiency: float) -> Dictionary:
 	# baseReloadSpeed() (ReloadTurret.java:45-47):
 	# `protected float baseReloadSpeed(){` /
