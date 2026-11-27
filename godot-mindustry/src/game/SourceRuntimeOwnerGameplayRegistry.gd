@@ -76,6 +76,7 @@ const PORT_GAME_SOURCE_GAME_LOOP_CHECK_CAMPAIGN_STATS_STATE := "port_game.source
 const PORT_GAME_SOURCE_GAME_LOOP_CHECK_OVERLAPPING_PLANS_STATE := "port_game.source_game_loop_check_overlapping_plans_state"
 const PORT_GAME_SOURCE_GAME_LOOP_HAS_SPAWNS_STATE := "port_game.source_game_loop_has_spawns_state"
 const PORT_GAME_SOURCE_GAME_STATE_IS_CAMPAIGN_STATE := "port_game.source_game_state_is_campaign_state"
+const PORT_GAME_SOURCE_GAME_STATE_HAS_SECTOR_STATE := "port_game.source_game_state_has_sector_state"
 const PORT_GAME_SOURCE_GAME_LOOP_STATE_ACCESSORS_STATE := "port_game.source_game_loop_state_accessors_state"
 const PORT_GAME_SOURCE_GAME_HEADLESS_STATE := "port_game.source_game_headless_state"
 const PORT_GAME_SOURCE_SOUND_CONTROL_LOOP_STATE := "port_game.source_sound_control_loop_state"

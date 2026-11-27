@@ -122738,6 +122738,35 @@
         "BuildTurretBuild.updateTile() warmup lerp (BuildTurret.java:136-137, `warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);`) is NOT in this slice: this slice only reads the warmup field whole; the per-tick advance of the field stays with N2184.",
         "BuildTurretBuild.draw() glow use of warmup (BuildTurret.java:247, `Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);`) is NOT in this slice: presentation, not state; the draw rows wait for their own slice."
       ]
+    },
+    "N2483": {
+      "status": "done",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_class": "mindustry.core.GameState",
+      "java_method": "GameState.hasSector()",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_state_has_sector_state",
+      "exact_exprs": [
+        "    public boolean hasSector(){",
+        "        return rules.sector != null;",
+        "    public Rules rules = new Rules();"
+      ],
+      "source_symbols": [
+        "source_game_state_has_sector_state_input.rules_sector",
+        "source_game_state_has_sector_state_input.rules_planet",
+        "source_game_state_has_sector_state_result.has_sector"
+      ],
+      "tests": [
+        "test_c07_game_state_has_sector_registration",
+        "test_all_c07_game_state_has_sector_input_evidence_is_exact",
+        "test_game_state_has_sector_state",
+        "test_reference_graph_and_actual_c07_game_state_has_sector"
+      ],
+      "runtime_proof": "/root/C07GameStateHasSectorProof",
+      "deferred_exprs": [
+        "GameState.hasSector() Windows Godot proof -- debt in GOAL.md section 5: the N2483 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "GameState.hasSector() is a TWIN-REGISTER with explicit main-thread approval (2026-11-27): the literal `return rules.sector != null;` is also an exact_expr of N2124, which cites it only as dependency evidence for unlockedNowHost() (`return !state.isCampaign() || unlockedHost();`) and ports no hasSector function; N2124 is the original owner of the literal. The same literal is also an exact_expr of N2474 (isCampaign -- the twin sibling, twin-registered with its own approval 2026-11-26), which ports isCampaign, not hasSector. Precedent: N2474, N2421, N2389, N2418.",
+        "GameState.hasSector() shares its body verbatim with isCampaign() (GameState.java:73-75, N2474); the two methods differ only by name. The proof cross-pins them: same sector/planet inputs give the same result on all 4 combinations."
+      ]
     }
   },
   "version": 1

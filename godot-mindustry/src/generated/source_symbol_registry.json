@@ -190936,6 +190936,54 @@
         "test_reference_graph_and_actual_c07_build_turret_warmup"
       ],
       "runtime_proof": "/root/C07BuildTurretWarmupProof"
+    },
+    "source_game_state_has_sector_state_input.rules_sector": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_state_has_sector_state",
+      "godot_symbol": "source_game_state_has_sector_state_input.rules_sector",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.hasSector()",
+      "java_expr": "        return rules.sector != null;",
+      "rule": "The rules sector, or null (GameState.java:78, `return rules.sector != null;`): `rules` is the GameState input param, not an owned schema; the sector arrives as an opaque ref (a Dictionary carrying \"planet\" when present, null when absent -- the N2454 precedent).",
+      "tests": [
+        "test_c07_game_state_has_sector_registration",
+        "test_all_c07_game_state_has_sector_input_evidence_is_exact",
+        "test_game_state_has_sector_state",
+        "test_reference_graph_and_actual_c07_game_state_has_sector"
+      ],
+      "runtime_proof": "/root/C07GameStateHasSectorProof"
+    },
+    "source_game_state_has_sector_state_input.rules_planet": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_state_has_sector_state",
+      "godot_symbol": "source_game_state_has_sector_state_input.rules_planet",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.hasSector()",
+      "java_expr": "        return rules.sector != null;",
+      "rule": "The fallback planet (GameState.java:86, getPlanet()): received for signature parity with getPlanet() (N2454) and isCampaign() (N2474) and to pin the trap -- hasSector() does NOT consult it; sector null is false even when rules_planet is non-null. getPlanet() is a different method.",
+      "tests": [
+        "test_c07_game_state_has_sector_registration",
+        "test_all_c07_game_state_has_sector_input_evidence_is_exact",
+        "test_game_state_has_sector_state",
+        "test_reference_graph_and_actual_c07_game_state_has_sector"
+      ],
+      "runtime_proof": "/root/C07GameStateHasSectorProof"
+    },
+    "source_game_state_has_sector_state_result.has_sector": {
+      "status": "source-backed",
+      "godot_owner": "SourceGameLoopRuntimeState.source_game_state_has_sector_state",
+      "godot_symbol": "source_game_state_has_sector_state_result.has_sector",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "java_method": "GameState.hasSector()",
+      "java_expr": "        return rules.sector != null;",
+      "rule": "Whether the game has a sector (GameState.java:78, `return rules.sector != null;`): true only when rules_sector is non-null -- NO fallback to rules.planet, unlike getPlanet() (N2454). Identical body to isCampaign() (N2474).",
+      "tests": [
+        "test_c07_game_state_has_sector_registration",
+        "test_all_c07_game_state_has_sector_input_evidence_is_exact",
+        "test_game_state_has_sector_state",
+        "test_reference_graph_and_actual_c07_game_state_has_sector"
+      ],
+      "runtime_proof": "/root/C07GameStateHasSectorProof"
     }
   },
   "version": 1

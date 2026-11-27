@@ -139,6 +139,31 @@ static func source_game_loop_has_spawns_state(waves: bool, wave_team_core_count:
 static func source_game_state_is_campaign_state(rules_sector: Variant, rules_planet: Variant) -> Dictionary:
 	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_GAME_STATE_IS_CAMPAIGN_STATE, "is_campaign": rules_sector != null}
 
+# GameState.hasSector() (GameState.java:77-79) — whether the
+# game has a sector:
+# public boolean hasSector(){
+#     return rules.sector != null;
+# }
+# Pure predicate over the frame inputs. `rules` arrives as its
+# fields (rules_sector / rules_planet -- the N2454 precedent);
+# rules_planet is received for signature parity with
+# getPlanet() and isCampaign() (N2474) and to pin the trap,
+# but the body deliberately does NOT consult it: unlike
+# getPlanet() (N2454, `return rules.sector != null ?
+# rules.sector.planet : rules.planet;`), hasSector() has NO
+# fallback to rules.planet -- sector null is false even when
+# the planet is non-null. Body IDENTICAL to isCampaign()
+# (GameState.java:73-75, N2474) -- the two methods differ
+# only by name; the proof cross-pins them on all 4
+# sector/planet combinations. TWIN-REGISTER (N2483, main
+# thread approved explicitly 2026-11-27): the literal
+# `return rules.sector != null;` is also an exact_expr of
+# N2124 (original owner, cited only as dependency evidence
+# for unlockedNowHost()) and of N2474 (isCampaign, twin
+# sibling, which ports isCampaign, not hasSector).
+static func source_game_state_has_sector_state(rules_sector: Variant, rules_planet: Variant) -> Dictionary:
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_GAME_STATE_HAS_SECTOR_STATE, "has_sector": rules_sector != null}
+
 # GameState 9 accessors (GameState.java:56-117) — boss() :56-58,
 # getSector() :81-83, getPlanet() :85-87, isEditor() :89-91,
 # isPlaying() :98-100, isGame() :103-105, isMenu() :107-109,
@@ -163,9 +188,10 @@ static func source_game_state_is_campaign_state(rules_sector: Variant, rules_pla
 # (twin-registered with explicit main-thread approval; the
 # literal `return rules.sector != null;` is also an exact_expr
 # of N2124, cited there only as dependency evidence).
-# hasSector() :77-79 shares the same literal and stays
-# unregistered -- it needs its own twin approval. set(State)
-# :60-66 waits for the event-bus decision (batch 43 scope §3).
+# hasSector() :77-79 is N2483 (twin-registered with explicit
+# main-thread approval 2026-11-27; twin sibling of isCampaign
+# N2474, same literal, originally owned by N2124 as evidence).
+# set(State) :60-66 waits for the event-bus decision (batch 43 scope §3).
 static func source_game_loop_state_accessors_state(state_name: String, astate_name: String, rules_sector: Variant, rules_planet: Variant, rules_editor: bool, bosses: Array) -> Dictionary:
 	var result := {
 		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_GAME_LOOP_STATE_ACCESSORS_STATE,

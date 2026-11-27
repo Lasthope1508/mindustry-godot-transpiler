@@ -82885,6 +82885,36 @@
       ],
       "runtime_proof": "/root/C07BuildTurretWarmupProof",
       "rule": "Source-backed BuildTurretBuild.warmup() state from BuildTurret.java."
+    },
+    "SourceGameLoopRuntimeState.source_game_state_has_sector_state": {
+      "status": "active",
+      "source_slice": "N2483",
+      "java_source": "core/src/mindustry/core/GameState.java",
+      "source_method": "GameState.hasSector()",
+      "params": [
+        {
+          "name": "rules_sector",
+          "type": "Variant",
+          "schema": "source_game_state_has_sector_state_input.rules_sector"
+        },
+        {
+          "name": "rules_planet",
+          "type": "Variant",
+          "schema": "source_game_state_has_sector_state_input.rules_planet"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "has_sector"
+      ],
+      "tests": [
+        "test_c07_game_state_has_sector_registration",
+        "test_all_c07_game_state_has_sector_input_evidence_is_exact",
+        "test_game_state_has_sector_state",
+        "test_reference_graph_and_actual_c07_game_state_has_sector"
+      ],
+      "runtime_proof": "/root/C07GameStateHasSectorProof",
+      "rule": "Source-backed GameState.hasSector() state from GameState.java."
     }
   },
   "policy": {
