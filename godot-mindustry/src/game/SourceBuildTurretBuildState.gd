@@ -356,6 +356,20 @@ static func source_build_turret_read_plans_state(reqs_null: bool, reqs: Array) -
 	return {"plans_to_add": plans_to_add}
 
 @warning_ignore("unused_parameter")
+static func source_build_turret_sense_state(frame: Dictionary, sensor: String, unit_sense_value: float, super_sense_value: Variant, super_sense_value_is_nan: bool) -> Dictionary:
+	# BuildTurretBuild.sense() (BuildTurret.java:281-287):
+	# public double sense(LAccess sensor){
+	# return switch(sensor){
+	# case buildX, buildY -> unit.sense(sensor);
+	# default -> super.sense(sensor);
+	# };
+	# }
+	# over the base default BuildingComp.sense() (BuildingComp.java:2093, `public double sense(LAccess sensor){`), whose default is `default -> Float.NaN; //gets converted to null in logic` (BuildingComp.java:2123) -- BaseTurretBuild does NOT override sense, so super.sense(sensor) in BuildTurretBuild resolves to BuildingComp.sense (BaseTurret.java:113, `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`). The `unit` here is the FIELD `public BlockUnitc unit = (BlockUnitc)unitType.create(team);` (BuildTurret.java:93) -- NOT the `unit()` accessor (:113-119, excluded for its side-effect: `unit.tile(this); unit.team(team);`). The unit leg reads Unit.sense (UnitComp.java:264): buildX -> `isBuilding() ? buildPlan().x : -1;` (:290) and buildY -> `isBuilding() ? buildPlan().y : -1;` (:291) -- the plan coordinate when the builder unit is building, -1 when it is not; the caller pre-resolves Unit.sense(sensor) at the call boundary (the N2478 pre-resolved-input precedent) and passes it as unit_sense_value, so this slice only routes. The sensor spellings are the LAccess enum names `buildX,` (:54) and `buildY,` (:55). The super leg is the live BuildingComp sense (N1078-N1085), passed in as explicit params (super_sense_value, super_sense_value_is_nan) following the N2317/N2323 super-as-param precedent; the fallthrough leg returns the caller-passed super result instead of null. Only buildX/buildY take the unit leg -- a port routing every sensor to unit is wrong; every other sensor falls through to super -- a port dropping the default branch is wrong. This is NOT TurretBuild.sense() (N2293, Turret.java:406-418, a 7-case switch: ammo / ammoCapacity / rotation / shootX / shootY / shooting / progress) -- the two switches are different, parent vs child class. There is NO driver tick line: sense is a logic read, not per-tick state (the N2206 / N2208 / N2223 precedent); the logic-processor dispatch hook is its own later slice.
+	if sensor == "buildX" or sensor == "buildY":
+		return {"handled": true, "sense_value": unit_sense_value, "sense_value_is_nan": false}
+	return {"handled": false, "sense_value": super_sense_value, "sense_value_is_nan": super_sense_value_is_nan}
+
+@warning_ignore("unused_parameter")
 static func source_build_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the build-turret tick wiring every
 	# tick (BuildTurretBuild.updateTile(), BuildTurret.java:121-139,

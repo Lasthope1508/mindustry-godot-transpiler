@@ -8082,6 +8082,54 @@
       "rule": "Source-backed BuildTurretBuild read() plans restore from BuildTurret.java.",
       "return_type": "Dictionary"
     },
+    "SourceBuildTurretBuildState.source_build_turret_sense_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "status": "active",
+      "source_slice": "N2484",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.sense(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_build_turret_sense_state_input.frame"
+        },
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_build_turret_sense_state_input.sensor"
+        },
+        {
+          "name": "unit_sense_value",
+          "type": "float",
+          "schema": "source_build_turret_sense_state_input.unit_sense_value"
+        },
+        {
+          "name": "super_sense_value",
+          "type": "Variant",
+          "schema": "source_build_turret_sense_state_input.super_sense_value"
+        },
+        {
+          "name": "super_sense_value_is_nan",
+          "type": "bool",
+          "schema": "source_build_turret_sense_state_input.super_sense_value_is_nan"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_build_turret_sense_registration",
+        "test_all_c07_build_turret_sense_input_evidence_is_exact",
+        "test_build_turret_sense_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseProof",
+      "rule": "Source-backed BuildTurretBuild.sense() state from BuildTurret.java + UnitComp.java + BuildingComp.java + LAccess.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildTurretBuildState.source_build_turret_should_consume_state": {
       "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_should_consume_state",
       "status": "active",

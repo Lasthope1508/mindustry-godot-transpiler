@@ -264844,6 +264844,104 @@
       },
       "runtime_proof": "/root/C07GameStateHasSectorProof",
       "rule": "Source-backed GameState.hasSector() state from GameState.java."
+    },
+    "source_build_turret_sense_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "source_slice": "N2484",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The build-turret frame (accepted for the family call shape; this leg reads no live frame key -- all live values arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        },
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "public double sense(LAccess sensor){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (LAccess.java:54 `buildX,`, :55 `buildY,`): only buildX/buildY are handled here, anything else falls through to super.sense (BuildTurret.java:285, `default -> super.sense(sensor);`).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        },
+        "unit_sense_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_expr": "case buildX -> isBuilding() ? buildPlan().x : -1;",
+          "rule": "The pre-resolved Unit.sense(sensor) value for the buildX/buildY leg: Unit.sense (UnitComp.java:264) returns `isBuilding() ? buildPlan().x : -1;` for buildX (:290) and `isBuilding() ? buildPlan().y : -1;` for buildY (:291) -- the plan coordinate when the builder unit is building, -1 when it is not; the caller applies Unit.sense at the call boundary (the N2478 pre-resolved-input precedent) and this slice only routes. The expr is the buildX leg; the buildY leg is the same shape.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        },
+        "super_sense_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "default -> super.sense(sensor);",
+          "rule": "The already-computed super result: BuildingComp.sense (BuildingComp.java:2093), live at N1078-N1085 (PortGame.source_building_sense_*_state); the caller passes it (the N2317/N2323 super-as-param precedent) and the fallthrough leg returns it; null when the super was NaN (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`). The expr is the BuildTurret fallthrough call site (BuildTurret.java:285).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        },
+        "super_sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether the caller-passed super result is NaN: true when the super sensor fell through to the BuildingComp default (BuildingComp.java:2123), which converts to null in logic; false for every handled super row.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretSenseProof",
+      "rule": "Source-backed BuildTurretBuild.sense() state from BuildTurret.java + UnitComp.java + BuildingComp.java + LAccess.java."
+    },
+    "source_build_turret_sense_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "source_slice": "N2484",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "default -> super.sense(sensor);",
+          "rule": "Whether this slice handled the sensor (buildX/buildY only); false means \"not handled -- the returned value is the super result\" (the N2223 sense precedent).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        },
+        "sense_value": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "case buildX, buildY -> unit.sense(sensor);",
+          "rule": "The sensed value: the pre-resolved Unit.sense value for \"buildX\"/\"buildY\" (BuildTurret.java:284), or the caller-passed super result for any other sensor (BuildTurret.java:285); null when the sensor is not handled and the super was NaN.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        },
+        "sense_value_is_nan": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+          "rule": "Whether the sensed value is NaN: true only when the sensor falls through to a NaN super result (the super switch default, BuildingComp.java:2123, `default -> Float.NaN; //gets converted to null in logic`, converts to null in logic); false for the handled buildX/buildY rows (Unit.sense returns a plan coordinate or -1, never NaN).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretSenseProof",
+      "rule": "Source-backed BuildTurretBuild.sense() state from BuildTurret.java + UnitComp.java + BuildingComp.java + LAccess.java."
     }
   },
   "version": 1

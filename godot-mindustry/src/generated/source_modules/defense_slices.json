@@ -5528,6 +5528,25 @@
       ],
       "runtime_proof": "/root/C07BuildTurretWarmupProof"
     },
+    "N2484": {
+      "canonical_ledger": "source_slice_ledger.N2484",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.sense(LAccess)",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "source_symbols": [
+        "source_build_turret_sense_state_result.handled",
+        "source_build_turret_sense_state_result.sense_value",
+        "source_build_turret_sense_state_result.sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_build_turret_sense_registration",
+        "test_all_c07_build_turret_sense_input_evidence_is_exact",
+        "test_build_turret_sense_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseProof"
+    },
     "N2523": {
       "canonical_ledger": "source_slice_ledger.N2523",
       "status": "done",

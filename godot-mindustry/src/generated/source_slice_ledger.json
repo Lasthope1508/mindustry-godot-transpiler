@@ -122767,6 +122767,44 @@
         "GameState.hasSector() is a TWIN-REGISTER with explicit main-thread approval (2026-11-27): the literal `return rules.sector != null;` is also an exact_expr of N2124, which cites it only as dependency evidence for unlockedNowHost() (`return !state.isCampaign() || unlockedHost();`) and ports no hasSector function; N2124 is the original owner of the literal. The same literal is also an exact_expr of N2474 (isCampaign -- the twin sibling, twin-registered with its own approval 2026-11-26), which ports isCampaign, not hasSector. Precedent: N2474, N2421, N2389, N2418.",
         "GameState.hasSector() shares its body verbatim with isCampaign() (GameState.java:73-75, N2474); the two methods differ only by name. The proof cross-pins them: same sector/planet inputs give the same result on all 4 combinations."
       ]
+    },
+    "N2484": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_class": "mindustry.world.blocks.defense.BuildTurret.BuildTurretBuild",
+      "java_method": "BuildTurretBuild.sense(LAccess)",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_state",
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "case buildX, buildY -> unit.sense(sensor);",
+        "default -> super.sense(sensor);",
+        "public class BuildTurretBuild extends BaseTurretBuild implements ControlBlock, RotBlock{",
+        "public BlockUnitc unit = (BlockUnitc)unitType.create(team);",
+        "case buildX -> isBuilding() ? buildPlan().x : -1;",
+        "case buildY -> isBuilding() ? buildPlan().y : -1;",
+        "default -> Float.NaN; //gets converted to null in logic",
+        "buildX,",
+        "buildY,"
+      ],
+      "source_symbols": [
+        "source_build_turret_sense_state_result.handled",
+        "source_build_turret_sense_state_result.sense_value",
+        "source_build_turret_sense_state_result.sense_value_is_nan"
+      ],
+      "tests": [
+        "test_c07_build_turret_sense_registration",
+        "test_all_c07_build_turret_sense_input_evidence_is_exact",
+        "test_build_turret_sense_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseProof",
+      "deferred_exprs": [
+        "BuildTurretBuild.sense() Windows Godot proof -- debt in GOAL.md section 5: the N2484 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "BuildTurretBuild.sense() is a TWIN-REGISTER with explicit main-thread approval (2026-11-27): the literals `public double sense(LAccess sensor){`, `case buildX, buildY -> unit.sense(sensor);` and `default -> super.sense(sensor);` are also exact_exprs of N2184 (BuildTurretBuild.updateTile), which cites the BuildTurret.java:281-287 rows only as dependency evidence and ports no sense function; N2184 is the original owner of the literals, and its own deferred_exprs say \"BuildTurret sense rows (sense buildX/buildY + senseObject building/breaking delegate to unit, BuildTurret.java:281-295) -- logic sensing waits for its own slice\". The other decl hits are other classes' sense methods (N2293 TurretBuild.sense, N2298 DrillBuild.sense, N1169 PowerTurretBuild.sense -- different switches). Precedent: N2474, N2477, N2480, N2482, N2421, N2389, N2418.",
+        "BuildTurretBuild.senseObject(LAccess) (BuildTurret.java:289-295, `case building, breaking -> unit.senseObject(sensor);` / `default -> super.senseObject(sensor);`) is NOT in this slice: it is the sibling senseObject override, covered by the same N2184 deferred sentence (\"BuildTurret sense rows (sense buildX/buildY + senseObject building/breaking delegate to unit, BuildTurret.java:281-295)\"); it waits for its own slice (batch 54 slot 1 candidate).",
+        "BuildTurretBuild.sense() super.sense dispatch -- the default leg falls through to BuildingComp.sense (BuildingComp.java:2093); the logic-processor dispatch hook that calls BuildTurret sense then falls back to the BuildingComp sense bridge (SourceBuildingSenseState.gd) is its own later slice.",
+        "TurretBuild.sense() (Turret.java:406-418, N2293, `case ammo -> totalAmmo;` / `case ammoCapacity -> maxAmmo;` / ... / `default -> super.sense(sensor);`) is NOT in this slice: it is the parent-class method with a 7-case switch of its own; the proof pins the cross-trap (ammo is handled by the parent but falls through to super here)."
+      ]
     }
   },
   "version": 1
