@@ -191096,6 +191096,22 @@
         "test_reference_graph_and_actual_c07_base_turret_estimate_dps"
       ],
       "runtime_proof": "/root/C07BaseTurretEstimateDpsProof"
+    },
+    "source_payload_ammo_turret_build_get_ammo_fraction_state_result.ammo_fraction": {
+      "status": "source-backed",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state",
+      "godot_symbol": "source_payload_ammo_turret_build_get_ammo_fraction_state_result.ammo_fraction",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.getAmmoFraction()",
+      "java_expr": "return (float)totalAmmo / maxAmmo;",
+      "rule": "The ammo fraction (PayloadAmmoTurret.java:161, `return (float)totalAmmo / maxAmmo;`): the precomputed totalAmmo over maxAmmo as a float -- 1.0 when full, 0.0 when empty, above 1.0 when totalAmmo exceeds maxAmmo (no clamp), Infinity when maxAmmo is zero (no guard -- Java float division by zero yields Infinity, the N1181 deferred precedent).",
+      "tests": [
+        "test_c07_payload_turret_get_ammo_fraction_registration",
+        "test_all_c07_payload_turret_get_ammo_fraction_input_evidence_is_exact",
+        "test_payload_turret_get_ammo_fraction_state",
+        "test_reference_graph_and_actual_c07_payload_turret_get_ammo_fraction"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretGetAmmoFractionProof"
     }
   },
   "version": 1

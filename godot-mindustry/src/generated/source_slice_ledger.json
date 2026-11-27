@@ -122872,6 +122872,37 @@
         "BaseTurretBuild.status() (BaseTurret.java:143-145, N2475, `(activationTimer <= 0)? super.status() : BlockStatus.inactive`) is NOT in this slice: status reads the activation timer and the super status, estimateDps reads nothing and returns the constant 0f.",
         "BaseTurretBuild.buildRotation() (BaseTurret.java:129-131, N2479, `return rotation;`) is NOT in this slice: buildRotation reads the inherited rotation field (default 90), estimateDps reads nothing."
       ]
+    },
+    "N2487": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.PayloadAmmoTurret.PayloadTurretBuild",
+      "java_method": "PayloadTurretBuild.getAmmoFraction()",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state",
+      "exact_exprs": [
+        "public class PayloadAmmoTurret extends Turret{",
+        "public class PayloadTurretBuild extends TurretBuild{",
+        "@Override",
+        "public float getAmmoFraction(){",
+        "return (float)totalAmmo / maxAmmo;"
+      ],
+      "source_symbols": [
+        "source_payload_ammo_turret_build_get_ammo_fraction_state_result.ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_payload_turret_get_ammo_fraction_registration",
+        "test_all_c07_payload_turret_get_ammo_fraction_input_evidence_is_exact",
+        "test_payload_turret_get_ammo_fraction_state",
+        "test_reference_graph_and_actual_c07_payload_turret_get_ammo_fraction"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretGetAmmoFractionProof",
+      "deferred_exprs": [
+        "PayloadTurret getAmmoFraction Windows Godot proof -- debt in GOAL.md section 5: the N2487 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "PayloadTurretBuild.getAmmoFraction() is a GENERIC LITERAL with N1181 ItemTurretBuild.getAmmoFraction(), verified by the main thread (2026-11-27), no twin-register needed: same body `return (float)totalAmmo / maxAmmo;`, different class, no shared owner (the N2479 precedent). N1181's deferred_exprs record only the no-zero-guard note; no Payload port was reserved. No GD function computes the PayloadTurretBuild override yet.",
+        "PayloadTurretBuild.displayBars(Table) (PayloadAmmoTurret.java:171-177, N2381) is NOT in this slice: displayBars adds a Bar spec whose fraction lambda repeats the same arithmetic -- it is a UI spec, not this return; the proof cross-pins the two against each other for the same inputs.",
+        "PayloadTurretBuild.updateTile() (PayloadAmmoTurret.java:165-168, N2381, `totalAmmo = payloads.total();`) is NOT in this slice: updateTile refreshes the totalAmmo frame field -- this slice only reads the precomputed value as an explicit input, it never recomputes it from payloads.",
+        "No maxAmmo zero guard is added because the upstream Java return expression has no guard (the N1181 deferred precedent): Java float division by zero yields Infinity, and GDScript float division by zero yields INF the same way."
+      ]
     }
   },
   "version": 1

@@ -5583,6 +5583,23 @@
       ],
       "runtime_proof": "/root/C07BaseTurretEstimateDpsProof"
     },
+    "N2487": {
+      "canonical_ledger": "source_slice_ledger.N2487",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_method": "PayloadTurretBuild.getAmmoFraction()",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state",
+      "source_symbols": [
+        "source_payload_ammo_turret_build_get_ammo_fraction_state_result.ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_payload_turret_get_ammo_fraction_registration",
+        "test_all_c07_payload_turret_get_ammo_fraction_input_evidence_is_exact",
+        "test_payload_turret_get_ammo_fraction_state",
+        "test_reference_graph_and_actual_c07_payload_turret_get_ammo_fraction"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretGetAmmoFractionProof"
+    },
     "N2523": {
       "canonical_ledger": "source_slice_ledger.N2523",
       "status": "done",
