@@ -517,5 +517,6 @@ func _ready() -> void:
 	proof["matches"] = proof["matches"] and proof["registry_valid"] and proof["one_headquarter_per_ssot"] and proof["generated_registry_valid"]
 	print("UNIT_COMP_GENERATED_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
 	runtime_proof_state.write_proof("UnitCompGeneratedRuntimeModuleProof", proof)
+	game.free()
 	await get_tree().process_frame
 	get_tree().quit(runtime_proof_state.exit_code(proof))

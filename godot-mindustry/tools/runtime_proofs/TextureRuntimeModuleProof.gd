@@ -48,6 +48,8 @@ func _ready() -> void:
 	proof["matches"] = item_loaded and conveyor_loaded and block_lookup_matches and add_sprite_scaled and add_ore_cell_matches and block_texture_cached and configured_sprite_scaled and unit_loaded and bool(proof.get("one_headquarter_per_ssot", false)) and bool(proof.get("registry_valid", false))
 	print("TEXTURE_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
 	runtime_proof_state.write_proof("TextureRuntimeModuleProof", proof)
+	sprite.free()
+	configured_sprite.free()
 	game.free()
 	await get_tree().process_frame
 	get_tree().quit(runtime_proof_state.exit_code(proof))
