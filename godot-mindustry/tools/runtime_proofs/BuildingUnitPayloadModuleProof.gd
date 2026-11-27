@@ -56,6 +56,8 @@ func _ready() -> void:
 	proof["matches"] = proof["client_matches"] and proof["server_matches"] and proof["registry_valid"] and proof["one_headquarter_per_ssot"]
 	print("BUILDING_UNIT_PAYLOAD_MODULE_PROOF " + JSON.stringify(proof))
 	runtime_proof_state.write_proof("BuildingUnitPayloadModuleProof", proof)
+	client["events"].clear()
+	server["events"].clear()
 	game.free()
 	await get_tree().process_frame
 	get_tree().quit(runtime_proof_state.exit_code(proof))
