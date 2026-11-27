@@ -265165,6 +265165,74 @@
       },
       "runtime_proof": "/root/C07TeamColoredNameProof",
       "rule": "Source-backed Team.coloredName() state from Team.java."
+    },
+    "source_team_comp_closest_core_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_team_comp_closest_core_state",
+      "source_slice": "N2489",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "    @Import float x, y;",
+          "rule": "The query x (TeamComp.java:13, `    @Import float x, y;`): the entity position x passed straight to state.teams.closestCore -- evidence of the call, the search itself lives in the N2392 callee.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_comp_closest_core_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "    @Import float x, y;",
+          "rule": "The query y (TeamComp.java:13, `    @Import float x, y;`): the entity position y passed straight to state.teams.closestCore -- evidence of the call, the search itself lives in the N2392 callee.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_comp_closest_core_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "    Team team = Team.derelict;",
+          "rule": "The team id (TeamComp.java:15, `    Team team = Team.derelict;`, default derelict): the entity team passed to state.teams.closestCore -- by id, the N2099 cheating precedent; evidence of the call.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_comp_closest_core_state"
+          ]
+        },
+        "closest_core": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "        return state.teams.closestCore(x, y, team);",
+          "rule": "The precomputed callee result (TeamComp.java:33, `        return state.teams.closestCore(x, y, team);`): whatever Teams.closestCore returns -- the nearest CoreBuild ref, or null (the @Nullable return, TeamComp.java:31) when no core is near. The value arrives already computed (N2392 owns the search); this slice never re-derives it.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_comp_closest_core_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamCompClosestCoreProof",
+      "rule": "Source-backed TeamComp.closestCore() state from TeamComp.java."
+    },
+    "source_team_comp_closest_core_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_team_comp_closest_core_state",
+      "source_slice": "N2489",
+      "keys": {
+        "closest_core": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "        return state.teams.closestCore(x, y, team);",
+          "rule": "The closest core (TeamComp.java:33): the precomputed callee result passed through whole -- a CoreBuild ref, or null (the @Nullable return) when no core is near; no default, no fallback, no guard.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_comp_closest_core_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamCompClosestCoreProof",
+      "rule": "Source-backed TeamComp.closestCore() state from TeamComp.java."
     }
   },
   "version": 1

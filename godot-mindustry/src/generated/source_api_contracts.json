@@ -83093,6 +83093,46 @@
       ],
       "runtime_proof": "/root/C07TeamColoredNameProof",
       "rule": "Source-backed Team.coloredName() state from Team.java."
+    },
+    "SourceRulesRuntimeState.source_team_comp_closest_core_state": {
+      "status": "active",
+      "source_slice": "N2489",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "source_method": "TeamComp.closestCore()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_team_comp_closest_core_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_team_comp_closest_core_state_input.y"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_team_comp_closest_core_state_input.team_id"
+        },
+        {
+          "name": "closest_core",
+          "type": "Variant",
+          "schema": "source_team_comp_closest_core_state_input.closest_core"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "closest_core"
+      ],
+      "tests": [
+        "test_c07_team_comp_closest_core_registration",
+        "test_all_c07_team_comp_closest_core_input_evidence_is_exact",
+        "test_team_comp_closest_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_closest_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompClosestCoreProof",
+      "rule": "Source-backed TeamComp.closestCore() state from TeamComp.java."
     }
   },
   "policy": {
