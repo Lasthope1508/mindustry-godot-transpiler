@@ -264942,6 +264942,104 @@
       },
       "runtime_proof": "/root/C07BuildTurretSenseProof",
       "rule": "Source-backed BuildTurretBuild.sense() state from BuildTurret.java + UnitComp.java + BuildingComp.java + LAccess.java."
+    },
+    "source_build_turret_sense_object_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "source_slice": "N2485",
+      "keys": {
+        "frame": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "rule": "The build-turret frame (accepted for the family call shape; this leg reads no live frame key -- all live values arrive as explicit params, the N2188 per-def-param precedent, because the tick frame tracks only cheating/enabled/power_status/efficiency).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        },
+        "sensor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "rule": "The logic sensor to read, spelled by its LAccess enum name (LAccess.java:59 `building,`, :60 `breaking,`): only building/breaking are handled here, anything else falls through to super.senseObject (BuildTurret.java:292, `default -> super.senseObject(sensor);`).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        },
+        "unit_sense_object_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
+          "java_expr": "case building -> isBuilding() && !buildPlan().breaking ? buildPlan().tile().build : null;",
+          "rule": "The pre-resolved Unit.senseObject(sensor) value for the building/breaking leg: Unit.senseObject (UnitComp.java:313) returns `isBuilding() && !buildPlan().breaking ? buildPlan().tile().build : null;` for building (:324) and `isBuilding() && buildPlan().breaking ? buildPlan().tile().build : null;` for breaking (:325) -- the build object when the builder unit has a plan of that kind, null otherwise; the caller applies Unit.senseObject at the call boundary (the N2478 pre-resolved-input precedent) and this slice only routes. The expr is the building leg; the breaking leg is the same shape.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        },
+        "super_sense_object_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "default -> super.senseObject(sensor);",
+          "rule": "The already-computed super result: BuildingComp.senseObject (BuildingComp.java:2128), live at the N2506 bridge (SourceTurretBuildState.source_turret_sense_object_state); the caller passes it (the N2317/N2323 super-as-param precedent) and the fallthrough leg returns it; null when the super was noSensed (the super switch default, BuildingComp.java:2135, `default -> noSensed;`). The expr is the BuildTurret fallthrough call site (BuildTurret.java:292).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        },
+        "super_sense_object_value_is_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> noSensed;",
+          "rule": "Whether the caller-passed super result is null: true when the super sensor fell through to the BuildingComp default (BuildingComp.java:2135), which returns the noSensed sentinel; false for every handled super row.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretSenseObjectProof",
+      "rule": "Source-backed BuildTurretBuild.senseObject() state from BuildTurret.java + UnitComp.java + BuildingComp.java + LAccess.java."
+    },
+    "source_build_turret_sense_object_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "source_slice": "N2485",
+      "keys": {
+        "handled": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "default -> super.senseObject(sensor);",
+          "rule": "Whether this slice handled the sensor (building/breaking only); false means \"not handled -- the returned value is the super result\" (the N2223 sense precedent).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        },
+        "sense_object_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "case building, breaking -> unit.senseObject(sensor);",
+          "rule": "The sensed object: the pre-resolved Unit.senseObject value for \"building\"/\"breaking\" (BuildTurret.java:291), or the caller-passed super result for any other sensor (BuildTurret.java:292); null when the sensor is handled but the unit has no plan of that kind, or when it is not handled and the super was noSensed.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        },
+        "sense_object_value_is_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "default -> noSensed;",
+          "rule": "Whether the sensed object is null: true when the handled building/breaking leg got a null unit value (no plan of that kind) or when the sensor falls through to a null super result (the super switch default, BuildingComp.java:2135, `default -> noSensed;`); false otherwise.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_sense_object_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretSenseObjectProof",
+      "rule": "Source-backed BuildTurretBuild.senseObject() state from BuildTurret.java + UnitComp.java + BuildingComp.java + LAccess.java."
     }
   },
   "version": 1

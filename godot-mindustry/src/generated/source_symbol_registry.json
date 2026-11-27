@@ -191032,6 +191032,54 @@
         "test_reference_graph_and_actual_c07_build_turret_sense"
       ],
       "runtime_proof": "/root/C07BuildTurretSenseProof"
+    },
+    "source_build_turret_sense_object_state_result.handled": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "godot_symbol": "source_build_turret_sense_object_state_result.handled",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.senseObject(LAccess)",
+      "java_expr": "default -> super.senseObject(sensor);",
+      "rule": "Whether this slice handled the sensor (building/breaking only); false means \"not handled -- the returned value is the super result\" (the N2223 sense precedent).",
+      "tests": [
+        "test_c07_build_turret_sense_object_registration",
+        "test_all_c07_build_turret_sense_object_input_evidence_is_exact",
+        "test_build_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseObjectProof"
+    },
+    "source_build_turret_sense_object_state_result.sense_object_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "godot_symbol": "source_build_turret_sense_object_state_result.sense_object_value",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.senseObject(LAccess)",
+      "java_expr": "case building, breaking -> unit.senseObject(sensor);",
+      "rule": "The sensed object: the pre-resolved Unit.senseObject value for \"building\"/\"breaking\" (BuildTurret.java:291), or the caller-passed super result for any other sensor (BuildTurret.java:292); null when the sensor is handled but the unit has no plan of that kind, or when it is not handled and the super was noSensed.",
+      "tests": [
+        "test_c07_build_turret_sense_object_registration",
+        "test_all_c07_build_turret_sense_object_input_evidence_is_exact",
+        "test_build_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseObjectProof"
+    },
+    "source_build_turret_sense_object_state_result.sense_object_value_is_null": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "godot_symbol": "source_build_turret_sense_object_state_result.sense_object_value_is_null",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildTurretBuild.senseObject(LAccess)",
+      "java_expr": "default -> noSensed;",
+      "rule": "Whether the sensed object is null: true when the handled building/breaking leg got a null unit value (no plan of that kind) or when the sensor falls through to a null super result (the super switch default, BuildingComp.java:2135, `default -> noSensed;`); false otherwise.",
+      "tests": [
+        "test_c07_build_turret_sense_object_registration",
+        "test_all_c07_build_turret_sense_object_input_evidence_is_exact",
+        "test_build_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseObjectProof"
     }
   },
   "version": 1

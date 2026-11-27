@@ -8082,6 +8082,54 @@
       "rule": "Source-backed BuildTurretBuild read() plans restore from BuildTurret.java.",
       "return_type": "Dictionary"
     },
+    "SourceBuildTurretBuildState.source_build_turret_sense_object_state": {
+      "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "status": "active",
+      "source_slice": "N2485",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.senseObject(LAccess)",
+      "params": [
+        {
+          "name": "frame",
+          "type": "Dictionary",
+          "schema": "source_build_turret_sense_object_state_input.frame"
+        },
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_build_turret_sense_object_state_input.sensor"
+        },
+        {
+          "name": "unit_sense_object_value",
+          "type": "Variant",
+          "schema": "source_build_turret_sense_object_state_input.unit_sense_object_value"
+        },
+        {
+          "name": "super_sense_object_value",
+          "type": "Variant",
+          "schema": "source_build_turret_sense_object_state_input.super_sense_object_value"
+        },
+        {
+          "name": "super_sense_object_value_is_null",
+          "type": "bool",
+          "schema": "source_build_turret_sense_object_state_input.super_sense_object_value_is_null"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "sense_object_value",
+        "sense_object_value_is_null"
+      ],
+      "tests": [
+        "test_c07_build_turret_sense_object_registration",
+        "test_all_c07_build_turret_sense_object_input_evidence_is_exact",
+        "test_build_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseObjectProof",
+      "rule": "Source-backed BuildTurretBuild.senseObject() state from BuildTurret.java + UnitComp.java + BuildingComp.java + LAccess.java.",
+      "return_type": "Dictionary"
+    },
     "SourceBuildTurretBuildState.source_build_turret_sense_state": {
       "canonical_contract": "source_api_contracts.SourceBuildTurretBuildState.source_build_turret_sense_state",
       "status": "active",

@@ -370,6 +370,20 @@ static func source_build_turret_sense_state(frame: Dictionary, sensor: String, u
 	return {"handled": false, "sense_value": super_sense_value, "sense_value_is_nan": super_sense_value_is_nan}
 
 @warning_ignore("unused_parameter")
+static func source_build_turret_sense_object_state(frame: Dictionary, sensor: String, unit_sense_object_value: Variant, super_sense_object_value: Variant, super_sense_object_value_is_null: bool) -> Dictionary:
+	# BuildTurretBuild.senseObject() (BuildTurret.java:289-295):
+	# public Object senseObject(LAccess sensor){
+	# return switch(sensor){
+	# case building, breaking -> unit.senseObject(sensor);
+	# default -> super.senseObject(sensor);
+	# };
+	# }
+	# over the base default BuildingComp.senseObject() (BuildingComp.java:2128, `public Object senseObject(LAccess sensor){`), whose rows are `case type -> block;` / `case firstItem -> items == null ? null : items.first();` / `case config -> block.configSenseable() ? config() : null;` / `case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;` / `default -> noSensed;` (:2129-2135) -- BaseTurretBuild does NOT override senseObject, so super.senseObject(sensor) in BuildTurretBuild resolves to BuildingComp.senseObject (BaseTurret.java:113, `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`). The `unit` here is the FIELD `public BlockUnitc unit = (BlockUnitc)unitType.create(team);` (BuildTurret.java:93) -- NOT the `unit()` accessor (:113-119, excluded for its side-effect: `unit.tile(this); unit.team(team);`). The unit leg reads Unit.senseObject (UnitComp.java:313): building -> `isBuilding() && !buildPlan().breaking ? buildPlan().tile().build : null;` (:324) and breaking -> `isBuilding() && buildPlan().breaking ? buildPlan().tile().build : null;` (:325) -- the build object when the builder unit has a plan of that kind, null otherwise; the caller pre-resolves Unit.senseObject(sensor) at the call boundary (the N2478 pre-resolved-input precedent) and passes it as unit_sense_object_value, so this slice only routes. The sensor spellings are the LAccess enum names `building,` (:59) and `breaking,` (:60). The super leg is the live BuildingComp senseObject (N2506 bridge), passed in as explicit params (super_sense_object_value, super_sense_object_value_is_null) following the N2317/N2323 super-as-param precedent; the fallthrough leg returns the caller-passed super result instead of null. The handled leg reports a null unit value via sense_object_value_is_null, computed from the value itself (Unit.senseObject returns null exactly when the unit has no plan of that kind). Only building/breaking take the unit leg -- a port routing every sensor to unit is wrong; every other sensor falls through to super -- a port dropping the default branch is wrong. This is NOT the turret senseObject bridge (N2506, SourceTurretBuildState.source_turret_sense_object_state, which models the BuildingComp rows type/firstItem/config/payloadType itself) and NOT DrillBuild.senseObject (N2298, firstItem -> dominantItem) -- the switches are different, sibling vs child class. There is NO driver tick line: senseObject is a logic read, not per-tick state (the N2206 / N2208 / N2223 precedent); the logic-processor dispatch hook is its own later slice.
+	if sensor == "building" or sensor == "breaking":
+		return {"handled": true, "sense_object_value": unit_sense_object_value, "sense_object_value_is_null": unit_sense_object_value == null}
+	return {"handled": false, "sense_object_value": super_sense_object_value, "sense_object_value_is_null": super_sense_object_value_is_null}
+
+@warning_ignore("unused_parameter")
 static func source_build_turret_tick_buildings_state(game: Object, seconds: float) -> Dictionary:
 	# The live loop calls the build-turret tick wiring every
 	# tick (BuildTurretBuild.updateTile(), BuildTurret.java:121-139,

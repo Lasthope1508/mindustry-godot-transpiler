@@ -122805,6 +122805,44 @@
         "BuildTurretBuild.sense() super.sense dispatch -- the default leg falls through to BuildingComp.sense (BuildingComp.java:2093); the logic-processor dispatch hook that calls BuildTurret sense then falls back to the BuildingComp sense bridge (SourceBuildingSenseState.gd) is its own later slice.",
         "TurretBuild.sense() (Turret.java:406-418, N2293, `case ammo -> totalAmmo;` / `case ammoCapacity -> maxAmmo;` / ... / `default -> super.sense(sensor);`) is NOT in this slice: it is the parent-class method with a 7-case switch of its own; the proof pins the cross-trap (ammo is handled by the parent but falls through to super here)."
       ]
+    },
+    "N2485": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_class": "mindustry.world.blocks.defense.BuildTurret.BuildTurretBuild",
+      "java_method": "BuildTurretBuild.senseObject(LAccess)",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_sense_object_state",
+      "exact_exprs": [
+        "public Object senseObject(LAccess sensor){",
+        "case building, breaking -> unit.senseObject(sensor);",
+        "default -> super.senseObject(sensor);",
+        "public class BuildTurretBuild extends BaseTurretBuild implements ControlBlock, RotBlock{",
+        "public BlockUnitc unit = (BlockUnitc)unitType.create(team);",
+        "case building -> isBuilding() && !buildPlan().breaking ? buildPlan().tile().build : null;",
+        "case breaking -> isBuilding() && buildPlan().breaking ? buildPlan().tile().build : null;",
+        "default -> noSensed;",
+        "building,",
+        "breaking,"
+      ],
+      "source_symbols": [
+        "source_build_turret_sense_object_state_result.handled",
+        "source_build_turret_sense_object_state_result.sense_object_value",
+        "source_build_turret_sense_object_state_result.sense_object_value_is_null"
+      ],
+      "tests": [
+        "test_c07_build_turret_sense_object_registration",
+        "test_all_c07_build_turret_sense_object_input_evidence_is_exact",
+        "test_build_turret_sense_object_state",
+        "test_reference_graph_and_actual_c07_build_turret_sense_object"
+      ],
+      "runtime_proof": "/root/C07BuildTurretSenseObjectProof",
+      "deferred_exprs": [
+        "BuildTurretBuild.senseObject() Windows Godot proof -- debt in GOAL.md section 5: the N2485 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "BuildTurretBuild.senseObject() is a TWIN-REGISTER with explicit main-thread approval (2026-11-27): the literals `public Object senseObject(LAccess sensor){`, `case building, breaking -> unit.senseObject(sensor);` and `default -> super.senseObject(sensor);` are also exact_exprs of N2184 (BuildTurretBuild.updateTile), which cites the BuildTurret.java:289-295 rows only as dependency evidence and ports no senseObject function; N2184 is the original owner of the literals, and its own deferred_exprs say \"BuildTurret sense rows (sense buildX/buildY + senseObject building/breaking delegate to unit, BuildTurret.java:281-295) -- logic sensing waits for its own slice\". The sibling sense() (N2484, BuildTurret.java:281-287) is the twin sibling under the same N2184 deferred sentence and is already done. Precedent: N2484, N2474, N2477, N2480, N2482, N2421, N2389, N2418.",
+        "BuildTurretBuild.sense() (BuildTurret.java:281-287, `case buildX, buildY -> unit.sense(sensor);` / `default -> super.sense(sensor);`) is NOT in this slice: it is the sibling sense override, already done as N2484.",
+        "BuildTurretBuild.senseObject() super.senseObject dispatch -- the default leg falls through to BuildingComp.senseObject (BuildingComp.java:2128); the logic-processor dispatch hook that calls BuildTurret senseObject then falls back to the BuildingComp senseObject bridge (SourceTurretBuildState.source_turret_sense_object_state, N2506) is its own later slice.",
+        "The turret senseObject bridge (N2506, SourceTurretBuildState.source_turret_sense_object_state, which models the BuildingComp.senseObject rows type/firstItem/config/payloadType itself) is NOT in this slice: it is the parent-bridge method with its own switch; the proof pins the cross-trap (building is handled here but not there; type is handled there but falls through here). DrillBuild.senseObject (N2298, firstItem -> dominantItem) is likewise a different class and NOT in this slice."
+      ]
     }
   },
   "version": 1
