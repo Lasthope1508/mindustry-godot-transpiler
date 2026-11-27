@@ -122843,6 +122843,66 @@
         "BuildTurretBuild.senseObject() super.senseObject dispatch -- the default leg falls through to BuildingComp.senseObject (BuildingComp.java:2128); the logic-processor dispatch hook that calls BuildTurret senseObject then falls back to the BuildingComp senseObject bridge (SourceTurretBuildState.source_turret_sense_object_state, N2506) is its own later slice.",
         "The turret senseObject bridge (N2506, SourceTurretBuildState.source_turret_sense_object_state, which models the BuildingComp.senseObject rows type/firstItem/config/payloadType itself) is NOT in this slice: it is the parent-bridge method with its own switch; the proof pins the cross-trap (building is handled here but not there; type is handled there but falls through here). DrillBuild.senseObject (N2298, firstItem -> dominantItem) is likewise a different class and NOT in this slice."
       ]
+    },
+    "N2486": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret.BaseTurretBuild",
+      "java_method": "BaseTurretBuild.estimateDps()",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_estimate_dps_state",
+      "exact_exprs": [
+        "        public float estimateDps(){",
+        "            return 0f;",
+        "    public class BaseTurretBuild extends Building implements Ranged, RotBlock{"
+      ],
+      "source_symbols": [
+        "source_base_turret_estimate_dps_state_result.estimate_dps"
+      ],
+      "tests": [
+        "test_c07_base_turret_estimate_dps_registration",
+        "test_all_c07_base_turret_estimate_dps_input_evidence_is_exact",
+        "test_base_turret_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_base_turret_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BaseTurretEstimateDpsProof",
+      "deferred_exprs": [
+        "BaseTurretBuild.estimateDps() Windows Godot proof -- debt in GOAL.md section 5: the N2486 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "BaseTurretBuild.estimateDps() is CLEAN, verified by the main thread (2026-11-27), no twin-register needed: java_method `BaseTurretBuild.estimateDps()` is 0-hit and the registry has 0 `base_turret_estimate_dps` symbols before this slice. The declaration literal `public float estimateDps(){` hits N1236 (TractorBeamBuild), N2301 (TurretBuild), N2389 (ContinuousTurretBuild), N2533/N2536 (UnitType) -- all different classes' estimateDps overrides, none BaseTurretBuild; the body `return 0f;` is a generic constant line, not twin evidence (same classification as N2481's `return 1f;`). No GD function computes the BaseTurretBuild override yet.",
+        "TurretBuild.estimateDps() (Turret.java:740-745, N2301, real DPS from shots / reload / peekAmmo().estimateDps() / potentialEfficiency / timeScale) is NOT in this slice: it is the child-class method -- a loaded turret gives a nonzero value there and 0.0 here; the proof pins the cross-trap by evaluating the parent formula from locals (N2301 exposes the pure GD function source_turret_estimate_dps_state, but the cross-trap is pinned from the documented formula, same as the N2481 pattern).",
+        "BaseTurretBuild.status() (BaseTurret.java:143-145, N2475, `(activationTimer <= 0)? super.status() : BlockStatus.inactive`) is NOT in this slice: status reads the activation timer and the super status, estimateDps reads nothing and returns the constant 0f.",
+        "BaseTurretBuild.buildRotation() (BaseTurret.java:129-131, N2479, `return rotation;`) is NOT in this slice: buildRotation reads the inherited rotation field (default 90), estimateDps reads nothing."
+      ]
+    },
+    "N2487": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.PayloadAmmoTurret.PayloadTurretBuild",
+      "java_method": "PayloadTurretBuild.getAmmoFraction()",
+      "godot_owner": "PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state",
+      "exact_exprs": [
+        "public class PayloadAmmoTurret extends Turret{",
+        "public class PayloadTurretBuild extends TurretBuild{",
+        "@Override",
+        "public float getAmmoFraction(){",
+        "return (float)totalAmmo / maxAmmo;"
+      ],
+      "source_symbols": [
+        "source_payload_ammo_turret_build_get_ammo_fraction_state_result.ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_payload_turret_get_ammo_fraction_registration",
+        "test_all_c07_payload_turret_get_ammo_fraction_input_evidence_is_exact",
+        "test_payload_turret_get_ammo_fraction_state",
+        "test_reference_graph_and_actual_c07_payload_turret_get_ammo_fraction"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretGetAmmoFractionProof",
+      "deferred_exprs": [
+        "PayloadTurret getAmmoFraction Windows Godot proof -- debt in GOAL.md section 5: the N2487 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "PayloadTurretBuild.getAmmoFraction() is a GENERIC LITERAL with N1181 ItemTurretBuild.getAmmoFraction(), verified by the main thread (2026-11-27), no twin-register needed: same body `return (float)totalAmmo / maxAmmo;`, different class, no shared owner (the N2479 precedent). N1181's deferred_exprs record only the no-zero-guard note; no Payload port was reserved. No GD function computes the PayloadTurretBuild override yet.",
+        "PayloadTurretBuild.displayBars(Table) (PayloadAmmoTurret.java:171-177, N2381) is NOT in this slice: displayBars adds a Bar spec whose fraction lambda repeats the same arithmetic -- it is a UI spec, not this return; the proof cross-pins the two against each other for the same inputs.",
+        "PayloadTurretBuild.updateTile() (PayloadAmmoTurret.java:165-168, N2381, `totalAmmo = payloads.total();`) is NOT in this slice: updateTile refreshes the totalAmmo frame field -- this slice only reads the precomputed value as an explicit input, it never recomputes it from payloads.",
+        "No maxAmmo zero guard is added because the upstream Java return expression has no guard (the N1181 deferred precedent): Java float division by zero yields Infinity, and GDScript float division by zero yields INF the same way."
+      ]
     }
   },
   "version": 1

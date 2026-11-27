@@ -132,6 +132,42 @@ static func source_payload_ammo_turret_build_get_ammo_content_state(ammo_keys: A
 				break
 	return {"ammo_content": ammo_content}
 
+# PayloadTurretBuild.getAmmoFraction() (PayloadAmmoTurret.java:159-162):
+# `@Override`
+# `public float getAmmoFraction(){`
+# `return (float)totalAmmo / maxAmmo;`
+# `}`
+# on `public class PayloadTurretBuild extends TurretBuild{`
+# (PayloadAmmoTurret.java:94) inside
+# `public class PayloadAmmoTurret extends Turret{`
+# (PayloadAmmoTurret.java:21). This is the PayloadAmmoTurret
+# override: it returns the precomputed totalAmmo over maxAmmo
+# (3, the PayloadAmmoTurret ctor default,
+# PayloadAmmoTurret.java:29) as a float fraction. The body is
+# the SAME expression as ItemTurretBuild.getAmmoFraction()
+# (N1181) -- a GENERIC LITERAL (the N2479 precedent), NOT a
+# twin-register: same body, different class, no shared owner.
+# The displayBars lambda (N2381, PayloadAmmoTurret.java:174)
+# repeats the same arithmetic inside a Bar spec -- it is a
+# DIFFERENT method and is NOT re-ported here. `totalAmmo` is
+# the TurretBuild frame field (`public int totalAmmo;`,
+# Turret.java:283), refreshed only by updateTile
+# (`totalAmmo = payloads.total();`, PayloadAmmoTurret.java:166,
+# N2381) -- the function never recomputes it from payloads,
+# so it arrives as the explicit total_ammo param (the N1181
+# precomputed-input precedent). `maxAmmo` is the ctor default
+# (`maxAmmo = 3;`, PayloadAmmoTurret.java:29, overriding the
+# Turret base default 30, Turret.java:47) and arrives as the
+# explicit max_ammo param. NO divide-by-zero guard: upstream
+# has none -- Java float division by zero yields Infinity,
+# and GDScript float division by zero yields INF the same
+# way (the N1181 deferred precedent). NO clamp: a totalAmmo
+# above maxAmmo passes through above 1.0. NO driver line: a
+# pure accessor the HUD caller reads, not a per-tick write.
+static func source_payload_ammo_turret_build_get_ammo_fraction_state(total_ammo: float, max_ammo: float) -> Dictionary:
+	var ammo_fraction: float = total_ammo / max_ammo
+	return {"ammo_fraction": ammo_fraction}
+
 # PayloadTurretBuild.peekAmmo() (PayloadAmmoTurret.java:133-140):
 # `public BulletType peekAmmo(){`
 # `for(var content : ammoKeys){`

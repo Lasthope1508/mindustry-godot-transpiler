@@ -265040,6 +265040,73 @@
       },
       "runtime_proof": "/root/C07BuildTurretSenseObjectProof",
       "rule": "Source-backed BuildTurretBuild.senseObject() state from BuildTurret.java + UnitComp.java + BuildingComp.java + LAccess.java."
+    },
+    "source_base_turret_estimate_dps_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_base_turret_estimate_dps_state",
+      "source_slice": "N2486",
+      "keys": {
+        "estimate_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "            return 0f;",
+          "rule": "The estimated DPS (BaseTurret.java:138-140, `return 0f;`): the BaseTurretBuild override returns the constant 0f and reads no ammo, no reload, no efficiency -- a BaseTurret has no ammo and no bullet, so there is no DPS to compute. It must NOT compute real DPS like the child TurretBuild.estimateDps() (N2301, Turret.java:740-745), which gives a nonzero value for a loaded turret.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_estimate_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseTurretEstimateDpsProof",
+      "rule": "Source-backed BaseTurretBuild.estimateDps() state from BaseTurret.java."
+    },
+    "source_payload_ammo_turret_build_get_ammo_fraction_state_input": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state",
+      "source_slice": "N2487",
+      "keys": {
+        "total_ammo": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return (float)totalAmmo / maxAmmo;",
+          "rule": "The precomputed totalAmmo (PayloadAmmoTurret.java:161, `return (float)totalAmmo / maxAmmo;`): the TurretBuild frame field (`public int totalAmmo;`, Turret.java:283), refreshed only by updateTile (`totalAmmo = payloads.total();`, PayloadAmmoTurret.java:166, N2381) -- the function never recomputes it from payloads (the N1181 precomputed-input precedent); arrives as an explicit param.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state"
+          ]
+        },
+        "max_ammo": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "maxAmmo = 3;",
+          "rule": "The maxAmmo divisor (PayloadAmmoTurret.java:29, `maxAmmo = 3;`): the PayloadAmmoTurret ctor default, overriding the Turret base default 30 (Turret.java:47); arrives as an explicit param.",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretGetAmmoFractionProof",
+      "rule": "Source-backed PayloadTurretBuild.getAmmoFraction() state from PayloadAmmoTurret.java."
+    },
+    "source_payload_ammo_turret_build_get_ammo_fraction_state_result": {
+      "status": "active",
+      "owner": "PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state",
+      "source_slice": "N2487",
+      "keys": {
+        "ammo_fraction": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+          "java_expr": "return (float)totalAmmo / maxAmmo;",
+          "rule": "The ammo fraction (PayloadAmmoTurret.java:161, `return (float)totalAmmo / maxAmmo;`): the precomputed totalAmmo over maxAmmo as a float -- 1.0 when full, 0.0 when empty, above 1.0 when totalAmmo exceeds maxAmmo (no clamp), Infinity when maxAmmo is zero (no guard -- Java float division by zero yields Infinity, the N1181 deferred precedent).",
+          "used_by": [
+            "PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07PayloadTurretGetAmmoFractionProof",
+      "rule": "Source-backed PayloadTurretBuild.getAmmoFraction() state from PayloadAmmoTurret.java."
     }
   },
   "version": 1

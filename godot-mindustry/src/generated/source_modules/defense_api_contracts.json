@@ -4347,6 +4347,37 @@
       "rule": "Source-backed PayloadTurretBuild.getAmmoContent() state from PayloadAmmoTurret.java.",
       "return_type": "Dictionary"
     },
+    "PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_get_ammo_fraction_state",
+      "status": "active",
+      "source_slice": "N2487",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PayloadAmmoTurret.java",
+      "source_method": "PayloadTurretBuild.getAmmoFraction()",
+      "params": [
+        {
+          "name": "total_ammo",
+          "type": "float",
+          "schema": "source_payload_ammo_turret_build_get_ammo_fraction_state_input.total_ammo"
+        },
+        {
+          "name": "max_ammo",
+          "type": "float",
+          "schema": "source_payload_ammo_turret_build_get_ammo_fraction_state_input.max_ammo"
+        }
+      ],
+      "return_keys": [
+        "ammo_fraction"
+      ],
+      "tests": [
+        "test_c07_payload_turret_get_ammo_fraction_registration",
+        "test_all_c07_payload_turret_get_ammo_fraction_input_evidence_is_exact",
+        "test_payload_turret_get_ammo_fraction_state",
+        "test_reference_graph_and_actual_c07_payload_turret_get_ammo_fraction"
+      ],
+      "runtime_proof": "/root/C07PayloadTurretGetAmmoFractionProof",
+      "rule": "Source-backed PayloadTurretBuild.getAmmoFraction() state from PayloadAmmoTurret.java.",
+      "return_type": "Dictionary"
+    },
     "PortGame.source_payload_ammo_turret_build_has_ammo_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_payload_ammo_turret_build_has_ammo_state",
       "status": "active",
@@ -10480,6 +10511,26 @@
       ],
       "runtime_proof": "/root/C07BaseTurretStatusProof",
       "rule": "Source-backed BaseTurretBuild.status() state from BaseTurret.java.",
+      "return_type": "Dictionary"
+    },
+    "SourceTurretBuildState.source_base_turret_estimate_dps_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_base_turret_estimate_dps_state",
+      "status": "active",
+      "source_slice": "N2486",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "source_method": "BaseTurretBuild.estimateDps()",
+      "params": [],
+      "return_keys": [
+        "estimate_dps"
+      ],
+      "tests": [
+        "test_c07_base_turret_estimate_dps_registration",
+        "test_all_c07_base_turret_estimate_dps_input_evidence_is_exact",
+        "test_base_turret_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_base_turret_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BaseTurretEstimateDpsProof",
+      "rule": "Source-backed BaseTurretBuild.estimateDps() state from BaseTurret.java.",
       "return_type": "Dictionary"
     },
     "SourceTurretBuildState.source_reload_turret_ammo_reload_multiplier_state": {
