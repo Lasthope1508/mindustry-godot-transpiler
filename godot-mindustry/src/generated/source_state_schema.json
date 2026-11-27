@@ -264758,6 +264758,44 @@
       },
       "runtime_proof": "/root/C07ReloadTurretAmmoReloadMultiplierProof",
       "rule": "Source-backed ReloadTurretBuild.ammoReloadMultiplier() state from ReloadTurret.java."
+    },
+    "source_build_turret_warmup_state_input": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "source_slice": "N2482",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "            return warmup;",
+          "rule": "The build-tower warmup field (BuildTurret.java:254-255): the BuildTurretBuild field `public float warmup;` (BuildTurret.java:96), lerped by updateTile every tick (`warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);`, BuildTurret.java:136-137), returned whole -- no clamp, no floor.",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretWarmupProof",
+      "rule": "Source-backed BuildTurretBuild.warmup() state from BuildTurret.java."
+    },
+    "source_build_turret_warmup_state_result": {
+      "status": "active",
+      "owner": "SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "source_slice": "N2482",
+      "keys": {
+        "warmup": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+          "java_expr": "            return warmup;",
+          "rule": "The warmup value (BuildTurret.java:254-255): `warmup` returned whole -- 0 stays 0.0, 1.5 passes through (efficiency > 1 is not clamped), a negative value passes through (no Math.min/max here).",
+          "used_by": [
+            "SourceBuildTurretBuildState.source_build_turret_warmup_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BuildTurretWarmupProof",
+      "rule": "Source-backed BuildTurretBuild.warmup() state from BuildTurret.java."
     }
   },
   "version": 1

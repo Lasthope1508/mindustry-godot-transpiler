@@ -82860,6 +82860,31 @@
       ],
       "runtime_proof": "/root/C07ReloadTurretAmmoReloadMultiplierProof",
       "rule": "Source-backed ReloadTurretBuild.ammoReloadMultiplier() state from ReloadTurret.java."
+    },
+    "SourceBuildTurretBuildState.source_build_turret_warmup_state": {
+      "status": "active",
+      "source_slice": "N2482",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "source_method": "BuildTurretBuild.warmup()",
+      "params": [
+        {
+          "name": "warmup",
+          "type": "float",
+          "schema": "source_build_turret_warmup_state_input.warmup"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "warmup"
+      ],
+      "tests": [
+        "test_c07_build_turret_warmup_registration",
+        "test_all_c07_build_turret_warmup_input_evidence_is_exact",
+        "test_build_turret_warmup_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupProof",
+      "rule": "Source-backed BuildTurretBuild.warmup() state from BuildTurret.java."
     }
   },
   "policy": {

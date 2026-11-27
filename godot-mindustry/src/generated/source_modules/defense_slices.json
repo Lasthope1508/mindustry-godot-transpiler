@@ -5510,6 +5510,24 @@
       ],
       "runtime_proof": "/root/C07ReloadTurretAmmoReloadMultiplierProof"
     },
+    "N2482": {
+      "canonical_ledger": "source_slice_ledger.N2482",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.warmup()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "source_symbols": [
+        "source_build_turret_warmup_state_input.warmup",
+        "source_build_turret_warmup_state_result.warmup"
+      ],
+      "tests": [
+        "test_c07_build_turret_warmup_registration",
+        "test_all_c07_build_turret_warmup_input_evidence_is_exact",
+        "test_build_turret_warmup_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupProof"
+    },
     "N2523": {
       "canonical_ledger": "source_slice_ledger.N2523",
       "status": "done",

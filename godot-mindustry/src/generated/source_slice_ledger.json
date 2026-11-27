@@ -122707,6 +122707,37 @@
         "ReloadTurretBuild.canReload() (ReloadTurret.java:49-51, N2473, `return reloadCounter < reload;`) is NOT in this slice: canReload gates on the reload counter, ammoReloadMultiplier is an unconditional constant.",
         "ReloadTurretBuild.updateCooling() (ReloadTurret.java:28-40, N2525) consumes this value: `reloadCounter += amount * edelta() * capacity * coolantMultiplier * ammoReloadMultiplier();` (ReloadTurret.java:35) calls the override by virtual dispatch -- the call site belongs to N2525, only the constant factor itself is this slice."
       ]
+    },
+    "N2482": {
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_class": "mindustry.world.blocks.defense.BuildTurret.BuildTurretBuild",
+      "java_method": "BuildTurretBuild.warmup()",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "exact_exprs": [
+        "        public float warmup(){",
+        "            return warmup;",
+        "        public float warmup;",
+        "    public class BuildTurretBuild extends BaseTurretBuild implements ControlBlock, RotBlock{"
+      ],
+      "source_symbols": [
+        "source_build_turret_warmup_state_input.warmup",
+        "source_build_turret_warmup_state_result.warmup"
+      ],
+      "tests": [
+        "test_c07_build_turret_warmup_registration",
+        "test_all_c07_build_turret_warmup_input_evidence_is_exact",
+        "test_build_turret_warmup_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupProof",
+      "deferred_exprs": [
+        "BuildTurretBuild.warmup() Windows Godot proof -- debt in GOAL.md section 5: the N2482 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "BuildTurretBuild.warmup() is a TWIN-REGISTER with explicit main-thread approval (2026-11-27): the literals `public float warmup(){` and `return warmup;` are also exact_exprs of N2184 (BuildTurretBuild.updateTile), which cites the BuildTurret.java:254-255 rows only as dependency evidence and ports no warmup function; N2184 is the original owner of the literals, and its own deferred_exprs say \"BuildTurret warmup / setStats rows (warmup() returns warmup, BuildTurret.java:254-255; ...) -- accessor/stats, not tick state; waits for its own slice\". The other literal hits are other methods: N1625/N910 (bare warmup()), N2182/N2186 (ImpactReactor updateTile), N2232 (RepairTower, Windows line), N2297 (TurretBuild.warmup, `return shootWarmup;` -- a different field in the parent class). Precedent: N2474, N2477, N2480, N2421, N2389, N2418.",
+        "TurretBuild.warmup() (Turret.java:354-356, N2297, `return shootWarmup;`) is NOT in this slice: it is the parent-class method reading the `shootWarmup` field (Turret.java:1592) -- a tower with warmup = 1.5 and shootWarmup = 0.25 returns different values in the two methods; the proof pins the cross-trap.",
+        "BuildTurretBuild.updateTile() warmup lerp (BuildTurret.java:136-137, `warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);`) is NOT in this slice: this slice only reads the warmup field whole; the per-tick advance of the field stays with N2184.",
+        "BuildTurretBuild.draw() glow use of warmup (BuildTurret.java:247, `Drawf.additive(glowRegion, heatColor, warmup, x, y, rotation - 90f, Layer.turretHeat);`) is NOT in this slice: presentation, not state; the draw rows wait for their own slice."
+      ]
     }
   },
   "version": 1

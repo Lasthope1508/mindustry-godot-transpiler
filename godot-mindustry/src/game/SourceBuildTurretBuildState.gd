@@ -262,6 +262,40 @@ static func source_build_turret_should_consume_state(frame: Dictionary) -> Dicti
 	var heal_suppressed: bool = bool(frame.get("heal_suppressed", false))
 	return {"should_consume": int(plans_count) > 0 and not heal_suppressed and enabled}
 
+static func source_build_turret_warmup_state(warmup: float) -> Dictionary:
+	# BuildTurretBuild.warmup() (BuildTurret.java:254-255, N2482):
+	#     return warmup;
+	# on `public class BuildTurretBuild extends BaseTurretBuild
+	# implements ControlBlock, RotBlock{` (BuildTurret.java:92).
+	# The field `public float warmup;` (BuildTurret.java:96)
+	# is lerped by updateTile every tick (`warmup =
+	# Mathf.lerpDelta(warmup, unit.activelyBuilding() ?
+	# efficiency : 0f, 0.1f);`, BuildTurret.java:136-137)
+	# and read by draw() for the glow (`Drawf.additive(
+	# glowRegion, heatColor, warmup, x, y, rotation - 90f,
+	# Layer.turretHeat);`, BuildTurret.java:247) -- this
+	# slice is ONLY the accessor: return the field whole.
+	# TRAP: no clamp, no floor -- warmup follows
+	# efficiency, and efficiency > 1 passes through whole
+	# (a port clamping to [0, 1] is wrong); a negative
+	# warmup passes through too (Java has no Math.min/max
+	# here). TRAP: this is NOT TurretBuild.warmup()
+	# (Turret.java:354-356, N2297, `return shootWarmup;`)
+	# -- the parent-class method reads a different field
+	# (`public float shootWarmup, charge, warmupHold = 0f;`,
+	# Turret.java:1592), so the two can differ. Java order:
+	# warmup (:254-255) stands after shouldConsume
+	# (:229-230, N2201) and draw (:234-251) and before
+	# write (:259-265), so this function sits after
+	# source_build_turret_should_consume_state and before
+	# source_build_turret_read_plans_state. TWIN-REGISTER
+	# with N2184 (main-thread approval 2026-11-27): the
+	# literals are also exact_exprs of N2184 as dependency
+	# evidence; N2184 itself says warmup "waits for its own
+	# slice". The warmup lerp (:136-137) stays with N2184
+	# -- this slice only reads the field.
+	return {"warmup": warmup}
+
 static func source_build_turret_update_tile_plan_state(has_following: bool, following_valid: bool, controlled: bool, build_plan_null: bool, team_plans: Array, valid_place: Callable, req_breaking: bool, req_pos: Vector2i, player_breaking_same_pos: bool, mimic_following_set: bool) -> Dictionary:
 	# BuildTurretBuild.updateTile() plan legs (BuildTurret.java:121-227): the plan search / follow / mimic / validate advance N2184 deferred -- one pure function over explicit params, no engine calls. The follower validation clears following when the follower is gone or stopped building (BuildTurret.java:144-148); the search leg iterates the team plan queue and takes the first plan the caller-supplied validPlace gate accepts (the search opener `}else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){`, :156, is owned at N2184); the mimic leg clears following and scans nearby builders when no plan was found (BuildTurret.java:174-187); the validate leg drops the request when another player is breaking the same position (BuildTurret.java:193-201) and picks the break/place leg of the valid ternary (BuildTurret.java:204-211); the controlled branch forgets everything (BuildTurret.java:217-220). The `Units.nearby` live query itself waits for its own slice -- this function only answers whether mimic starts and whether a candidate's callback returns early. The `Build.validPlace` + infiniteResources/items gate is an explicit Callable param (the N2418 precedent); `timer(timerTarget, targetInterval)` and `timer.get(timerTarget2, 30f)` are caller-side booleans, not modeled here. The 9 exact exprs of N2423 (verbatim, one per line):
 	# - `following = null;`

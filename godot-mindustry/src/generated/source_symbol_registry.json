@@ -190904,6 +190904,38 @@
         "test_reference_graph_and_actual_c07_reload_turret_ammo_reload_multiplier"
       ],
       "runtime_proof": "/root/C07ReloadTurretAmmoReloadMultiplierProof"
+    },
+    "source_build_turret_warmup_state_input.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "godot_symbol": "source_build_turret_warmup_state_input.warmup",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.warmup()",
+      "java_expr": "            return warmup;",
+      "rule": "The build-tower warmup field (BuildTurret.java:254-255): the BuildTurretBuild field `public float warmup;` (BuildTurret.java:96), lerped by updateTile every tick (`warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);`, BuildTurret.java:136-137), returned whole -- no clamp, no floor.",
+      "tests": [
+        "test_c07_build_turret_warmup_registration",
+        "test_all_c07_build_turret_warmup_input_evidence_is_exact",
+        "test_build_turret_warmup_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupProof"
+    },
+    "source_build_turret_warmup_state_result.warmup": {
+      "status": "source-backed",
+      "godot_owner": "SourceBuildTurretBuildState.source_build_turret_warmup_state",
+      "godot_symbol": "source_build_turret_warmup_state_result.warmup",
+      "java_source": "core/src/mindustry/world/blocks/defense/BuildTurret.java",
+      "java_method": "BuildTurretBuild.warmup()",
+      "java_expr": "            return warmup;",
+      "rule": "The warmup value (BuildTurret.java:254-255): `warmup` returned whole -- 0 stays 0.0, 1.5 passes through (efficiency > 1 is not clamped), a negative value passes through (no Math.min/max here).",
+      "tests": [
+        "test_c07_build_turret_warmup_registration",
+        "test_all_c07_build_turret_warmup_input_evidence_is_exact",
+        "test_build_turret_warmup_state",
+        "test_reference_graph_and_actual_c07_build_turret_warmup"
+      ],
+      "runtime_proof": "/root/C07BuildTurretWarmupProof"
     }
   },
   "version": 1
