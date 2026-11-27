@@ -685,6 +685,8 @@ nhãn slot — số thật cấp lúc spawn từ allocations.json.
     Scene tới Windows theo slice commit `f730c6a6`. Chưa chạy trên Windows Godot.
   - [ ] N2485 `C07BuildTurretSenseObjectProof` — Linux GREEN 2026-11-27 ~15:24 (8 key). First commit: 19f25787.
     Scene tới Windows theo slice commit `19f25787`. Chưa chạy trên Windows Godot.
+  - [ ] N2486 `C07BaseTurretEstimateDpsProof` — Linux GREEN 2026-11-27 ~18:10 (8 key). First commit: e7591db1.
+    Scene tới Windows theo slice commit `e7591db1`. Chưa chạy trên Windows Godot.
   - [ ] N2463 `C07TeamCompareToProof` — Linux GREEN 2026-11-25 ~03:51 (8 key).
     Scene tới Windows theo slice commit `d508da77`. Chưa chạy trên Windows Godot.
   - [ ] N2462 `C07RulesUnitDamageProof` — Linux GREEN 2026-11-25 ~01:20 (8 key).

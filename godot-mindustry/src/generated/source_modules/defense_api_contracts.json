@@ -10482,6 +10482,26 @@
       "rule": "Source-backed BaseTurretBuild.status() state from BaseTurret.java.",
       "return_type": "Dictionary"
     },
+    "SourceTurretBuildState.source_base_turret_estimate_dps_state": {
+      "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_base_turret_estimate_dps_state",
+      "status": "active",
+      "source_slice": "N2486",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "source_method": "BaseTurretBuild.estimateDps()",
+      "params": [],
+      "return_keys": [
+        "estimate_dps"
+      ],
+      "tests": [
+        "test_c07_base_turret_estimate_dps_registration",
+        "test_all_c07_base_turret_estimate_dps_input_evidence_is_exact",
+        "test_base_turret_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_base_turret_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BaseTurretEstimateDpsProof",
+      "rule": "Source-backed BaseTurretBuild.estimateDps() state from BaseTurret.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_reload_turret_ammo_reload_multiplier_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_reload_turret_ammo_reload_multiplier_state",
       "status": "active",

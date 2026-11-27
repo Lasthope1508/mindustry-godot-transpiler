@@ -3131,6 +3131,26 @@ static func source_base_turret_build_draw_select_state(x: float, y: float, range
 		dash_circle_called = true
 	return {"dash_circle_called": dash_circle_called, "center": Vector2(x, y), "radius": range_value, "color": team_color}
 
+# BaseTurretBuild.estimateDps() (BaseTurret.java:138-140):
+# `public float estimateDps(){`
+# `return 0f;`
+# `}`
+# on `public class BaseTurretBuild extends Building implements Ranged, RotBlock{`
+# (BaseTurret.java:113) in `public class BaseTurret extends Block{`
+# (BaseTurret.java:20). The override returns the CONSTANT 0f and
+# reads NO state: a BaseTurret has no ammo and no bullet, so there
+# is no DPS to compute. This is a different method from
+# TurretBuild.estimateDps() (N2301, Turret.java:740-745), the
+# child-class method that computes real DPS from shots / reload /
+# peekAmmo().estimateDps() / potentialEfficiency / timeScale --
+# a loaded turret gives a nonzero value there and 0.0 here.
+# NO driver tick line: estimateDps() is a read accessor the RTS
+# AI calls (RtsAI.java:336, `dps[0] += t.estimateDps();`), not
+# a per-tick write (the N2244/N2249 precedent); the AI caller
+# waits for its own slice.
+static func source_base_turret_estimate_dps_state() -> Dictionary:
+	return {"estimate_dps": 0.0}
+
 # BaseTurretBuild.status() (BaseTurret.java:143-145):
 # `public BlockStatus status() {`
 # `return (activationTimer <= 0)? super.status() : BlockStatus.inactive;`

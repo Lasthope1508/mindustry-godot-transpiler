@@ -83009,6 +83009,25 @@
       ],
       "runtime_proof": "/root/C07BuildTurretSenseObjectProof",
       "rule": "Source-backed BuildTurretBuild.senseObject() state from BuildTurret.java + UnitComp.java + BuildingComp.java + LAccess.java."
+    },
+    "SourceTurretBuildState.source_base_turret_estimate_dps_state": {
+      "status": "active",
+      "source_slice": "N2486",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "source_method": "BaseTurretBuild.estimateDps()",
+      "params": [],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "estimate_dps"
+      ],
+      "tests": [
+        "test_c07_base_turret_estimate_dps_registration",
+        "test_all_c07_base_turret_estimate_dps_input_evidence_is_exact",
+        "test_base_turret_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_base_turret_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BaseTurretEstimateDpsProof",
+      "rule": "Source-backed BaseTurretBuild.estimateDps() state from BaseTurret.java."
     }
   },
   "policy": {

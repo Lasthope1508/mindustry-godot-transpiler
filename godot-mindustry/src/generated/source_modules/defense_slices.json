@@ -5566,6 +5566,23 @@
       ],
       "runtime_proof": "/root/C07BuildTurretSenseObjectProof"
     },
+    "N2486": {
+      "canonical_ledger": "source_slice_ledger.N2486",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurretBuild.estimateDps()",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_estimate_dps_state",
+      "source_symbols": [
+        "source_base_turret_estimate_dps_state_result.estimate_dps"
+      ],
+      "tests": [
+        "test_c07_base_turret_estimate_dps_registration",
+        "test_all_c07_base_turret_estimate_dps_input_evidence_is_exact",
+        "test_base_turret_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_base_turret_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BaseTurretEstimateDpsProof"
+    },
     "N2523": {
       "canonical_ledger": "source_slice_ledger.N2523",
       "status": "done",

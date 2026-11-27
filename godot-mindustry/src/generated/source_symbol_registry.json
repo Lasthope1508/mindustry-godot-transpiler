@@ -191080,6 +191080,22 @@
         "test_reference_graph_and_actual_c07_build_turret_sense_object"
       ],
       "runtime_proof": "/root/C07BuildTurretSenseObjectProof"
+    },
+    "source_base_turret_estimate_dps_state_result.estimate_dps": {
+      "status": "source-backed",
+      "godot_owner": "SourceTurretBuildState.source_base_turret_estimate_dps_state",
+      "godot_symbol": "source_base_turret_estimate_dps_state_result.estimate_dps",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "BaseTurretBuild.estimateDps()",
+      "java_expr": "            return 0f;",
+      "rule": "The estimated DPS (BaseTurret.java:138-140, `return 0f;`): the BaseTurretBuild override returns the constant 0f and reads no ammo, no reload, no efficiency -- a BaseTurret has no ammo and no bullet, so there is no DPS to compute. It must NOT compute real DPS like the child TurretBuild.estimateDps() (N2301, Turret.java:740-745), which gives a nonzero value for a loaded turret.",
+      "tests": [
+        "test_c07_base_turret_estimate_dps_registration",
+        "test_all_c07_base_turret_estimate_dps_input_evidence_is_exact",
+        "test_base_turret_estimate_dps_state",
+        "test_reference_graph_and_actual_c07_base_turret_estimate_dps"
+      ],
+      "runtime_proof": "/root/C07BaseTurretEstimateDpsProof"
     }
   },
   "version": 1

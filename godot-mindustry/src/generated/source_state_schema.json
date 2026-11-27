@@ -265040,6 +265040,25 @@
       },
       "runtime_proof": "/root/C07BuildTurretSenseObjectProof",
       "rule": "Source-backed BuildTurretBuild.senseObject() state from BuildTurret.java + UnitComp.java + BuildingComp.java + LAccess.java."
+    },
+    "source_base_turret_estimate_dps_state_result": {
+      "status": "active",
+      "owner": "SourceTurretBuildState.source_base_turret_estimate_dps_state",
+      "source_slice": "N2486",
+      "keys": {
+        "estimate_dps": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_expr": "            return 0f;",
+          "rule": "The estimated DPS (BaseTurret.java:138-140, `return 0f;`): the BaseTurretBuild override returns the constant 0f and reads no ammo, no reload, no efficiency -- a BaseTurret has no ammo and no bullet, so there is no DPS to compute. It must NOT compute real DPS like the child TurretBuild.estimateDps() (N2301, Turret.java:740-745), which gives a nonzero value for a loaded turret.",
+          "used_by": [
+            "SourceTurretBuildState.source_base_turret_estimate_dps_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07BaseTurretEstimateDpsProof",
+      "rule": "Source-backed BaseTurretBuild.estimateDps() state from BaseTurret.java."
     }
   },
   "version": 1
