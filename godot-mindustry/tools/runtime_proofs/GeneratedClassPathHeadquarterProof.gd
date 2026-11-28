@@ -14,7 +14,7 @@ func _ready() -> void:
 	var turret_lookup := source_generated_class_path_headquarter.lookup_by_generated_path(source_turret_source_text_state.SOURCE_TURRET_GENERATED_CLASS)
 	var consume_lookup := source_generated_class_path_headquarter.lookup_by_constant("SOURCE_CONSUME_GENERATED_CLASS")
 	var proof := {
-		"entry_count": 53,
+		"entry_count": 54,
 		"runtime_entry_count": int(registry_state.get("entry_count", 0)),
 		"owner_count": int(registry_state.get("owner_count", 0)),
 		"generated_path_count": int(registry_state.get("generated_path_count", 0)),

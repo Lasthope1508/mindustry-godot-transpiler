@@ -9,7 +9,18 @@ const source_drill_production_runtime_state_script := preload("res://src/game/So
 const source_ssot_accessor_runtime_state := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const runtime_proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
 
+class FakeFactoryCatalog extends RefCounted:
+	func get_many(_type_name: String) -> Array:
+		return []
+
+	func get_by_id(_id: String) -> Variant:
+		return null
+
 class FakeFactoryGame extends RefCounted:
+	var content_catalog := FakeFactoryCatalog.new()
+	var placed_blocks: Dictionary = {}
+	var placed_block_origins: Dictionary = {}
+	var power_graph_update: Dictionary = {}
 	var drill_dump_timer := 0.0
 	var transport_progress := 0.25
 	var drill_output_item_id := "copper"
@@ -104,6 +115,15 @@ class FakeFactoryGame extends RefCounted:
 
 	func drill_last_speed_at_cell(_x: int, _y: int) -> float:
 		return 0.0
+
+	func block_sprite_at_cell(_cell: Vector2i) -> Variant:
+		return null
+
+	func cell_key(cell: Vector2i) -> String:
+		return "%d,%d" % [cell.x, cell.y]
+
+	func power_graph_role_for_block(_block: Variant) -> Dictionary:
+		return {}
 
 	func simulate_factory(_seconds: float) -> void:
 		pass

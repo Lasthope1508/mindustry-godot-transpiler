@@ -111,6 +111,10 @@ func _ready() -> void:
 		source_playable_scenario_defaults.INITIAL_BUILD_ROLE_CONVEYOR,
 		source_playable_scenario_defaults.INITIAL_BUILD_ROLE_CORE,
 		source_playable_scenario_defaults.INITIAL_BUILD_ROLE_DUO,
+		source_playable_scenario_defaults.INITIAL_BUILD_ROLE_SOLAR_PANEL,
+		source_playable_scenario_defaults.INITIAL_BUILD_ROLE_BATTERY,
+		source_playable_scenario_defaults.INITIAL_BUILD_ROLE_LANCER,
+		source_playable_scenario_defaults.INITIAL_BUILD_ROLE_MECHANICAL_PUMP,
 	]
 	var expected_keys: Array[String] = [
 		source_playable_scenario_defaults.BLOCK_MECHANICAL_DRILL,
@@ -118,7 +122,15 @@ func _ready() -> void:
 		source_playable_scenario_defaults.BLOCK_CONVEYOR,
 		source_playable_scenario_defaults.BLOCK_CORE_SHARD,
 		source_playable_scenario_defaults.BLOCK_DUO,
+		source_playable_scenario_defaults.BLOCK_SOLAR_PANEL,
+		source_playable_scenario_defaults.BLOCK_BATTERY,
+		source_playable_scenario_defaults.BLOCK_LANCER,
+		source_playable_scenario_defaults.BLOCK_MECHANICAL_PUMP,
 	]
+	var conduit_count := source_playable_scenario_defaults.conduit_cells().size()
+	for _i in range(conduit_count):
+		expected_roles.append(source_playable_scenario_defaults.INITIAL_BUILD_ROLE_CONDUIT)
+		expected_keys.append(source_playable_scenario_defaults.BLOCK_CONDUIT)
 	var registry_state := source_ssot_accessor_runtime_state.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceWorldInitialBuildRuntimeState",
@@ -188,11 +200,11 @@ func _ready() -> void:
 	} == expected_build_world_constants,
 		"roles_match": roles == expected_roles,
 		"keys_match": keys == expected_keys,
-		"block_count_matches": int(state.get(source_world_initial_build_runtime_state.KEY_BLOCK_COUNT, -1)) == placements.size() and placements.size() == 5,
+		"block_count_matches": int(state.get(source_world_initial_build_runtime_state.KEY_BLOCK_COUNT, -1)) == placements.size() and placements.size() == expected_roles.size(),
 		"conveyor_count_matches": int(state.get(source_world_initial_build_runtime_state.KEY_CONVEYOR_COUNT, -1)) == conveyor_cells.size(),
 		"path_point_count_matches": int(state.get(source_world_initial_build_runtime_state.KEY_PATH_POINT_COUNT, -1)) == path_points_input.size(),
 		"game_path_points_match": game_path_points == source_playable_scenario_defaults.path_points(fake_game.tile_size),
-		"game_plan_matches": int(game_state.get(source_world_initial_build_runtime_state.KEY_CONVEYOR_COUNT, -1)) == source_playable_scenario_defaults.conveyor_cells().size() and int(game_state.get(source_world_initial_build_runtime_state.KEY_PATH_POINT_COUNT, -1)) == game_path_points.size() and game_placements.size() == source_playable_scenario_defaults.conveyor_cells().size() + 3,
+		"game_plan_matches": int(game_state.get(source_world_initial_build_runtime_state.KEY_CONVEYOR_COUNT, -1)) == source_playable_scenario_defaults.conveyor_cells().size() and int(game_state.get(source_world_initial_build_runtime_state.KEY_PATH_POINT_COUNT, -1)) == game_path_points.size() and game_placements.size() == source_playable_scenario_defaults.conveyor_cells().size() + 7 + conduit_count,
 		"source_owner_matches": str(state.get(source_world_initial_build_runtime_state.KEY_SOURCE_OWNER, "")) == source_runtime_owner_registry.PORT_GAME_SOURCE_WORLD_INITIAL_BUILD_RUNTIME_STATE,
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),

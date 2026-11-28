@@ -23,6 +23,19 @@ static func load_textures(game: Object) -> void:
 		if unit.has_texture():
 			textures["unit:" + unit.id] = load_png_texture(unit.texture_path)
 
+static func runtime_textures_for_key(game: Object, key: String) -> Dictionary:
+	var textures_value = game.get("textures")
+	if not (textures_value is Dictionary):
+		return {}
+	var textures: Dictionary = textures_value
+	if not textures.has(key):
+		var content_catalog = game.get("content_catalog")
+		if content_catalog != null:
+			var block = content_catalog.get_by_id(key)
+			if block != null and block.has_texture():
+				textures[key] = block_texture(game, block)
+	return textures
+
 static func block_from_sprite(game: Object, sprite) -> Variant:
 	if game.get("content_catalog") == null:
 		return null

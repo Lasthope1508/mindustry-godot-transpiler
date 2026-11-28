@@ -41,12 +41,12 @@ func block_texture(block) -> Texture2D:
 	return source_texture_runtime_state.block_texture(self, block)
 
 func add_sprite(parent: Node, key: String, pos: Vector2) -> Sprite2D:
-	var runtime_textures: Dictionary = get("textures")
+	var runtime_textures: Dictionary = source_texture_runtime_state.runtime_textures_for_key(self, key)
 	var runtime_tile_size := int(get("tile_size"))
 	return source_texture_runtime_state.add_sprite(parent, runtime_textures, key, pos, runtime_tile_size)
 
 func add_source_tile_batch(parent: Node, key: String, cells: Array) -> Node:
-	var runtime_textures: Dictionary = get("textures")
+	var runtime_textures: Dictionary = source_texture_runtime_state.runtime_textures_for_key(self, key)
 	var runtime_tile_size := int(get("tile_size"))
 	return source_texture_runtime_state.add_source_tile_batch(parent, runtime_textures, key, cells, runtime_tile_size)
 

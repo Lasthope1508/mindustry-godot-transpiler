@@ -4147,7 +4147,7 @@ class PlayableManifestTests(unittest.TestCase):
         self._assert_runtime_proof_uses_canonical_finalizer(proof_source, "GeneratedClassPathHeadquarterProof")
         self.assertIn('const source_generated_class_path_headquarter := preload("res://src/game/SourceGeneratedClassPathHeadquarter.gd")', proof_source)
         self.assertIn("GENERATED_CLASS_PATH_HEADQUARTER_PROOF", proof_source)
-        self.assertIn('"entry_count": 53', proof_source)
+        self.assertIn('"entry_count": 54', proof_source)
 
     def _port_game_building_display_configure_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

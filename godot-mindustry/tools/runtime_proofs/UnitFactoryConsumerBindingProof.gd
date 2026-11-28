@@ -7,6 +7,8 @@ const liquid_module_state := preload("res://src/game/SourceLiquidModuleState.gd"
 const content_registry_state := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const registry := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const proof_state := preload("res://tools/runtime_proofs/RuntimeProofState.gd")
+const placed_power_state := preload("res://src/game/SourcePlacedPowerGraphState.gd")
+const scenario_defaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
 
 
 func _ready() -> void:
@@ -30,6 +32,13 @@ func _ready() -> void:
 	proof["unit_assembler_is_unit_assembler"] = String(blocks_by_id["tank-assembler"].implementation) == "UnitAssembler"
 	var liquid_catalog: Dictionary = content_registry_state.source_liquid_catalog_state(catalog)
 	var cyanogen_id: int = int(liquid_catalog["liquid_id_by_name"].get("cyanogen", -1))
+	# N2167 reads live power.status (ConsumePower.java:39). Supply
+	# the graph so these consumer-binding checks exercise powered machines,
+	# as in FactoryConsumerBindingProof; do not override factory efficiency.
+	var reactor := Sprite2D.new()
+	game.add_child(reactor)
+	game.call("record_placed_block", reactor, blocks_by_id["thorium-reactor"], Vector2i(55, 7))
+	placed_power_state.source_battery_set_power_status_for_cell_state(game, scenario_defaults.BATTERY_POS, 1.0)
 
 	# --- the three factories are placed live, and the N2109 frame is
 	# bound ON PLACEMENT (Block.newBuilding(), Block.java:1002). ---
@@ -227,5 +236,5 @@ func _ready() -> void:
 	proof["one_headquarter_per_ssot"] = state_registry.get("one_headquarter_per_ssot", false)
 	proof["matches"] = proof.values().all(func(value): return value == true)
 	proof_state.write_proof("UnitFactoryConsumerBindingProof", proof)
-	if "--headless" in OS.get_cmdline_args():
-		get_tree().quit(proof_state.exit_code(proof))
+	await get_tree().process_frame
+	get_tree().quit(proof_state.exit_code(proof))

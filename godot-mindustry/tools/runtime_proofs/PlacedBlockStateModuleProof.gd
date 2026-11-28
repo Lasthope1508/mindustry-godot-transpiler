@@ -23,13 +23,8 @@ func _ready() -> void:
 	sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_MAX_HEALTH_META_KEY, 5.0)
 	sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_TIME_SCALE_META_KEY, 2.0)
 	sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_TIME_SCALE_DURATION_META_KEY, 5.0)
-	placed_block_origins = {"cell": sprite}
-	var cell_sprite := Sprite2D.new()
-	cell_sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_HEALTH_META_KEY, 4.0)
-	cell_sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_MAX_HEALTH_META_KEY, 5.0)
-	cell_sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_TIME_SCALE_META_KEY, 2.0)
-	cell_sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_TIME_SCALE_DURATION_META_KEY, 5.0)
-	placed_blocks = {Vector2i.ZERO: cell_sprite}
+	placed_block_origins = {"1,2": Vector2i(1, 2)}
+	placed_blocks = {"1,2": sprite}
 	var health := source_placed_block_state.health(sprite)
 	var damaged := source_placed_block_state.damaged(sprite, source_block_defaults.HEALTH_DAMAGED_EPSILON)
 	var damage_matches := source_placed_block_state.damage_sprite(sprite, 1.5) == 2.5 and source_placed_block_state.health(sprite) == 2.5
@@ -41,6 +36,12 @@ func _ready() -> void:
 	var time_scale_decay_matches := source_placed_block_state.time_scale(sprite, source_block_defaults.TIME_SCALE_DEFAULT) == 2.0 and source_placed_block_state.time_scale_duration(sprite) == 4.0
 	var step_state := source_placed_block_state.game_step_time_scales(self, 1.0 / 60.0)
 	var step_matches := str(step_state.get("last_overdrive_projector_boosted_block_id", "")) == "router" and float(step_state.get("time_scale", 0.0)) == 2.0 and float(step_state.get("time_scale_duration", 0.0)) == 3.0
+	var cell_sprite := Sprite2D.new()
+	cell_sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_HEALTH_META_KEY, 4.0)
+	cell_sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_MAX_HEALTH_META_KEY, 5.0)
+	cell_sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_TIME_SCALE_META_KEY, 2.0)
+	cell_sprite.set_meta(source_placed_block_state.SOURCE_BLOCK_TIME_SCALE_DURATION_META_KEY, 5.0)
+	placed_blocks[Vector2i.ZERO] = cell_sprite
 	var cell_health := source_placed_block_state.game_health_at_cell(self, 0, 0)
 	var cell_time_scale := source_placed_block_state.game_time_scale_at_cell(self, 0, 0)
 	var cell_time_scale_duration := source_placed_block_state.game_time_scale_duration_at_cell(self, 0, 0)
@@ -68,6 +69,9 @@ func _ready() -> void:
 	}
 	proof["matches"] = health == 4.0 and damaged and damage_matches and repair_matches and game_initialize_matches and time_scale_decay_matches and step_matches and cell_health_matches and cell_time_scale_matches and cell_time_scale_duration_matches and cell_damage_matches and proof["registry_valid"] and proof["one_headquarter_per_ssot"]
 	runtime_proof_state.write_proof("PlacedBlockStateModuleProof", proof)
+	sprite.free()
+	cell_sprite.free()
+	initialized_sprite.free()
 	await get_tree().process_frame
 	get_tree().quit(runtime_proof_state.exit_code(proof))
 
@@ -78,10 +82,10 @@ func _proof_building_time_scale_decay_state(current_time_scale: float, current_d
 	}
 
 func _proof_block_time_scale_at_cell(_x: int, _y: int) -> float:
-	return source_placed_block_state.time_scale(placed_block_origins.get("cell"), source_block_defaults.TIME_SCALE_DEFAULT)
+	return source_placed_block_state.time_scale(placed_blocks.get("1,2"), source_block_defaults.TIME_SCALE_DEFAULT)
 
 func _proof_block_time_scale_duration_at_cell(_x: int, _y: int) -> float:
-	return source_placed_block_state.time_scale_duration(placed_block_origins.get("cell"))
+	return source_placed_block_state.time_scale_duration(placed_blocks.get("1,2"))
 
 func block_sprite_at_cell(cell: Vector2i):
 	return placed_blocks.get(cell)
