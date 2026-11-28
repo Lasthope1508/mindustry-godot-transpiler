@@ -482,6 +482,48 @@ static func source_team_cheating_state(rules_state: Variant, team_id: int) -> Di
 	return {"cheating": cheat}
 
 
+# TeamComp.core() — TeamComp.java:27-29:
+#     @Nullable
+#     public CoreBuild core(){
+#         return team.core();
+#     }
+# A pure delegate: the callee Team.core()
+# (Team.java:88-90, `return data().core();`) is
+# already ported (N2450,
+# SourceTeamsRuntimeState.source_team_state, whose
+# `core` result is the first core of the team's
+# data or null), so its result arrives as the
+# precomputed core input (the precomputed-input
+# precedent: N2477 buildRotation takes the
+# precomputed unit.rotation(), N2488 coloredName
+# takes the precomputed localized(), N2489
+# closestCore and N2490 closestEnemyCore take the
+# precomputed callee result). The delegate never
+# re-runs the data().core() lookup and never
+# touches the team's cores -- the liveness
+# first-core-or-null lives in N2450 (via N2374
+# TeamData.core). The @Nullable return passes
+# through whole: null when the team has no core,
+# exactly as the callee returns it -- no default
+# core, no empty-dict fallback, no guard. The
+# `x` / `y` / `team` of the call are the entity's
+# own fields (`@Import float x, y;`
+# TeamComp.java:13, `Team team = Team.derelict;`
+# :15), so they arrive as evidence inputs (team
+# by id, the N2099 cheating precedent). Java
+# order: core() (:27-29) comes before
+# closestCore() (:31-34), so this function sits
+# right before source_team_comp_closest_core_state
+# (inFogTo :21-23 is still unported). The
+# signature `public CoreBuild core(){` also
+# appears in N2374 (TeamData.core) and N2450
+# (Team.core) -- a generic name collision only,
+# the bodies are different methods of different
+# classes.
+static func source_team_comp_core_state(x: float, y: float, team_id: int, core: Variant) -> Dictionary:
+	return {"core": core}
+
+
 # TeamComp.closestCore() — TeamComp.java:31-34:
 #     @Nullable
 #     public CoreBuild closestCore(){

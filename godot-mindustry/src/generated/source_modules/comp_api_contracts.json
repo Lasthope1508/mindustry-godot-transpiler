@@ -18563,6 +18563,47 @@
       "rule": "Source-backed TeamComp.closestEnemyCore() state from TeamComp.java.",
       "return_type": "Dictionary"
     },
+    "SourceRulesRuntimeState.source_team_comp_core_state": {
+      "canonical_contract": "source_api_contracts.SourceRulesRuntimeState.source_team_comp_core_state",
+      "status": "active",
+      "source_slice": "N2491",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "source_method": "TeamComp.core()",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_team_comp_core_state_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_team_comp_core_state_input.y"
+        },
+        {
+          "name": "team_id",
+          "type": "int",
+          "schema": "source_team_comp_core_state_input.team_id"
+        },
+        {
+          "name": "core",
+          "type": "Variant",
+          "schema": "source_team_comp_core_state_input.core"
+        }
+      ],
+      "return_keys": [
+        "core"
+      ],
+      "tests": [
+        "test_c07_team_comp_core_registration",
+        "test_all_c07_team_comp_core_input_evidence_is_exact",
+        "test_team_comp_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompCoreProof",
+      "rule": "Source-backed TeamComp.core() state from TeamComp.java.",
+      "return_type": "Dictionary"
+    },
     "SourceTurretBuildState.source_building_comp_sense_camera_state": {
       "canonical_contract": "source_api_contracts.SourceTurretBuildState.source_building_comp_sense_camera_state",
       "status": "active",

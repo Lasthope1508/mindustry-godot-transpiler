@@ -191336,6 +191336,86 @@
         "test_reference_graph_and_actual_c07_team_comp_closest_enemy_core"
       ],
       "runtime_proof": "/root/C07TeamCompClosestEnemyCoreProof"
+    },
+    "source_team_comp_core_state_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_core_state",
+      "godot_symbol": "source_team_comp_core_state_input.x",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.core()",
+      "java_expr": "    @Import float x, y;",
+      "rule": "The query x (TeamComp.java:13, `    @Import float x, y;`): the entity position x -- evidence of the calling entity, the N2099 cheating precedent; team.core() itself takes no position, the fields pin which entity's team is queried.",
+      "tests": [
+        "test_c07_team_comp_core_registration",
+        "test_all_c07_team_comp_core_input_evidence_is_exact",
+        "test_team_comp_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompCoreProof"
+    },
+    "source_team_comp_core_state_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_core_state",
+      "godot_symbol": "source_team_comp_core_state_input.y",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.core()",
+      "java_expr": "    @Import float x, y;",
+      "rule": "The query y (TeamComp.java:13, `    @Import float x, y;`): the entity position y -- evidence of the calling entity, the N2099 cheating precedent; team.core() itself takes no position, the fields pin which entity's team is queried.",
+      "tests": [
+        "test_c07_team_comp_core_registration",
+        "test_all_c07_team_comp_core_input_evidence_is_exact",
+        "test_team_comp_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompCoreProof"
+    },
+    "source_team_comp_core_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_core_state",
+      "godot_symbol": "source_team_comp_core_state_input.team_id",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.core()",
+      "java_expr": "    Team team = Team.derelict;",
+      "rule": "The team id (TeamComp.java:15, `    Team team = Team.derelict;`, default derelict): the entity team whose core() is called -- by id, the N2099 cheating precedent; evidence of the call.",
+      "tests": [
+        "test_c07_team_comp_core_registration",
+        "test_all_c07_team_comp_core_input_evidence_is_exact",
+        "test_team_comp_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompCoreProof"
+    },
+    "source_team_comp_core_state_input.core": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_core_state",
+      "godot_symbol": "source_team_comp_core_state_input.core",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.core()",
+      "java_expr": "        return team.core();",
+      "rule": "The precomputed callee result (TeamComp.java:28, `        return team.core();`): whatever Team.core() returns -- the team's CoreBuild ref, or null (the @Nullable return, TeamComp.java:26) when the team has no core. The value arrives already computed (N2450 owns the data().core() lookup); this slice never re-derives it.",
+      "tests": [
+        "test_c07_team_comp_core_registration",
+        "test_all_c07_team_comp_core_input_evidence_is_exact",
+        "test_team_comp_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompCoreProof"
+    },
+    "source_team_comp_core_state_result.core": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_core_state",
+      "godot_symbol": "source_team_comp_core_state_result.core",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.core()",
+      "java_expr": "        return team.core();",
+      "rule": "The team core (TeamComp.java:28): the precomputed callee result passed through whole -- a CoreBuild ref, or null (the @Nullable return) when the team has no core; no default, no fallback, no guard.",
+      "tests": [
+        "test_c07_team_comp_core_registration",
+        "test_all_c07_team_comp_core_input_evidence_is_exact",
+        "test_team_comp_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompCoreProof"
     }
   },
   "version": 1

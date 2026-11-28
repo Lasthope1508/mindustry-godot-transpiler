@@ -5653,6 +5653,27 @@
       ],
       "runtime_proof": "/root/C07TeamCompClosestEnemyCoreProof"
     },
+    "N2491": {
+      "canonical_ledger": "source_slice_ledger.N2491",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.core()",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_core_state",
+      "source_symbols": [
+        "source_team_comp_core_state_input.x",
+        "source_team_comp_core_state_input.y",
+        "source_team_comp_core_state_input.team_id",
+        "source_team_comp_core_state_input.core",
+        "source_team_comp_core_state_result.core"
+      ],
+      "tests": [
+        "test_c07_team_comp_core_registration",
+        "test_all_c07_team_comp_core_input_evidence_is_exact",
+        "test_team_comp_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompCoreProof"
+    },
     "N2506": {
       "canonical_ledger": "source_slice_ledger.N2506",
       "status": "done",
