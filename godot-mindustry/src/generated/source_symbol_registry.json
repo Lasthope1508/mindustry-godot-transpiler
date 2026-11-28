@@ -191592,6 +191592,54 @@
         "test_reference_graph_and_actual_c07_team_entry_get_content_type"
       ],
       "runtime_proof": "/root/C07TeamEntryGetContentTypeProof"
+    },
+    "source_team_localized_state_input.name": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_localized_state",
+      "godot_symbol": "source_team_localized_state_input.name",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.localized()",
+      "java_expr": "    public String name;",
+      "rule": "The team name field (Team.java:25, `public String name;`): the key stem (\"team.\" + name + \".name\") and the fallback value when the bundle has no entry for the key.",
+      "tests": [
+        "test_c07_team_localized_registration",
+        "test_all_c07_team_localized_input_evidence_is_exact",
+        "test_team_localized_state",
+        "test_reference_graph_and_actual_c07_team_localized"
+      ],
+      "runtime_proof": "/root/C07TeamLocalizedProof"
+    },
+    "source_team_localized_state_input.bundle_value": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_localized_state",
+      "godot_symbol": "source_team_localized_state_input.bundle_value",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.localized()",
+      "java_expr": "        return Core.bundle.get(\"team.\" + name + \".name\", name);",
+      "rule": "The precomputed raw bundle lookup result for the key \"team.\" + name + \".name\" (Team.java:136, `return Core.bundle.get(\"team.\" + name + \".name\", name);`): the bundle value when the key exists, or null (the getOrNull-equivalent) when it does not -- Core.bundle is NOT ported here (the N1271 ability_localized.bundle_get precedent), so the lookup arrives already computed and this slice never re-derives it.",
+      "tests": [
+        "test_c07_team_localized_registration",
+        "test_all_c07_team_localized_input_evidence_is_exact",
+        "test_team_localized_state",
+        "test_reference_graph_and_actual_c07_team_localized"
+      ],
+      "runtime_proof": "/root/C07TeamLocalizedProof"
+    },
+    "source_team_localized_state_result.localized": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_localized_state",
+      "godot_symbol": "source_team_localized_state_result.localized",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.localized()",
+      "java_expr": "        return Core.bundle.get(\"team.\" + name + \".name\", name);",
+      "rule": "The localized name (Team.java:136): the bundle value when the key exists, else the team name -- I18NBundle.get(key, def) is `has(key) ? get(key) : def` (arc-core I18NBundle.java:412-414); only a missing key falls back to the name, an empty bundle value passes through.",
+      "tests": [
+        "test_c07_team_localized_registration",
+        "test_all_c07_team_localized_input_evidence_is_exact",
+        "test_team_localized_state",
+        "test_reference_graph_and_actual_c07_team_localized"
+      ],
+      "runtime_proof": "/root/C07TeamLocalizedProof"
     }
   },
   "version": 1

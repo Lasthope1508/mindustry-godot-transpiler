@@ -265506,6 +265506,54 @@
       },
       "runtime_proof": "/root/C07TeamEntryGetContentTypeProof",
       "rule": "Source-backed TeamEntry.getContentType() state from TeamEntry.java."
+    },
+    "source_team_localized_state_input": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_localized_state",
+      "source_slice": "N2494",
+      "keys": {
+        "name": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "    public String name;",
+          "rule": "The team name field (Team.java:25, `public String name;`): the key stem (\"team.\" + name + \".name\") and the fallback value when the bundle has no entry for the key.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_localized_state"
+          ]
+        },
+        "bundle_value": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "        return Core.bundle.get(\"team.\" + name + \".name\", name);",
+          "rule": "The precomputed raw bundle lookup result for the key \"team.\" + name + \".name\" (Team.java:136, `return Core.bundle.get(\"team.\" + name + \".name\", name);`): the bundle value when the key exists, or null (the getOrNull-equivalent) when it does not -- Core.bundle is NOT ported here (the N1271 ability_localized.bundle_get precedent), so the lookup arrives already computed and this slice never re-derives it.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_localized_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamLocalizedProof",
+      "rule": "Source-backed Team.localized() state from Team.java."
+    },
+    "source_team_localized_state_result": {
+      "status": "active",
+      "owner": "SourceTeamsRuntimeState.source_team_localized_state",
+      "source_slice": "N2494",
+      "keys": {
+        "localized": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/game/Team.java",
+          "java_expr": "        return Core.bundle.get(\"team.\" + name + \".name\", name);",
+          "rule": "The localized name (Team.java:136): the bundle value when the key exists, else the team name -- I18NBundle.get(key, def) is `has(key) ? get(key) : def` (arc-core I18NBundle.java:412-414); only a missing key falls back to the name, an empty bundle value passes through.",
+          "used_by": [
+            "SourceTeamsRuntimeState.source_team_localized_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamLocalizedProof",
+      "rule": "Source-backed Team.localized() state from Team.java."
     }
   },
   "version": 1

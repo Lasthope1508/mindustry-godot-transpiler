@@ -657,6 +657,25 @@ static func source_team_get_state(all_teams: Array, id: int) -> Dictionary:
 	return {"team": all_teams[wrapped_id], "wrapped_id": wrapped_id}
 
 
+static func source_team_localized_state(name: String, bundle_value: Variant) -> Dictionary:
+	# Team.localized (Team.java:135-137):
+	# `public String localized(){`
+	# `return Core.bundle.get("team." + name + ".name", name);`
+	# `}`
+	# Core.bundle.get(key, def) is I18NBundle.get (arc-core
+	# I18NBundle.java:412-414): `has(key) ? get(key) : def`
+	# for the key "team." + name + ".name". Core.bundle is
+	# NOT ported here, so the raw lookup result arrives as
+	# the precomputed bundle_value input (the
+	# getOrNull-equivalent: null when the key is absent;
+	# N1271 ability_localized.bundle_get precedent). Only
+	# a missing key falls back to the name -- an empty
+	# bundle value is a real value and passes through,
+	# never replaced by the name.
+	var localized: String = bundle_value if bundle_value != null else name
+	return {"localized": localized}
+
+
 static func source_team_colored_name_state(emoji: String, color_hex: String, localized_name: String) -> Dictionary:
 	# Team.coloredName (Team.java:139-141):
 	# `public String coloredName(){`

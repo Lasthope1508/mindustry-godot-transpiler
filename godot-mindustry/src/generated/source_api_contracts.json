@@ -83297,6 +83297,36 @@
       ],
       "runtime_proof": "/root/C07TeamEntryGetContentTypeProof",
       "rule": "Source-backed TeamEntry.getContentType() state from TeamEntry.java."
+    },
+    "SourceTeamsRuntimeState.source_team_localized_state": {
+      "status": "active",
+      "source_slice": "N2494",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "source_method": "Team.localized()",
+      "params": [
+        {
+          "name": "name",
+          "type": "String",
+          "schema": "source_team_localized_state_input.name"
+        },
+        {
+          "name": "bundle_value",
+          "type": "Variant",
+          "schema": "source_team_localized_state_input.bundle_value"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "localized"
+      ],
+      "tests": [
+        "test_c07_team_localized_registration",
+        "test_all_c07_team_localized_input_evidence_is_exact",
+        "test_team_localized_state",
+        "test_reference_graph_and_actual_c07_team_localized"
+      ],
+      "runtime_proof": "/root/C07TeamLocalizedProof",
+      "rule": "Source-backed Team.localized() state from Team.java."
     }
   },
   "policy": {

@@ -123123,6 +123123,38 @@
         "TeamEntry constructors TeamEntry(String, Team) (TeamEntry.java:11-14) and TeamEntry(Team) (TeamEntry.java:16-18) and the `public final Team team;` field (TeamEntry.java:10) are NOT in this slice: getContentType reads no field and takes no params; construction and the team field belong to later slices.",
         "The ContentType enum itself (ContentType.java:10-27, `team(\"teams\", TeamEntry.class)`) is NOT ported here as enum infra: getContentType returns the constant, modeled by its qualified Java name string \"ContentType.team\" (the N1319 precedent); the enum table, folderName \"teams\" and contentClass TeamEntry.class belong to later slices."
       ]
+    },
+    "N2494": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_class": "mindustry.game.Team",
+      "java_method": "Team.localized()",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_localized_state",
+      "exact_exprs": [
+        "public class Team implements Comparable<Team>, Senseable{",
+        "    public String name;",
+        "    public String localized(){",
+        "        return Core.bundle.get(\"team.\" + name + \".name\", name);"
+      ],
+      "source_symbols": [
+        "source_team_localized_state_input.name",
+        "source_team_localized_state_input.bundle_value",
+        "source_team_localized_state_result.localized"
+      ],
+      "tests": [
+        "test_c07_team_localized_registration",
+        "test_all_c07_team_localized_input_evidence_is_exact",
+        "test_team_localized_state",
+        "test_reference_graph_and_actual_c07_team_localized"
+      ],
+      "runtime_proof": "/root/C07TeamLocalizedProof",
+      "deferred_exprs": [
+        "TWIN-REGISTER (main-thread approval 2026-11-28 ~11:40, N2474 precedent): the body literal `return Core.bundle.get(\"team.\" + name + \".name\", name);` is already an exact_expr of N2488 (Team.coloredName quotes localized() as dependency evidence and defers it for its own slice) -- N2488 is the original owner of the shared literal; this slice ports localized() as its own GD function (SourceTeamsRuntimeState.source_team_localized_state).",
+        "The real Core.bundle lookup (I18NBundle, arc-core I18NBundle.java:412-414) is NOT ported here: the bundle_value input is the precomputed raw lookup result (the getOrNull-equivalent, null when the key is absent; the N1271 ability_localized.bundle_get precedent) -- a real bundle implementation waits for a later slice.",
+        "Team.localized() Windows Godot proof -- debt in GOAL.md section 5: the N2494 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "Team.activateUnitFactories() (Team.java:127) and Team.isAI() (Team.java:112) need a twin-register approval of their own (their body literals are exact_exprs of N2124) -- they are NOT in this slice and must not be taken as slots without that approval (the N2474 precedent).",
+        "Team.rules() (Team.java:88) needs a twin-register approval of its own (its body literal is an exact_expr of N2099/N2107) -- it is NOT in this slice."
+      ]
     }
   },
   "version": 1
