@@ -480,3 +480,34 @@ static func source_team_cheating_state(rules_state: Variant, team_id: int) -> Di
 		if not team_rules.is_empty():
 			cheat = bool(team_rules.get("cheat", source_rules_defaults.TEAM_CHEAT_DEFAULT))
 	return {"cheating": cheat}
+
+
+# TeamComp.closestCore() — TeamComp.java:31-34:
+#     @Nullable
+#     public CoreBuild closestCore(){
+#         return state.teams.closestCore(x, y, team);
+#     }
+# A pure delegate: the callee Teams.closestCore
+# (Teams.java:56-58, `return Geometry.findClosest(x, y,
+# get(team).cores);`) is already ported (N2392,
+# SourceTeamsRuntimeState.source_teams_closest_core_state),
+# so its result arrives as the precomputed closest_core
+# input (the precomputed-input precedent: N2477
+# buildRotation takes the precomputed unit.rotation(),
+# N2488 coloredName takes the precomputed localized()).
+# The delegate never re-runs the Geometry.findClosest
+# search and never touches the team's cores Array -- the
+# cores and the find_closest Callable live in N2392. The
+# @Nullable return passes through whole: null when no
+# core is near, exactly as the callee returns it -- no
+# default core, no empty-dict fallback, no guard. The
+# `x` / `y` / `team` of the call are the entity's own
+# fields (`@Import float x, y;` TeamComp.java:13, `Team
+# team = Team.derelict;` :15), so they arrive as
+# evidence inputs (team by id, the N2099 cheating
+# precedent). Java order: cheating() (:17-19) comes
+# before closestCore() (:31-34), so this function sits
+# right after source_team_cheating_state (inFogTo :21-23
+# and core() :27-29 are unported).
+static func source_team_comp_closest_core_state(x: float, y: float, team_id: int, closest_core: Variant) -> Dictionary:
+	return {"closest_core": closest_core}

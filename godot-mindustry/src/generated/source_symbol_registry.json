@@ -191112,6 +191112,150 @@
         "test_reference_graph_and_actual_c07_payload_turret_get_ammo_fraction"
       ],
       "runtime_proof": "/root/C07PayloadTurretGetAmmoFractionProof"
+    },
+    "source_team_colored_name_state_input.emoji": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_colored_name_state",
+      "godot_symbol": "source_team_colored_name_state_input.emoji",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.coloredName()",
+      "java_expr": "    public String emoji = \"\";",
+      "rule": "The emoji field (Team.java:23, `public String emoji = \"\";`, default \"\"): the icon-font glyph prefix, loaded from stringIcons (Fonts.java:210, 233) -- arrives as an explicit param, empty when the team has none.",
+      "tests": [
+        "test_c07_team_colored_name_registration",
+        "test_all_c07_team_colored_name_input_evidence_is_exact",
+        "test_team_colored_name_state",
+        "test_reference_graph_and_actual_c07_team_colored_name"
+      ],
+      "runtime_proof": "/root/C07TeamColoredNameProof"
+    },
+    "source_team_colored_name_state_input.color_hex": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_colored_name_state",
+      "godot_symbol": "source_team_colored_name_state_input.color_hex",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.coloredName()",
+      "java_expr": "    public final Color color = new Color();",
+      "rule": "The team color as its arc Color.toString() hex (Team.java:18, `public final Color color = new Color();`): the \"[#\" + color + \"]\" segment stringifies the Color (arc-core Color.java:769-779, RRGGBBAA, 8 hex chars) -- arrives as a precomputed hex string, not a Color object.",
+      "tests": [
+        "test_c07_team_colored_name_registration",
+        "test_all_c07_team_colored_name_input_evidence_is_exact",
+        "test_team_colored_name_state",
+        "test_reference_graph_and_actual_c07_team_colored_name"
+      ],
+      "runtime_proof": "/root/C07TeamColoredNameProof"
+    },
+    "source_team_colored_name_state_input.localized_name": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_colored_name_state",
+      "godot_symbol": "source_team_colored_name_state_input.localized_name",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.coloredName()",
+      "java_expr": "        return Core.bundle.get(\"team.\" + name + \".name\", name);",
+      "rule": "The precomputed localized() value (Team.java:136, `return Core.bundle.get(\"team.\" + name + \".name\", name);`): localized() itself is NOT ported here (needs Core.bundle infra) -- its value arrives as an explicit param (the precomputed-input precedent).",
+      "tests": [
+        "test_c07_team_colored_name_registration",
+        "test_all_c07_team_colored_name_input_evidence_is_exact",
+        "test_team_colored_name_state",
+        "test_reference_graph_and_actual_c07_team_colored_name"
+      ],
+      "runtime_proof": "/root/C07TeamColoredNameProof"
+    },
+    "source_team_colored_name_state_result.colored_name": {
+      "status": "source-backed",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_colored_name_state",
+      "godot_symbol": "source_team_colored_name_state_result.colored_name",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_method": "Team.coloredName()",
+      "java_expr": "        return emoji + \"[#\" + color + \"]\" + localized() + \"[]\";",
+      "rule": "The colored name (Team.java:140): emoji + \"[#\" + color + \"]\" + localized() + \"[]\" -- plain concatenation, no guard, no clamp, no escaping; an empty emoji contributes nothing and an empty localized leaves \"[#...][]\".",
+      "tests": [
+        "test_c07_team_colored_name_registration",
+        "test_all_c07_team_colored_name_input_evidence_is_exact",
+        "test_team_colored_name_state",
+        "test_reference_graph_and_actual_c07_team_colored_name"
+      ],
+      "runtime_proof": "/root/C07TeamColoredNameProof"
+    },
+    "source_team_comp_closest_core_state_input.x": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_closest_core_state",
+      "godot_symbol": "source_team_comp_closest_core_state_input.x",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.closestCore()",
+      "java_expr": "    @Import float x, y;",
+      "rule": "The query x (TeamComp.java:13, `    @Import float x, y;`): the entity position x passed straight to state.teams.closestCore -- evidence of the call, the search itself lives in the N2392 callee.",
+      "tests": [
+        "test_c07_team_comp_closest_core_registration",
+        "test_all_c07_team_comp_closest_core_input_evidence_is_exact",
+        "test_team_comp_closest_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_closest_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompClosestCoreProof"
+    },
+    "source_team_comp_closest_core_state_input.y": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_closest_core_state",
+      "godot_symbol": "source_team_comp_closest_core_state_input.y",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.closestCore()",
+      "java_expr": "    @Import float x, y;",
+      "rule": "The query y (TeamComp.java:13, `    @Import float x, y;`): the entity position y passed straight to state.teams.closestCore -- evidence of the call, the search itself lives in the N2392 callee.",
+      "tests": [
+        "test_c07_team_comp_closest_core_registration",
+        "test_all_c07_team_comp_closest_core_input_evidence_is_exact",
+        "test_team_comp_closest_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_closest_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompClosestCoreProof"
+    },
+    "source_team_comp_closest_core_state_input.team_id": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_closest_core_state",
+      "godot_symbol": "source_team_comp_closest_core_state_input.team_id",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.closestCore()",
+      "java_expr": "    Team team = Team.derelict;",
+      "rule": "The team id (TeamComp.java:15, `    Team team = Team.derelict;`, default derelict): the entity team passed to state.teams.closestCore -- by id, the N2099 cheating precedent; evidence of the call.",
+      "tests": [
+        "test_c07_team_comp_closest_core_registration",
+        "test_all_c07_team_comp_closest_core_input_evidence_is_exact",
+        "test_team_comp_closest_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_closest_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompClosestCoreProof"
+    },
+    "source_team_comp_closest_core_state_input.closest_core": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_closest_core_state",
+      "godot_symbol": "source_team_comp_closest_core_state_input.closest_core",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.closestCore()",
+      "java_expr": "        return state.teams.closestCore(x, y, team);",
+      "rule": "The precomputed callee result (TeamComp.java:33, `        return state.teams.closestCore(x, y, team);`): whatever Teams.closestCore returns -- the nearest CoreBuild ref, or null (the @Nullable return, TeamComp.java:31) when no core is near. The value arrives already computed (N2392 owns the search); this slice never re-derives it.",
+      "tests": [
+        "test_c07_team_comp_closest_core_registration",
+        "test_all_c07_team_comp_closest_core_input_evidence_is_exact",
+        "test_team_comp_closest_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_closest_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompClosestCoreProof"
+    },
+    "source_team_comp_closest_core_state_result.closest_core": {
+      "status": "source-backed",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_closest_core_state",
+      "godot_symbol": "source_team_comp_closest_core_state_result.closest_core",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.closestCore()",
+      "java_expr": "        return state.teams.closestCore(x, y, team);",
+      "rule": "The closest core (TeamComp.java:33): the precomputed callee result passed through whole -- a CoreBuild ref, or null (the @Nullable return) when no core is near; no default, no fallback, no guard.",
+      "tests": [
+        "test_c07_team_comp_closest_core_registration",
+        "test_all_c07_team_comp_closest_core_input_evidence_is_exact",
+        "test_team_comp_closest_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_closest_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompClosestCoreProof"
     }
   },
   "version": 1

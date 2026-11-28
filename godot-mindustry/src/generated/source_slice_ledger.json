@@ -122903,6 +122903,78 @@
         "PayloadTurretBuild.updateTile() (PayloadAmmoTurret.java:165-168, N2381, `totalAmmo = payloads.total();`) is NOT in this slice: updateTile refreshes the totalAmmo frame field -- this slice only reads the precomputed value as an explicit input, it never recomputes it from payloads.",
         "No maxAmmo zero guard is added because the upstream Java return expression has no guard (the N1181 deferred precedent): Java float division by zero yields Infinity, and GDScript float division by zero yields INF the same way."
       ]
+    },
+    "N2488": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/Team.java",
+      "java_class": "mindustry.game.Team",
+      "java_method": "Team.coloredName()",
+      "godot_owner": "SourceTeamsRuntimeState.source_team_colored_name_state",
+      "exact_exprs": [
+        "public class Team implements Comparable<Team>, Senseable{",
+        "    public final Color color = new Color();",
+        "    public String emoji = \"\";",
+        "    public String localized(){",
+        "        return Core.bundle.get(\"team.\" + name + \".name\", name);",
+        "    public String coloredName(){",
+        "        return emoji + \"[#\" + color + \"]\" + localized() + \"[]\";"
+      ],
+      "source_symbols": [
+        "source_team_colored_name_state_input.emoji",
+        "source_team_colored_name_state_input.color_hex",
+        "source_team_colored_name_state_input.localized_name",
+        "source_team_colored_name_state_result.colored_name"
+      ],
+      "tests": [
+        "test_c07_team_colored_name_registration",
+        "test_all_c07_team_colored_name_input_evidence_is_exact",
+        "test_team_colored_name_state",
+        "test_reference_graph_and_actual_c07_team_colored_name"
+      ],
+      "runtime_proof": "/root/C07TeamColoredNameProof",
+      "deferred_exprs": [
+        "Team.localized() (Team.java:135-137) is NOT in this slice: `Core.bundle.get(\"team.\" + name + \".name\", name)` needs the Core.bundle infra (the N1271 ability_localized.bundle_get precedent) -- this slice models the localized value as a precomputed input; localized() waits for its own slice (backup A of the C8 batch).",
+        "Team.coloredName() Windows Godot proof -- debt in GOAL.md section 5: the N2488 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "Team.activateUnitFactories() (Team.java:127) and Team.isAI() (Team.java:112) need a twin-register approval of their own (their body literals are exact_exprs of N2124) -- they are NOT in this slice and must not be taken as slots without that approval (the N2474 precedent).",
+        "Team.rules() (Team.java:88) needs a twin-register approval of its own (its body literal is an exact_expr of N2099/N2107) -- it is NOT in this slice.",
+        "The color input is the arc Color.toString() hex (RRGGBBAA, arc-core Color.java:769-779), NOT a Color object: the \"[#\" + color + \"]\" segment stringifies the field, so the GD function takes the precomputed hex string; no Color-to-hex conversion is done in this slice."
+      ]
+    },
+    "N2489": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_class": "mindustry.entities.comp.TeamComp",
+      "java_method": "TeamComp.closestCore()",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_closest_core_state",
+      "exact_exprs": [
+        "abstract class TeamComp implements Posc{",
+        "    @Import float x, y;",
+        "    Team team = Team.derelict;",
+        "    @Nullable",
+        "    public CoreBuild closestCore(){",
+        "        return state.teams.closestCore(x, y, team);"
+      ],
+      "source_symbols": [
+        "source_team_comp_closest_core_state_input.x",
+        "source_team_comp_closest_core_state_input.y",
+        "source_team_comp_closest_core_state_input.team_id",
+        "source_team_comp_closest_core_state_input.closest_core",
+        "source_team_comp_closest_core_state_result.closest_core"
+      ],
+      "tests": [
+        "test_c07_team_comp_closest_core_registration",
+        "test_all_c07_team_comp_closest_core_input_evidence_is_exact",
+        "test_team_comp_closest_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_closest_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompClosestCoreProof",
+      "deferred_exprs": [
+        "TeamComp.core() (TeamComp.java:27-29) is NOT in this slice: `return team.core();` delegates to Team.core(), already ported -- the thin delegate waits for its own slice (backup B of the C8 batch).",
+        "TeamComp.closestEnemyCore() (TeamComp.java:37-39) is NOT in this slice: `return state.teams.closestEnemyCore(x, y, team);` delegates to Teams.closestEnemyCore, already ported N2354 -- the sibling delegate waits for its own slice (N2490, the next slot of the C8 batch).",
+        "TeamComp.inFogTo(Team viewer) (TeamComp.java:21-23) is NOT in this slice: `return this.team != viewer && !fogControl.isVisible(viewer, x, y);` needs the fogControl.isVisible live check -- it waits for its own slice.",
+        "TeamComp.closestCore() Windows Godot proof -- debt in GOAL.md section 5: the N2489 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "Teams.closestCore (Teams.java:56-58) is the callee, already ported N2392: the closest_core input is the precomputed result of source_teams_closest_core_state -- the cores Array and the Geometry.findClosest Callable live in N2392 and are never re-implemented here; this slice passes the value through only."
+      ]
     }
   },
   "version": 1

@@ -657,6 +657,25 @@ static func source_team_get_state(all_teams: Array, id: int) -> Dictionary:
 	return {"team": all_teams[wrapped_id], "wrapped_id": wrapped_id}
 
 
+static func source_team_colored_name_state(emoji: String, color_hex: String, localized_name: String) -> Dictionary:
+	# Team.coloredName (Team.java:139-141):
+	# `public String coloredName(){`
+	# `return emoji + "[#" + color + "]" + localized() + "[]";`
+	# `}`
+	# Plain string concatenation: no guard, no clamp, no
+	# escaping. `emoji` is the `public String` field
+	# (Team.java:23, default ""); `color` is the `public
+	# final Color` field (Team.java:18) -- the "[#" +
+	# color + "]" segment stringifies it via arc
+	# Color.toString() (RRGGBBAA, 8 hex chars), so it
+	# arrives here as the precomputed color_hex string.
+	# localized() (Team.java:135-137) is NOT ported here
+	# (it needs Core.bundle) -- its value arrives as the
+	# precomputed localized_name input.
+	var colored_name: String = emoji + "[#" + color_hex + "]" + localized_name + "[]"
+	return {"colored_name": colored_name}
+
+
 static func source_team_compare_to_state(team_id: int, other_team_id: int) -> Dictionary:
 	# Team.compareTo (Team.java:159-162):
 	# `@Override`
