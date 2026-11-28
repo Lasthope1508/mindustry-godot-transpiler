@@ -27,5 +27,7 @@ func _ready() -> void:
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
 	print("NODE_BINDING_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
+	game.free()
+	await get_tree().process_frame
 	get_tree().quit(0)
 

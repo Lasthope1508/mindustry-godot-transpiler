@@ -1,0 +1,759 @@
+{
+  "runs": [
+    {
+      "name": "windows-20261127",
+      "base": "375736358640ef3d2e8db58bae4032be3e199b75",
+      "total": 368,
+      "passed": 368,
+      "native_only": 0
+    },
+    {
+      "name": "windows-20261127-latest",
+      "base": "5dd2907ce1569da48eb1d59f326996b536256dc2",
+      "total": 10,
+      "passed": 10,
+      "native_only": 0
+    },
+    {
+      "name": "windows-20261127-other",
+      "base": "5dd2907ce1569da48eb1d59f326996b536256dc2",
+      "total": 269,
+      "passed": 263,
+      "native_only": 56
+    },
+    {
+      "name": "windows-20261127-delta2",
+      "base": "e146d4af37647e23df89e109ddaa300c85674b79",
+      "total": 6,
+      "passed": 6,
+      "native_only": 0
+    },
+    {
+      "name": "windows-20261127-delta3",
+      "base": "5c67738e6cb51c242c35bcc59812f4228c183dc8",
+      "total": 5,
+      "passed": 5,
+      "native_only": 0
+    }
+  ],
+  "accepted_existing_windows": [
+    {
+      "scene": "AdjacentFactoryConsumerBindingProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/AdjacentFactoryConsumerBindingProof.gd",
+        "godot-mindustry/tools/runtime_proofs/AdjacentFactoryConsumerBindingProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceAdjacentFactoryBuildState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "AdjacentFactoryLiveLoopProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/AdjacentFactoryLiveLoopProof.gd",
+        "godot-mindustry/tools/runtime_proofs/AdjacentFactoryLiveLoopProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceAdjacentFactoryBuildState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "BuildingConsumptionCanonicalProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/BuildingConsumptionCanonicalProof.gd",
+        "godot-mindustry/tools/runtime_proofs/BuildingConsumptionCanonicalProof.tscn",
+        "godot-mindustry/src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd"
+      ]
+    },
+    {
+      "scene": "BuildingDumpProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/BuildingDumpProof.gd",
+        "godot-mindustry/tools/runtime_proofs/BuildingDumpProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceBuildingItemDumpState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "BuildingProximityMutationProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/BuildingProximityMutationProof.gd",
+        "godot-mindustry/tools/runtime_proofs/BuildingProximityMutationProof.tscn",
+        "godot-mindustry/src/game/SourceBuildingLifecycleProximityState.gd",
+        "godot-mindustry/src/game/SourceBlockGeometry.gd",
+        "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "C05GateProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/C05GateProof.gd",
+        "godot-mindustry/tools/runtime_proofs/C05GateProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceFactoryBuildState.gd",
+        "godot-mindustry/src/game/SourceAdjacentFactoryBuildState.gd",
+        "godot-mindustry/src/game/SourceBlockReinitializeConsumersState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "C06BatteryEnabledStampProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/C06BatteryEnabledStampProof.gd",
+        "godot-mindustry/tools/runtime_proofs/C06BatteryEnabledStampProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceBuildingPowerState.gd",
+        "godot-mindustry/src/game/SourcePowerGraphBatteryDistributionState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "C06DisabledBeltEfficiencyProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/C06DisabledBeltEfficiencyProof.gd",
+        "godot-mindustry/tools/runtime_proofs/C06DisabledBeltEfficiencyProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConveyorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "C06FactoryCraftProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\rerun-080853\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/C06FactoryCraftProof.gd",
+        "godot-mindustry/tools/runtime_proofs/C06FactoryCraftProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceFactoryBuildState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "C06FactoryDumpOutputsProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\rerun-080853\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/C06FactoryDumpOutputsProof.gd",
+        "godot-mindustry/tools/runtime_proofs/C06FactoryDumpOutputsProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceFactoryBuildState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceConveyorRuntimeState.gd",
+        "godot-mindustry/src/game/SourceBlockGeometry.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "C06FactoryLiquidOutputProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\rerun-080853\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/C06FactoryLiquidOutputProof.gd",
+        "godot-mindustry/tools/runtime_proofs/C06FactoryLiquidOutputProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceFactoryBuildState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "ConduitUpdateProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ConduitUpdateProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ConduitUpdateProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConduitRuntimeState.gd",
+        "godot-mindustry/src/game/SourcePumpRuntimeState.gd",
+        "godot-mindustry/src/game/SourceWorldInitialBuildRuntimeState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "ConsumeLiquidCanonicalProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ConsumeLiquidCanonicalProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ConsumeLiquidCanonicalProof.tscn",
+        "godot-mindustry/src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd",
+        "godot-mindustry/src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+        "godot-mindustry/src/game/SourceBuildingTimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd"
+      ]
+    },
+    {
+      "scene": "ConsumerCacheInvalidationProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ConsumerCacheInvalidationProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ConsumerCacheInvalidationProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConsumeLiquidState.gd",
+        "godot-mindustry/src/game/SourceDrillConsumptionRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "ContinuousLiquidTurretAmmoRegistryProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ContinuousLiquidTurretAmmoRegistryProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ContinuousLiquidTurretAmmoRegistryProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConsumeLiquidState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "ContinuousLiquidTurretCostMultiplierProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ContinuousLiquidTurretCostMultiplierProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ContinuousLiquidTurretCostMultiplierProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConsumeState.gd",
+        "godot-mindustry/src/game/SourceDrillConsumptionRuntimeState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "ConveyorDrawPositionsProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ConveyorDrawPositionsProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ConveyorDrawPositionsProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConveyorRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "ConveyorIntakeProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ConveyorIntakeProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ConveyorIntakeProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConveyorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "ConveyorQueueProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ConveyorQueueProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ConveyorQueueProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConveyorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "ConveyorQueueStorageProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ConveyorQueueStorageProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ConveyorQueueStorageProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceBlockGeometry.gd",
+        "godot-mindustry/src/game/SourceConveyorRuntimeState.gd",
+        "godot-mindustry/src/game/SourceBuildingItemDumpState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "ConveyorStackProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ConveyorStackProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ConveyorStackProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConveyorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "CostMultiplierForBlockProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/CostMultiplierForBlockProof.gd",
+        "godot-mindustry/tools/runtime_proofs/CostMultiplierForBlockProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConsumeState.gd",
+        "godot-mindustry/src/game/SourceDrillConsumptionRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "DrillBoosterProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/DrillBoosterProof.gd",
+        "godot-mindustry/tools/runtime_proofs/DrillBoosterProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceDrillConsumptionRuntimeState.gd",
+        "godot-mindustry/src/game/SourcePumpRuntimeState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "DrillBridgeDominantProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/DrillBridgeDominantProof.gd",
+        "godot-mindustry/tools/runtime_proofs/DrillBridgeDominantProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "DrillConveyorDumpProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/DrillConveyorDumpProof.gd",
+        "godot-mindustry/tools/runtime_proofs/DrillConveyorDumpProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceBlockGeometry.gd",
+        "godot-mindustry/src/game/SourceConveyorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "DrillDumpStepProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/DrillDumpStepProof.gd",
+        "godot-mindustry/tools/runtime_proofs/DrillDumpStepProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceBlockGeometry.gd",
+        "godot-mindustry/src/game/SourceBuildingItemDumpState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "DrillLiveConsumptionProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/DrillLiveConsumptionProof.gd",
+        "godot-mindustry/tools/runtime_proofs/DrillLiveConsumptionProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConsumeLiquidState.gd",
+        "godot-mindustry/src/game/SourceConsumeState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceDrillConsumptionRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/SourceConduitRuntimeState.gd",
+        "godot-mindustry/src/game/SourcePlayableScenarioDefaults.gd",
+        "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "FactoryLiveLoopProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/FactoryLiveLoopProof.gd",
+        "godot-mindustry/tools/runtime_proofs/FactoryLiveLoopProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceFactoryBuildState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceDrillConsumptionRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "FactoryShouldConsumeProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\rerun-080853\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/FactoryShouldConsumeProof.gd",
+        "godot-mindustry/tools/runtime_proofs/FactoryShouldConsumeProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceFactoryBuildState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "FactoryUpdateConsumptionProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/FactoryUpdateConsumptionProof.gd",
+        "godot-mindustry/tools/runtime_proofs/FactoryUpdateConsumptionProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceFactoryBuildState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "LiquidConsumerApplyHydrationProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/LiquidConsumerApplyHydrationProof.gd",
+        "godot-mindustry/tools/runtime_proofs/LiquidConsumerApplyHydrationProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConsumeLiquidState.gd",
+        "godot-mindustry/src/game/SourceConsumeLiquidBaseState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "LiquidConsumerHydrationProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/LiquidConsumerHydrationProof.gd",
+        "godot-mindustry/tools/runtime_proofs/LiquidConsumerHydrationProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceConsumeLiquidState.gd",
+        "godot-mindustry/src/game/SourceConsumeState.gd",
+        "godot-mindustry/src/game/SourceBuildingEfficiencyState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "LiquidModuleLifecycleProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/LiquidModuleLifecycleProof.gd",
+        "godot-mindustry/tools/runtime_proofs/LiquidModuleLifecycleProof.tscn",
+        "godot-mindustry/src/generated/classes/mindustry/world/modules/LiquidModule.gd",
+        "godot-mindustry/tools/runtime_proofs/LiquidModuleStorageProof.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd"
+      ]
+    },
+    {
+      "scene": "LiquidModuleStorageProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/LiquidModuleStorageProof.gd",
+        "godot-mindustry/tools/runtime_proofs/LiquidModuleStorageProof.tscn",
+        "godot-mindustry/src/generated/classes/mindustry/world/modules/LiquidModule.gd",
+        "godot-mindustry/src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd",
+        "godot-mindustry/src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+        "godot-mindustry/src/game/SourceBuildingTimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd"
+      ]
+    },
+    {
+      "scene": "LoadoutPlaceProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/LoadoutPlaceProof.gd",
+        "godot-mindustry/tools/runtime_proofs/LoadoutPlaceProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceBlockGeometry.gd",
+        "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "NoSleepWakeProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/NoSleepWakeProof.gd",
+        "godot-mindustry/tools/runtime_proofs/NoSleepWakeProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceBuildingItemState.gd",
+        "godot-mindustry/src/game/SourceBuildingAccessState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "PlacedLiquidOwnershipProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/PlacedLiquidOwnershipProof.gd",
+        "godot-mindustry/tools/runtime_proofs/PlacedLiquidOwnershipProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd",
+        "godot-mindustry/src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+        "godot-mindustry/src/game/SourceBuildingTimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "PlacedTileSetBlockProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/PlacedTileSetBlockProof.gd",
+        "godot-mindustry/tools/runtime_proofs/PlacedTileSetBlockProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceBlockGeometry.gd",
+        "godot-mindustry/src/game/SourcePlacedBlockState.gd",
+        "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd",
+        "godot-mindustry/src/game/SourceDrillConsumptionRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "PumpDumpLiquidProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/PumpDumpLiquidProof.gd",
+        "godot-mindustry/tools/runtime_proofs/PumpDumpLiquidProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourcePumpRuntimeState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "PumpProximityProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/PumpProximityProof.gd",
+        "godot-mindustry/tools/runtime_proofs/PumpProximityProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd",
+        "godot-mindustry/src/game/SourcePumpRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "PumpUpdateProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/PumpUpdateProof.gd",
+        "godot-mindustry/tools/runtime_proofs/PumpUpdateProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourcePumpRuntimeState.gd",
+        "godot-mindustry/src/game/SourceWorldInitialBuildRuntimeState.gd",
+        "godot-mindustry/src/game/SourceLiquidModuleState.gd",
+        "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "SchematicPlaceProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/SchematicPlaceProof.gd",
+        "godot-mindustry/tools/runtime_proofs/SchematicPlaceProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceBlockGeometry.gd",
+        "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "TerrainMutationLifecycleProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/TerrainMutationLifecycleProof.gd",
+        "godot-mindustry/tools/runtime_proofs/TerrainMutationLifecycleProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd",
+        "godot-mindustry/src/game/SourceDrillConsumptionRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "TileChangeBuildSetBlockProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/TileChangeBuildSetBlockProof.gd",
+        "godot-mindustry/tools/runtime_proofs/TileChangeBuildSetBlockProof.tscn",
+        "godot-mindustry/src/game/SourceBlockGeometry.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd"
+      ]
+    },
+    {
+      "scene": "ValidPlaceProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/ValidPlaceProof.gd",
+        "godot-mindustry/tools/runtime_proofs/ValidPlaceProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceBlockGeometry.gd",
+        "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    },
+    {
+      "scene": "WaterRegionProof",
+      "prior_evidence": "docs\\superpowers\\reports\\evidence\\2026-11-13-windows-godot\\results.json",
+      "source_comparison_base": "516ac38cab43729709f50b63016500c2a0e2babf",
+      "unchanged_paths": [
+        "godot-mindustry/tools/runtime_proofs/WaterRegionProof.gd",
+        "godot-mindustry/tools/runtime_proofs/WaterRegionProof.tscn",
+        "godot-mindustry/scenes/Main.tscn",
+        "godot-mindustry/src/game/SourceWorldTerrainRuntimeState.gd",
+        "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd",
+        "godot-mindustry/tools/runtime_proofs/RuntimeProofState.gd",
+        "godot-mindustry/src/game/PortGame.gd"
+      ]
+    }
+  ],
+  "latest_reviewed_main": "6ac2bad528014a38f194328f74c72b0b3c21841a"
+}

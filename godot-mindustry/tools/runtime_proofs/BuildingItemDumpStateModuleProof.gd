@@ -88,6 +88,11 @@ func _ready() -> void:
 	proof["matches"] = proof["matches"] and proof["generated_put_matches"] and proof["generated_offload_route_matches"] and proof["generated_offload_fallback_matches"] and proof["generated_produced_default_matches"] and proof["generated_produced_amount_matches"] and proof["generated_accumulate_default_matches"] and proof["generated_accumulate_item_matches"] and proof["generated_guard_matches"] and proof["generated_null_dump_matches"] and proof["generated_specific_dump_matches"] and proof["generated_increment_matches"] and proof["generated_can_dump_matches"] and proof["generated_owner_matches"]
 	print("BUILDING_ITEM_DUMP_STATE_MODULE_PROOF " + JSON.stringify(proof))
 	runtime_proof_state.write_proof("BuildingItemDumpStateModuleProof", proof)
+	game.free()
+	cursor_game.free()
+	cursor_module_game.free()
+	accum_game.free()
+	accum_module_game.free()
 	await get_tree().process_frame
 	get_tree().quit(runtime_proof_state.exit_code(proof))
 
