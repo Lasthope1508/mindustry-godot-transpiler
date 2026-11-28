@@ -191416,6 +191416,166 @@
         "test_reference_graph_and_actual_c07_team_comp_core"
       ],
       "runtime_proof": "/root/C07TeamCompCoreProof"
+    },
+    "source_spawn_group_to_string_state_input.type_name": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "godot_symbol": "source_spawn_group_to_string_state_input.type_name",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.toString()",
+      "java_expr": "    public UnitType type = UnitTypes.dagger;",
+      "rule": "The unit type print string (SpawnGroup.java:26, `    public UnitType type = UnitTypes.dagger;`): Java prints the UnitType via MappableContent.toString() = its content name (MappableContent.java:16-18), so the input is the name string itself (the N2457 name model); null prints as \"null\", as Java concatenation does for a null reference.",
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof"
+    },
+    "source_spawn_group_to_string_state_input.end": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "godot_symbol": "source_spawn_group_to_string_state_input.end",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.toString()",
+      "java_expr": "    public int end = never;",
+      "rule": "The spawn end wave (SpawnGroup.java:28, `    public int end = never;`): printed decimal after \", end=\", exactly as the int field reads.",
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof"
+    },
+    "source_spawn_group_to_string_state_input.begin": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "godot_symbol": "source_spawn_group_to_string_state_input.begin",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.toString()",
+      "java_expr": "    public int begin;",
+      "rule": "The spawn begin wave (SpawnGroup.java:30, `    public int begin;`): printed decimal after \", begin=\", exactly as the int field reads.",
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof"
+    },
+    "source_spawn_group_to_string_state_input.spacing": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "godot_symbol": "source_spawn_group_to_string_state_input.spacing",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.toString()",
+      "java_expr": "    public int spacing = 1;",
+      "rule": "The spawn spacing in waves (SpawnGroup.java:32, `    public int spacing = 1;`): printed decimal after \", spacing=\", exactly as the int field reads.",
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof"
+    },
+    "source_spawn_group_to_string_state_input.max": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "godot_symbol": "source_spawn_group_to_string_state_input.max",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.toString()",
+      "java_expr": "    public int max = 40;",
+      "rule": "The maximum amount of units that spawn (SpawnGroup.java:34, `    public int max = 40;`): printed decimal after \", max=\", exactly as the int field reads.",
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof"
+    },
+    "source_spawn_group_to_string_state_input.unit_scaling": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "godot_symbol": "source_spawn_group_to_string_state_input.unit_scaling",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.toString()",
+      "java_expr": "    public float unitScaling = never;",
+      "rule": "The unit scaling (SpawnGroup.java:36, `    public float unitScaling = never;`): printed after \", unitScaling=\" with Java Float.toString semantics -- float32 narrowing, shortest round-trip digits, plain notation on [1e-3, 1e7), scientific outside it; the field default `never` prints as \"2.1474836E9\".",
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof"
+    },
+    "source_spawn_group_to_string_state_input.unit_amount": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "godot_symbol": "source_spawn_group_to_string_state_input.unit_amount",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.toString()",
+      "java_expr": "    public int unitAmount = 1;",
+      "rule": "The initial amount of enemies spawned (SpawnGroup.java:42, `    public int unitAmount = 1;`): printed decimal after \", unitAmount=\", exactly as the int field reads.",
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof"
+    },
+    "source_spawn_group_to_string_state_input.effect_name": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "godot_symbol": "source_spawn_group_to_string_state_input.effect_name",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.toString()",
+      "java_expr": "    public @Nullable StatusEffect effect;",
+      "rule": "The status effect print string (SpawnGroup.java:48, `    public @Nullable StatusEffect effect;`): Java prints the StatusEffect via StatusEffect.toString() = localizedName (StatusEffect.java:244-246), so the input is the print string itself (the N2457 name model); null (\"Null to disable\") prints as \"null\".",
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof"
+    },
+    "source_spawn_group_to_string_state_input.items": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "godot_symbol": "source_spawn_group_to_string_state_input.items",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.toString()",
+      "java_expr": "    public @Nullable ItemStack items;",
+      "rule": "The items the unit spawns with (SpawnGroup.java:50, `    public @Nullable ItemStack items;`): a single ItemStack modeled as a Dictionary {\"item\": <name>, \"amount\": <int>} (the N2457 model), printed via ItemStack.toString() (ItemStack.java:82-84) as `<item>: <amount>`; null (\"Null to disable\") prints as \"null\".",
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof"
+    },
+    "source_spawn_group_to_string_state_result.to_string": {
+      "status": "source-backed",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "godot_symbol": "source_spawn_group_to_string_state_result.to_string",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_method": "SpawnGroup.toString()",
+      "java_expr": "        return \"SpawnGroup{\" +",
+      "rule": "The rendered SpawnGroup string (SpawnGroup.java:160-170): \"SpawnGroup{\" + the 9 fields in Java order + \"}\", with shields/shieldScaling deliberately absent; returned in the one-key envelope because the SSOT contract return_type only accepts Dictionary or void (the N2365 precedent).",
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof"
     }
   },
   "version": 1

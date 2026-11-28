@@ -123047,6 +123047,53 @@
         "TeamComp.core() Windows Godot proof -- debt in GOAL.md section 5: the N2491 proof runs headless on Linux here and waits for a Windows Godot run.",
         "Team.core() (Team.java:88-90) is the callee, already ported N2450: the core input is the precomputed result of source_team_state -- the data().core() lookup and the first-core-or-null liveness live in N2450 (via N2374 TeamData.core) and are never re-implemented here; this slice passes the value through only."
       ]
+    },
+    "N2492": {
+      "status": "done",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "java_class": "mindustry.game.SpawnGroup",
+      "java_method": "SpawnGroup.toString()",
+      "godot_owner": "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state",
+      "exact_exprs": [
+        "    public String toString(){",
+        "        return \"SpawnGroup{\" +",
+        "        \"type=\" + type +",
+        "        \", end=\" + end +",
+        "        \", begin=\" + begin +",
+        "        \", spacing=\" + spacing +",
+        "        \", max=\" + max +",
+        "        \", unitScaling=\" + unitScaling +",
+        "        \", unitAmount=\" + unitAmount +",
+        "        \", effect=\" + effect +",
+        "        \", items=\" + items +",
+        "        '}';"
+      ],
+      "source_symbols": [
+        "source_spawn_group_to_string_state_input.type_name",
+        "source_spawn_group_to_string_state_input.end",
+        "source_spawn_group_to_string_state_input.begin",
+        "source_spawn_group_to_string_state_input.spacing",
+        "source_spawn_group_to_string_state_input.max",
+        "source_spawn_group_to_string_state_input.unit_scaling",
+        "source_spawn_group_to_string_state_input.unit_amount",
+        "source_spawn_group_to_string_state_input.effect_name",
+        "source_spawn_group_to_string_state_input.items",
+        "source_spawn_group_to_string_state_result.to_string"
+      ],
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof",
+      "deferred_exprs": [
+        "SpawnGroup.hashCode() (SpawnGroup.java:193-195, `return Arrays.hashCode(new Object[]{type, end, begin, spacing, max, unitScaling, shields, shieldScaling, unitAmount, effect, items});`) is NOT in this slice: the Arrays.hashCode formula (11 fields, including the shields/shieldScaling that toString does NOT print) belongs to its own slice (backup B of the C8 batch 2).",
+        "UnitType/StatusEffect content lookup is NOT ported here: type prints via MappableContent.toString() = the content name (MappableContent.java:16-18, UnitType has no toString override) and effect prints via StatusEffect.toString() = localizedName (StatusEffect.java:244-246) -- both arrive as precomputed print-string inputs (the N2457 name model); the content registry and the bundle localization behind localizedName belong to later slices.",
+        "ItemStack rendering is modeled, not re-ported: ItemStack.toString() (ItemStack.java:82-84) is `return item + \": \" + amount;` with Item.toString() = localizedName (Item.java:114-116) -- GD renders `<item>: <amount>` from the N2457 Dictionary model {\"item\": <name>, \"amount\": <int>}; the Item content lookup behind the name is not ported here.",
+        "SpawnGroup.copy() (SpawnGroup.java:173-179, clone-based), SpawnGroup.read/write (serialization) and the unprinted fields spawn (:44), payloads (:46) and team (:52) are NOT in this slice: toString prints exactly the 9 concatenated fields and nothing else; clone/serialization behavior belongs to later slices.",
+        "SpawnGroup.toString() Windows Godot proof -- debt in GOAL.md section 5: the N2492 proof runs headless on Linux here and waits for a Windows Godot run."
+      ]
     }
   },
   "version": 1

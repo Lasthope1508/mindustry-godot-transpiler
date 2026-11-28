@@ -104,6 +104,127 @@ static func source_wave_spawn_can_spawn_state(spawn: int, position: int) -> Dict
 	# N2444 isSpawning, same pure-predicate shape.
 	return {"can_spawn": spawn == -1 or spawn == position}
 
+# SpawnGroup.toString() (N2492).
+# SpawnGroup.toString() (SpawnGroup.java:159-170): a mechanical
+# concatenation of exactly the 9 fields type, end, begin, spacing,
+# max, unitScaling, unitAmount, effect, items, in Java order.
+# TRAP: shields (:38) and shieldScaling (:40) are NOT printed --
+# they appear in equals (N2457) and hashCode only. Java string
+# concatenation prints a null reference as "null", an object via
+# its toString(), and a float via Float.toString:
+# - type is a UnitType: MappableContent.toString()
+#   (MappableContent.java:16-18) is `return name;` and UnitType
+#   has no override, so the type_name input is the content name
+#   string itself (the N2457 name model), or null.
+# - effect is a StatusEffect: StatusEffect.toString()
+#   (StatusEffect.java:244-246) returns localizedName, so the
+#   effect_name input is the print string itself (the N2457
+#   name model), or null ("Null to disable", :47).
+# - items is a single @Nullable ItemStack (:50), NOT an array:
+#   ItemStack.toString() (ItemStack.java:82-84) is
+#   `return item + ": " + amount;`, rendered from the N2457
+#   Dictionary model {"item": <name>, "amount": <int>}, or
+#   "null" when items is null.
+# - unitScaling is a float: _java_float_string below applies
+#   Float.toString semantics (GD str() prints the un-narrowed
+#   double instead).
+# The SSOT contract return_type only accepts Dictionary or
+# void, so the string is returned in the one-key envelope
+# (the N2365 envelope precedent, also used by the BlockPlan /
+# TeamData toString slices in SourceTeamsRuntimeState).
+static func source_spawn_group_to_string_state(type_name: Variant, end: int, begin: int, spacing: int, max: int, unit_scaling: float, unit_amount: int, effect_name: Variant, items: Variant) -> Dictionary:
+	var type_text: String = "null" if type_name == null else str(type_name)
+	var effect_text: String = "null" if effect_name == null else str(effect_name)
+	var items_text: String = "null"
+	if items != null:
+		var stack: Dictionary = items
+		items_text = str(stack.get("item", "")) + ": " + str(int(stack.get("amount", 0)))
+	return {"to_string": "SpawnGroup{" + "type=" + type_text + ", end=" + str(end) + ", begin=" + str(begin) + ", spacing=" + str(spacing) + ", max=" + str(max) + ", unitScaling=" + _java_float_string(unit_scaling) + ", unitAmount=" + str(unit_amount) + ", effect=" + effect_text + ", items=" + items_text + "}"}
+
+# Java Float.toString(float): NaN prints "NaN", infinities print
+# "Infinity"/"-Infinity", zero keeps its sign ("0.0"/"-0.0"),
+# and any other value prints with the shortest digit string
+# that round-trips the FLOAT32 value, in plain notation on
+# [1e-3, 1e7) and scientific notation (d.dddE<exp>) outside it.
+# GD str() prints the un-narrowed double (the field default
+# `never`, (float)Integer.MAX_VALUE, would print as
+# "2147483648.0" instead of "2.1474836E9"), so the value is
+# narrowed through the float32 bit pattern first and the
+# digits are searched by reconstruction. The sign of zero is
+# read off the float32 sign bit: String.num is NOT reliable
+# for it in this build (a script's zero constants all take
+# the sign of the first zero constant in the file, verified
+# on Godot 4.6.2), while the bit pattern is exact.
+static func _java_float_string(value: float) -> String:
+	if is_nan(value):
+		return "NaN"
+	if is_inf(value):
+		return "-Infinity" if value < 0.0 else "Infinity"
+	var f: float = _float32(value)
+	if f == 0.0:
+		return "-0.0" if _float32_negative(value) else "0.0"
+	var sign := ""
+	if f < 0.0:
+		sign = "-"
+		f = -f
+	var exp10 := int(floor(log(f) / log(10.0)))
+	var mantissa: float = f / pow(10.0, float(exp10))
+	while mantissa >= 10.0:
+		mantissa /= 10.0
+		exp10 += 1
+	while mantissa < 1.0:
+		mantissa *= 10.0
+		exp10 -= 1
+	var digits := ""
+	for n in range(1, 10):
+		var scaled: float = f / pow(10.0, float(exp10 - n + 1))
+		var rounded: float = round(scaled)
+		if rounded >= pow(10.0, float(n)):
+			# Rounding carried into a new digit count
+			# (9.99.. -> 10.0): only a power of ten can
+			# be the shortest form then.
+			if _float32(pow(10.0, float(exp10 + 1))) == f:
+				digits = "1"
+				exp10 += 1
+				break
+			continue
+		if _float32(rounded * pow(10.0, float(exp10 - n + 1))) == f:
+			digits = str(int(rounded))
+			break
+	if digits == "":
+		# Unreachable for a float32 (9 significant digits
+		# always round-trip); kept so the function still
+		# returns a string if the search ever misses.
+		digits = "0"
+	if exp10 >= -3 and exp10 <= 6:
+		var int_digits := exp10 + 1
+		var body := ""
+		if int_digits >= digits.length():
+			body = digits + "0".repeat(int_digits - digits.length()) + ".0"
+		elif int_digits > 0:
+			body = digits.substr(0, int_digits) + "." + digits.substr(int_digits)
+		else:
+			body = "0." + "0".repeat(-int_digits) + digits
+		return sign + body
+	var mantissa_text := digits.substr(0, 1) + "." + (digits.substr(1) if digits.length() > 1 else "0")
+	return sign + mantissa_text + "E" + str(exp10)
+
+# Narrow a GDScript double to the Java float32 value it
+# models, through the IEEE754 single-precision bit pattern.
+static func _float32(value: float) -> float:
+	var bytes := PackedByteArray()
+	bytes.resize(4)
+	bytes.encode_float(0, value)
+	return bytes.decode_float(0)
+
+# The sign bit of the float32 pattern (byte 3, little-endian):
+# the only reliable -0.0 test in this build (see above).
+static func _float32_negative(value: float) -> bool:
+	var bytes := PackedByteArray()
+	bytes.resize(4)
+	bytes.encode_float(0, value)
+	return (bytes[3] & 0x80) != 0
+
 # SpawnGroup.equals(Object) (N2457).
 # SpawnGroup.equals(Object) (SpawnGroup.java:181-190): `if(this == o)
 # return true;` (:183), `if(o == null || getClass() != o.getClass())

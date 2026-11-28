@@ -83213,6 +83213,71 @@
       ],
       "runtime_proof": "/root/C07TeamCompCoreProof",
       "rule": "Source-backed TeamComp.core() state from TeamComp.java."
+    },
+    "SourceWaveSpawnRuntimeState.source_spawn_group_to_string_state": {
+      "status": "active",
+      "source_slice": "N2492",
+      "java_source": "core/src/mindustry/game/SpawnGroup.java",
+      "source_method": "SpawnGroup.toString()",
+      "params": [
+        {
+          "name": "type_name",
+          "type": "Variant",
+          "schema": "source_spawn_group_to_string_state_input.type_name"
+        },
+        {
+          "name": "end",
+          "type": "int",
+          "schema": "source_spawn_group_to_string_state_input.end"
+        },
+        {
+          "name": "begin",
+          "type": "int",
+          "schema": "source_spawn_group_to_string_state_input.begin"
+        },
+        {
+          "name": "spacing",
+          "type": "int",
+          "schema": "source_spawn_group_to_string_state_input.spacing"
+        },
+        {
+          "name": "max",
+          "type": "int",
+          "schema": "source_spawn_group_to_string_state_input.max"
+        },
+        {
+          "name": "unit_scaling",
+          "type": "float",
+          "schema": "source_spawn_group_to_string_state_input.unit_scaling"
+        },
+        {
+          "name": "unit_amount",
+          "type": "int",
+          "schema": "source_spawn_group_to_string_state_input.unit_amount"
+        },
+        {
+          "name": "effect_name",
+          "type": "Variant",
+          "schema": "source_spawn_group_to_string_state_input.effect_name"
+        },
+        {
+          "name": "items",
+          "type": "Variant",
+          "schema": "source_spawn_group_to_string_state_input.items"
+        }
+      ],
+      "return_type": "Dictionary",
+      "return_keys": [
+        "to_string"
+      ],
+      "tests": [
+        "test_c07_spawn_group_to_string_registration",
+        "test_all_c07_spawn_group_to_string_input_evidence_is_exact",
+        "test_spawn_group_to_string_state",
+        "test_reference_graph_and_actual_c07_spawn_group_to_string"
+      ],
+      "runtime_proof": "/root/C07SpawnGroupToStringProof",
+      "rule": "Source-backed SpawnGroup.toString() state from SpawnGroup.java."
     }
   },
   "policy": {
