@@ -5632,6 +5632,27 @@
       ],
       "runtime_proof": "/root/C07TeamCompClosestCoreProof"
     },
+    "N2490": {
+      "canonical_ledger": "source_slice_ledger.N2490",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_method": "TeamComp.closestEnemyCore()",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_closest_enemy_core_state",
+      "source_symbols": [
+        "source_team_comp_closest_enemy_core_state_input.x",
+        "source_team_comp_closest_enemy_core_state_input.y",
+        "source_team_comp_closest_enemy_core_state_input.team_id",
+        "source_team_comp_closest_enemy_core_state_input.closest_core",
+        "source_team_comp_closest_enemy_core_state_result.closest_core"
+      ],
+      "tests": [
+        "test_c07_team_comp_closest_enemy_core_registration",
+        "test_all_c07_team_comp_closest_enemy_core_input_evidence_is_exact",
+        "test_team_comp_closest_enemy_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_closest_enemy_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompClosestEnemyCoreProof"
+    },
     "N2506": {
       "canonical_ledger": "source_slice_ledger.N2506",
       "status": "done",
