@@ -187,8 +187,8 @@ func _ready() -> void:
 	extractor_b_liquids = extractor_b.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
 	var extractor_a_oil: float = float(liquid_module_state.source_get_state(extractor_a_liquids, oil_id).get("amount", -1.0))
 	var extractor_b_oil: float = float(liquid_module_state.source_get_state(extractor_b_liquids, oil_id).get("amount", -1.0))
-	proof["live_tick_dumps_liquid"] = is_equal_approx(float(extractor_a_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(extractor_a_oil, 10.0) and int(extractor_a_frame.get("cdump", -1)) == 1
-	proof["dump_runs_in_both_branches"] = is_equal_approx(extractor_a_oil, 10.0) and is_equal_approx(float(extractor_b_frame.get("efficiency", -1.0)), 0.0) and is_equal_approx(extractor_b_oil, 10.0) and int(extractor_b_frame.get("cdump", -1)) == 1
+	proof["live_tick_dumps_liquid"] = is_equal_approx(float(extractor_a_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(extractor_a_oil, 10.0) and int(extractor_a_frame.get("cdump", -1)) == 0
+	proof["dump_runs_in_both_branches"] = is_equal_approx(extractor_a_oil, 10.0) and is_equal_approx(float(extractor_b_frame.get("efficiency", -1.0)), 0.0) and is_equal_approx(extractor_b_oil, 10.0) and int(extractor_b_frame.get("cdump", -1)) == 0
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

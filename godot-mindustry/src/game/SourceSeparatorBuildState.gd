@@ -184,7 +184,7 @@ static func _separator_rand_unsigned_shift_right(value: int, shift: int) -> int:
 	if shift == 17:
 		return (value >> 17) & 0x7FFFFFFFFFFF
 	if shift == 26:
-		return (value >> 26) & 0x3FFFFFFFF
+		return (value >> 26) & 0x3FFFFFFFFF
 	return (value >> 33) & 0x7FFFFFFF
 
 static func _separator_rand_murmur_hash3(value: int) -> int:

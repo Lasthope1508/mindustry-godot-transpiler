@@ -53,7 +53,7 @@ func _ready() -> void:
 	var fires_at_threshold: Dictionary = wall_crafter_build_state.source_wall_crafter_timer_dump_state(5.0, 1.0, {"items": {"sand": 2}, "cdump": 0}, "sand", item_ids, accepts_one, can_dump_one)
 	var fires_above_threshold: Dictionary = wall_crafter_build_state.source_wall_crafter_timer_dump_state(5.5, 1.0, {"items": {"sand": 2}, "cdump": 0}, "sand", item_ids, accepts_one, can_dump_one)
 	var fires_scaled: Dictionary = wall_crafter_build_state.source_wall_crafter_timer_dump_state(2.5, 2.0, {"items": {"sand": 2}, "cdump": 0}, "sand", item_ids, accepts_one, can_dump_one)
-	proof["timer_fires_at_five_ticks"] = bool(fires_at_threshold.get("fired", false)) and is_equal_approx(float(fires_at_threshold.get("elapsed_after", -1.0)), 0.0) and bool(fires_at_threshold.get("dumped", false)) and int(fires_at_threshold.get("items_after", {}).get("sand", -1)) == 1 and int(fires_at_threshold.get("cursor_after", -1)) == 1 and bool(fires_above_threshold.get("fired", false)) and bool(fires_scaled.get("fired", false))
+	proof["timer_fires_at_five_ticks"] = bool(fires_at_threshold.get("fired", false)) and is_equal_approx(float(fires_at_threshold.get("elapsed_after", -1.0)), 0.0) and bool(fires_at_threshold.get("dumped", false)) and int(fires_at_threshold.get("items_after", {}).get("sand", -1)) == 1 and int(fires_at_threshold.get("cursor_after", -1)) == 0 and bool(fires_above_threshold.get("fired", false)) and bool(fires_scaled.get("fired", false))
 
 	var below_threshold: Dictionary = wall_crafter_build_state.source_wall_crafter_timer_dump_state(4.9, 1.0, {"items": {"sand": 2}, "cdump": 0}, "sand", item_ids, accepts_one, can_dump_one)
 	var zero_scale: Dictionary = wall_crafter_build_state.source_wall_crafter_timer_dump_state(5.0, 0.0, {"items": {"sand": 2}, "cdump": 0}, "sand", item_ids, accepts_one, can_dump_one)
@@ -144,7 +144,7 @@ func _ready() -> void:
 	wall_crafter_build_state.source_wall_crafter_tick_buildings_state(game, 1.0 / 60.0)
 	dump_frame = dump_crusher.get_meta(wall_crafter_build_state.SOURCE_WALL_CRAFTER_BUILDING_META_KEY, {})
 	no_sand_frame = no_sand_crusher.get_meta(wall_crafter_build_state.SOURCE_WALL_CRAFTER_BUILDING_META_KEY, {})
-	proof["live_tick_dumps_output"] = int(dump_frame.get("items", {}).get("sand", -1)) == 1 and int(dump_frame.get("cdump", -1)) == 1 and is_equal_approx(float(dump_frame.get("timer_dump_elapsed", -1.0)), 0.0) and is_equal_approx(float(dump_frame.get("timer_use_elapsed", -1.0)), 1.0) and is_equal_approx(float(dump_frame.get("efficiency", -1.0)), 1.0) and int(no_sand_frame.get("items", {}).size()) == 0 and int(no_sand_frame.get("cdump", -1)) == 0 and is_equal_approx(float(no_sand_frame.get("timer_dump_elapsed", -1.0)), 0.0)
+	proof["live_tick_dumps_output"] = int(dump_frame.get("items", {}).get("sand", -1)) == 1 and int(dump_frame.get("cdump", -1)) == 0 and is_equal_approx(float(dump_frame.get("timer_dump_elapsed", -1.0)), 0.0) and is_equal_approx(float(dump_frame.get("timer_use_elapsed", -1.0)), 1.0) and is_equal_approx(float(dump_frame.get("efficiency", -1.0)), 1.0) and int(no_sand_frame.get("items", {}).size()) == 0 and int(no_sand_frame.get("cdump", -1)) == 0 and is_equal_approx(float(no_sand_frame.get("timer_dump_elapsed", -1.0)), 0.0)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

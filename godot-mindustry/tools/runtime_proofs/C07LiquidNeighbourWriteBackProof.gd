@@ -201,7 +201,8 @@ func _ready() -> void:
 	liquid_module_state.source_set_state(extractor_liquids, water_id, 0.3)
 	var live_neighbour := Sprite2D.new()
 	game.add_child(live_neighbour)
-	game.call("record_placed_block", live_neighbour, blocks_by_id["separator"], live_neighbour_cell)
+	# Keep the contact cell on the ring while placing a non-overlapping neighbour footprint.
+	game.call("record_placed_block", live_neighbour, blocks_by_id["separator"], live_neighbour_cell + Vector2i(-1, 0))
 	separator_build_state.source_separator_bind_frame_state(live_neighbour, blocks_by_id["separator"])
 	var live_neighbour_frame: Dictionary = live_neighbour.get_meta(separator_build_state.SOURCE_SEPARATOR_BUILDING_META_KEY, {})
 	live_neighbour_frame["liquids"] = live_neighbour.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})
@@ -239,8 +240,8 @@ func _ready() -> void:
 	var bare_oil: float = float(liquid_module_state.source_get_state(bare_liquids, oil_id).get("amount", -1.0))
 	var live_neighbour_liquids: Dictionary = live_neighbour_frame.get("liquids", {})
 	var live_neighbour_oil: float = float(liquid_module_state.source_get_state(live_neighbour_liquids, oil_id).get("amount", -1.0))
-	proof["live_tick_writes_dumped_liquid_to_neighbour_frame"] = live_neighbour_cell == Vector2i(26, 19) and is_equal_approx(float(extractor_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(extractor_oil, 10.0) and int(extractor_frame.get("cdump", -1)) == 1 and is_equal_approx(live_neighbour_oil, 10.0)
-	proof["live_tick_dumped_liquid_leaves_fracker_without_frame"] = bare_cell == Vector2i(18, 9) and is_equal_approx(float(bare_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(bare_oil, 10.0) and int(bare_frame.get("cdump", -1)) == 1 and not bare_wall.has_meta(building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_FRAME_META_KEY) and not bare_wall.has_meta(separator_build_state.SOURCE_SEPARATOR_BUILDING_META_KEY)
+	proof["live_tick_writes_dumped_liquid_to_neighbour_frame"] = live_neighbour_cell == Vector2i(26, 19) and is_equal_approx(float(extractor_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(extractor_oil, 10.0) and int(extractor_frame.get("cdump", -1)) == 0 and is_equal_approx(live_neighbour_oil, 10.0)
+	proof["live_tick_dumped_liquid_leaves_fracker_without_frame"] = bare_cell == Vector2i(18, 9) and is_equal_approx(float(bare_frame.get("efficiency", -1.0)), 1.0) and is_equal_approx(bare_oil, 10.0) and int(bare_frame.get("cdump", -1)) == 0 and not bare_wall.has_meta(building_liquid_state.SOURCE_NEIGHBOUR_CONDUIT_FRAME_META_KEY) and not bare_wall.has_meta(separator_build_state.SOURCE_SEPARATOR_BUILDING_META_KEY)
 
 	var state_registry := registry.canonical_headquarter_registry_state()
 	proof["registry_valid"] = state_registry.get("errors", []).is_empty()

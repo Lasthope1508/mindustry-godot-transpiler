@@ -70,11 +70,15 @@ func _ready() -> void:
 	# the same way. A Java-negative color (-1, the
 	# signed int for 0xffffffff) zero-extends to
 	# 4294967295. Color 0 senses exactly 0.0.
+	var ulp_bytes := PackedByteArray()
+	ulp_bytes.resize(8)
+	ulp_bytes.encode_s64(0, 1)
+	var double_min_denormal: float = ulp_bytes.decode_double(0)
 	var sensed: Dictionary = light_block_build_state.source_light_block_sense_color_state("color", fixture_color)
 	var sensed_accent: Dictionary = light_block_build_state.source_light_block_sense_color_state("color", accent_color)
 	var sensed_negative: Dictionary = light_block_build_state.source_light_block_sense_color_state("color", -1)
 	var sensed_zero: Dictionary = light_block_build_state.source_light_block_sense_color_state("color", 0)
-	proof["sense_color_double_bits"] = bool(sensed.get("delegated", true)) == false and float(sensed.get("value", -1.0)) > 0.0 and float(sensed.get("value", -1.0)) / 5e-324 == float(fixture_color) and float(sensed_accent.get("value", -1.0)) / 5e-324 == float(accent_color) and float(sensed_negative.get("value", -1.0)) / 5e-324 == 4294967295.0 and float(sensed_zero.get("value", -1.0)) == 0.0
+	proof["sense_color_double_bits"] = bool(sensed.get("delegated", true)) == false and float(sensed.get("value", -1.0)) > 0.0 and float(sensed.get("value", -1.0)) / double_min_denormal == float(fixture_color) and float(sensed_accent.get("value", -1.0)) / double_min_denormal == float(accent_color) and float(sensed_negative.get("value", -1.0)) / double_min_denormal == 4294967295.0 and float(sensed_zero.get("value", -1.0)) == 0.0
 
 	# --- Sense delegate: any sensor other than color
 	# falls through to the caller-supplied super.sense
@@ -117,7 +121,7 @@ func _ready() -> void:
 	var controlled_headless: Dictionary = light_block_build_state.source_light_block_config_color_state(fixture_color, "control", 0xAABBCCDD, false, true)
 	var controlled_negative: Dictionary = light_block_build_state.source_light_block_config_color_state(fixture_color, "control", -1, false, false)
 	var sensed_controlled: Dictionary = light_block_build_state.source_light_block_sense_color_state("color", int(controlled_negative.get("color", 0)))
-	proof["control_bits"] = int(controlled.get("color", -1)) == 0xAABBCCDD and int(controlled.get("config_value", -1)) == 0xAABBCCDD and bool(controlled.get("minimap_updated", false)) == true and bool(controlled_headless.get("minimap_updated", true)) == false and int(controlled_negative.get("color", 0)) == -1 and float(sensed_controlled.get("value", -1.0)) / 5e-324 == 4294967295.0
+	proof["control_bits"] = int(controlled.get("color", -1)) == 0xAABBCCDD and int(controlled.get("config_value", -1)) == 0xAABBCCDD and bool(controlled.get("minimap_updated", false)) == true and bool(controlled_headless.get("minimap_updated", true)) == false and int(controlled_negative.get("color", 0)) == -1 and float(sensed_controlled.get("value", -1.0)) / double_min_denormal == 4294967295.0
 
 	# --- Tapped self/other: onConfigureBuildTapped
 	# deselects + returns false on a self tap, and

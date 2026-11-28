@@ -323,7 +323,10 @@ static func source_light_block_sense_color_state(sensor: String, color: int, sup
 	var delegated: bool = sensor != "color"
 	var value: Variant = super_value
 	if sensor == "color":
-		value = float(color & 0xffffffff) * 5e-324
+		var raw_bytes := PackedByteArray()
+		raw_bytes.resize(8)
+		raw_bytes.encode_s64(0, color & 0xffffffff)
+		value = raw_bytes.decode_double(0)
 	return {
 		"sense_expr": "if(sensor == LAccess.color) return Tmp.c1.set(color).toDoubleBits();",
 		"super_expr": "return super.sense(sensor);",

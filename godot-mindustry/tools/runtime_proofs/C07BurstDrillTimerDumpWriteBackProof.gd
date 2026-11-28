@@ -99,6 +99,18 @@ func _ready() -> void:
 	for registered_block in catalog.get_many("block"):
 		blocks_by_id[registered_block.id] = registered_block
 	var terrain := preload("res://src/game/SourceWorldTerrainRuntimeState.gd")
+	var existing_world: Dictionary = game.get("source_world_tiles")
+	var target_width: int = maxi(int(existing_world.get("width", 0)), 60)
+	var target_height: int = maxi(int(existing_world.get("height", 0)), 50)
+	if target_width > int(existing_world.get("width", 0)) or target_height > int(existing_world.get("height", 0)):
+		var air_block = terrain.source_world_block_by_field(catalog, terrain.SOURCE_WORLD_AIR_FIELD)
+		var stone_block = terrain.source_world_block_by_field(catalog, terrain.SOURCE_WORLD_STONE_FIELD)
+		var expanded_world: Dictionary = terrain.source_world_tiles_state(target_width, target_height, air_block)
+		for tile in expanded_world["array"]:
+			tile["floor"] = stone_block
+		for old_tile in existing_world.get("array", []):
+			expanded_world["array"][int(old_tile["y"]) * target_width + int(old_tile["x"])] = old_tile
+		game.set("source_world_tiles", expanded_world)
 
 	var live_ring: Array = block_geometry.source_block_proximity_cells_state(5, 28, 20).get("cells", [])
 	var live_neighbour_cell: Vector2i = live_ring[14]

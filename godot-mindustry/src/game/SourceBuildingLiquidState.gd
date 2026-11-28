@@ -145,14 +145,16 @@ static func source_neighbour_liquid_write_back_state(game: Object, cell: Vector2
 		sprite.set_meta(source_placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, source_liquid_module_state.source_add_state(conduit_store, liquid_id, amount, conduit_cache_sums))
 		return {"written": true, "reason": "conduit", "neighbour_cell": neighbour_cell}
 	var power_graph_state = load("res://src/game/SourcePlacedPowerGraphState.gd")
+	var found_frame := false
 	for meta_key in power_graph_state.SOURCE_CONSUMER_FRAME_META_KEYS:
 		if not sprite.has_meta(meta_key):
 			continue
 		var frame: Variant = sprite.get_meta(meta_key)
 		if frame is Dictionary:
+			found_frame = true
 			var neighbour_liquids: Variant = frame.get("liquids", null)
 			if not (neighbour_liquids is Dictionary) or not neighbour_liquids.has("liquids") or liquid_id >= int(neighbour_liquids["liquids"].size()):
-				return {"written": false, "reason": "no_liquids_store", "neighbour_cell": neighbour_cell}
+				continue
 			var frame_cache_sums: Array = []
 			if neighbour_liquids.get("flow") != null:
 				frame_cache_sums.resize(int(neighbour_liquids["liquids"].size()))
@@ -160,6 +162,8 @@ static func source_neighbour_liquid_write_back_state(game: Object, cell: Vector2
 			frame["liquids"] = source_liquid_module_state.source_add_state(neighbour_liquids, liquid_id, amount, frame_cache_sums)
 			sprite.set_meta(meta_key, frame)
 			return {"written": true, "reason": "live_frame", "neighbour_cell": neighbour_cell}
+	if found_frame:
+		return {"written": false, "reason": "no_liquids_store", "neighbour_cell": neighbour_cell}
 	return {"written": false, "reason": "no_frame", "neighbour_cell": neighbour_cell}
 
 static func transfer_liquid_state(liquid: Variant, amount: float, next_block_liquid_capacity: float, next_liquid_amount: float, next_accepts_liquid: bool, current_liquid_amount: float) -> Dictionary:

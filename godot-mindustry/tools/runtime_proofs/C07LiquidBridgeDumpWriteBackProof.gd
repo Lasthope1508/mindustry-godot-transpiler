@@ -117,7 +117,8 @@ func _ready() -> void:
 	var liquid_bridge_frame: Dictionary = liquid_bridge.get_meta(liquid_bridge_build_state.SOURCE_LIQUID_BRIDGE_BUILDING_META_KEY, {})
 	var live_neighbour := Sprite2D.new()
 	game.add_child(live_neighbour)
-	game.call("record_placed_block", live_neighbour, blocks_by_id["separator"], live_neighbour_cell)
+	# Keep the contact cell on the ring while placing a non-overlapping neighbour footprint.
+	game.call("record_placed_block", live_neighbour, blocks_by_id["separator"], live_neighbour_cell + Vector2i(0, -1))
 	separator_build_state.source_separator_bind_frame_state(live_neighbour, blocks_by_id["separator"])
 	var live_neighbour_frame: Dictionary = live_neighbour.get_meta(separator_build_state.SOURCE_SEPARATOR_BUILDING_META_KEY, {})
 	live_neighbour_frame["liquids"] = live_neighbour.get_meta(placed_block_state.SOURCE_BUILDING_LIQUIDS_META_KEY, {})

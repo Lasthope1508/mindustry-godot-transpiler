@@ -134,18 +134,25 @@ static func source_neighbour_item_write_back_state(game: Object, cell: Vector2i,
 			queue_len = int(handled["len_after"])
 		source_conveyor_runtime_state.source_conveyor_set_queue_for_cell_state(game, neighbour_cell, {"ids": ids, "xs": xs, "ys": ys, "len": queue_len})
 		return {"written": true, "reason": "belt", "neighbour_cell": neighbour_cell}
+	var found_frame := false
+	var wrote_frame := false
 	for meta_key in source_placed_power_graph_state.SOURCE_CONSUMER_FRAME_META_KEYS:
 		if not sprite.has_meta(meta_key):
 			continue
 		var frame: Variant = sprite.get_meta(meta_key)
 		if frame is Dictionary:
+			found_frame = true
 			var neighbour_items: Variant = frame.get("items", null)
 			if not (neighbour_items is Dictionary):
-				return {"written": false, "reason": "no_items_store", "neighbour_cell": neighbour_cell}
+				continue
 			var added: Dictionary = inventory.add_item_state(neighbour_items, item, amount)
 			frame["items"] = added.get(inventory.SOURCE_DRILL_INVENTORY_DRILL_ITEMS_KEY, neighbour_items)
 			sprite.set_meta(meta_key, frame)
-			return {"written": true, "reason": "live_frame", "neighbour_cell": neighbour_cell}
+			wrote_frame = true
+	if wrote_frame:
+		return {"written": true, "reason": "live_frame", "neighbour_cell": neighbour_cell}
+	if found_frame:
+		return {"written": false, "reason": "no_items_store", "neighbour_cell": neighbour_cell}
 	return {"written": false, "reason": "no_frame", "neighbour_cell": neighbour_cell}
 
 static func remove_stack_state(has_items_module: bool, item_count: int, amount: int) -> Dictionary:
