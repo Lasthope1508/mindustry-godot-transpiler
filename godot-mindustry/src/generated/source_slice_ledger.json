@@ -122975,6 +122975,42 @@
         "TeamComp.closestCore() Windows Godot proof -- debt in GOAL.md section 5: the N2489 proof runs headless on Linux here and waits for a Windows Godot run.",
         "Teams.closestCore (Teams.java:56-58) is the callee, already ported N2392: the closest_core input is the precomputed result of source_teams_closest_core_state -- the cores Array and the Geometry.findClosest Callable live in N2392 and are never re-implemented here; this slice passes the value through only."
       ]
+    },
+    "N2490": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+      "java_class": "mindustry.entities.comp.TeamComp",
+      "java_method": "TeamComp.closestEnemyCore()",
+      "godot_owner": "SourceRulesRuntimeState.source_team_comp_closest_enemy_core_state",
+      "exact_exprs": [
+        "abstract class TeamComp implements Posc{",
+        "    @Import float x, y;",
+        "    Team team = Team.derelict;",
+        "    @Nullable",
+        "    public CoreBuild closestEnemyCore(){",
+        "        return state.teams.closestEnemyCore(x, y, team);"
+      ],
+      "source_symbols": [
+        "source_team_comp_closest_enemy_core_state_input.x",
+        "source_team_comp_closest_enemy_core_state_input.y",
+        "source_team_comp_closest_enemy_core_state_input.team_id",
+        "source_team_comp_closest_enemy_core_state_input.closest_core",
+        "source_team_comp_closest_enemy_core_state_result.closest_core"
+      ],
+      "tests": [
+        "test_c07_team_comp_closest_enemy_core_registration",
+        "test_all_c07_team_comp_closest_enemy_core_input_evidence_is_exact",
+        "test_team_comp_closest_enemy_core_state",
+        "test_reference_graph_and_actual_c07_team_comp_closest_enemy_core"
+      ],
+      "runtime_proof": "/root/C07TeamCompClosestEnemyCoreProof",
+      "deferred_exprs": [
+        "TeamComp.core() (TeamComp.java:27-29) is NOT in this slice: `return team.core();` delegates to Team.core(), already ported -- the thin delegate waits for its own slice (backup B of the C8 batch).",
+        "TeamComp.closestCore() (TeamComp.java:31-34) is NOT in this slice: already ported as N2489 (source_team_comp_closest_core_state, the sibling delegate right above this function) -- the two delegates share the same file and the same x/y/team evidence, but each owns its own callee result.",
+        "TeamComp.inFogTo(Team viewer) (TeamComp.java:21-23) is NOT in this slice: `return this.team != viewer && !fogControl.isVisible(viewer, x, y);` needs the fogControl.isVisible live check -- it waits for its own slice.",
+        "TeamComp.closestEnemyCore() Windows Godot proof -- debt in GOAL.md section 5: the N2490 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "Teams.closestEnemyCore (Teams.java:39-55) is the callee, already ported N2354: the closest_core input is the precomputed result of source_teams_closest_enemy_core_state -- the coreEnemies scan and the Mathf.dst2 comparison live in N2354 and are never re-implemented here; this slice passes the value through only."
+      ]
     }
   },
   "version": 1

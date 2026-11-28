@@ -265233,6 +265233,74 @@
       },
       "runtime_proof": "/root/C07TeamCompClosestCoreProof",
       "rule": "Source-backed TeamComp.closestCore() state from TeamComp.java."
+    },
+    "source_team_comp_closest_enemy_core_state_input": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_team_comp_closest_enemy_core_state",
+      "source_slice": "N2490",
+      "keys": {
+        "x": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "    @Import float x, y;",
+          "rule": "The query x (TeamComp.java:13, `    @Import float x, y;`): the entity position x passed straight to state.teams.closestEnemyCore -- evidence of the call, the scan itself lives in the N2354 callee.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_comp_closest_enemy_core_state"
+          ]
+        },
+        "y": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "    @Import float x, y;",
+          "rule": "The query y (TeamComp.java:13, `    @Import float x, y;`): the entity position y passed straight to state.teams.closestEnemyCore -- evidence of the call, the scan itself lives in the N2354 callee.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_comp_closest_enemy_core_state"
+          ]
+        },
+        "team_id": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "    Team team = Team.derelict;",
+          "rule": "The team id (TeamComp.java:15, `    Team team = Team.derelict;`, default derelict): the entity team passed to state.teams.closestEnemyCore -- by id, the N2099 cheating precedent; evidence of the call.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_comp_closest_enemy_core_state"
+          ]
+        },
+        "closest_core": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "        return state.teams.closestEnemyCore(x, y, team);",
+          "rule": "The precomputed callee result (TeamComp.java:38, `        return state.teams.closestEnemyCore(x, y, team);`): whatever Teams.closestEnemyCore returns -- the nearest enemy CoreBuild ref, or null (the @Nullable return, TeamComp.java:36) when no enemy core is near. The value arrives already computed (N2354 owns the scan); this slice never re-derives it.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_comp_closest_enemy_core_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamCompClosestEnemyCoreProof",
+      "rule": "Source-backed TeamComp.closestEnemyCore() state from TeamComp.java."
+    },
+    "source_team_comp_closest_enemy_core_state_result": {
+      "status": "active",
+      "owner": "SourceRulesRuntimeState.source_team_comp_closest_enemy_core_state",
+      "source_slice": "N2490",
+      "keys": {
+        "closest_core": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/TeamComp.java",
+          "java_expr": "        return state.teams.closestEnemyCore(x, y, team);",
+          "rule": "The closest enemy core (TeamComp.java:38): the precomputed callee result passed through whole -- an enemy CoreBuild ref, or null (the @Nullable return) when no enemy core is near; no default, no fallback, no guard.",
+          "used_by": [
+            "SourceRulesRuntimeState.source_team_comp_closest_enemy_core_state"
+          ]
+        }
+      },
+      "runtime_proof": "/root/C07TeamCompClosestEnemyCoreProof",
+      "rule": "Source-backed TeamComp.closestEnemyCore() state from TeamComp.java."
     }
   },
   "version": 1
