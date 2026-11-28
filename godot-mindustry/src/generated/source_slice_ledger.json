@@ -123094,6 +123094,35 @@
         "SpawnGroup.copy() (SpawnGroup.java:173-179, clone-based), SpawnGroup.read/write (serialization) and the unprinted fields spawn (:44), payloads (:46) and team (:52) are NOT in this slice: toString prints exactly the 9 concatenated fields and nothing else; clone/serialization behavior belongs to later slices.",
         "SpawnGroup.toString() Windows Godot proof -- debt in GOAL.md section 5: the N2492 proof runs headless on Linux here and waits for a Windows Godot run."
       ]
+    },
+    "N2493": {
+      "status": "done",
+      "java_source": "core/src/mindustry/type/TeamEntry.java",
+      "java_class": "mindustry.type.TeamEntry",
+      "java_method": "TeamEntry.getContentType()",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_team_entry_get_content_type_state",
+      "exact_exprs": [
+        "    public ContentType getContentType(){",
+        "        return ContentType.team;",
+        "public class TeamEntry extends UnlockableContent{"
+      ],
+      "source_symbols": [
+        "source_team_entry_get_content_type_state_result.content_type"
+      ],
+      "tests": [
+        "test_c07_team_entry_get_content_type_registration",
+        "test_all_c07_team_entry_get_content_type_input_evidence_is_exact",
+        "test_team_entry_get_content_type_state",
+        "test_reference_graph_and_actual_c07_team_entry_get_content_type"
+      ],
+      "runtime_proof": "/root/C07TeamEntryGetContentTypeProof",
+      "deferred_exprs": [
+        "TeamEntry.getContentType() Windows Godot proof -- debt in GOAL.md section 5: the N2493 proof runs headless on Linux here and waits for a Windows Godot run.",
+        "TeamEntry.getContentType() is CLEAN, verified by the main thread (2026-11-28), no twin-register needed: java_method `TeamEntry.getContentType()` is 0-hit, the body literal `return ContentType.team;` is 0-hit in ledger exact_exprs, and the registry has 0 `team_entry_get_content_type` symbols before this slice. The generic signature line `public ContentType getContentType(){` is shared with N1319 Block.getContentType (`return ContentType.block;`) -- a different class returning a different enum value, a name collision only, not a twin. No GD function computes the TeamEntry override yet.",
+        "TeamEntry.displayExtra(Table) (TeamEntry.java:21-24, `table.add(\"@team.\" + name + \".log\").pad(6).padTop(20).width(400f).wrap().fillX();`) is NOT in this slice: displayExtra is UI layout for the content database, getContentType only classifies the entry; the table layout belongs to a later slice.",
+        "TeamEntry constructors TeamEntry(String, Team) (TeamEntry.java:11-14) and TeamEntry(Team) (TeamEntry.java:16-18) and the `public final Team team;` field (TeamEntry.java:10) are NOT in this slice: getContentType reads no field and takes no params; construction and the team field belong to later slices.",
+        "The ContentType enum itself (ContentType.java:10-27, `team(\"teams\", TeamEntry.class)`) is NOT ported here as enum infra: getContentType returns the constant, modeled by its qualified Java name string \"ContentType.team\" (the N1319 precedent); the enum table, folderName \"teams\" and contentClass TeamEntry.class belong to later slices."
+      ]
     }
   },
   "version": 1

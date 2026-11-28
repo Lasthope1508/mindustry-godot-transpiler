@@ -24,6 +24,25 @@ static func source_liquid_catalog_state(content_catalog: Object) -> Dictionary:
 		liquid_id_by_name[liquids[index].id] = index
 	return {"content_liquid_ids": content_liquid_ids, "liquid_id_by_name": liquid_id_by_name}
 
+# TeamEntry.getContentType() (N2493, TeamEntry.java:27-29):
+#     @Override
+#     public ContentType getContentType(){
+#         return ContentType.team;
+#     }
+# The constant enum ContentType.team, modeled by its
+# qualified Java name string (the N1319 precedent:
+# Block.getContentType() returns the block constant
+# the same way).
+# ContentType.team is the enum constant with folderName
+# "teams" and contentClass TeamEntry.class
+# (ContentType.java:27). No UnlockableContent/TeamEntry GD
+# file exists, so this lives in the content registry
+# runtime state, home of the content catalog state
+# functions that classify content for the database
+# TeamEntry serves.
+static func source_team_entry_get_content_type_state() -> Dictionary:
+	return {"content_type": "ContentType.team"}
+
 const source_content_registry_source_text_state := preload("res://src/game/SourceContentRegistrySourceTextState.gd")
 const CONTENT_CATALOG_SCRIPT := source_content_registry_source_text_state.CONTENT_CATALOG_SCRIPT
 const CONTENT_REGISTRY := source_content_registry_source_text_state.CONTENT_REGISTRY

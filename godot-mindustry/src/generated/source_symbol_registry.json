@@ -191576,6 +191576,22 @@
         "test_reference_graph_and_actual_c07_spawn_group_to_string"
       ],
       "runtime_proof": "/root/C07SpawnGroupToStringProof"
+    },
+    "source_team_entry_get_content_type_state_result.content_type": {
+      "status": "source-backed",
+      "godot_owner": "SourceContentRegistryRuntimeState.source_team_entry_get_content_type_state",
+      "godot_symbol": "source_team_entry_get_content_type_state_result.content_type",
+      "java_source": "core/src/mindustry/type/TeamEntry.java",
+      "java_method": "TeamEntry.getContentType()",
+      "java_expr": "        return ContentType.team;",
+      "rule": "The content type of the team entry (TeamEntry.java:27-29, `return ContentType.team;`): the constant enum ContentType.team, modeled by its qualified Java name string (the N1319 precedent for Block.getContentType -> \"ContentType.block\"); ContentType.team is the enum constant with folderName \"teams\" and contentClass TeamEntry.class (ContentType.java:27). It must NOT return a sibling value such as ContentType.block (N1319) or ContentType.item.",
+      "tests": [
+        "test_c07_team_entry_get_content_type_registration",
+        "test_all_c07_team_entry_get_content_type_input_evidence_is_exact",
+        "test_team_entry_get_content_type_state",
+        "test_reference_graph_and_actual_c07_team_entry_get_content_type"
+      ],
+      "runtime_proof": "/root/C07TeamEntryGetContentTypeProof"
     }
   },
   "version": 1

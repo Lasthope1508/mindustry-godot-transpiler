@@ -2657,6 +2657,26 @@
       "runtime_proof": "/root/Main.source_weapon_update_velocity_length_state",
       "rule": "Public runtime contract for Weapon.update velocity length state."
     },
+    "SourceContentRegistryRuntimeState.source_team_entry_get_content_type_state": {
+      "canonical_contract": "source_api_contracts.SourceContentRegistryRuntimeState.source_team_entry_get_content_type_state",
+      "status": "active",
+      "source_slice": "N2493",
+      "java_source": "core/src/mindustry/type/TeamEntry.java",
+      "source_method": "TeamEntry.getContentType()",
+      "params": [],
+      "return_keys": [
+        "content_type"
+      ],
+      "tests": [
+        "test_c07_team_entry_get_content_type_registration",
+        "test_all_c07_team_entry_get_content_type_input_evidence_is_exact",
+        "test_team_entry_get_content_type_state",
+        "test_reference_graph_and_actual_c07_team_entry_get_content_type"
+      ],
+      "runtime_proof": "/root/C07TeamEntryGetContentTypeProof",
+      "rule": "Source-backed TeamEntry.getContentType() state from TeamEntry.java.",
+      "return_type": "Dictionary"
+    },
     "SourceUnitTypeState.source_unit_type_estimate_dps_state": {
       "canonical_contract": "source_api_contracts.SourceUnitTypeState.source_unit_type_estimate_dps_state",
       "status": "active",
