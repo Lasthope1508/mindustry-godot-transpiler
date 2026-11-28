@@ -1,0 +1,339 @@
+[
+  {
+    "scene": "CampaignMapTerrainRuntimeProof",
+    "sha": "5dd2907ce1569da48eb1d59f326996b536256dc2",
+    "windows_pass": false,
+    "targeted": {
+      "exit": 0,
+      "seconds": 192.95300000021234
+    },
+    "keys": {
+      "matches": false,
+      "module": "SourceWorldTerrainRuntimeState",
+      "multimesh_batch_node_count_matches": false,
+      "one_headquarter_per_ssot": true,
+      "ore_batch_count_matches": true,
+      "ore_count": 694,
+      "ore_count_matches": true,
+      "ore_items_by_cell_matches": true,
+      "registry_valid": true,
+      "source_owner_matches": true,
+      "sprite_node_count_matches": true,
+      "terrain_batch_count_matches": true,
+      "terrain_count": 62500,
+      "terrain_count_matches": true,
+      "terrain_layer_child_count_matches": false,
+      "terrain_render_node_count_matches": true,
+      "world_cell_count": 62500,
+      "world_cell_count_matches": true
+    },
+    "errors": [],
+    "native_exit": 1,
+    "capture": "direct graphical Windows process; no --headless",
+    "warning_count": 2,
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/CampaignMapTerrainRuntimeProof.gd": "f9869ac3879642c0dfd7c4503afde06bf9c971a3",
+      "godot-mindustry/src/game/PortGame.gd": "b3731cd7c8f8be4c7b759f5ce47e9dfe8174695e",
+      "godot-mindustry/src/game/SourceWorldInitialBuildRuntimeState.gd": "0207e6eba2d0815ee5e7954e3ae8fe935da5034f",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-27T14:27:00.277056+00:00",
+    "run": "windows-20261127-other"
+  },
+  {
+    "scene": "FactoryRuntimeModuleProof",
+    "sha": "837765f37b0800532182a7ed81ebfc0a3535ae09",
+    "windows_pass": false,
+    "targeted": {
+      "exit": 0,
+      "seconds": 0.17100000008940697,
+      "context": "837765f37b0800532182a7ed81ebfc0a3535ae09:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_modules": [],
+      "reused_modules": {
+        "test_playable": {
+          "log": "C:\\Users\\Admin\\.codex\\task-state\\mindustry-godot-validation\\windows-20261127-other\\BuildingItemStateModuleProof-targeted.log",
+          "exit": 0,
+          "context": "837765f37b0800532182a7ed81ebfc0a3535ae09:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "original_context": "5dd2907ce1569da48eb1d59f326996b536256dc2:270e3f4f77c9e5e521dd7c033a6d3cd9a7e5fe8e9cdc09922460f9605b4287f0"
+        }
+      }
+    },
+    "keys": {
+      "apply_context_matches": true,
+      "apply_context_schema_constants_valid": true,
+      "apply_drill_dump_matches": true,
+      "apply_matches": true,
+      "apply_state_matches": true,
+      "apply_state_schema_constants_valid": true,
+      "cell_matches": true,
+      "context_matches": true,
+      "drill_dump_preview_context_matches": true,
+      "drill_dump_preview_matches": true,
+      "drill_dump_schema_constants_valid": true,
+      "drill_dump_timer": 0.25,
+      "drill_runtime_callbacks_match": true,
+      "drill_runtime_context_matches": true,
+      "drill_runtime_matches": true,
+      "game_drill_dump_preview_matches": true,
+      "game_drill_step_matches": true,
+      "game_factory_cell_context_matches": true,
+      "game_playable_summary_matches": true,
+      "game_summary_matches": true,
+      "game_transport_step_matches": true,
+      "matches": false,
+      "module": "FACTORY_RUNTIME_MODULE_PROOF",
+      "one_headquarter_per_ssot": true,
+      "registry_valid": true,
+      "simulate_factory_matches": false,
+      "simulate_factory_source_owner": "source_factory_runtime_state.simulate_factory",
+      "simulation_callbacks_match": true,
+      "simulation_matches": true,
+      "simulation_runtime_matches": true,
+      "simulation_schema_constants_valid": true,
+      "step_context_matches": true,
+      "step_matches": true,
+      "step_schema_constants_valid": true,
+      "summary_callbacks_match": true,
+      "summary_matches": true,
+      "summary_schema_constants_valid": true,
+      "transport_step_matches": true
+    },
+    "errors": [
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'block_sprite_at_cell (via call)' in base 'RefCounted (FakeFactoryGame)'."
+    ],
+    "native_exit": 1,
+    "capture": "direct graphical Windows process; no --headless",
+    "warning_count": 0,
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/FactoryRuntimeModuleProof.gd": "a3ce37c8fbd55e9fd6b12618f3e21588da5b6c06",
+      "godot-mindustry/src/game/SourceFactoryRuntimeState.gd": "9000fe967e282de21ef158c57bff50c45a91f732",
+      "godot-mindustry/src/game/SourceFactorySimulationRuntimeState.gd": "b03c0df75e56c85b613572ec3f0b641e92617d44",
+      "godot-mindustry/src/game/SourceFactorySimulationApplyState.gd": "faeb2eabeb38619d54e10226fd39d46bc4816b04",
+      "godot-mindustry/src/game/SourceDrillDumpRuntimeState.gd": "2a1a926094c25c48338673a35024396e141c89cb",
+      "godot-mindustry/src/game/SourceDrillRuntimeState.gd": "7ea0ed62086b57526c7e3e49daa048d43281344e",
+      "godot-mindustry/src/game/SourceDrillProductionRuntimeState.gd": "dae6a38bc9d99f7b9f5cc50987644b71554e96af",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-27T16:25:46.346487+00:00",
+    "run": "windows-20261127-other"
+  },
+  {
+    "scene": "GeneratedClassPathHeadquarterProof",
+    "sha": "837765f37b0800532182a7ed81ebfc0a3535ae09",
+    "windows_pass": false,
+    "targeted": {
+      "exit": 0,
+      "seconds": 0.15699999989010394,
+      "context": "837765f37b0800532182a7ed81ebfc0a3535ae09:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_modules": [],
+      "reused_modules": {
+        "test_playable": {
+          "log": "C:\\Users\\Admin\\.codex\\task-state\\mindustry-godot-validation\\windows-20261127-other\\BuildingItemStateModuleProof-targeted.log",
+          "exit": 0,
+          "context": "837765f37b0800532182a7ed81ebfc0a3535ae09:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "original_context": "5dd2907ce1569da48eb1d59f326996b536256dc2:270e3f4f77c9e5e521dd7c033a6d3cd9a7e5fe8e9cdc09922460f9605b4287f0"
+        }
+      }
+    },
+    "keys": {
+      "consume_lookup_matches": true,
+      "consume_lookup_path": "res://src/generated/classes/mindustry/world/consumers/Consume.gd",
+      "duplicate_generated_paths": [],
+      "duplicate_owner_constants": [],
+      "entry_count": 53,
+      "generated_path_count": 54,
+      "headquarter_registry_valid": true,
+      "matches": false,
+      "one_headquarter_per_ssot": true,
+      "owner_count": 16,
+      "registry_valid": true,
+      "runtime_entry_count": 54,
+      "turret_lookup_matches": true,
+      "turret_lookup_owner": "SourceTurretSourceTextState"
+    },
+    "errors": [],
+    "native_exit": 1,
+    "capture": "direct graphical Windows process; no --headless",
+    "warning_count": 0,
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/GeneratedClassPathHeadquarterProof.gd": "f8b99fa854392a0637aabcdef506ab6af020da6b",
+      "godot-mindustry/src/game/SourceGeneratedClassPathHeadquarter.gd": "4d77a85fd94aaaa4b8d2ba1b560dbe617579d9a2",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2",
+      "godot-mindustry/src/game/SourceTurretSourceTextState.gd": "ed055d8f29ef425f27c8253ab1bc32d3db3941bc",
+      "godot-mindustry/src/game/SourceConsumeBaseSourceTextState.gd": "fee98f41a6782805c7bfad9f335af2c429244cac",
+      "godot-mindustry/src/game/SourceConsumeSourceTextState.gd": "e6be92f2cb8dbd4c3b29b05bd3ae06438ca9932d"
+    },
+    "timestamp": "2026-11-27T16:27:39.512514+00:00",
+    "run": "windows-20261127-other"
+  },
+  {
+    "scene": "PlacedBlockStateModuleProof",
+    "sha": "837765f37b0800532182a7ed81ebfc0a3535ae09",
+    "windows_pass": false,
+    "targeted": {
+      "exit": 0,
+      "seconds": 0.1559999999590218,
+      "context": "837765f37b0800532182a7ed81ebfc0a3535ae09:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_modules": [],
+      "reused_modules": {
+        "test_playable": {
+          "log": "C:\\Users\\Admin\\.codex\\task-state\\mindustry-godot-validation\\windows-20261127-other\\BuildingItemStateModuleProof-targeted.log",
+          "exit": 0,
+          "context": "837765f37b0800532182a7ed81ebfc0a3535ae09:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "original_context": "5dd2907ce1569da48eb1d59f326996b536256dc2:270e3f4f77c9e5e521dd7c033a6d3cd9a7e5fe8e9cdc09922460f9605b4287f0"
+        }
+      }
+    },
+    "keys": {
+      "cell_damage_matches": true,
+      "cell_health_matches": true,
+      "cell_time_scale_duration_matches": false,
+      "cell_time_scale_matches": true,
+      "damage_matches": true,
+      "damaged": true,
+      "game_initialize_matches": true,
+      "health": 4.0,
+      "matches": false,
+      "module": "PLACED_BLOCK_STATE_MODULE_PROOF",
+      "one_headquarter_per_ssot": true,
+      "registry_valid": true,
+      "repair_matches": true,
+      "step_matches": false,
+      "time_scale_decay_matches": false
+    },
+    "errors": [],
+    "native_exit": 1,
+    "capture": "direct graphical Windows process; no --headless",
+    "warning_count": 2,
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/PlacedBlockStateModuleProof.gd": "7e528ed52584bb36ff7ce2efc7f5b5c0e5dcd74c",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceBlockDefaults.gd": "baea1bff178bc65d33e551a8f85f13737f56bb0f"
+    },
+    "timestamp": "2026-11-27T16:32:39.056584+00:00",
+    "run": "windows-20261127-other"
+  },
+  {
+    "scene": "UnitFactoryConsumerBindingProof",
+    "sha": "837765f37b0800532182a7ed81ebfc0a3535ae09",
+    "windows_pass": false,
+    "targeted": {
+      "exit": 1,
+      "seconds": 23.813000000081956,
+      "context": "837765f37b0800532182a7ed81ebfc0a3535ae09:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_modules": [
+        "test_unit_factory_consumer_binding"
+      ],
+      "reused_modules": {}
+    },
+    "keys": {
+      "matches": false,
+      "one_headquarter_per_ssot": true,
+      "registry_valid": true,
+      "unit_assembler_bind_one_actor": true,
+      "unit_assembler_consumers_still_one": true,
+      "unit_assembler_cyanogen_drops_four_ticks": false,
+      "unit_assembler_efficiency_one": false,
+      "unit_assembler_frame_bound_on_placement": true,
+      "unit_assembler_is_unit_assembler": true,
+      "unit_assembler_rebind_no_duplicate": true,
+      "unit_block_change_reinitializes": true,
+      "unit_cheating_cyanogen_unchanged": true,
+      "unit_cheating_efficiency_one": true,
+      "unit_cheating_frames_true": true,
+      "unit_cost_multiplier_one_efficiency_one": false,
+      "unit_cost_multiplier_two_efficiency_zero": true,
+      "unit_driver_ticked_three": true,
+      "unit_factory_bind_two_plan_actors": true,
+      "unit_factory_consumers_still_two": true,
+      "unit_factory_efficiency_one": false,
+      "unit_factory_frame_bound_on_placement": true,
+      "unit_factory_is_unit_factory": true,
+      "unit_factory_no_plan_bind_none": true,
+      "unit_factory_plan_dagger": true,
+      "unit_factory_plan_items_unchanged": true,
+      "unit_factory_plan_minus_one_none": true,
+      "unit_factory_plan_null_block_none": true,
+      "unit_factory_plan_out_of_range_none": true,
+      "unit_factory_rebind_no_duplicate": true,
+      "unit_null_block_bind_none": true,
+      "unit_plan_change_reinitializes": true,
+      "unit_reconstructor_bind_two_actors": true,
+      "unit_reconstructor_consumers_still_two": true,
+      "unit_reconstructor_efficiency_one": false,
+      "unit_reconstructor_frame_bound_on_placement": true,
+      "unit_reconstructor_is_reconstructor": true,
+      "unit_reconstructor_items_restored_efficiency_one": false,
+      "unit_reconstructor_items_unchanged": true,
+      "unit_reconstructor_no_items_efficiency_zero": true,
+      "unit_reconstructor_no_items_no_power": true,
+      "unit_reconstructor_rebind_no_duplicate": true,
+      "unit_reinitialize_same_block_noop": true,
+      "unit_team_known": true,
+      "unit_uncheat_cyanogen_drops": false,
+      "unit_uncheat_restores": true
+    },
+    "errors": [],
+    "native_exit": null,
+    "capture": "Godot MCP Windows headless debug",
+    "warning_count": 145,
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/UnitFactoryConsumerBindingProof.gd": "7d239f345b1fc8635826065742fc2995408a16fc",
+      "godot-mindustry/src/game/SourceUnitFactoryBuildState.gd": "9e99666e29859d66404e204704f3579134aa3202",
+      "godot-mindustry/src/game/SourcePlacedBlockState.gd": "086fd60abe43dcca0ed5348af54cd474d699e178",
+      "godot-mindustry/src/game/SourceLiquidModuleState.gd": "1bd9081822e7c9f0c83a96438c72ddc1dfb5e4d8",
+      "godot-mindustry/src/game/SourceContentRegistryRuntimeState.gd": "3a9d39e86d627edbdc22d68e2aa0d8c2d1811c67",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2"
+    },
+    "timestamp": "2026-11-27T17:00:07.052215+00:00",
+    "run": "windows-20261127-other"
+  },
+  {
+    "scene": "WorldInitialBuildRuntimeStateModuleProof",
+    "sha": "837765f37b0800532182a7ed81ebfc0a3535ae09",
+    "windows_pass": false,
+    "targeted": {
+      "exit": 0,
+      "seconds": 0.1559999999590218,
+      "context": "837765f37b0800532182a7ed81ebfc0a3535ae09:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "executed_modules": [],
+      "reused_modules": {
+        "test_playable": {
+          "log": "C:\\Users\\Admin\\.codex\\task-state\\mindustry-godot-validation\\windows-20261127-other\\BuildingItemStateModuleProof-targeted.log",
+          "exit": 0,
+          "context": "837765f37b0800532182a7ed81ebfc0a3535ae09:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "original_context": "5dd2907ce1569da48eb1d59f326996b536256dc2:270e3f4f77c9e5e521dd7c033a6d3cd9a7e5fe8e9cdc09922460f9605b4287f0"
+        }
+      }
+    },
+    "keys": {
+      "block_count_matches": false,
+      "build_world_constants_match": true,
+      "conveyor_count_matches": true,
+      "game_path_points_match": true,
+      "game_plan_matches": false,
+      "keys_match": false,
+      "matches": false,
+      "module": "SourceWorldInitialBuildRuntimeState",
+      "one_headquarter_per_ssot": true,
+      "path_point_count_matches": true,
+      "registry_valid": true,
+      "roles_match": false,
+      "source_owner_matches": true
+    },
+    "errors": [],
+    "native_exit": 1,
+    "capture": "direct graphical Windows process; no --headless",
+    "warning_count": 0,
+    "source_blobs": {
+      "godot-mindustry/tools/runtime_proofs/WorldInitialBuildRuntimeStateModuleProof.gd": "1ab9a7b90afc08049569fb79ebb6bd0751108882",
+      "godot-mindustry/src/game/SourcePlayableScenarioDefaults.gd": "077f8451a819a5d56ffd921558979e30c70bb9b2",
+      "godot-mindustry/src/game/SourceRuntimeOwnerRegistry.gd": "4c9b532ebd8d74c475e0dd6e0330fda73dc86a2f",
+      "godot-mindustry/src/game/SourceSsotAccessorRuntimeState.gd": "6c7c991e37e0beedc13c5d7822395d2a45504db2",
+      "godot-mindustry/src/game/SourceWorldInitialBuildRuntimeState.gd": "0207e6eba2d0815ee5e7954e3ae8fe935da5034f"
+    },
+    "timestamp": "2026-11-27T17:06:27.573853+00:00",
+    "run": "windows-20261127-other"
+  }
+]
